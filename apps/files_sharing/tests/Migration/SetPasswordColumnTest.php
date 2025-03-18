@@ -11,6 +11,7 @@ use OCA\Files_Sharing\Tests\TestCase;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -34,7 +35,7 @@ class SetPasswordColumnTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->migration = new SetPasswordColumn($this->connection, $this->config);
 

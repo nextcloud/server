@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "Almacenamiento externo",
     "External storage support" : "Soporte de almacenamiento externo",
     "Adds basic external storage support" : "Añade soporte básico para almacenamiento externo.",
-    "Submit" : "Enviar",
+    "Confirm" : "Confirmar",
     "External mount error" : "Error de montaje externo",
     "Storage type" : "Tipo de almacenamiento",
     "Unknown" : "Desconocido",

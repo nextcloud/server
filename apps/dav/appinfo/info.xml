@@ -49,22 +49,27 @@
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>
 		</live-migration>
+		<install>
+			<step>OCA\DAV\Migration\CreateSystemAddressBookStep</step>
+		</install>
 	</repair-steps>
 
 	<commands>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
-		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\CreateSubscription</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
+		<command>OCA\DAV\Command\DeleteSubscription</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
-		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\ListSubscriptions</command>
+		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
-		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<settings>

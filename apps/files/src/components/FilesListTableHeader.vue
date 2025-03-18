@@ -58,10 +58,10 @@ import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { defineComponent } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { defineComponent } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { useFilesStore } from '../store/files.ts'
 import { useNavigation } from '../composables/useNavigation'
@@ -171,7 +171,7 @@ export default defineComponent({
 	},
 
 	methods: {
-		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+		ariaSortForMode(mode: string): 'ascending'|'descending'|null {
 			if (this.sortingMode === mode) {
 				return this.isAscSorting ? 'ascending' : 'descending'
 			}

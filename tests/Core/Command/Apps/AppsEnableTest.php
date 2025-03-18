@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Tests\Core\Command\Config;
 
 use OC\Core\Command\App\Enable;
+use OC\Installer;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -26,7 +27,8 @@ class AppsEnableTest extends TestCase {
 
 		$command = new Enable(
 			\OC::$server->getAppManager(),
-			\OC::$server->getGroupManager()
+			\OC::$server->getGroupManager(),
+			\OC::$server->get(Installer::class),
 		);
 
 		$this->commandTester = new CommandTester($command);

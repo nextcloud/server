@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -84,11 +85,6 @@ class Application extends App {
 				'filecache',
 				'fs_size',
 				['size']
-			);
-			$event->addMissingIndex(
-				'filecache',
-				'fs_id_storage_size',
-				['fileid', 'storage', 'size']
 			);
 			$event->addMissingIndex(
 				'filecache',

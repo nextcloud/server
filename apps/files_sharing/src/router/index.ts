@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { RawLocation, Route } from 'vue-router'
-import type { ErrorHandler } from 'vue-router/types/router.d.ts'
 
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
-import Router from 'vue-router'
+import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
+import logger from '../services/logger'
 
 const view = loadState<string>('files_sharing', 'view')
 const sharingToken = loadState<string>('files_sharing', 'sharingToken')
@@ -17,10 +17,32 @@ const sharingToken = loadState<string>('files_sharing', 'sharingToken')
 Vue.use(Router)
 
 // Prevent router from throwing errors when we're already on the page we're trying to go to
-const originalPush = Router.prototype.push as (to, onComplete?, onAbort?) => Promise<Route>
-Router.prototype.push = function push(to: RawLocation, onComplete?: ((route: Route) => void) | undefined, onAbort?: ErrorHandler | undefined): Promise<Route> {
-	if (onComplete || onAbort) return originalPush.call(this, to, onComplete, onAbort)
-	return originalPush.call(this, to).catch(err => err)
+const originalPush = Router.prototype.push
+Router.prototype.push = (function(this: Router, ...args: Parameters<typeof originalPush>) {
+	if (args.length > 1) {
+		return originalPush.call(this, ...args)
+	}
+	return originalPush.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
+}) as typeof originalPush
+
+const originalReplace = Router.prototype.replace
+Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof originalReplace>) {
+	if (args.length > 1) {
+		return originalReplace.call(this, ...args)
+	}
+	return originalReplace.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
+}) as typeof originalReplace
+
+/**
+ * Ignore duplicated-navigation error but forward real exceptions
+ * @param error The thrown error
+ */
+function ignoreDuplicateNavigation(error: unknown): void {
+	if (isNavigationFailure(error, NavigationFailureType.duplicated)) {
+		logger.debug('Ignoring duplicated navigation from vue-router', { error })
+	} else {
+		throw error
+	}
 }
 
 const router = new Router({

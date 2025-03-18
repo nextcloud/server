@@ -14,8 +14,8 @@
     "Make sure you store the secret key, it cannot be recovered." : "Убедитесь, что вы сохранили секретный ключ, он не может быть восстановлен.",
     "Add client" : "Добавить клиент",
     "Add" : "Добавить",
-    "Delete" : "Удалить",
     "Show client secret" : "Показать секретный ключ клиента",
-    "Hide client secret" : "Скрыть секрет клиента"
+    "Hide client secret" : "Скрыть секрет клиента",
+    "Delete" : "Удалить"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

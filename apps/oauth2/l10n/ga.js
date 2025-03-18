@@ -16,8 +16,8 @@ OC.L10N.register(
     "Make sure you store the secret key, it cannot be recovered." : "Déan cinnte go stórálann tú an eochair rúnda, ní féidir í a aisghabháil.",
     "Add client" : "Cuir cliant leis",
     "Add" : "Cuir",
-    "Delete" : "Scrios",
     "Show client secret" : "Taispeáin rún an chliaint",
-    "Hide client secret" : "Folaigh rún an chliaint"
+    "Hide client secret" : "Folaigh rún an chliaint",
+    "Delete" : "Scrios"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

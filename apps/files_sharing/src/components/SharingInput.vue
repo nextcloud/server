@@ -36,7 +36,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'

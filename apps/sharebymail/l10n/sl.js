@@ -31,8 +31,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you." : "%1$s vam omogoča souporabo »%2$s«.",
     "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
     "Open »%s«" : "Odpri »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s vam omogoča souporabo »%2$s«.\nPo elektronski pošti bi morali prejeti tudi ločeno sporočilo s povezavo.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s vam omogoča souporabo »%2$s«. Po elektronski pošti bi morali prejeti tudi sporočilo s povezavo.",
     "Password to access »%1$s« shared to you by %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«.",
     "Password to access »%s«" : "Geslo za dostop do »%s«",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",

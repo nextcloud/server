@@ -4,8 +4,8 @@
  -->
 <script setup lang="ts">
 import { ref } from 'vue'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDashboardWidgetItem from '@nextcloud/vue/dist/Components/NcDashboardWidgetItem.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDashboardWidgetItem from '@nextcloud/vue/components/NcDashboardWidgetItem'
 import IconFile from 'vue-material-design-icons/File.vue'
 
 defineProps({

@@ -56,7 +56,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
 		if ($this->config === null) {
-			$this->config = \OC::$server->getConfig();
+			$this->config = Server::get(IConfig::class);
 		}
 
 		/** @var string|array $principal */
@@ -82,8 +82,8 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 				$trustedServers = null;
 				$request = null;
 				try {
-					$trustedServers = \OC::$server->get(TrustedServers::class);
-					$request = \OC::$server->get(IRequest::class);
+					$trustedServers = Server::get(TrustedServers::class);
+					$request = Server::get(IRequest::class);
 				} catch (QueryException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 					// nothing to do, the request / trusted servers don't exist
 				}

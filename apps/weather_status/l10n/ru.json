@@ -5,9 +5,6 @@
     "Error" : "Ошибка",
     "Weather status" : "Прогноз погоды",
     "Weather status in your dashboard" : "Виджет для просмотра прогноза погоды",
-    "Detect location" : "Определить местоположение",
-    "Set custom address" : "Задать адрес",
-    "Favorites" : "Избранное",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} сегодня обещают ясную погоду",
     "{temperature} {unit} clear sky" : "{temperature} {unit} ясно",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} сегодня обещают облачно",
@@ -42,6 +39,9 @@
     "There was an error setting the location address." : "Не удалось задать адрес.",
     "There was an error setting the location." : "Не удалось настроить местоположение.",
     "There was an error saving the mode." : "Не удалось сохранить режим.",
-    "There was an error using personal address." : "Не удалось использовать личный адрес."
+    "There was an error using personal address." : "Не удалось использовать личный адрес.",
+    "Detect location" : "Определить местоположение",
+    "Set custom address" : "Задать адрес",
+    "Favorites" : "Избранное"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

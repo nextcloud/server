@@ -7,6 +7,8 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\Traits\EncryptionTrait;
 
 /**
@@ -17,7 +19,7 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
 		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		$this->setupForUser($name, $password);

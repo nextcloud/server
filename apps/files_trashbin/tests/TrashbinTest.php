@@ -11,15 +11,20 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\View;
+use OC\SystemConfig;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -49,7 +54,7 @@ class TrashbinTest extends \Test\TestCase {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 
 		// reset backend
@@ -58,19 +63,19 @@ class TrashbinTest extends \Test\TestCase {
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
 		// init files sharing
 		new Application();
 
 		//disable encryption
-		\OC::$server->getAppManager()->disableApp('encryption');
+		Server::get(IAppManager::class)->disableApp('encryption');
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		//configure trashbin
 		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', Expiration::DEFAULT_RETENTION_OBLIGATION);
 		/** @var Expiration $expiration */
-		$expiration = \OC::$server->query(Expiration::class);
+		$expiration = Server::get(Expiration::class);
 		$expiration->setRetentionObligation('auto, 2');
 
 		// register trashbin hooks
@@ -85,13 +90,13 @@ class TrashbinTest extends \Test\TestCase {
 
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
-		$user = \OC::$server->getUserManager()->get(self::TEST_TRASHBIN_USER1);
+		$user = Server::get(IUserManager::class)->get(self::TEST_TRASHBIN_USER1);
 		if ($user !== null) {
 			$user->delete();
 		}
 
 		/** @var Expiration $expiration */
-		$expiration = \OC::$server->query(Expiration::class);
+		$expiration = Server::get(Expiration::class);
 		$expiration->setRetentionObligation(self::$rememberRetentionObligation);
 
 		\OC_Hook::clear();
@@ -99,7 +104,7 @@ class TrashbinTest extends \Test\TestCase {
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 
 		if (self::$trashBinStatus) {
-			\OC::$server->getAppManager()->enableApp('files_trashbin');
+			Server::get(IAppManager::class)->enableApp('files_trashbin');
 		}
 
 		parent::tearDownAfterClass();
@@ -108,8 +113,8 @@ class TrashbinTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC::$server->getAppManager()->enableApp('files_trashbin');
-		$config = \OC::$server->getConfig();
+		Server::get(IAppManager::class)->enableApp('files_trashbin');
+		$config = Server::get(IConfig::class);
 		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig
 			->method('getSystemValue')
@@ -141,7 +146,7 @@ class TrashbinTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$this->restoreService(AllConfig::class);
 		// disable trashbin to be able to properly clean up
-		\OC::$server->getAppManager()->disableApp('files_trashbin');
+		Server::get(IAppManager::class)->disableApp('files_trashbin');
 
 		$this->rootView->deleteAll('/' . self::TEST_TRASHBIN_USER1 . '/files');
 		$this->rootView->deleteAll('/' . self::TEST_TRASHBIN_USER2 . '/files');
@@ -149,7 +154,7 @@ class TrashbinTest extends \Test\TestCase {
 		$this->rootView->deleteAll($this->trashRoot2);
 
 		// clear trash table
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 		$connection->executeUpdate('DELETE FROM `*PREFIX*files_trash`');
 
 		parent::tearDown();
@@ -161,7 +166,7 @@ class TrashbinTest extends \Test\TestCase {
 	public function testExpireOldFiles(): void {
 
 		/** @var ITimeFactory $time */
-		$time = \OC::$server->query(ITimeFactory::class);
+		$time = Server::get(ITimeFactory::class);
 		$currentTime = $time->getTime();
 		$expireAt = $currentTime - 2 * 24 * 60 * 60;
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
@@ -224,14 +229,14 @@ class TrashbinTest extends \Test\TestCase {
 
 		//share user1-4.txt with user2
 		$node = \OC::$server->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setShareType(IShare::TYPE_USER)
 			->setNode($node)
 			->setSharedBy(self::TEST_TRASHBIN_USER1)
 			->setSharedWith(self::TEST_TRASHBIN_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_TRASHBIN_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_TRASHBIN_USER2);
 
 		// delete them so that they end up in the trash bin
 		Filesystem::unlink($folder . 'user1-1.txt');
@@ -671,7 +676,7 @@ class TrashbinTest extends \Test\TestCase {
 	public static function loginHelper($user, $create = false) {
 		if ($create) {
 			try {
-				\OC::$server->getUserManager()->createUser($user, $user);
+				Server::get(IUserManager::class)->createUser($user, $user);
 			} catch (\Exception $e) { // catch username is already being used from previous aborted runs
 			}
 		}

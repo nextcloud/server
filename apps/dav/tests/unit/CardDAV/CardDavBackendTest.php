@@ -27,6 +27,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\IManager as ShareManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
@@ -133,7 +134,7 @@ class CardDavBackendTest extends TestCase {
 			->willReturn([self::UNIT_TEST_GROUP]);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = Server::get(IDBConnection::class);
 		$this->sharingBackend = new Backend($this->userManager,
 			$this->groupManager,
 			$this->principal,
@@ -526,7 +527,8 @@ class CardDavBackendTest extends TestCase {
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
-			->from('cards_properties');
+			->from('cards_properties')
+			->orderBy('name');
 
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
@@ -534,13 +536,13 @@ class CardDavBackendTest extends TestCase {
 
 		$this->assertSame(2, count($result));
 
-		$this->assertSame('UID', $result[0]['name']);
-		$this->assertSame($cardUri, $result[0]['value']);
+		$this->assertSame('FN', $result[0]['name']);
+		$this->assertSame('John Doe', $result[0]['value']);
 		$this->assertSame($bookId, (int)$result[0]['addressbookid']);
 		$this->assertSame($cardId, (int)$result[0]['cardid']);
 
-		$this->assertSame('FN', $result[1]['name']);
-		$this->assertSame('John Doe', $result[1]['value']);
+		$this->assertSame('UID', $result[1]['name']);
+		$this->assertSame($cardUri, $result[1]['value']);
 		$this->assertSame($bookId, (int)$result[1]['addressbookid']);
 		$this->assertSame($cardId, (int)$result[1]['cardid']);
 

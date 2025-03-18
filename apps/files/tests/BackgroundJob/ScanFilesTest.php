@@ -14,7 +14,9 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -41,8 +43,8 @@ class ScanFilesTest extends TestCase {
 		$config = $this->createMock(IConfig::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$connection = \OC::$server->getDatabaseConnection();
-		$this->mountCache = \OC::$server->getUserMountCache();
+		$connection = Server::get(IDBConnection::class);
+		$this->mountCache = Server::get(IUserMountCache::class);
 
 		$this->scanFiles = $this->getMockBuilder('\OCA\Files\BackgroundJob\ScanFiles')
 			->setConstructorArgs([

@@ -242,7 +242,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$this->upgradeAppStoreApps($appManager->getEnabledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);

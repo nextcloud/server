@@ -18,6 +18,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -119,7 +120,7 @@ class SettingsControllerTest extends TestCase {
 
 	public function testDeleteClient(): void {
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
 		$function = function (IUser $user) use (&$count): void {

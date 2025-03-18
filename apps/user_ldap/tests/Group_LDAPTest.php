@@ -21,6 +21,8 @@ use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -155,7 +157,7 @@ class Group_LDAPTest extends TestCase {
 		$this->access->expects($this->any())
 			->method('dn2username')
 			->willReturnCallback(function () {
-				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
+				return 'foobar' . Server::get(ISecureRandom::class)->generate(7);
 			});
 		$this->access->expects($this->any())
 			->method('isDNPartOfBase')

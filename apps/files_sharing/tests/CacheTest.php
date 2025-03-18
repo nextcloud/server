@@ -15,6 +15,8 @@ use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\IWatcher;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -47,10 +49,10 @@ class CacheTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->shareManager = \OC::$server->getShareManager();
+		$this->shareManager = Server::get(\OCP\Share\IManager::class);
 
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->get(self::TEST_FILES_SHARING_API_USER1)->setDisplayName('User One');
 		$userManager->get(self::TEST_FILES_SHARING_API_USER2)->setDisplayName('User Two');
 

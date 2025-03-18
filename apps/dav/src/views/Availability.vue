@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AbsenceForm from '../components/AbsenceForm.vue'
 import AvailabilityForm from '../components/AvailabilityForm.vue'
 import { loadState } from '@nextcloud/initial-state'

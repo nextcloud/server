@@ -32,7 +32,7 @@
 
 <script>
 import moment from '@nextcloud/moment'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import MapClock from 'vue-material-design-icons/MapClock.vue'
 
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'

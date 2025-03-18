@@ -25,7 +25,7 @@
 			<!-- Search or create input -->
 			<div class="systemtags-picker__input">
 				<NcTextField :value.sync="input"
-					:label="t('systemtags', 'Search or create tag')"
+					:label="canEditOrCreateTag ? t('systemtags', 'Search or create tag') : t('systemtags', 'Search tag')"
 					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
 				</NcTextField>
@@ -49,7 +49,8 @@
 					</NcCheckboxRadioSwitch>
 
 					<!-- Color picker -->
-					<NcColorPicker :data-cy-systemtags-picker-tag-color="tag.id"
+					<NcColorPicker v-if="canEditOrCreateTag"
+						:data-cy-systemtags-picker-tag-color="tag.id"
 						:value="`#${tag.color}`"
 						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
@@ -68,7 +69,7 @@
 
 				<!-- Create new tag -->
 				<li>
-					<NcButton v-if="canCreateTag"
+					<NcButton v-if="canEditOrCreateTag && canCreateTag"
 						:disabled="status === Status.CREATING_TAG"
 						alignment="start"
 						class="systemtags-picker__tag-create"
@@ -88,7 +89,7 @@
 			<!-- Note -->
 			<div class="systemtags-picker__note">
 				<NcNoteCard v-if="!hasChanges" type="info">
-					{{ t('systemtags', 'Select or create tags to apply to all selected files') }}
+					{{ canEditOrCreateTag ? t('systemtags', 'Select or create tags to apply to all selected files'): t('systemtags', 'Select tags to apply to all selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
 					<span v-html="statusMessage" />
@@ -127,21 +128,23 @@ import type { Tag, TagWithId } from '../types'
 
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 import { getLanguage, n, t } from '@nextcloud/l10n'
-import { sanitize } from 'dompurify'
+import { loadState } from '@nextcloud/initial-state'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import debounce from 'debounce'
+import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcChip from '@nextcloud/vue/components/NcChip'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 import CircleIcon from 'vue-material-design-icons/Circle.vue'
 import CircleOutlineIcon from 'vue-material-design-icons/CircleOutline.vue'
@@ -149,9 +152,9 @@ import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 
-import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api'
-import { getNodeSystemTags, setNodeSystemTags } from '../utils'
-import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
+import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api.ts'
+import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
+import { getNodeSystemTags, setNodeSystemTags } from '../utils.ts'
 import logger from '../logger.ts'
 
 const debounceUpdateTag = debounce(updateTag, 500)
@@ -169,6 +172,8 @@ enum Status {
 	CREATING_TAG = 'creating-tag',
 	DONE = 'done',
 }
+
+const restrictSystemTagsCreationToAdmin = loadState('systemtags', 'restrictSystemTagsCreationToAdmin', false)
 
 export default defineComponent({
 	name: 'SystemTagPicker',
@@ -204,6 +209,8 @@ export default defineComponent({
 			emit,
 			Status,
 			t,
+			// Either tag creation is not restricted to admins or the current user is an admin
+			canEditOrCreateTag: !restrictSystemTagsCreationToAdmin || getCurrentUser()?.isAdmin,
 		}
 	},
 
@@ -364,6 +371,10 @@ export default defineComponent({
 			})
 			return acc
 		}, {} as TagListCount) as TagListCount
+
+		if (!this.canEditOrCreateTag) {
+			logger.debug('System tag creation is restricted to admins and the current user is not an admin')
+		}
 	},
 
 	methods: {
@@ -378,7 +389,7 @@ export default defineComponent({
 				})
 			}
 			const chipHtml = chipCloneEl.outerHTML
-			return chipHtml.replace('%s', escapeHTML(sanitize(tag.displayName)))
+			return chipHtml.replace('%s', escapeHTML(domPurify.sanitize(tag.displayName)))
 		},
 
 		formatTagName(tag: TagWithId): string {
@@ -422,6 +433,12 @@ export default defineComponent({
 		},
 
 		async onNewTag() {
+			if (!this.canEditOrCreateTag) {
+				// Should not happen ™
+				showError(t('systemtags', 'Only admins can create new tags'))
+				return
+			}
+
 			this.status = Status.CREATING_TAG
 			try {
 				const payload: Tag = {

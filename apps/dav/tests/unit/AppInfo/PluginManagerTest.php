@@ -24,7 +24,7 @@ class PluginManagerTest extends TestCase {
 		$server = $this->createMock(ServerContainer::class);
 
 		$appManager = $this->createMock(AppManager::class);
-		$appManager->method('getInstalledApps')
+		$appManager->method('getEnabledApps')
 			->willReturn(['adavapp', 'adavapp2']);
 
 		$appInfo1 = [

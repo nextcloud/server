@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Versions" : "Версії",
     "This application automatically maintains older versions of files that are changed." : "Цей застосунок підтримує роботу з попередніми версіями файлів, які було змінено.",
+    "Current version" : "Поточна версія",
+    "Initial version" : "Початкова версія",
     "Actions for version from {versionHumanExplicitDate}" : "Дії для версії від {versionHumanExplicitDate}",
     "Name this version" : "Назвіть цю версію",
     "Edit version name" : "Редагуйте назву версії",
@@ -10,18 +12,15 @@ OC.L10N.register(
     "Restore version" : "Відновити версію",
     "Download version" : "Звантажити версію",
     "Delete version" : "Вилучити версію",
-    "Current version" : "Поточна версія",
-    "Initial version" : "Початкова версія",
-    "Version name" : "Назва версії",
-    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Версії з назвами є постійними та їх виключено з автоматичного очищення після переповнення квоти у сховищі.",
     "Cancel" : "Скасувати",
     "Remove version name" : "Вилучити назву версії",
     "Save version name" : "Зберегти назву версії",
+    "Version name" : "Назва версії",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Версії з назвами є постійними та їх виключено з автоматичного очищення після переповнення квоти у сховищі.",
     "Initial version restored" : "Початкову версію відновлено",
     "Version restored" : "Версію відновлено",
     "Could not restore version" : "Не вдалося відновити версію",
     "Could not set version label" : "Не вдалося встановити ярлик версії",
-    "Could not delete version" : "Не вдалося вилучити версію",
-    "${version.label} restored" : "${version.label} відновлено"
+    "Could not delete version" : "Не вдалося вилучити версію"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

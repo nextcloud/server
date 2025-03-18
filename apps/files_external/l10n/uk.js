@@ -93,7 +93,7 @@ OC.L10N.register(
     "External storage" : "Зовнішнє сховище",
     "External storage support" : "Підтримка зовнішнього сховища",
     "Adds basic external storage support" : "Додає базову підтримку зовнішньої пам’яті",
-    "Submit" : "Відправити",
+    "Confirm" : "Підтвердити",
     "Unable to update this external storage config. {statusMessage}" : "Не вдалося оновити конфігурацію цього зовнішнього сховища. {statusMessage}",
     "New configuration successfully saved" : "Нову конфігурацію успішно збережено",
     "Enter missing credentials" : "Зазначте відсутні дані авторизації",

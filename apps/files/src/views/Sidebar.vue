@@ -38,8 +38,7 @@
 				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
 					v-show="showTags"
 					:disabled="!fileInfo?.canEdit()"
-					:file-id="fileInfo.id"
-					@has-tags="value => showTags = value" />
+					:file-id="fileInfo.id" />
 				<LegacyView v-for="view in views"
 					:key="view.cid"
 					:component="view"
@@ -93,26 +92,27 @@
 		</template>
 	</NcAppSidebar>
 </template>
-<script>
-import { getCurrentUser } from '@nextcloud/auth'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { showError } from '@nextcloud/dialogs'
+<script lang="ts">
+import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
+import { defineComponent } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { File, Folder, davRemoteURL, davRootPath, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
-import { ShareType } from '@nextcloud/sharing'
-import { mdiStar, mdiStarOutline } from '@mdi/js'
 import { fetchNode } from '../services/WebdavClient.ts'
-import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getCurrentUser } from '@nextcloud/auth'
+import { mdiStar, mdiStarOutline } from '@mdi/js'
+import { ShareType } from '@nextcloud/sharing'
+import { showError } from '@nextcloud/dialogs'
 import $ from 'jquery'
+import axios from '@nextcloud/axios'
 
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
+import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 import FileInfo from '../services/FileInfo.js'
 import LegacyView from '../components/LegacyView.vue'
@@ -120,7 +120,7 @@ import SidebarTab from '../components/SidebarTab.vue'
 import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 import logger from '../logger.ts'
 
-export default {
+export default defineComponent({
 	name: 'Sidebar',
 
 	components: {
@@ -464,7 +464,10 @@ export default {
 		 * Toggle the tags selector
 		 */
 		toggleTags() {
-			this.showTagsDefault = this.showTags = !this.showTags
+			// toggle
+			this.showTags = !this.showTags
+			// save the new state
+			this.setShowTagsDefault(this.showTags)
 		},
 
 		/**
@@ -585,7 +588,7 @@ export default {
 			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
 	},
-}
+})
 </script>
 <style lang="scss" scoped>
 .app-sidebar {

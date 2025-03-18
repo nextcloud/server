@@ -8,6 +8,8 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
+use OCP\IUserSession;
+use OCP\Server;
 
 abstract class PropagationTestCase extends TestCase {
 	/**
@@ -42,7 +44,7 @@ abstract class PropagationTestCase extends TestCase {
 	 * @param string $subPath
 	 */
 	protected function assertEtagsChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
+		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
 			$id = $this->fileIds[$user][$subPath];
@@ -59,7 +61,7 @@ abstract class PropagationTestCase extends TestCase {
 	 * @param string $subPath
 	 */
 	protected function assertEtagsNotChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
+		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
 			$id = $this->fileIds[$user][$subPath];

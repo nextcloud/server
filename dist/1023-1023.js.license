@@ -1,0 +1,62 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+
+
+This file is generated from multiple sources. Included packages:
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 8.23.1
+	- license: AGPL-3.0-or-later
+- @vueuse/core
+	- version: 11.1.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.1.0
+	- license: MIT
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- dompurify
+	- version: 3.2.4
+	- license: (MPL-2.0 OR Apache-2.0)
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- vue-loader
+	- version: 15.11.1
+	- license: MIT
+- vue-router
+	- version: 3.6.5
+	- license: MIT
+- vue
+	- version: 2.7.16
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

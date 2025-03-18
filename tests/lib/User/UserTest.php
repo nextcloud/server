@@ -929,6 +929,12 @@ class UserTest extends TestCase {
 				$this->equalTo('enabled'),
 				'true'
 			);
+		/* dav event listener gets the manager list from config */
+		$config->expects(self::any())
+			->method('getUserValue')
+			->willReturnCallback(
+				fn ($user, $app, $key, $default) => ($key === 'enabled' ? 'false' : $default)
+			);
 
 		$user = new User('foo', $backend, $this->dispatcher, null, $config);
 		$user->setEnabled(true);

@@ -79,8 +79,16 @@ interface IAppManager {
 	 * @param string $appId
 	 * @return bool
 	 * @since 8.0.0
+	 * @deprecated 32.0.0 Use either {@see self::isEnabledForUser} or {@see self::isEnabledForAnyone}
 	 */
 	public function isInstalled($appId);
+
+	/**
+	 * Check if an app is enabled in the instance, either for everyone or for specific groups
+	 *
+	 * @since 32.0.0
+	 */
+	public function isEnabledForAnyone(string $appId): bool;
 
 	/**
 	 * Check if an app should be enabled by default
@@ -178,8 +186,17 @@ interface IAppManager {
 	 *
 	 * @return string[]
 	 * @since 8.1.0
+	 * @deprecated 32.0.0 Use either {@see self::getEnabledApps} or {@see self::getEnabledAppsForUser}
 	 */
 	public function getInstalledApps();
+
+	/**
+	 * List all apps enabled, either for everyone or for specific groups only
+	 *
+	 * @return list<string>
+	 * @since 32.0.0
+	 */
+	public function getEnabledApps(): array;
 
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app
@@ -292,10 +309,17 @@ interface IAppManager {
 	/**
 	 * Clean the appId from forbidden characters
 	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
 	 * @psalm-taint-escape file
-	 * @psalm-taint-escape include
-	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
 	 *
 	 * @since 31.0.0
 	 */

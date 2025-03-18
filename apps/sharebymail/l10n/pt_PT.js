@@ -25,8 +25,6 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you." : "%1$s partilhado »%2$s« contigo.",
     "Click the button below to open it." : "Clicar no botão abaixo para abrir.",
     "Open »%s«" : "Abrir »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s partilhado »%2$s« contigo.\nJá deverá ter recebido um outro e-mail com uma hiperligação para o aceder.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s partilhou »%2$s« consigo. Já deverá ter recebido um outro e-mail com uma hiperligação para o aceder.",
     "Password to access »%1$s« shared to you by %2$s" : "Palavra passe para aceder »%1$s« partilhado por si %2$s",
     "Password to access »%s«" : "Palavra-chave de acesso »%s«",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s partilhado »%2$s« consigo e quer adicionar:",

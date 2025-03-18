@@ -9,8 +9,10 @@ namespace OCA\Files;
 
 use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\ITagManager;
+use OCP\Server;
 use OCP\Util;
 
 /**
@@ -53,15 +55,15 @@ class Helper {
 	 */
 	public static function determineIcon($file) {
 		if ($file['type'] === 'dir') {
-			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir');
+			$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir');
 			// TODO: move this part to the client side, using mountType
 			if ($file->isShared()) {
-				$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir-shared');
+				$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir-shared');
 			} elseif ($file->isMounted()) {
-				$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir-external');
+				$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir-external');
 			}
 		} else {
-			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($file->getMimetype());
+			$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon($file->getMimetype());
 		}
 
 		return substr($icon, 0, -3) . 'svg';

@@ -11,6 +11,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 
 class Helper {
 	/** @var CappedMemoryCache<string> */
@@ -269,7 +270,7 @@ class Helper {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$userBackend = \OC::$server->get(User_Proxy::class);
+		$userBackend = Server::get(User_Proxy::class);
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
 			$param['uid'] = $uid;

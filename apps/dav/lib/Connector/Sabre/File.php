@@ -13,7 +13,6 @@ use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
-use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
@@ -24,6 +23,7 @@ use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
@@ -31,6 +31,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\L10N\IFactory as IL10NFactory;
@@ -67,14 +68,14 @@ class File extends Node implements IFile {
 		} else {
 			// Querying IL10N directly results in a dependency loop
 			/** @var IL10NFactory $l10nFactory */
-			$l10nFactory = \OC::$server->get(IL10NFactory::class);
+			$l10nFactory = Server::get(IL10NFactory::class);
 			$this->l10n = $l10nFactory->get(Application::APP_ID);
 		}
 
 		if (isset($request)) {
 			$this->request = $request;
 		} else {
-			$this->request = \OC::$server->get(IRequest::class);
+			$this->request = Server::get(IRequest::class);
 		}
 	}
 
@@ -207,27 +208,23 @@ class File extends Node implements IFile {
 					$isEOF = feof($stream);
 				});
 
-				$result = true;
-				$count = -1;
-				try {
-					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-				} catch (GenericFileException $e) {
-					$result = false;
-				} catch (BadGateway $e) {
-					throw $e;
-				}
-
-
-				if ($result === false) {
-					$result = $isEOF;
-					if (is_resource($wrappedData)) {
-						$result = feof($wrappedData);
+				$result = is_resource($wrappedData);
+				if ($result) {
+					$count = -1;
+					try {
+						/** @var IWriteStreamStorage $partStorage */
+						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+					} catch (GenericFileException) {
+						$result = $isEOF;
+						if (is_resource($wrappedData)) {
+							$result = feof($wrappedData);
+						}
 					}
 				}
 			} else {
 				$target = $partStorage->fopen($internalPartPath, 'wb');
 				if ($target === false) {
-					\OC::$server->get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
+					Server::get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
@@ -274,9 +271,9 @@ class File extends Node implements IFile {
 			}
 		} catch (\Exception $e) {
 			if ($e instanceof LockedException) {
-				\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['exception' => $e]);
+				Server::get(LoggerInterface::class)->debug($e->getMessage(), ['exception' => $e]);
 			} else {
-				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 
 			if ($needsPartFile) {
@@ -317,7 +314,7 @@ class File extends Node implements IFile {
 					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
 					$fileExists = $storage->file_exists($internalPath);
 					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
+						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
@@ -384,7 +381,7 @@ class File extends Node implements IFile {
 	}
 
 	private function getPartFileBasePath($path) {
-		$partFileInStorage = \OC::$server->getConfig()->getSystemValue('part_file_in_storage', true);
+		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
 			return $path;
 		} else {
@@ -476,7 +473,7 @@ class File extends Node implements IFile {
 			// comparing current file size with the one in DB
 			// if different, fix DB and refresh cache.
 			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
-				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger = Server::get(LoggerInterface::class);
 				$logger->warning('fixing cached size of file id=' . $this->getId());
 
 				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
@@ -535,7 +532,7 @@ class File extends Node implements IFile {
 		if ($this->request->getMethod() === 'PROPFIND') {
 			return $mimeType;
 		}
-		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
+		return Server::get(IMimeTypeDetector::class)->getSecureMimeType($mimeType);
 	}
 
 	/**

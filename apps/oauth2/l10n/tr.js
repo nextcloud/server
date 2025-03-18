@@ -16,8 +16,8 @@ OC.L10N.register(
     "Make sure you store the secret key, it cannot be recovered." : "Yeniden öğrenilemeyeceği için gizli anahtarı kaydettiğinizden emin olun.",
     "Add client" : "İstemci ekle",
     "Add" : "Ekle",
-    "Delete" : "Sil",
     "Show client secret" : "İstemci parolasını görüntüle",
-    "Hide client secret" : "İstemci parolasını gizle"
+    "Hide client secret" : "İstemci parolasını gizle",
+    "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

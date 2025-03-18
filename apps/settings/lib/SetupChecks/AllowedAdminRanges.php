@@ -36,7 +36,7 @@ class AllowedAdminRanges implements ISetupCheck {
 			$allowedAdminRanges === false
 			|| (is_array($allowedAdminRanges) && empty($allowedAdminRanges))
 		) {
-			return SetupResult::success($this->l10n->t('Admin IP filtering isn’t applied.'));
+			return SetupResult::success($this->l10n->t('Admin IP filtering isn\'t applied.'));
 		}
 
 		if (!is_array($allowedAdminRanges)) {

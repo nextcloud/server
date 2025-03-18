@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 export default {
 	name: 'SearchResult',

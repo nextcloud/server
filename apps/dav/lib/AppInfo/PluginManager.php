@@ -119,7 +119,7 @@ class PluginManager {
 
 		$this->calendarPlugins[] = $this->container->get(AppCalendarPlugin::class);
 
-		foreach ($this->appManager->getInstalledApps() as $app) {
+		foreach ($this->appManager->getEnabledApps() as $app) {
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['types']) || !in_array('dav', $info['types'], true)) {

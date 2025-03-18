@@ -88,7 +88,6 @@
     "Additional settings" : "Plia agordo",
     "You need to enter details of an existing account." : "Vi entajpu detalojn pri ekzistanta konto.",
     "Oracle connection could not be established" : "Konekto al Oracle ne povis stariĝi",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "MacOS X ne estas subtenata kaj %s ne bone funkcios ĉe ĝi. Uzu ĝin je via risko!",
     "For the best results, please consider using a GNU/Linux server instead." : "Por pli bona funkciado, bv. pripensi uzi GNU-Linuksan servilon anstataŭe.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Ŝajnas, ke tiu servilo %s uzas 32-bitan PHP-version, kaj ke la agordo „open_basedir“ ekzistas. Tio kaŭzos problemojn pri dosieroj pli grandaj ol 4 GB, kaj do estas tre malrekomendita.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Bv. forigi la agordon „open_basedir“ de via php.ini, aŭ uzu 64-bitan version de PHP.",

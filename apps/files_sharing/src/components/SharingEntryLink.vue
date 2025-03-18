@@ -86,7 +86,7 @@
 				:checked.sync="defaultExpirationDateEnabled"
 				:disabled="pendingEnforcedExpirationDate || saving"
 				class="share-link-expiration-date-checkbox"
-				@change="onExpirationDateToggleChange">
+				@update:model-value="onExpirationDateToggleUpdate">
 				{{ config.isDefaultExpireDateEnforced ? t('files_sharing', 'Enable link expiration (enforced)') : t('files_sharing', 'Enable link expiration') }}
 			</NcActionCheckbox>
 
@@ -224,15 +224,15 @@ import VueQrcode from '@chenfengyuan/vue-qrcode'
 import moment from '@nextcloud/moment'
 import Vue from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -875,9 +875,14 @@ export default {
 			this.onPasswordSubmit()
 			this.onNoteSubmit()
 		},
-		onExpirationDateToggleChange(enabled) {
+
+		/**
+		 * @param enabled True if expiration is enabled
+		 */
+		onExpirationDateToggleUpdate(enabled) {
 			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
 		},
+
 		expirationDateChanged(event) {
 			const date = event.target.value
 			this.onExpirationChange(date)

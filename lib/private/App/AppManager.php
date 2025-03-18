@@ -45,7 +45,7 @@ class AppManager implements IAppManager {
 	];
 
 	/** @var string[] $appId => $enabled */
-	private array $installedAppsCache = [];
+	private array $enabledAppsCache = [];
 
 	/** @var string[]|null */
 	private ?array $shippedApps = null;
@@ -129,10 +129,12 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * @return string[] $appId => $enabled
+	 * For all enabled apps, return the value of their 'enabled' config key.
+	 *
+	 * @return array<string,string> appId => enabled (may be 'yes', or a json encoded list of group ids)
 	 */
-	private function getInstalledAppsValues(): array {
-		if (!$this->installedAppsCache) {
+	private function getEnabledAppsValues(): array {
+		if (!$this->enabledAppsCache) {
 			$values = $this->getAppConfig()->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
@@ -140,21 +142,30 @@ class AppManager implements IAppManager {
 				$values[$appId] = 'yes';
 			}
 
-			$this->installedAppsCache = array_filter($values, function ($value) {
+			$this->enabledAppsCache = array_filter($values, function ($value) {
 				return $value !== 'no';
 			});
-			ksort($this->installedAppsCache);
+			ksort($this->enabledAppsCache);
 		}
-		return $this->installedAppsCache;
+		return $this->enabledAppsCache;
 	}
 
 	/**
-	 * List all installed apps
+	 * Deprecated alias
 	 *
 	 * @return string[]
 	 */
 	public function getInstalledApps() {
-		return array_keys($this->getInstalledAppsValues());
+		return $this->getEnabledApps();
+	}
+
+	/**
+	 * List all enabled apps, either for everyone or for some groups
+	 *
+	 * @return list<string>
+	 */
+	public function getEnabledApps(): array {
+		return array_keys($this->getEnabledAppsValues());
 	}
 
 	/**
@@ -195,7 +206,7 @@ class AppManager implements IAppManager {
 	 * @return string[]
 	 */
 	public function getEnabledAppsForUser(IUser $user) {
-		$apps = $this->getInstalledAppsValues();
+		$apps = $this->getEnabledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
 			return $this->checkAppForUser($enabled, $user);
 		});
@@ -203,7 +214,7 @@ class AppManager implements IAppManager {
 	}
 
 	public function getEnabledAppsForGroup(IGroup $group): array {
-		$apps = $this->getInstalledAppsValues();
+		$apps = $this->getEnabledAppsValues();
 		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
 			return $this->checkAppForGroups($enabled, $group);
 		});
@@ -303,7 +314,7 @@ class AppManager implements IAppManager {
 	}
 
 	public function getAppRestriction(string $appId): array {
-		$values = $this->getInstalledAppsValues();
+		$values = $this->getEnabledAppsValues();
 
 		if (!isset($values[$appId])) {
 			return [];
@@ -329,9 +340,9 @@ class AppManager implements IAppManager {
 		if ($user === null) {
 			$user = $this->userSession->getUser();
 		}
-		$installedApps = $this->getInstalledAppsValues();
-		if (isset($installedApps[$appId])) {
-			return $this->checkAppForUser($installedApps[$appId], $user);
+		$enabledAppsValues = $this->getEnabledAppsValues();
+		if (isset($enabledAppsValues[$appId])) {
+			return $this->checkAppForUser($enabledAppsValues[$appId], $user);
 		} else {
 			return false;
 		}
@@ -395,12 +406,14 @@ class AppManager implements IAppManager {
 	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
-	 * @param IGroup[]|String[] $groups
-	 * @return bool
 	 */
-	public function isInstalled($appId) {
-		$installedApps = $this->getInstalledAppsValues();
-		return isset($installedApps[$appId]);
+	public function isInstalled($appId): bool {
+		return $this->isEnabledForAnyone($appId);
+	}
+
+	public function isEnabledForAnyone(string $appId): bool {
+		$enabledAppsValues = $this->getEnabledAppsValues();
+		return isset($enabledAppsValues[$appId]);
 	}
 
 	/**
@@ -582,7 +595,7 @@ class AppManager implements IAppManager {
 			$this->overwriteNextcloudRequirement($appId);
 		}
 
-		$this->installedAppsCache[$appId] = 'yes';
+		$this->enabledAppsCache[$appId] = 'yes';
 		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
@@ -636,7 +649,7 @@ class AppManager implements IAppManager {
 				: $group;
 		}, $groups);
 
-		$this->installedAppsCache[$appId] = json_encode($groupIds);
+		$this->enabledAppsCache[$appId] = json_encode($groupIds);
 		$this->getAppConfig()->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
@@ -665,7 +678,7 @@ class AppManager implements IAppManager {
 			$this->autoDisabledApps[$appId] = $previousSetting;
 		}
 
-		unset($this->installedAppsCache[$appId]);
+		unset($this->enabledAppsCache[$appId]);
 		$this->getAppConfig()->setValue($appId, 'enabled', 'no');
 
 		// run uninstall steps
@@ -726,7 +739,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppsNeedingUpgrade($version) {
 		$appsToUpgrade = [];
-		$apps = $this->getInstalledApps();
+		$apps = $this->getEnabledApps();
 		foreach ($apps as $appId) {
 			$appInfo = $this->getAppInfo($appId);
 			$appDbVersion = $this->getAppConfig()->getValue($appId, 'installed_version');
@@ -808,7 +821,7 @@ class AppManager implements IAppManager {
 	 * @internal
 	 */
 	public function getIncompatibleApps(string $version): array {
-		$apps = $this->getInstalledApps();
+		$apps = $this->getEnabledApps();
 		$incompatibleApps = [];
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
@@ -926,8 +939,23 @@ class AppManager implements IAppManager {
 		return false;
 	}
 
+	/**
+	 * Clean the appId from forbidden characters
+	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
+	 */
 	public function cleanAppId(string $app): string {
-		// FIXME should list allowed characters instead
-		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
+		/* Only lowercase alphanumeric is allowed */
+		return preg_replace('/(^[0-9_]|[^a-z0-9_]+|_$)/', '', $app);
 	}
 }

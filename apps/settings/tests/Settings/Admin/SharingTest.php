@@ -101,7 +101,7 @@ class SharingTest extends TestCase {
 		$this->initialState
 			->expects($this->exactly(3))
 			->method('provideInitialState')
-			->willReturnCallback(function (string $key) use (&$initialStateCalls) {
+			->willReturnCallback(function (string $key) use (&$initialStateCalls): void {
 				$initialStateCalls[$key] = func_get_args();
 			});
 		
@@ -198,7 +198,7 @@ class SharingTest extends TestCase {
 		$this->initialState
 			->expects($this->exactly(3))
 			->method('provideInitialState')
-			->willReturnCallback(function (string $key) use (&$initialStateCalls) {
+			->willReturnCallback(function (string $key) use (&$initialStateCalls): void {
 				$initialStateCalls[$key] = func_get_args();
 			});
 

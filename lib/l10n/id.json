@@ -47,7 +47,6 @@
     "About" : "Tentang.",
     "Additional settings" : "Setelan tambahan",
     "Oracle connection could not be established" : "Koneksi Oracle tidak dapat dibuat",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X tidak didukung dan %s tidak akan bekerja dengan baik pada platform ini. Gunakan dengan resiko Anda sendiri!",
     "For the best results, please consider using a GNU/Linux server instead." : "Untuk hasil terbaik, pertimbangkan untuk menggunakan server GNU/Linux sebagai gantinya. ",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Kelihatannya instansi %s ini berjalan di lingkungan PHP 32-bit dan open_basedir telah dikonfigurasi di php.ini. Hal ini akan menyebabkan masalah dengan berkas lebih dari 4 GB dan sangat tidak disarankan.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Mohon hapus pengaturan open_basedir didalam php.ini atau beralih ke PHP 64-bit.",

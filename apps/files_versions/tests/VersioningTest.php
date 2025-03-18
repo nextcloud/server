@@ -11,6 +11,7 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\SystemConfig;
 use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
@@ -21,6 +22,7 @@ use OCP\Constants;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\Util;
@@ -63,11 +65,11 @@ class VersioningTest extends \Test\TestCase {
 
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
-		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER);
+		$user = Server::get(IUserManager::class)->get(self::TEST_VERSIONS_USER);
 		if ($user !== null) {
 			$user->delete();
 		}
-		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER2);
+		$user = Server::get(IUserManager::class)->get(self::TEST_VERSIONS_USER2);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -78,7 +80,7 @@ class VersioningTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
@@ -93,7 +95,7 @@ class VersioningTest extends \Test\TestCase {
 
 		// clear hooks
 		\OC_Hook::clear();
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 		\OC::$server->boot();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
@@ -329,14 +331,14 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -355,7 +357,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v1Renamed), 'version 1 of renamed file exists');
 		$this->assertTrue($this->rootView->file_exists($v2Renamed), 'version 2 of renamed file exists');
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 	}
 
 	public function testMoveFolder(): void {
@@ -396,14 +398,14 @@ class VersioningTest extends \Test\TestCase {
 		$fileInfo = Filesystem::getFileInfo('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -438,21 +440,21 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v1Renamed));
 		$this->assertTrue($this->rootView->file_exists($v2Renamed));
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 	}
 
 	public function testMoveFolderIntoSharedFolderAsRecipient(): void {
 		Filesystem::mkdir('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 		$versionsFolder2 = '/' . self::TEST_VERSIONS_USER2 . '/files_versions';
@@ -489,7 +491,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v1Renamed));
 		$this->assertTrue($this->rootView->file_exists($v2Renamed));
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 	}
 
 	public function testRenameSharedFile(): void {
@@ -512,14 +514,14 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -538,7 +540,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse($this->rootView->file_exists($v1Renamed));
 		$this->assertFalse($this->rootView->file_exists($v2Renamed));
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 	}
 
 	public function testCopy(): void {
@@ -655,14 +657,14 @@ class VersioningTest extends \Test\TestCase {
 		$node = $userHome->newFolder('folder');
 		$file = $node->newFile('test.txt');
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_READ);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$versions = $this->createAndCheckVersions(
 			Filesystem::getView(),
@@ -679,7 +681,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 		$this->assertEquals('test file', $file->getContent(), 'File content has not changed');
 	}
 
@@ -694,14 +696,14 @@ class VersioningTest extends \Test\TestCase {
 		$userHome2 = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER2);
 		$userHome2->newFolder('subfolder');
 
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		$shareManager = \OC::$server->getShareManager();
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$shareManager->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$share->setTarget('subfolder/folder');
@@ -722,7 +724,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 		$this->assertEquals('version 2', $file->getContent(), 'File content has not changed');
 	}
 
@@ -893,14 +895,14 @@ class VersioningTest extends \Test\TestCase {
 		Filesystem::file_put_contents('folder/test.txt', 'test file');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, self::TEST_VERSIONS_USER2);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_VERSIONS_USER2);
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER2);
 
@@ -909,7 +911,7 @@ class VersioningTest extends \Test\TestCase {
 			'folder/test.txt'
 		);
 
-		\OC::$server->getShareManager()->deleteShare($share);
+		Server::get(\OCP\Share\IManager::class)->deleteShare($share);
 	}
 
 	/**
@@ -967,7 +969,7 @@ class VersioningTest extends \Test\TestCase {
 		if ($create) {
 			$backend = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
-			\OC::$server->getUserManager()->registerBackend($backend);
+			Server::get(IUserManager::class)->registerBackend($backend);
 		}
 
 		\OC_Util::tearDownFS();

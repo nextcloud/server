@@ -25,8 +25,8 @@ import { mdiClockFast } from '@mdi/js'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import Markdown from '../Markdown.vue'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

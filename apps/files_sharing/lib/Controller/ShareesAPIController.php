@@ -12,6 +12,7 @@ use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Share\Share;
 use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -21,9 +22,11 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Constants;
+use OCP\GlobalScale\IConfig as GlobalScaleIConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use function array_slice;
@@ -155,7 +158,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -173,15 +176,11 @@ class ShareesAPIController extends OCSController {
 		$this->limit = $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		// In global scale mode we always search the loogup server
-		if ($this->config->getSystemValueBool('gs.enabled', false)) {
-			$lookup = true;
-			$this->result['lookupEnabled'] = true;
-		} else {
-			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		}
+		// In global scale mode we always search the lookup server
+		$this->result['lookupEnabled'] = Server::get(GlobalScaleIConfig::class)->isGlobalScaleEnabled();
+		// TODO: Reconsider using lookup server for non-global-scale federation
 
-		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $this->result['lookupEnabled'], $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
@@ -328,7 +327,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 

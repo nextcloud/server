@@ -32,17 +32,23 @@
 			{{ t('federatedfilesharing', 'Allow people on this server to receive group shares from other servers') }}
 		</NcCheckboxRadioSwitch>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="lookupServerEnabled"
-			@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
-			{{ t('federatedfilesharing', 'Search global and public address book for people') }}
-		</NcCheckboxRadioSwitch>
+		<fieldset>
+			<legend>{{ t('federatedfilesharing', 'The lookup server is only available for global scale.') }}</legend>
 
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="lookupServerUploadEnabled"
-			@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
-			{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
-		</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked.sync="lookupServerEnabled"
+				disabled
+				@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
+				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
+			</NcCheckboxRadioSwitch>
+
+			<NcCheckboxRadioSwitch type="switch"
+				:checked.sync="lookupServerUploadEnabled"
+				disabled
+				@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
+				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
+			</NcCheckboxRadioSwitch>
+		</fieldset>
 
 		<!-- Trusted server handling -->
 		<div class="settings-subsection">
@@ -64,8 +70,8 @@ import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 

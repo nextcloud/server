@@ -57,13 +57,13 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import CheckMark from 'vue-material-design-icons/Check.vue'
-import Close from 'vue-material-design-icons/Close.vue'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import Tooltip from '@nextcloud/vue/directives/Tooltip'
+import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import IconCheckMark from 'vue-material-design-icons/Check.vue'
+import IconClose from 'vue-material-design-icons/Close.vue'
 
 import Event from './Event.vue'
 import Check from './Check.vue'
@@ -72,10 +72,7 @@ import Operation from './Operation.vue'
 export default {
 	name: 'Rule',
 	components: {
-		ArrowRight,
 		Check,
-		CheckMark,
-		Close,
 		Event,
 		NcActionButton,
 		NcActions,
@@ -108,15 +105,15 @@ export default {
 			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
-					icon: 'Close',
+					icon: IconClose,
 					type: 'warning',
 					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
 			if (!this.dirty) {
-				return { title: t('workflowengine', 'Active'), icon: 'CheckMark', type: 'success' }
+				return { title: t('workflowengine', 'Active'), icon: IconCheckMark, type: 'success' }
 			}
-			return { title: t('workflowengine', 'Save'), icon: 'ArrowRight', type: 'primary' }
+			return { title: t('workflowengine', 'Save'), icon: IconArrowRight, type: 'primary' }
 
 		},
 		lastCheckComplete() {

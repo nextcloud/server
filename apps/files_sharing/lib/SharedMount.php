@@ -17,6 +17,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICache;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Share\Events\VerifyMountPointEvent;
@@ -121,7 +122,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 
 		foreach ($this->groupedShares as $tmpShare) {
 			$tmpShare->setTarget($newPath);
-			\OC::$server->getShareManager()->moveShare($tmpShare, $this->user->getUID());
+			Server::get(\OCP\Share\IManager::class)->moveShare($tmpShare, $this->user->getUID());
 		}
 
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
@@ -249,7 +250,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		if (!is_null($this->getShare()->getNodeCacheEntry())) {
 			return $this->getShare()->getNodeCacheEntry()->getStorageId();
 		} else {
-			$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 			$query = $builder->select('storage')
 				->from('filecache')

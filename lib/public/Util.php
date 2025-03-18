@@ -107,7 +107,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null) {
+	public static function addStyle($application, $file = null): void {
 		\OC_Util::addStyle($application, $file);
 	}
 
@@ -384,7 +384,7 @@ class Util {
 
 	/**
 	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple OC_Template elements which invoke `callRegister`. If the value
+	 * multiple Template elements which invoke `callRegister`. If the value
 	 * would not be cached these unit-tests would fail.
 	 * @var string
 	 */
@@ -393,6 +393,7 @@ class Util {
 	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
+	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
@@ -408,7 +409,7 @@ class Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
 	public static function sanitizeHTML($value) {

@@ -49,7 +49,7 @@ import {
 import LoginButton from './LoginButton.vue'
 import InformationIcon from 'vue-material-design-icons/Information.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import logger from '../../logger'
 
 export default {

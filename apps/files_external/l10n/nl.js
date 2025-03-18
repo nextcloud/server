@@ -83,7 +83,7 @@ OC.L10N.register(
     "External storage" : "Externe opslag",
     "External storage support" : "Externe opslag ondersteuning",
     "Adds basic external storage support" : "Toevoegen basale ondersteuning voor externe opslag",
-    "Submit" : "Verwerken",
+    "Confirm" : "Bevestigen",
     "Open in Files" : "Open in Bestanden",
     "External mount error" : "Extern koppelpunt fout",
     "Storage type" : "Opslagtype",

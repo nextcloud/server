@@ -109,7 +109,7 @@ class Listener {
 		$tagIds = $event->getTags();
 		if ($event->getObjectType() !== 'files' || empty($tagIds)
 			|| !in_array($event->getEvent(), [MapperEvent::EVENT_ASSIGN, MapperEvent::EVENT_UNASSIGN])
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// System tags not for files, no tags, not (un-)assigning or no activity-app enabled (save the energy)
 			return;
 		}

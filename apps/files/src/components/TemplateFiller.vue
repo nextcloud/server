@@ -4,19 +4,24 @@
 -->
 
 <template>
-	<NcModal>
+	<NcModal label-id="template-field-modal__label">
 		<div class="template-field-modal__content">
 			<form>
-				<h3>{{ t('files', 'Fill template fields') }}</h3>
+				<h3 id="template-field-modal__label">
+					{{ t('files', 'Fill template fields') }}
+				</h3>
 
 				<div v-for="field in fields" :key="field.index">
-					<component :is="getFieldComponent(field.type)" :field="field" @input="trackInput" />
+					<component :is="getFieldComponent(field.type)"
+						v-if="fieldHasLabel(field)"
+						:field="field"
+						@input="trackInput" />
 				</div>
 			</form>
 		</div>
 
 		<div class="template-field-modal__buttons">
-			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields…')" />
+			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields …')" />
 			<NcButton aria-label="Submit button"
 				type="primary"
 				@click="submit">
@@ -28,8 +33,10 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { NcModal, NcButton, NcLoadingIcon } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcModal from '@nextcloud/vue/components/NcModal'
 import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
 import TemplateCheckboxField from './TemplateFiller/TemplateCheckboxField.vue'
 
@@ -79,6 +86,9 @@ export default defineComponent({
 				.join('')
 
 			return `Template${fieldComponentType}Field`
+		},
+		fieldHasLabel(field) {
+			return field.name || field.alias
 		},
 		async submit() {
 			this.loading = true

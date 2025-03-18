@@ -14,7 +14,7 @@ module.exports = {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: path.join(__dirname, 'core/src', 'files/fileinfo.js'),
-		install: path.join(__dirname, 'core/src', 'install.js'),
+		install: path.join(__dirname, 'core/src', 'install.ts'),
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
@@ -35,7 +35,7 @@ module.exports = {
 		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
 	},
 	files: {
-		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
+		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),

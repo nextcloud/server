@@ -9,7 +9,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 
 class Mail implements IDelegatedSettings {
@@ -27,9 +26,11 @@ class Mail implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		$finder = \OCP\Server::get(IBinaryFinder::class);
+
 		$parameters = [
 			// Mail
-			'sendmail_is_available' => (bool)Server::get(IBinaryFinder::class)->findBinaryPath('sendmail'),
+			'sendmail_is_available' => $finder->findBinaryPath('sendmail') !== false,
 			'mail_domain' => $this->config->getSystemValue('mail_domain', ''),
 			'mail_from_address' => $this->config->getSystemValue('mail_from_address', ''),
 			'mail_smtpmode' => $this->config->getSystemValue('mail_smtpmode', ''),

@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IManager as ShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -87,8 +88,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$this->db = \OC::$server->getDatabaseConnection();
-		$this->random = \OC::$server->getSecureRandom();
+		$this->db = Server::get(IDBConnection::class);
+		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->sharingBackend = new SharingBackend(

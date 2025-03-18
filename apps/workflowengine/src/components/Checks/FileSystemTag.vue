@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
 
 export default {
 	name: 'FileSystemTag',

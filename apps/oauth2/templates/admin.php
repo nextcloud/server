@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-script('oauth2', 'oauth2');
+\OCP\Util::addScript('oauth2', 'oauth2', 'core');
 
 ?>
 

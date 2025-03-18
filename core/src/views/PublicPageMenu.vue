@@ -37,13 +37,13 @@
 </template>
 
 <script setup lang="ts">
-import { spawnDialog } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { useIsSmallMobile } from '@nextcloud/vue/dist/Composables/useIsMobile.js'
+import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { computed, ref, type Ref } from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import IconMore from 'vue-material-design-icons/DotsHorizontal.vue'
 import PublicPageMenuEntry from '../components/PublicPageMenu/PublicPageMenuEntry.vue'
 import PublicPageMenuCustomEntry from '../components/PublicPageMenu/PublicPageMenuCustomEntry.vue'

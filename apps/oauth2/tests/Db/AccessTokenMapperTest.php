@@ -9,6 +9,8 @@ use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -20,7 +22,7 @@ class AccessTokenMapperTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection(), \OC::$server->get(ITimeFactory::class));
+		$this->accessTokenMapper = new AccessTokenMapper(Server::get(IDBConnection::class), Server::get(ITimeFactory::class));
 	}
 
 	public function testGetByCode(): void {

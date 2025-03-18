@@ -53,7 +53,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
 	 */
 	public function __construct($options) {
-		$this->memcacheFactory = \OC::$server->getMemCacheFactory();
+		$this->memcacheFactory = Server::get(ICacheFactory::class);
 		$this->httpClient = $options['HttpClientService'];
 		$this->manager = $options['manager'];
 		$this->cloudId = $options['cloudId'];
@@ -304,7 +304,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
 
 		// TODO: DI
-		$client = \OC::$server->getHTTPClientService()->newClient();
+		$client = Server::get(IClientService::class)->newClient();
 		try {
 			$response = $client->post($url, array_merge($this->getDefaultRequestOptions(), [
 				'body' => ['password' => $password, 'depth' => $depth],

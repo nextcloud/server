@@ -725,11 +725,10 @@ class OC_Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string)
 	 */
 	public static function sanitizeHTML($value) {
 		if (is_array($value)) {
-			/** @var string[] $value */
 			$value = array_map(function ($value) {
 				return self::sanitizeHTML($value);
 			}, $value);
@@ -940,15 +939,15 @@ class OC_Util {
 	 * Normalize a unicode string
 	 *
 	 * @param string $value a not normalized string
-	 * @return bool|string
+	 * @return string The normalized string or the input if the normalization failed
 	 */
-	public static function normalizeUnicode($value) {
+	public static function normalizeUnicode(string $value): string {
 		if (Normalizer::isNormalized($value)) {
 			return $value;
 		}
 
 		$normalizedValue = Normalizer::normalize($value);
-		if ($normalizedValue === null || $normalizedValue === false) {
+		if ($normalizedValue === false) {
 			\OCP\Server::get(LoggerInterface::class)->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}

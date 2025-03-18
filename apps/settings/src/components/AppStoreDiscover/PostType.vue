@@ -65,7 +65,7 @@ import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
 
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppLink from './AppLink.vue'
 
 export default defineComponent({

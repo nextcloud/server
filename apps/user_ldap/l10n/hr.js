@@ -6,11 +6,9 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Nevažeća konfiguracija: nije dopušteno anonimno povezivanje.",
     "Valid configuration, connection established!" : "Važeća konfiguracija, veza je uspostavljena!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Važeća konfiguracija, ali povezivanje nije uspjelo. Provjerite postavke i vjerodajnice poslužitelja.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Nevažeća konfiguracija. Pogledajte zapise za više informacija.",
     "No action specified" : "Nije navedena nijedna radnja",
     "No configuration specified" : "Nije navedena konfiguracija",
     "No data specified" : "Nema podataka",
-    " Could not set configuration %s" : " Konfiguraciju %s nije moguće postaviti",
     "Action does not exist" : "Radnja ne postoji",
     "Renewing …" : "Obnavljanje...",
     "Very weak password" : "Zaporka vrlo slaba",
@@ -53,7 +51,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Nedostaje „%uid”. Zamijenit će se imenom za prijavu kada se šalje upit LDAP-u/AD-u.",
     "Please provide a login name to test against" : "Navedite ispitno ime za prijavu",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Okvir grupe je onemogućen jer LDAP/AD poslužitelj ne podržava memberOf.",
-    "Password change rejected. Hint: " : "Odbijena promjena zaporke. Savjet: ",
     "Please login with the new password" : "Prijavite se novom zaporkom",
     "LDAP User backend" : "LDAP korisnički pozadinski sustav",
     "Your password will expire tomorrow." : "Vaša zaporka istječe sutra.",
@@ -186,6 +183,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapiranje korisnika LDAP-korisničko ime",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Korisnička imena upotrebljavaju se za pohranu i dodjeljivanje metapodataka. Kako bi se precizno identificirali i prepoznali korisnici, svaki LDAP korisnik ima unutarnje korisničko ime. Za to je potrebno mapiranje podataka s korisničkog imena na LDAP korisnika. Stvoreno korisničko ime mapira se na UUID LDAP korisnika. Također se DN pohranjuje u predmemoriju radi smanjenja interakcije s LDAP-om, ali se ne koristi za identifikaciju. Ako se DN promijeni, te će promijene biti otkrivene. Unutarnje korisničko ime upotrebljava se u raznim situacijama. Brisanjem mapiranja ostaju razni tragovi u sustavu. Brisanje mapiranja ne ovisi o konfiguraciji, utječe na sve konfiguracije LDAP-a! Nikada nemojte brisati mapiranja u produkcijskom okruženju, već samo u fazi ispitivanja ili eksperimentiranja.",
     "Clear Username-LDAP User Mapping" : "Izbriši mapiranje korisnika LDAP-korisničko ime",
-    "Clear Groupname-LDAP Group Mapping" : "Izbriši mapiranje grupe naziv grupe-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Izbriši mapiranje grupe naziv grupe-LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Nevažeća konfiguracija. Pogledajte zapise za više informacija."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

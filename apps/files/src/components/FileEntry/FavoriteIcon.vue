@@ -11,7 +11,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 /**
  * A favorite icon to be used for overlaying favorite entries like the file preview / icon

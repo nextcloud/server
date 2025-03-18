@@ -19,7 +19,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { ref, watchEffect } from 'vue'
 
 import axios from '@nextcloud/axios'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import Markdown from './Markdown.vue'
 
 const props = withDefaults(

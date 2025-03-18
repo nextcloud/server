@@ -4,8 +4,8 @@
  */
 
 import { getCSPNonce } from '@nextcloud/auth'
-import { translate as t } from '@nextcloud/l10n'
-import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import { t } from '@nextcloud/l10n'
+import VTooltip from '@nextcloud/vue/directives/Tooltip'
 import Vue from 'vue'
 
 import DashboardApp from './DashboardApp.vue'

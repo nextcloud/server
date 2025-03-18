@@ -286,6 +286,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
+		$this->registerAlias(\OCP\Template\ITemplateManager::class, \OC\Template\TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
@@ -837,8 +838,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$busClass = $c->get(\OCP\IConfig::class)->getSystemValueString('commandbus');
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
-				if ($c->get(IAppManager::class)->isInstalled($app)) {
-					\OC_App::loadApp($app);
+				if ($c->get(IAppManager::class)->isEnabledForUser($app)) {
+					$c->get(IAppManager::class)->loadApp($app);
 					return $c->get($class);
 				} else {
 					throw new ServiceUnavailableException("The app providing the command bus ($app) is not enabled");
@@ -1046,7 +1047,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isEnabledForAnyone('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
@@ -1109,7 +1110,6 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 
 			return new CryptoWrapper(
-				$c->get(\OCP\IConfig::class),
 				$c->get(ICrypto::class),
 				$c->get(ISecureRandom::class),
 				$request

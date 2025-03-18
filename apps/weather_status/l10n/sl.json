@@ -5,9 +5,6 @@
     "Error" : "Napaka",
     "Weather status" : "Stanje vremena",
     "Weather status in your dashboard" : "Stanje vremena na nadzorni plošči",
-    "Detect location" : "Zaznaj trenutno mesto",
-    "Set custom address" : "Nastavi naslov po meri",
-    "Favorites" : "Priljubljeno",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} kasneje se bo zjasnilo",
     "{temperature} {unit} clear sky" : "{temperature} {unit} brez oblakov",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} kasneje se bo pooblačilo",
@@ -42,6 +39,9 @@
     "There was an error setting the location address." : "Prišlo je do napake med določanjem naslova trenutnega mesta.",
     "There was an error setting the location." : "Prišlo je do napake med določanjem trenutnega mesta.",
     "There was an error saving the mode." : "Prišlo je do napake med shranjevanjem načina.",
-    "There was an error using personal address." : "Prišlo je do napake med uporabo osebnega naslova."
+    "There was an error using personal address." : "Prišlo je do napake med uporabo osebnega naslova.",
+    "Detect location" : "Zaznaj trenutno mesto",
+    "Set custom address" : "Nastavi naslov po meri",
+    "Favorites" : "Priljubljeno"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

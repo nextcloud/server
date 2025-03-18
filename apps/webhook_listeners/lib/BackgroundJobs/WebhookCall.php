@@ -60,7 +60,7 @@ class WebhookCall extends QueuedJob {
 			$exAppId = $webhookListener->getAppId();
 			if ($exAppId !== null && str_starts_with($webhookUri, '/')) {
 				// ExApp is awaiting a direct request to itself using AppAPI
-				if (!$this->appManager->isInstalled('app_api')) {
+				if (!$this->appManager->isEnabledForAnyone('app_api')) {
 					throw new RuntimeException('AppAPI is disabled or not installed.');
 				}
 				try {

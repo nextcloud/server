@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Virhe",
     "Weather status" : "Säätiedot",
     "Weather status in your dashboard" : "Säätiedot kojelaudassa",
-    "Detect location" : "Tunnista sijainti",
-    "Set custom address" : "Syötä osoite",
-    "Favorites" : "Suosikit",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} selkeä taivas myöhemmin tänään",
     "{temperature} {unit} clear sky" : "{temperature} {unit} selkeä taivas",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} pilvistä myöhemmin tänään",
@@ -44,6 +41,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Sijainnin osoitteen asettamisessa tapahtui virhe.",
     "There was an error setting the location." : "Sijainnin asettamisessa tapahtui virhe.",
     "There was an error saving the mode." : "Tilan tallennuksessa tapahtui virhe.",
-    "There was an error using personal address." : "Henkilökohtaisen osoitteen käytössä tapahtui virhe."
+    "There was an error using personal address." : "Henkilökohtaisen osoitteen käytössä tapahtui virhe.",
+    "Detect location" : "Tunnista sijainti",
+    "Set custom address" : "Syötä osoite",
+    "Favorites" : "Suosikit"
 },
 "nplurals=2; plural=(n != 1);");

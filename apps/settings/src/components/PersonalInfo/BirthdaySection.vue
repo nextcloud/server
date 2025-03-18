@@ -28,7 +28,7 @@ import { handleError } from '../../utils/handlers'
 
 import debounce from 'debounce'
 
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import HeaderBar from './shared/HeaderBar.vue'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})

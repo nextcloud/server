@@ -730,11 +730,6 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "User id of the replacement user"
-                                    },
-                                    "replacementUserDisplayName": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "Display name of the replacement user"
                                     }
                                 }
                             }
@@ -793,7 +788,7 @@
                         }
                     },
                     "400": {
-                        "description": "When the first day is not before the last day",
+                        "description": "When validation fails, e.g. data range error or the first day is not before the last day",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -821,7 +816,8 @@
                                                         "error": {
                                                             "type": "string",
                                                             "enum": [
-                                                                "firstDay"
+                                                                "firstDay",
+                                                                "statusLength"
                                                             ]
                                                         }
                                                     }

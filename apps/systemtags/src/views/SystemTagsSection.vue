@@ -22,8 +22,8 @@
 /* eslint-disable */
 import Vue from 'vue'
 
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'

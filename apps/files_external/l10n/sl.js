@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "Zunanja shramba",
     "External storage support" : "Podpora zunanji dhrambi",
     "Adds basic external storage support" : "Doda osnovno zunanjo podporo shrambe",
-    "Submit" : "Pošlji",
+    "Confirm" : "Potrdi",
     "New configuration successfully saved" : "Nove nastavitve so uspešno shranjene",
     "Enter missing credentials" : "Vpiši manjkajoča poverila",
     "There was an error with this external storage." : "Prišlo je do napake zunanje shrambe.",

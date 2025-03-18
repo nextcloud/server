@@ -74,7 +74,6 @@ class OC_JSON {
 	 * Send json error msg
 	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
 	 * @suppress PhanDeprecatedFunction
-	 * @psalm-taint-escape html
 	 */
 	public static function error($data = []) {
 		$data['status'] = 'error';
@@ -86,7 +85,6 @@ class OC_JSON {
 	 * Send json success msg
 	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
 	 * @suppress PhanDeprecatedFunction
-	 * @psalm-taint-escape html
 	 */
 	public static function success($data = []) {
 		$data['status'] = 'success';
@@ -97,6 +95,9 @@ class OC_JSON {
 	/**
 	 * Encode JSON
 	 * @deprecated 12.0.0 Use a AppFramework JSONResponse instead
+	 *
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
 	 */
 	private static function encode($data) {
 		return json_encode($data, JSON_HEX_TAG);

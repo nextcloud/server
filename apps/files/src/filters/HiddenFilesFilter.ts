@@ -15,7 +15,7 @@ class HiddenFilesFilter extends FileListFilter {
 
 	constructor() {
 		super('files:hidden', 0)
-		this.showHidden = loadState<UserConfig>('files', 'config', { show_hidden: false }).show_hidden
+		this.showHidden = loadState<Partial<UserConfig>>('files', 'config', { show_hidden: false }).show_hidden
 
 		subscribe('files:config:updated', ({ key, value }) => {
 			if (key === 'show_hidden') {

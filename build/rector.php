@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use Nextcloud\Rector\Set\NextcloudSets;
 use PhpParser\Node;
 use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
@@ -72,6 +73,9 @@ $config = RectorConfig::configure()
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
 		'rename_property' => true,
+	])
+	->withSets([
+		NextcloudSets::NEXTCLOUD_25,
 	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);

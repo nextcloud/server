@@ -11,7 +11,7 @@
     "Client Identifier" : "Mã định danh ứng dụng khách",
     "Add client" : "Thêm kết nối",
     "Add" : "Thêm",
-    "Delete" : "Xóa",
-    "Show client secret" : "Hiện bí mật ứng dụng khách"
+    "Show client secret" : "Hiện bí mật ứng dụng khách",
+    "Delete" : "Xóa"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

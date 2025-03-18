@@ -81,7 +81,7 @@ OC.L10N.register(
     "External storage" : "Archiviatzione de foras",
     "External storage support" : "Suportu archiviatzione de foras",
     "Adds basic external storage support" : "Agiunghet suportu de base pro archiviatziones de foras",
-    "Submit" : "Imbia",
+    "Confirm" : "Cunfirma",
     "New configuration successfully saved" : "Cunfiguratzione noa sarvada",
     "Open in Files" : "Aberi in Archìvios",
     "External mount error" : "Errore de montàgiu esternu",

@@ -12,6 +12,7 @@ use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Server;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,14 +38,14 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		$this->user1 = $this->getUniqueID('user1_');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->createUser($this->user1, 'pass');
 
 		$this->command = new DeleteOrphanedFiles($this->connection);
 	}
 
 	protected function tearDown(): void {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
 			$user1->delete();

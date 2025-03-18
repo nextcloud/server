@@ -11,6 +11,9 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,7 +43,7 @@ class SetConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {

@@ -343,6 +343,7 @@
                                         "background_color",
                                         "description",
                                         "icons",
+                                        "display_override",
                                         "display"
                                     ],
                                     "properties": {
@@ -385,6 +386,12 @@
                                                         "type": "string"
                                                     }
                                                 }
+                                            }
+                                        },
+                                        "display_override": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
                                             }
                                         },
                                         "display": {
@@ -1029,7 +1036,7 @@
     "tags": [
         {
             "name": "theming",
-            "description": "Class ThemingController\nhandle ajax requests to update the theme"
+            "description": "Class ThemingController handle ajax requests to update the theme"
         }
     ]
 }

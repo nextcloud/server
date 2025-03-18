@@ -8,13 +8,14 @@ namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
-
 use OCA\Files_External\Lib\Backend\Backend;
+
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Service class to manage backend definitions
@@ -88,7 +89,7 @@ class BackendService {
 	private function callForRegistrations() {
 		static $eventSent = false;
 		if (!$eventSent) {
-			\OC::$server->get(IEventDispatcher::class)->dispatch(
+			Server::get(IEventDispatcher::class)->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
 			);
