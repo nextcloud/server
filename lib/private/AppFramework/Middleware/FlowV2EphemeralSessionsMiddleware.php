@@ -9,6 +9,7 @@ namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Core\Controller\ClientFlowLoginV2Controller;
+use OC\Core\Controller\TwoFactorChallengeController;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -39,6 +40,10 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			$controller instanceof ClientFlowLoginV2Controller &&
 			($methodName === 'grantPage' || $methodName === 'generateAppPassword')
 		) {
+			return;
+		}
+
+		if ($controller instanceof TwoFactorChallengeController) {
 			return;
 		}
 
