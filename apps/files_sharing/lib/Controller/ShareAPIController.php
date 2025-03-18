@@ -65,7 +65,6 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
-	private string $currentUser;
 
 	/**
 	 * Share20OCS constructor.
@@ -88,10 +87,9 @@ class ShareAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
 		private IMailer $mailer,
-		?string $userId = null
+		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
-		$this->currentUser = $userId;
 	}
 
 	/**
