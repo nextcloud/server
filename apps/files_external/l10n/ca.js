@@ -107,7 +107,7 @@ OC.L10N.register(
     "New configuration successfully saved" : "La configuració nova s'ha desat correctament",
     "Enter missing credentials" : "Introdueix les credencials que falten",
     "Credentials successfully set" : "S'han establert correctament les credencials",
-    "Error while setting credentials: {error}" : "Error en configurar les credencials: {error}",
+    "Error while setting credentials: {error}" : "Error en parametritzar les credencials: {error}",
     "Checking storage …" : "S'està comprovant l'emmagatzematge …",
     "There was an error with this external storage." : "S'ha produït un error amb aquest emmagatzematge extern.",
     "We were unable to check the external storage {basename}" : "No s'ha pogut comprovar l'emmagatzematge extern {basename}",
