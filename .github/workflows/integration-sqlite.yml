@@ -73,6 +73,7 @@ jobs:
 
         php-versions: ['8.1']
         spreed-versions: ['stable31']
+        activity-versions: ['stable31']
 
     services:
       redis:
@@ -103,6 +104,14 @@ jobs:
           repository: nextcloud/spreed
           path: apps/spreed
           ref: ${{ matrix.spreed-versions }}
+
+      - name: Checkout Activity app
+        if: ${{ matrix.test-suite == 'sharing_features' }}
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: nextcloud/activity
+          path: apps/activity
+          ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
