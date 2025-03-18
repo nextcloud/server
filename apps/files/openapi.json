@@ -29,6 +29,7 @@
                     "files": {
                         "type": "object",
                         "required": [
+                            "windows_compatible_filenames",
                             "$comment",
                             "bigfilechunking",
                             "blacklisted_files",
@@ -41,6 +42,9 @@
                             "directEditing"
                         ],
                         "properties": {
+                            "windows_compatible_filenames": {
+                                "type": "boolean"
+                            },
                             "$comment": {
                                 "type": "string",
                                 "nullable": true
