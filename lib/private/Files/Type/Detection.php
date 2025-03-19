@@ -164,7 +164,7 @@ class Detection implements IMimeTypeDetector {
 		// note: leading dot doesn't qualify as extension
 		if (strpos($fileName, '.') > 0) {
 			// remove versioning extension: name.v1508946057 and transfer extension: name.ocTransferId2057600214.part
-			$fileName = preg_replace('!((\.v\d+)|((\.ocTransferId\d+)?\.part))$!', '', $fileName);
+			$fileName = preg_replace('!((\.v\d+)|((\.ocTransferId[a-fA-F0-9]+)?\.part))$!', '', $fileName);
 
 			//try to guess the type by the file extension
 			$extension = strrchr($fileName, '.');
