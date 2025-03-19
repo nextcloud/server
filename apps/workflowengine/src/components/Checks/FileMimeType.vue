@@ -51,6 +51,7 @@ export default {
 		NcSelect,
 	},
 	mixins: [
+		valueMixin
 	],
 
 	emits: ['update:model-value'],
@@ -79,7 +80,6 @@ export default {
 					id: 'application/pdf',
 				},
 			],
-			newValue: [],
 		}
 	},
 	props: {
@@ -87,9 +87,6 @@ export default {
 			type: String,
 			default: '',
 		},
-	},
-	beforeMount() {
-		this.updateInternalValue()
 	},
 	computed: {
 		options() {
@@ -121,12 +118,7 @@ export default {
 			}
 		},
 	},
-	watch: {
-		modelValue() {
-			console.error("DEBUG: watch modelValue fileSystemTag")
-			this.updateInternalValue()
-		},
-	},
+
 	methods: {
 		validateRegex(string) {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
@@ -142,10 +134,6 @@ export default {
 		updateCustom(event) {
 			this.newValue = event.target.value || event.detail[0]
 			this.$emit('update:model-value', this.newValue)
-		},
-		updateInternalValue() {
-			console.error("DEBUG: updateInternalValue filemimetype " + this.modelValue)
-			this.newValue = this.modelValue
 		},
 	},
 }
