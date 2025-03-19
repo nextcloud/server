@@ -1119,11 +1119,6 @@
       <code><![CDATA[$ln + 1]]></code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/user_ldap/ajax/wizard.php">
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$con->ldapConfigurationActive]]></code>
-    </UndefinedMagicPropertyAssignment>
-  </file>
   <file src="apps/user_ldap/appinfo/routes.php">
     <InvalidScope>
       <code><![CDATA[$this]]></code>
@@ -1140,65 +1135,6 @@
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->connection->ldapAttributesForGroupSearch]]></code>
-      <code><![CDATA[$this->connection->ldapAttributesForUserSearch]]></code>
-      <code><![CDATA[$this->connection->ldapBase]]></code>
-      <code><![CDATA[$this->connection->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->connection->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->connection->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->connection->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->connection->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->connection->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->connection->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->connection->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->connection->ldapCacheTTL]]></code>
-      <code><![CDATA[$this->connection->ldapCacheTTL]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUUIDGroupAttr]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUUIDGroupAttr]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUUIDUserAttr]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUUIDUserAttr]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUUIDUserAttr]]></code>
-      <code><![CDATA[$this->connection->ldapExpertUsernameAttr]]></code>
-      <code><![CDATA[$this->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->connection->ldapIgnoreNamingRules]]></code>
-      <code><![CDATA[$this->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->connection->ldapPagingSize]]></code>
-      <code><![CDATA[$this->connection->ldapPagingSize]]></code>
-      <code><![CDATA[$this->connection->ldapPagingSize]]></code>
-      <code><![CDATA[$this->connection->ldapPagingSize]]></code>
-      <code><![CDATA[$this->connection->ldapPagingSize]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName2]]></code>
-      <code><![CDATA[$this->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->connection->ldapUuidUserAttribute]]></code>
-      <code><![CDATA[$this->connection->turnOnPasswordChange]]></code>
-    </UndefinedMagicPropertyFetch>
-  </file>
-  <file src="apps/user_ldap/lib/Command/CreateEmptyConfig.php">
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$configHolder->ldapConfigurationActive]]></code>
-    </UndefinedMagicPropertyAssignment>
-  </file>
-  <file src="apps/user_ldap/lib/Command/PromoteGroup.php">
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$access->connection->ldapAdminGroup]]></code>
-    </UndefinedMagicPropertyFetch>
-  </file>
-  <file src="apps/user_ldap/lib/Configuration.php">
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->ldapUserAvatarRule]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
     <NoValue>
@@ -1209,111 +1145,11 @@
 						$subj = $key;
 						break;]]></code>
     </ParadoxicalCondition>
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$this->configuration->ldapBackupPort]]></code>
-      <code><![CDATA[$this->configuration->ldapTLS]]></code>
-    </UndefinedMagicPropertyAssignment>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapBackupPort]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->configuration->ldapBaseUsers]]></code>
-      <code><![CDATA[$this->configuration->ldapCacheTTL]]></code>
-      <code><![CDATA[$this->configuration->ldapCacheTTL]]></code>
-      <code><![CDATA[$this->configuration->ldapConfigurationActive]]></code>
-      <code><![CDATA[$this->configuration->ldapConfigurationActive]]></code>
-      <code><![CDATA[$this->configuration->ldapConfigurationActive]]></code>
-      <code><![CDATA[$this->configuration->ldapConnectionTimeout]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapOverrideMainServer]]></code>
-      <code><![CDATA[$this->configuration->ldapPort]]></code>
-      <code><![CDATA[$this->configuration->ldapTLS]]></code>
-      <code><![CDATA[$this->configuration->ldapTLS]]></code>
-      <code><![CDATA[$this->configuration->turnOffCertCheck]]></code>
-    </UndefinedMagicPropertyFetch>
-  </file>
-  <file src="apps/user_ldap/lib/Controller/ConfigAPIController.php">
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$configHolder->ldapConfigurationActive]]></code>
-    </UndefinedMagicPropertyAssignment>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument>
-      <code><![CDATA[$filterParts]]></code>
-      <code><![CDATA[$filterParts]]></code>
-      <code><![CDATA[[
-						str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
-						$this->access->combineFilterWithAnd([
-							$this->access->getFilterPartForUserSearch($search),
-							$this->access->connection->ldapUserFilter
-						])
-					]]]></code>
-      <code><![CDATA[[
-					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
-					$this->access->getFilterPartForUserSearch($search)
-				]]]></code>
-    </InvalidArgument>
     <InvalidScalarArgument>
       <code><![CDATA[$groupID]]></code>
     </InvalidScalarArgument>
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$this->access->connection->ldapMatchingRuleInChainState]]></code>
-      <code><![CDATA[$this->access->connection->ldapMatchingRuleInChainState]]></code>
-    </UndefinedMagicPropertyAssignment>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->access->connection->hasMemberOfFilterSupport]]></code>
-      <code><![CDATA[$this->access->connection->hasMemberOfFilterSupport]]></code>
-      <code><![CDATA[$this->access->connection->ldapAdminGroup]]></code>
-      <code><![CDATA[$this->access->connection->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->access->connection->ldapDynamicGroupMemberURL]]></code>
-      <code><![CDATA[$this->access->connection->ldapDynamicGroupMemberURL]]></code>
-      <code><![CDATA[$this->access->connection->ldapGidNumber]]></code>
-      <code><![CDATA[$this->access->connection->ldapGidNumber]]></code>
-      <code><![CDATA[$this->access->connection->ldapGidNumber]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupMemberAssocAttr]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupMemberAssocAttr]]></code>
-      <code><![CDATA[$this->access->connection->ldapGroupMemberAssocAttr]]></code>
-      <code><![CDATA[$this->access->connection->ldapHost]]></code>
-      <code><![CDATA[$this->access->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapMatchingRuleInChainState]]></code>
-      <code><![CDATA[$this->access->connection->ldapMatchingRuleInChainState]]></code>
-      <code><![CDATA[$this->access->connection->ldapNestedGroups]]></code>
-      <code><![CDATA[$this->access->connection->ldapNestedGroups]]></code>
-      <code><![CDATA[$this->access->connection->ldapNestedGroups]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->access->connection->useMemberOfToDetectMembership]]></code>
-      <code><![CDATA[$this->access->connection->useMemberOfToDetectMembership]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/Group_Proxy.php">
     <ParamNameMismatch>
@@ -1323,11 +1159,6 @@
       <code><![CDATA[$this->refBackend = &$this->backends[$configPrefix]]]></code>
     </UnsupportedPropertyReferenceUsage>
   </file>
-  <file src="apps/user_ldap/lib/Handler/ExtStorageConfigHandler.php">
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$access->connection->ldapExtStorageHomeAttribute]]></code>
-    </UndefinedMagicPropertyFetch>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
@@ -1335,12 +1166,6 @@
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$connection->ldapPagingSize]]></code>
-      <code><![CDATA[$ldapConfig->ldapPagingSize]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/LDAP.php">
     <UndefinedVariable>
@@ -1359,24 +1184,6 @@
     <InvalidDocblock>
       <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
     </InvalidDocblock>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->access->getConnection()->homeFolderNamingRule]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeAddress]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeBiography]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeFediverse]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeHeadline]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeOrganisation]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributePhone]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeRole]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeTwitter]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapAttributeWebsite]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapEmailAttribute]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapExpertUUIDUserAttr]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapExtStorageHomeAttribute]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapQuotaAttribute]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->getConnection()->ldapUserDisplayName2]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <FalsableReturnStatement>
@@ -1391,31 +1198,6 @@
     <RedundantCondition>
       <code><![CDATA[$aQuota && (count($aQuota) > 0)]]></code>
     </RedundantCondition>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->access->connection->homeFolderNamingRule]]></code>
-      <code><![CDATA[$this->connection->homeFolderNamingRule]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeAddress]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeBiography]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeFediverse]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeHeadline]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeOrganisation]]></code>
-      <code><![CDATA[$this->connection->ldapAttributePhone]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeRole]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeTwitter]]></code>
-      <code><![CDATA[$this->connection->ldapAttributeWebsite]]></code>
-      <code><![CDATA[$this->connection->ldapDefaultPPolicyDN]]></code>
-      <code><![CDATA[$this->connection->ldapEmailAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapEmailAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapExtStorageHomeAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapExtStorageHomeAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapQuotaAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapQuotaAttribute]]></code>
-      <code><![CDATA[$this->connection->ldapQuotaDefault]]></code>
-      <code><![CDATA[$this->connection->ldapQuotaDefault]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->connection->ldapUserDisplayName2]]></code>
-      <code><![CDATA[$this->connection->turnOnPasswordChange]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <ImplementedReturnTypeMismatch>
@@ -1432,29 +1214,11 @@
       <code><![CDATA[$displayName && (count($displayName) > 0)]]></code>
       <code><![CDATA[is_string($dn)]]></code>
     </RedundantCondition>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->access->connection->ldapDefaultPPolicyDN]]></code>
-      <code><![CDATA[$this->access->connection->ldapHost]]></code>
-      <code><![CDATA[$this->access->connection->ldapHost]]></code>
-      <code><![CDATA[$this->access->connection->ldapPort]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserAvatarRule]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserDisplayName2]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->access->connection->ldapUserFilter]]></code>
-      <code><![CDATA[$this->access->connection->markRemnantsAsDisabled]]></code>
-      <code><![CDATA[$this->access->connection->turnOnPasswordChange]]></code>
-      <code><![CDATA[$this->access->connection->turnOnPasswordChange]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_ldap/lib/User_Proxy.php">
     <ParamNameMismatch>
       <code><![CDATA[$uid]]></code>
     </ParamNameMismatch>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled]]></code>
-    </UndefinedMagicPropertyFetch>
     <UnsupportedPropertyReferenceUsage>
       <code><![CDATA[$this->refBackend = &$this->backends[$configPrefix]]]></code>
     </UnsupportedPropertyReferenceUsage>
@@ -1463,51 +1227,6 @@
     <InvalidArrayOffset>
       <code><![CDATA[$possibleAttrs[$i]]]></code>
     </InvalidArrayOffset>
-    <UndefinedMagicPropertyAssignment>
-      <code><![CDATA[$this->configuration->hasMemberOfFilterSupport]]></code>
-    </UndefinedMagicPropertyAssignment>
-    <UndefinedMagicPropertyFetch>
-      <code><![CDATA[$this->access->connection->ldapLoginFilter]]></code>
-      <code><![CDATA[$this->configuration->hasMemberOfFilterSupport]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentName]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapAgentPassword]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBase]]></code>
-      <code><![CDATA[$this->configuration->ldapBaseGroups]]></code>
-      <code><![CDATA[$this->configuration->ldapEmailAttribute]]></code>
-      <code><![CDATA[$this->configuration->ldapGroupDisplayName]]></code>
-      <code><![CDATA[$this->configuration->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapGroupFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapGroupFilterGroups]]></code>
-      <code><![CDATA[$this->configuration->ldapGroupFilterObjectclass]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapHost]]></code>
-      <code><![CDATA[$this->configuration->ldapLoginFilterAttributes]]></code>
-      <code><![CDATA[$this->configuration->ldapLoginFilterAttributes]]></code>
-      <code><![CDATA[$this->configuration->ldapLoginFilterEmail]]></code>
-      <code><![CDATA[$this->configuration->ldapLoginFilterUsername]]></code>
-      <code><![CDATA[$this->configuration->ldapPort]]></code>
-      <code><![CDATA[$this->configuration->ldapPort]]></code>
-      <code><![CDATA[$this->configuration->ldapTLS]]></code>
-      <code><![CDATA[$this->configuration->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->configuration->ldapUserDisplayName]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilter]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilterGroups]]></code>
-      <code><![CDATA[$this->configuration->ldapUserFilterObjectclass]]></code>
-    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/user_status/lib/AppInfo/Application.php">
     <UndefinedInterfaceMethod>
@@ -1649,11 +1368,6 @@
       <code><![CDATA[updateFilecache]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/Command/Preview/Generate.php">
-    <UndefinedVariable>
-      <code><![CDATA[$error]]></code>
-    </UndefinedVariable>
-  </file>
   <file src="core/Command/Preview/Repair.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[section]]></code>
@@ -1674,11 +1388,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[searchCollections]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/Controller/LoginController.php">
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$emailConfig->__get('ldapLoginFilterEmail')]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="core/Controller/LostController.php">
     <RedundantCast>
@@ -1831,9 +1540,7 @@
   </file>
   <file src="lib/private/AppFramework/Http/Request.php">
     <NullableReturnStatement>
-      <code><![CDATA[$remoteAddress]]></code>
       <code><![CDATA[$this->getOverwriteHost()]]></code>
-      <code><![CDATA[$uri]]></code>
       <code><![CDATA[isset($this->cookies[$key]) ? $this->cookies[$key] : null]]></code>
       <code><![CDATA[isset($this->env[$key]) ? $this->env[$key] : null]]></code>
       <code><![CDATA[isset($this->files[$key]) ? $this->files[$key] : null]]></code>
@@ -1844,16 +1551,6 @@
     <UndefinedFunction>
       <code><![CDATA[\Sabre\HTTP\decodePath($pathInfo)]]></code>
     </UndefinedFunction>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->method]]></code>
-      <code><![CDATA[$this->method]]></code>
-      <code><![CDATA[$this->method]]></code>
-      <code><![CDATA[$this->method]]></code>
-      <code><![CDATA[$this->method]]></code>
-      <code><![CDATA[$this->parameters]]></code>
-      <code><![CDATA[$this->server]]></code>
-      <code><![CDATA[$this->server]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/AppFramework/Logger.php">
     <InvalidReturnType>
@@ -2550,7 +2247,6 @@
       <code><![CDATA[is_null($space)]]></code>
     </TypeDoesNotContainNull>
     <TypeDoesNotContainType>
-      <code><![CDATA[$currentPath === '']]></code>
       <code><![CDATA[$stat === false]]></code>
     </TypeDoesNotContainType>
   </file>
@@ -2700,10 +2396,6 @@
       <code><![CDATA[getGroupDetails]]></code>
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
-    <UnsupportedPropertyReferenceUsage>
-      <code><![CDATA[$cachedGroups = &$this->cachedGroups]]></code>
-      <code><![CDATA[$cachedUserGroups = &$this->cachedUserGroups]]></code>
-    </UnsupportedPropertyReferenceUsage>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType>
@@ -2883,11 +2575,6 @@
       <code><![CDATA[width]]></code>
       <code><![CDATA[width]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Preview/MimeIconProvider.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$key[0]]]></code>
-    </InvalidArrayAccess>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement>
@@ -3226,9 +2913,6 @@
       <code><![CDATA[createUser]]></code>
       <code><![CDATA[getUsersForUserValueCaseInsensitive]]></code>
     </UndefinedInterfaceMethod>
-    <UnsupportedPropertyReferenceUsage>
-      <code><![CDATA[$cachedUsers = &$this->cachedUsers]]></code>
-    </UnsupportedPropertyReferenceUsage>
   </file>
   <file src="lib/private/User/Session.php">
     <ImplementedReturnTypeMismatch>
