@@ -42,6 +42,19 @@ abstract class StoragesTest extends TestCase {
 		$this->assertEquals('foo', $this->storage1->file_get_contents($target));
 	}
 
+	public function testMoveFileFromStorageWithExistingTarget() {
+		$source = 'source.txt';
+		$target = 'target.txt';
+		$this->storage1->file_put_contents($target, 'bar');
+		$this->storage2->file_put_contents($source, 'foo');
+
+		$this->storage1->moveFromStorage($this->storage2, $source, $target);
+
+		$this->assertTrue($this->storage1->file_exists($target), $target . ' was not created');
+		$this->assertFalse($this->storage2->file_exists($source), $source . ' still exists');
+		$this->assertEquals('foo', $this->storage1->file_get_contents($target));
+	}
+
 	public function testMoveDirectoryFromStorage() {
 		$this->storage2->mkdir('source');
 		$this->storage2->file_put_contents('source/test1.txt', 'foo');
