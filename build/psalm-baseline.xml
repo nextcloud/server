@@ -3515,14 +3515,6 @@
       <code><![CDATA[0]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="lib/private/DB/MigrationService.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$s]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[IMigrationStep]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
     <ImplicitToStringCast>
       <code><![CDATA[$this->functionBuilder->lower($x)]]></code>
