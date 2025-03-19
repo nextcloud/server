@@ -34,12 +34,6 @@ class ListShares extends Base {
 		IShare::TYPE_DECK => 'deck',
 	];
 
-	private const SHARE_STATUS_NAMES = [
-		IShare::STATUS_PENDING => 'pending',
-		IShare::STATUS_ACCEPTED => 'accepted',
-		IShare::STATUS_REJECTED => 'rejected',
-	];
-
 	public function __construct(
 		private readonly IManager $shareManager,
 		private readonly IRootFolder $rootFolder,
@@ -85,7 +79,6 @@ class ListShares extends Base {
 				'recipient' => $share->getSharedWith(),
 				'by' => $share->getSharedBy(),
 				'type' => self::SHARE_TYPE_NAMES[$share->getShareType()] ?? 'unknown',
-				'status' => self::SHARE_STATUS_NAMES[$share->getStatus()] ?? 'unknown',
 			];
 		}, $shares);
 
@@ -126,15 +119,6 @@ class ListShares extends Base {
 		throw new \Exception("Unknown share type $type");
 	}
 
-	private function getShareStatus(string $status): int {
-		foreach (self::SHARE_STATUS_NAMES as $shareStatus => $shareStatusName) {
-			if ($shareStatusName === $status) {
-				return $shareStatus;
-			}
-		}
-		throw new \Exception("Unknown share status $status");
-	}
-
 	private function shouldShowShare(InputInterface $input, IShare $share): bool {
 		if ($input->getOption('owner') && $share->getShareOwner() !== $input->getOption('owner')) {
 			return false;
@@ -170,9 +154,6 @@ class ListShares extends Base {
 			}
 		}
 		if ($input->getOption('type') && $share->getShareType() !== $this->getShareType($input->getOption('type'))) {
-			return false;
-		}
-		if ($input->getOption('status') && $share->getStatus() !== $this->getShareStatus($input->getOption('status'))) {
 			return false;
 		}
 		return true;
