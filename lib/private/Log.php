@@ -64,6 +64,7 @@ use function strtr;
 class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
 	private ?IEventDispatcher $eventDispatcher = null;
+	private int $nestingLevel = 0;
 
 	public function __construct(
 		private IWriter $logger,
@@ -268,6 +269,7 @@ class Log implements ILogger, IDataLogger {
 
 		// if log condition is satisfied change the required log level to DEBUG
 		if ($this->logConditionSatisfied) {
+			$this->nestingLevel--;
 			return ILogger::DEBUG;
 		}
 
@@ -277,6 +279,7 @@ class Log implements ILogger, IDataLogger {
 			 * once this is met -> change the required log level to debug
 			 */
 			if (in_array($context['app'], $logCondition['apps'] ?? [], true)) {
+				$this->nestingLevel--;
 				return ILogger::DEBUG;
 			}
 		}
