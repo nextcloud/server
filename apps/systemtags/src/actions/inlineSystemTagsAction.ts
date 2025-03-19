@@ -23,16 +23,7 @@ import { FileAction, Node, registerDavProperty, registerFileAction } from '@next
 import { translate as t } from '@nextcloud/l10n'
 
 import '../css/fileEntryInlineSystemTags.scss'
-
-const getNodeSystemTags = function(node: Node): string[] {
-	const tags = node.attributes?.['system-tags']?.['system-tag'] as string|string[]|undefined
-
-	if (tags === undefined) {
-		return []
-	}
-
-	return [tags].flat()
-}
+import { getNodeSystemTags } from '../utils'
 
 const renderTag = function(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
