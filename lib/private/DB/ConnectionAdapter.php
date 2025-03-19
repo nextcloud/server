@@ -69,7 +69,7 @@ class ConnectionAdapter implements IDBConnection {
 				$this->inner->executeQuery($sql, $params, $types)
 			);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -77,7 +77,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeUpdate($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -85,7 +85,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
