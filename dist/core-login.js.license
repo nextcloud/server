@@ -99,7 +99,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.1.0
 	- license: MIT
 - axios
-	- version: 1.8.1
+	- version: 1.8.4
 	- license: MIT
 - backbone
 	- version: 1.6.0

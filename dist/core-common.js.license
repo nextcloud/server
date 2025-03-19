@@ -97,7 +97,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @babel/runtime
-	- version: 7.25.0
+	- version: 7.26.10
 	- license: MIT
 - @floating-ui/core
 	- version: 1.6.5
@@ -205,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.8.1
+	- version: 1.8.4
 	- license: MIT
 - bail
 	- version: 2.0.2
