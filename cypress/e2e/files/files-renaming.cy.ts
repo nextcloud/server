@@ -17,13 +17,18 @@ const haveValidity = (validity: string | RegExp) => {
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
 
-	beforeEach(() => cy.createRandomUser().then(($user) => {
-		user = $user
+	beforeEach(() => {
+		cy.createRandomUser().then(($user) => {
+			user = $user
 
-		cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
-		cy.login(user)
+			// create a file called "file.txt"
+			cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
+
+			// login and visit files app
+			cy.login(user)
+		})
 		cy.visit('/apps/files')
-	}))
+	})
 
 	it('can rename a file', () => {
 		// All are visible by default
