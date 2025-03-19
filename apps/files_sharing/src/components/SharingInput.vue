@@ -8,7 +8,7 @@
 		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
 			v-model="value"
-			input-id="sharing-search-input"
+			:input-id="shareInputId"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
@@ -73,6 +73,12 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	setup() {
+		return {
+			shareInputId: `share-input-${Math.random().toString(36).slice(2, 7)}`,
+		}
 	},
 
 	data() {
