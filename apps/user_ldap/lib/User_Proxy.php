@@ -42,13 +42,10 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-extends Proxy<User_LDAP>
+ */
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	/** @var User_LDAP[] */
-	private array $backends = [];
-	private ?User_LDAP $refBackend = null;
-
-	private bool $isSetUp = false;
-	private Helper $helper;
 	private INotificationManager $notificationManager;
 	private UserPluginManager $userPluginManager;
 	private LoggerInterface $logger;
@@ -63,8 +60,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		LoggerInterface $logger,
 		DeletedUsersIndex $deletedUsersIndex,
 	) {
-		parent::__construct($ldap, $accessFactory);
-		$this->helper = $helper;
+		parent::__construct($helper, $ldap, $accessFactory);
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
 		$this->logger = $logger;
