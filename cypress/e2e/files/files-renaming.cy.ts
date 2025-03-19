@@ -21,8 +21,6 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		cy.createRandomUser().then(($user) => {
 			user = $user
 
-			// remove welcome file
-			cy.rm(user, '/welcome.txt')
 			// create a file called "file.txt"
 			cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
 
