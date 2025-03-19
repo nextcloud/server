@@ -40,8 +40,7 @@ class WebAuthn implements ISettings {
 			$this->mapper->findAllForUid($this->userId)
 		);
 
-		return new TemplateResponse('settings', 'settings/personal/security/webauthn', [
-		]);
+		return new TemplateResponse('settings', 'settings/personal/security/webauthn');
 	}
 
 	public function getSection(): ?string {
