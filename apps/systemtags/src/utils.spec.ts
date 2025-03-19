@@ -24,7 +24,8 @@ import type { DAVResultResponseProps } from 'webdav'
 import type { ServerTag, Tag } from './types.js'
 
 import { describe, it, expect } from '@jest/globals'
-import { formatTag, parseIdFromLocation, parseTags } from './utils'
+import { formatTag, getNodeSystemTags, parseIdFromLocation, parseTags } from './utils'
+import { Folder } from '@nextcloud/files'
 
 describe('systemtags - utils', () => {
 	describe('parseTags', () => {
@@ -100,6 +101,94 @@ describe('systemtags - utils', () => {
 				userAssignable: true,
 				userVisible: true,
 			})
+		})
+	})
+
+	describe('getNodeSystemTags', () => {
+		it('parses a plain tag', () => {
+			const node = new Folder({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/folder',
+				attributes: {
+					'system-tags': {
+						'system-tag': 'tag',
+					},
+				},
+			})
+			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
+		})
+
+		it('parses plain tags', () => {
+			const node = new Folder({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/folder',
+				attributes: {
+					'system-tags': {
+						'system-tag': [
+							'tag',
+							'my-tag',
+						],
+					},
+				},
+			})
+			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
+		})
+
+		it('parses tag with attributes', () => {
+			const node = new Folder({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/folder',
+				attributes: {
+					'system-tags': {
+						'system-tag': {
+							text: 'tag',
+							'@can-assign': true,
+						},
+					},
+				},
+			})
+			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
+		})
+
+		it('parses tags with attributes', () => {
+			const node = new Folder({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/folder',
+				attributes: {
+					'system-tags': {
+						'system-tag': [
+							{
+								text: 'tag',
+								'@can-assign': true,
+							},
+							{
+								text: 'my-tag',
+								'@can-assign': false,
+							},
+						],
+					},
+				},
+			})
+			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
+		})
+
+		it('parses tags mixed with and without attributes', () => {
+			const node = new Folder({
+				owner: 'test',
+				source: 'https://example.com/remote.php/dav/files/test/folder',
+				attributes: {
+					'system-tags': {
+						'system-tag': [
+							'tag',
+							{
+								text: 'my-tag',
+								'@can-assign': false,
+							},
+						],
+					},
+				},
+			})
+			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})
 	})
 })
