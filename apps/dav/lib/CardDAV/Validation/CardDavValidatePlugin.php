@@ -63,11 +63,11 @@ class CardDavValidatePlugin extends ServerPlugin {
 
 		// Loop through all emails, validate. If needed trim email
 		foreach ($vCard->EMAIL as $email) {
-			$trimedEmail = trim((string)$email);
+			$trimedEmail = trim((string) $email);
 			if ($trimedEmail !== '' && !$mailer->validateMailAddress($trimedEmail)) {
 				throw new BadRequest('Invalid email in vCard');
 			}
-			if ($trimedEmail !== $email) {
+			if ($trimedEmail !== (string) $email) {
 				$vCard->remove($email);
 				$vCard->add('EMAIL', $trimedEmail, ['type' => $email['TYPE']]);
 			}
