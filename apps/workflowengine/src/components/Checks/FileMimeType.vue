@@ -4,7 +4,8 @@
 -->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect
+		    :model-value="newValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -30,8 +31,8 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
+		    :model-value="newValue"
 			type="text"
-			:value="currentValue.id"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
@@ -50,8 +51,10 @@ export default {
 		NcSelect,
 	},
 	mixins: [
-		valueMixin,
 	],
+
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			predefinedTypes: [
@@ -76,7 +79,17 @@ export default {
 					id: 'application/pdf',
 				},
 			],
+			newValue: [],
 		}
+	},
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+	},
+	beforeMount() {
+		this.updateInternalValue()
 	},
 	computed: {
 		options() {
@@ -108,6 +121,12 @@ export default {
 			}
 		},
 	},
+	watch: {
+		modelValue() {
+			console.error("DEBUG: watch modelValue fileSystemTag")
+			this.updateInternalValue()
+		},
+	},
 	methods: {
 		validateRegex(string) {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
@@ -117,12 +136,16 @@ export default {
 		setValue(value) {
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
 		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+			this.newValue = event.target.value || event.detail[0]
+			this.$emit('update:model-value', this.newValue)
+		},
+		updateInternalValue() {
+			console.error("DEBUG: updateInternalValue filemimetype " + this.modelValue)
+			this.newValue = this.modelValue
 		},
 	},
 }
