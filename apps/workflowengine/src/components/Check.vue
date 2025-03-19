@@ -136,8 +136,8 @@ export default {
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 
 		if (this.currentElement) {
-			console.error(this.$refs)
-			this.$refs.checkComponent.value = this.currentOption
+			// If we do not set it, the check`s value would remain empty. Unsure why Vue behaves this way.
+			this.$refs.checkComponent.modelValue = undefined
 		} else if (this.currentOption?.component) {
 			// keeping this in an else for apps that try to be backwards compatible and may ship both
 			// to be removed in 03/2028
