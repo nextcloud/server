@@ -132,7 +132,7 @@ describe('Login using WebAuthn', () => {
 		cy.logout()
 		cy.visit('/login')
 
-		cy.findByRole('button', { name: /Log in with a device/i })
+		cy.findByRole('link', { name: /Log in with a device/i })
 			.should('be.visible')
 			.click()
 
