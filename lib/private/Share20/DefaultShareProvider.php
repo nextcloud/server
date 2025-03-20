@@ -44,6 +44,7 @@ use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -104,6 +105,7 @@ class DefaultShareProvider implements IShareProvider {
 		IURLGenerator $urlGenerator,
 		ITimeFactory $timeFactory,
 		private IManager $shareManager,
+		private IConfig $config,
 	) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
@@ -546,6 +548,15 @@ class DefaultShareProvider implements IShareProvider {
 	protected function createUserSpecificGroupShare(IShare $share, string $recipient): int {
 		$type = $share->getNodeType();
 
+		$shareFolder = $this->config->getSystemValue('share_folder', '/');
+		$allowCustomShareFolder = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+		if ($allowCustomShareFolder) {
+			$shareFolder = $this->config->getUserValue($recipient, Application::APP_ID, 'share_folder', $shareFolder);
+		}
+
+		$target = $shareFolder . '/' . $share->getNode()->getName();
+		$target = \OC\Files\Filesystem::normalizePath($target);
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -557,7 +568,7 @@ class DefaultShareProvider implements IShareProvider {
 				'item_type' => $qb->createNamedParameter($type),
 				'item_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
-				'file_target' => $qb->createNamedParameter($share->getTarget()),
+				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->execute();
