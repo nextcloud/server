@@ -6,20 +6,23 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
+use OCP\Files\IMimeTypeDetector;
 use OCP\IDateTimeFormatter;
+use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Util;
 
-function p($string) {
-	print(\OCP\Util::sanitizeHTML($string));
+function p(string $string): void {
+	print(Util::sanitizeHTML($string));
 }
-
 
 /**
  * Prints a <link> tag for loading css
  * @param string $href the source URL, ignored when empty
  * @param string $opts, additional optional options
  */
-function emit_css_tag($href, $opts = '') {
+function emit_css_tag($href, $opts = ''): void {
 	$s = '<link rel="stylesheet"';
 	if (!empty($href)) {
 		$s .= ' href="' . $href . '"';
@@ -34,7 +37,7 @@ function emit_css_tag($href, $opts = '') {
  * Prints all tags for CSS loading
  * @param array $obj all the script information from template
  */
-function emit_css_loading_tags($obj) {
+function emit_css_loading_tags($obj): void {
 	foreach ($obj['cssfiles'] as $css) {
 		emit_css_tag($css);
 	}
@@ -49,8 +52,8 @@ function emit_css_loading_tags($obj) {
  * @param string $script_content the inline script content, ignored when empty
  * @param string $content_type the type of the source (e.g. 'module')
  */
-function emit_script_tag(string $src, string $script_content = '', string $content_type = '') {
-	$nonceManager = \OC::$server->get(\OC\Security\CSP\ContentSecurityPolicyNonceManager::class);
+function emit_script_tag(string $src, string $script_content = '', string $content_type = ''): void {
+	$nonceManager = Server::get(ContentSecurityPolicyNonceManager::class);
 
 	$defer_str = ' defer';
 	$type = $content_type !== '' ? ' type="' . $content_type . '"' : '';
@@ -74,7 +77,7 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
  * Print all <script> tags for loading JS
  * @param array $obj all the script information from template
  */
-function emit_script_loading_tags($obj) {
+function emit_script_loading_tags($obj): void {
 	foreach ($obj['jsfiles'] as $jsfile) {
 		$fileName = explode('?', $jsfile, 2)[0];
 		$type = str_ends_with($fileName, '.mjs') ? 'module' : '';
@@ -88,9 +91,9 @@ function emit_script_loading_tags($obj) {
 /**
  * Prints an unsanitized string - usage of this function may result into XSS.
  * Consider using p() instead.
- * @param string|array $string the string which will be printed as it is
+ * @param string $string the string which will be printed as it is
  */
-function print_unescaped($string) {
+function print_unescaped($string): void {
 	print($string);
 }
 
@@ -106,7 +109,7 @@ function print_unescaped($string) {
  * @param string|string[] $file the filename,
  *                              if an array is given it will add all scripts
  */
-function script($app, $file = null) {
+function script($app, $file = null): void {
 	if (is_array($file)) {
 		foreach ($file as $script) {
 			Util::addScript($app, $script, 'core');
@@ -122,7 +125,7 @@ function script($app, $file = null) {
  * @param string|string[] $file the filename,
  *                              if an array is given it will add all scripts
  */
-function vendor_script($app, $file = null) {
+function vendor_script($app, $file = null): void {
 	if (is_array($file)) {
 		foreach ($file as $f) {
 			OC_Util::addVendorScript($app, $f);
@@ -138,7 +141,7 @@ function vendor_script($app, $file = null) {
  * @param string|string[] $file the filename,
  *                              if an array is given it will add all styles
  */
-function style($app, $file = null) {
+function style($app, $file = null): void {
 	if (is_array($file)) {
 		foreach ($file as $f) {
 			OC_Util::addStyle($app, $f);
@@ -154,7 +157,7 @@ function style($app, $file = null) {
  * @param string|string[] $file the filename,
  *                              if an array is given it will add all styles
  */
-function vendor_style($app, $file = null) {
+function vendor_style($app, $file = null): void {
 	if (is_array($file)) {
 		foreach ($file as $f) {
 			OC_Util::addVendorStyle($app, $f);
@@ -169,26 +172,8 @@ function vendor_style($app, $file = null) {
  * @param string $app the appname
  *                    if an array is given it will add all styles
  */
-function translation($app) {
+function translation($app): void {
 	OC_Util::addTranslations($app);
-}
-
-/**
- * Shortcut for HTML imports
- * @param string $app the appname
- * @param string|string[] $file the path relative to the app's component folder,
- *                              if an array is given it will add all components
- */
-function component($app, $file) {
-	if (is_array($file)) {
-		foreach ($file as $f) {
-			$url = link_to($app, 'component/' . $f . '.html');
-			OC_Util::addHeader('link', ['rel' => 'import', 'href' => $url]);
-		}
-	} else {
-		$url = link_to($app, 'component/' . $file . '.html');
-		OC_Util::addHeader('link', ['rel' => 'import', 'href' => $url]);
-	}
 }
 
 /**
@@ -201,15 +186,15 @@ function component($app, $file) {
  * For further information have a look at \OCP\IURLGenerator::linkTo
  */
 function link_to($app, $file, $args = []) {
-	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
+	return Server::get(IURLGenerator::class)->linkTo($app, $file, $args);
 }
 
 /**
- * @param $key
+ * @param string $key
  * @return string url to the online documentation
  */
 function link_to_docs($key) {
-	return \OC::$server->getURLGenerator()->linkToDocs($key);
+	return Server::get(IURLGenerator::class)->linkToDocs($key);
 }
 
 /**
@@ -221,16 +206,16 @@ function link_to_docs($key) {
  * For further information have a look at \OCP\IURLGenerator::imagePath
  */
 function image_path($app, $image) {
-	return \OC::$server->getURLGenerator()->imagePath($app, $image);
+	return Server::get(IURLGenerator::class)->imagePath($app, $image);
 }
 
 /**
- * make OC_Helper::mimetypeIcon available as a simple function
+ * make mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
  */
 function mimetype_icon($mimetype) {
-	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
+	return Server::get(IMimeTypeDetector::class)->mimeTypeIcon($mimetype);
 }
 
 /**
@@ -240,7 +225,7 @@ function mimetype_icon($mimetype) {
  * @return string link to the preview
  */
 function preview_icon($path) {
-	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
+	return Server::get(IURLGenerator::class)->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
 }
 
 /**
@@ -249,18 +234,19 @@ function preview_icon($path) {
  * @return string
  */
 function publicPreview_icon($path, $token) {
-	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
+	return Server::get(IURLGenerator::class)->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
 }
 
 /**
- * make OC_Helper::humanFileSize available as a simple function
+ * make Util::humanFileSize available as a simple function
  * @param int $bytes size in bytes
  * @return string size as string
+ * @deprecated use Util::humanFileSize instead
  *
- * For further information have a look at OC_Helper::humanFileSize
+ * For further information have a look at Util::humanFileSize
  */
 function human_file_size($bytes) {
-	return OC_Helper::humanFileSize($bytes);
+	return Util::humanFileSize($bytes);
 }
 
 /**
@@ -283,7 +269,7 @@ function strip_time($timestamp) {
  * @return string timestamp
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false): string {
-	$formatter = \OCP\Server::get(IDateTimeFormatter::class);
+	$formatter = Server::get(IDateTimeFormatter::class);
 
 	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);
@@ -291,7 +277,12 @@ function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false)
 	return $formatter->formatTimeSpan($timestamp, $fromTime);
 }
 
-function html_select_options($options, $selected, $params = []) {
+/**
+ * @param array $options
+ * @param string[]|string $selected
+ * @param array $params
+ */
+function html_select_options($options, $selected, $params = []): string {
 	if (!is_array($selected)) {
 		$selected = [$selected];
 	}
@@ -314,7 +305,7 @@ function html_select_options($options, $selected, $params = []) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . \OCP\Util::sanitizeHTML($value) . '"' . $select . '>' . \OCP\Util::sanitizeHTML($label) . '</option>' . "\n";
+		$html .= '<option value="' . Util::sanitizeHTML($value) . '"' . $select . '>' . Util::sanitizeHTML($label) . '</option>' . "\n";
 	}
 	return $html;
 }
