@@ -19,7 +19,7 @@ OC.L10N.register(
     "Exit full screen" : "Välju täisekraanilt",
     "Full screen" : "Täisekraan",
     "Open sidebar" : "Ava külgriba",
-    "Download" : "Lae alla",
+    "Download" : "Laadi alla",
     "Delete" : "Kustuta",
     "View" : "Vaata",
     "Name" : "Nimi",
