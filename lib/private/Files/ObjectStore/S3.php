@@ -118,8 +118,8 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 				foreach ($result['Contents'] as $object) {
 					yield [
 						'urn' => basename($object['Key']),
-						'meta' => [
-							'mtime' => strtotime($object['LastModified']),
+						'metadata' => [
+							'mtime' => $object['LastModified'],
 							'etag' => trim($object['ETag'], '"'),
 							'size' => (int)($object['Size'] ?? $object['ContentLength']),
 						],

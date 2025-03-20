@@ -35,6 +35,7 @@ return array(
     'OCA\\Files\\Command\\Object\\Delete' => $baseDir . '/../lib/Command/Object/Delete.php',
     'OCA\\Files\\Command\\Object\\Get' => $baseDir . '/../lib/Command/Object/Get.php',
     'OCA\\Files\\Command\\Object\\Info' => $baseDir . '/../lib/Command/Object/Info.php',
+    'OCA\\Files\\Command\\Object\\ListObject' => $baseDir . '/../lib/Command/Object/ListObject.php',
     'OCA\\Files\\Command\\Object\\ObjectUtil' => $baseDir . '/../lib/Command/Object/ObjectUtil.php',
     'OCA\\Files\\Command\\Object\\Put' => $baseDir . '/../lib/Command/Object/Put.php',
     'OCA\\Files\\Command\\Put' => $baseDir . '/../lib/Command/Put.php',

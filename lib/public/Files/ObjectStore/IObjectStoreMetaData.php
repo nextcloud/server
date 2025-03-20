@@ -30,7 +30,9 @@ interface IObjectStoreMetaData {
 	 * If the object store implementation can do it efficiently, the metadata for each object is also included.
 	 *
 	 * @param string $prefix
-	 * @return \Iterator<array{urn: string, meta: ?ObjectMetaData}>
+	 * @return \Iterator<array{urn: string, metadata: ?ObjectMetaData}>
+	 *
+	 * @since 32.0.0
 	 */
 	public function listObjects(string $prefix = ''): \Iterator;
 }

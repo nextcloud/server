@@ -50,6 +50,7 @@
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>
 		<command>OCA\Files\Command\Object\Info</command>
+		<command>OCA\Files\Command\Object\ListObject</command>
 	</commands>
 
 	<settings>
