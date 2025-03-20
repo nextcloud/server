@@ -29,6 +29,7 @@ OC.L10N.register(
     "Allow people on this server to receive shares from other servers" : "Povoliť používateľom na tomto serveri prijímať zdieľania z iných serverov",
     "Allow people on this server to send shares to groups on other servers" : "Povoliť užívateľom na tomto serveri odosielať sprístupnenia skupinám na iné servery",
     "Allow people on this server to receive group shares from other servers" : "Povoliť užívateľom na tomto serveri prijímať zdieľania pre skupiny z iných serverov",
+    "The lookup server is only available for global scale." : "Vyhľadávací server je dostupný len v globálnej škále.",
     "Search global and public address book for people" : "Vyhľadávať užívateľov v globálnom a verejnom adresári kontaktov",
     "Allow people to publish their data to a global and public address book" : "Povoliť ľuďom publikovanie ich dát do globálneho a verejného adresára.",
     "Trusted federation" : "Dôveryhodná federácia",
