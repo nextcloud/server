@@ -21,14 +21,6 @@ use Psr\Clock\ClockInterface;
 
 interface ITimeFactory extends ClockInterface {
 	/**
-	 * @param string $format
-	 * @param string $time
-	 * @param \DateTimeZone|null $timezone
-	 * @return \DateTime with the result of a call to \DateTime::createFromFormat()
-	 * @since 32.0.0
-	 */
-	public function createFromFormat(string $format, string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime;
-	/**
 	 * @return int the result of a call to time()
 	 * @since 8.0.0
 	 */

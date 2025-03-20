@@ -38,44 +38,44 @@ use OCP\DB\Types;
 class FederatedInvite extends Entity {
 
 	/**
-	* @var bool $accepted
-	*/
+	 * @var bool $accepted
+	 */
 	protected $accepted;
 	/**
-	* @var ?int $acceptedAt
-	*/
+	 * @var ?int $acceptedAt
+	 */
 	protected $acceptedAt;
 	/**
-	* @var int $createdAt
-	*/
+	 * @var int $createdAt
+	 */
 	protected $createdAt;
 	/**
-	* @var $int $expiredAt
-	*/
+	 * @var $int $expiredAt
+	 */
 	protected $expiredAt;
 	/**
-	* @var ?string $recipientEmail
-	*/
+	 * @var ?string $recipientEmail
+	 */
 	protected $recipientEmail;
 	/**
-	* @var ?string $recipientName
-	*/
+	 * @var ?string $recipientName
+	 */
 	protected $recipientName;
 	/**
-	* @var ?string $recipientProvider
-	*/
+	 * @var ?string $recipientProvider
+	 */
 	protected $recipientProvider;
 	/**
-	* @var ?string $recipientUserId
-	*/
+	 * @var ?string $recipientUserId
+	 */
 	protected $recipientUserId;
 	/**
-	* @var string $token
-	*/
+	 * @var string $token
+	 */
 	protected $token;
 	/**
-	* @var string $userId
-	*/
+	 * @var string $userId
+	 */
 	protected $userId;
 
 	public function __construct() {

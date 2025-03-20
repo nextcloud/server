@@ -19,6 +19,7 @@ use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
+use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
@@ -30,7 +31,6 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -119,7 +119,8 @@ class RequestHandlerController extends Controller {
 		}
 
 		// check if all required parameters are set
-		if ($shareWith === null ||
+		if (
+			$shareWith === null ||
 			$name === null ||
 			$providerId === null ||
 			$resourceType === null ||
@@ -253,6 +254,7 @@ class RequestHandlerController extends Controller {
 		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
+
 		if ($token === '') {
 			$response = new JSONResponse(['message' => 'Invalid or non existing token', 'error' => true], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
@@ -279,17 +281,13 @@ class RequestHandlerController extends Controller {
 			$status = Http::STATUS_CONFLICT;
 			return new JSONResponse($response, $status);
 		}
-		$unixstart = $this->timeFactory->createFromFormat('U', '1');
-		$expiredAt = $this->timeFactory->createFromFormat('U', strval($invitation->getExpiredAt()));
-		if ($expiredAt == $unixstart) {
-			$invitation->setExpiredAt($updated);
-		}
 
-		elseif ($invitation->getExpiredAt() < $updated) {
+		if (!empty($invitation->getExpiredAt()) && $updated > $invitation->getExpiredAt()) {
 			$response = ['message' => 'Invitation expired', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
 			return new JSONResponse($response, $status);
 		}
+
 
 		$localUser = $this->userManager->get($invitation->getUserId());
 		if ($localUser === null) {
@@ -308,7 +306,7 @@ class RequestHandlerController extends Controller {
 
 		$invitation->setAccepted(true);
 		$invitation->setRecipientEmail($email);
-		$invitation->getRecipientName($name);
+		$invitation->setRecipientName($name);
 		$invitation->setRecipientProvider($recipientProvider);
 		$invitation->setRecipientUserId($userId);
 		$invitation->setAcceptedAt($updated);
@@ -340,7 +338,8 @@ class RequestHandlerController extends Controller {
 	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
-		if ($notificationType === null ||
+		if (
+			$notificationType === null ||
 			$resourceType === null ||
 			$providerId === null ||
 			!is_array($notification)
