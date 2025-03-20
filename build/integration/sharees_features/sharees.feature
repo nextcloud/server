@@ -8,6 +8,7 @@ Feature: sharees
     And user "Sharee1" exists
     And group "ShareeGroup" exists
     And user "test" belongs to group "ShareeGroup"
+    And user "Sharee2" exists
 
   Scenario: Search without exact match
     Given As an "test"
@@ -19,6 +20,7 @@ Feature: sharees
     And "exact users" sharees returned is empty
     And "users" sharees returned are
       | Sharee1 | 0 | Sharee1 | Sharee1 |
+      | Sharee2 | 0 | Sharee2 | Sharee2 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned are
       | ShareeGroup | 1 | ShareeGroup |
@@ -35,6 +37,7 @@ Feature: sharees
     And "exact users" sharees returned is empty
     And "users" sharees returned are
       | Sharee1 | 0 | Sharee1 | Sharee1 |
+      | Sharee2 | 0 | Sharee2 | Sharee2 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned are
       | ShareeGroup | 1 | ShareeGroup |
@@ -254,6 +257,7 @@ Feature: sharees
     And "exact users" sharees returned is empty
     And "users" sharees returned are
       | Sharee1 | 0 | Sharee1 | Sharee1 |
+      | Sharee2 | 0 | Sharee2 | Sharee2 |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty
