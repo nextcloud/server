@@ -38,6 +38,7 @@ return array(
     'OCA\\Files\\Command\\Object\\Info' => $baseDir . '/../lib/Command/Object/Info.php',
     'OCA\\Files\\Command\\Object\\ListObject' => $baseDir . '/../lib/Command/Object/ListObject.php',
     'OCA\\Files\\Command\\Object\\ObjectUtil' => $baseDir . '/../lib/Command/Object/ObjectUtil.php',
+    'OCA\\Files\\Command\\Object\\Orphans' => $baseDir . '/../lib/Command/Object/Orphans.php',
     'OCA\\Files\\Command\\Object\\Put' => $baseDir . '/../lib/Command/Object/Put.php',
     'OCA\\Files\\Command\\Put' => $baseDir . '/../lib/Command/Put.php',
     'OCA\\Files\\Command\\RepairTree' => $baseDir . '/../lib/Command/RepairTree.php',
