@@ -24,6 +24,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\HintException;
 use OCP\IConfig;
@@ -663,6 +664,24 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->assertEquals($share, $this->manager->getShareById('default:42'));
+	}
+
+
+	public function testGetShareByIdNodeAccessible(): void {
+		$share = $this->createMock(IShare::class);
+		$share
+			->expects($this->once())
+			->method('getNode')
+			->willThrowException(new NotFoundException());
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('getShareById')
+			->with(42)
+			->willReturn($share);
+
+		$this->expectException(ShareNotFound::class);
+		$this->manager->getShareById('default:42');
 	}
 
 
@@ -2894,9 +2913,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetSharesBy() {
-		$share = $this->manager->newShare();
-
 		$node = $this->createMock(Folder::class);
+
+		$share = $this->manager->newShare();
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getSharesBy')
@@ -2924,6 +2944,8 @@ class ManagerTest extends \Test\TestCase {
 	 * deleted (as they are evaluated). but share 8 should still be there.
 	 */
 	public function testGetSharesByExpiredLinkShares() {
+		$node = $this->createMock(File::class);
+
 		$manager = $this->createManagerMock()
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -2937,6 +2959,7 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$share = $this->manager->newShare();
 			$share->setId($i);
+			$share->setNode($node);
 			$shares[] = $share;
 		}
 
@@ -2956,8 +2979,6 @@ class ManagerTest extends \Test\TestCase {
 		for ($i = 0; $i < 8; $i++) {
 			$shares2[] = clone $shares[$i];
 		}
-
-		$node = $this->createMock(File::class);
 
 		/*
 		 * Simulate the getSharesBy call.
@@ -3120,8 +3141,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(File::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 		$share->setShareOwner('owner');
 		$share->setSharedBy('sharedBy');
 
@@ -3199,8 +3222,10 @@ class ManagerTest extends \Test\TestCase {
 		$date = new \DateTime();
 		$date->setTime(0, 0, 0);
 		$date->add(new \DateInterval('P2D'));
+		$node = $this->createMock(Folder::class);
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
+		$share->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')
