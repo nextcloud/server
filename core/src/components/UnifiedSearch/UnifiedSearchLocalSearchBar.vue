@@ -124,7 +124,7 @@ function clearAndCloseSearch() {
 		// this can break at any time the component library changes
 		:deep(input) {
 			// search global width + close button width
-			padding-inline-end: calc(v-bind('searchGlobalButtonWidth') + var(--default-clickable-area));
+			padding-inline-end: calc(v-bind('searchGlobalButtonCSSWidth') + var(--default-clickable-area));
 		}
 	}
 }
@@ -133,8 +133,8 @@ function clearAndCloseSearch() {
 	transition: width var(--animation-quick) linear;
 }
 
-// Make the position absolut during the transition
-// this is needed to "hide" the button begind it
+// Make the position absolute during the transition
+// this is needed to "hide" the button behind it
 .v-leave-active {
 	position: absolute !important;
 }
@@ -142,7 +142,7 @@ function clearAndCloseSearch() {
 .v-enter,
 .v-leave-to {
 	&.local-unified-search {
-		// Start with only the overlayed button
+		// Start with only the overlay button
 		--local-search-width: var(--clickable-area-large);
 	}
 }
