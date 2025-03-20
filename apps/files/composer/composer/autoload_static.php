@@ -51,6 +51,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Object\\Delete' => __DIR__ . '/..' . '/../lib/Command/Object/Delete.php',
         'OCA\\Files\\Command\\Object\\Get' => __DIR__ . '/..' . '/../lib/Command/Object/Get.php',
         'OCA\\Files\\Command\\Object\\Info' => __DIR__ . '/..' . '/../lib/Command/Object/Info.php',
+        'OCA\\Files\\Command\\Object\\ListObject' => __DIR__ . '/..' . '/../lib/Command/Object/ListObject.php',
         'OCA\\Files\\Command\\Object\\ObjectUtil' => __DIR__ . '/..' . '/../lib/Command/Object/ObjectUtil.php',
         'OCA\\Files\\Command\\Object\\Put' => __DIR__ . '/..' . '/../lib/Command/Object/Put.php',
         'OCA\\Files\\Command\\Put' => __DIR__ . '/..' . '/../lib/Command/Put.php',
