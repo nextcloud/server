@@ -637,9 +637,13 @@ class Manager extends PublicEmitter implements IUserManager {
 				foreach ($this->backends as $backend) {
 					if ($backend->userExists($userId)) {
 						$user = $this->getUserObject($userId, $backend, false);
-						$return = $callback($user);
-						if ($return === false) {
-							return 0;
+						try {
+							$return = $callback($user);
+							if ($return === false) {
+								return 0;
+							}
+						} catch (\Throwable $e) {
+							$this->logger->error('Error while calling callback for seen users', ['exception' => $e, 'userId' => $userId, 'backend' => $backend::class]);
 						}
 						break;
 					}
