@@ -48,7 +48,7 @@ class Capabilities implements ICapability {
 	 *             shareTypes: list<string>,
 	 *             protocols: array<string, string>
 	 *         }>,
-	 *         version: string
+	 *         version: string,
 	 *         capabilities: array{
 	 *             string,
 	 *         }
