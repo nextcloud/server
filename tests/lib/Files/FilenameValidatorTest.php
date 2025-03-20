@@ -146,6 +146,10 @@ class FilenameValidatorTest extends TestCase {
 				// needed for Windows namespaces
 				'com1.suffix', ['.htaccess'], ['com1'], [], [], ReservedWordException::class
 			],
+			'forbidden basename case insensitive' => [
+				// needed for Windows namespaces
+				'COM1.suffix', ['.htaccess'], ['com1'], [], [], ReservedWordException::class
+			],
 			'forbidden basename for hidden files' => [
 				// needed for Windows namespaces
 				'.thumbs.db', ['.htaccess'], ['.thumbs'], [], [], ReservedWordException::class
@@ -158,6 +162,9 @@ class FilenameValidatorTest extends TestCase {
 			],
 			'invalid extension' => [
 				'a: b.txt', ['.htaccess'], [], ['.txt'], [], InvalidPathException::class
+			],
+			'invalid extension case insensitive' => [
+				'a: b.TXT', ['.htaccess'], [], ['.txt'], [], InvalidPathException::class
 			],
 			'empty filename' => [
 				'', [], [], [], [], EmptyFileNameException::class
@@ -199,7 +206,6 @@ class FilenameValidatorTest extends TestCase {
 		return [
 			['plane 1 𐪅'],
 			['emoji 😶‍🌫️'],
-
 		];
 	}
 
@@ -282,6 +288,90 @@ class FilenameValidatorTest extends TestCase {
 			'forbidden name - name is case insensitive' => [
 				'COM1', ['.htaccess', 'com1'], true,
 			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetForbiddenExtensions
+	 */
+	public function testGetForbiddenExtensions(array $configValue, array $expectedValue): void {
+		$validator = new FilenameValidator($this->l10n, $this->database, $this->config, $this->logger);
+		$this->config
+			// only once - then cached
+			->expects(self::once())
+			->method('getSystemValue')
+			->with('forbidden_filename_extensions', ['.filepart'])
+			->willReturn($configValue);
+
+		self::assertEqualsCanonicalizing($expectedValue, $validator->getForbiddenExtensions());
+	}
+
+	public static function dataGetForbiddenExtensions(): array {
+		return [
+			// default
+			[['.filepart'], ['.filepart', '.part']],
+			// always include .part
+			[[], ['.part']],
+			// handle case insensitivity
+			[['.TXT'], ['.txt', '.part']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetForbiddenFilenames
+	 */
+	public function testGetForbiddenFilenames(array $configValue, array $legacyValue, array $expectedValue): void {
+		$validator = new FilenameValidator($this->l10n, $this->database, $this->config, $this->logger);
+		$this->config
+			// only once - then cached
+			->expects(self::exactly(2))
+			->method('getSystemValue')
+			->willReturnMap([
+				['forbidden_filenames', ['.htaccess'], $configValue],
+				['blacklisted_files', [], $legacyValue],
+			]);
+
+		$this->logger
+			->expects(empty($legacyValue) ? self::never() : self::once())
+			->method('warning');
+
+		self::assertEqualsCanonicalizing($expectedValue, $validator->getForbiddenFilenames());
+	}
+
+	public static function dataGetForbiddenFilenames(): array {
+		return [
+			// default
+			[['.htaccess'], [], ['.htaccess']],
+			// with legacy values
+			[['.htaccess'], ['legacy'], ['.htaccess', 'legacy']],
+			// handle case insensitivity
+			[['FileName', '.htaccess'], ['LegAcy'], ['.htaccess', 'filename', 'legacy']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetForbiddenBasenames
+	 */
+	public function testGetForbiddenBasenames(array $configValue, array $expectedValue): void {
+		$validator = new FilenameValidator($this->l10n, $this->database, $this->config, $this->logger);
+		$this->config
+			// only once - then cached
+			->expects(self::once())
+			->method('getSystemValue')
+			->with('forbidden_filename_basenames', [])
+			->willReturn($configValue);
+
+		self::assertEqualsCanonicalizing($expectedValue, $validator->getForbiddenBasenames());
+	}
+
+	public static function dataGetForbiddenBasenames(): array {
+		return [
+			// default
+			[[], []],
+			// with values
+			[['aux', 'com0'], ['aux', 'com0']],
+			// handle case insensitivity
+			[['AuX', 'COM1'], ['aux', 'com1']],
 		];
 	}
 }
