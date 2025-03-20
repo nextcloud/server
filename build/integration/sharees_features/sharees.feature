@@ -444,3 +444,42 @@ Feature: sharees
     And "exact emails" sharees returned are
       | sharee2@secondary.c | 4 | sharee2@secondary.c |
     And "emails" sharees returned is empty
+
+  Scenario: Search user and e-mail matching system e-mail address of user
+    Given As an "test"
+    When getting sharees for
+      | search     | sharee2@system.com |
+      | itemType   | file |
+      | shareTypes | 0 4 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    # UserPlugin provides two identical results (except for the field order, but
+    # that is hidden by the check)
+    And "exact users" sharees returned are
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
+  Scenario: Search user and e-mail matching secondary e-mail address of user
+    Given As an "test"
+    When getting sharees for
+      | search     | sharee2@secondary.com |
+      | itemType   | file |
+      | shareTypes | 0 4 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned are
+      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
+    And "users" sharees returned is empty
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
