@@ -51,6 +51,7 @@
 		<command>OCA\Files\Command\Object\Put</command>
 		<command>OCA\Files\Command\Object\Info</command>
 		<command>OCA\Files\Command\Object\ListObject</command>
+		<command>OCA\Files\Command\Object\Orphans</command>
 	</commands>
 
 	<settings>
