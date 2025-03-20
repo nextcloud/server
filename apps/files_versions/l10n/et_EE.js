@@ -12,7 +12,7 @@ OC.L10N.register(
     "Compare to current version" : "Võrdle hetkeversiooniga",
     "Restore version" : "Taasta versioon",
     "Download version" : "Laadi versioon alla",
-    "Delete version" : "Kustuta versioo",
+    "Delete version" : "Kustuta versioon",
     "Cancel" : "Tühista",
     "Remove version name" : "Eemalda versiooni nimi",
     "Save version name" : "Salvesta versiooni nimi",
