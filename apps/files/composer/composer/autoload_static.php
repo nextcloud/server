@@ -31,7 +31,6 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Activity\\Settings\\FileActivitySettings' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileActivitySettings.php',
         'OCA\\Files\\Activity\\Settings\\FileChanged' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileChanged.php',
         'OCA\\Files\\Activity\\Settings\\FileFavoriteChanged' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileFavoriteChanged.php',
-        'OCA\\Files\\App' => __DIR__ . '/..' . '/../lib/App.php',
         'OCA\\Files\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Files\\BackgroundJob\\CleanupDirectEditingTokens' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupDirectEditingTokens.php',
         'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupFileLocks.php',

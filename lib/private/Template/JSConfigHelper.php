@@ -12,6 +12,7 @@ use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Files\FilenameValidator;
 use OC\Share\Share;
+use OCA\Files\Service\ChunkedUploadConfig;
 use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -246,7 +247,10 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
 					'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
-				]
+				],
+				'files' => [
+					'max_chunk_size' => ChunkedUploadConfig::getMaxChunkSize(),
+				],
 			]),
 			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
@@ -276,9 +280,6 @@ class JSConfigHelper {
 
 		$this->initialStateService->provideInitialState('core', 'config', $config);
 		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
-
-		// Allow hooks to modify the output values
-		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]);
 
 		$result = '';
 
