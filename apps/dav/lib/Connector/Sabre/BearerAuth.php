@@ -7,6 +7,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -19,6 +20,7 @@ class BearerAuth extends AbstractBearer {
 		private IUserSession $userSession,
 		private ISession $session,
 		private IRequest $request,
+		private IConfig $config,
 		private string $principalPrefix = 'principals/users/',
 	) {
 		// setup realm
@@ -57,6 +59,14 @@ class BearerAuth extends AbstractBearer {
 	 * @param ResponseInterface $response
 	 */
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
+		// Legacy ownCloud clients still authenticate via OAuth2
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		$userAgent = $request->getHeader('User-Agent');
+		if ($enableOcClients && $userAgent !== null && str_contains($userAgent, 'mirall')) {
+			parent::challenge($request, $response);
+			return;
+		}
+
 		$response->setStatus(Http::STATUS_UNAUTHORIZED);
 	}
 }
