@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -107,6 +108,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->query(ITimeFactory::class),
 				$this->serverContainer->get(IManager::class),
+				$this->serverContainer->get(IConfig::class),
 			);
 		}
 
