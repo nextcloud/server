@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
@@ -88,6 +89,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->get(ITimeFactory::class),
 				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->get(IManager::class),
+				$this->serverContainer->get(IConfig::class),
 			);
 		}
 
