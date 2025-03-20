@@ -42,6 +42,7 @@ return array(
     'OCA\\Files\\Command\\Object\\Put' => $baseDir . '/../lib/Command/Object/Put.php',
     'OCA\\Files\\Command\\Put' => $baseDir . '/../lib/Command/Put.php',
     'OCA\\Files\\Command\\RepairTree' => $baseDir . '/../lib/Command/RepairTree.php',
+    'OCA\\Files\\Command\\SanitizeFilenames' => $baseDir . '/../lib/Command/SanitizeFilenames.php',
     'OCA\\Files\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
     'OCA\\Files\\Command\\ScanAppData' => $baseDir . '/../lib/Command/ScanAppData.php',
     'OCA\\Files\\Command\\TransferOwnership' => $baseDir . '/../lib/Command/TransferOwnership.php',

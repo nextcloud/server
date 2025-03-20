@@ -57,6 +57,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Object\\Put' => __DIR__ . '/..' . '/../lib/Command/Object/Put.php',
         'OCA\\Files\\Command\\Put' => __DIR__ . '/..' . '/../lib/Command/Put.php',
         'OCA\\Files\\Command\\RepairTree' => __DIR__ . '/..' . '/../lib/Command/RepairTree.php',
+        'OCA\\Files\\Command\\SanitizeFilenames' => __DIR__ . '/..' . '/../lib/Command/SanitizeFilenames.php',
         'OCA\\Files\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
         'OCA\\Files\\Command\\ScanAppData' => __DIR__ . '/..' . '/../lib/Command/ScanAppData.php',
         'OCA\\Files\\Command\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Command/TransferOwnership.php',
