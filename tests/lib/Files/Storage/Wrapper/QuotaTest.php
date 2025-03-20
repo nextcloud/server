@@ -10,6 +10,7 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
+use OCP\Files\NotEnoughSpaceException;
 
 \OC::$loader->load('\OC\Files\Filesystem');
 
@@ -211,7 +212,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	public function testNoMkdirQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->mkdir('files'));
-		$this->assertFalse($instance->mkdir('files/foobar'));
+		$this->expectException(NotEnoughSpaceException::class);
+		$instance->mkdir('files/foobar');
 	}
 
 	public function testMkdirQuotaZeroTrashbin(): void {

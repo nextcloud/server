@@ -11,6 +11,7 @@ use OC\Files\Filesystem;
 use OC\SystemConfig;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
@@ -180,7 +181,7 @@ class Quota extends Wrapper {
 		}
 		$free = $this->free_space($path);
 		if ($this->shouldApplyQuota($path) && $free == 0) {
-			return false;
+			throw new NotEnoughSpaceException('Unable to create directory (' . $path . '): not enough free space');
 		}
 
 		return parent::mkdir($path);
