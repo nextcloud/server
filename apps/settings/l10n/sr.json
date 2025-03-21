@@ -256,6 +256,7 @@
     "PHP modules" : "PHP модули",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "Побољшава перформансе превођења језика и исправља сортирање карактера који нису ASCII",
     "for Argon2 for password hashing" : "за Argon2 за хеширање лозинке",
+    "required for SFTP storage and recommended for WebAuthn performance" : "неопходно за SFTP складиште и препоручено за WebAuthn перформансе",
     "for picture rotation in server and metadata extraction in the Photos app" : "за ротирање слике на серверу и издвајање метаподатака у апликацији Слике",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Овој инстанци недостају неки неопходни PHP модули. Потребно је да се инсталирају: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s" : "Овој инстанци недостају неки препоручени PHP модули. Препоручује се да их инсталирате због побољшања перформанси и за бољу компатибилност:\n%s",
