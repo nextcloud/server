@@ -53,3 +53,17 @@ export const searchGroups = ({ search, offset, limit }): CancelablePromise<Requi
 		}
 	})
 }
+
+/**
+ * Load user groups
+ *
+ * @param {object} options Options
+ * @param {string} options.userId User id
+ */
+export const loadUserGroups = async ({ userId }): Promise<Required<IGroup>[]> => {
+	const url = generateOcsUrl('/cloud/users/{userId}/groups/details', { userId })
+	const { data } = await axios.get(url)
+	const groups: Group[] = data.ocs?.data?.groups ?? []
+	const formattedGroups = groups.map(formatGroup)
+	return formattedGroups
+},

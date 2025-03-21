@@ -300,6 +300,7 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import { searchGroups, loadUserGroups } from '../../service/groups.ts'
 import logger from '../../logger.ts'
 
 export default {
@@ -556,14 +557,7 @@ export default {
 		async loadGroupDetails() {
 			this.loading.groups = true
 			try {
-				const { data } = await this.$store.dispatch('getUserGroups', {
-					userId: this.user.id,
-				})
-				const groups = data.ocs?.data?.groups
-				if (!groups) {
-					logger.error(t('settings', 'Failed to load groups with details'))
-					return
-				}
+				const groups = await loadUserGroups({ userId: this.user.id })
 				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
