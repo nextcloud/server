@@ -1288,16 +1288,11 @@ class ShareAPIController extends OCSController {
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 
 			// Update hide download state
-			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
 				$share->setHideDownload(true);
-				$attributes->setAttribute('permissions', 'download', false);
 			} elseif ($hideDownload === 'false') {
 				$share->setHideDownload(false);
-				$attributes->setAttribute('permissions', 'download', true);
 			}
-			$share->setAttributes($attributes);
-
 
 			// If either manual permissions are specified or publicUpload
 			// then we need to also update the permissions of the share
