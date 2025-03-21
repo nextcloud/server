@@ -256,10 +256,6 @@ const getters = {
 	getGroups(state) {
 		return state.groups
 	},
-	getSubadminGroups(state) {
-		// Can't be subadmin of admin, recent, or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-	},
 	getSortedGroups(state) {
 		const groups = [...state.groups]
 		if (state.orderBy === GroupSorting.UserCount) {
