@@ -46,7 +46,6 @@
                             "apiVersion",
                             "enabled",
                             "endPoint",
-                            "publicKey",
                             "resourceTypes",
                             "version"
                         ],
