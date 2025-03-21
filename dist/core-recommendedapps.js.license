@@ -50,7 +50,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.8.1
+	- version: 1.8.4
 	- license: MIT
 - base64-js
 	- version: 1.5.1
