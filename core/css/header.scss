@@ -238,6 +238,10 @@
 }
 
 .header-title {
+	// Ensure the header title is always readable
+	color: #ffffff;
+	filter: var(--background-image-invert-if-bright);
+
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
