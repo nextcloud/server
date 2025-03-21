@@ -324,25 +324,6 @@ const actions = {
 	},
 
 	/**
-	 * search groups
-	 *
-	 * @param {object} context Store context
-	 * @param {object} options Options
-	 * @param {string} options.search Search query
-	 * @param {number} options.offset List offset
-	 * @param {number} options.limit List limit
-	 * @return {Promise}
-	 */
-	searchGroups(context, { search, offset, limit }) {
-		return api.get(generateOcsUrl('cloud/groups/details?search={search}&offset={offset}&limit={limit}', { search, offset, limit }))
-			.catch((error) => {
-				if (!axios.isCancel(error)) {
-					context.commit('API_FAILURE', error)
-				}
-			})
-	},
-
-	/**
 	 * Get user details
 	 *
 	 * @param {object} context store context
