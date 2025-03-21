@@ -57,8 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from '../utils/groups.ts'
-
 import { computed, ref, watch, onBeforeMount } from 'vue'
 import { Fragment } from 'vue-frag'
 import { useRoute, useRouter } from 'vue-router/composables'
@@ -155,19 +153,12 @@ async function loadGroups() {
 			offset: offset.value,
 			limit: 25,
 		})
-		const groups: Group[] = (await promise.value).data.ocs?.data?.groups ?? []
+		const groups = await promise.value
 		if (groups.length > 0) {
 			offset.value += 25
 		}
 		for (const group of groups) {
-			store.commit('addGroup', {
-				id: group.id,
-				name: group.displayname,
-				usercount: group.usercount,
-				disabled: group.disabled,
-				canAdd: group.canAdd,
-				canRemove: group.canRemove,
-			})
+			store.commit('addGroup', group)
 		}
 	} catch (error) {
 		logger.error(t('settings', 'Failed to load groups'), { error })
