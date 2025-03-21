@@ -1481,6 +1481,50 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
+	 * @NoSubAdminRequired
+	 *
+	 * Get a list of the groups the user is a subadmin of, with details
+	 *
+	 * @param string $userId ID of the user
+	 * @return DataResponse<Http::STATUS_OK, array{groups: list<array{id: string, displayname: string, usercount: int, disabled: int, canAdd: bool, canRemove: bool}>}, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Users subadmin groups returned
+	 */
+	#[NoAdminRequired]
+	public function getUserSubAdminGroupsDetails(string $userId): DataResponse {
+		$loggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
+			$subAdminManager = $this->groupManager->getSubAdmin();
+			$groups = array_map(
+				function (IGroup $group) {
+					return [
+						'id' => $group->getGID(),
+						'displayname' => $group->getDisplayName(),
+						'usercount' => (int)$group->count(),
+						'disabled' => (int)$group->countDisabled(),
+						'canAdd' => $group->canAddUser(),
+						'canRemove' => $group->canRemoveUser(),
+					];
+				},
+				array_values($subAdminManager->getSubAdminsGroups($targetUser)),
+			);
+			return new DataResponse([
+				'groups' => $groups,
+			]);
+		}
+		throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+	}
+
+	/**
 	 * Add a user to a group
 	 *
 	 * @param string $userId ID of the user

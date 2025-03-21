@@ -46,6 +46,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#addToGroup', 'url' => '/users/{userId}/groups', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#removeFromGroup', 'url' => '/users/{userId}/groups', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#getUserSubAdminGroups', 'url' => '/users/{userId}/subadmins', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#getUserSubAdminGroupsDetails', 'url' => '/users/{userId}/subadmins/details', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#addSubAdmin', 'url' => '/users/{userId}/subadmins', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#removeSubAdmin', 'url' => '/users/{userId}/subadmins', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#resendWelcomeMessage', 'url' => '/users/{userId}/welcome', 'verb' => 'POST'],
