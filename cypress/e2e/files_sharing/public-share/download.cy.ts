@@ -4,9 +4,10 @@
  */
 // @ts-expect-error The package is currently broken - but works...
 import { deleteDownloadsFolderBeforeEach } from 'cypress-delete-downloads-folder'
-import { createShare, getShareUrl, setupPublicShare, type ShareContext } from './setup-public-share.ts'
+import { createShare, getShareUrl, openLinkShareDetails, setupPublicShare, type ShareContext } from './setup-public-share.ts'
 import { getRowForFile, getRowForFileId, triggerActionForFile, triggerActionForFileId } from '../../files/FilesUtils.ts'
 import { zipFileContains } from '../../../support/utils/assertions.ts'
+import type { User } from '@nextcloud/cypress'
 
 describe('files_sharing: Public share - downloading files', { testIsolation: true }, () => {
 
@@ -168,6 +169,100 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 					.and('have.length.gt', 5)
 					.and('contain', '<content>foo</content>')
 			})
+		})
+	})
+
+	describe('download permission - link share', () => {
+		let context: ShareContext
+		beforeEach(() => {
+			cy.createRandomUser().then((user) => {
+				cy.mkdir(user, '/test')
+
+				context = { user }
+				createShare(context, 'test')
+				cy.login(context.user)
+				cy.visit('/apps/files')
+			})
+		})
+
+		deleteDownloadsFolderBeforeEach()
+
+		it('download permission is retained', () => {
+			getRowForFile('test').should('be.visible')
+			triggerActionForFile('test', 'details')
+
+			openLinkShareDetails(0)
+
+			cy.intercept('PUT', '**/ocs/v2.php/apps/files_sharing/api/v1/shares/*').as('update')
+
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('exist')
+				.and('not.be.checked')
+				.check({ force: true })
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('be.checked')
+			cy.findByRole('button', { name: /update share/i })
+				.click()
+
+			cy.wait('@update')
+
+			openLinkShareDetails(0)
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('be.checked')
+
+			cy.reload()
+
+			getRowForFile('test').should('be.visible')
+			triggerActionForFile('test', 'details')
+			openLinkShareDetails(0)
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('be.checked')
+		})
+	})
+
+	describe('download permission - mail share', () => {
+		let user: User
+
+		beforeEach(() => {
+			cy.createRandomUser().then(($user) => {
+				user = $user
+				cy.mkdir(user, '/test')
+				cy.login(user)
+				cy.visit('/apps/files')
+			})
+		})
+
+		it('download permission is retained', () => {
+			getRowForFile('test').should('be.visible')
+			triggerActionForFile('test', 'details')
+
+			cy.findByRole('combobox', { name: /Enter external recipients/i })
+				.type('test@example.com')
+
+			cy.get('.option[sharetype="4"][user="test@example.com"]')
+				.parent('li')
+				.click()
+			cy.findByRole('button', { name: /advanced settings/i })
+				.should('be.visible')
+				.click()
+
+			cy.intercept('PUT', '**/ocs/v2.php/apps/files_sharing/api/v1/shares/*').as('update')
+
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('exist')
+				.and('not.be.checked')
+				.check({ force: true })
+			cy.findByRole('button', { name: /save share/i })
+				.click()
+
+			cy.wait('@update')
+
+			openLinkShareDetails(1)
+			cy.findByRole('button', { name: /advanced settings/i })
+				.click()
+			cy.findByRole('checkbox', { name: /hide download/i })
+				.should('exist')
+				.and('be.checked')
 		})
 	})
 })
