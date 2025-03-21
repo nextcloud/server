@@ -39,6 +39,10 @@ export default class Share {
 			ocsData = ocsData.ocs.data[0]
 		}
 
+		// string to int
+		if (typeof ocsData.id === 'string') {
+			ocsData.id = Number.parseInt(ocsData.id)
+		}
 		// convert int into boolean
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
@@ -344,6 +348,7 @@ export default class Share {
 	 */
 	get hideDownload() {
 		return this._share.hide_download === true
+			|| this.attributes.find?.(({ scope, key, value }) => scope === 'permissions' && key === 'download' && !value) !== undefined
 	}
 
 	/**
