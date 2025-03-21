@@ -36,16 +36,16 @@
 			<legend>{{ t('federatedfilesharing', 'The lookup server is only available for global scale.') }}</legend>
 
 			<NcCheckboxRadioSwitch type="switch"
-				:checked.sync="lookupServerEnabled"
+				:checked="lookupServerEnabled"
 				disabled
-				@update:checked="update('lookupServerEnabled', lookupServerEnabled)">
+				@update:checked="showLookupServerConfirmation">
 				{{ t('federatedfilesharing', 'Search global and public address book for people') }}
 			</NcCheckboxRadioSwitch>
 
 			<NcCheckboxRadioSwitch type="switch"
-				:checked.sync="lookupServerUploadEnabled"
+				:checked="lookupServerUploadEnabled"
 				disabled
-				@update:checked="update('lookupServerUploadEnabled', lookupServerUploadEnabled)">
+				@update:checked="showLookupServerUploadConfirmation">
 				{{ t('federatedfilesharing', 'Allow people to publish their data to a global and public address book') }}
 			</NcCheckboxRadioSwitch>
 		</fieldset>
@@ -66,7 +66,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import { showError } from '@nextcloud/dialogs'
+import { DialogBuilder, DialogSeverity, showError } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
@@ -98,6 +98,74 @@ export default {
 		}
 	},
 	methods: {
+		setLookupServerUploadEnabled(state) {
+			if (state === this.lookupServerUploadEnabled) {
+				return
+			}
+			this.lookupServerUploadEnabled = state
+			this.update('lookupServerUploadEnabled', state)
+		},
+
+		async showLookupServerUploadConfirmation(state) {
+			// No confirmation needed for disabling
+			if (state === false) {
+				return this.setLookupServerUploadEnabled(false)
+			}
+
+			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm data upload to lookup server'))
+			await dialog
+				.setSeverity(DialogSeverity.Warning)
+				.setText(
+					t('federatedfilesharing', 'When enabled, all account properties (e.g. email address) with scope visibility set to "published", will be automatically synced and transmitted to an external system and made available in a public, global address book.'),
+				)
+				.addButton({
+					callback: () => this.setLookupServerUploadEnabled(false),
+					label: t('federatedfilesharing', 'Disable upload'),
+				})
+				.addButton({
+					callback: () => this.setLookupServerUploadEnabled(true),
+					label: t('federatedfilesharing', 'Enable data upload'),
+					type: 'error',
+				})
+				.build()
+				.show()
+		},
+
+		setLookupServerEnabled(state) {
+			if (state === this.lookupServerEnabled) {
+				return
+			}
+			this.lookupServerEnabled = state
+			this.update('lookupServerEnabled', state)
+		},
+
+		async showLookupServerConfirmation(state) {
+			// No confirmation needed for disabling
+			if (state === false) {
+				return this.setLookupServerEnabled(false)
+			}
+
+			const dialog = new DialogBuilder(t('federatedfilesharing', 'Confirm querying lookup server'))
+			await dialog
+				.setSeverity(DialogSeverity.Warning)
+				.setText(
+					t('federatedfilesharing', 'When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.')
+					+ t('federatedfilesharing', 'This is used to retrieve the federated cloud ID to make federated sharing easier.')
+					+ t('federatedfilesharing', 'Moreover email addresses of users might be sent to that system in order to verify it.'),
+				)
+				.addButton({
+					callback: () => this.setLookupServerEnabled(false),
+					label: t('federatedfilesharing', 'Disable querying'),
+				})
+				.addButton({
+					callback: () => this.setLookupServerEnabled(true),
+					label: t('federatedfilesharing', 'Enable querying'),
+					type: 'error',
+				})
+				.build()
+				.show()
+		},
+
 		async update(key, value) {
 			await confirmPassword()
 
