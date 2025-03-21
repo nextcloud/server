@@ -258,6 +258,7 @@ OC.L10N.register(
     "PHP modules" : "PHP-Module",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "Erhöht die Sprach-Übersetzungsleistung und behebt ein Problem mit der Sortierung von Nicht-ASCII-Zeichen",
     "for Argon2 for password hashing" : "für Argon2 zum Passwort-Hashing",
+    "required for SFTP storage and recommended for WebAuthn performance" : "Erforderlich für SFTP-Speicher und empfohlen für WebAuthn-Leistung",
     "for picture rotation in server and metadata extraction in the Photos app" : "für Bildrotation im Server und Metadatenextraktion in der Fotos-App",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Dieser Instanz fehlen einige erforderliche PHP-Module. Folgende Module müssen installiert sein:%s .",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s" : "Dieser Instanz fehlen einige empfohlene PHP-Module. Für eine verbesserte Leistung und bessere Kompatibilität wird dringend empfohlen, diese zu installieren:\n%s",
