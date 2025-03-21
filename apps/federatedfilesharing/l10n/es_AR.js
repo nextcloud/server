@@ -21,6 +21,7 @@ OC.L10N.register(
     "Copied!" : "¡Copiado!",
     "Federated Cloud" : "Nube Federada",
     "Share it so your friends can share files with you:" : "Compártalo para que sus amigos puedan compartir archivos con usted. ",
+    "X (formerly Twitter)" : "X (anteriormente Twitter)",
     "Add to your website" : "Agregar a su sitio web",
     "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",

@@ -30,6 +30,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Kliki allolevale nupule, et lähtestada oma parool. Kui sa ei ole parooli lähtestamist soovinud, siis ignoreeri seda e-kirja.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Kliki allolevale lingile, et lähtestada oma parool. Kui sa ei ole parooli lähtestamist soovinud. siis ignoreeri seda e-kirja.",
     "Reset your password" : "Lähtesta oma parool",
+    "Internal error" : "Sisemine viga",
     "Could not detect language" : "Ei suutnud keelt tuvastada",
     "Unable to translate" : "Viga tõlkimisel",
     "Nextcloud Server" : "Nextcloud Server",
