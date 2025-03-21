@@ -26,6 +26,31 @@
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import ClockIcon from 'vue-material-design-icons/Clock.vue'
+import { getLocale } from '@nextcloud/l10n'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.extend(localizedFormat)
+
+/**
+ *
+ * @param locale
+ */
+async function loadLocale(locale) {
+	try {
+		await import(`dayjs/locale/${locale}.js`)
+		dayjs.locale(locale)
+	} catch (error) {
+		console.warn(`Locale ${locale} not found, falling back to English`)
+		dayjs.locale('en')
+	}
+}
 
 export default {
 	name: 'ShareExpiryTime',
@@ -45,14 +70,27 @@ export default {
 
 	computed: {
 		expiryTime() {
-			return this.share?.expireDate || null
+			return this.share?.expireDate ? dayjs(this.share.expireDate) : null
 		},
 
 		formattedExpiry() {
-			return this.expiryTime
-				? this.t('files_sharing', 'Share expires on {datetime}', { datetime: this.expiryTime })
-				: ''
+			if (!this.expiryTime) {
+				return ''
+			}
+
+			const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+			const formattedDate = this.expiryTime.tz(userTimezone).locale(getLocale()).format('LLLL')
+			const relativeTime = this.expiryTime.tz(userTimezone).fromNow()
+
+			return this.t('files_sharing', 'Share expires on {datetime} ({relative})', {
+				datetime: formattedDate,
+				relative: relativeTime,
+			})
 		},
+	},
+
+	created() {
+		loadLocale(getLocale())
 	},
 }
 </script>
@@ -72,7 +110,7 @@ export default {
 }
 
 .hint-body {
-        padding: var(--border-radius-element);
-        max-width: 300px;
-    }
+    padding: var(--border-radius-element);
+    max-width: 300px;
+}
 </style>
