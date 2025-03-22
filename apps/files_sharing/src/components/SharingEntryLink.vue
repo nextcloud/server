@@ -25,19 +25,23 @@
 			</div>
 
 			<!-- clipboard -->
-			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton :aria-label="copyLinkTooltip"
-					:title="copyLinkTooltip"
-					:href="shareLink"
-					@click.prevent="copyLink">
-					<template #icon>
-						<CheckIcon v-if="copied && copySuccess"
-							:size="20"
-							class="icon-checkmark-color" />
-						<ClipboardIcon v-else :size="20" />
-					</template>
-				</NcActionButton>
-			</NcActions>
+			<div class="sharing-entry__actions">
+				<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
+					<NcActionButton :aria-label="copyLinkTooltip"
+						:title="copyLinkTooltip"
+						:href="shareLink"
+						@click.prevent="copyLink">
+						<template #icon>
+							<CheckIcon v-if="copied && copySuccess"
+								:size="20"
+								class="icon-checkmark-color" />
+							<ClipboardIcon v-else :size="20" />
+						</template>
+					</NcActionButton>
+				</NcActions>
+
+				<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
+			</div>
 		</div>
 
 		<!-- pending actions -->
@@ -245,6 +249,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import ShareExpiryTime from './ShareExpiryTime.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
@@ -278,6 +283,7 @@ export default {
 		CloseIcon,
 		PlusIcon,
 		SharingEntryQuickShareSelect,
+		ShareExpiryTime,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -934,6 +940,12 @@ export default {
 				overflow: hidden;
 				white-space: nowrap;
 			}
+		}
+
+		&__actions {
+			display: flex;
+			align-items: center;
+			margin-inline-start: auto;
 		}
 
 	&:not(.sharing-entry--share) &__actions {
