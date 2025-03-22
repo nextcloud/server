@@ -25,6 +25,9 @@ class DatabaseTest extends Backend {
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
+	/** @var \OC\User\Database */
+	protected $backend;
+
 	public function getUser() {
 		$user = parent::getUser();
 		$this->users[] = $user;
@@ -138,5 +141,15 @@ class DatabaseTest extends Backend {
 
 		$result = $this->backend->getDisplayNames('@nextcloud.COM');
 		$this->assertCount(2, $result);
+	}
+
+	public function testUserCount(): void {
+		$base = $this->backend->countUsers() ?: 0;
+		$users = $this->backend->getUsers();
+		self::assertEquals($base, count($users));
+
+		$user = $this->getUser();
+		$this->backend->createUser($user, $user);
+		self::assertEquals($base + 1, $this->backend->countUsers());
 	}
 }
