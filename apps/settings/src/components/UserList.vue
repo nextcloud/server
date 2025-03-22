@@ -61,7 +61,7 @@
 
 <script>
 import { mdiAccountGroup } from '@mdi/js'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 
@@ -117,6 +117,10 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		view: {
+			type: String,
+			required: true,
+		},
 	},
 
 	setup() {
@@ -166,7 +170,7 @@ export default {
 		},
 
 		filteredUsers() {
-			if (this.selectedGroup === 'disabled') {
+			if (this.view === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
 			}
 			return this.users.filter(user => user.enabled !== false)
@@ -198,22 +202,6 @@ export default {
 			return quotaPreset
 		},
 
-		usersOffset() {
-			return this.$store.getters.getUsersOffset
-		},
-
-		usersLimit() {
-			return this.$store.getters.getUsersLimit
-		},
-
-		disabledUsersOffset() {
-			return this.$store.getters.getDisabledUsersOffset
-		},
-
-		disabledUsersLimit() {
-			return this.$store.getters.getDisabledUsersLimit
-		},
-
 		usersCount() {
 			return this.users.length
 		},
@@ -231,16 +219,24 @@ export default {
 				},
 			]
 		},
+
+		userFilter() {
+			return [this.view, this.selectedGroup]
+		},
 	},
 
 	watch: {
 		// watch url change and group select
-		async selectedGroup(val) {
+		async userFilter() {
 			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
 			this.$store.commit('resetUsers')
 			await this.loadUsers()
+			this.setNewUserDefaultGroup(this.selectedGroup)
+		},
+
+		selectedGroup(val) {
 			this.setNewUserDefaultGroup(val)
 		},
 
@@ -255,7 +251,7 @@ export default {
 
 	async mounted() {
 		if (!this.settings.canChangePassword) {
-			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
+			showWarning(t('settings', 'Password change is disabled because the master key is disabled'))
 		}
 
 		/**
@@ -286,24 +282,23 @@ export default {
 		},
 
 		async loadUsers() {
+			logger.debug('Loading users', { view: this.view, group: this.selectedGroup })
 			this.loading.users = true
 			try {
-				if (this.selectedGroup === 'disabled') {
-					await this.$store.dispatch('getDisabledUsers', {
-						offset: this.disabledUsersOffset,
-						limit: this.disabledUsersLimit,
+				if (this.view === 'all') {
+					await this.$store.dispatch('getUsers', {
 						search: this.searchQuery,
 					})
-				} else if (this.selectedGroup === '__nc_internal_recent') {
+				} else if (this.view === 'disabled') {
+					await this.$store.dispatch('getDisabledUsers', {
+						search: this.searchQuery,
+					})
+				} else if (this.view === 'recent') {
 					await this.$store.dispatch('getRecentUsers', {
-						offset: this.usersOffset,
-						limit: this.usersLimit,
 						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
-						offset: this.usersOffset,
-						limit: this.usersLimit,
 						group: this.selectedGroup,
 						search: this.searchQuery,
 					})
@@ -386,11 +381,11 @@ export default {
 		 */
 		async redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups
-			if (this.selectedGroup === 'disabled'
-						&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1) {
+			if (this.view === 'disabled'
+				&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1
+			) {
 				// disabled group is empty, redirection to all users
-				this.$router.push({ name: 'users' })
-				await this.loadUsers()
+				this.$router.replace({ name: 'users' })
 			}
 		},
 	},
