@@ -34,8 +34,6 @@
 				users,
 				settings,
 				hasObfuscated,
-				groups,
-				subAdminsGroups,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -173,15 +171,8 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the recent and disabled groups
-			return this.$store.getters.getGroups
+			return this.$store.getters.getSortedGroups
 				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getSubadminGroups
 		},
 
 		quotaOptions() {
