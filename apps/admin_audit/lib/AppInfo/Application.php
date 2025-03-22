@@ -27,6 +27,7 @@ use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
 use OCP\App\Events\AppUpdateEvent;
@@ -110,6 +111,7 @@ class Application extends App implements IBootstrap {
 
 		// File events
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, FileEventListener::class);
+		$context->registerEventListener(VersionRestoredEvent::class, FileEventListener::class);
 
 		// Security events
 		$context->registerEventListener(TwoFactorProviderChallengePassed::class, SecurityEventListener::class);
@@ -220,7 +222,6 @@ class Application extends App implements IBootstrap {
 
 	private function versionsHooks(IAuditLogger $logger): void {
 		$versionsActions = new Versions($logger);
-		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
 		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
 	}
 
