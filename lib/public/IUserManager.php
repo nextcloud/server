@@ -200,9 +200,12 @@ interface IUserManager {
 	/**
 	 * @param \Closure $callback
 	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
+	 * @param int|null $maxTime - Returns early if time() is greater than this value.
+	 * @param int $offset - The offset from which to start.
+	 * @return int - The offset from which to continue if we returned early.
 	 * @since 11.0.0
 	 */
-	public function callForSeenUsers(\Closure $callback);
+	public function callForSeenUsers(\Closure $callback, int|null $maxTime, int $offset = 0): int;
 
 	/**
 	 * returns all users having the provided email set as system email address

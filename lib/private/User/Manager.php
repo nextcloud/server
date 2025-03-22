@@ -628,30 +628,35 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $result;
 	}
 
-	/**
-	 * @param \Closure $callback
-	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
-	 * @since 11.0.0
-	 */
-	public function callForSeenUsers(\Closure $callback) {
+	public function callForSeenUsers(\Closure $callback, int|null $maxTime, int $offset = 0): int {
 		$limit = 1000;
-		$offset = 0;
+
 		do {
 			$userIds = $this->getSeenUserIds($limit, $offset);
-			$offset += $limit;
 			foreach ($userIds as $userId) {
 				foreach ($this->backends as $backend) {
 					if ($backend->userExists($userId)) {
 						$user = $this->getUserObject($userId, $backend, false);
-						$return = $callback($user);
-						if ($return === false) {
-							return;
+						try {
+							$return = $callback($user);
+							if ($return === false) {
+								return 0;
+							}
+						} catch (\Throwable $e) {
+							$this->logger->error('Error while calling callback for seen users', ['exception' => $e, 'userId' => $userId, 'backend' => $backend::class]);
 						}
 						break;
 					}
 				}
+
+				$offset++;
+				if ($maxTime !== null && $maxTime < time()) {
+					return $offset;
+				}
 			}
 		} while (count($userIds) >= $limit);
+
+		return 0;
 	}
 
 	/**
