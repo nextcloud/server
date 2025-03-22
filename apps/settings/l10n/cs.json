@@ -256,6 +256,7 @@
     "PHP modules" : "PHP moduly",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "Zvyšuje rychlost překladu jazyka a opravuje řazení znaků mimo ASCII",
     "for Argon2 for password hashing" : "pro tvorbu otisků hesla Argon2",
+    "required for SFTP storage and recommended for WebAuthn performance" : "vyžadováno pro SFTP úložiště a doporučeno pro výkon WebAuthn",
     "for picture rotation in server and metadata extraction in the Photos app" : "pro otáčení obrázku na serveru a získávání metadat v aplikaci Fotky",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "Tato instance postrádá některé potřebné PHP moduly. Je třeba je nainstalovat: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s" : "Této instanci chybí některé doporučené moduly pro PHP. V zájmu lepšího výkonu a kompatibility, je důrazně doporučeno je nainstalovat:\n%s",
