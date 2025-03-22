@@ -110,6 +110,10 @@ class CacheEntry implements ICacheEntry {
 		return $this->data['upload_time'] ?? null;
 	}
 
+	public function getParent(): int {
+		return $this->data['parent'];
+	}
+
 	public function getData() {
 		return $this->data;
 	}
