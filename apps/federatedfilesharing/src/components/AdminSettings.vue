@@ -151,7 +151,7 @@ export default {
 				.setText(
 					t('federatedfilesharing', 'When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.')
 					+ t('federatedfilesharing', 'This is used to retrieve the federated cloud ID to make federated sharing easier.')
-					+ t('federatedfilesharing', 'Moreover email addresses of users might be sent to that system in order to verify it.'),
+					+ t('federatedfilesharing', 'Moreover, email addresses of users might be sent to that system in order to verify them.'),
 				)
 				.addButton({
 					callback: () => this.setLookupServerEnabled(false),
