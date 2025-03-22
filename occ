@@ -17,7 +17,7 @@ function dropPrivileges(): void {
 	}
 
 	$configPath = __DIR__ . '/config/config.php';
-	$uid = fileowner($configPath);
+	$uid = @fileowner($configPath);
 	if ($uid === false) {
 		return;
 	}
