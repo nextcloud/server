@@ -304,8 +304,9 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->willReturnMap([
-				'\OCA\Files_Sharing\SharedStorage' => false,
-				'\OC\Files\Storage\Wrapper\Quota' => false,
+				['\OCA\Files_Sharing\SharedStorage', false],
+				['\OC\Files\Storage\Wrapper\Quota', false],
+				[\OCA\Files_Sharing\External\Storage::class, false],
 			]);
 
 		$storage->expects($this->once())
@@ -335,6 +336,10 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getRelativePath')
 			->willReturn('/foo');
 
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
+
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
 
@@ -357,6 +362,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturnMap([
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
+				[\OCA\Files_Sharing\External\Storage::class, false],
 			]);
 
 		$storage->expects($this->once())
@@ -378,6 +384,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->once())
 			->method('getMountPoint')
 			->willReturn($mountPoint);
+
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
