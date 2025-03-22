@@ -587,7 +587,7 @@ export default {
 				})
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
-				showError(t('setting', 'Failed to update line manager'))
+				showError(t('settings', 'Failed to update line manager'))
 				console.error(error)
 			} finally {
 				this.loading.manager = false
@@ -649,7 +649,7 @@ export default {
 			}).then(() => {
 				this.loading.displayName = false
 				if (this.editedDisplayName === this.user.displayname) {
-					showSuccess(t('setting', 'Display name was successfully changed'))
+					showSuccess(t('settings', 'Display name was successfully changed'))
 				}
 			})
 		},
@@ -662,7 +662,7 @@ export default {
 		updatePassword() {
 			this.loading.password = true
 			if (this.editedPassword.length === 0) {
-				showError(t('setting', "Password can't be empty"))
+				showError(t('settings', "Password can't be empty"))
 				this.loading.password = false
 			} else {
 				this.$store.dispatch('setUserData', {
@@ -672,7 +672,7 @@ export default {
 				}).then(() => {
 					this.loading.password = false
 					this.editedPassword = ''
-					showSuccess(t('setting', 'Password was successfully changed'))
+					showSuccess(t('settings', 'Password was successfully changed'))
 				})
 			}
 		},
@@ -685,7 +685,7 @@ export default {
 		updateEmail() {
 			this.loading.mailAddress = true
 			if (this.editedMail === '') {
-				showError(t('setting', "Email can't be empty"))
+				showError(t('settings', "Email can't be empty"))
 				this.loading.mailAddress = false
 				this.editedMail = this.user.email
 			} else {
@@ -696,7 +696,7 @@ export default {
 				}).then(() => {
 					this.loading.mailAddress = false
 					if (this.editedMail === this.user.email) {
-						showSuccess(t('setting', 'Email was successfully changed'))
+						showSuccess(t('settings', 'Email was successfully changed'))
 					}
 				})
 			}
@@ -898,7 +898,7 @@ export default {
 		sendWelcomeMail() {
 			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
-				.then(() => showSuccess(t('setting', 'Welcome mail sent!'), { timeout: 2000 }))
+				.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
 				.finally(() => {
 					this.loading.all = false
 				})
