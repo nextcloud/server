@@ -67,9 +67,13 @@ class ContactsManagerTest extends \Test\TestCase {
 	 */
 	public function testSearch($search1, $search2, $expectedResult) {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBook $addressbook */
-		$addressbook1 = $this->getMockBuilder('\OCP\IAddressBook')
+		$addressbook1 = $this->getMockBuilder('\OCP\IAddressBookEnabled')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$addressbook1->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$addressbook1->expects($this->once())
 			->method('search')
@@ -79,9 +83,13 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('getKey')
 			->willReturn('simple:1');
 
-		$addressbook2 = $this->getMockBuilder('\OCP\IAddressBook')
+		$addressbook2 = $this->getMockBuilder('\OCP\IAddressBookEnabled')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$addressbook2->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$addressbook2->expects($this->once())
 			->method('search')
@@ -96,6 +104,44 @@ class ContactsManagerTest extends \Test\TestCase {
 		$this->cm->registerAddressBook($addressbook2);
 		$result = $this->cm->search('');
 		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @dataProvider searchProvider
+	 */
+	public function testSearchDisabledAb($search1): void {
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBookEnabled $addressbook */
+		$addressbook1 = $this->getMockBuilder('\OCP\IAddressBookEnabled')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$addressbook1->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$addressbook1->expects($this->once())
+			->method('search')
+			->willReturn($search1);
+
+		$addressbook1->expects($this->any())
+			->method('getKey')
+			->willReturn('simple:1');
+
+		$addressbook2 = $this->getMockBuilder('\OCP\IAddressBookEnabled')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$addressbook2->expects($this->once())
+			->method('isEnabled')
+			->willReturn(false);
+
+		$addressbook2->expects($this->never())
+			->method('search');
+
+		$this->cm->registerAddressBook($addressbook1);
+		$this->cm->registerAddressBook($addressbook2);
+		$result = $this->cm->search('');
+		$this->assertEquals($search1, $result);
 	}
 
 
@@ -247,8 +293,8 @@ class ContactsManagerTest extends \Test\TestCase {
 
 	public function testAddressBookEnumeration() {
 		// create mock for the addressbook
-		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBook $addressbook */
-		$addressbook = $this->getMockBuilder('\OCP\IAddressBook')
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBookEnabled $addressbook */
+		$addressbook = $this->getMockBuilder('\OCP\IAddressBookEnabled')
 			->disableOriginalConstructor()
 			->getMock();
 
