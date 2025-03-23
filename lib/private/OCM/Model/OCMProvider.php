@@ -213,7 +213,7 @@ class OCMProvider implements IOCMProvider {
 	 *      enabled: bool,
 	 *      apiVersion: '1.0-proposal1',
 	 *      endPoint: string,
-	 *      publicKey: array{
+	 *      publicKey?: array{
 	 *          keyId: string,
 	 *          publicKeyPem: string
 	 *      },
@@ -236,7 +236,7 @@ class OCMProvider implements IOCMProvider {
 			'apiVersion' => '1.0-proposal1', // deprecated, but keep it to stay compatible with old version
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
-			'publicKey' => $this->getSignatory()->jsonSerialize(),
+			'publicKey' => $this->getSignatory()?->jsonSerialize(),
 			'resourceTypes' => $resourceTypes
 		];
 	}
