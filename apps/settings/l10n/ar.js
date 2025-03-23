@@ -258,6 +258,7 @@ OC.L10N.register(
     "PHP modules" : "وحدات الـ PHP",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "يزيد من كفاءة ترجمة اللغات، و يحل مشكلة ترتيب الأحرف غير الآسكي non-ASCII characters",
     "for Argon2 for password hashing" : "لتقطيع كلمات المرور password hashing في Argon2",
+    "required for SFTP storage and recommended for WebAuthn performance" : "مطلوب لتخزين SFTP و يٌوصَى به لتحسين أداء WebAuth",
     "for picture rotation in server and metadata extraction in the Photos app" : "لتدوير الصورة في الخادم، و استخلاص البيانات الوصفية في تطبيق الصِّوَر",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "يفتقد هذا الخادم إلى بعض الأجزاء modules من PHP  و التي يتوجب تثبيتها: %s.",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s" : "هذا الخادم تنقصه بعد الوحدات الهامة من الـ PHP. لتحقيق أداء أحسن و توافقية أفضل، يُنصح بشدة بتثبيتها:\n%s",
