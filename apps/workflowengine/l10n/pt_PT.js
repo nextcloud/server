@@ -52,6 +52,7 @@ OC.L10N.register(
     "Select groups" : "Selecionar grupos",
     "Groups" : "Grupos",
     "Save" : "Guardar",
+    "and" : "e",
     "Cancel" : "Cancelar",
     "Delete" : "Apagar",
     "matches" : "corresponde",
