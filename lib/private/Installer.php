@@ -446,11 +446,26 @@ class Installer {
 	 */
 	public function removeApp(string $appId): bool {
 		if ($this->isDownloaded($appId)) {
-			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
+			$appManager = \OCP\Server::get(IAppManager::class);
+
+			if ($appManager->isShipped($appId)) {
 				return false;
 			}
-			$appDir = OC_App::getInstallPath() . '/' . $appId;
-			OC_Helper::rmdirr($appDir);
+
+			$appPath = $appManager->getAppPath($appId);
+
+			$appsRootWritable = false;
+			$appRootPath = dirname($appPath);
+			foreach (\OC::$APPSROOTS as $appsRoot) {
+				if ($appsRoot['path'] === $appRootPath) {
+					$appsRootWritable = $appsRoot['writable'] ?? false;
+				}
+			}
+			if (!$appsRootWritable) {
+				return false;
+			}
+
+			OC_Helper::rmdirr($appPath);
 			return true;
 		} else {
 			$this->logger->error('can\'t remove app ' . $appId . '. It is not installed.');
