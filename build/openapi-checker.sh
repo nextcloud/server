@@ -9,7 +9,7 @@ for path in core apps/*; do
 	fi
 done
 
-files="$(git diff --name-only)"
+files="$(git ls-files --exclude-standard --modified --others)"
 changed=false
 for file in $files; do
     if [[ $file == *"openapi"*".json" ]]; then
