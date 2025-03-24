@@ -604,14 +604,13 @@ class Server extends ServerContainer implements IServerContainer {
 			$config = $c->get(SystemConfig::class);
 			/** @var ServerVersion $serverVersion */
 			$serverVersion = $c->get(ServerVersion::class);
-			$appManager = $c->get(IAppManager::class);
 
 			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion, $appManager): ?string {
+				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
 					if (!$logQuery) {
 						try {
-							$v = $appManager->getAppInstalledVersions();
+							$v = \OCP\Server::get(IAppManager::class)->getAppVersions();
 						} catch (\Doctrine\DBAL\Exception $e) {
 							// Database service probably unavailable
 							// Probably related to https://github.com/nextcloud/server/issues/37424
