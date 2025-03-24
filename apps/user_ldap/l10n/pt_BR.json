@@ -4,6 +4,7 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Configuração inválida: A ligação anônima não é permitida.",
     "Valid configuration, connection established!" : "Configuração válida, conexão estabelecida!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Configuração válida, mas a ligação falhou. Verifique as configurações e as credenciais do servidor.",
+    "Invalid configuration: %s" : "Configuração inválida: %s",
     "No action specified" : "Nenhuma ação especificada",
     "No configuration specified" : "Nenhuma configuração especificada",
     "No data specified" : "Nenhum dado especificado",

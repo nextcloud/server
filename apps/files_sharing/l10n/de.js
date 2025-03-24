@@ -414,7 +414,7 @@ OC.L10N.register(
     "Files" : "Dateien",
     "Download all files" : "Alle Dateien herunterladen",
     "Search for share recipients" : "Nach Freigabe-Empfängern suchen",
-    "No recommendations. Start typing." : "Keine Empfehlungen. Beginne mit der Eingabe.",
+    "No recommendations. Start typing." : "Keine Empfehlungen. Eingabe beginnen.",
     "Password field can't be empty" : "Passwortfeld darf nicht leer sein",
     "Allow download" : "Download erlauben",
     "Share expire date saved" : "Freigabe-Ablaufdatum gespeichert",
