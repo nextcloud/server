@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
 	public function __construct(
-		protected IAppManager $manager,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
@@ -56,16 +56,16 @@ class ListApps extends Base {
 		$showEnabledApps = $input->getOption('enabled') || !$input->getOption('disabled');
 		$showDisabledApps = $input->getOption('disabled') || !$input->getOption('enabled');
 
-		$apps = \OC_App::getAllApps();
+		$apps = $this->appManager->getAllAppsInAppsFolders();
 		$enabledApps = $disabledApps = [];
-		$versions = \OC_App::getAppVersions();
+		$versions = $this->appManager->getAppInstalledVersions();
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
-			if ($shippedFilter !== null && $this->manager->isShipped($app) !== $shippedFilter) {
+			if ($shippedFilter !== null && $this->appManager->isShipped($app) !== $shippedFilter) {
 				continue;
 			}
-			if ($this->manager->isEnabledForAnyone($app)) {
+			if ($this->appManager->isEnabledForAnyone($app)) {
 				$enabledApps[] = $app;
 			} else {
 				$disabledApps[] = $app;
@@ -88,7 +88,7 @@ class ListApps extends Base {
 
 			sort($disabledApps);
 			foreach ($disabledApps as $app) {
-				$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
+				$apps['disabled'][$app] = $this->appManager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 			}
 		}
 
