@@ -1073,7 +1073,7 @@ class UsersController extends AUserDataOCSController {
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
-					throw new OCSException($e->getMessage(), 107);
+					throw new OCSException($e->getHint(), 107);
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
