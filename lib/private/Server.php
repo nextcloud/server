@@ -604,13 +604,14 @@ class Server extends ServerContainer implements IServerContainer {
 			$config = $c->get(SystemConfig::class);
 			/** @var ServerVersion $serverVersion */
 			$serverVersion = $c->get(ServerVersion::class);
+			$appManager = $c->get(IAppManager::class);
 
 			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion) {
+				$prefixClosure = function () use ($logQuery, $serverVersion, $appManager): ?string {
 					if (!$logQuery) {
 						try {
-							$v = \OC_App::getAppVersions();
+							$v = $appManager->getAppInstalledVersions();
 						} catch (\Doctrine\DBAL\Exception $e) {
 							// Database service probably unavailable
 							// Probably related to https://github.com/nextcloud/server/issues/37424
@@ -867,15 +868,15 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerDeprecatedAlias('IntegrityCodeChecker', Checker::class);
 		$this->registerService(Checker::class, function (ContainerInterface $c) {
-			// IConfig and IAppManager requires a working database. This code
-			// might however be called when ownCloud is not yet setup.
+			// IConfig requires a working database. This code
+			// might however be called when Nextcloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
 				$appConfig = $c->get(\OCP\IAppConfig::class);
 			} else {
-				$config = $appConfig = $appManager = null;
+				$config = null;
+				$appConfig = null;
 			}
-			$appManager = $c->get(IAppManager::class);
 
 			return new Checker(
 				$c->get(ServerVersion::class),
@@ -885,7 +886,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$config,
 				$appConfig,
 				$c->get(ICacheFactory::class),
-				$appManager,
+				$c->get(IAppManager::class),
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
