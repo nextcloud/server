@@ -51,7 +51,6 @@ class Capabilities implements ICapability {
 	 *         }>,
 	 *         version: string,
 	 *         capabilities: array{
-	 *             string
 	 *         }
 	 *    }
 	 * } OCM provider information
