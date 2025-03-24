@@ -78,15 +78,15 @@
 			<div v-if="isLoading || isInitializing" class="icon icon-loading-small" />
 			<NcButton v-if="app.update"
 				type="primary"
-				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall"
+				:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isManualInstall || !app.canUpdate"
 				:title="updateButtonText"
 				@click.stop="update(app.id)">
 				{{ t('settings', 'Update to {update}', {update:app.update}) }}
 			</NcButton>
-			<NcButton v-if="app.canUnInstall"
+			<NcButton v-if="app.installed"
 				class="uninstall"
 				type="tertiary"
-				:disabled="installing || isLoading"
+				:disabled="installing || isLoading || !app.canUnInstall"
 				@click.stop="remove(app.id)">
 				{{ t('settings', 'Remove') }}
 			</NcButton>
@@ -95,22 +95,24 @@
 				@click.stop="disable(app.id)">
 				{{ disableButtonText }}
 			</NcButton>
-			<NcButton v-if="!app.active && (app.canInstall || app.isCompatible)"
-				:title="enableButtonTooltip"
-				:aria-label="enableButtonTooltip"
-				type="primary"
-				:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
-				@click.stop="enable(app.id)">
-				{{ enableButtonText }}
-			</NcButton>
-			<NcButton v-else-if="!app.active"
-				:title="forceEnableButtonTooltip"
-				:aria-label="forceEnableButtonTooltip"
-				type="secondary"
-				:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
-				@click.stop="forceEnable(app.id)">
-				{{ forceEnableButtonText }}
-			</NcButton>
+			<div v-if="!app.active && (!app.needsDownload || app.canDownload)">
+				<NcButton v-if="app.canInstall || app.isCompatible"
+					:title="enableButtonTooltip"
+					:aria-label="enableButtonTooltip"
+					type="primary"
+					:disabled="installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
+					@click.stop="enable(app.id)">
+					{{ enableButtonText }}
+				</NcButton>
+				<NcButton v-else
+					:title="forceEnableButtonTooltip"
+					:aria-label="forceEnableButtonTooltip"
+					type="secondary"
+					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
+					@click.stop="forceEnable(app.id)">
+					{{ forceEnableButtonText }}
+				</NcButton>
+			</div>
 		</component>
 	</component>
 </template>

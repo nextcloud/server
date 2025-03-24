@@ -347,7 +347,6 @@ class AppSettingsController extends Controller {
 				}
 			}
 			$appData['groups'] = $groups;
-			$appData['canUnInstall'] = !$appData['active'] && $appData['removable'];
 
 			// fix licence vs license
 			if (isset($appData['license']) && !isset($appData['licence'])) {
@@ -381,6 +380,14 @@ class AppSettingsController extends Controller {
 	 * @throws \Exception
 	 */
 	private function getAppsForCategory($requestedCategory = ''): array {
+		$anyAppsRootWritable = false;
+		foreach (\OC::$APPSROOTS as $appsRoot) {
+			if ($appsRoot['writable'] ?? false) {
+				$anyAppsRootWritable = true;
+				break;
+			}
+		}
+
 		$versionParser = new VersionParser();
 		$formattedApps = [];
 		$apps = $this->appFetcher->get();
@@ -411,11 +418,23 @@ class AppSettingsController extends Controller {
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
 
+			$needsDownload = true;
+			$canUpdate = false;
+			$canUnInstall = false;
+
 			try {
-				$this->appManager->getAppPath($app['id']);
-				$existsLocally = true;
+				$appPath = $this->appManager->getAppPath($app['id']);
+				$needsDownload = false;
+
+				$appRootPath = dirname($appPath);
+				foreach (\OC::$APPSROOTS as $appsRoot) {
+					if ($appsRoot['path'] === $appRootPath) {
+						$appsRootWritable = $appsRoot['writable'] ?? false;
+						$canUpdate = $appsRootWritable;
+						$canUnInstall = $appsRootWritable;
+					}
+				}
 			} catch (AppPathNotFoundException) {
-				$existsLocally = false;
 			}
 
 			$phpDependencies = [];
@@ -482,9 +501,11 @@ class AppSettingsController extends Controller {
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,
-				'removable' => $existsLocally,
-				'active' => $this->appManager->isEnabledForUser($app['id']),
-				'needsDownload' => !$existsLocally,
+				'canDownload' => $anyAppsRootWritable,
+				'canUpdate' => $canUpdate,
+				'canUnInstall' => $canUnInstall && !$this->appManager->isShipped($app['id']),
+				'active' => $this->appManager->isEnabledForAnyone($app['id']),
+				'needsDownload' => $needsDownload,
 				'groups' => $groups,
 				'fromAppStore' => true,
 				'appstoreData' => $app,
