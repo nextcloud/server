@@ -58,8 +58,7 @@ class OrphanHelper {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('id', 'file_source', 'uid_owner', 'file_target')
 			->from('share')
-			->where($query->expr()->eq('item_type', $query->createNamedParameter('file')))
-			->orWhere($query->expr()->eq('item_type', $query->createNamedParameter('folder')));
+			->where($query->expr()->in('item_type', $query->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			yield [
