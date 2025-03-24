@@ -1155,9 +1155,6 @@
     <ParamNameMismatch>
       <code><![CDATA[$gid]]></code>
     </ParamNameMismatch>
-    <UnsupportedPropertyReferenceUsage>
-      <code><![CDATA[$this->refBackend = &$this->backends[$configPrefix]]]></code>
-    </UnsupportedPropertyReferenceUsage>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand>
@@ -1219,9 +1216,6 @@
     <ParamNameMismatch>
       <code><![CDATA[$uid]]></code>
     </ParamNameMismatch>
-    <UnsupportedPropertyReferenceUsage>
-      <code><![CDATA[$this->refBackend = &$this->backends[$configPrefix]]]></code>
-    </UnsupportedPropertyReferenceUsage>
   </file>
   <file src="apps/user_ldap/lib/Wizard.php">
     <InvalidArrayOffset>
