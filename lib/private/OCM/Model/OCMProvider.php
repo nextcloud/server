@@ -11,12 +11,12 @@ namespace OC\OCM\Model;
 
 use NCU\Security\Signature\Model\Signatory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
-use OCP\IConfig;
 
 /**
  * @since 28.0.0
@@ -108,7 +108,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return $this
 	 */
 	public function setCapabilities(array $capabilities): static {
-		foreach ($capabilities as $key => $value) {
+		foreach ($capabilities as $value) {
 			if (!in_array($value, $this->capabilities)) {
 				array_push($this->capabilities, $value);
 			}
