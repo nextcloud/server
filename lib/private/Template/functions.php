@@ -13,7 +13,10 @@ use OCP\IURLGenerator;
 use OCP\Server;
 use OCP\Util;
 
-function p(string $string): void {
+/**
+ * @param string $string
+ */
+function p($string): void {
 	print(Util::sanitizeHTML($string));
 }
 
