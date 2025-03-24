@@ -380,7 +380,7 @@ export default defineComponent({
 
 	--checkbox-padding: calc((var(--row-height) - var(--checkbox-size)) / 2);
 	--checkbox-size: 24px;
-	--clickable-area: 44px;
+	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 32px;
 
 	overflow: auto;
@@ -747,40 +747,58 @@ export default defineComponent({
 <style lang="scss">
 // Grid mode
 tbody.files-list__tbody.files-list__tbody--grid {
+	--clickable-area: 34px;
 	--half-clickable-area: calc(var(--clickable-area) / 2);
-	--row-width: 160px;
-	// We use half of the clickable area as visual balance margin
-	--row-height: calc(var(--row-width) - var(--half-clickable-area));
-	--icon-preview-size: calc(var(--row-width) - var(--clickable-area));
+	--item-padding: 16px;
+	--icon-preview-size: 166px;
+	--name-height: 34px;
+	--mtime-height: calc(var(--font-size-small, 13px) + var(--default-grid-baseline));
+	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
+	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
 
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
-	grid-gap: 15px;
-	row-gap: 15px;
 
 	align-content: center;
 	align-items: center;
 	justify-content: space-around;
 	justify-items: center;
+	margin: 16px;
+	width: calc(100% - 32px);
 
 	tr {
+		display: flex;
+		flex-direction: column;
 		width: var(--row-width);
-		height: calc(var(--row-height) + var(--clickable-area));
+		height: var(--row-height);
 		border: none;
-		border-radius: var(--border-radius);
+		border-radius: var(--border-radius-large);
+		padding: var(--item-padding);
 	}
 
 	// Checkbox in the top left
 	.files-list__row-checkbox {
 		position: absolute;
 		z-index: 9;
-		top: 0;
-		left: 0;
+		top: calc(var(--item-padding)/2);
+		left: calc(var(--item-padding)/2);
 		overflow: hidden;
-		width: var(--clickable-area);
-		height: var(--clickable-area);
-		border-radius: var(--half-clickable-area);
+		--checkbox-container-size: 44px;
+		width: var(--checkbox-container-size);
+		height: var(--checkbox-container-size);
+
+		// Add a background to the checkbox so we do not see the image through it.
+		.checkbox-radio-switch__content::after {
+			content: '';
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			left: 50%;
+			margin-left: -8px;
+			z-index: -1;
+			background: var(--color-main-background);
+		}
 	}
 
 	// Star icon in the top right
@@ -796,32 +814,62 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	}
 
 	.files-list__row-name {
-		display: grid;
-		justify-content: stretch;
-		width: 100%;
-		height: 100%;
-		grid-auto-rows: var(--row-height) var(--clickable-area);
+		display: flex;
+		flex-direction: column;
+		width: var(--icon-preview-size);
+		height: calc(var(--icon-preview-size) + var(--name-height));
+		// Ensure that the name outline is visible.
+		overflow: visible;
 
 		span.files-list__row-icon {
-			width: 100%;
-			height: 100%;
-			// Visual balance, we use half of the clickable area
-			// as a margin around the preview
-			padding-top: var(--half-clickable-area);
+			width: var(--icon-preview-size);
+			height: var(--icon-preview-size);
+		}
+
+		.files-list__row-name-link {
+			height: var(--name-height);
+			padding-inline: 0 !important;
 		}
 
 		.files-list__row-name-text {
 			margin: 0;
-			padding-right: 0;
+			// Ensure that the outline is not too close to the text.
+			margin-left: -4px;
+			padding: 0px 4px;
 		}
 	}
 
+	.files-list__row-mtime {
+		width: var(--icon-preview-size);
+		height: var(--mtime-height);
+		font-size: var(--font-size-small, 13px);
+	}
+
 	.files-list__row-actions {
+		--default-clickable-area: var(--clickable-area);
+
 		position: absolute;
-		right: 0;
-		bottom: 0;
-		width: var(--clickable-area);
 		height: var(--clickable-area);
+		width: var(--clickable-area);
+		inset-inline-end: calc(var(--half-clickable-area) / 2);
+		inset-block-end: calc(var(--mtime-height) / 2);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	// there is no mtime
+	tbody.files-list__tbody.files-list__tbody--grid {
+		--mtime-height: 0px;
+
+		// so we move the action to the name
+		.files-list__row-actions {
+			inset-block-end: var(--item-padding);
+		}
+
+		// and we need to keep space on the name for the actions
+		.files-list__row-name-text {
+			padding-inline-end: var(--clickable-area) !important;
+		}
 	}
 }
 </style>
