@@ -241,8 +241,14 @@ class RequestHandlerController extends Controller {
 	 * @param string $email The email address of the recipient
 	 * @param string $name The display name of the recipient
 	 *
-	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{email?: null|string, error?: true, message?: string, name?: string, userID?: string}, array<never, never>>
+	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{email?: null|string, error?: true, message?: string, name?: string, userID?: string}, array{}>
 	 *
+	 * Note: Not implementing 404 Invitation token does not exist, instead using 400
+	 * 200: Invitation accepted
+	 * 400: Invalid token
+	 * 403: Invitation token does not exist
+	 * 409: User is already known by the OCM provider
+	 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
@@ -252,14 +258,6 @@ class RequestHandlerController extends Controller {
 
 		$updated = $this->timeFactory->getTime();
 
-		/**
-		 * Note: Not implementing 404 Invitation token does not exist, instead using 400
-		 * 200: Invitation accepted
-		 * 400: Invalid token
-		 * 403: Invitation token does not exist
-		 * 409: User is already known by the OCM provider
-		 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
-		 */
 		if ($token === '') {
 			$response = new JSONResponse(['message' => 'Invalid or non existing token', 'error' => true], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
