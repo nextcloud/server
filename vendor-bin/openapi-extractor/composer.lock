@@ -81,16 +81,16 @@
         },
         {
             "name": "nextcloud/openapi-extractor",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-releases/openapi-extractor.git",
-                "reference": "3decf9f1f33ad7f339c1d09593fa03dc3940ce78"
+                "reference": "5b41deaa345a766d3feed964a330ec2758784f1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/3decf9f1f33ad7f339c1d09593fa03dc3940ce78",
-                "reference": "3decf9f1f33ad7f339c1d09593fa03dc3940ce78",
+                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/5b41deaa345a766d3feed964a330ec2758784f1d",
+                "reference": "5b41deaa345a766d3feed964a330ec2758784f1d",
                 "shasum": ""
             },
             "require": {
@@ -122,9 +122,9 @@
             "description": "A tool for extracting OpenAPI specifications from Nextcloud source code",
             "support": {
                 "issues": "https://github.com/nextcloud-releases/openapi-extractor/issues",
-                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.5.1"
+                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.5.2"
             },
-            "time": "2025-03-10T08:28:31+00:00"
+            "time": "2025-03-17T07:03:18+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -235,13 +235,13 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
