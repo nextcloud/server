@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI\Events;
 
-use OCA\CloudFederationApi\Db\FederatedInvite;
+use OCA\CloudFederationAPI\Db\FederatedInvite;
 use OCP\EventDispatcher\Event;
 
 class FederatedInviteAcceptedEvent extends Event {

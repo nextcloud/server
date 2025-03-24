@@ -105,7 +105,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @param array $capabilities
 	 *
-	 * @return this
+	 * @return $this
 	 */
 	public function setCapabilities(array $capabilities): static {
 		foreach ($capabilities as $key => $value) {

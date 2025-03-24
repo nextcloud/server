@@ -36,7 +36,6 @@ use OCP\DB\Types;
  */
 
 class FederatedInvite extends Entity {
-
 	/**
 	 * @var bool $accepted
 	 */
@@ -50,7 +49,7 @@ class FederatedInvite extends Entity {
 	 */
 	protected $createdAt;
 	/**
-	 * @var $int $expiredAt
+	 * @var ?int $expiredAt
 	 */
 	protected $expiredAt;
 	/**

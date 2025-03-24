@@ -40,7 +40,7 @@ class Capabilities implements ICapability {
 	 *         endPoint: string,
 	 *         publicKey?: array{
 	 *             keyId: string,
-	 *             publicKeyPem: string,
+	 *             publicKeyPem: string
 	 *         },
 	 *         provider: string,
 	 *         resourceTypes: list<array{
@@ -50,9 +50,10 @@ class Capabilities implements ICapability {
 	 *         }>,
 	 *         version: string,
 	 *         capabilities: array{
-	 *             string,
+	 *             string
 	 *         }
-	 * }
+	 *    }
+	 * } OCM provider information
 	 * @throws OCMArgumentException
 	 */
 	public function getCapabilities() {
