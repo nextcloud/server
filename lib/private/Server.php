@@ -610,7 +610,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
 					if (!$logQuery) {
 						try {
-							$v = \OCP\Server::get(IAppManager::class)->getAppVersions();
+							$v = \OC_App::getAppVersions();
 						} catch (\Doctrine\DBAL\Exception $e) {
 							// Database service probably unavailable
 							// Probably related to https://github.com/nextcloud/server/issues/37424
