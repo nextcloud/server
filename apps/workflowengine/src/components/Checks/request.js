@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { registerCustomElement } from '../../helpers/window.js'
 import RequestUserAgent from './RequestUserAgent.vue'
 import RequestTime from './RequestTime.vue'
 import RequestURL from './RequestURL.vue'
@@ -18,7 +19,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestURL,
+		element: registerCustomElement(RequestURL, 'oca-workflowengine-checks-request_url'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
