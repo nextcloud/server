@@ -166,7 +166,6 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		cy.visit('/apps/files')
 
 		cy.log('By name - ascending')
-		cy.get('th').contains('button', 'Name').click()
 		cy.contains('th', 'Name').should('have.attr', 'aria-sort', 'ascending')
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
