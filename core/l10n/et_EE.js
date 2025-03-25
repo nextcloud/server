@@ -78,6 +78,7 @@ OC.L10N.register(
     "Places" : "Kohad",
     "Date" : "Kuupäev",
     "People" : "Inimesed",
+    "Load more results" : "Laadi veel tulemusi",
     "Log in" : "Logi sisse",
     "Logging in …" : "Sisselogimine ...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Me tuvastasime sinu IP-aadressilt palju ebaõnnestunud sisselogimiskatseid. Seetõttu on su järgmine sisselogimine ootel kuni 30 sekundit.",
