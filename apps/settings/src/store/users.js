@@ -158,6 +158,9 @@ const mutations = {
 			state.userCount += user.enabled ? 1 : -1 // update Active Users count
 			user.groups.forEach(userGroup => {
 				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				if (!group) {
+					return
+				}
 				group.disabled += user.enabled ? -1 : 1 // update group disabled count
 			})
 			break
@@ -166,9 +169,11 @@ const mutations = {
 			state.userCount++ // increment Active Users count
 
 			user.groups.forEach(userGroup => {
-				state.groups
-					.find(groupSearch => groupSearch.id === userGroup)
-				    .usercount++ // increment group total count
+				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				if (!group) {
+					return
+				}
+				group.usercount++ // increment group total count
 			})
 			break
 		case 'remove':
@@ -187,6 +192,9 @@ const mutations = {
 				disabledGroup.usercount-- // decrement Disabled Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						return
+					}
 					group.disabled-- // decrement group disabled count
 				})
 			}
