@@ -30,4 +30,18 @@ describe('Versions creation', () => {
 			cy.get('[data-files-versions-version]').eq(2).contains('Initial version')
 		})
 	})
+
+	it('See yourself as version author', () => {
+		cy.visit('/apps/files')
+		openVersionsPanel(randomFileName)
+
+		cy.findByRole('tabpanel', { name: 'Versions' })
+			.findByRole('list', { name: 'File versions' })
+			.findAllByRole('listitem')
+			.should('have.length', 3)
+			.first()
+			.find('[data-cy-files-version-author-name]')
+			.should('exist')
+			.and('contain.text', 'You')
+	})
 })

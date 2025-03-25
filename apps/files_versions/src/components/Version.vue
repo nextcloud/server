@@ -31,16 +31,19 @@
 			<div class="version__info">
 				<div v-if="versionLabel"
 					class="version__info__label"
+					data-cy-files-version-label
 					:title="versionLabel">
 					{{ versionLabel }}
 				</div>
-				<div v-if="versionAuthor" class="version__info">
+				<div v-if="versionAuthor"
+					class="version__info"
+					data-cy-files-version-author-name>
 					<span v-if="versionLabel">•</span>
 					<NcAvatar class="avatar"
 						:user="version.author"
-						:size="16"
-						:disable-menu="true"
-						:disable-tooltip="true"
+						:size="20"
+						disable-menu
+						disable-tooltip
 						:show-user-status="false" />
 					<div>{{ versionAuthor }}</div>
 				</div>
@@ -53,7 +56,7 @@
 				<NcDateTime class="version__info__date"
 					relative-time="short"
 					:timestamp="version.mtime" />
-				<!-- Separate dot to improve alignement -->
+				<!-- Separate dot to improve alignment -->
 				<span>•</span>
 				<span>{{ humanReadableSize }}</span>
 			</div>
@@ -114,7 +117,17 @@
 import type { PropType } from 'vue'
 import type { Version } from '../utils/versions'
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { Permission, formatFileSize } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { joinPaths } from '@nextcloud/paths'
+import { getRootUrl, generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
+
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
+import logger from '../utils/logger'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
@@ -129,14 +142,6 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import Tooltip from '@nextcloud/vue/directives/Tooltip'
-
-import { Permission, formatFileSize } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import { joinPaths } from '@nextcloud/paths'
-import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
-import moment from '@nextcloud/moment'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
@@ -295,21 +300,26 @@ export default defineComponent({
 		},
 
 		async fetchDisplayName() {
-			// check to make sure that we have a valid author - in case database did not migrate, null author, etc.
-			if (this.version.author) {
+			this.versionAuthor = null
+			if (!this.version.author) {
+				return
+			}
+
+			if (this.version.author === getCurrentUser()?.uid) {
+				this.versionAuthor = t('files_versions', 'You')
+			} else {
 				try {
-					const { data } = await axios.get(generateOcsUrl(`/cloud/users/${this.version.author}`))
-					this.versionAuthor = data.ocs.data.displayname
-				} catch (e) {
-					// Promise got rejected - default to null author to not try to load author profile
-					this.versionAuthor = null
+					const { data } = await axios.post(generateUrl('/displaynames'), { users: [this.version.author] })
+					this.versionAuthor = data.users[this.version.author]
+				} catch (error) {
+					logger.warn('Could not load user display name', { error })
 				}
 			}
 		},
 
 		click() {
 			if (!this.canView) {
-				window.location = this.downloadURL
+				window.location.href = this.downloadURL
 				return
 			}
 			this.$emit('click', { version: this.version })
