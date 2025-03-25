@@ -239,6 +239,8 @@ describe('Settings: Change user properties', function() {
 			cy.get('.vs__selected').should('not.exist')
 			// Open the dropdown menu
 			cy.get('[role="combobox"]').click({ force: true })
+			// Search for the group
+			cy.get('[role="combobox"]').type('userstestgroup')
 			// select the group
 			cy.contains('li', groupName).click({ force: true })
 
