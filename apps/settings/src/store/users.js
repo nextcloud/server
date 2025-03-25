@@ -36,14 +36,14 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [...usersSettings.systemGroups],
-	orderBy: usersSettings.sortGroups,
+	groups: [...(usersSettings.systemGroups ?? [])],
+	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
-	userCount: usersSettings.userCount,
+	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
 		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
 		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
