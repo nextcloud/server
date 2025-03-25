@@ -61,11 +61,11 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).should('exist')
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).within(() => {
-			cy.get('.counter-bubble__counter')
-				.should('not.exist') // is hidden when 0
-		})
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('.counter-bubble__counter')
+			.should('not.exist') // is hidden when 0
 	})
 
 	it('see that the user is in the list', () => {
@@ -103,8 +103,7 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 
 	it('see the group was successfully assigned', () => {
 		// see a new memeber
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
-			.contains('li', groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('.counter-bubble__counter')
 			.should('contain', '1')
 	})
@@ -129,14 +128,14 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups contains the group foo
-			cy.contains(groupName).should('exist').scrollIntoView()
-			// open the actions menu for the group
-			cy.contains('li', groupName).within(() => {
-				cy.get('button.action-item__menutoggle').click({ force: true })
-			})
-		})
+		// see that the list of groups contains the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
+		// open the actions menu for the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('button.action-item__menutoggle')
+			.click({ force: true })
 	})
 
 	it('can delete the group', () => {
@@ -150,10 +149,9 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups does not contain the group
-			cy.contains(groupName).should('not.exist')
-		})
+		// see that the list of groups does not contain the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
 			const groups: string[] = Object.keys(JSON.parse($response.stdout))
@@ -181,13 +179,14 @@ describe('Settings: Delete a non empty group', () => {
 
 	it('see that the group is in the list', () => {
 		// see that the list of groups contains the group
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).should('exist').scrollIntoView()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('can delete the group', () => {
 		// open the menu
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
-			.contains('li', groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('button.action-item__menutoggle')
 			.click({ force: true })
 
@@ -201,10 +200,9 @@ describe('Settings: Delete a non empty group', () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups does not contain the group foo
-			cy.contains(groupName).should('not.exist')
-		})
+		// see that the list of groups does not contain the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
 			const groups: string[] = Object.keys(JSON.parse($response.stdout))
