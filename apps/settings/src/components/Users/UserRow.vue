@@ -294,7 +294,6 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
-import { formatGroup } from '../../utils/groups.ts'
 import logger from '../../logger.ts'
 
 export default {
@@ -578,8 +577,8 @@ export default {
 					offset: 0,
 					limit: 25,
 				})
-				const groups = (await this.promise).data.ocs?.data?.groups ?? []
-				this.availableGroups = groups.map(formatGroup)
+				const groups = await this.promise
+				this.availableGroups = groups
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}

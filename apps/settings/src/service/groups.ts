@@ -3,11 +3,29 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { AxiosResponse } from '@nextcloud/axios'
+import type { IGroup } from '../views/user-types.d.ts'
 
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { CancelablePromise } from 'cancelable-promise'
+
+interface Group {
+	id: string
+	displayname: string
+	usercount: number
+	disabled: number
+	canAdd: boolean
+	canRemove: boolean
+}
+
+const formatGroup = (group: Group): Required<IGroup> => ({
+	id: group.id,
+	name: group.displayname,
+	usercount: group.usercount,
+	disabled: group.disabled,
+	canAdd: group.canAdd,
+	canRemove: group.canRemove,
+})
 
 /**
  * Search groups
@@ -17,17 +35,19 @@ import { CancelablePromise } from 'cancelable-promise'
  * @param {number} options.offset Offset
  * @param {number} options.limit Limit
  */
-export const searchGroups = ({ search, offset, limit }): CancelablePromise<AxiosResponse> => {
+export const searchGroups = ({ search, offset, limit }): CancelablePromise<Required<IGroup>[]> => {
 	const controller = new AbortController()
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		onCancel(() => controller.abort())
 		try {
-			const response = await axios.get(
+			const { data } = await axios.get(
 				generateOcsUrl('/cloud/groups/details?search={search}&offset={offset}&limit={limit}', { search, offset, limit }), {
 					signal: controller.signal,
 				},
 			)
-			resolve(response)
+			const groups: Group[] = data.ocs?.data?.groups ?? []
+			const formattedGroups = groups.map(formatGroup)
+			resolve(formattedGroups)
 		} catch (error) {
 			reject(error)
 		}
