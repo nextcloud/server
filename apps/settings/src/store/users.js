@@ -12,6 +12,7 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 import { GroupSorting } from '../constants/GroupManagement.ts'
+import { naturalCollator } from '../utils/sorting.ts'
 import api from './api.js'
 import logger from '../logger.ts'
 
@@ -270,10 +271,10 @@ const getters = {
 			return groups.sort((a, b) => {
 				const numA = a.usercount - a.disabled
 				const numB = b.usercount - b.disabled
-				return (numA < numB) ? 1 : (numB < numA ? -1 : a.name.localeCompare(b.name))
+				return (numA < numB) ? 1 : (numB < numA ? -1 : naturalCollator.compare(a.name, b.name))
 			})
 		} else {
-			return groups.sort((a, b) => a.name.localeCompare(b.name))
+			return groups.sort((a, b) => naturalCollator.compare(a.name, b.name))
 		}
 	},
 	getGroupSorting(state) {
