@@ -27,7 +27,6 @@
 <script>
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import moment from 'moment-timezone'
-import valueMixin from '../../mixins/valueMixin.js'
 
 const zones = moment.tz.names()
 export default {
@@ -35,13 +34,16 @@ export default {
 	components: {
 		NcSelect,
 	},
-	mixins: [
-		valueMixin,
-	],
+	emits: ['update:model-value'],
 	props: {
-		value: {
+		modelValue: {
 			type: String,
-			default: '',
+			default: '[]',
+		},
+	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
 		},
 	},
 	data() {
@@ -53,21 +55,26 @@ export default {
 				endTime: null,
 				timezone: moment.tz.guess(),
 			},
+			stringifiedValue : '[]'
 		}
 	},
-	mounted() {
-		this.validate()
+	beforeMount() {
+		// this is necessary to keep so the value is re-applied when a different
+		// check is being removed.
+		this.updateInternalValue()
 	},
 	methods: {
-		updateInternalValue(value) {
+		updateInternalValue() {
 			try {
-				const data = JSON.parse(value)
+				const data = JSON.parse(this.modelValue)
 				if (data.length === 2) {
 					this.newValue = {
 						startTime: data[0].split(' ', 2)[0],
 						endTime: data[1].split(' ', 2)[0],
 						timezone: data[0].split(' ', 2)[1],
 					}
+					this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
+					this.validate()
 				}
 			} catch (e) {
 				// ignore invalid values
@@ -89,8 +96,8 @@ export default {
 				this.newValue.timezone = moment.tz.guess()
 			}
 			if (this.validate()) {
-				const output = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
-				this.$emit('input', output)
+				this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
+				this.$emit('update:model-value', this.stringifiedValue)
 			}
 		},
 	},
