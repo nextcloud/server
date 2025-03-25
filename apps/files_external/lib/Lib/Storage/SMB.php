@@ -627,7 +627,7 @@ class SMB extends Common implements INotifyStorage {
 			// Case sensitive filesystem doesn't matter for root directory
 			if ($this->caseSensitive === false && $path !== '') {
 				$filename = basename($path);
-				$siblings = $this->getDirectoryContent(dirname($this->buildPath($path)));
+				$siblings = $this->getDirectoryContent(dirname($path));
 				foreach ($siblings as $sibling) {
 					if ($sibling['name'] === $filename) {
 						return true;

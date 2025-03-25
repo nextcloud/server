@@ -27,6 +27,7 @@
     "Allow people on this server to receive shares from other servers" : "Разрешить пользователям этого сервера принимать общие ресурсы с других серверов",
     "Allow people on this server to send shares to groups on other servers" : "Разрешить пользователям этого сервера предоставлять общий доступ  группам пользователей других серверов",
     "Allow people on this server to receive group shares from other servers" : "Разрешить пользователям этого сервера принимать общие ресурсы с других серверов, опубликованные для групп пользователей",
+    "The lookup server is only available for global scale." : "Сервер поиска доступен только в глобальном масштабе.",
     "Search global and public address book for people" : "Искать пользователей в глобальной и открытой адресной книге",
     "Allow people to publish their data to a global and public address book" : "Разрешить пользователям этого сервера публиковать свои данные в глобальной и общедоступной адресной книге",
     "Trusted federation" : "Надежная федерация",

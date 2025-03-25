@@ -38,7 +38,7 @@ class Capabilities implements ICapability {
 	 *     	   apiVersion: '1.0-proposal1',
 	 *         enabled: bool,
 	 *         endPoint: string,
-	 *         publicKey: array{
+	 *         publicKey?: array{
 	 *             keyId: string,
 	 *             publicKeyPem: string,
 	 *         },

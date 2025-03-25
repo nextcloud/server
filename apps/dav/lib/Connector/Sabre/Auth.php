@@ -118,8 +118,9 @@ class Auth extends AbstractBasic {
 	 * Checks whether a CSRF check is required on the request
 	 */
 	private function requiresCSRFCheck(): bool {
-		// GET requires no check at all
-		if ($this->request->getMethod() === 'GET') {
+		
+		$methodsWithoutCsrf = ['GET', 'HEAD', 'OPTIONS'];
+		if (in_array($this->request->getMethod(), $methodsWithoutCsrf)) {
 			return false;
 		}
 

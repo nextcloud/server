@@ -233,9 +233,8 @@
     "Failed to convert files: {message}" : "Није успела конверзија фајлова: {message}",
     "All files failed to be converted" : "Ниједан фајл није могао да се конвертује",
     "One file could not be converted: {message}" : "Један фајл није могао да се конвертује: {message}",
-    "One file could not be converted" : "Један фајл није могао да се конвертује",
-    "{count} files could not be converted" : "Није могло да се конвертује {count} фајлова",
-    "{count} files successfully converted" : "Успешно је конвертовано {count} фајлова",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Један фајл није могао да се конвертује","Није могло да се конвертује %n фајла","Није могло да се конвертује %n фајлова"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["Фајл је успешно конвертован","Успешно су конвертована %n фајла","Успешно је конвертовано %n фајлова"],
     "Files successfully converted" : "Фајлови су успешно конвертовани",
     "Failed to convert files" : "Није успела конверзија фајлова",
     "Converting file …" : "Фајл се конвертује",
@@ -452,6 +451,8 @@
     "Favor" : "Наклоност",
     "Not favored" : "Ненаклоњен",
     "Submitting fields…" : "Поља се подносе…",
-    "Filter filenames…" : "Филтрирање имена фајлова…"
+    "Filter filenames…" : "Филтрирање имена фајлова…",
+    "{count} files could not be converted" : "Није могло да се конвертује {count} фајлова",
+    "{count} files successfully converted" : "Успешно је конвертовано {count} фајлова"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

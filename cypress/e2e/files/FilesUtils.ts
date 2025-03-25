@@ -36,27 +36,37 @@ const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypre
 export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
 	// If we cannot find the action in the row, it might be in the action menu
 	return getRowForFileId(fileid).should('be.visible')
-		.then(row => searchForActionInRow(row, actionId))
+		.then((row) => searchForActionInRow(row, actionId))
 }
 export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
 	// If we cannot find the action in the row, it might be in the action menu
 	return getRowForFile(filename).should('be.visible')
-		.then(row => searchForActionInRow(row, actionId))
+		.then((row) => searchForActionInRow(row, actionId))
 }
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
 	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFileId(fileid).click({ force: true })
+	// wait for the actions menu to be visible
+	cy.findByRole('menu').findAllByRole('menuitem').first().should('be.visible')
 	getActionEntryForFileId(fileid, actionId)
-		.find('button').last()
-		.should('exist').click({ force: true })
+		.find('button').last().as('actionButton')
+		.scrollIntoView()
+	cy.get('@actionButton')
+		.should('be.visible')
+		.click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
 	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFile(filename).click({ force: true })
+	// wait for the actions menu to be visible
+	cy.findByRole('menu').findAllByRole('menuitem').first().should('be.visible')
 	getActionEntryForFile(filename, actionId)
-		.find('button').last()
-		.should('exist').click({ force: true })
+		.find('button').last().as('actionButton')
+		.scrollIntoView()
+	cy.get('@actionButton')
+		.should('be.visible')
+		.click({ force: true })
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {

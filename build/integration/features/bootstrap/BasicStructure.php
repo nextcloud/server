@@ -192,8 +192,8 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = ['admin', 'admin'];
-		} elseif (strpos($this->currentUser, 'guest') !== 0) {
-			$options['auth'] = [$this->currentUser, self::TEST_PASSWORD];
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();

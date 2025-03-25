@@ -97,7 +97,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @babel/runtime
-	- version: 7.25.0
+	- version: 7.26.10
 	- license: MIT
 - @floating-ui/core
 	- version: 1.6.5
@@ -142,7 +142,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.10.2
@@ -175,7 +175,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.9.0
+	- version: 1.9.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -205,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.8.1
+	- version: 1.8.4
 	- license: MIT
 - bail
 	- version: 2.0.2

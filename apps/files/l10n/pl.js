@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "Przejdź do katalogu \"{dir}\"",
     "Current directory path" : "Obecna ścieżka katalogu",
     "Your have used your space quota and cannot upload files anymore" : "Wykorzystałeś limit miejsca i nie możesz już wysyłać plików.",
+    "You do not have permission to upload or create files here." : "Nie masz uprawnień do wysyłania lub tworzenia plików w tym miejscu",
     "Drag and drop files here to upload" : "Przeciągnij i upuść pliki tutaj, aby je przesłać",
     "Favorite" : "Ulubiony",
     "Back" : "Poprzednia",
@@ -234,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Nie udało się przekonwertować plików: {message}",
     "All files failed to be converted" : "Nie udało się przekonwertować żadnego pliku",
     "One file could not be converted: {message}" : "Jednego pliku nie można przekonwertować: {message}",
-    "One file could not be converted" : "Jednego pliku nie można przekonwertować",
-    "{count} files could not be converted" : "Nie można przekonwertować {count} plików",
-    "{count} files successfully converted" : "Zostały pomyślnie przekonwertowane{count} plików",
     "Files successfully converted" : "Pliki zostały pomyślnie przekonwertowane",
     "Failed to convert files" : "Nie udało się przekonwertować plików",
     "Converting file …" : "Konwertowanie plików…",
@@ -453,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Polub",
     "Not favored" : "Nie polubiono",
     "Submitting fields…" : "Przesyłanie pól…",
-    "Filter filenames…" : "Filtruj nazwy plików…"
+    "Filter filenames…" : "Filtruj nazwy plików…",
+    "{count} files could not be converted" : "Nie można przekonwertować {count} plików",
+    "{count} files successfully converted" : "Zostały pomyślnie przekonwertowane{count} plików"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

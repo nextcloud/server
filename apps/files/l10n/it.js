@@ -235,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Impossibile convertire i file: {message}",
     "All files failed to be converted" : "Non è stato possibile convertire tutti i file",
     "One file could not be converted: {message}" : "Un file non può essere convertito: {message}",
-    "One file could not be converted" : "Un file non può essere convertito",
-    "{count} files could not be converted" : "{count} file non possono essere convertiti",
-    "{count} files successfully converted" : "{count} file convertiti con successo",
     "Files successfully converted" : "File convertiti con successo",
     "Failed to convert files" : "Impossibile convertire i file",
     "Converting file …" : "Conversione del file …",
@@ -454,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Preferiti",
     "Not favored" : "Non preferito",
     "Submitting fields…" : "Invio dei campi…",
-    "Filter filenames…" : "Filtra nomi di file…"
+    "Filter filenames…" : "Filtra nomi di file…",
+    "{count} files could not be converted" : "{count} file non possono essere convertiti",
+    "{count} files successfully converted" : "{count} file convertiti con successo"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

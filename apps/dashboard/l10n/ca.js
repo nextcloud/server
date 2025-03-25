@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Tauler",
     "Dashboard app" : "Aplicació Tauler",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia, que us ofereix una visió general de les vostres properes cites, correus electrònics urgents, missatges de xat, entrades entrants, els últims tuits i molt més! Les persones poden afegir els ginys que els agradin i canviar el fons al seu gust.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comença el dia informat\n\nEl tauler de control de Nextcloud és el vostre punt de partida del dia, que us ofereix una visió general de les vostres properes cites, correus electrònics urgents, missatges de xat, entrades entrants, els darrers tuits i molt més! Les persones poden afegir els ginys que els agradin i canviar el fons al seu gust.",
     "Weather" : "Temps",
     "Status" : "Estat",
     "Good morning" : "Bon dia",

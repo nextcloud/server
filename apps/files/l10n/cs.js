@@ -235,9 +235,8 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Nepodařilo se převést soubory: {message}",
     "All files failed to be converted" : "Žádný ze souborů se nepodařilo převést",
     "One file could not be converted: {message}" : "Jeden soubor nebylo možné převést: {message}",
-    "One file could not be converted" : "Jeden soubor nebylo možné převést",
-    "{count} files could not be converted" : "{count} souborů nebylo možné převést",
-    "{count} files successfully converted" : "{count} souborů úspěšně převedeno",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Jeden soubor nebylo možné převést","%n soubory nebylo možné převést","%n souborů nebylo možné převést","%n soubory nebylo možné převést"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["Jeden soubor úspěšně převeden","%n soubory úspěšně převedeny","%n souborů úspěšně převedeno","%n soubory úspěšně převedeny"],
     "Files successfully converted" : "Soubory úspěšně převedeny",
     "Failed to convert files" : "Nepodařilo se převést soubory",
     "Converting file …" : "Převádění souboru…",
@@ -287,7 +286,7 @@ OC.L10N.register(
     "Failed to redirect to client" : "Nepodařilo se přesměrovat klienta",
     "Open locally" : "Otevřít lokálně",
     "Rename" : "Přejmenovat",
-    "Open details" : "Otevřít podorobnosti",
+    "Open details" : "Otevřít podrobnosti",
     "View in folder" : "Zobrazit ve složce",
     "Today" : "Dnes",
     "Last 7 days" : "Uplynulých 7 dnů",
@@ -454,6 +453,8 @@ OC.L10N.register(
     "Favor" : "Zařadit mezi oblíbené",
     "Not favored" : "Není v oblíbených",
     "Submitting fields…" : "Odesílání kolonek…",
-    "Filter filenames…" : "Filtrovat názvy souborů…"
+    "Filter filenames…" : "Filtrovat názvy souborů…",
+    "{count} files could not be converted" : "{count} souborů nebylo možné převést",
+    "{count} files successfully converted" : "{count} souborů úspěšně převedeno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

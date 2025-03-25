@@ -69,6 +69,7 @@ $expectedFiles = [
 	'occ',
 	'ocs',
 	'ocs-provider',
+	'openapi.json',
 	'package-lock.json',
 	'package.json',
 	'psalm-ncu.xml',

@@ -54,7 +54,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.10.2
@@ -78,7 +78,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.9.0
+	- version: 1.9.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.23.1
@@ -93,7 +93,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.8.1
+	- version: 1.8.4
 	- license: MIT
 - base64-js
 	- version: 1.5.1

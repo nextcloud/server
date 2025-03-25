@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Contacts\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -21,6 +22,7 @@ class ContactsManager {
 	public function __construct(
 		private CardDavBackend $backend,
 		private IL10N $l10n,
+		private PropertyMapper $propertyMapper,
 	) {
 	}
 
@@ -31,25 +33,27 @@ class ContactsManager {
 	 */
 	public function setupContactsProvider(IManager $cm, $userId, IURLGenerator $urlGenerator) {
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/users/$userId");
-		$this->register($cm, $addressBooks, $urlGenerator);
-		$this->setupSystemContactsProvider($cm, $urlGenerator);
+		$this->register($cm, $addressBooks, $urlGenerator, $userId);
+		$this->setupSystemContactsProvider($cm, $userId, $urlGenerator);
 	}
 
 	/**
 	 * @param IManager $cm
+	 * @param ?string $userId
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function setupSystemContactsProvider(IManager $cm, IURLGenerator $urlGenerator) {
+	public function setupSystemContactsProvider(IManager $cm, ?string $userId, IURLGenerator $urlGenerator) {
 		$addressBooks = $this->backend->getAddressBooksForUser('principals/system/system');
-		$this->register($cm, $addressBooks, $urlGenerator);
+		$this->register($cm, $addressBooks, $urlGenerator, $userId);
 	}
 
 	/**
 	 * @param IManager $cm
 	 * @param $addressBooks
 	 * @param IURLGenerator $urlGenerator
+	 * @param ?string $userId
 	 */
-	private function register(IManager $cm, $addressBooks, $urlGenerator) {
+	private function register(IManager $cm, $addressBooks, $urlGenerator, ?string $userId) {
 		foreach ($addressBooks as $addressBookInfo) {
 			$addressBook = new AddressBook($this->backend, $addressBookInfo, $this->l10n);
 			$cm->registerAddressBook(
@@ -57,7 +61,9 @@ class ContactsManager {
 					$addressBook,
 					$addressBookInfo,
 					$this->backend,
-					$urlGenerator
+					$urlGenerator,
+					$this->propertyMapper,
+					$userId,
 				)
 			);
 		}

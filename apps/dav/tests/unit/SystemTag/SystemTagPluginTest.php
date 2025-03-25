@@ -12,6 +12,7 @@ use OCA\DAV\SystemTag\SystemTagNode;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -57,6 +58,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 	private $userSession;
 
 	/**
+	 * @var IRootFolder
+	 */
+	private $rootFolder;
+
+	/**
 	 * @var IUser
 	 */
 	private $user;
@@ -95,13 +101,17 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('isLoggedIn')
 			->willReturn(true);
+
 		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
+			->getMock();
+		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
 			->getMock();
 
 		$this->plugin = new SystemTagPlugin(
 			$this->tagManager,
 			$this->groupManager,
 			$this->userSession,
+			$this->rootFolder,
 			$this->tagMapper
 		);
 		$this->plugin->initialize($this->server);

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Go to the \"{dir}\" directory" : "Ga naar de \"{dir}\" map",
     "Current directory path" : "Huidig directory pad",
     "Your have used your space quota and cannot upload files anymore" : "Je hebt je ruimtequotum gebruikt en kan geen bestanden meer uploaden",
+    "You do not have permission to upload or create files here." : "Je hebt geen toestemming om hier bestanden te uploaden of aan te maken.",
     "Drag and drop files here to upload" : "Drag en drop bestanden hier om te uploaden",
     "Favorite" : "Favoriet",
     "Back" : "Terug",
@@ -234,9 +235,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "Conversie van bestanden mislukt: {message} ",
     "All files failed to be converted" : "De conversie van alle bestanden is mislukt",
     "One file could not be converted: {message}" : "Een bestand kon niet worden geconverteerd: {message}",
-    "One file could not be converted" : "Een bestand kon niet worden geconverteerd",
-    "{count} files could not be converted" : "{count} bestanden konden niet worden geconverteerd",
-    "{count} files successfully converted" : "{count} bestanden succesvol geconverteerd",
     "Files successfully converted" : "Bestanden succesvol geconverteerd",
     "Failed to convert files" : "Conversie van bestanden mislukt",
     "Converting file …" : "Bestand converteren ...",
@@ -453,6 +451,8 @@ OC.L10N.register(
     "Favor" : "Favoriet",
     "Not favored" : "Geen favoriet",
     "Submitting fields…" : "Verzenden velden ...",
-    "Filter filenames…" : "Filter bestandsnamen..."
+    "Filter filenames…" : "Filter bestandsnamen...",
+    "{count} files could not be converted" : "{count} bestanden konden niet worden geconverteerd",
+    "{count} files successfully converted" : "{count} bestanden succesvol geconverteerd"
 },
 "nplurals=2; plural=(n != 1);");

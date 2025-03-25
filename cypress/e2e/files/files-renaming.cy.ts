@@ -9,18 +9,20 @@ import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, ren
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
 
-	beforeEach(() => cy.createRandomUser().then(($user) => {
-		user = $user
+	beforeEach(() => {
+		cy.createRandomUser().then(($user) => {
+			user = $user
 
-		// remove welcome file
-		cy.rm(user, '/welcome.txt')
-		// create a file called "file.txt"
-		cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
+			// remove welcome file
+			cy.rm(user, '/welcome.txt')
+			// create a file called "file.txt"
+			cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
 
-		// login and visit files app
-		cy.login(user)
+			// login and visit files app
+			cy.login(user)
+		})
 		cy.visit('/apps/files')
-	}))
+	})
 
 	it('can rename a file', () => {
 		// All are visible by default

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files\AppInfo;
 
 use Closure;
+use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
@@ -107,6 +108,7 @@ class Application extends App implements IBootstrap {
 		 * Register capabilities
 		 */
 		$context->registerCapability(Capabilities::class);
+		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
 
 		$context->registerDeclarativeSettings(DeclarativeAdminSettings::class);

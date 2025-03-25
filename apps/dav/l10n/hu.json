@@ -70,7 +70,7 @@
     "Description: %s" : "Leírás: %s",
     "Where: %s" : "Hely: %s",
     "%1$s via %2$s" : "%1$s – %2$s",
-    "Could not generate when statement" : "Nem sikerlt létrehozni a mikor állítást",
+    "Could not generate when statement" : "Nem sikerült létrehozni amikor az állítást",
     "Every Day for the entire day" : "Minden Nap a teljes napra",
     "Every Day for the entire day until %1$s" : "Minden Nap a teljes napon eddig %1$s",
     "Every Day between %1$s - %2$s" : "Minden Nap %1$s - %2$sközött",

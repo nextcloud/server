@@ -54,6 +54,7 @@ OC.L10N.register(
     "Service name" : "Teenuse nimi",
     "External storage" : "Väline andmehoidla",
     "Confirm" : "Kinnita",
+    "Open in Files" : "Ava failirakenduses",
     "External mount error" : "Välise seostamise tõrge",
     "Storage type" : "Andmehoidla tüüp",
     "Unknown" : "Teadmata",

@@ -7,8 +7,15 @@ import { View, getNavigation } from '@nextcloud/files'
 
 import { getContents } from '../services/PersonalFiles'
 import AccountIcon from '@mdi/svg/svg/account.svg?raw'
+import { loadState } from '@nextcloud/initial-state'
 
 export default () => {
+	// Don't show this view if the user has no storage quota
+	const storageStats = loadState('files', 'storageStats', { quota: -1 })
+	if (storageStats.quota === 0) {
+		return
+	}
+
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'personal',

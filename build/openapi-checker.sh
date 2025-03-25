@@ -3,13 +3,26 @@
 # SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+specs=()
 for path in core apps/*; do
 	if [ ! -f "$path/.noopenapi" ] && [[ "$(git check-ignore "$path")" != "$path" ]]; then
 		composer exec generate-spec "$path" "$path/openapi.json" || exit 1
+		if [[ "$(basename "$path")" != "core" ]]; then
+			if [ -f "$path/openapi-full.json" ]; then
+				specs+=("$path/openapi-full.json")
+			else
+				specs+=("$path/openapi.json")
+			fi;
+		fi;
 	fi
 done
 
-files="$(git diff --name-only)"
+composer exec merge-specs -- \
+	--core core/openapi-full.json \
+	--merged openapi.json \
+	"${specs[@]}"
+
+files="$(git ls-files --exclude-standard --modified --others)"
 changed=false
 for file in $files; do
     if [[ $file == *"openapi"*".json" ]]; then

@@ -130,6 +130,7 @@ OC.L10N.register(
     "Choose file or folder to transfer" : "Escolher ficheiro ou pasta para transferir",
     "Change" : "Mudar",
     "New owner" : "Novo proprietário",
+    "Choose {file}" : "Escolher {file}",
     "Share" : "Partilhar",
     "Shared by link" : "Partilhado por hiperligação",
     "Shared" : "Partilhados",

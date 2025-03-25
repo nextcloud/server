@@ -23,7 +23,7 @@ class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
-	/** @var array<string, list{string, string|null}> */
+	/** @var array<list{string, string|null}> */
 	protected array $mimetypes = [];
 	protected array $secureMimeTypes = [];
 
@@ -140,7 +140,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * @return array<string, list{string, string|null}>
+	 * @return array<list{string, string|null}>
 	 */
 	public function getAllMappings(): array {
 		$this->loadMappings();
@@ -228,18 +228,18 @@ class Detection implements IMimeTypeDetector {
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
 			$fp = popen("test -f $path && file -b --mime-type $path", 'r');
-			$mimeType = fgets($fp);
-			pclose($fp);
-
-			if ($mimeType !== false) {
-				//trim the newline
-				$mimeType = trim($mimeType);
-				$mimeType = $this->getSecureMimeType($mimeType);
-				if ($mimeType !== 'application/octet-stream') {
+			if ($fp !== false) {
+				$mimeType = fgets($fp);
+				pclose($fp);
+				if ($mimeType !== false) {
+					//trim the newline
+					$mimeType = trim($mimeType);
+					$mimeType = $this->getSecureMimeType($mimeType);
 					return $mimeType;
 				}
 			}
 		}
+
 		return 'application/octet-stream';
 	}
 

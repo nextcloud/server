@@ -223,9 +223,6 @@ OC.L10N.register(
     "Failed to convert files: {message}" : "A fájlok konvertálása sikertelen: {message}",
     "All files failed to be converted" : "Az összes fájl konvertálása sikertelen",
     "One file could not be converted: {message}" : "Egy fájl nem konvertálható: {message}",
-    "One file could not be converted" : "A fájl nem konvertálható",
-    "{count} files could not be converted" : "{count} fájl nem konvertálható",
-    "{count} files successfully converted" : "{count} fájl sikeresen konvertálva",
     "Files successfully converted" : "Fájlok sikeresen konvertálva",
     "Failed to convert files" : "A fájlok konvertálása sikertelen",
     "File successfully converted" : "Fájl sikeresen konvertálva",
@@ -439,6 +436,8 @@ OC.L10N.register(
     "Favor" : "Kedvelés",
     "Not favored" : "Nincs a kedveltek között",
     "Submitting fields…" : "Mezők beküldése…",
-    "Filter filenames…" : "Fájlnevek szűrése…"
+    "Filter filenames…" : "Fájlnevek szűrése…",
+    "{count} files could not be converted" : "{count} fájl nem konvertálható",
+    "{count} files successfully converted" : "{count} fájl sikeresen konvertálva"
 },
 "nplurals=2; plural=(n != 1);");

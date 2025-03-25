@@ -725,11 +725,10 @@ class OC_Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string)
 	 */
 	public static function sanitizeHTML($value) {
 		if (is_array($value)) {
-			/** @var string[] $value */
 			$value = array_map(function ($value) {
 				return self::sanitizeHTML($value);
 			}, $value);

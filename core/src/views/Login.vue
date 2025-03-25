@@ -7,7 +7,7 @@
 	<div class="guest-box login-box">
 		<template v-if="!hideLoginForm || directLogin">
 			<transition name="fade" mode="out-in">
-				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''">
+				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''" class="login-box__wrapper">
 					<LoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:direct-login="directLogin"
@@ -17,40 +17,30 @@
 						:auto-complete-allowed="autoCompleteAllowed"
 						:email-states="emailStates"
 						@submit="loading = true" />
-					<a v-if="canResetPassword && resetPasswordLink !== ''"
+					<NcButton v-if="hasPasswordless"
+						type="tertiary"
+						wide
+						@click.prevent="passwordlessLogin = true">
+						{{ t('core', 'Log in with a device') }}
+					</NcButton>
+					<NcButton v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
-						class="login-box__link"
-						:href="resetPasswordLink">
-						{{ t('core', 'Forgot password?') }}
-					</a>
-					<a v-else-if="canResetPassword && !resetPassword"
-						id="lost-password"
-						class="login-box__link"
 						:href="resetPasswordLink"
+						type="tertiary-no-background"
+						wide>
+						{{ t('core', 'Forgot password?') }}
+					</NcButton>
+					<NcButton v-else-if="canResetPassword && !resetPassword"
+						id="lost-password"
+						type="tertiary"
+						wide
 						@click.prevent="resetPassword = true">
 						{{ t('core', 'Forgot password?') }}
-					</a>
-					<template v-if="hasPasswordless">
-						<div v-if="countAlternativeLogins"
-							class="alternative-logins">
-							<a v-if="hasPasswordless"
-								class="button"
-								:class="{ 'single-alt-login-option': countAlternativeLogins }"
-								href="#"
-								@click.prevent="passwordlessLogin = true">
-								{{ t('core', 'Log in with a device') }}
-							</a>
-						</div>
-						<a v-else
-							href="#"
-							@click.prevent="passwordlessLogin = true">
-							{{ t('core', 'Log in with a device') }}
-						</a>
-					</template>
+					</NcButton>
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
 					key="reset-pw-less"
-					class="login-additional login-passwordless">
+					class="login-additional login-box__wrapper">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
@@ -89,7 +79,7 @@
 			</transition>
 		</template>
 
-		<div id="alternative-logins" class="alternative-logins">
+		<div id="alternative-logins" class="login-box__alternative-logins">
 			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
 				:key="index"
 				type="secondary"
@@ -169,22 +159,22 @@ export default {
 }
 </script>
 
-<style lang="scss">
-body {
-	font-size: var(--default-font-size);
-}
-
+<style scoped lang="scss">
 .login-box {
 	// Same size as dashboard panels
 	width: 320px;
 	box-sizing: border-box;
 
-	&__link {
-		display: block;
-		padding: 1rem;
-		font-size: var(--default-font-size);
-		text-align: center;
-		font-weight: normal !important;
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--default-grid-baseline));
+	}
+
+	&__alternative-logins {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
 	}
 }
 
@@ -194,21 +184,5 @@ body {
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
 	opacity: 0;
-}
-
-.alternative-logins {
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-
-	.button-vue {
-		box-sizing: border-box;
-	}
-}
-
-.login-passwordless {
-	.button-vue {
-		margin-top: 0.5rem;
-	}
 }
 </style>

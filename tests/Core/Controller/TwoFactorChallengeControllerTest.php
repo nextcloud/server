@@ -22,7 +22,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Template;
+use OCP\Template\ITemplate;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -115,7 +115,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$provider->method('getId')->willReturn('myprovider');
 		$backupProvider = $this->createMock(IProvider::class);
 		$backupProvider->method('getId')->willReturn('backup_codes');
-		$tmpl = $this->createMock(Template::class);
+		$tmpl = $this->createMock(ITemplate::class);
 		$providerSet = new ProviderSet([$provider, $backupProvider], true);
 
 		$this->userSession->expects($this->once())
@@ -399,7 +399,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('getLoginSetup')
 			->with($user)
 			->willReturn($loginSetup);
-		$tmpl = $this->createMock(Template::class);
+		$tmpl = $this->createMock(ITemplate::class);
 		$loginSetup->expects($this->once())
 			->method('getBody')
 			->willReturn($tmpl);
