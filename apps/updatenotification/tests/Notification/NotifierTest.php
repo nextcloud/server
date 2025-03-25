@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\UpdateNotification\Tests\Notification;
 
 use OCA\UpdateNotification\Notification\Notifier;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -17,22 +18,20 @@ use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\ServerVersion;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10nFactory;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected IConfig&MockObject $config;
+	protected IManager&MockObject $notificationManager;
+	protected IFactory&MockObject $l10nFactory;
+	protected IUserSession&MockObject $userSession;
+	protected IGroupManager&MockObject $groupManager;
+	protected IAppManager&MockObject $appManager;
+	protected ServerVersion&MockObject $serverVersion;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,6 +42,8 @@ class NotifierTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 	}
 
 	/**
@@ -57,7 +58,9 @@ class NotifierTest extends TestCase {
 				$this->notificationManager,
 				$this->l10nFactory,
 				$this->userSession,
-				$this->groupManager
+				$this->groupManager,
+				$this->appManager,
+				$this->serverVersion,
 			);
 		}
 		{
@@ -69,6 +72,8 @@ class NotifierTest extends TestCase {
 					$this->l10nFactory,
 					$this->userSession,
 					$this->groupManager,
+					$this->appManager,
+					$this->serverVersion,
 				])
 				->onlyMethods($methods)
 				->getMock();
