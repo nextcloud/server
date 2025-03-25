@@ -101,6 +101,8 @@ class DefaultTheme implements ITheme {
 		};
 
 		$variables = [
+			'--nextcloud-theme-dark' => 0,
+
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
