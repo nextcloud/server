@@ -100,6 +100,11 @@ class MailPlugin implements ISearchPlugin {
 						$emailAddress = $emailAddressData['value'];
 						$emailAddressType = $emailAddressData['type'];
 					}
+
+					if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+						continue;
+					}
+
 					if (isset($contact['FN'])) {
 						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
 					}
