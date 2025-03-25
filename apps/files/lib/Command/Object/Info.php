@@ -11,6 +11,7 @@ namespace OCA\Files\Command\Object;
 use OC\Core\Command\Base;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
+use OCP\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -59,7 +60,7 @@ class Info extends Base {
 		}
 
 		if ($input->getOption('output') === 'plain' && isset($meta['size'])) {
-			$meta['size'] = \OC_Helper::humanFileSize($meta['size']);
+			$meta['size'] = Util::humanFileSize($meta['size']);
 		}
 		if (isset($meta['mtime'])) {
 			$meta['mtime'] = $meta['mtime']->format(\DateTimeImmutable::ATOM);
