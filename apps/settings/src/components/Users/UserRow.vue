@@ -129,10 +129,10 @@
 			</span>
 		</td>
 
-		<td v-if="userSubAdminGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
+		<td v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin) && userSubAdminGroups.length > 0">
+			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin)">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set account as admin for') }}
