@@ -28,7 +28,7 @@ const RequestChecks = [
 			{ operator: 'in', name: t('workflowengine', 'between') },
 			{ operator: '!in', name: t('workflowengine', 'not between') },
 		],
-		component: RequestTime,
+		element: registerCustomElement(RequestTime, 'oca-workflowengine-checks-request_time'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
