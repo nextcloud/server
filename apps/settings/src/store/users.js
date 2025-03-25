@@ -8,15 +8,21 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 import { GroupSorting } from '../constants/GroupManagement.ts'
 import api from './api.js'
 import logger from '../logger.ts'
 
+const usersSettings = loadState('settings', 'usersSettings', {})
+
 const localStorage = getBuilder('settings').persist(true).build()
 
 const defaults = {
+	/**
+	 * @type {import('../views/user-types').IGroup}
+	 */
 	group: {
 		id: '',
 		name: '',
@@ -29,14 +35,14 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [],
-	orderBy: GroupSorting.UserCount,
+	groups: [...usersSettings.systemGroups],
+	orderBy: usersSettings.sortGroups,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
-	userCount: 0,
+	userCount: usersSettings.userCount,
 	showConfig: {
 		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
 		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
@@ -63,21 +69,17 @@ const mutations = {
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
 	},
-	initGroups(state, { groups, orderBy, userCount }) {
-		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
-		state.orderBy = orderBy
-		state.userCount = userCount
-	},
-	addGroup(state, { gid, displayName }) {
+	/**
+	 * @param {object} state store state
+	 * @param {import('../views/user-types.js').IGroup} newGroup new group
+	 */
+	addGroup(state, newGroup) {
 		try {
-			if (typeof state.groups.find((group) => group.id === gid) !== 'undefined') {
+			if (typeof state.groups.find((group) => group.id === newGroup.id) !== 'undefined') {
 				return
 			}
 			// extend group to default values
-			const group = Object.assign({}, defaults.group, {
-				id: gid,
-				name: displayName,
-			})
+			const group = Object.assign({}, defaults.group, newGroup)
 			state.groups.unshift(group)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -215,6 +217,15 @@ const mutations = {
 		state.disabledUsersOffset = 0
 	},
 
+	/**
+	 * Reset group list
+	 *
+	 * @param {object} state the store state
+	 */
+	resetGroups(state) {
+		state.groups = [...usersSettings.systemGroups]
+	},
+
 	setShowConfig(state, { key, value }) {
 		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
@@ -310,6 +321,25 @@ const actions = {
 				context.commit('API_FAILURE', error)
 			}
 		})
+	},
+
+	/**
+	 * search groups
+	 *
+	 * @param {object} context Store context
+	 * @param {object} options Options
+	 * @param {string} options.search Search query
+	 * @param {number} options.offset List offset
+	 * @param {number} options.limit List limit
+	 * @return {Promise}
+	 */
+	searchGroups(context, { search, offset, limit }) {
+		return api.get(generateOcsUrl('cloud/groups/details?search={search}&offset={offset}&limit={limit}', { search, offset, limit }))
+			.catch((error) => {
+				if (!axios.isCancel(error)) {
+					context.commit('API_FAILURE', error)
+				}
+			})
 	},
 
 	/**
@@ -444,7 +474,7 @@ const actions = {
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
 					response.data.ocs.data.groups.forEach(function(group) {
-						context.commit('addGroup', { gid: group, displayName: group })
+						context.commit('addGroup', { id: group, name: group })
 					})
 					return true
 				}
@@ -511,7 +541,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			return api.post(generateOcsUrl('cloud/groups'), { groupid: gid })
 				.then((response) => {
-					context.commit('addGroup', { gid, displayName: gid })
+					context.commit('addGroup', { id: gid, name: gid })
 					return { gid, displayName: gid }
 				})
 				.catch((error) => { throw error })
