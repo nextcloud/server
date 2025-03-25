@@ -42,7 +42,7 @@
 		<NcAppNavigationList class="account-management__group-list"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
-			<GroupListItem v-for="group in filteredGroups"
+			<GroupListItem v-for="group in userGroups"
 				:id="group.id"
 				ref="groupListItems"
 				:key="group.id"
@@ -57,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Group } from '../utils/groups.ts'
+
 import { computed, ref, watch, onBeforeMount } from 'vue'
 import { Fragment } from 'vue-frag'
 import { useRoute, useRouter } from 'vue-router/composables'
@@ -76,16 +78,8 @@ import GroupListItem from './GroupListItem.vue'
 
 import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
 import { useStore } from '../store'
+import { searchGroups } from '../service/groups.ts'
 import logger from '../logger.ts'
-
-interface Group {
-		id: string
-    displayname: string
-    usercount: number
-    disabled: number
-    canAdd: boolean
-    canRemove: boolean
-}
 
 const store = useStore()
 const route = useRoute()
@@ -123,10 +117,6 @@ const loadingGroups = ref(false)
 const offset = ref(0)
 /** Search query for groups */
 const groupsSearchQuery = ref('')
-/** Filtered groups */
-const filteredGroups = computed(() => userGroups.value.filter((group) => {
-	return group.title.toLocaleLowerCase().includes(groupsSearchQuery.value.toLocaleLowerCase())
-}))
 
 const groupListItems = ref([])
 const lastGroupListItem = computed(() => {
@@ -148,18 +138,24 @@ watch(groupsSearchQuery, async () => {
 	await loadGroups()
 })
 
+/** Cancelable promise for search groups request */
+const promise = ref(null)
+
 /**
  * Load groups
  */
 async function loadGroups() {
+	if (promise.value) {
+		promise.value.cancel()
+	}
 	loadingGroups.value = true
 	try {
-		const { data } = await store.dispatch('searchGroups', {
+		promise.value = searchGroups({
 			search: groupsSearchQuery.value,
 			offset: offset.value,
 			limit: 25,
 		})
-		const groups: Group[] = data.ocs?.data?.groups ?? []
+		const groups: Group[] = (await promise.value).data.ocs?.data?.groups ?? []
 		if (groups.length > 0) {
 			offset.value += 25
 		}
@@ -176,6 +172,7 @@ async function loadGroups() {
 	} catch (error) {
 		logger.error(t('settings', 'Failed to load groups'), { error })
 	}
+	promise.value = null
 	loadingGroups.value = false
 }
 
