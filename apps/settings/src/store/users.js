@@ -465,6 +465,24 @@ const actions = {
 	},
 
 	/**
+	 * Get user groups
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.userId User id
+	 * @return {Promise}
+	 */
+	async getUserGroups(context, { userId }) {
+		const url = generateOcsUrl('cloud/users/{userId}/groups/details', { userId })
+		try {
+			const response = await api.get(url)
+			return response
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
+	},
+
+	/**
 	 * Get all users with full details
 	 *
 	 * @param {object} context store context
