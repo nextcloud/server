@@ -106,7 +106,7 @@
 					:data-loading="loading.groups || undefined"
 					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField"
+					:disabled="isLoadingField || loading.groupDetails"
 					:loading="loading.groups"
 					:multiple="true"
 					:append-to-body="false"
@@ -141,7 +141,7 @@
 					:data-loading="loading.subadmins || undefined"
 					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField"
+					:disabled="isLoadingField || loading.groupDetails"
 					:loading="loading.subadmins"
 					label="name"
 					:append-to-body="false"
@@ -362,6 +362,7 @@ export default {
 				password: false,
 				mailAddress: false,
 				groups: false,
+				groupDetails: false,
 				subadmins: false,
 				quota: false,
 				delete: false,
@@ -550,6 +551,7 @@ export default {
 
 		async loadGroupDetails() {
 			this.loading.groups = true
+			this.loading.groupDetails = true
 			try {
 				const groups = await loadUserGroups({ userId: this.user.id })
 				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
@@ -557,6 +559,7 @@ export default {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
 			}
 			this.loading.groups = false
+			this.loading.groupDetails = false
 		},
 
 		async searchGroups(query, toggleLoading) {
