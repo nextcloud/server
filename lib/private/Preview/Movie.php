@@ -9,9 +9,9 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
+use OCP\IConfig;
 use OCP\IImage;
 use OCP\Server;
-use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
@@ -132,7 +132,7 @@ class Movie extends ProviderV2 {
 				'-f', 'mjpeg', '-vframes', '1',
 				$tmpPath];
 			// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
-			$ffprobe_binary = is_string($this->config->getSystemValue('preview_ffprobe_path',null)) ? $this->config->getSystemValue('preview_ffprobe_path',null) : pathinfo($this->binary,PATHINFO_DIRNAME) . '/ffprobe';
+			$ffprobe_binary = is_string($this->config->getSystemValue('preview_ffprobe_path', null)) ? $this->config->getSystemValue('preview_ffprobe_path', null) : pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe';
 			// run ffprobe on the video file to get value of "color_transfer"
 			$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
 				'-show_entries', 'stream=color_transfer',
@@ -140,26 +140,25 @@ class Movie extends ProviderV2 {
 				$absPath];
 			$test_hdr_proc = proc_open($test_hdr_cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $test_hdr_pipes);
 			$test_hdr_returnCode = -1;
-			$test_hdr_output = "";
+			$test_hdr_output = '';
 			if (is_resource($test_hdr_proc)) {
 				$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 				$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
 				$test_hdr_returnCode = proc_close($test_hdr_proc);
 				// search build options for libzimg (provides zscale filter)
-				$ffmpeg_libzimg_installed = strpos($test_hdr_stderr,'--enable-libzimg');
-			}
-			else {
+				$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
+			} else {
 				$ffmpeg_libzimg_installed = false;
-			}	
+			}
 			// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video so change $cmd to generate for HDR.
 			// Force colorspace to '2020_ncl' because some videos are tagged incorrectly as 'reserved' resulting in fail
 			// Otherwise, it is SDR, so do nothing.
 			if (($test_hdr_stdout === 'smpte2084' || $test_hdr_stdout === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false) {
 				$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-f', 'mjpeg', '-vframes', '1',
-				'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
-				$tmpPath];
+					'-i', $absPath,
+					'-f', 'mjpeg', '-vframes', '1',
+					'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
+					$tmpPath];
 			}
 		} else {
 			// Not supported
