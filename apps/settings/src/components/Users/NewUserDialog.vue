@@ -64,7 +64,7 @@
 					:input-label="!settings.isAdmin && !settings.isDelegatedAdmin ? t('settings', 'Member of the following groups (required)') : t('settings', 'Member of the following groups')"
 					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
-					:options="canAddGroups"
+					:options="availableGroups"
 					:value="newUser.groups"
 					label="name"
 					:close-on-select="false"
@@ -72,6 +72,7 @@
 					:taggable="true"
 					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
 					@input="handleGroupInput"
+					@search="searchGroups"
 					@option:created="createGroup" />
 					<!-- If user is not admin, they are a subadmin.
 						Subadmins can't create users outside their groups
@@ -83,10 +84,12 @@
 					class="dialog__select"
 					:input-label="t('settings', 'Admin of the following groups')"
 					:placeholder="t('settings', 'Set account as admin for …')"
+					:disabled="loading.groups || loading.all"
 					:options="subAdminsGroups"
 					:close-on-select="false"
 					:multiple="true"
-					label="name" />
+					label="name"
+					@search="searchGroups" />
 			</div>
 			<div class="dialog__item">
 				<NcSelect v-model="newUser.quota"
@@ -142,6 +145,9 @@ import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
+import { searchGroups } from '../../service/groups.ts'
+import { formatGroup } from '../../utils/groups.ts'
+
 export default {
 	name: 'NewUserDialog',
 
@@ -172,11 +178,14 @@ export default {
 
 	data() {
 		return {
+			availableGroups: this.$store.getters.getSortedGroups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled'),
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerInputLabel: t('settings', 'Manager'),
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerLabel: t('settings', 'Set line manager'),
+			// Cancelable promise for search groups request
+			promise: null,
 		}
 	},
 
@@ -200,27 +209,9 @@ export default {
 			return this.$store.getters.getPasswordPolicyMinLength
 		},
 
-		groups() {
-			// data provided php side + remove the recent and disabled groups
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
 		subAdminsGroups() {
 			// data provided php side
-			return this.$store.getters.getSubadminGroups
-		},
-
-		canAddGroups() {
-			// disabled if no permission to add new users to group
-			return this.groups.map(group => {
-				// clone object because we don't want
-				// to edit the original groups
-				group = Object.assign({}, group)
-				group.$isDisabled = group.canAdd === false
-				return group
-			})
+			return this.availableGroups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 		},
 
 		languages() {
@@ -288,6 +279,26 @@ export default {
 			 * Created groups are added programmatically by `createGroup()`
 			 */
 			 this.newUser.groups = groups.filter(group => Boolean(group.id))
+		},
+
+		async searchGroups(query, toggleLoading) {
+			if (this.promise) {
+				this.promise.cancel()
+			}
+			toggleLoading(true)
+			try {
+				this.promise = searchGroups({
+					search: query,
+					offset: 0,
+					limit: 25,
+				})
+				const groups = (await this.promise).data.ocs?.data?.groups ?? []
+				this.availableGroups = groups.map(formatGroup)
+			} catch (error) {
+				logger.error(t('settings', 'Failed to search groups'), { error })
+			}
+			this.promise = null
+			toggleLoading(false)
 		},
 
 		/**
