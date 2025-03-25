@@ -78,8 +78,7 @@
 						Subadmins can't create users outside their groups
 						Therefore, empty select is forbidden -->
 			</div>
-			<div v-if="subAdminsGroups.length > 0"
-				class="dialog__item">
+			<div class="dialog__item">
 				<NcSelect v-model="newUser.subAdminsGroups"
 					class="dialog__select"
 					:input-label="t('settings', 'Admin of the following groups')"

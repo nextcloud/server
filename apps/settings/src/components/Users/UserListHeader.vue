@@ -42,7 +42,7 @@
 			scope="col">
 			<span>{{ t('settings', 'Groups') }}</span>
 		</th>
-		<th v-if="subAdminsGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
+		<th v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			class="header__cell header__cell--large"
 			data-cy-user-list-header-subadmins
 			scope="col">
@@ -123,11 +123,6 @@ export default Vue.extend({
 		settings() {
 			// @ts-expect-error: allow untyped $store
 			return this.$store.getters.getServerData
-		},
-
-		subAdminsGroups() {
-			// @ts-expect-error: allow untyped $store
-			return this.$store.getters.getSubadminGroups
 		},
 
 		passwordLabel(): string {
