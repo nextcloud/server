@@ -106,7 +106,7 @@
 					:data-loading="loading.groups || undefined"
 					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField || loading.groupDetails"
+					:disabled="isLoadingField || loading.groupsDetails"
 					:loading="loading.groups"
 					:multiple="true"
 					:append-to-body="false"
@@ -117,7 +117,6 @@
 					label="name"
 					:no-wrap="true"
 					:create-option="(value) => ({ name: value, isCreating: true })"
-					@open="loadGroupDetails"
 					@search="searchGroups"
 					@option:created="createGroup"
 					@option:selected="options => addUserGroup(options.at(-1))"
@@ -141,16 +140,15 @@
 					:data-loading="loading.subadmins || undefined"
 					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField || loading.groupDetails"
+					:disabled="isLoadingField || loading.subAdminGroupsDetails"
 					:loading="loading.subadmins"
 					label="name"
 					:append-to-body="false"
 					:multiple="true"
 					:no-wrap="true"
-					:options="availableSubAdminGroups"
+					:options="availableGroups.filter(availableGroup => availableGroup !== 'admin')"
 					:placeholder="t('settings', 'Set account as admin for')"
 					:value="userSubAdminGroups"
-					@open="loadGroupDetails"
 					@search="searchGroups"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
@@ -294,7 +292,7 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
-import { searchGroups, loadUserGroups } from '../../service/groups.ts'
+import { searchGroups, loadUserGroups, loadUserSubAdminGroups } from '../../service/groups.ts'
 import logger from '../../logger.ts'
 
 export default {
@@ -362,7 +360,8 @@ export default {
 				password: false,
 				mailAddress: false,
 				groups: false,
-				groupDetails: false,
+				groupsDetails: false,
+				subAdminGroupsDetails: false,
 				subadmins: false,
 				quota: false,
 				delete: false,
@@ -549,9 +548,9 @@ export default {
 			this.loadingPossibleManagers = false
 		},
 
-		async loadGroupDetails() {
+		async loadGroupsDetails() {
 			this.loading.groups = true
-			this.loading.groupDetails = true
+			this.loading.groupsDetails = true
 			try {
 				const groups = await loadUserGroups({ userId: this.user.id })
 				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
@@ -559,14 +558,29 @@ export default {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
 			}
 			this.loading.groups = false
-			this.loading.groupDetails = false
+			this.loading.groupsDetails = false
+		},
+
+		async loadSubAdminGroupsDetails() {
+			this.loading.subadmins = true
+			this.loading.subAdminGroupsDetails = true
+			try {
+				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
+				this.availableSubAdminGroups = this.availableSubAdminGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+			} catch (error) {
+				logger.error(t('settings', 'Failed to load subadmin groups with details'), { error })
+			}
+			this.loading.subadmins = false
+			this.loading.subAdminGroupsDetails = false
 		},
 
 		async searchGroups(query, toggleLoading) {
+			if (query === '') {
+				return // Prevent unexpected search behaviour e.g. on option:created
+			}
 			if (this.promise) {
 				this.promise.cancel()
 			}
-			this.loading.groups = true
 			toggleLoading(true)
 			try {
 				this.promise = await searchGroups({
@@ -580,7 +594,6 @@ export default {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
 			this.promise = null
-			this.loading.groups = false
 			toggleLoading(false)
 		},
 
@@ -761,20 +774,19 @@ export default {
 				// Ignore
 				return
 			}
-			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			if (group.canAdd === false) {
 				return false
 			}
+			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
-				this.userGroups.push({ id: group.id, name: group.id })
+				this.userGroups.push(group)
 			} catch (error) {
 				console.error(error)
-			} finally {
-				this.loading.groups = false
 			}
+			this.loading.groups = false
 		},
 
 		/**
@@ -819,11 +831,11 @@ export default {
 					userid,
 					gid,
 				})
-				this.userSubAdminGroups.push({ id: group.id, name: group.id })
-				this.loading.subadmins = false
+				this.userSubAdminGroups.push(group)
 			} catch (error) {
 				console.error(error)
 			}
+			this.loading.subadmins = false
 		},
 
 		/**
@@ -942,6 +954,8 @@ export default {
 			if (this.editing) {
 				await this.$nextTick()
 				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
+				this.loadGroupsDetails()
+				this.loadSubAdminGroupsDetails()
 			}
 			if (this.editedDisplayName !== this.user.displayname) {
 				this.editedDisplayName = this.user.displayname

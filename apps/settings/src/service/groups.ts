@@ -66,4 +66,18 @@ export const loadUserGroups = async ({ userId }): Promise<Required<IGroup>[]> =>
 	const groups: Group[] = data.ocs?.data?.groups ?? []
 	const formattedGroups = groups.map(formatGroup)
 	return formattedGroups
-},
+}
+
+/**
+ * Load user subadmin groups
+ *
+ * @param {object} options Options
+ * @param {string} options.userId User id
+ */
+export const loadUserSubAdminGroups = async ({ userId }): Promise<Required<IGroup>[]> => {
+	const url = generateOcsUrl('/cloud/users/{userId}/subadmins/details', { userId })
+	const { data } = await axios.get(url)
+	const groups: Group[] = data.ocs?.data?.groups ?? []
+	const formattedGroups = groups.map(formatGroup)
+	return formattedGroups
+}
