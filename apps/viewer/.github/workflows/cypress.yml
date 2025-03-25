@@ -24,6 +24,10 @@ env:
   # n.b. server will use head_ref, as we want to test the PR branch.
   BRANCH: ${{ github.base_ref || github.ref_name }}
 
+
+permissions:
+  contents: read
+
 jobs:
   init:
     runs-on: ubuntu-latest
@@ -32,8 +36,6 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     env:
-      # We'll install cypress in the cypress job
-      CYPRESS_INSTALL_BINARY: 0
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
@@ -45,6 +47,8 @@ jobs:
 
       - name: Checkout app
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Check composer.json
         id: check_composer
@@ -77,7 +81,7 @@ jobs:
           TESTING=true npm run build --if-present
 
       - name: Save context
-        uses: buildjet/cache/save@v4
+        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -89,7 +93,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
         containers: [0, 1, 2, 3, 4, 5, 6, 7]
         # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
@@ -100,7 +103,7 @@ jobs:
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@v4
+        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
@@ -126,6 +129,7 @@ jobs:
           component: ${{ matrix.containers == 'component' }}
           # Do not add Cypress record key config as this conflicts with cypress-split
           # Cypress again tries to force users to buy their dashboard...
+
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
