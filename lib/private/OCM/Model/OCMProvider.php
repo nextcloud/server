@@ -22,7 +22,6 @@ use OCP\OCM\IOCMResource;
  * @since 28.0.0
  */
 class OCMProvider implements IOCMProvider {
-	private IConfig $config;
 	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';
@@ -35,9 +34,8 @@ class OCMProvider implements IOCMProvider {
 
 	public function __construct(
 		protected IEventDispatcher $dispatcher,
-		IConfig $config,
+		protected IConfig $config,
 	) {
-		$this->config = $config;
 		$this->provider = 'Nextcloud ' . $config->getSystemValue('version');
 	}
 
