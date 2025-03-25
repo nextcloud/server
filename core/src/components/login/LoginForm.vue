@@ -33,9 +33,9 @@
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="csrfCheckFailed"
-				:heading="t('core', 'Temporary error')"
+				:heading="t('core', 'Session error')"
 				type="error">
-				{{ t('core', 'Please try again.') }}
+				{{ t('core', 'It appears your session token has expired, please refresh the page and try again.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
 				<div v-for="(message, index) in messages"
