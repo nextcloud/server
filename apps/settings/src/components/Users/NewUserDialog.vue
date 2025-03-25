@@ -71,6 +71,7 @@
 					:multiple="true"
 					:taggable="true"
 					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
+					:create-option="(value) => ({ name: value })"
 					@input="handleGroupInput"
 					@search="searchGroups"
 					@option:created="createGroup" />
@@ -145,6 +146,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { searchGroups } from '../../service/groups.ts'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'NewUserDialog',
@@ -309,11 +311,12 @@ export default {
 			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				this.newUser.groups.push(this.groups.find(group => group.id === gid))
-				this.loading.groups = false
+				this.availableGroups.push({ id: gid, name: gid })
+				this.newUser.groups.push({ id: gid, name: gid })
 			} catch (error) {
-				this.loading.groups = false
+				logger.error(t('settings', 'Failed to create group'), { error })
 			}
+			this.loading.groups = false
 		},
 
 		/**
