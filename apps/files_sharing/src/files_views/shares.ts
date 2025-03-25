@@ -14,6 +14,7 @@ import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 
 import { getContents, isFileRequest } from '../services/SharingService'
+import { loadState } from '@nextcloud/initial-state'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'
@@ -58,22 +59,26 @@ export default () => {
 		getContents: () => getContents(true, false, false, false),
 	}))
 
-	Navigation.register(new View({
-		id: sharedWithOthersViewId,
-		name: t('files_sharing', 'Shared with others'),
-		caption: t('files_sharing', 'List of files that you shared with others.'),
+	// Don't show this view if the user has no storage quota
+	const storageStats = loadState('files', 'storageStats', { quota: -1 })
+	if (storageStats.quota !== 0) {
+		Navigation.register(new View({
+			id: sharedWithOthersViewId,
+			name: t('files_sharing', 'Shared with others'),
+			caption: t('files_sharing', 'List of files that you shared with others.'),
 
-		emptyTitle: t('files_sharing', 'Nothing shared yet'),
-		emptyCaption: t('files_sharing', 'Files and folders you shared will show up here'),
+			emptyTitle: t('files_sharing', 'Nothing shared yet'),
+			emptyCaption: t('files_sharing', 'Files and folders you shared will show up here'),
 
-		icon: AccountGroupSvg,
-		order: 2,
-		parent: sharesViewId,
+			icon: AccountGroupSvg,
+			order: 2,
+			parent: sharesViewId,
 
-		columns: [],
+			columns: [],
 
-		getContents: () => getContents(false, true, false, false),
-	}))
+			getContents: () => getContents(false, true, false, false),
+		}))
+	}
 
 	Navigation.register(new View({
 		id: sharingByLinksViewId,
