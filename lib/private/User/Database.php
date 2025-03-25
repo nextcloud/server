@@ -487,9 +487,12 @@ class Database extends ABackend implements
 		$query = $dbConn->getQueryBuilder();
 		$query->select($query->func()->count('uid'))
 			->from($this->table);
-		$result = $query->executeQuery();
+		$result = $query->executeQuery()->fetchOne();
+		if ($result === false) {
+			return false;
+		}
 
-		return $result->fetchOne();
+		return (int)$result;
 	}
 
 	/**
