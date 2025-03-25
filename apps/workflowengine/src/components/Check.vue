@@ -23,7 +23,7 @@
 			v-if="currentElement"
 			ref="checkComponent"
 			:disabled="!currentOption"
-			:check="check"
+			:operator="check.operator"
 			:model-value="check.value"
 			class="option"
 			@update:model-value="updateCheck"
@@ -166,7 +166,8 @@ export default {
 			this.$emit('validate', this.valid)
 		},
 		updateCheck(event) {
-			const matchingOperator = this.operators.findIndex((operator) => this.check.operator === operator.operator)
+			const selectedOperator = event?.operator || this.currentOperator?.operator || this.check.operator
+			const matchingOperator = this.operators.findIndex((operator) => selectedOperator === operator.operator)
 			if (this.check.class !== this.currentOption.class || matchingOperator === -1) {
 				this.currentOperator = this.operators[0]
 			}
