@@ -127,9 +127,6 @@ class FilenameValidator implements IFilenameValidator {
 		if (empty($this->forbiddenCharacters)) {
 			// Get always forbidden characters
 			$forbiddenCharacters = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-			if ($forbiddenCharacters === false) {
-				$forbiddenCharacters = [];
-			}
 
 			// Get admin defined invalid characters
 			$additionalChars = $this->config->getSystemValue('forbidden_filename_characters', []);
@@ -231,7 +228,8 @@ class FilenameValidator implements IFilenameValidator {
 		return false;
 	}
 
-	protected function checkForbiddenName($filename): void {
+	protected function checkForbiddenName(string $filename): void {
+		$filename = mb_strtolower($filename);
 		if ($this->isForbidden($filename)) {
 			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden file or folder name.', [$filename]));
 		}
@@ -295,6 +293,6 @@ class FilenameValidator implements IFilenameValidator {
 			$values = $fallback;
 		}
 
-		return array_map('mb_strtolower', $values);
+		return array_map(mb_strtolower(...), $values);
 	}
 };
