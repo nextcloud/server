@@ -19,18 +19,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Orphans extends Base {
 	private const CHUNK_SIZE = 100;
 
-	private IQueryBuilder $query;
+	private ?IQueryBuilder $query = null;
 
 	public function __construct(
 		private readonly ObjectUtil $objectUtils,
-		IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 		parent::__construct();
+	}
 
-		$this->query = $connection->getQueryBuilder();
-		$this->query->select('fileid')
-			->from('filecache')
-			->where($this->query->expr()->eq('fileid', $this->query->createParameter('file_id')));
+	private function getQuery(): IQueryBuilder {
+		if (!$this->query) {
+			$this->query = $this->connection->getQueryBuilder();
+			$this->query->select('fileid')
+				->from('filecache')
+				->where($this->query->expr()->eq('fileid', $this->query->createParameter('file_id')));
+		}
+		return $this->query;
 	}
 
 	protected function configure(): void {
@@ -54,20 +59,21 @@ class Orphans extends Base {
 		$prefixLength = strlen('urn:oid:');
 
 		$objects = $objectStore->listObjects('urn:oid:');
-		$objects->rewind();
 		$orphans = new \CallbackFilterIterator($objects, function (array $object) use ($prefixLength) {
 			$fileId = (int)substr($object['urn'], $prefixLength);
 			return !$this->fileIdInDb($fileId);
 		});
-		$orphans = new \ArrayIterator(iterator_to_array($orphans));
+		$orphans->rewind();
+
 		$this->objectUtils->writeIteratorToOutput($input, $output, $orphans, self::CHUNK_SIZE);
 
 		return self::SUCCESS;
 	}
 
 	private function fileIdInDb(int $fileId): bool {
-		$this->query->setParameter('file_id', $fileId, IQueryBuilder::PARAM_INT);
-		$result = $this->query->executeQuery();
+		$query = $this->getQuery();
+		$query->setParameter('file_id', $fileId, IQueryBuilder::PARAM_INT);
+		$result = $query->executeQuery();
 		return $result->fetchOne() !== false;
 	}
 }
