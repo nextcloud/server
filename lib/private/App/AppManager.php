@@ -19,7 +19,6 @@ use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -818,13 +817,7 @@ class AppManager implements IAppManager {
 	 * @return array<string, string>
 	 */
 	public function getAppInstalledVersions(): array {
-		static $versions;
-
-		if (!$versions) {
-			/** @var array<string, string> */
-			$versions = $this->getAppConfig()->searchValues('installed_version', false, IAppConfig::VALUE_STRING);
-		}
-		return $versions;
+		return $this->getAppConfig()->getAppInstalledVersions();
 	}
 
 	/**

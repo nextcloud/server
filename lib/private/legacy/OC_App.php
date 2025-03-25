@@ -642,17 +642,10 @@ class OC_App {
 
 	/**
 	 * get the installed version of all apps
-	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions instead
+	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions or IAppConfig::getAppInstalledVersions instead
 	 */
-	public static function getAppVersions() {
-		static $versions;
-
-		if (!$versions) {
-			/** @var IAppConfig $appConfig */
-			$appConfig = \OCP\Server::get(IAppConfig::class);
-			$versions = $appConfig->searchValues('installed_version');
-		}
-		return $versions;
+	public static function getAppVersions(): array {
+		return \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions();
 	}
 
 	/**
