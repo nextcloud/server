@@ -31,6 +31,11 @@ class SystemTagsObjectList implements XmlSerializable, XmlDeserializable {
 	) {
 	}
 
+	/**
+	 * Get the object ids and their types.
+	 *
+	 * @return array<string, string>
+	 */
 	public function getObjects(): array {
 		return $this->objects;
 	}
@@ -55,7 +60,7 @@ class SystemTagsObjectList implements XmlSerializable, XmlDeserializable {
 					}
 				}
 				if ($id !== '' && $type !== '') {
-					$objects[$id] = $type;
+					$objects[(string)$id] = (string)$type;
 				}
 			}
 		}
