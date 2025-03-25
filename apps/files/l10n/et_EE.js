@@ -56,6 +56,7 @@ OC.L10N.register(
     "Reload current directory" : "Laadi see kaust uuesti",
     "Go to the \"{dir}\" directory" : "Mine kausta „{dir}“",
     "Favorite" : "Lemmik",
+    "Back" : "Tagasi",
     "Filename" : "Faili nimi",
     "Folder name" : "Kausta nimi",
     "Pending" : "Ootel",
