@@ -55,7 +55,9 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 		})
 		cy.runOccCommand(`group:add '${groupName}'`)
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 
 	it('see that the group is in the list', () => {
@@ -121,7 +123,9 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	before(() => {
 		cy.runOccCommand(`group:add '${groupName}'`)
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 
 	it('see that the group is in the list', () => {
@@ -169,7 +173,9 @@ describe('Settings: Delete a non empty group', () => {
 			cy.runOccCommand(`group:addUser '${groupName}' '${$user.userId}'`)
 		})
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 	after(() => cy.deleteUser(testUser))
 
