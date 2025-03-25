@@ -749,18 +749,17 @@ export default {
 		 * @param {string} gid Group id
 		 */
 		async createGroup({ name: gid }) {
-			this.loading = { groups: true, subadmins: true }
+			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
 				this.availableGroups.push({ id: gid, name: gid })
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
+				this.userGroups.push({ id: gid, name: gid })
 			} catch (error) {
-				console.error(error)
-			} finally {
-				this.loading = { groups: false, subadmins: false }
+				logger.error(t('settings', 'Failed to create group'), { error })
 			}
-			return this.$store.getters.getGroups[this.groups.length]
+			this.loading.groups = false
 		},
 
 		/**
