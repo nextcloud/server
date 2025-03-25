@@ -146,7 +146,7 @@
 					:append-to-body="false"
 					:multiple="true"
 					:no-wrap="true"
-					:options="availableGroups.filter(availableGroup => availableGroup !== 'admin')"
+					:options="availableSubAdminGroups"
 					:placeholder="t('settings', 'Set account as admin for')"
 					:value="userSubAdminGroups"
 					@search="searchGroups"
@@ -596,6 +596,7 @@ export default {
 				})
 				const groups = await this.promise
 				this.availableGroups = groups
+				this.availableSubAdminGroups = groups.filter(group => group.id !== 'admin')
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
@@ -753,6 +754,7 @@ export default {
 			try {
 				await this.$store.dispatch('addGroup', gid)
 				this.availableGroups.push({ id: gid, name: gid })
+				this.availableSubAdminGroups.push({ id: gid, name: gid })
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 				this.userGroups.push({ id: gid, name: gid })
