@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppNavigation :aria-label="t('settings', 'Account management')">
+	<NcAppNavigation class="account-management__navigation"
+		:aria-label="t('settings', 'Account management')">
 		<NcAppNavigationNew button-id="new-user-button"
 			:text="t('settings','New account')"
 			@click="showNewUserMenu"
@@ -149,7 +150,12 @@ function showNewUserMenu() {
 </script>
 
 <style scoped lang="scss">
-.account-management{
+.account-management {
+	&__navigation {
+		:deep(.app-navigation__body) {
+			will-change: scroll-position;
+		}
+	}
 	&__system-list {
 		height: auto !important;
 		overflow: visible !important;
