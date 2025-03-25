@@ -342,6 +342,7 @@ class RepairMimeTypes implements IRepairStep {
 	 * @since 32.0.0
 	 */
 	private function introduceMusicxmlType(): IResult|int|null {
+		$updatedMimetypes = [
 			'mxl' => 'application/vnd.recordare.musicxml',
 			'musicxml' => 'application/vnd.recordare.musicxml+xml',
 		];
