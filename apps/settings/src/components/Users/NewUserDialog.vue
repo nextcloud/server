@@ -146,7 +146,6 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { searchGroups } from '../../service/groups.ts'
-import { formatGroup } from '../../utils/groups.ts'
 
 export default {
 	name: 'NewUserDialog',
@@ -292,8 +291,8 @@ export default {
 					offset: 0,
 					limit: 25,
 				})
-				const groups = (await this.promise).data.ocs?.data?.groups ?? []
-				this.availableGroups = groups.map(formatGroup)
+				const groups = await this.promise
+				this.availableGroups = groups
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
