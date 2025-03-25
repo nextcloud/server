@@ -15,6 +15,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\INavigationManager;
+use OCP\ServerVersion;
 use OCP\Template\ITemplateManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -24,6 +25,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 	private InitialStateService&MockObject $initialState;
 	private INavigationManager&MockObject $navigationManager;
 	private ITemplateManager&MockObject $templateManager;
+	private ServerVersion&MockObject $serverVersion;
 
 	private TemplateLayout $templateLayout;
 
@@ -35,6 +37,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->initialState = $this->createMock(InitialStateService::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 	}
 
 	/** @dataProvider dataVersionHash */
@@ -69,6 +72,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 				$this->initialState,
 				$this->navigationManager,
 				$this->templateManager,
+				$this->serverVersion,
 			])
 			->getMock();
 
