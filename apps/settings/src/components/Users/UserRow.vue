@@ -116,7 +116,7 @@
 					:value="userGroups"
 					label="name"
 					:no-wrap="true"
-					:create-option="(value) => ({ name: value, isCreating: true })"
+					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
 					@search="searchGroups"
 					@option:created="createGroup"
 					@option:selected="options => addUserGroup(options.at(-1))"
@@ -776,7 +776,7 @@ export default {
 			const userid = this.user.id
 			const gid = group.id
 			if (group.canAdd === false) {
-				return false
+				return
 			}
 			this.loading.groups = true
 			try {
