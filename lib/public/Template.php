@@ -10,6 +10,9 @@ namespace OCP;
 /*
  * We have to require the functions file because this class contains aliases to the functions
  */
+
+use OCP\Template\ITemplate;
+
 require_once __DIR__ . '/../private/Template/functions.php';
 
 /**
@@ -19,7 +22,7 @@ require_once __DIR__ . '/../private/Template/functions.php';
  * @since 8.0.0
  * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
  */
-class Template extends \OC_Template {
+class Template extends \OC\Template\Template implements ITemplate {
 	/**
 	 * Make OC_Helper::imagePath available as a simple function
 	 *
