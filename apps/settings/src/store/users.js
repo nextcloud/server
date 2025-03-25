@@ -231,7 +231,12 @@ const mutations = {
 	 * @param {object} state the store state
 	 */
 	resetGroups(state) {
-		state.groups = [...usersSettings.systemGroups]
+		const systemGroups = state.groups.filter(group => [
+			'admin',
+			'__nc_internal_recent',
+			'disabled',
+		].includes(group.id))
+		state.groups = [...systemGroups]
 	},
 
 	setShowConfig(state, { key, value }) {
