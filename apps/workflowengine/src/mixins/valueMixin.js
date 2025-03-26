@@ -4,32 +4,21 @@
  */
 
 const valueMixin = {
-	props: {
-		value: {
-			type: String,
-			default: '',
-		},
-		check: {
-			type: Object,
-			default: () => { return {} },
-		},
-	},
 	data() {
 		return {
-			newValue: '',
+			newValue: [],
 		}
 	},
 	watch: {
-		value: {
-			immediate: true,
-			handler(value) {
-				this.updateInternalValue(value)
-			},
+		modelValue() {
+			console.error("DEBUG: watch modelValue mixin")
+			this.updateInternalValue()
 		},
 	},
 	methods: {
-		updateInternalValue(value) {
-			this.newValue = value
+		updateInternalValue() {
+			console.error("DEBUG: updateInternalValue filemimetype " + this.modelValue)
+			this.newValue = this.modelValue
 		},
 	},
 }
