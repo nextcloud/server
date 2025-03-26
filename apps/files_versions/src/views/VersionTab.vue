@@ -17,28 +17,27 @@
  -->
 <template>
 	<div class="versions-tab__container">
-		<VirtualScrolling :sections="sections"
+		<VirtualScrolling v-slot="{ visibleSections }"
+			:sections="sections"
 			:header-height="0">
-			<template slot-scope="{visibleSections}">
-				<ul data-files-versions-versions-list>
-					<template v-if="visibleSections.length === 1">
-						<Version v-for="(row) of visibleSections[0].rows"
-							:key="row.items[0].mtime"
-							:can-view="canView"
-							:can-compare="canCompare"
-							:load-preview="isActive"
-							:version="row.items[0]"
-							:file-info="fileInfo"
-							:is-current="row.items[0].mtime === fileInfo.mtime"
-							:is-first-version="row.items[0].mtime === initialVersionMtime"
-							@click="openVersion"
-							@compare="compareVersion"
-							@restore="handleRestore"
-							@label-update-request="handleLabelUpdateRequest(row.items[0])"
-							@delete="handleDelete" />
-					</template>
-				</ul>
-			</template>
+			<ul :aria-label="t('files_versions', 'File versions')" data-files-versions-versions-list>
+				<template v-if="visibleSections.length === 1">
+					<Version v-for="(row) of visibleSections[0].rows"
+						:key="row.items[0].mtime"
+						:can-view="canView"
+						:can-compare="canCompare"
+						:load-preview="isActive"
+						:version="row.items[0]"
+						:file-info="fileInfo"
+						:is-current="row.items[0].mtime === fileInfo.mtime"
+						:is-first-version="row.items[0].mtime === initialVersionMtime"
+						@click="openVersion"
+						@compare="compareVersion"
+						@restore="handleRestore"
+						@label-update-request="handleLabelUpdateRequest(row.items[0])"
+						@delete="handleDelete" />
+				</template>
+			</ul>
 			<NcLoadingIcon v-if="loading" slot="loader" class="files-list-viewer__loader" />
 		</VirtualScrolling>
 		<NcModal v-if="showVersionLabelForm"
