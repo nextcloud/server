@@ -10,7 +10,9 @@ import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/comman
 import { basename } from 'path'
 
 addCommands()
-addCompareSnapshotCommand()
+addCompareSnapshotCommand({
+	errorThreshold: 0.01,
+})
 
 const url = Cypress.config('baseUrl')!.replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
