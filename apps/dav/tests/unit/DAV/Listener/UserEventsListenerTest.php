@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Listener\UserEventsListener;
+use OCA\DAV\Service\DefaultContactService;
 use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -27,6 +28,8 @@ class UserEventsListenerTest extends TestCase {
 	private CardDavBackend&MockObject $cardDavBackend;
 	private Defaults&MockObject $defaults;
 
+	private DefaultContactService&MockObject $defaultContactService;
+
 	private UserEventsListener $userEventsListener;
 
 	protected function setUp(): void {
@@ -36,12 +39,14 @@ class UserEventsListenerTest extends TestCase {
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 		$this->cardDavBackend = $this->createMock(CardDavBackend::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->defaultContactService = $this->createMock(DefaultContactService::class);
 		$this->userEventsListener = new UserEventsListener(
 			$this->userManager,
 			$this->syncService,
 			$this->calDavBackend,
 			$this->cardDavBackend,
 			$this->defaults,
+			$this->defaultContactService,
 		);
 	}
 

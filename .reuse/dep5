@@ -167,6 +167,10 @@ Files: apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-1.ics app
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
+Files: apps/dav/lib/ExampleContentFiles/exampleContact.vcf
+Copyright: 2025 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only OR AGPL-3.0-or-later
