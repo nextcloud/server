@@ -194,6 +194,20 @@ class JobListTest extends TestCase {
 		$this->assertEquals($savedJob1, $nextJob);
 	}
 
+	public function testGetNextSkipReserved(): void {
+		$job = new TestJob();
+		$this->createTempJob(get_class($job), 1, 123456789, 12345);
+		$this->createTempJob(get_class($job), 2, 0, 12346);
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+		$nextJob = $this->instance->getNext();
+
+		$this->assertEquals(get_class($job), get_class($nextJob));
+		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
 	public function testGetNextSkipTimed(): void {
 		$job = new TestTimedJobNew($this->timeFactory);
 		$jobId = $this->createTempJob(get_class($job), 1, 123456789, 12345, 123456789 - 5);
