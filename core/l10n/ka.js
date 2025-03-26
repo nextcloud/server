@@ -127,8 +127,6 @@ OC.L10N.register(
     "Account name or email" : "Account name or email",
     "Server side authentication failed!" : "Server side authentication failed!",
     "Please contact your administrator." : "Please contact your administrator.",
-    "Temporary error" : "Temporary error",
-    "Please try again." : "Please try again.",
     "An internal error occurred." : "An internal error occurred.",
     "Please try again or contact your administrator." : "Please try again or contact your administrator.",
     "Password" : "პაროლი",

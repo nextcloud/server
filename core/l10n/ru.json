@@ -144,8 +144,6 @@
     "Account name" : "Имя учётной записи",
     "Server side authentication failed!" : "Ошибка аутентификации на стороне сервера!",
     "Please contact your administrator." : "Обратитесь к своему администратору.",
-    "Temporary error" : "Временная ошибка",
-    "Please try again." : "Попробуйте ещё раз.",
     "An internal error occurred." : "Произошла внутренняя ошибка.",
     "Please try again or contact your administrator." : "Попробуйте ещё раз или свяжитесь со своим администратором",
     "Password" : "Пароль",

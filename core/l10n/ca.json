@@ -144,8 +144,6 @@
     "Account name" : "Nom de compte",
     "Server side authentication failed!" : "S'ha produït un error en l'autenticació del servidor!",
     "Please contact your administrator." : "Contacteu amb l'administrador.",
-    "Temporary error" : "Error temporal",
-    "Please try again." : "Torneu-ho a provar.",
     "An internal error occurred." : "S'ha produït un error intern.",
     "Please try again or contact your administrator." : "Torneu-ho a provar o contacteu amb l'administrador.",
     "Password" : "Contrasenya",

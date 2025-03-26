@@ -144,8 +144,6 @@
     "Account name" : "Hesap adı",
     "Server side authentication failed!" : "Kimlik sunucu tarafında doğrulanamadı!",
     "Please contact your administrator." : "Lütfen BT yöneticiniz ile görüşün.",
-    "Temporary error" : "Geçici sorun",
-    "Please try again." : "Lütfen yeniden deneyin.",
     "An internal error occurred." : "İçeride bir sorun çıktı.",
     "Please try again or contact your administrator." : "Lütfen yeniden deneyin ya da BT yöneticiniz ile görüşün.",
     "Password" : "Parola",

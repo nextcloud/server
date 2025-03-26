@@ -133,8 +133,6 @@ OC.L10N.register(
     "Account name or email" : "Cont utilizator sau email",
     "Server side authentication failed!" : "Autentificarea la nivel de server a eșuat!",
     "Please contact your administrator." : "Contactează-ți administratorul.",
-    "Temporary error" : "Eroare temporară",
-    "Please try again." : "Încercați din nou.",
     "An internal error occurred." : "A apărut o eroare internă.",
     "Please try again or contact your administrator." : "Încearcă din nou sau contactează-ți administratorul.",
     "Password" : "Parolă",

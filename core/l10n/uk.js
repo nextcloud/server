@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Назва облікового запису",
     "Server side authentication failed!" : "Невдала авторизація на стороні сервера!",
     "Please contact your administrator." : "Будь ласка, зверніться до вашого Адміністратора.",
-    "Temporary error" : "Тимчасова помилка",
-    "Please try again." : "Спробуйте ще раз.",
     "An internal error occurred." : "Виникла внутрішня помилка.",
     "Please try again or contact your administrator." : "Будь ласка, спробуйте ще раз або зверніться до адміністратора.",
     "Password" : "Пароль",

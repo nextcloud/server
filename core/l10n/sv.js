@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Kontonamn",
     "Server side authentication failed!" : "Servern misslyckades med autentisering!",
     "Please contact your administrator." : "Kontakta din administratör.",
-    "Temporary error" : "Tillfälligt fel",
-    "Please try again." : "Försök igen.",
     "An internal error occurred." : "Ett internt fel uppstod.",
     "Please try again or contact your administrator." : "Försök igen eller kontakta din administratör.",
     "Password" : "Lösenord",

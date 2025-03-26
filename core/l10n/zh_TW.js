@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "帳號名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",
     "Please contact your administrator." : "請聯絡系統管理員。",
-    "Temporary error" : "暫時錯誤",
-    "Please try again." : "請再試一次。",
     "An internal error occurred." : "發生內部錯誤。",
     "Please try again or contact your administrator." : "請重試，或聯絡您的系統管理員。",
     "Password" : "密碼",
