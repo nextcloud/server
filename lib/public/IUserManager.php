@@ -221,4 +221,15 @@ interface IUserManager {
 	 * @since 30.0.0
 	 */
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
+
+	/**
+	 * Gets the list of users.
+	 * An iterator is returned allowing the caller to stop the iteration at any time.
+	 * The offset argument allows the caller to continue the iteration at a specific offset.
+	 *
+	 * @param int $offset from which offset to fetch
+	 * @return \Iterator<IUser> list of IUser object
+	 * @since 32.0.0
+	 */
+	public function getSeenUsers(int $offset = 0): \Iterator;
 }
