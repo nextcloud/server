@@ -122,7 +122,7 @@ describe('Delete action conditions tests', () => {
 	})
 
 	test('Shared and owned nodes displayName', () => {
-		expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
+		expect(action.displayName([file, file2], view)).toBe('Delete items and shares')
 	})
 })
 

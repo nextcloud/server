@@ -75,7 +75,7 @@ export const displayName = (nodes: Node[], view: View) => {
 	 * If we're in the sharing view, we can only unshare
 	 */
 	if (isMixedUnshareAndDelete(nodes)) {
-		return t('files', 'Delete and unshare')
+		return t('files', 'Delete items and shares')
 	}
 
 	/**
