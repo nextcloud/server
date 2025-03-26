@@ -163,7 +163,6 @@ export default defineComponent({
 				// Request tiny previews
 				url.searchParams.set('x', this.gridMode ? '128' : '32')
 				url.searchParams.set('y', this.gridMode ? '128' : '32')
-				url.searchParams.set('mimeFallback', 'true')
 
 				// Etag to force refresh preview on change
 				const etag = this.source?.attributes?.etag || ''
