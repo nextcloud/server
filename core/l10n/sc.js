@@ -120,8 +120,6 @@ OC.L10N.register(
     "Account name or email" : "Nùmene de su contu o indiritzu de posta",
     "Server side authentication failed!" : "Autenticatzione de s'ala de su serbidore faddida!",
     "Please contact your administrator." : "Cuntata s'amministratzione.",
-    "Temporary error" : "Errore temporàneu",
-    "Please try again." : "Torra·nce a proare",
     "An internal error occurred." : "B'at àpidu un'errore internu.",
     "Please try again or contact your administrator." : "Torra a proare o cuntata s'amministratzione.",
     "Password" : "Crae",

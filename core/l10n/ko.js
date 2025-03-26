@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "계정 아이디",
     "Server side authentication failed!" : "서버 인증 실패!",
     "Please contact your administrator." : "관리자에게 문의하십시오.",
-    "Temporary error" : "임시 오류",
-    "Please try again." : "다시 시도해 보세요.",
     "An internal error occurred." : "내부 오류가 발생했습니다.",
     "Please try again or contact your administrator." : "다시 시도하거나 관리자에게 연락하십시오.",
     "Password" : "암호",

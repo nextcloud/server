@@ -137,8 +137,6 @@ OC.L10N.register(
     "Account name" : "Tilin nimi",
     "Server side authentication failed!" : "Palvelimen puoleinen tunnistautuminen epäonnistui!",
     "Please contact your administrator." : "Ota yhteys ylläpitäjään.",
-    "Temporary error" : "Väliaikainen virhe",
-    "Please try again." : "Yritä uudelleen.",
     "An internal error occurred." : "Tapahtui sisäinen virhe.",
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
     "Password" : "Salasana",
