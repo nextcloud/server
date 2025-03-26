@@ -187,6 +187,7 @@ OC.L10N.register(
     "Access forbidden" : "Acceso denegado",
     "Page not found" : "Página no encontrada",
     "Back to %s" : "Volver a %s",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Hubo demasiadas solicitudes desde tu red. Volvé a intentarlo más tarde o ponete en contacto con tu administrador si se trata de un error.",
     "Error" : "Error",
     "Internal Server Error" : "Error interno del servidor",
     "More details can be found in the server log." : "Puede consultar más detalles en la bitácora del servidor. ",

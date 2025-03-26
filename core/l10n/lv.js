@@ -127,8 +127,6 @@ OC.L10N.register(
     "Account name" : "Konta nosaukums",
     "Server side authentication failed!" : "Servera autentifikācija neizdevās!",
     "Please contact your administrator." : "Lūgums sazināties ar savu pārvaldītāju.",
-    "Temporary error" : "Īslaicīga kļūda",
-    "Please try again." : "Lūgums mēģināt vēlreiz.",
     "An internal error occurred." : "Radās iekšēja kļūda.",
     "Please try again or contact your administrator." : "Lūgums mēģināt vēlreiz vai sazināties ar savu pārvaldītāju.",
     "Password" : "Parole",

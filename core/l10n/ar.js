@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "اسم الحساب",
     "Server side authentication failed!" : "رفض الخادم المصادقة!",
     "Please contact your administrator." : "يرجى التواصل مع مسؤول النظام.",
-    "Temporary error" : "خطأ مؤقت",
-    "Please try again." : "يرجى المحاولة مرة أخرى.",
     "An internal error occurred." : "حدث خطأ داخلي.",
     "Please try again or contact your administrator." : "حاول مجددا أو تواصل مع مسؤول النظام.",
     "Password" : "كلمة المرور",

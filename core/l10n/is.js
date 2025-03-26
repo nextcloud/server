@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Heiti notandaaðgangs",
     "Server side authentication failed!" : "Auðkenning af hálfu þjóns tókst ekki!",
     "Please contact your administrator." : "Hafðu samband við kerfisstjóra.",
-    "Temporary error" : "Tímabundin villa",
-    "Please try again." : "Endilega reyndu aftur.",
     "An internal error occurred." : "Innri villa kom upp.",
     "Please try again or contact your administrator." : "Reyndu aftur eða hafðu samband við kerfisstjóra.",
     "Password" : "Lykilorð",
