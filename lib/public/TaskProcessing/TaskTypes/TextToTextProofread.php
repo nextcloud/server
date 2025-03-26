@@ -33,7 +33,7 @@ class TextToTextProofread implements ITaskType {
 	public function __construct(
 		IFactory $l10nFactory,
 	) {
-		$this->l = $l10nFactory->get('core');
+		$this->l = $l10nFactory->get('lib');
 	}
 
 
