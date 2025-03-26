@@ -205,12 +205,12 @@ class MailPluginTest extends TestCase {
 						'UID' => 'uid1',
 						'FN' => 'User @ Localhost',
 						'EMAIL' => [
-							'username@localhost',
+							'username@example.com',
 						],
 					],
 				],
 				true,
-				['emails' => [['uuid' => 'uid1', 'name' => 'User @ Localhost', 'type' => '', 'label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => []]],
+				['emails' => [['uuid' => 'uid1', 'name' => 'User @ Localhost', 'type' => '', 'label' => 'User @ Localhost (username@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@example.com']]], 'exact' => ['emails' => []]],
 				false,
 				false,
 				false,
@@ -250,24 +250,24 @@ class MailPluginTest extends TestCase {
 				[
 					[
 						'UID' => 'uid3',
-						'FN' => 'User3 @ Localhost',
+						'FN' => 'User3 @ example.com',
 					],
 					[
 						'UID' => 'uid2',
-						'FN' => 'User2 @ Localhost',
+						'FN' => 'User2 @ example.com',
 						'EMAIL' => [
 						],
 					],
 					[
 						'UID' => 'uid1',
-						'FN' => 'User @ Localhost',
+						'FN' => 'User @ example.com',
 						'EMAIL' => [
-							'username@localhost',
+							'username@example.com',
 						],
 					],
 				],
 				true,
-				['emails' => [['uuid' => 'uid1', 'name' => 'User @ Localhost', 'type' => '', 'label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@localhost']]], 'exact' => ['emails' => [['label' => 'test@remote.com', 'uuid' => 'test@remote.com', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
+				['emails' => [['uuid' => 'uid1', 'name' => 'User @ example.com', 'type' => '', 'label' => 'User @ example.com (username@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@example.com']]], 'exact' => ['emails' => [['label' => 'test@remote.com', 'uuid' => 'test@remote.com', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test@remote.com']]]]],
 				false,
 				false,
 				true,
@@ -303,56 +303,56 @@ class MailPluginTest extends TestCase {
 			],
 			// data set 9
 			[
-				'username@localhost',
+				'username@example.com',
 				[
 					[
 						'UID' => 'uid3',
-						'FN' => 'User3 @ Localhost',
+						'FN' => 'User3 @ example.com',
 					],
 					[
 						'UID' => 'uid2',
-						'FN' => 'User2 @ Localhost',
+						'FN' => 'User2 @ example.com',
 						'EMAIL' => [
 						],
 					],
 					[
 						'UID' => 'uid1',
-						'FN' => 'User @ Localhost',
+						'FN' => 'User @ example.com',
 						'EMAIL' => [
-							'username@localhost',
+							'username@example.com',
 						],
 					],
 				],
 				true,
-				['emails' => [], 'exact' => ['emails' => [['name' => 'User @ Localhost', 'uuid' => 'uid1', 'type' => '', 'label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
+				['emails' => [], 'exact' => ['emails' => [['name' => 'User @ example.com', 'uuid' => 'uid1', 'type' => '', 'label' => 'User @ example.com (username@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@example.com']]]]],
 				true,
 				false,
 				false,
 			],
 			// data set 10
 			[
-				'username@localhost',
+				'username@example.com',
 				[
 					[
 						'UID' => 'uid1',
-						'FN' => 'User3 @ Localhost',
+						'FN' => 'User3 @ example.com',
 					],
 					[
 						'UID' => 'uid2',
-						'FN' => 'User2 @ Localhost',
+						'FN' => 'User2 @ example.com',
 						'EMAIL' => [
 						],
 					],
 					[
 						'UID' => 'uid1',
-						'FN' => 'User @ Localhost',
+						'FN' => 'User @ example.com',
 						'EMAIL' => [
-							'username@localhost',
+							'username@example.com',
 						],
 					],
 				],
 				false,
-				['emails' => [], 'exact' => ['emails' => [['name' => 'User @ Localhost', 'uuid' => 'uid1', 'type' => '', 'label' => 'User @ Localhost (username@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@localhost']]]]],
+				['emails' => [], 'exact' => ['emails' => [['name' => 'User @ example.com', 'uuid' => 'uid1', 'type' => '', 'label' => 'User @ example.com (username@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@example.com']]]]],
 				true,
 				false,
 				false,
@@ -381,8 +381,8 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				false,
-				['emails' => [], 'exact' => ['emails' => [['name' => 'User Name @ Localhost', 'uuid' => 'uid1', 'type' => '', 'label' => 'User Name @ Localhost (user name@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'user name@localhost']]]]],
-				true,
+				['emails' => [], 'exact' => ['emails' => []]],
+				false,
 				false,
 				false,
 			],
@@ -555,16 +555,16 @@ class MailPluginTest extends TestCase {
 						'UID' => 'uid1',
 						'FN' => 'User Name',
 						'EMAIL' => [
-							['type' => 'HOME', 'value' => 'username@localhost'],
-							['type' => 'WORK', 'value' => 'username@other'],
+							['type' => 'HOME', 'value' => 'username@example.com'],
+							['type' => 'WORK', 'value' => 'other@example.com'],
 						],
 					],
 				],
 				false,
 				['emails' => [
 				], 'exact' => ['emails' => [
-					['name' => 'User Name', 'uuid' => 'uid1', 'type' => 'HOME', 'label' => 'User Name (username@localhost)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@localhost']],
-					['name' => 'User Name', 'uuid' => 'uid1', 'type' => 'WORK', 'label' => 'User Name (username@other)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@other']]
+					['name' => 'User Name', 'uuid' => 'uid1', 'type' => 'HOME', 'label' => 'User Name (username@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'username@example.com']],
+					['name' => 'User Name', 'uuid' => 'uid1', 'type' => 'WORK', 'label' => 'User Name (other@example.com)', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'other@example.com']]
 				]]],
 				false,
 				false,
