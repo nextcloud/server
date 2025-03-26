@@ -126,8 +126,6 @@ OC.L10N.register(
     "Account name" : "ชื่อบัญชี",
     "Server side authentication failed!" : "การรับรองความถูกต้องฝั่งเซิร์ฟเวอร์ล้มเหลว!",
     "Please contact your administrator." : "กรุณาติดต่อผู้ดูแลระบบ",
-    "Temporary error" : "ข้อผิดพลาดชั่วคราว",
-    "Please try again." : "กรุณาลองอีกครั้ง",
     "An internal error occurred." : "เกิดข้อผิดพลาดภายใน",
     "Please try again or contact your administrator." : "กรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
     "Password" : "รหัสผ่าน",

@@ -143,8 +143,6 @@ OC.L10N.register(
     "Account name" : "ھېسابات ئىسمى",
     "Server side authentication failed!" : "مۇلازىمېتىر تەرەپ دەلىللەش مەغلۇپ بولدى!",
     "Please contact your administrator." : "باشقۇرغۇچىڭىز بىلەن ئالاقىلىشىڭ.",
-    "Temporary error" : "ۋاقىتلىق خاتالىق",
-    "Please try again." : "قايتا سىناڭ.",
     "An internal error occurred." : "ئىچكى خاتالىق كۆرۈلدى.",
     "Please try again or contact your administrator." : "قايتا سىناڭ ياكى باشقۇرغۇچىڭىز بىلەن ئالاقىلىشىڭ.",
     "Password" : "ئىم",

@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Akkaunt nomi",
     "Server side authentication failed!" : "Server tomoni autentifikatsiyasi muvaffaqiyatsiz tugadi!",
     "Please contact your administrator." : "Iltimos, administratoringizga murojaat qiling.",
-    "Temporary error" : "Hozirda xatolik",
-    "Please try again." : "Iltimos, qayta urinib ko'ring.",
     "An internal error occurred." : "Ichki xato yuz berdi.",
     "Please try again or contact your administrator." : "Iltimos, qayta urinib ko'ring yoki administratoringizga murojaat qiling.",
     "Password" : "Parol",

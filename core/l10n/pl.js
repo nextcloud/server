@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Nazwa konta",
     "Server side authentication failed!" : "Uwierzytelnianie po stronie serwera nie powiodło się!",
     "Please contact your administrator." : "Skontaktuj się z administratorem",
-    "Temporary error" : "Błąd tymczasowy",
-    "Please try again." : "Spróbuj ponownie.",
     "An internal error occurred." : "Wystąpił błąd wewnętrzny.",
     "Please try again or contact your administrator." : "Spróbuj ponownie lub skontaktuj się z administratorem.",
     "Password" : "Hasło",

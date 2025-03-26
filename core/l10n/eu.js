@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Kontuaren izena",
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",
     "Please contact your administrator." : "Mesedez jarri harremanetan zure administratzailearekin.",
-    "Temporary error" : "Aldi baterako errorea",
-    "Please try again." : "Mesedez saiatu berriro.",
     "An internal error occurred." : "Barne-errore bat gertatu da.",
     "Please try again or contact your administrator." : "Saiatu berriro edo jarri harremanetan zure administratzailearekin.",
     "Password" : "Pasahitza",

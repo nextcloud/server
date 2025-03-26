@@ -115,8 +115,6 @@ OC.L10N.register(
     "Account name" : "Paskyros pavadinimas",
     "Server side authentication failed!" : "Autentikacija serveryje nepavyko!",
     "Please contact your administrator." : "Susisiekite su savo administratoriumi.",
-    "Temporary error" : "Laikina klaida",
-    "Please try again." : "Bandykite dar kartą.",
     "An internal error occurred." : "Įvyko vidinė klaida.",
     "Please try again or contact your administrator." : "Pabandykite dar kartą arba susisiekite su savo administratoriumi.",
     "Password" : "Slaptažodis",

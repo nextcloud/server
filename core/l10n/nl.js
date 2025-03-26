@@ -146,8 +146,6 @@ OC.L10N.register(
     "Account name" : "Accountnaam",
     "Server side authentication failed!" : "Authenticatie bij de server mislukt!",
     "Please contact your administrator." : "Neem contact op met je systeembeheerder.",
-    "Temporary error" : "Tijdelijke fout",
-    "Please try again." : "Gelieve opnieuw te proberen",
     "An internal error occurred." : "Er heeft zich een interne fout voorgedaan.",
     "Please try again or contact your administrator." : "Probeer het opnieuw of neem contact op met je beheerder.",
     "Password" : "Wachtwoord",
