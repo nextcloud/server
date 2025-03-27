@@ -11,7 +11,7 @@
 		<!-- Icon -->
 		<template #icon>
 			<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
-			<img v-else-if="(isCurrent || version.hasPreview) && !previewErrored"
+			<img v-else-if="version.previewUrl && !previewErrored"
 				:src="version.previewUrl"
 				alt=""
 				decoding="async"
