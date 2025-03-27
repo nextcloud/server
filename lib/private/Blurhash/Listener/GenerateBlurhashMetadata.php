@@ -98,7 +98,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 			$newX = intval($currX * $newY / $currY);
 		}
 
-		$newImage = imagescale($image, $newX, $newY);
+		$newImage = @imagescale($image, $newX, $newY);
 		return ($newImage !== false) ? $newImage : $image;
 	}
 
