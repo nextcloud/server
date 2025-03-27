@@ -144,6 +144,8 @@
     "Account name" : "Name des Kontos",
     "Server side authentication failed!" : "Serverseitige Authentifizierung fehlgeschlagen!",
     "Please contact your administrator." : "Bitte kontaktieren Sie Ihre Administration.",
+    "Session error" : "Sitzungsfehler",
+    "It appears your session token has expired, please refresh the page and try again." : "Der Sitzungstoken scheint abgelaufen zu sein. Bitte diese Seite aktualisieren und neu versuchen.",
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
     "Please try again or contact your administrator." : "Bitte erneut versuchen oder kontaktieren Sie Ihre Administration.",
     "Password" : "Passwort",

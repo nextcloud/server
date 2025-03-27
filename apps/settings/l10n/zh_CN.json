@@ -256,6 +256,7 @@
     "PHP modules" : "PHP模块",
     "increases language translation performance and fixes sorting of non-ASCII characters" : "提高语言翻译性能并修复非 ASCII 字符的排序",
     "for Argon2 for password hashing" : "用于 Argon2 进行密码哈希处理",
+    "required for SFTP storage and recommended for WebAuthn performance" : "SFTP 存储所需，推荐用于 WebAuthn 性能",
     "for picture rotation in server and metadata extraction in the Photos app" : "用于服务器中的图片旋转和照片应用程序中的元数据提取",
     "This instance is missing some required PHP modules. It is required to install them: %s." : "该实例缺少一些必须的PHP模块。必须安装以下模块：%s",
     "This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s" : "此实例缺少一些推荐的 PHP 模块。为了提高性能和更好的兼容性，强烈建议安装它们：\n%s",

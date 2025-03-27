@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Název účtu",
     "Server side authentication failed!" : "Ověření se na straně serveru se nezdařilo!",
     "Please contact your administrator." : "Obraťte se na svého správce.",
+    "Session error" : "Chyba relace",
+    "It appears your session token has expired, please refresh the page and try again." : "Zdá se, že platnost vašeho tokenu relace skončila – načtěte stránku znovu a zkuste znovu, o co jste se pokoušeli.",
     "An internal error occurred." : "Došlo k vnitřní chybě.",
     "Please try again or contact your administrator." : "Zkuste to znovu nebo se obraťte na správce.",
     "Password" : "Heslo",

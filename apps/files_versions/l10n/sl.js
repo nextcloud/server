@@ -4,6 +4,7 @@ OC.L10N.register(
     "Versions" : "Različice",
     "This application automatically maintains older versions of files that are changed." : "Program samodejno ustvarja zaporedne različice sprememb datotek.",
     "Current version" : "Trenutna različica",
+    "You" : "Jaz",
     "Name this version" : "Poimenovanje razičice",
     "Edit version name" : "Uredi ime različice",
     "Restore version" : "Obnovi različico",
