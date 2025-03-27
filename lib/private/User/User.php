@@ -447,6 +447,11 @@ class User implements IUser {
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
 	}
 
+	public function canChangeEmail(): bool {
+		// Fallback to display name value to avoid changing behavior with the new option.
+		return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+	}
+
 	/**
 	 * check if the user is enabled
 	 *

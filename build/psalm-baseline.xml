@@ -1019,6 +1019,11 @@
       <code><![CDATA[isReady]]></code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[canChangeEmail]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
@@ -2551,6 +2556,11 @@
     <FalsableReturnStatement>
       <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
+  </file>
+  <file src="lib/private/User/LazyUser.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[canChangeEmail]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch>
