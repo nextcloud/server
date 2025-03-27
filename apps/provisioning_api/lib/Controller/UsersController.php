@@ -748,14 +748,16 @@ class UsersController extends AUserDataOCSController {
 			$targetUser = $currentLoggedInUser;
 		}
 
-		// Editing self (display, email)
-		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			if (
-				$targetUser->getBackend() instanceof ISetDisplayNameBackend
-				|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
-			) {
-				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
-			}
+		$allowDisplayNameChange = $this->config->getSystemValue('allow_user_to_change_display_name', true);
+		if ($allowDisplayNameChange === true && (
+			$targetUser->getBackend() instanceof ISetDisplayNameBackend
+			|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
+		)) {
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+		}
+
+		// Fallback to display name value to avoid changing behavior with the new option.
+		if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
@@ -907,15 +909,17 @@ class UsersController extends AUserDataOCSController {
 
 		$permittedFields = [];
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			// Editing self (display, email)
-			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-				if (
-					$targetUser->getBackend() instanceof ISetDisplayNameBackend
-					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
-				) {
-					$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
-					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
-				}
+			$allowDisplayNameChange = $this->config->getSystemValue('allow_user_to_change_display_name', true);
+			if ($allowDisplayNameChange !== false && (
+				$targetUser->getBackend() instanceof ISetDisplayNameBackend
+				|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
+			)) {
+				$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+			}
+
+			// Fallback to display name value to avoid changing behavior with the new option.
+			if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
