@@ -25,7 +25,9 @@ p($theme->getTitle());
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>">
+	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+		p("data-theme-$themeId ");
+	}?> data-themes="<?php p(join(',', $_['enabledThemes'])) ?>">
 		<?php include 'layout.noscript.warning.php'; ?>
 		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
 			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">

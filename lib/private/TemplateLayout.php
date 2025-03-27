@@ -183,6 +183,8 @@ class TemplateLayout extends \OC_Template {
 			if ($user) {
 				$userDisplayName = $user->getDisplayName();
 			}
+			$theme = $this->config->getSystemValueString('enforce_theme', '');
+			$this->assign('enabledThemes', $theme === '' ? [] : [$theme]);
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
 		} elseif ($renderAs === TemplateResponse::RENDER_AS_PUBLIC) {
