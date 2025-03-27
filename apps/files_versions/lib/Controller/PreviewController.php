@@ -97,7 +97,9 @@ class PreviewController extends Controller {
 			$file = $userFolder->get($file);
 			$versionFile = $this->versionManager->getVersionFile($user, $file, $version);
 			$preview = $this->previewManager->getPreview($versionFile, $x, $y, true, IPreview::MODE_FILL, $versionFile->getMimetype());
-			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
+			$response = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
+			$response->cacheFor(3600 * 24, false, true);
+			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
