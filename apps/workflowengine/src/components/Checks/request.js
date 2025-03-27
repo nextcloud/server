@@ -39,7 +39,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestUserAgent,
+		element: registerCustomElement(RequestUserAgent, 'oca-workflowengine-checks-request_user_agent'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
