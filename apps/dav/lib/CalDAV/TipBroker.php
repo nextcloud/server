@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Broker;
 use Sabre\VObject\ITip\Message;
@@ -27,8 +28,55 @@ class TipBroker extends Broker {
 		'SUMMARY',
 		'DESCRIPTION',
 		'LOCATION',
-
 	];
+
+	/**
+	 * Processes incoming CANCEL messages.
+	 *
+	 * This is a message from an organizer, and means that either an
+	 * attendee got removed from an event, or an event got cancelled
+	 * altogether.
+	 *
+	 * @param VCalendar $existingObject
+	 *
+	 * @return VCalendar|null
+	 */
+	protected function processMessageCancel(Message $itipMessage, ?VCalendar $existingObject = null) {
+		if ($existingObject === null) {
+			return null;
+		}
+
+		$componentType = $itipMessage->component;
+		$instances = [];
+
+		foreach ($itipMessage->message->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			$instances[$instanceId] = $component;
+		}
+		// any existing instances should be marked as cancelled
+		foreach ($existingObject->$componentType as $component) {
+			$instanceId = isset($component->{'RECURRENCE-ID'}) ? $component->{'RECURRENCE-ID'}->getValue() : 'base';
+			if (isset($instances[$instanceId])) {
+				if (isset($component->STATUS)) {
+					$component->STATUS->setValue('CANCELLED');
+				} else {
+					$component->add('STATUS', 'CANCELLED');
+				}
+				if (isset($component->SEQUENCE)) {
+					$component->SEQUENCE->setValue($itipMessage->sequence);
+				} else {
+					$component->add('SEQUENCE', $itipMessage->sequence);
+				}
+				unset($instances[$instanceId]);
+			}
+		}
+		// any remaining instances are new and should be added
+		foreach ($instances as $instance) {
+			$existingObject->add($instance);
+		}
+
+		return $existingObject;
+	}
 
 	/**
 	 * This method is used in cases where an event got updated, and we
@@ -41,147 +89,149 @@ class TipBroker extends Broker {
 	 * @return array
 	 */
 	protected function parseEventForOrganizer(VCalendar $calendar, array $eventInfo, array $oldEventInfo) {
-		// Merging attendee lists.
-		$attendees = [];
-		foreach ($oldEventInfo['attendees'] as $attendee) {
-			$attendees[$attendee['href']] = [
-				'href' => $attendee['href'],
-				'oldInstances' => $attendee['instances'],
-				'newInstances' => [],
-				'name' => $attendee['name'],
-				'forceSend' => null,
-			];
-		}
-		foreach ($eventInfo['attendees'] as $attendee) {
-			if (isset($attendees[$attendee['href']])) {
-				$attendees[$attendee['href']]['name'] = $attendee['name'];
-				$attendees[$attendee['href']]['newInstances'] = $attendee['instances'];
-				$attendees[$attendee['href']]['forceSend'] = $attendee['forceSend'];
-			} else {
-				$attendees[$attendee['href']] = [
-					'href' => $attendee['href'],
-					'oldInstances' => [],
-					'newInstances' => $attendee['instances'],
-					'name' => $attendee['name'],
-					'forceSend' => $attendee['forceSend'],
-				];
-			}
-		}
 
 		$messages = [];
 
-		foreach ($attendees as $attendee) {
-			// An organizer can also be an attendee. We should not generate any
-			// messages for those.
-			if ($attendee['href'] === $eventInfo['organizer']) {
-				continue;
+		// construct template calendar from original calendar without components
+		$template = new VCalendar();
+		foreach ($template->children() as $property) {
+			$template->remove($property);
+		}
+		foreach ($calendar->children() as $property) {
+			if (in_array($property->name, ['METHOD', 'VEVENT', 'VTODO', 'VJOURNAL', 'VFREEBUSY'], true) === false) {
+				$template->add(clone $property);
 			}
-
-			$message = new Message();
-			$message->uid = $eventInfo['uid'];
-			$message->component = 'VEVENT';
-			$message->sequence = $eventInfo['sequence'];
-			$message->sender = $eventInfo['organizer'];
-			$message->senderName = $eventInfo['organizerName'];
-			$message->recipient = $attendee['href'];
-			$message->recipientName = $attendee['name'];
-
-			// Creating the new iCalendar body.
-			$icalMsg = new VCalendar();
-
-			foreach ($calendar->select('VTIMEZONE') as $timezone) {
-				$icalMsg->add(clone $timezone);
+		}
+		// extract event information
+		$objectId = $eventInfo['uid'];
+		if ($calendar->getBaseComponent() === null) {
+			$objectType = $calendar->getComponents()[0]->name;
+		} else {
+			$objectType = $calendar->getBaseComponent()->name;
+		}
+		$objectSequence = $eventInfo['sequence'] ?? 1;
+		$organizerHref = $eventInfo['organizer'] ?? $oldEventInfo['organizer'];
+		if ($eventInfo['organizerName'] instanceof \Sabre\VObject\Parameter) {
+			$organizerName = $eventInfo['organizerName']->getValue();
+		} else {
+			$organizerName = $eventInfo['organizerName'];
+		}
+		// detect if the singleton or recurring base instance was converted to non-scheduling
+		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances'])> 0) {
+			foreach ($oldEventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
 			}
-			// If there are no instances the attendee is a part of, it means
-			// the attendee was removed and we need to send them a CANCEL message.
-			// Also If the meeting STATUS property was changed to CANCELLED
-			// we need to send the attendee a CANCEL message.
-			if (!$attendee['newInstances'] || $eventInfo['status'] === 'CANCELLED') {
-				
-				$message->method = $icalMsg->METHOD = 'CANCEL';
-				$message->significantChange = true;
-				// clone base event
-				$event = clone $eventInfo['instances']['master'];
-				// alter some properties
-				unset($event->ATTENDEE);
-				$event->add('ATTENDEE', $attendee['href'], ['CN' => $attendee['name'],]);
-				$event->DTSTAMP = gmdate('Ymd\\THis\\Z');
-				$event->SEQUENCE = $message->sequence;
-				$icalMsg->add($event);
-				
-			} else {
-				// The attendee gets the updated event body
-				$message->method = $icalMsg->METHOD = 'REQUEST';
-
-				// We need to find out that this change is significant. If it's
-				// not, systems may opt to not send messages.
-				//
-				// We do this based on the 'significantChangeHash' which is
-				// some value that changes if there's a certain set of
-				// properties changed in the event, or simply if there's a
-				// difference in instances that the attendee is invited to.
-
-				$oldAttendeeInstances = array_keys($attendee['oldInstances']);
-				$newAttendeeInstances = array_keys($attendee['newInstances']);
-
-				$message->significantChange =
-					$attendee['forceSend'] === 'REQUEST' ||
-					count($oldAttendeeInstances) !== count($newAttendeeInstances) ||
-					count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
-					$oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
-
-				foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
-					$currentEvent = clone $eventInfo['instances'][$instanceId];
-					if ($instanceId === 'master') {
-						// We need to find a list of events that the attendee
-						// is not a part of to add to the list of exceptions.
-						$exceptions = [];
-						foreach ($eventInfo['instances'] as $instanceId => $vevent) {
-							if (!isset($attendee['newInstances'][$instanceId])) {
-								$exceptions[] = $instanceId;
-							}
-						}
-
-						// If there were exceptions, we need to add it to an
-						// existing EXDATE property, if it exists.
-						if ($exceptions) {
-							if (isset($currentEvent->EXDATE)) {
-								$currentEvent->EXDATE->setParts(array_merge(
-									$currentEvent->EXDATE->getParts(),
-									$exceptions
-								));
-							} else {
-								$currentEvent->EXDATE = $exceptions;
-							}
-						}
-
-						// Cleaning up any scheduling information that
-						// shouldn't be sent along.
-						unset($currentEvent->ORGANIZER['SCHEDULE-FORCE-SEND']);
-						unset($currentEvent->ORGANIZER['SCHEDULE-STATUS']);
-
-						foreach ($currentEvent->ATTENDEE as $attendee) {
-							unset($attendee['SCHEDULE-FORCE-SEND']);
-							unset($attendee['SCHEDULE-STATUS']);
-
-							// We're adding PARTSTAT=NEEDS-ACTION to ensure that
-							// iOS shows an "Inbox Item"
-							if (!isset($attendee['PARTSTAT'])) {
-								$attendee['PARTSTAT'] = 'NEEDS-ACTION';
-							}
-						}
+			return $messages;
+		}
+		// detect if the singleton or recurring base instance was cancelled
+		if ($eventInfo['instances']['master']?->STATUS?->getValue() === 'CANCELLED' && $oldEventInfo['instances']['master']?->STATUS?->getValue() !== 'CANCELLED') {
+			foreach ($eventInfo['attendees'] as $attendee) {
+				$messages[] = $this->generateMessage(
+					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
+			}
+			return $messages;
+		}
+		// detect if a new cancelled instance was created
+		if (isset($oldEventInfo['instances'])) {
+			$instancesDelta = array_diff_key($eventInfo['instances'], $oldEventInfo['instances']);
+			foreach ($instancesDelta as $id => $instance) {
+				if ($instance->STATUS?->getValue() === 'CANCELLED') {
+					foreach ($eventInfo['attendees'] as $attendee) {
+						$messages[] = $this->generateMessage(
+							[$instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+						);
 					}
-
-					$currentEvent->DTSTAMP = gmdate('Ymd\\THis\\Z');
-					$icalMsg->add($currentEvent);
 				}
 			}
-
-			$message->message = $icalMsg;
-			$messages[] = $message;
+		}
+		// detect attendee mutations
+		$attendees = array_unique(
+			array_merge(
+				array_keys($eventInfo['attendees']),
+				array_keys($oldEventInfo['attendees'])
+			)
+		);
+		foreach ($attendees as $attendee) {
+			// detect if attendee was removed and send cancel message
+			if (!isset($eventInfo['attendees'][$attendee]) && isset($oldEventInfo['attendees'][$attendee])) {
+				//get all instances of the attendee was removed from.
+				$instances = array_intersect_key($oldEventInfo['instances'], array_flip(array_keys($oldEventInfo['attendees'][$attendee]['instances'])));
+				$messages[] = $this->generateMessage(
+					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template
+				);
+				continue;
+			}
+			// otherwise any created or modified instances will be sent as REQUEST
+			$instances = array_intersect_key($eventInfo['instances'], array_flip(array_keys($eventInfo['attendees'][$attendee]['instances'])));
+			$messages[] = $this->generateMessage(
+				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
+			);
 		}
 
 		return $messages;
+	}
+
+	protected function generateMessage(
+		array $instances,
+		string $organizerHref,
+		?string $organizerName,
+		array $attendee,
+		string $objectId,
+		string $objectType,
+		int $objectSequence,
+		string $method,
+		VCalendar $template,
+	): Message {
+
+		$recipientAddress = $attendee['href'] ?? '';
+		$recipientName = $attendee['name'] ?? '';
+
+		$vObject = clone $template;
+		if ($vObject->METHOD && $vObject->METHOD->getValue() !== $method) {
+			$vObject->METHOD->setValue($method);
+		} else {
+			$vObject->add('METHOD', $method);
+		}
+		foreach ($instances as $instance) {
+			$vObject->add($this->componentSanitizeScheduling(clone $instance));
+		}
+		
+		$message = new Message();
+		$message->method = $method;
+		$message->uid = $objectId;
+		$message->component = $objectType;
+		$message->sequence = $objectSequence;
+		$message->sender = $organizerHref;
+		$message->senderName = $organizerName;
+		$message->recipient = $recipientAddress;
+		$message->recipientName = $recipientName;
+		$message->significantChange = true;
+		$message->message = $vObject;
+
+		return $message;
+
+	}
+
+	protected function componentSanitizeScheduling(Component $component): Component {
+		// Cleaning up any scheduling information that should not be sent or is missing
+		unset($component->ORGANIZER['SCHEDULE-FORCE-SEND'], $component->ORGANIZER['SCHEDULE-STATUS']);
+		foreach ($component->ATTENDEE as $attendee) {
+			unset($attendee['SCHEDULE-FORCE-SEND'], $attendee['SCHEDULE-STATUS']);
+
+			if (!isset($attendee['PARTSTAT'])) {
+				$attendee['PARTSTAT'] = 'NEEDS-ACTION';
+			}
+		}
+		// Sequence is a required property, default is 0
+		// https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.4
+		if ($component->SEQUENCE === null) {
+			$component->add('SEQUENCE', 0);
+		}
+
+		return $component;
 	}
 
 }
