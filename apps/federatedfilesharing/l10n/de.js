@@ -30,7 +30,6 @@ OC.L10N.register(
     "Confirm querying lookup server" : "Abfrage des Lookup-Servers bestätigen",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "Wenn aktiviert, wird die Sucheingabe beim Erstellen von Freigaben an ein externes System gesendet, das ein öffentliches und globales Adressbuch bereitstellt.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Dies wird verwendet, um die federierte Cloud-ID abzurufen und so die federierte Freigabe zu vereinfachen.",
-    "Moreover email addresses of users might be sent to that system in order to verify it." : "Darüber hinaus können E-Mail-Adressen von Benutzern zur Überprüfung an dieses System gesendet werden.",
     "Disable querying" : "Abfragen deaktivieren",
     "Enable querying" : "Abfragen aktivieren",
     "Unable to update federated files sharing config" : "Einstellungen zum federierten Teilen konnten nicht aktualisiert werden",

@@ -140,6 +140,7 @@ OC.L10N.register(
     "You are using {s}{usage}{/s}" : "Jūs izmantojat {s}{usage}{/s}",
     "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Jūs izmantojat {s}{usage}{/s} no {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "You are a member of the following groups:" : "Tu esi zemāk uzskaitīto kopu dalībnieks:",
+    "This address is not confirmed" : "Šī adrese nav apstiprināta",
     "Primary email for password reset and notifications" : "Primārā e-pasta adrese paroles atjaunošanai un paziņojumiem",
     "No email address set" : "Nav norādīts e-pasts",
     "Help translate" : "Palīdzi tulkot",

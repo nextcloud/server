@@ -30,7 +30,6 @@ OC.L10N.register(
     "Confirm querying lookup server" : "Potvrdit dotazování vyhledávacího serveru",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "Pokud zapnuto, obsah hledání při vytváření sdílení bude odeslán na externí systém, který poskytuje veřejný a globální adresář kontaktů.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Toto slouží k získávání identifikátorů v rámci federovaného cloudu pro usnadnění federovaného sdílení.",
-    "Moreover email addresses of users might be sent to that system in order to verify it." : "Dále mohou být pro ověření odeslány na server e-mailové adresy uživatelů.",
     "Disable querying" : "Vypnout dotazování",
     "Enable querying" : "Zapnout dotazování",
     "Unable to update federated files sharing config" : "Nedaří se aktualizovat nastavení federovaného sdílení souborů",

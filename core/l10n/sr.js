@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Име рачуна",
     "Server side authentication failed!" : "Потврда идентитета на серверу није успела!",
     "Please contact your administrator." : "Контактирајте вашег администратора.",
+    "Session error" : "Грешка сесије",
+    "It appears your session token has expired, please refresh the page and try again." : "Изгледа да је истекао ваш жетон сесије, молимо вас да освежите страницу и покушате поново.",
     "An internal error occurred." : "Догодила се унутрашња грешка. ",
     "Please try again or contact your administrator." : "Покушајте поново или контактирајте вашег администратора.",
     "Password" : "Лозинка",
