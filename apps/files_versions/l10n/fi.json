@@ -3,6 +3,7 @@
     "This application automatically maintains older versions of files that are changed." : "Tämä sovellus säilyttää automaattisesti vanhempia versioita muuttuneista tiedostoista.",
     "Current version" : "Nykyinen versio",
     "Initial version" : "Ensimmäinen versio",
+    "You" : "Sinä",
     "Name this version" : "Nimeä tämä versio",
     "Edit version name" : "Muokkaa version nimeä",
     "Compare to current version" : "Vertaa nykyiseen versioon",

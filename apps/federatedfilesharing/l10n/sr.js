@@ -30,7 +30,6 @@ OC.L10N.register(
     "Confirm querying lookup server" : "Потврди упитивање сервера претраге",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "Када је укључено, унос претраге приликом креирања дељења ће се послати на спољни систем који обезбеђује јавни и глобални адресар.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Ово се користи за добављање ID здруженог облака и олакшавање здружених дељења.",
-    "Moreover email addresses of users might be sent to that system in order to verify it." : "Уз то, и-мејл адресе корисника би могле да се шаљу на тај систем да би се потврдиле.",
     "Disable querying" : "Искључи упитивање",
     "Enable querying" : "Укључи упитивање",
     "Unable to update federated files sharing config" : "Конфигурација федерисаног дељења фајлова није могла да се ажурира",
