@@ -49,7 +49,7 @@
   # Add cache control for static resources
   <FilesMatch "\.(css|js|mjs|svg|gif|png|jpg|webp|ico|wasm|tflite)$">
     <If "%{QUERY_STRING} =~ /(^|&)v=/">
-      Header set Cache-Control "max-age=15778463, immutable"
+      Header set Cache-Control "max-age=15778463, must-revalidate, immutable"
     </If>
     <Else>
       Header set Cache-Control "max-age=15778463"
