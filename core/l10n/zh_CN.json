@@ -144,6 +144,8 @@
     "Account name" : "账号名称",
     "Server side authentication failed!" : "服务端身份验证失败！",
     "Please contact your administrator." : "请联系您的管理员。",
+    "Session error" : "会话错误",
+    "It appears your session token has expired, please refresh the page and try again." : "您的会话令牌似乎已过期，请刷新页面并重试。",
     "An internal error occurred." : "发生了内部错误。",
     "Please try again or contact your administrator." : "请重试或联系您的管理员。",
     "Password" : "密码",

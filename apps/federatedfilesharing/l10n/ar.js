@@ -30,7 +30,6 @@ OC.L10N.register(
     "Confirm querying lookup server" : "تأكيد استعلام خادوم البحث",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "عند تمكين هذا الخيار، سيتم إرسال إدخال البحث عند إنشاء المشاركات إلى نظام خارجي يوفر دفتر عناوين شامل وعمومي.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "يستعمل هذا لاسترجاع معرف السحابة الاتحادية وذلك لتسهيل المشاركات الاتحادية",
-    "Moreover email addresses of users might be sent to that system in order to verify it." : "علاوة على ذلك، قد يتم إرسال عناوين بريد المستخدِمين الإلكترونية إلى هذا النظام للتحقق منها.",
     "Disable querying" : "تعطيل الاستعلام",
     "Enable querying" : "تمكين الاستعلام",
     "Unable to update federated files sharing config" : "تعذر تحديث تهيئة مشاركة الملفات عبر السحابة الاتحادية",

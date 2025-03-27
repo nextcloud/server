@@ -5,6 +5,7 @@ OC.L10N.register(
     "This application automatically maintains older versions of files that are changed." : "Η εφαρμογή διατηρεί αυτόματα παλαιότερες εκδόσεις των αρχείων που έχουν αλλάξει.",
     "Current version" : "Τρέχουσα έκδοση",
     "Initial version" : "Αρχική έκδοση",
+    "You" : "Εσύ",
     "Name this version" : "Ονομασία αυτής της έκδοσης",
     "Edit version name" : "Επεξεργασία ονόματος έκδοσης",
     "Compare to current version" : "Σύγκριση με την τρέχουσα έκδοση",
