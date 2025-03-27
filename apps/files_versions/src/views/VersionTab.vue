@@ -277,13 +277,12 @@ export default {
 				return
 			}
 
-			// Versions previews are too small for our use case, so we override hasPreview and previewUrl
+			// Versions previews are too small for our use case, so we override previewUrl
 			// which makes the viewer render the original file.
 			// We also point to the original filename if the version is the current one.
 			const versions = this.versions.map(version => ({
 				...version,
 				filename: version.mtime === this.fileInfo.mtime ? path.join('files', getCurrentUser()?.uid ?? '', this.fileInfo.path, this.fileInfo.name) : version.filename,
-				hasPreview: false,
 				previewUrl: undefined,
 			}))
 
@@ -294,7 +293,7 @@ export default {
 		},
 
 		compareVersion({ version }) {
-			const versions = this.versions.map(version => ({ ...version, hasPreview: false, previewUrl: undefined }))
+			const versions = this.versions.map(version => ({ ...version, previewUrl: undefined }))
 
 			OCA.Viewer.compare(this.viewerFileInfo, versions.find(v => v.source === version.source))
 		},
