@@ -310,6 +310,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\BuildSocialSearchIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/BuildSocialSearchIndexBackgroundJob.php',
         'OCA\\DAV\\Migration\\CalDAVRemoveEmptyValue' => __DIR__ . '/..' . '/../lib/Migration/CalDAVRemoveEmptyValue.php',
         'OCA\\DAV\\Migration\\ChunkCleanup' => __DIR__ . '/..' . '/../lib/Migration/ChunkCleanup.php',
+        'OCA\\DAV\\Migration\\CreateSystemAddressBookStep' => __DIR__ . '/..' . '/../lib/Migration/CreateSystemAddressBookStep.php',
         'OCA\\DAV\\Migration\\DeleteSchedulingObjects' => __DIR__ . '/..' . '/../lib/Migration/DeleteSchedulingObjects.php',
         'OCA\\DAV\\Migration\\FixBirthdayCalendarComponent' => __DIR__ . '/..' . '/../lib/Migration/FixBirthdayCalendarComponent.php',
         'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => __DIR__ . '/..' . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
