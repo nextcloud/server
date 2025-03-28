@@ -482,6 +482,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$mimetype = $mimetypeDetector->detectPath($path);
 		$metadata = [
 			'mimetype' => $mimetype,
+			'original-storage' => $this->getId(),
+			'original-path' => $path,
 		];
 
 		$stat['mimetype'] = $mimetype;
