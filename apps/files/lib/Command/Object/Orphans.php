@@ -63,9 +63,9 @@ class Orphans extends Base {
 			$fileId = (int)substr($object['urn'], $prefixLength);
 			return !$this->fileIdInDb($fileId);
 		});
-		$orphans->rewind();
 
-		$this->objectUtils->writeIteratorToOutput($input, $output, $orphans, self::CHUNK_SIZE);
+		$orphans = $this->objectUtils->formatObjects($orphans, $input->getOption('output') === self::OUTPUT_FORMAT_PLAIN);
+		$this->writeStreamingTableInOutputFormat($input, $output, $orphans, self::CHUNK_SIZE);
 
 		return self::SUCCESS;
 	}

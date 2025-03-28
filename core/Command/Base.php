@@ -88,6 +88,58 @@ class Base extends Command implements CompletionAwareInterface {
 		}
 	}
 
+	protected function writeStreamingTableInOutputFormat(InputInterface $input, OutputInterface $output, \Iterator $items, int $tableGroupSize): void {
+		switch ($input->getOption('output')) {
+			case self::OUTPUT_FORMAT_JSON:
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$this->writeStreamingJsonArray($input, $output, $items);
+				break;
+			default:
+				foreach ($this->chunkIterator($items, $tableGroupSize) as $chunk) {
+					$this->writeTableInOutputFormat($input, $output, $chunk);
+				}
+				break;
+		}
+	}
+
+	protected function writeStreamingJsonArray(InputInterface $input, OutputInterface $output, \Iterator $items): void {
+		$first = true;
+		$outputType = $input->getOption('output');
+
+		$output->writeln('[');
+		foreach ($items as $item) {
+			if (!$first) {
+				$output->writeln(',');
+			}
+			if ($outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
+				$output->write(json_encode($item, JSON_PRETTY_PRINT));
+			} else {
+				$output->write(json_encode($item));
+			}
+			$first = false;
+		}
+		$output->writeln("\n]");
+	}
+
+	public function chunkIterator(\Iterator $iterator, int $count): \Iterator {
+		$chunk = [];
+
+		for ($i = 0; $iterator->valid(); $i++) {
+			$chunk[] = $iterator->current();
+			$iterator->next();
+			if (count($chunk) == $count) {
+				// Got a full chunk, yield and start a new one
+				yield $chunk;
+				$chunk = [];
+			}
+		}
+
+		if (count($chunk)) {
+			// Yield the last chunk even if incomplete
+			yield $chunk;
+		}
+	}
+
 
 	/**
 	 * @param mixed $item
