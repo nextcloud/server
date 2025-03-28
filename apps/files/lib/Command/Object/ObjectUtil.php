@@ -8,16 +8,14 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OC\Core\Command\Base;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Util;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ObjectUtil extends Base {
+class ObjectUtil {
 	public function __construct(
 		private IConfig $config,
 		private IDBConnection $connection,
@@ -95,36 +93,13 @@ class ObjectUtil extends Base {
 		return $fileId;
 	}
 
-	public function writeIteratorToOutput(InputInterface $input, OutputInterface $output, \Iterator $objects, int $chunkSize): void {
-		$outputType = $input->getOption('output');
-		$humanOutput = $outputType === Base::OUTPUT_FORMAT_PLAIN;
-
-		if ($humanOutput) {
-			// we can't write tables in a streaming way, so we print them in chunks instead
-			foreach ($this->chunkIterator($objects, $chunkSize) as $chunk) {
-				$this->outputChunkHuman($input, $output, $chunk);
-			}
-		} else {
-			$first = true;
-
-			$output->writeln('[');
-			foreach ($objects as $object) {
-				if (!$first) {
-					$output->writeln(',');
-				}
-				$row = $this->formatObject($object, false);
-				if ($outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
-					$output->write(json_encode($row, JSON_PRETTY_PRINT));
-				} else {
-					$output->write(json_encode($row));
-				}
-				$first = false;
-			}
-			$output->writeln("\n]");
+	public function formatObjects(\Iterator $objects, bool $humanOutput): \Iterator {
+		foreach ($objects as $object) {
+			yield $this->formatObject($object, $humanOutput);
 		}
 	}
 
-	private function formatObject(array $object, bool $humanOutput): array {
+	public function formatObject(array $object, bool $humanOutput): array {
 		$row = array_merge([
 			'urn' => $object['urn'],
 		], ($object['metadata'] ?? []));
@@ -136,32 +111,5 @@ class ObjectUtil extends Base {
 			$row['mtime'] = $row['mtime']->format(\DateTimeImmutable::ATOM);
 		}
 		return $row;
-	}
-
-	private function outputChunkHuman(InputInterface $input, OutputInterface $output, iterable $chunk): void {
-		$result = [];
-		foreach ($chunk as $object) {
-			$result[] = $this->formatObject($object, true);
-		}
-		$this->writeTableInOutputFormat($input, $output, $result);
-	}
-
-	public function chunkIterator(\Iterator $iterator, int $count): \Iterator {
-		$chunk = [];
-
-		for ($i = 0; $iterator->valid(); $i++) {
-			$chunk[] = $iterator->current();
-			$iterator->next();
-			if (count($chunk) == $count) {
-				// Got a full chunk, yield and start a new one
-				yield $chunk;
-				$chunk = [];
-			}
-		}
-
-		if (count($chunk)) {
-			// Yield the last chunk even if incomplete
-			yield $chunk;
-		}
 	}
 }

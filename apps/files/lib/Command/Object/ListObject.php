@@ -42,7 +42,8 @@ class ListObject extends Base {
 			return self::FAILURE;
 		}
 		$objects = $objectStore->listObjects();
-		$this->objectUtils->writeIteratorToOutput($input, $output, $objects, self::CHUNK_SIZE);
+		$objects = $this->objectUtils->formatObjects($objects, $input->getOption('output') === self::OUTPUT_FORMAT_PLAIN);
+		$this->writeStreamingTableInOutputFormat($input, $output, $objects, self::CHUNK_SIZE);
 
 		return self::SUCCESS;
 	}
