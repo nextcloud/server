@@ -12,6 +12,7 @@ use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
+use OC\Authentication\Exceptions\UserAgentForbidden;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
@@ -1142,6 +1143,139 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertSame('username', $davAuthenticatedSet);
 		$this->assertSame(1000, $lastPasswordConfirmSet);
+	}
+
+	public function testTryBasicAuthLoginValidClient() {
+		$allowedClients = [
+			'/Custom Allowed Client/i'
+		];
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$request = $this->createMock(Request::class);
+		$request->method('__get')
+			->willReturn([
+				'PHP_AUTH_USER' => 'username',
+				'PHP_AUTH_PW' => 'password',
+				'HTTP_USER_AGENT' => 'Custom Allowed Client Curl Client/1.0',
+			]);
+		$request->method('__isset')
+			->with('server')
+			->willReturn(true);
+
+		$davAuthenticatedSet = false;
+		$lastPasswordConfirmSet = false;
+
+		$this->session
+			->method('set')
+			->willReturnCallback(function ($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
+				switch ($k) {
+					case Auth::DAV_AUTHENTICATED:
+						$davAuthenticatedSet = $v;
+						return;
+					case 'last-password-confirm':
+						$lastPasswordConfirmSet = 1000;
+						return;
+					default:
+						throw new \Exception();
+				}
+			});
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->session,
+				$this->timeFactory,
+				$this->tokenProvider,
+				$this->config,
+				$this->random,
+				$this->lockdownManager,
+				$this->logger,
+				$this->dispatcher
+			])
+			->setMethods([
+				'logClientIn',
+				'getUser',
+			])
+			->getMock();
+
+		/** @var Session|MockObject */
+		$userSession->expects($this->once())
+			->method('logClientIn')
+			->with(
+				$this->equalTo('username'),
+				$this->equalTo('password'),
+				$this->equalTo($request),
+				$this->equalTo($this->throttler)
+			)->willReturn(true);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('username');
+
+		$userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
+
+		$this->assertSame('username', $davAuthenticatedSet);
+		$this->assertSame(1000, $lastPasswordConfirmSet);
+	}
+
+	public function testTryBasicAuthLoginInvalidClient() {
+		$this->expectException(UserAgentForbidden::class);
+		$this->expectExceptionMessage('Client not allowed');
+
+		$allowedClients = [
+			'/Custom Allowed Client/i'
+		];
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$request = $this->createMock(Request::class);
+		$request->method('__get')
+			->willReturn([
+				'PHP_AUTH_USER' => 'username',
+				'PHP_AUTH_PW' => 'password',
+				'HTTP_USER_AGENT' => 'Rogue Curl Client/1.0',
+			]);
+		$request->method('__isset')
+			->with('server')
+			->willReturn(true);
+
+		$userSession = $this->getMockBuilder(Session::class)
+			->setConstructorArgs([
+				$this->manager,
+				$this->session,
+				$this->timeFactory,
+				$this->tokenProvider,
+				$this->config,
+				$this->random,
+				$this->lockdownManager,
+				$this->logger,
+				$this->dispatcher
+			])
+			->setMethods([
+				'logClientIn',
+				'getUser',
+			])
+			->getMock();
+
+		/** @var Session|MockObject */
+		$userSession->expects($this->never())
+			->method('logClientIn');
+
+		$userSession->tryBasicAuthLogin($request, $this->throttler);
 	}
 
 	public function testTryBasicAuthLoginNoLogin() {

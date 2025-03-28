@@ -4,3 +4,51 @@
 [submodule "3rdparty"]
 	path = 3rdparty
 	url = https://github.com/nextcloud/3rdparty.git
+[submodule "IONOS"]
+	path = IONOS
+	url = git@github.com:IONOS-Productivity/easystorage-config.git
+[submodule "apps-external/extract"]
+	path = apps-external/extract
+	url = https://github.com/PaulLereverend/NextcloudExtract
+[submodule "apps-external/viewer"]
+	path = apps-external/viewer
+	url = git@github.com:IONOS-Productivity/nc-viewer.git
+[submodule "apps-custom/simplesettings"]
+	path = apps-custom/simplesettings
+	url = git@github.com:IONOS-Productivity/nc-simplesettings.git
+[submodule "apps-external/user_oidc"]
+	path = apps-external/user_oidc
+	url = https://github.com/nextcloud/user_oidc.git
+[submodule "apps-custom/googleanalytics"]
+	path = apps-custom/googleanalytics
+	url = git@github.com:IONOS-Productivity/nc-googleanalytics.git
+[submodule "themes/nc-ionos-theme"]
+	path = themes/nc-ionos-theme
+	url = git@github.com:IONOS-Productivity/nc-ionos-theme.git
+[submodule "apps-custom/nc_theming"]
+	path = apps-custom/nc_theming
+	url = git@github.com:IONOS-Productivity/nc-theming.git
+[submodule "custom-npms/nc-vue-material-design-icons"]
+	path = custom-npms/nc-vue-material-design-icons
+	url = git@github.com:IONOS-Productivity/nc-vue-material-design-icons.git
+[submodule "custom-npms/nc-mdi-svg"]
+	path = custom-npms/nc-mdi-svg
+	url = git@github.com:IONOS-Productivity/nc-MaterialDesign-SVG.git
+[submodule "custom-npms/nc-mdi-js"]
+	path = custom-npms/nc-mdi-js
+	url = git@github.com:IONOS-Productivity/nc-MaterialDesign-JS.git
+[submodule "custom-npms/nc-nextcloud-vue"]
+	path = custom-npms/nc-nextcloud-vue
+	url = git@github.com:IONOS-Productivity/nc-nextcloud-vue.git
+[submodule "apps-custom/nc_ionos_processes"]
+	path = apps-custom/nc_ionos_processes
+	url = git@github.com:IONOS-Productivity/nc_ionos_processes.git
+[submodule "apps-external/serverinfo"]
+	path = apps-external/serverinfo
+	url = git@github.com:nextcloud/serverinfo.git
+[submodule "apps-external/groupquota"]
+	path = apps-external/groupquota
+	url = git@github.com:nextcloud/groupquota.git
+[submodule "apps-external/richdocuments"]
+	path = apps-external/richdocuments
+	url = https://github.com/nextcloud/richdocuments.git

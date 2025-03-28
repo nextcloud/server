@@ -198,7 +198,7 @@ class MountPoint implements IMountPoint {
 			if (is_null($storage)) {
 				return -1;
 			}
-			$this->numericStorageId = $storage->getStorageCache()->getNumericId();
+			$this->numericStorageId = $storage->getCache()->getNumericStorageId();
 		}
 		return $this->numericStorageId;
 	}

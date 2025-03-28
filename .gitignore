@@ -53,6 +53,12 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
+# IONOS: this should not be upsteamed!
+!/apps-external/viewer
+!/apps-external/user_oidc
+!/apps-external/serverinfo
+!/apps-external/groupquota
+!/apps-custom/*
 
 # apps modules
 /apps/*/node_modules

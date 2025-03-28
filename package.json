@@ -38,8 +38,6 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
-    "@mdi/js": "^7.4.47",
-    "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.4.0",
     "@nextcloud/axios": "^2.5.1",
     "@nextcloud/browser-storage": "^0.4.0",
@@ -58,7 +56,7 @@
     "@nextcloud/router": "^3.0.0",
     "@nextcloud/sharing": "^0.2.4",
     "@nextcloud/upload": "^1.9.0",
-    "@nextcloud/vue": "^8.23.1",
+    "@nextcloud/vue": "file:./custom-npms/nc-nextcloud-vue",
     "@simplewebauthn/browser": "^10.0.0",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^11.0.0",
@@ -108,7 +106,6 @@
     "vue-frag": "^1.4.2",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
-    "vue-material-design-icons": "^5.3.1",
     "vue-router": "^3.6.5",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
@@ -192,16 +189,23 @@
     "webpack": "^5.93.0",
     "webpack-cli": "^5.0.2",
     "webpack-merge": "^6.0.1",
-    "workbox-webpack-plugin": "^7.1.0"
+    "workbox-webpack-plugin": "^7.1.0",
+    "vue-material-design-icons": "file:./custom-npms/nc-vue-material-design-icons/dist",
+    "@mdi/svg": "file:./custom-npms/nc-mdi-svg/dist",
+    "@mdi/js": "file:./custom-npms/nc-mdi-js"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],
   "engines": {
-    "node": "^20.0.0",
-    "npm": "^10.0.0"
+    "node": "^20.15.0",
+    "npm": "^10.7.0"
   },
   "overrides": {
-    "colors": "1.4.0"
-  }
+    "colors": "1.4.0",
+    "vue-material-design-icons" : "$vue-material-design-icons",
+    "@mdi/svg" : "$@mdi/svg",
+    "@mdi/js" : "$@mdi/js",
+    "@nextcloud/vue" : "$@nextcloud/vue"
+    }
 }

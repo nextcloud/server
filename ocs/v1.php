@@ -58,6 +58,8 @@ try {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
 } catch (\OC\User\LoginException $e) {
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
+} catch (OC\Authentication\Exceptions\UserAgentForbidden $ex) {
+	OC_API::respond(new \OC\OCS\Result(null, 403, $ex->getMessage()));
 } catch (\Exception $e) {
 	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 	OC_API::setContentType();
