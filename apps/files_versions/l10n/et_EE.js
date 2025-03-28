@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Versioon taastatud",
     "Could not restore version" : "Versiooni taastamine ebaõnnestus",
     "Could not set version label" : "Ei saanud määrata versiooni märget",
-    "Could not delete version" : "Versiooni kustutamine ebaõnnestus"
+    "Could not delete version" : "Versiooni kustutamine ebaõnnestus",
+    "File versions" : "Faili versioonid"
 },
 "nplurals=2; plural=(n != 1);");
