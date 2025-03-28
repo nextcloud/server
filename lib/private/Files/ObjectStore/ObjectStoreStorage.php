@@ -479,6 +479,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
 		$mimetype = $mimetypeDetector->detectPath($path);
+		$metadata = [
+			'mimetype' => $mimetype,
+		];
 
 		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
@@ -507,13 +510,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					]);
 					$size = $writtenSize;
 				});
-				$this->objectStore->writeObject($urn, $countStream, $mimetype);
+				if ($this->objectStore instanceof IObjectStoreMetaData) {
+					$this->objectStore->writeObjectWithMetaData($urn, $countStream, $metadata);
+				} else {
+					$this->objectStore->writeObject($urn, $countStream, $metadata['mimetype']);
+				}
 				if (is_resource($countStream)) {
 					fclose($countStream);
 				}
 				$stat['size'] = $size;
 			} else {
-				$this->objectStore->writeObject($urn, $stream, $mimetype);
+				if ($this->objectStore instanceof IObjectStoreMetaData) {
+					$this->objectStore->writeObjectWithMetaData($urn, $stream, $metadata);
+				} else {
+					$this->objectStore->writeObject($urn, $stream, $metadata['mimetype']);
+				}
 				if (is_resource($stream)) {
 					fclose($stream);
 				}
