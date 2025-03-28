@@ -45,7 +45,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
-			->setMethods(['getUrlContent'])
+			->onlyMethods(['getUrlContent'])
 			->setConstructorArgs([
 				$this->serverVersion,
 				$clientService,
@@ -111,14 +111,14 @@ class VersionCheckTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
+		$calls = [0, time()];
 		$this->appConfig
 			->expects($this->exactly(2))
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturnOnConsecutiveCalls(
-				0,
-				time(),
-			);
+			->willReturnCallback(function () use (&$calls) {
+				return array_shift($calls);
+			});
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
@@ -162,14 +162,14 @@ class VersionCheckTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
+		$calls = [0, time()];
 		$this->appConfig
 			->expects($this->exactly(2))
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturnOnConsecutiveCalls(
-				0,
-				time(),
-			);
+			->willReturnCallback(function () use (&$calls) {
+				return array_shift($calls);
+			});
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
@@ -215,14 +215,14 @@ class VersionCheckTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
+		$calls = [0, time()];
 		$this->appConfig
 			->expects($this->exactly(2))
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturnOnConsecutiveCalls(
-				0,
-				time(),
-			);
+			->willReturnCallback(function () use (&$calls) {
+				return array_shift($calls);
+			});
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
@@ -267,14 +267,14 @@ class VersionCheckTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
+		$calls = [0, time()];
 		$this->appConfig
 			->expects($this->exactly(2))
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturnOnConsecutiveCalls(
-				0,
-				time(),
-			);
+			->willReturnCallback(function () use (&$calls) {
+				return array_shift($calls);
+			});
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
@@ -320,14 +320,14 @@ class VersionCheckTest extends \Test\TestCase {
 			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
+		$calls = [0, time()];
 		$this->appConfig
 			->expects($this->exactly(2))
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturnOnConsecutiveCalls(
-				0,
-				time(),
-			);
+			->willReturnCallback(function () use (&$calls) {
+				return array_shift($calls);
+			});
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
