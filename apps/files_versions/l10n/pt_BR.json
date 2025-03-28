@@ -21,6 +21,7 @@
     "Version restored" : "Versão restaurada",
     "Could not restore version" : "Não foi possível restaurar esta versão",
     "Could not set version label" : "Não foi possível definir o rótulo da versão",
-    "Could not delete version" : "Não foi possível excluir a versão"
+    "Could not delete version" : "Não foi possível excluir a versão",
+    "File versions" : "Versões do arquivo"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

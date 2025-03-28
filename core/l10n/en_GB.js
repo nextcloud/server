@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Account name",
     "Server side authentication failed!" : "Server side authentication failed!",
     "Please contact your administrator." : "Please contact your administrator.",
+    "Session error" : "Session error",
+    "It appears your session token has expired, please refresh the page and try again." : "It appears your session token has expired, please refresh the page and try again.",
     "An internal error occurred." : "An internal error occurred.",
     "Please try again or contact your administrator." : "Please try again or contact your administrator.",
     "Password" : "Password",

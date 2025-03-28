@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Názov účtu",
     "Server side authentication failed!" : "Autentifikácia na serveri zlyhala!",
     "Please contact your administrator." : "Kontaktujte prosím vášho administrátora.",
+    "Session error" : "Chyba relácie",
+    "It appears your session token has expired, please refresh the page and try again." : "Zdá sa, že platnosť vášho tokenu relácie vypršala, obnovte stránku a skúste to znova.",
     "An internal error occurred." : "Došlo k vnútornej chybe.",
     "Please try again or contact your administrator." : "Skúste to znovu, alebo sa obráťte na vášho administrátora.",
     "Password" : "Heslo",

@@ -144,6 +144,8 @@
     "Account name" : "帳戶名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",
     "Please contact your administrator." : "請聯絡系統管理員。",
+    "Session error" : "工作階段錯誤",
+    "It appears your session token has expired, please refresh the page and try again." : "您的工作階段權杖似乎已過期，請重新整理頁面並重試。",
     "An internal error occurred." : "發生內部錯誤。",
     "Please try again or contact your administrator." : "請重試或聯絡系統管理員。",
     "Password" : "密碼",
