@@ -571,10 +571,17 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		/** @var string $ownerId */
+		/*
+		 * \OCA\Files_Sharing\External\Storage returns the cloud ID as the owner for the storage.
+		 * It is unnecessary to query the user manager for the display name, as it won't have this information.
+		 */
+		$isRemoteShare = $storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class);
+
 		$ownerId = $storage->getOwner($path);
+		$hasOwnerId = $ownerId !== false && $ownerId !== null;
 		$ownerDisplayName = '';
-		if ($ownerId) {
+
+		if ($isRemoteShare === false && $hasOwnerId) {
 			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
 		}
 
@@ -596,7 +603,7 @@ class OC_Helper {
 			'mountPoint' => trim($mountPoint, '/'),
 		];
 
-		if ($ownerId && $path === '/') {
+		if ($isRemoteShare === false && $hasOwnerId && $path === '/') {
 			// If path is root, store this as last known quota usage for this user
 			\OCP\Server::get(\OCP\IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
 		}
