@@ -33,7 +33,7 @@ OC.L10N.register(
     "Do you really want to delete the current Server Configuration?" : "Oled kindel, et tahad kustutada praegust serveri seadistust?",
     "Confirm Deletion" : "Kinnita kustutamine",
     "Mappings cleared successfully!" : "Vastandused on eemaldatud!",
-    "Error while clearing the mappings." : "Tõrgeseose eemaldamisel.",
+    "Error while clearing the mappings." : "Viga vastanduse/seose eemaldamisel.",
     "Mode switch" : "Režiimi lüliti",
     "Select attributes" : "Vali atribuudid",
     "User found and settings verified." : "Kasutaja leiti ja seaded on kontrollitud.",

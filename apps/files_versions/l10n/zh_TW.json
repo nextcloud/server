@@ -21,6 +21,7 @@
     "Version restored" : "版本已還原",
     "Could not restore version" : "無法還原版本",
     "Could not set version label" : "無法設定版本標籤",
-    "Could not delete version" : "無法刪除版本"
+    "Could not delete version" : "無法刪除版本",
+    "File versions" : "檔案版本"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Верзија је рестаурирана",
     "Could not restore version" : "Верзија није могла да се рестаурира",
     "Could not set version label" : "Није могла да се постави ознака назива верзије",
-    "Could not delete version" : "Верзија није могла да се обрише"
+    "Could not delete version" : "Верзија није могла да се обрише",
+    "File versions" : "Верзије фајла"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
