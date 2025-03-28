@@ -429,9 +429,6 @@ This file is generated from multiple sources. Included packages:
 - mdast-util-from-markdown
 	- version: 2.0.2
 	- license: MIT
-- mdast-util-gfm-autolink-literal
-	- version: 2.0.1
-	- license: MIT
 - mdast-util-gfm-footnote
 	- version: 2.1.0
 	- license: MIT
@@ -442,6 +439,9 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.0
 	- license: MIT
 - mdast-util-gfm-task-list-item
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-autolink-literal
 	- version: 2.0.0
 	- license: MIT
 - mdast-util-gfm
