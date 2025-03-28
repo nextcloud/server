@@ -134,8 +134,15 @@ class UsersController extends Controller {
 			$this->userSession
 		);
 
-		$groupsInfo->setSorting($sortGroupsBy);
-		[$adminGroup, $groups] = $groupsInfo->get();
+		$adminGroup = $this->groupManager->get('admin');
+		$adminGroupData = [
+			'id' => $adminGroup->getGID(),
+			'name' => $adminGroup->getDisplayName(),
+			'usercount' => $sortGroupsBy === MetaData::SORT_USERCOUNT ? $adminGroup->count() : 0,
+			'disabled' => $adminGroup->countDisabled(),
+			'canAdd' => $adminGroup->canAddUser(),
+			'canRemove' => $adminGroup->canRemoveUser(),
+		];
 
 		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
 			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
@@ -196,7 +203,7 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
+		$serverData['systemGroups'] = [$adminGroupData, $recentUsersGroup, $disabledUsersGroup];
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;

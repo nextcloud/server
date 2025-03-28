@@ -29,6 +29,7 @@
 		</NcModal>
 
 		<NcAppNavigationItem :key="id"
+			ref="listItem"
 			:exact="true"
 			:name="name"
 			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
