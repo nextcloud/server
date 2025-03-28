@@ -34,7 +34,8 @@
 				id="admin"
 				:exact="true"
 				:name="t('settings', 'Admins')"
-				:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
+				:to="{ name: 'section', params: { sectionGroup: 'admin' } }">
+				<!-- This is a group but it should be routed to as a section -->
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiShieldAccount" />
 				</template>
@@ -50,13 +51,13 @@
 				id="recent"
 				:exact="true"
 				:name="t('settings', 'Recently active')"
-				:to="{ name: 'group', params: { selectedGroup: '__nc_internal_recent' } }">
+				:to="{ name: 'section', params: { sectionGroup: 'recent' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiHistory" />
 				</template>
 				<template #counter>
 					<NcCounterBubble v-if="recentGroup?.usercount"
-						:type="selectedGroupDecoded === '__nc_internal_recent' ? 'highlighted' : undefined">
+						:type="selectedSectionGroup === 'recent' ? 'highlighted' : undefined">
 						{{ recentGroup.usercount }}
 					</NcCounterBubble>
 				</template>
@@ -67,12 +68,12 @@
 				id="disabled"
 				:exact="true"
 				:name="t('settings', 'Disabled accounts')"
-				:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
+				:to="{ name: 'section', params: { sectionGroup: 'disabled' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiAccountOff" />
 				</template>
 				<template v-if="disabledGroup.usercount > 0" #counter>
-					<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
+					<NcCounterBubble :type="selectedSectionGroup === 'disabled' ? 'highlighted' : undefined">
 						{{ disabledGroup.usercount }}
 					</NcCounterBubble>
 				</template>
@@ -151,10 +152,14 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import GroupListItem from '../components/GroupListItem.vue'
 import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 import { useStore } from '../store'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRouter } from 'vue-router/composables'
 import { useFormatGroups } from '../composables/useGroupsNavigation'
 
-const route = useRoute()
+const props = defineProps<{
+  group?: string,
+  sectionGroup?: string,
+}>()
+
 const router = useRouter()
 const store = useStore()
 
@@ -162,15 +167,19 @@ const store = useStore()
 const isDialogOpen = ref(false)
 
 /** Current active group in the view - this is URL encoded */
-const selectedGroup = computed(() => route.params?.selectedGroup)
+const selectedGroup = computed(() => props.group)
 /** Current active group - URL decoded  */
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
+/** Current active section in the view */
+const selectedSectionGroup = computed(() => props.sectionGroup)
 
 /** Overall user count */
 const userCount = computed(() => store.getters.getUserCount)
+/** All available sections */
+const sectionGroups = computed(() => store.getters.getSectionGroups)
 /** All available groups */
 const groups = computed(() => store.getters.getSortedGroups)
-const { adminGroup, recentGroup, disabledGroup, userGroups } = useFormatGroups(groups)
+const { adminGroup, recentGroup, disabledGroup, userGroups } = useFormatGroups(sectionGroups, groups)
 
 /** Server settings for current user */
 const settings = computed(() => store.getters.getServerData)

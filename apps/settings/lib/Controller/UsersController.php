@@ -163,7 +163,7 @@ class UsersController extends Controller {
 		}
 
 		$recentUsersGroup = [
-			'id' => '__nc_internal_recent',
+			'id' => 'recent',
 			'name' => $this->l10n->t('Recently active'),
 			'usercount' => $this->userManager->countSeenUsers(),
 		];
@@ -196,7 +196,8 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
+		$serverData['sectionGroups'] = [$recentUsersGroup, $disabledUsersGroup];
+		$serverData['groups'] = array_merge($adminGroup, $groups);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
