@@ -443,7 +443,7 @@ class SMB extends Common implements INotifyStorage {
 			return true;
 		} else {
 			$actualTime = $this->filemtime($path);
-			return $actualTime > $time;
+			return $actualTime > $time || $actualTime === 0;
 		}
 	}
 

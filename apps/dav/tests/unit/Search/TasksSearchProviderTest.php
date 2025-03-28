@@ -292,11 +292,11 @@ class TasksSearchProviderTest extends TestCase {
 			->willReturn('link-to-route-tasks.index');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
-			->with('link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics')
-			->willReturn('absolute-url-link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics');
+			->with('link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics')
+			->willReturn('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics');
 
 		$actual = self::invokePrivate($this->provider, 'getDeepLinkToTasksApp', ['uri-john.doe', 'task-uri.ics']);
-		$this->assertEquals('absolute-url-link-to-route-tasks.index#/calendars/uri-john.doe/tasks/task-uri.ics', $actual);
+		$this->assertEquals('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics', $actual);
 	}
 
 	/**

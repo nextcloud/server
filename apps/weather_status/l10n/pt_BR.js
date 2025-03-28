@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Status do Tempo",
     "Weather status in your dashboard" : "Status do Tempo no seu Painel",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status do tempo integrado no aplicativo Dashboard. \n    A localização geográfica pode ser determinada automaticamente ou definida manualmente. Uma previsão de 6 horas é então exibida. \n    Esse status também pode ser integrado em outros locais, como o aplicativo Calendário.",
-    "Detect location" : "Detectar localização",
-    "Set custom address" : "Definir endereço personalizado",
-    "Favorites" : "Favoritos",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} céu claro mais tarde hoje",
     "{temperature} {unit} clear sky" : "{temperature} {unit} céu claro",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} nublado mais tarde hoje",
@@ -59,6 +56,8 @@ OC.L10N.register(
     "There was an error saving the mode." : "Houve um erro ao salvar o modo.",
     "There was an error using personal address." : "Houve um erro ao usar o endereço pessoal.",
     "Unknown weather code" : "Código meteorológico desconhecido",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status do Tempo integrado no aplicativo Painel.\n    Localização do usuário pode ser obtida automaticamente ou definida manualmente. Uma previsão de 6 horas é então exibida.\n    Esse status também pode ser integrado em outros locais, como no aplicativo Calendário."
+    "Detect location" : "Detectar localização",
+    "Set custom address" : "Definir endereço personalizado",
+    "Favorites" : "Favoritos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

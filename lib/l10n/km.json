@@ -62,11 +62,6 @@
     "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "Application is not enabled" : "មិន​បាន​បើក​កម្មវិធី",
     "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
-    "Help" : "ជំនួយ",
-    "Users" : "អ្នកប្រើ",
-    "Unknown user" : "មិនស្គាល់អ្នកប្រើប្រាស់",
-    "PostgreSQL username and/or password not valid" : "ឈ្មោះ​អ្នក​ប្រើ និង/ឬ ពាក្យ​សម្ងាត់ PostgreSQL គឺ​មិន​ត្រូវ​ទេ",
-    "Set an admin username." : "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។",
-    "A valid username must be provided" : "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ"
+    "Users" : "អ្នកប្រើ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

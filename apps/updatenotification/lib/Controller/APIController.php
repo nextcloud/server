@@ -153,14 +153,23 @@ class APIController extends OCSController {
 	 * @param string $appId App to search changelog entry for
 	 * @param string|null $version The version to search the changelog entry for (defaults to the latest installed)
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{appName: string, content: string, version: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{appName: string, content: string, version: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{}, array{}>
 	 *
 	 * 200: Changelog entry returned
+	 * 400: The `version` parameter is not a valid version format
 	 * 404: No changelog found
 	 */
 	public function getAppChangelogEntry(string $appId, ?string $version = null): DataResponse {
 		$version = $version ?? $this->appManager->getAppVersion($appId);
-		$changes = $this->manager->getChangelog($appId, $version);
+		// handle pre-release versions
+		$matches = [];
+		$result = preg_match('/^(\d+\.\d+(\.\d+)?)/', $version, $matches);
+		if ($result === false || $result === 0) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+		$shortVersion = $matches[0];
+
+		$changes = $this->manager->getChangelog($appId, $shortVersion);
 
 		if ($changes === null) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);

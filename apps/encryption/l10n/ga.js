@@ -53,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "Bun-mhodúl criptithe",
     "Your private key password no longer matches your log-in password." : "Ní mheaitseálann do phasfhocal eochrach príobháidí do phasfhocal logáil-isteach a thuilleadh.",
     "Set your old private key password to your current log-in password:" : "Socraigh do shean phasfhocal eochair phríobháideach le do phasfhocal logáil-isteach reatha:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Mura cuimhin leat do shean phasfhocal is féidir leat iarraidh ar do riarthóir do chuid comhad a athshlánú.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Mura cuimhin leat do sheanphasfhocal is féidir leat iarraidh ar do riarthóir do chuid comhad a athshlánú.",
     "Old log-in password" : "Sean phasfhocal logáil isteach",
     "Current log-in password" : "Pasfhocal logáil isteach reatha",
     "Update Private Key Password" : "Nuashonraigh Pasfhocal Eochair Phríobháideach",
     "Enable password recovery:" : "Cumasaigh aisghabháil pasfhocail:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Má chumasaíonn tú an rogha seo beidh tú in ann rochtain a fháil ar do chomhaid chriptithe arís ar eagla go gcailltear pasfhocal",
     "Enabled" : "Cumasaithe",
-    "Disabled" : "Faoi mhíchumas",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Is eochair criptithe bhreise í an eochair athshlánaithe a úsáidtear chun comhaid a chriptiú. Ceadaíonn sé comhaid úsáideora a aisghabháil má dhéanann an t-úsáideoir dearmad ar a phasfhocal."
+    "Disabled" : "Faoi mhíchumas"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

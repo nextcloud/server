@@ -1338,6 +1338,19 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			));
+
+		// Ensure accepted is true for user and usergroup type
+		$qb->andWhere(
+			$qb->expr()->orX(
+				$qb->expr()->andX(
+					$qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)),
+					$qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)),
+				),
+				$qb->expr()->eq('accepted', $qb->createNamedParameter(IShare::STATUS_ACCEPTED, IQueryBuilder::PARAM_INT)),
+			),
+		);
+
+
 		$cursor = $qb->execute();
 
 		$users = [];

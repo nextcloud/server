@@ -21,6 +21,7 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
@@ -475,6 +476,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),
+			\OC::$server->get(ICacheFactory::class),
 		);
 	}
 

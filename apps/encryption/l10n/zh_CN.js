@@ -49,14 +49,12 @@ OC.L10N.register(
     "Basic encryption module" : "基础加密模块",
     "Your private key password no longer matches your log-in password." : "您的私钥不再与您的登录密码匹配。",
     "Set your old private key password to your current log-in password:" : "将的私钥设置为当前登录密码：",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "如果您记不住旧的密码，您可以请求管理员恢复您的文件。",
     "Old log-in password" : "旧登录密码",
     "Current log-in password" : "当前登录密码",
     "Update Private Key Password" : "更新私钥密码",
     "Enable password recovery:" : "启用密码恢复：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许您在密码丢失后取回您的加密文件",
     "Enabled" : "启用",
-    "Disabled" : "禁用",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "恢复密钥是用于加密文件的额外加密密钥。如果用户忘记了密码，它允许用户恢复文件。"
+    "Disabled" : "禁用"
 },
 "nplurals=1; plural=0;");

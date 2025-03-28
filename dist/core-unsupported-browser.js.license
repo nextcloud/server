@@ -44,10 +44,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -56,7 +56,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - assert
 	- version: 2.1.0
@@ -68,13 +68,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - browserslist
-	- version: 4.23.3
+	- version: 4.24.4
 	- license: MIT
 - call-bind
 	- version: 1.0.7
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001647
+	- version: 1.0.30001700
 	- license: CC-BY-4.0
 - console-browserify
 	- version: 1.2.0
@@ -89,10 +89,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.4
+	- version: 1.5.103
 	- license: ISC
 - es-define-property
 	- version: 1.0.0
@@ -155,7 +155,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - node-releases
-	- version: 2.0.18
+	- version: 2.0.19
 	- license: MIT
 - object-is
 	- version: 1.1.6

@@ -47,14 +47,12 @@ OC.L10N.register(
     "Basic encryption module" : "Mòdulu de tzifradura base",
     "Your private key password no longer matches your log-in password." : " Sa crae privada non currispondet prus cun sa crae de intrada.",
     "Set your old private key password to your current log-in password:" : "Cunfigura sa crae privada betza comente crae de intrada atuale:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Si non t'ammentas sa crae betza ddi podes pedire a s'amministradore tuo de ti recuperare is archìvios.",
     "Old log-in password" : "Crae betza de intrada",
     "Current log-in password" : " Crae de intrada atuale",
     "Update Private Key Password" : " Agiorna sa crae de sa crae privada",
     "Enable password recovery:" : "Abìlita su riprìstinu de sa crae:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "S'abilitatzione di custu sèberu t'at a permìtere de torrare a intrare a is archìvios in casu chi nche perdas sa crae",
     "Enabled" : "Ativada",
-    "Disabled" : "Disativada",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Sa crae de riprìstinu est una crae de tzifradura in agiunta impreada pro tzifrare is archìvios. Cunsentit de ripristinare is archìvios si s'utente si nch'irmènticat sa crae."
+    "Disabled" : "Disativada"
 },
 "nplurals=2; plural=(n != 1);");

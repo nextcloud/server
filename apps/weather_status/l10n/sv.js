@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Väderrapport",
     "Weather status in your dashboard" : "Väderrapport på din dashboard",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Väderstatus integrerad i Dashboard-appen.\nDen geografiska platsen kan bestämmas automatiskt eller manuellt. En 6 timmars prognos visas sedan.\nDenna status kan också integreras på andra platser som appen Kalender.",
-    "Detect location" : "Hitta min position",
-    "Set custom address" : "Uppge egen adress",
-    "Favorites" : "Favoriter",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} och klar himmel senare idag",
     "{temperature} {unit} clear sky" : "{temperature} {unit} och klar himmel",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} och mulet senare idag",
@@ -59,6 +56,8 @@ OC.L10N.register(
     "There was an error saving the mode." : "Det uppstod ett fel vid sparandet av läget.",
     "There was an error using personal address." : "Det uppstod ett fel vid användning av personlig adress.",
     "Unknown weather code" : "Okänd väderkod",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Väderuppdatering integrerad i Instrumentpanelappen.\n    Användarens position kan identifieras automatiskt eller anges manuellt. En 6-timmarsprognos visas sedan.\n    Den här väderuppdateringen kan också integreras på andra platser så som i Kalender-appen."
+    "Detect location" : "Hitta min position",
+    "Set custom address" : "Uppge egen adress",
+    "Favorites" : "Favoriter"
 },
 "nplurals=2; plural=(n != 1);");

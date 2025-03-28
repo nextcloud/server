@@ -51,14 +51,12 @@
     "Basic encryption module" : "Módulo de criptografia básico",
     "Your private key password no longer matches your log-in password." : "A sua senha de chave privada não corresponde a sua senha de login.",
     "Set your old private key password to your current log-in password:" : "Defina a sua senha antiga da chave privada para sua senha de login atual:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Se você não se lembra de sua senha antiga você pode pedir ao administrador que recupere seus arquivos.",
     "Old log-in password" : "Senha antiga de login",
     "Current log-in password" : "Senha atual de login",
     "Update Private Key Password" : "Atualizar senha da chave privada",
     "Enable password recovery:" : "Ativar recuperação de senha:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ativar essa opção vai permitir que você obtenha novamente acesso aos seus arquivos criptografados em caso de perda de senha",
     "Enabled" : "Habilitado",
-    "Disabled" : "Desabilitado",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A chave de recuperação é uma chave de criptografia extra que é utilizada para criptografar arquivos. Ela permite a recuperação de arquivos se um usuário esquecer sua senha."
+    "Disabled" : "Desabilitado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

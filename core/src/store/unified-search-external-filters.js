@@ -4,16 +4,14 @@
  */
 import { defineStore } from 'pinia'
 
-export const useSearchStore = defineStore({
-	id: 'search',
-
+export const useSearchStore = defineStore('search', {
 	state: () => ({
 		externalFilters: [],
 	}),
 
 	actions: {
-		registerExternalFilter({ id, appId, label, callback, icon }) {
-			this.externalFilters.push({ id, appId, name: label, callback, icon, isPluginFilter: true })
+		registerExternalFilter({ id, appId, searchFrom, label, callback, icon }) {
+			this.externalFilters.push({ id, appId, searchFrom, name: label, callback, icon, isPluginFilter: true })
 		},
 	},
 })

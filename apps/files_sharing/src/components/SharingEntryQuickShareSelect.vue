@@ -29,6 +29,7 @@
 
 <script>
 import { ShareType } from '@nextcloud/sharing'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -145,7 +146,17 @@ export default {
 	created() {
 		this.selectedOption = this.preSelectedOption
 	},
-
+	mounted() {
+		subscribe('update:share', (share) => {
+			if (share.id === this.share.id) {
+				this.share.permissions = share.permissions
+				this.selectedOption = this.preSelectedOption
+			}
+		})
+	},
+	unmounted() {
+		unsubscribe('update:share')
+	},
 	methods: {
 		selectOption(optionLabel) {
 			this.selectedOption = optionLabel

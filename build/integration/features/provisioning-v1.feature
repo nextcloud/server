@@ -4,6 +4,9 @@
 Feature: provisioning
 	Background:
 		Given using api version "1"
+		Given parameter "whitelist_0" of app "bruteForce" is set to "127.0.0.1"
+		Given parameter "whitelist_1" of app "bruteForce" is set to "::1"
+		Given parameter "apply_allowlist_to_ratelimit" of app "bruteforcesettings" is set to "true"
 
 	Scenario: Getting an not existing user
 		Given As an "admin"
@@ -570,7 +573,7 @@ Feature: provisioning
 		And group "new-group" does not exist
 
 	Scenario: Delete a group with special characters
-	    Given As an "admin"
+		Given As an "admin"
 		And group "España" exists
 		When sending "DELETE" to "/cloud/groups/España"
 		Then the OCS status code should be "100"
@@ -600,6 +603,7 @@ Feature: provisioning
 			| settings |
 			| sharebymail |
 			| systemtags |
+			| testing |
 			| theming |
 			| twofactor_backupcodes |
 			| updatenotification |
@@ -625,6 +629,7 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 
 	Scenario: enable an app
+		Given invoking occ with "app:disable testing"
 		Given As an "admin"
 		And app "testing" is disabled
 		When sending "POST" to "/cloud/apps/testing"
@@ -638,13 +643,15 @@ Feature: provisioning
 		Then the OCS status code should be "998"
 		And the HTTP status code should be "200"
 
-	Scenario: disable an app
-		Given As an "admin"
-		And app "testing" is enabled
-		When sending "DELETE" to "/cloud/apps/testing"
-		Then the OCS status code should be "100"
-		And the HTTP status code should be "200"
+  Scenario: disable an app
+    Given invoking occ with "app:enable testing"
+    Given As an "admin"
+    And app "testing" is enabled
+    When sending "DELETE" to "/cloud/apps/testing"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
 		And app "testing" is disabled
+		Given invoking occ with "app:enable testing"
 
 	Scenario: disable an user
 		Given As an "admin"

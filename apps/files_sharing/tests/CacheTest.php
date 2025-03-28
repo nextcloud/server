@@ -6,9 +6,12 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Constants;
+use OCP\Files\Cache\IWatcher;
 use OCP\Share\IShare;
 
 /**
@@ -563,5 +566,39 @@ class CacheTest extends TestCase {
 
 		$results = $sharedStorage->getCache()->search("foo.txt");
 		$this->assertCount(1, $results);
+	}
+
+	public function testWatcherRootChange() {
+		$sourceStorage = new Temporary();
+		$sourceStorage->mkdir('shared');
+		$sourceStorage->file_put_contents('shared/foo.txt', 'foo');
+		$sourceStorage->getScanner()->scan('');
+		$sourceStorage->getWatcher()->setPolicy(IWatcher::CHECK_ALWAYS);
+		$this->registerMount(self::TEST_FILES_SHARING_API_USER1, $sourceStorage, '/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $rootFolder->get('foo/shared');
+		$this->assertEquals(3, $node->getSize());
+
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(Constants::PERMISSION_ALL);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
+		\OC_Util::tearDownFS();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$view = Filesystem::getView();
+
+		$sourceStorage->rmdir('shared');
+
+		$this->assertFalse($view->getFileInfo('shared'));
 	}
 }

@@ -410,7 +410,7 @@ export default defineComponent({
 			if (this.isQuotaExceeded) {
 				return t('files', 'Your have used your space quota and cannot upload files anymore')
 			}
-			return t('files', 'You don’t have permission to upload or create files here')
+			return t('files', 'You do not have permission to upload or create files here')
 		},
 
 		/**
@@ -493,15 +493,24 @@ export default defineComponent({
 		},
 	},
 
-	mounted() {
-		this.filtersStore.init()
-		this.fetchContent()
-
+	async mounted() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// Finally, fetch the current directory contents
+		await this.fetchContent()
+		if (this.fileId) {
+			// If we have a fileId, let's check if the file exists
+			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			// If the file isn't in the current directory nor if
+			// the current directory is the file, we show an error
+			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+				showError(t('files', 'The file could not be found'))
+			}
+		}
 	},
 
 	unmounted() {

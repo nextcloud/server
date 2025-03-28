@@ -201,6 +201,55 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		getRowForFile('text.txt').should('not.exist')
 	})
 
+	/** Regression test of https://github.com/nextcloud/server/issues/47251 */
+	it('keeps filter state when changing the directory', () => {
+		// files are visible
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('be.visible')
+
+		// enable type filter for folders
+		filesFilters.filterContainter()
+			.findByRole('button', { name: 'Type' })
+			.should('be.visible')
+			.click()
+		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
+			.should('be.visible')
+			.click()
+		// assert the button is checked
+		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
+			.should('have.attr', 'aria-checked', 'true')
+		// close the menu
+		filesFilters.filterContainter()
+			.findByRole('button', { name: 'Type' })
+			.click()
+
+		// See the chips are active
+		filesFilters.activeFilters()
+			.should('have.length', 1)
+			.contains(/Folder/).should('be.visible')
+
+		// See that folder is visible but file not
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('not.exist')
+
+		// Change the directory
+		navigateToFolder('folder')
+		getRowForFile('folder').should('not.exist')
+
+		// See that the chip is still 
+		filesFilters.activeFilters()
+			.should('have.length', 1)
+			.contains(/Folder/).should('be.visible')
+		// And also the button should be active
+		filesFilters.filterContainter()
+			.findByRole('button', { name: 'Type' })
+			.should('be.visible')
+			.click()
+		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
+			.should('be.visible')
+			.and('have.attr', 'aria-checked', 'true')
+	})
+
 	it('resets filter when changing the view', () => {
 		// All are visible by default
 		getRowForFile('folder').should('be.visible')

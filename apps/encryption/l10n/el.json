@@ -45,14 +45,12 @@
     "Basic encryption module" : "Βασική μονάδα κρυπτογράφησης",
     "Your private key password no longer matches your log-in password." : "Ο κωδικός του ιδιωτικού κλειδιού σας δεν ταιριάζει πλέον με τον κωδικό σύνδεσής σας.",
     "Set your old private key password to your current log-in password:" : "Ορίστε τον παλιό σας κωδικό ιδιωτικού κλειδιού στον τρέχοντα κωδικό σύνδεσης.",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Εάν δεν θυμάστε τον παλιό σας κωδικό μπορείτε να ζητήσετε από τον διαχειριστή σας να επανακτήσει τα αρχεία σας.",
     "Old log-in password" : "Παλαιό συνθηματικό εισόδου",
     "Current log-in password" : "Τρέχον συνθηματικό πρόσβασης",
     "Update Private Key Password" : "Ενημέρωση Προσωπικού Κλειδού Πρόσβασης",
     "Enable password recovery:" : "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
     "Enabled" : "Ενεργοποιημένο",
-    "Disabled" : "Απενεργοποιημένο",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης."
+    "Disabled" : "Απενεργοποιημένο"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

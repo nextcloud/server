@@ -526,9 +526,6 @@ export default {
 		isGroupShare() {
 			return this.share.type === ShareType.Group
 		},
-		isNewShare() {
-			return !this.share.id
-		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				if (this.share.type === ShareType.Link || this.share.type === ShareType.Email) {
@@ -711,7 +708,7 @@ export default {
 		},
 		errorPasswordLabel() {
 			if (this.passwordError) {
-				return t('files_sharing', "Password field can't be empty")
+				return t('files_sharing', 'Password field cannot be empty')
 			}
 			return undefined
 		},
@@ -921,6 +918,7 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				this.$emit('update:share', this.share)
+				emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
 			}
 

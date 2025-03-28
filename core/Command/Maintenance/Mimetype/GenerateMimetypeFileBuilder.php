@@ -18,6 +18,10 @@ class GenerateMimetypeFileBuilder {
 	public function generateFile(array $aliases): string {
 		// Remove comments
 		$aliases = array_filter($aliases, static function ($key) {
+			// Single digit extensions will be treated as integers
+			// Let's make sure they are strings
+			// https://github.com/nextcloud/server/issues/42902
+			$key = (string)$key;
 			return !($key === '' || $key[0] === '_');
 		}, ARRAY_FILTER_USE_KEY);
 

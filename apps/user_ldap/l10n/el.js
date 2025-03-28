@@ -6,11 +6,9 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Μη έγκυρη διαμόρφωση: Δεν επιτρέπεται ανώνυμη δέσμευση.",
     "Valid configuration, connection established!" : "Επιτυχής ρύθμιση, συνδεθήκατε με επιτυχία",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Έγκυρη διαμόρφωση, αλλά η σύνδεση απέτυχε. Ελέγξτε τις ρυθμίσεις διακομιστή και τα διαπιστευτήρια.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Μη έγκυρη διαμόρφωση. Παρακαλώ ρίξτε μια ματιά στα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
     "No action specified" : "Καμμία εντολή δεν προσδιορίστηκε",
     "No configuration specified" : "Καμμία διαμόρφωση δεν προσδιορίστηκε",
     "No data specified" : "Δεν προσδιορίστηκαν δεδομένα",
-    " Could not set configuration %s" : "Αδυναμία ρύθμισης %s",
     "Action does not exist" : "Η ενέργεια δεν υπάρχει",
     "Renewing …" : "Ανανέωση ...",
     "Very weak password" : "Πολύ αδύναμος κωδικός πρόσβασης",
@@ -53,7 +51,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Το σύμβολο υποκατάστασης \"%uid\" λείπει. Θα αντικατασταθεί με το όνομα login κατά την υποβολή ερωτήματος LDAP/AD.",
     "Please provide a login name to test against" : "Παρακαλούμε δώστε ένα όνομα σύνδεσης για να γίνει δοκιμή",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Το κουτί ομάδας απενεργοποιήθηκε, επειδή ο LDAP/APD διακομιστής δεν υποστηρίζει memberOf.",
-    "Password change rejected. Hint: " : "Η αλλαγή του συνθηματικού απέτυχε. Υπόδειξη:",
     "Please login with the new password" : "Παρακαλώ κάντε είσοδο με το νέο συνθηματικό",
     "LDAP User backend" : "LDAP Σύστημα υποστήριξης χρήστη",
     "Your password will expire tomorrow." : "Το συνθηματικό σας θα λήξει αύριο.",
@@ -191,6 +188,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Αντιστοίχιση Χρηστών Όνομα Χρήστη-LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Τα ονόματα χρηστών χρησιμοποιούνται για την αποθήκευση και την εκχώρηση μεταδεδομένων. Προκειμένου να εντοπιστούν και να αναγνωριστούν με ακρίβεια οι χρήστες, κάθε ένας του LDAP θα έχει ένα εσωτερικό όνομα. Αυτό απαιτεί μια αντιστοίχιση από όνομα χρήστη σε χρήστη LDAP. Το τελικό όνομα χρήστη αντιστοιχίζεται στο UUID του χρήστη LDAP. Επιπλέον, αποθηκεύεται προσωρινά το DN για τη μείωση της αλληλεπίδρασης LDAP, αλλά δεν χρησιμοποιείται για αναγνώριση. Εάν αλλάξει το DN, οι αλλαγές θα βρεθούν. Το εσωτερικό όνομα χρήστη χρησιμοποιείται παντού. Η εκκαθάριση των αντιστοιχίσεων θα έχει υπολείμματα παντού. Η εκκαθάριση των αντιστοιχιών δεν είναι ευαίσθητη στη διαμόρφωση, επηρεάζει όλες τις διαμορφώσεις LDAP! Μην εκκαθαρίζετε ποτέ τις αντιστοιχίσεις σε τρέχων σύστημα, μόνο σε δοκιμαστικό ή πειραματικό στάδιο.",
     "Clear Username-LDAP User Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Χρήστη LDAP-Χρήστη",
-    "Clear Groupname-LDAP Group Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας"
+    "Clear Groupname-LDAP Group Mapping" : "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας",
+    "Invalid configuration. Please have a look at the logs for further details." : "Μη έγκυρη διαμόρφωση. Παρακαλώ ρίξτε μια ματιά στα αρχεία καταγραφής για περισσότερες λεπτομέρειες."
 },
 "nplurals=2; plural=(n != 1);");

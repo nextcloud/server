@@ -6,11 +6,9 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Cunfiguratzione non bàlida: is ligòngios anònimos no sunt permìtidos.",
     "Valid configuration, connection established!" : "Cunfiguratzione bàlida, connessione istabilida!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Cunfiguratzione bàlida, ma ligòngiu no istabilidu. Càstia sa cunfiguratzione de su serbidore e is credentziales.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Cunfiguratzione non bàlida. Càstia is registros pro detàllios in prus.",
     "No action specified" : "Peruna atzione ispetzificada",
     "No configuration specified" : "Peruna cunfiguratzione ispetzificada",
     "No data specified" : "Perunu datu ispetzificadu",
-    " Could not set configuration %s" : "Impossìbile cunfigurare s'optzione %s",
     "Action does not exist" : "S'atzione no esistit",
     "Renewing …" : "Renovende ...",
     "Very weak password" : "Crae dèbile a beru",
@@ -53,7 +51,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Mancat s'elementu provisòriu\"%uid\". At a èssere cambiadu cun su nùmene de atzessu cando s'at a preguntare LDAP/AP.",
     "Please provide a login name to test against" : "Fruni unu nùmene de atzessu pro torrare a fàghere sa proa",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Sa casella de grupu est istada disativada, ca su serbidore LDAP/AP no suportat memberOf.",
-    "Password change rejected. Hint: " : "Càmbiu de sa crae refudadu. Cussìgiu:",
     "Please login with the new password" : "Torra a fàghere s'atzessu cun sa crae noa",
     "LDAP User backend" : "Motore utente LDAP",
     "Your password will expire tomorrow." : "Sa crae tua at a iscadire cras.",
@@ -195,6 +192,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Assòtziu Nùmene utente-Utente LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Is nùmenes utente d'impreant pro archiviare e assignare is metadatos. Pro identificare a pretzisu e connòschere is utentes, cada utente LDAP at a tènnere unu nùmene utente de intro. Custu rechedet un'assòtziu dae nùmene utente a utente LDAP. Su nùmene utente creadu est assotziadu a s'UUID de s'utente LDAP. In prus su DN si ponet in memòria temporànea pro minimare s'interatzione cun LDAP, ma non s'impreat pro s'identificatzione. Si su DN càmbiat, is càmbios s'ant a agatare. Su nùmene utente de intro s'impreat in totue. Limpiende is assòtzios s'ant a lassare arrastos a s'at a interessare totu sa cunfiguratzione LDAP! Non limpies mai is assòtzios in un'ambiente de produtzione, ma isceti in una fase de proa o isperimentos.",
     "Clear Username-LDAP User Mapping" : "Lìmpia assòtziu Nùmene utente-Utente LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Lìmpia assòtziu Nùmene de su grupu-Grupu LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Lìmpia assòtziu Nùmene de su grupu-Grupu LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Cunfiguratzione non bàlida. Càstia is registros pro detàllios in prus."
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Publicar comentario",
     "@ for mentions, : for emoji, / for smart picker" : "@ para menciones, : para emoticonos, / para selector inteligente",
     "Could not reload comments" : "No se pudieron recargar los comentarios",
+    "Failed to mark comments as read" : "No se pudieron marcar los comentarios como leídos",
+    "Unable to load the comments list" : "No se puede cargar la lista de comentarios",
     "No comments yet, start the conversation!" : "¡Aún no hay comentarios, inicia la conversación!",
     "No more messages" : "No hay más mensajes",
     "Retry" : "Reintentar",
-    "Failed to mark comments as read" : "No se pudieron marcar los comentarios como leídos",
-    "Unable to load the comments list" : "No se puede cargar la lista de comentarios",
     "_1 new comment_::_{unread} new comments_" : ["1 comentario nuevo","{unread} nuevos comentarios","{unread} nuevos comentarios"],
     "Comment" : "Comentario",
     "An error occurred while trying to edit the comment" : "Ocurrió un error al intentar editar el comentario",
     "Comment deleted" : "Comentario borrado",
     "An error occurred while trying to delete the comment" : "Ocurrió un error intentando borrar el comentario",
-    "An error occurred while trying to create the comment" : "Ocurrió un error al intentar crear el comentario",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Fue mencionado en \"{file}\", en un comentario realizado por un usuario que ha sido eliminado"
+    "An error occurred while trying to create the comment" : "Ocurrió un error al intentar crear el comentario"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

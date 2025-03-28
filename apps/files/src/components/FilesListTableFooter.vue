@@ -141,7 +141,7 @@ export default defineComponent({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	margin-bottom: max(25vh, var(--body-container-margin));
+	margin-bottom: var(--body-container-margin);
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;

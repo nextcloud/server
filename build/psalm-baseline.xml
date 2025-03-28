@@ -867,7 +867,6 @@
       <code><![CDATA[encrypt]]></code>
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setKey]]></code>
     </InternalMethod>
     <TooManyArguments>
       <code><![CDATA[test]]></code>
@@ -1027,11 +1026,6 @@
     <RedundantCondition>
       <code><![CDATA[$storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')]]></code>
     </RedundantCondition>
-  </file>
-  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
-    <InvalidArgument>
-      <code><![CDATA[$this->retries + 1]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>
@@ -1320,12 +1314,6 @@
     <InvalidScalarArgument>
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
-  </file>
-  <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getAllMappings]]></code>
-      <code><![CDATA[updateFilecache]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="core/Command/Preview/Repair.php">
     <UndefinedInterfaceMethod>
@@ -1729,10 +1717,6 @@
     <InvalidArgument>
       <code><![CDATA[$params]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$params['adapter']]]></code>
-      <code><![CDATA[$params['tablePrefix']]]></code>
-    </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
     <RedundantCondition>
@@ -2258,14 +2242,6 @@
       <code><![CDATA[int]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Utils/Scanner.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$mounts]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>
       <code><![CDATA[$mtime]]></code>
@@ -2495,6 +2471,14 @@
     <InvalidReturnType>
       <code><![CDATA[?IImage]]></code>
     </InvalidReturnType>
+  </file>
+  <file src="lib/private/Profile/Actions/FediverseAction.php">
+    <NoValue>
+      <code><![CDATA[$instance]]></code>
+    </NoValue>
+    <RedundantCondition>
+      <code><![CDATA[$instance === '']]></code>
+    </RedundantCondition>
   </file>
   <file src="lib/private/RedisFactory.php">
     <InvalidArgument>
@@ -2758,12 +2742,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/TempManager.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>

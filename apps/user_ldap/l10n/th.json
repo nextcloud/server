@@ -4,7 +4,6 @@
     "No action specified" : "ไม่ได้ระบุการดำเนินการ",
     "No configuration specified" : "ไม่ได้ระบุการกำหนดค่า",
     "No data specified" : "ไม่ได้ระบุข้อมูล",
-    " Could not set configuration %s" : "ไม่สามารถกำหนดค่า %s",
     "Action does not exist" : "ไม่มีการดำเนินการนี้อยู่",
     "Very weak password" : "รหัสผ่านคาดเดาง่ายมาก",
     "Weak password" : "รหัสผ่านคาดเดาง่าย",
