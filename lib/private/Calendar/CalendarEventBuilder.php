@@ -12,6 +12,7 @@ namespace OC\Calendar;
 use DateTimeInterface;
 use InvalidArgumentException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\CalendarEventStatus;
 use OCP\Calendar\ICalendarEventBuilder;
 use OCP\Calendar\ICreateFromString;
 use Sabre\VObject\Component\VCalendar;
@@ -23,6 +24,7 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 	private ?string $summary = null;
 	private ?string $description = null;
 	private ?string $location = null;
+	private ?CalendarEventStatus $status = null;
 	private ?array $organizer = null;
 	private array $attendees = [];
 
@@ -54,6 +56,11 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 
 	public function setLocation(string $location): ICalendarEventBuilder {
 		$this->location = $location;
+		return $this;
+	}
+
+	public function setStatus(CalendarEventStatus $status): static {
+		$this->status = $status;
 		return $this;
 	}
 
@@ -91,6 +98,7 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 			'SUMMARY' => $this->summary,
 			'DTSTART' => $this->startDate,
 			'DTEND' => $this->endDate,
+			'STATUS' => $this->status->value,
 		];
 		if ($this->description !== null) {
 			$props['DESCRIPTION'] = $this->description;
@@ -126,6 +134,13 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 		$params = [];
 		if ($cn !== null) {
 			$params['CN'] = $cn;
+			if ($name === 'ORGANIZER') {
+				$params['ROLE'] = 'CHAIR';
+				$params['PARTSTAT'] = 'ACCEPTED';
+			} else {
+				$params['ROLE'] = 'REQ-PARTICIPANT';
+				$params['PARTSTAT'] = 'NEEDS-ACTION';
+			}
 		}
 		$vevent->add($name, $email, $params);
 	}
