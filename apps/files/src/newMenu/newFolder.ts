@@ -72,7 +72,7 @@ export const entry = {
 				source,
 				id: fileid,
 				mtime: new Date(),
-				owner: getCurrentUser()?.uid || null,
+				owner: context.owner,
 				permissions: Permission.ALL,
 				root: context?.root || '/files/' + getCurrentUser()?.uid,
 				// Include mount-type from parent folder as this is inherited
