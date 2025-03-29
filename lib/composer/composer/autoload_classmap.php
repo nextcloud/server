@@ -456,6 +456,7 @@ return array(
     'OCP\\Files\\Notify\\INotifyHandler' => $baseDir . '/lib/public/Files/Notify/INotifyHandler.php',
     'OCP\\Files\\Notify\\IRenameChange' => $baseDir . '/lib/public/Files/Notify/IRenameChange.php',
     'OCP\\Files\\ObjectStore\\IObjectStore' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStore.php',
+    'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
     'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => $baseDir . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
     'OCP\\Files\\ReservedWordException' => $baseDir . '/lib/public/Files/ReservedWordException.php',
     'OCP\\Files\\Search\\ISearchBinaryOperator' => $baseDir . '/lib/public/Files/Search/ISearchBinaryOperator.php',
