@@ -11,6 +11,7 @@ namespace OC\OCM\Model;
 
 use NCU\Security\Signature\Model\Signatory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
@@ -21,8 +22,10 @@ use OCP\OCM\IOCMResource;
  * @since 28.0.0
  */
 class OCMProvider implements IOCMProvider {
+	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';
+	private array $capabilities = [];
 	private string $endPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
@@ -31,7 +34,9 @@ class OCMProvider implements IOCMProvider {
 
 	public function __construct(
 		protected IEventDispatcher $dispatcher,
+		protected IConfig $config,
 	) {
+		$this->provider = 'Nextcloud ' . $config->getSystemValue('version');
 	}
 
 	/**
@@ -88,6 +93,34 @@ class OCMProvider implements IOCMProvider {
 		return $this->endPoint;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getProvider(): string {
+		return $this->provider;
+	}
+
+	/**
+	 * @param array $capabilities
+	 *
+	 * @return $this
+	 */
+	public function setCapabilities(array $capabilities): static {
+		foreach ($capabilities as $value) {
+			if (!in_array($value, $this->capabilities)) {
+				array_push($this->capabilities, $value);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCapabilities(): array {
+		return $this->capabilities;
+	}
 	/**
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
