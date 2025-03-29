@@ -812,6 +812,15 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Returns the installed versions of all apps
+	 *
+	 * @return array<string, string>
+	 */
+	public function getAppInstalledVersions(): array {
+		return $this->getAppConfig()->getAppInstalledVersions();
+	}
+
+	/**
 	 * Returns a list of apps incompatible with the given version
 	 *
 	 * @param string $version Nextcloud version as array of version components

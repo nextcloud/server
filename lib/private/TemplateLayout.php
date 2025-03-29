@@ -48,6 +48,7 @@ class TemplateLayout {
 		private InitialStateService $initialState,
 		private INavigationManager $navigationManager,
 		private ITemplateManager $templateManager,
+		private ServerVersion $serverVersion,
 	) {
 	}
 
@@ -204,8 +205,8 @@ class TemplateLayout {
 
 		if ($this->config->getSystemValueBool('installed', false)) {
 			if (empty(self::$versionHash)) {
-				$v = \OC_App::getAppVersions();
-				$v['core'] = implode('.', \OCP\Util::getVersion());
+				$v = $this->appManager->getAppInstalledVersions();
+				$v['core'] = implode('.', $this->serverVersion->getVersion());
 				self::$versionHash = substr(md5(implode(',', $v)), 0, 8);
 			}
 		} else {
@@ -220,7 +221,7 @@ class TemplateLayout {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
-				\OCP\Server::get(ServerVersion::class),
+				$this->serverVersion,
 				\OCP\Util::getL10N('lib'),
 				\OCP\Server::get(Defaults::class),
 				$this->appManager,

@@ -62,6 +62,9 @@ class AppConfig implements IAppConfig {
 	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 
+	/** @var ?array<string, string> */
+	private ?array $appVersionsCache = null;
+
 	public function __construct(
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
@@ -1646,5 +1649,18 @@ class AppConfig implements IAppConfig {
 		}
 
 		return $this->configLexiconDetails[$appId];
+	}
+
+	/**
+	 * Returns the installed versions of all apps
+	 *
+	 * @return array<string, string>
+	 */
+	public function getAppInstalledVersions(): array {
+		if ($this->appVersionsCache === null) {
+			/** @var array<string, string> */
+			$this->appVersionsCache = $this->searchValues('installed_version', false, IAppConfig::VALUE_STRING);
+		}
+		return $this->appVersionsCache;
 	}
 }
