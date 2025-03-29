@@ -5,24 +5,27 @@
 <template>
 	<form v-if="(isHttps || isLocalhost) && supportsWebauthn"
 		ref="loginForm"
+		aria-labelledby="password-less-login-form-title"
+		class="password-less-login-form"
 		method="post"
 		name="login"
 		@submit.prevent="submit">
-		<h2>{{ t('core', 'Log in with a device') }}</h2>
-		<fieldset>
-			<NcTextField required
-				:value="user"
-				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-				:error="!validCredentials"
-				:label="t('core', 'Login or email')"
-				:placeholder="t('core', 'Login or email')"
-				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
-				@update:value="changeUsername" />
+		<h2 id="password-less-login-form-title">
+			{{ t('core', 'Log in with a device') }}
+		</h2>
 
-			<LoginButton v-if="validCredentials"
-				:loading="loading"
-				@click="authenticate" />
-		</fieldset>
+		<NcTextField required
+			:value="user"
+			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+			:error="!validCredentials"
+			:label="t('core', 'Login or email')"
+			:placeholder="t('core', 'Login or email')"
+			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+			@update:value="changeUsername" />
+
+		<LoginButton v-if="validCredentials"
+			:loading="loading"
+			@click="authenticate" />
 	</form>
 	<div v-else-if="!supportsWebauthn" class="update">
 		<InformationIcon size="70" />
@@ -40,9 +43,11 @@
 	</div>
 </template>
 
-<script>
+<script type="ts">
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
+import { defineComponent } from 'vue'
 import {
+	NoValidCredentials,
 	startAuthentication,
 	finishAuthentication,
 } from '../../services/WebAuthnAuthenticationService.ts'
@@ -52,7 +57,7 @@ import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import logger from '../../logger'
 
-export default {
+export default defineComponent({
 	name: 'PasswordLessLoginForm',
 	components: {
 		LoginButton,
@@ -138,21 +143,21 @@ export default {
 			// noop
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
-	fieldset {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
+.password-less-login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
 
-		:deep(label) {
-			text-align: initial;
-		}
+	:deep(label) {
+		text-align: initial;
 	}
+}
 
-	.update {
-		margin: 0 auto;
-	}
+.update {
+	margin: 0 auto;
+}
 </style>

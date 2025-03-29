@@ -27,7 +27,7 @@ export async function startAuthentication(loginName: string) {
 		logger.error('No valid credentials returned for webauthn')
 		throw new NoValidCredentials()
 	}
-	return await startWebauthnAuthentication(data)
+	return await startWebauthnAuthentication({ optionsJSON: data })
 }
 
 /**
