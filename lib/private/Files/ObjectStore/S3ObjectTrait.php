@@ -13,6 +13,7 @@ use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
+use OCP\IDBConnection;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -152,7 +153,14 @@ trait S3ObjectTrait {
 			$buffer = new Psr7\Stream(fopen('php://temp', 'rw+'));
 			Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 			$buffer->seek(0);
-			if ($buffer->getSize() < $this->putSizeLimit) {
+			$size = $buffer->getSize();
+			if ($size > 200000000) {
+				/** @var IDBConnection $connection */
+				$connection = \OCP\Server::get(IDBConnection::class);
+				$connection->close();
+			}
+
+			if ($size < $this->putSizeLimit) {
 				// buffer is fully seekable, so use it directly for the small upload
 				$this->writeSingle($urn, $buffer, $mimetype);
 			} else {
@@ -160,6 +168,12 @@ trait S3ObjectTrait {
 				$this->writeMultiPart($urn, $loadStream, $mimetype);
 			}
 		} else {
+			if ($size > 200000000) {
+				/** @var IDBConnection $connection */
+				$connection = \OCP\Server::get(IDBConnection::class);
+				$connection->close();
+			}
+
 			if ($size < $this->putSizeLimit) {
 				$this->writeSingle($urn, $psrStream, $mimetype);
 			} else {
