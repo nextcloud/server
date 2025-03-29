@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
@@ -24,10 +25,10 @@ class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
 	/** @var array<list{string, string|null}> */
-	protected array $mimetypes = [];
+	protected array $mimeTypes = [];
 	protected array $secureMimeTypes = [];
 
-	protected array $mimetypeIcons = [];
+	protected array $mimeTypeIcons = [];
 	/** @var array<string,string> */
 	protected array $mimeTypeAlias = [];
 
@@ -40,30 +41,30 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * Add an extension -> mimetype mapping
+	 * Add an extension -> MIME type mapping
 	 *
-	 * $mimetype is the assumed correct mime type
+	 * $mimeType is the assumed correct mime type
 	 * The optional $secureMimeType is an alternative to send to send
 	 * to avoid potential XSS.
 	 *
 	 * @param string $extension
-	 * @param string $mimetype
+	 * @param string $mimeType
 	 * @param string|null $secureMimeType
 	 */
 	public function registerType(string $extension,
-		string $mimetype,
+		string $mimeType,
 		?string $secureMimeType = null): void {
 		// Make sure the extension is a string
 		// https://github.com/nextcloud/server/issues/42902
-		$this->mimetypes[$extension] = [$mimetype, $secureMimeType];
-		$this->secureMimeTypes[$mimetype] = $secureMimeType ?: $mimetype;
+		$this->mimeTypes[$extension] = [$mimeType, $secureMimeType];
+		$this->secureMimeTypes[$mimeType] = $secureMimeType ?? $mimeType;
 	}
 
 	/**
-	 * Add an array of extension -> mimetype mappings
+	 * Add an array of extension -> MIME type mappings
 	 *
-	 * The mimetype value is in itself an array where the first index is
-	 * the assumed correct mimetype and the second is either a secure alternative
+	 * The mimeType value is in itself an array where the first index is
+	 * the assumed correct mimeType and the second is either a secure alternative
 	 * or null if the correct is considered secure.
 	 *
 	 * @param array $types
@@ -74,8 +75,8 @@ class Detection implements IMimeTypeDetector {
 			$this->registerType((string)$extension, $mimeType[0], $mimeType[1] ?? null);
 		}
 
-		// Update the alternative mimetypes to avoid having to look them up each time.
-		foreach ($this->mimetypes as $extension => $mimeType) {
+		// Update the alternative mimeTypes to avoid having to look them up each time.
+		foreach ($this->mimeTypes as $extension => $mimeType) {
 			if (str_starts_with((string)$extension, '_comment')) {
 				continue;
 			}
@@ -100,7 +101,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * Add the mimetype aliases if they are not yet present
+	 * Add the MIME type aliases if they are not yet present
 	 */
 	private function loadAliases(): void {
 		if (!empty($this->mimeTypeAlias)) {
@@ -126,17 +127,17 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * Add mimetype mappings if they are not yet present
+	 * Add MIME type mappings if they are not yet present
 	 */
 	private function loadMappings(): void {
-		if (!empty($this->mimetypes)) {
+		if (!empty($this->mimeTypes)) {
 			return;
 		}
 
-		$mimetypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypemapping.dist.json'), true);
-		$mimetypeMapping = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPEMAPPING, $mimetypeMapping);
+		$mimeTypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypemapping.dist.json'), true);
+		$mimeTypeMapping = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPEMAPPING, $mimeTypeMapping);
 
-		$this->registerTypeArray($mimetypeMapping);
+		$this->registerTypeArray($mimeTypeMapping);
 	}
 
 	/**
@@ -144,11 +145,11 @@ class Detection implements IMimeTypeDetector {
 	 */
 	public function getAllMappings(): array {
 		$this->loadMappings();
-		return $this->mimetypes;
+		return $this->mimeTypes;
 	}
 
 	/**
-	 * detect mimetype only based on filename, content of file is not used
+	 * detect MIME type only based on filename, content of file is not used
 	 *
 	 * @param string $path
 	 * @return string
@@ -171,7 +172,7 @@ class Detection implements IMimeTypeDetector {
 			if ($extension !== false) {
 				$extension = strtolower($extension);
 				$extension = substr($extension, 1); // remove leading .
-				return $this->mimetypes[$extension][0] ?? 'application/octet-stream';
+				return $this->mimeTypes[$extension][0] ?? 'application/octet-stream';
 			}
 		}
 
@@ -179,7 +180,8 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * detect mimetype only based on the content of file
+	 * Detect MIME type only based on the content of file.
+	 *
 	 * @param string $path
 	 * @return string
 	 * @since 18.0.0
@@ -244,7 +246,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * detect mimetype based on both filename and content
+	 * Detect MIME type based on both filename and content
 	 *
 	 * @param string $path
 	 * @return string
@@ -260,7 +262,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * detect mimetype based on the content of a string
+	 * Detect MIME type based on the content of a string
 	 *
 	 * @param string $data
 	 * @return string
@@ -272,7 +274,7 @@ class Detection implements IMimeTypeDetector {
 			return str_contains($info, ';') ? substr($info, 0, strpos($info, ';')) : $info;
 		}
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpFile = \OCP\Server::get(ITempManager::class)->getTemporaryFile();
 		$fh = fopen($tmpFile, 'wb');
 		fwrite($fh, $data, 8024);
 		fclose($fh);
@@ -282,7 +284,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * Get a secure mimetype that won't expose potential XSS.
+	 * Get a secure MIME type that won't expose potential XSS.
 	 *
 	 * @param string $mimeType
 	 * @return string
@@ -295,57 +297,56 @@ class Detection implements IMimeTypeDetector {
 
 	/**
 	 * Get path to the icon of a file type
-	 * @param string $mimetype the MIME type
+	 * @param string $mimeType the MIME type
 	 * @return string the url
 	 */
-	public function mimeTypeIcon($mimetype): string {
+	public function mimeTypeIcon($mimeType): string {
 		$this->loadAliases();
 
-		while (isset($this->mimeTypeAlias[$mimetype])) {
-			$mimetype = $this->mimeTypeAlias[$mimetype];
+		while (isset($this->mimeTypeAlias[$mimeType])) {
+			$mimeType = $this->mimeTypeAlias[$mimeType];
 		}
-		if (isset($this->mimetypeIcons[$mimetype])) {
-			return $this->mimetypeIcons[$mimetype];
+		if (isset($this->mimeTypeIcons[$mimeType])) {
+			return $this->mimeTypeIcons[$mimeType];
 		}
 
 		// Replace slash and backslash with a minus
-		$icon = str_replace(['/', '\\'], '-', $mimetype);
+		$icon = str_replace(['/', '\\'], '-', $mimeType);
 
 		// Is it a dir?
-		if ($mimetype === 'dir') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder.svg');
-			return $this->mimetypeIcons[$mimetype];
+		if ($mimeType === 'dir') {
+			$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/folder.svg');
+			return $this->mimeTypeIcons[$mimeType];
 		}
-		if ($mimetype === 'dir-shared') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-shared.svg');
-			return $this->mimetypeIcons[$mimetype];
+		if ($mimeType === 'dir-shared') {
+			$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/folder-shared.svg');
+			return $this->mimeTypeIcons[$mimeType];
 		}
-		if ($mimetype === 'dir-external') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.svg');
-			return $this->mimetypeIcons[$mimetype];
+		if ($mimeType === 'dir-external') {
+			$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.svg');
+			return $this->mimeTypeIcons[$mimeType];
 		}
 
 		// Icon exists?
 		try {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $icon . '.svg');
-			return $this->mimetypeIcons[$mimetype];
+			$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/' . $icon . '.svg');
+			return $this->mimeTypeIcons[$mimeType];
 		} catch (\RuntimeException $e) {
 			// Specified image not found
 		}
 
 		// Try only the first part of the filetype
-
 		if (strpos($icon, '-')) {
 			$mimePart = substr($icon, 0, strpos($icon, '-'));
 			try {
-				$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
-				return $this->mimetypeIcons[$mimetype];
+				$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
+				return $this->mimeTypeIcons[$mimeType];
 			} catch (\RuntimeException $e) {
-				// Image for the first part of the mimetype not found
+				// Image for the first part of the MIME type not found
 			}
 		}
 
-		$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/file.svg');
-		return $this->mimetypeIcons[$mimetype];
+		$this->mimeTypeIcons[$mimeType] = $this->urlGenerator->imagePath('core', 'filetypes/file.svg');
+		return $this->mimeTypeIcons[$mimeType];
 	}
 }
