@@ -275,7 +275,7 @@ OC.L10N.register(
     "No results." : "Nenhum resultado.",
     "Start typing." : "Comece a digitar.",
     "Short absence status" : "Status para ausência breve",
-    "Long absence Message" : "Mensagem para ausência longa",
+    "Long absence Message" : "Mensagem longa de ausência",
     "Save" : "Salvar",
     "Disable absence" : "Desativar ausência",
     "Failed to load availability" : "Falha ao carregar a disponibilidade",

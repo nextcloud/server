@@ -24,7 +24,7 @@ OC.L10N.register(
     "Expiration:" : "Expiration:",
     "Open %s" : "Ouvrir %s",
     "%1$s via %2$s" : "%1$s via %2$s",
-    "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s à partagé %2$s avec vous. Vous devriez déjà avoir reçu un email séparé avec un lien pour y accéder.",
+    "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s a partagé %2$s avec vous. Vous devriez déjà avoir reçu un e-mail séparé avec un lien pour y accéder.",
     "Password to access %1$s shared to you by %2$s" : "Mot de passe pour accéder à %1$s partagé avec vous par %2$s",
     "Password to access %s" : "Mot de passe pour accéder à %s",
     "It is protected with the following password:" : "Il est protégé avec le mot de passe suivant :",
