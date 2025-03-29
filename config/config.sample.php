@@ -347,6 +347,11 @@ $CONFIG = [
 'carddav_sync_request_timeout' => 30,
 
 /**
+ * The limit applied to the initial synchronization report request, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
+ */
+'carddav_initial_sync_request_limit' => 1000,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
