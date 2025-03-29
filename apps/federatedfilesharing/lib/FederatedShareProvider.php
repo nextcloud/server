@@ -812,6 +812,7 @@ class FederatedShareProvider implements IShareProvider {
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
+			->setStatus((int)$data['accepted'])
 			->setToken($data['token']);
 
 		$shareTime = new \DateTime();
