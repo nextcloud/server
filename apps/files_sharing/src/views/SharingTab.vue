@@ -94,6 +94,11 @@
 					:reshare="reshare"
 					:shares="shares"
 					@open-sharing-details="toggleShareDetailsView" />
+				<!-- Non link external shares list -->
+				<SharingList v-if="!loading"
+					:shares="externalShares"
+					:file-info="fileInfo"
+					@open-sharing-details="toggleShareDetailsView" />
 				<!-- link shares list -->
 				<SharingLinkList v-if="!loading"
 					ref="linkShareList"
@@ -214,6 +219,7 @@ export default {
 			reshare: null,
 			sharedWithMe: {},
 			shares: [],
+			externalShares: [],
 			linkShares: [],
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
@@ -270,11 +276,17 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 
 				// fetch shares
+				const includeTypes = [ShareType.User,
+					ShareType.Group,
+					ShareType.Link,
+					ShareType.Email,
+					ShareType.ScienceMesh]
 				const fetchShares = axios.get(shareUrl, {
 					params: {
 						format,
 						path,
 						reshares: true,
+						types: includeTypes,
 					},
 				})
 				const fetchSharedWithMe = axios.get(shareUrl, {
@@ -285,13 +297,22 @@ export default {
 					},
 				})
 
+				const fetchRemoteShares = axios.get(shareUrl, {
+					params: {
+						format,
+						path,
+						types: [ShareType.Remote, ShareType.RemoteGroup, ShareType.Federated],
+					},
+				})
+
 				// wait for data
-				const [shares, sharedWithMe] = await Promise.all([fetchShares, fetchSharedWithMe])
+				const [shares, sharedWithMe, remoteShares] = await Promise.all([fetchShares, fetchSharedWithMe, fetchRemoteShares])
 				this.loading = false
 
 				// process results
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
+				this.processExternalShares(remoteShares)
 			} catch (error) {
 				if (error?.response?.data?.ocs?.meta?.message) {
 					this.error = error.response.data.ocs.meta.message
@@ -336,7 +357,18 @@ export default {
 				this.$set(this.sharedWithMe, 'subtitle', t('files_sharing', 'this share just expired.'))
 			}
 		},
-
+		/**
+		 * Processes share data from an OCS API response.
+		 *
+		 * @param {object} data The OCS API response data.
+		 * @return {Share[]|null} An array of Share objects, or null if no data is present.
+		 */
+		processShareData(data) {
+			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
+				return data.ocs.data.map(share => new Share(share))
+			}
+			return null
+		},
 		/**
 		 * Process the current shares data
 		 * and init shares[]
@@ -345,9 +377,12 @@ export default {
 		 * @param {object} share.data the request data
 		 */
 		processShares({ data }) {
-			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
-				const shares = orderBy(
-					data.ocs.data.map(share => new Share(share)),
+
+			const shares = this.processShareData(data)
+
+			if (shares) {
+				const orderedShares = orderBy(
+					shares,
 					[
 						// First order by the "share with" label
 						(share) => share.shareWithDisplayName,
@@ -358,11 +393,17 @@ export default {
 					],
 				)
 
-				this.linkShares = shares.filter(share => share.type === ShareType.Link || share.type === ShareType.Email)
-				this.shares = shares.filter(share => share.type !== ShareType.Link && share.type !== ShareType.Email)
+				this.linkShares = orderedShares.filter(share => share.type === ShareType.Link || share.type === ShareType.Email)
+				this.shares = orderedShares.filter(share => share.type !== ShareType.Link && share.type !== ShareType.Email)
 
 				console.debug('Processed', this.linkShares.length, 'link share(s)')
 				console.debug('Processed', this.shares.length, 'share(s)')
+			}
+		},
+		processExternalShares({ data }) {
+			const shares = this.processShareData(data)
+			if (shares) {
+				this.externalShares = shares
 			}
 		},
 
