@@ -233,6 +233,8 @@
     "Failed to convert files: {message}" : "Не вдалося конвертувати файли: {message}",
     "All files failed to be converted" : "Не вдалося конвертувати жодний файл",
     "One file could not be converted: {message}" : "Неможливо конвертувати один файл: {message}",
+    "_One file could not be converted_::_%n files could not be converted_" : ["Неможливо конвертувати 1 файл","Неможливо конвертувати %n файли","Неможливо конвертувати %n файлів","Неможливо конвертувати %n файлів"],
+    "_One file successfully converted_::_%n files successfully converted_" : ["Успішно конвертовано 1 файл","Успішно конвертовано %n файли","Успішно конвертовано %n файлів","Успішно конвертовано %n файлів"],
     "Files successfully converted" : "Файли успішно конвертовано",
     "Failed to convert files" : "Не вдалося конвертувати файли",
     "Converting file …" : "Конвертування файлу ...",

@@ -245,7 +245,7 @@ OC.L10N.register(
     "Email" : "E-mail",
     "Team" : "Equipe",
     "Talk conversation" : "Conversa Talk",
-    "Deck board" : "Painel de deck",
+    "Deck board" : "Painel de Deck",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "em {server}",
     "Enter external recipients" : "Insira destinatários externos",
