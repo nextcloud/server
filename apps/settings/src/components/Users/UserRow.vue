@@ -106,7 +106,7 @@
 					:data-loading="loading.groups || undefined"
 					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField"
+					:disabled="isLoadingField || loading.groupsDetails"
 					:loading="loading.groups"
 					:multiple="true"
 					:append-to-body="false"
@@ -116,7 +116,8 @@
 					:value="userGroups"
 					label="name"
 					:no-wrap="true"
-					:create-option="(value) => ({ name: value, isCreating: true })"
+					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
+					@search="searchGroups"
 					@option:created="createGroup"
 					@option:selected="options => addUserGroup(options.at(-1))"
 					@option:deselected="removeUserGroup" />
@@ -127,10 +128,10 @@
 			</span>
 		</td>
 
-		<td v-if="subAdminsGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
+		<td v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin) && subAdminsGroups.length > 0">
+			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin)">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set account as admin for') }}
@@ -139,21 +140,22 @@
 					:data-loading="loading.subadmins || undefined"
 					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
-					:disabled="isLoadingField"
+					:disabled="isLoadingField || loading.subAdminGroupsDetails"
 					:loading="loading.subadmins"
 					label="name"
 					:append-to-body="false"
 					:multiple="true"
 					:no-wrap="true"
-					:options="subAdminsGroups"
+					:options="availableSubAdminGroups"
 					:placeholder="t('settings', 'Set account as admin for')"
-					:value="userSubAdminsGroups"
+					:value="userSubAdminGroups"
+					@search="searchGroups"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
 			</template>
 			<span v-else-if="!isObfuscated"
-				:title="userSubAdminsGroupsLabels?.length > 40 ? userSubAdminsGroupsLabels : null">
-				{{ userSubAdminsGroupsLabels }}
+				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : null">
+				{{ userSubAdminGroupsLabels }}
 			</span>
 		</td>
 
@@ -296,6 +298,8 @@ import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
 import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import { searchGroups, loadUserGroups, loadUserSubAdminGroups } from '../../service/groups.ts'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'UserRow',
@@ -330,14 +334,6 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		groups: {
-			type: Array,
-			default: () => [],
-		},
-		subAdminsGroups: {
-			type: Array,
-			required: true,
-		},
 		quotaOptions: {
 			type: Array,
 			required: true,
@@ -370,6 +366,8 @@ export default {
 				password: false,
 				mailAddress: false,
 				groups: false,
+				groupsDetails: false,
+				subAdminGroupsDetails: false,
 				subadmins: false,
 				quota: false,
 				delete: false,
@@ -381,6 +379,8 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
+			// Cancelable promise for search groups request
+			promise: null,
 		}
 	},
 
@@ -412,13 +412,13 @@ export default {
 
 		userGroupsLabels() {
 			return this.userGroups
-				.map(group => group.name)
+				.map(group => group.name ?? group.id)
 				.join(', ')
 		},
 
-		userSubAdminsGroupsLabels() {
-			return this.userSubAdminsGroups
-				.map(group => group.name)
+		userSubAdminGroupsLabels() {
+			return this.userSubAdminGroups
+				.map(group => group.name ?? group.id)
 				.join(', ')
 		},
 
@@ -552,6 +552,56 @@ export default {
 			this.loadingPossibleManagers = true
 			await this.searchUserManager()
 			this.loadingPossibleManagers = false
+		},
+
+		async loadGroupsDetails() {
+			this.loading.groups = true
+			this.loading.groupsDetails = true
+			try {
+				const groups = await loadUserGroups({ userId: this.user.id })
+				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+			} catch (error) {
+				logger.error(t('settings', 'Failed to load groups with details'), { error })
+			}
+			this.loading.groups = false
+			this.loading.groupsDetails = false
+		},
+
+		async loadSubAdminGroupsDetails() {
+			this.loading.subadmins = true
+			this.loading.subAdminGroupsDetails = true
+			try {
+				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
+				this.availableSubAdminGroups = this.availableSubAdminGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+			} catch (error) {
+				logger.error(t('settings', 'Failed to load subadmin groups with details'), { error })
+			}
+			this.loading.subadmins = false
+			this.loading.subAdminGroupsDetails = false
+		},
+
+		async searchGroups(query, toggleLoading) {
+			if (query === '') {
+				return // Prevent unexpected search behaviour e.g. on option:created
+			}
+			if (this.promise) {
+				this.promise.cancel()
+			}
+			toggleLoading(true)
+			try {
+				this.promise = await searchGroups({
+					search: query,
+					offset: 0,
+					limit: 25,
+				})
+				const groups = await this.promise
+				this.availableGroups = groups
+				this.availableSubAdminGroups = groups.filter(group => group.id !== 'admin')
+			} catch (error) {
+				logger.error(t('settings', 'Failed to search groups'), { error })
+			}
+			this.promise = null
+			toggleLoading(false)
 		},
 
 		async searchUserManager(query) {
@@ -700,17 +750,18 @@ export default {
 		 * @param {string} gid Group id
 		 */
 		async createGroup({ name: gid }) {
-			this.loading = { groups: true, subadmins: true }
+			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
+				this.availableGroups.push({ id: gid, name: gid })
+				this.availableSubAdminGroups.push({ id: gid, name: gid })
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
+				this.userGroups.push({ id: gid, name: gid })
 			} catch (error) {
-				console.error(error)
-			} finally {
-				this.loading = { groups: false, subadmins: false }
+				logger.error(t('settings', 'Failed to create group'), { error })
 			}
-			return this.$store.getters.getGroups[this.groups.length]
+			this.loading.groups = false
 		},
 
 		/**
@@ -724,19 +775,19 @@ export default {
 				// Ignore
 				return
 			}
-			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			if (group.canAdd === false) {
-				return false
+				return
 			}
+			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
+				this.userGroups.push(group)
 			} catch (error) {
 				console.error(error)
-			} finally {
-				this.loading.groups = false
 			}
+			this.loading.groups = false
 		},
 
 		/**
@@ -756,6 +807,7 @@ export default {
 					userid,
 					gid,
 				})
+				this.userGroups = this.userGroups.filter(group => group.id !== gid)
 				this.loading.groups = false
 				// remove user from current list if current list is the removed group
 				if (this.$route.params.selectedGroup === gid) {
@@ -780,10 +832,11 @@ export default {
 					userid,
 					gid,
 				})
-				this.loading.subadmins = false
+				this.userSubAdminGroups.push(group)
 			} catch (error) {
 				console.error(error)
 			}
+			this.loading.subadmins = false
 		},
 
 		/**
@@ -801,6 +854,7 @@ export default {
 					userid,
 					gid,
 				})
+				this.userSubAdminGroups = this.userSubAdminGroups.filter(group => group.id !== gid)
 			} catch (error) {
 				console.error(error)
 			} finally {
@@ -901,6 +955,8 @@ export default {
 			if (this.editing) {
 				await this.$nextTick()
 				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
+				this.loadGroupsDetails()
+				this.loadSubAdminGroupsDetails()
 			}
 			if (this.editedDisplayName !== this.user.displayname) {
 				this.editedDisplayName = this.user.displayname

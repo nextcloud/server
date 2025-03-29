@@ -55,11 +55,6 @@ export default defineComponent({
 	},
 
 	beforeMount() {
-		this.$store.commit('initGroups', {
-			groups: this.$store.getters.getServerData.groups,
-			orderBy: this.$store.getters.getServerData.sortGroups,
-			userCount: this.$store.getters.getServerData.userCount,
-		})
 		this.$store.dispatch('getPasswordPolicyMinLength')
 	},
 
