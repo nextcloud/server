@@ -305,7 +305,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('foo3', array_shift($result)->getUID());
 	}
 
-	public function dataCreateUserInvalid() {
+	public static function dataCreateUserInvalid(): array {
 		return [
 			['te?st', 'foo', 'Only the following characters are allowed in a username:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'],
@@ -760,16 +760,11 @@ class ManagerTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->exactly(3))
 			->method('userExists')
-			->withConsecutive(
-				[$this->equalTo('uid1')],
-				[$this->equalTo('uid99')],
-				[$this->equalTo('uid2')]
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false,
-				true
-			);
+			->willReturnMap([
+				['uid1', true],
+				['uid99', false],
+				['uid2', true]
+			]);
 
 		$manager = new \OC\User\Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
