@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Ainm chuntais",
     "Server side authentication failed!" : "Theip ar fhíordheimhniú taobh an fhreastalaí!",
     "Please contact your administrator." : "Déan teagmháil le do riarthóir.",
+    "Session error" : "Earráid seisiúin",
+    "It appears your session token has expired, please refresh the page and try again." : "Is cosúil go bhfuil do chomhartha seisiúin imithe in éag, athnuaigh an leathanach agus bain triail eile as.",
     "An internal error occurred." : "Tharla earráid inmheánach.",
     "Please try again or contact your administrator." : "Bain triail eile as nó déan teagmháil le do riarthóir.",
     "Password" : "Pasfhocal",
