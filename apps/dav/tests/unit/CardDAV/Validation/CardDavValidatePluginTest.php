@@ -72,7 +72,7 @@ class CardDavValidatePluginTest extends TestCase {
 	}
 
 	public function testPutNoEmail(): void {
-		$vcard = $this->getVCardWithEmail();
+		$vcard = $this->getVCardWithEmail('');
 
 		$this->request
 			->method('getBodyAsString')
