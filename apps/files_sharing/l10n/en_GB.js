@@ -185,6 +185,8 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Set default folder for accepted shares",
     "Reset" : "Reset",
     "Reset folder to system default" : "Reset folder to system default",
+    "Share expiration: " : "Share expiration: ",
+    "Share Expiration" : "Share Expiration",
     "group" : "group",
     "conversation" : "conversation",
     "remote" : "remote",
