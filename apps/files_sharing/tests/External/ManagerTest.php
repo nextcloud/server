@@ -19,6 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\NotFoundException;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
@@ -254,12 +255,18 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$newClientCalls = [];
+		$this->clientService
+			->method('newClient')
+			->willReturnCallback(function () use (&$newClientCalls): IClient {
+				if (!empty($newClientCalls)) {
+					return array_shift($newClientCalls);
+				}
+				return $this->createMock(IClient::class);
+			});
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -311,11 +318,8 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -367,16 +371,10 @@ class ManagerTest extends TestCase {
 			// no http requests here
 			$this->manager->removeGroupShares('group1');
 		} else {
-			$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->exactly(2))
-				->method('newClient')
-				->willReturnOnConsecutiveCalls(
-					$client1,
-					$client2,
-				);
+			$client1 = $this->createMock(IClient::class);
+			$client2 = $this->createMock(IClient::class);
+			$newClientCalls[] = $client1;
+			$newClientCalls[] = $client2;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([

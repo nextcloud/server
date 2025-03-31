@@ -40,8 +40,10 @@ class DeleteTest extends TestCase {
 	public function testDeleteTokenById(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', 42);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -59,8 +61,10 @@ class DeleteTest extends TestCase {
 	public function testDeleteTokenByIdRequiresTokenId(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -78,8 +82,10 @@ class DeleteTest extends TestCase {
 	public function testDeleteTokensLastUsedBefore(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -97,8 +103,10 @@ class DeleteTest extends TestCase {
 	public function testLastUsedBeforeAcceptsIso8601Expanded(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -116,8 +124,10 @@ class DeleteTest extends TestCase {
 	public function testLastUsedBeforeAcceptsYmd(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -135,8 +145,10 @@ class DeleteTest extends TestCase {
 	public function testIdAndLastUsedBeforeAreMutuallyExclusive(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', 42);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
