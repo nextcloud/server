@@ -20,8 +20,7 @@ use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
-use OCP\Server;
-use OCP\Util;
+use OCP\ServerVersion;
 
 class Notifier implements INotifier {
 	/** @var string[] */
@@ -44,8 +43,10 @@ class Notifier implements INotifier {
 		protected IFactory $l10NFactory,
 		protected IUserSession $userSession,
 		protected IGroupManager $groupManager,
+		protected IAppManager $appManager,
+		protected ServerVersion $serverVersion,
 	) {
-		$this->appVersions = $this->getAppVersions();
+		$this->appVersions = $this->appManager->getAppInstalledVersions();
 	}
 
 	/**
@@ -144,15 +145,12 @@ class Notifier implements INotifier {
 	 * @param string $installedVersion
 	 * @throws AlreadyProcessedException When the update is already installed
 	 */
-	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
+	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion): void {
 		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
 			throw new AlreadyProcessedException();
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 
@@ -164,14 +162,10 @@ class Notifier implements INotifier {
 	}
 
 	protected function getCoreVersions(): string {
-		return implode('.', Util::getVersion());
+		return implode('.', $this->serverVersion->getVersion());
 	}
 
-	protected function getAppVersions(): array {
-		return \OC_App::getAppVersions();
-	}
-
-	protected function getAppInfo($appId, $languageCode) {
-		return Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
+	protected function getAppInfo(string $appId, ?string $languageCode): ?array {
+		return $this->appManager->getAppInfo($appId, false, $languageCode);
 	}
 }

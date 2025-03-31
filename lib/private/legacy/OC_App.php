@@ -456,10 +456,9 @@ class OC_App {
 	/**
 	 * List all supported apps
 	 *
-	 * @return array
+	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
 	 */
 	public function getSupportedApps(): array {
-		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
 		$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 		return $supportedApps;
@@ -643,16 +642,10 @@ class OC_App {
 
 	/**
 	 * get the installed version of all apps
+	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions or IAppConfig::getAppInstalledVersions instead
 	 */
-	public static function getAppVersions() {
-		static $versions;
-
-		if (!$versions) {
-			/** @var IAppConfig $appConfig */
-			$appConfig = \OCP\Server::get(IAppConfig::class);
-			$versions = $appConfig->searchValues('installed_version');
-		}
-		return $versions;
+	public static function getAppVersions(): array {
+		return \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions();
 	}
 
 	/**
