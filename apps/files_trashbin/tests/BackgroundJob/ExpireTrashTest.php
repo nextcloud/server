@@ -29,31 +29,31 @@ use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ExpireTrashTest extends TestCase {
-	/** @var IConfig|MockObject */
-	private $config;
+	/** @var IAppConfig&MockObject */
+	private $appConfig;
 
-	/** @var IUserManager|MockObject */
+	/** @var IUserManager&MockObject */
 	private $userManager;
 
-	/** @var Expiration|MockObject */
+	/** @var Expiration&MockObject */
 	private $expiration;
 
-	/** @var IJobList|MockObject */
+	/** @var IJobList&MockObject */
 	private $jobList;
 
-	/** @var ITimeFactory|MockObject */
+	/** @var ITimeFactory&MockObject */
 	private $time;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
@@ -69,22 +69,25 @@ class ExpireTrashTest extends TestCase {
 	}
 
 	public function testConstructAndRun(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueString')
 			->with('files_trashbin', 'background_job_expire_trash', 'yes')
 			->willReturn('yes');
+		$this->appConfig->method('getValueInt')
+			->with('files_trashbin', 'background_job_expire_trash_offset', 0)
+			->willReturn(0);
 
-		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration, $this->time);
+		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->time);
 		$job->start($this->jobList);
 	}
 
 	public function testBackgroundJobDeactivated(): void {
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueString')
 			->with('files_trashbin', 'background_job_expire_trash', 'yes')
 			->willReturn('no');
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration, $this->time);
+		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->time);
 		$job->start($this->jobList);
 	}
 }

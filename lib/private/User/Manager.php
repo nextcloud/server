@@ -646,30 +646,14 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $result;
 	}
 
-	/**
-	 * @param \Closure $callback
-	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
-	 * @since 11.0.0
-	 */
 	public function callForSeenUsers(\Closure $callback) {
-		$limit = 1000;
-		$offset = 0;
-		do {
-			$userIds = $this->getSeenUserIds($limit, $offset);
-			$offset += $limit;
-			foreach ($userIds as $userId) {
-				foreach ($this->backends as $backend) {
-					if ($backend->userExists($userId)) {
-						$user = $this->getUserObject($userId, $backend, false);
-						$return = $callback($user);
-						if ($return === false) {
-							return;
-						}
-						break;
-					}
-				}
+		$users = $this->getSeenUsers();
+		foreach ($users as $user) {
+			$return = $callback($user);
+			if ($return === false) {
+				return;
 			}
-		} while (count($userIds) >= $limit);
+		}
 	}
 
 	/**
@@ -793,5 +777,31 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	public function getDisplayNameCache(): DisplayNameCache {
 		return $this->displayNameCache;
+	}
+
+	/**
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param int $offset from which offset to fetch
+	 * @return \Iterator<IUser> list of user IDs
+	 * @since 30.0.0
+	 */
+	public function getSeenUsers(int $offset = 0): \Iterator {
+		$limit = 1000;
+
+		do {
+			$userIds = $this->getSeenUserIds($limit, $offset);
+			$offset += $limit;
+
+			foreach ($userIds as $userId) {
+				foreach ($this->backends as $backend) {
+					if ($backend->userExists($userId)) {
+						$user = $this->getUserObject($userId, $backend, false);
+						yield $user;
+						break;
+					}
+				}
+			}
+		} while (count($userIds) === $limit);
 	}
 }
