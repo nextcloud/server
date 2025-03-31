@@ -5,7 +5,7 @@
 <template>
 	<div>
 		<NcSelect
-		    :model-value="newValue"
+		    :model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -31,7 +31,7 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
-		    :model-value="newValue"
+		    :value="currentValue.id"
 			type="text"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
@@ -77,7 +77,7 @@ export default {
 					id: 'application/pdf',
 				},
 			],
-			newValue: [],
+			newValue: '',
 		}
 	},
 	props: {
