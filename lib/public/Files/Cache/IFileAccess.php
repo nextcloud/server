@@ -99,4 +99,19 @@ interface IFileAccess {
 	 * @since 32.0.0
 	 */
 	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator;
+
+	/**
+	 * Retrieves a list of all distinct mounts.
+	 * Allows filtering by specific mount providers and excluding certain mount points.
+	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
+	 *
+	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
+	 * @param string|false $excludeMountPoints A string pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
+	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
+	 * @throws Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getDistinctMounts(array $mountProviders = [], string|false $excludeMountPoints = false, bool $rewriteHomeDirectories = true): \Generator;
 }
