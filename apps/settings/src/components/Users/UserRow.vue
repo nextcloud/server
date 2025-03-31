@@ -574,7 +574,7 @@ export default {
 				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
 				this.availableSubAdminGroups = this.availableSubAdminGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
 			} catch (error) {
-				logger.error(t('settings', 'Failed to load subadmin groups with details'), { error })
+				logger.error(t('settings', 'Failed to load sub admin groups with details'), { error })
 			}
 			this.loading.subadmins = false
 			this.loading.subAdminGroupsDetails = false
