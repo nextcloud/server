@@ -40,9 +40,6 @@
 [submodule "custom-npms/nc-nextcloud-vue"]
 	path = custom-npms/nc-nextcloud-vue
 	url = git@github.com:IONOS-Productivity/nc-nextcloud-vue.git
-[submodule "apps-custom/nc_ionos_processes"]
-	path = apps-custom/nc_ionos_processes
-	url = git@github.com:IONOS-Productivity/nc_ionos_processes.git
 [submodule "apps-external/serverinfo"]
 	path = apps-external/serverinfo
 	url = git@github.com:nextcloud/serverinfo.git
@@ -52,3 +49,6 @@
 [submodule "apps-external/richdocuments"]
 	path = apps-external/richdocuments
 	url = https://github.com/nextcloud/richdocuments.git
+[submodule "apps-custom/nc-ionos-processes"]
+	path = apps-custom/nc-ionos-processes
+	url = git@github.com:IONOS-Productivity/nc-ionos-processes.git
