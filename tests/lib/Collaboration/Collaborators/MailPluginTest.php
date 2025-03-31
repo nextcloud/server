@@ -653,7 +653,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User'
 					]
 				],
-				['users' => [['label' => 'User (test@example.com)', 'uuid' => 'User', 'name' => 'User', 'value' => ['shareType' => 0, 'shareWith' => 'test'],'shareWithDisplayNameUnique' => 'test@example.com',]], 'emails' => [], 'exact' => ['emails' => [], 'users' => []]],
+				['users' => [['label' => 'User (test@example.com)', 'uuid' => 'User', 'name' => 'User', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'],'shareWithDisplayNameUnique' => 'test@example.com',]], 'emails' => [], 'exact' => ['emails' => [], 'users' => []]],
 				false,
 				false,
 				[
@@ -695,7 +695,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User'
 					]
 				],
-				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'uuid' => 'test@example.com', 'value' => ['shareType' => 4,'shareWith' => 'test@example.com']]]]],
+				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'uuid' => 'test@example.com', 'value' => ['shareType' => IShare::TYPE_EMAIL,'shareWith' => 'test@example.com']]]]],
 				false,
 				false,
 				[
