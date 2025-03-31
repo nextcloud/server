@@ -50,9 +50,6 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
-	mixins: [
-		valueMixin
-	],
 
 	emits: ['update:model-value'],
 
@@ -80,12 +77,18 @@ export default {
 					id: 'application/pdf',
 				},
 			],
+			newValue: [],
 		}
 	},
 	props: {
 		modelValue: {
 			type: String,
 			default: '',
+		},
+	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
 		},
 	},
 	computed: {
@@ -124,6 +127,9 @@ export default {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
 			const result = regexRegex.exec(string)
 			return result !== null
+		},
+		updateInternalValue() {
+			this.newValue = this.modelValue
 		},
 		setValue(value) {
 			if (value !== null) {
