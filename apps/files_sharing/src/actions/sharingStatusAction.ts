@@ -20,8 +20,8 @@
  *
  */
 import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import { Type } from '@nextcloud/sharing'
+import { t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
@@ -55,17 +55,31 @@ export const action = new FileAction({
 	title(nodes: Node[]) {
 		const node = nodes[0]
 
-		// Mixed share types
-		if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
-			return t('files_sharing', 'Shared multiple times with different people')
-		}
-
 		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			const ownerDisplayName = node?.attributes?.['owner-display-name']
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
 		}
 
-		return t('files_sharing', 'Show sharing options')
+		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
+		if (shareTypes.length > 1) {
+			return t('files_sharing', 'Shared multiple times with different people')
+		}
+
+		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
+		if (!sharees) {
+			// No sharees so just show the default message to create a new share
+			return t('files_sharing', 'Show sharing options')
+		}
+
+		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
+		switch (sharee.type) {
+		case ShareType.User:
+			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+		case ShareType.Group:
+			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+		default:
+			return t('files_sharing', 'Shared with others')
+		}
 	},
 
 	iconSvgInline(nodes: Node[]) {
@@ -78,25 +92,24 @@ export const action = new FileAction({
 		}
 
 		// Link shares
-		if (shareTypes.includes(Type.SHARE_TYPE_LINK)
-			|| shareTypes.includes(Type.SHARE_TYPE_EMAIL)) {
+		if (shareTypes.includes(ShareType.Link)
+			|| shareTypes.includes(ShareType.Email)) {
 			return LinkSvg
 		}
 
 		// Group shares
-		if (shareTypes.includes(Type.SHARE_TYPE_GROUP)
-			|| shareTypes.includes(Type.SHARE_TYPE_REMOTE_GROUP)) {
+		if (shareTypes.includes(ShareType.Group)
+			|| shareTypes.includes(ShareType.RemoteGroup)) {
 			return AccountGroupSvg
 		}
 
 		// Circle shares
-		if (shareTypes.includes(Type.SHARE_TYPE_CIRCLE)) {
+		if (shareTypes.includes(ShareType.Team)) {
 			return CircleSvg
 		}
 
 		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
-			const sanitizeId = (id: string) => id.replace(/[^a-zA-Z0-9._%+@-]+/g, '').replace(/\//g, '')
-			return generateAvatarSvg(sanitizeId(node.owner), isExternal(node))
+			return generateAvatarSvg(node.owner, isExternal(node))
 		}
 
 		return AccountPlusSvg
@@ -118,7 +131,7 @@ export const action = new FileAction({
 		}
 
 		// If the node is shared by someone else
-		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+		if (node.owner !== getCurrentUser()?.uid || isExternal(node)) {
 			return true
 		}
 
