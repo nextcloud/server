@@ -53,6 +53,8 @@ use OC\Core\Command\Group\AddUser;
 use OC\Core\Command\Group\RemoveUser;
 use OC\Core\Command\Info\File;
 use OC\Core\Command\Info\Space;
+use OC\Core\Command\Info\Storage;
+use OC\Core\Command\Info\Storages;
 use OC\Core\Command\Integrity\CheckApp;
 use OC\Core\Command\Integrity\CheckCore;
 use OC\Core\Command\Integrity\SignApp;
@@ -144,6 +146,8 @@ if ($config->getSystemValueBool('installed', false)) {
 
 	$application->add(Server::get(File::class));
 	$application->add(Server::get(Space::class));
+	$application->add(Server::get(Storage::class));
+	$application->add(Server::get(Storages::class));
 
 	$application->add(Server::get(ConvertType::class));
 	$application->add(Server::get(ConvertMysqlToMB4::class));
