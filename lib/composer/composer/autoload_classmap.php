@@ -1195,6 +1195,8 @@ return array(
     'OC\\Core\\Command\\Info\\File' => $baseDir . '/core/Command/Info/File.php',
     'OC\\Core\\Command\\Info\\FileUtils' => $baseDir . '/core/Command/Info/FileUtils.php',
     'OC\\Core\\Command\\Info\\Space' => $baseDir . '/core/Command/Info/Space.php',
+    'OC\\Core\\Command\\Info\\Storage' => $baseDir . '/core/Command/Info/Storage.php',
+    'OC\\Core\\Command\\Info\\Storages' => $baseDir . '/core/Command/Info/Storages.php',
     'OC\\Core\\Command\\Integrity\\CheckApp' => $baseDir . '/core/Command/Integrity/CheckApp.php',
     'OC\\Core\\Command\\Integrity\\CheckCore' => $baseDir . '/core/Command/Integrity/CheckCore.php',
     'OC\\Core\\Command\\Integrity\\SignApp' => $baseDir . '/core/Command/Integrity/SignApp.php',
