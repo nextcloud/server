@@ -48,7 +48,7 @@ const RequestChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') },
 		],
-		component: RequestUserGroup,
+		element: registerCustomElement(RequestUserGroup, 'oca-workflowengine-checks-request_user_group'),
 	},
 ]
 
