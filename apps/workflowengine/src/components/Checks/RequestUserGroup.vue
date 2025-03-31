@@ -10,10 +10,11 @@
 			:loading="status.isLoading && groups.length === 0"
 			:placeholder="t('workflowengine', 'Type to search for group …')"
 			:options="groups"
-			:value="currentValue"
+		    :model-value="currentValue"
 			label="displayname"
 			@search="searchAsync"
-			@input="(value) => $emit('input', value.id)" />
+		    @input="update"
+			/>
 	</div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
 		NcSelect,
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
@@ -48,11 +49,17 @@ export default {
 		return {
 			groups,
 			status,
+			newValue: '',
 		}
 	},
 	computed: {
-		currentValue() {
-			return this.groups.find(group => group.id === this.value) || null
+		currentValue: {
+			get: function () {
+				return this.groups.find(group => group.id === this.newValue) || null
+			},
+			set: function (value) {
+				this.newValue = value
+			}
 		},
 	},
 	async mounted() {
@@ -61,9 +68,15 @@ export default {
 			await this.searchAsync('')
 		}
 		// If a current group is set but not in our list of groups then search for that group
-		if (this.currentValue === null && this.value) {
-			await this.searchAsync(this.value)
+		if (this.currentValue === null && this.newValue) {
+			await this.searchAsync(this.newValue)
 		}
+	},
+	emits: ['update:model-value'],
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
+		},
 	},
 	methods: {
 		t,
@@ -86,12 +99,19 @@ export default {
 				console.error('Error while loading group list', error.response)
 			})
 		},
+		updateInternalValue() {
+			this.newValue = this.modelValue
+		},
 		addGroup(group) {
 			const index = this.groups.findIndex((item) => item.id === group.id)
 			if (index === -1) {
 				this.groups.push(group)
 			}
 		},
+		update(value) {
+			this.newValue = value.id
+			this.$emit('update:model-value', this.newValue)
+		}
 	},
 }
 </script>
