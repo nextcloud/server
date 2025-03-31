@@ -12,13 +12,12 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\IConfig;
-use OCP\IUser;
+use OCP\IAppConfig;
 use OCP\IUserManager;
 
 class ExpireTrash extends TimedJob {
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private Expiration $expiration,
 		ITimeFactory $time,
@@ -28,12 +27,8 @@ class ExpireTrash extends TimedJob {
 		$this->setInterval(60 * 30);
 	}
 
-	/**
-	 * @param $argument
-	 * @throws \Exception
-	 */
 	protected function run($argument) {
-		$backgroundJob = $this->config->getAppValue('files_trashbin', 'background_job_expire_trash', 'yes');
+		$backgroundJob = $this->appConfig->getValueString('files_trashbin', 'background_job_expire_trash', 'yes');
 		if ($backgroundJob === 'no') {
 			return;
 		}
@@ -43,15 +38,28 @@ class ExpireTrash extends TimedJob {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function (IUser $user): void {
+		$stopTime = time() + 60 * 30; // Stops after 30 minutes.
+		$offset = $this->appConfig->getValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
+		$users = $this->userManager->getSeenUsers($offset);
+
+		foreach ($users as $user) {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
-				return;
+				continue;
 			}
 			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
 			Trashbin::deleteExpiredFiles($dirContent, $uid);
-		});
 
+			$offset++;
+
+			if ($stopTime < time()) {
+				$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', $offset);
+				\OC_Util::tearDownFS();
+				return;
+			}
+		}
+
+		$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
 		\OC_Util::tearDownFS();
 	}
 
