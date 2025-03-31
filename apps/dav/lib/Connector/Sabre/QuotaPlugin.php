@@ -257,6 +257,9 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
+				if ($isDir) {
+					throw new InsufficientStorage("Insufficient space in $path. $freeSpace available. Cannot create directory");
+				}
 				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
