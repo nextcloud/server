@@ -91,12 +91,12 @@ class MailPluginTest extends TestCase {
 	 * @param string $searchTerm
 	 * @param array $contacts
 	 * @param bool $shareeEnumeration
-	 * @param array $expected
-	 * @param bool $exactIdMatch
-	 * @param bool $reachedEnd
+	 * @param array $expectedResult
+	 * @param bool $expectedExactIdMatch
+	 * @param bool $expectedMoreResults
 	 * @param bool $validEmail
 	 */
-	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail): void {
+	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -131,9 +131,9 @@ class MailPluginTest extends TestCase {
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
-		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
-		$this->assertEquals($expected, $result);
-		$this->assertSame($reachedEnd, $moreResults);
+		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertEquals($expectedResult, $result);
+		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
 	public function dataGetEmail() {
@@ -574,13 +574,13 @@ class MailPluginTest extends TestCase {
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
-	 * @param array $expected
-	 * @param bool $exactIdMatch
-	 * @param bool $reachedEnd
+	 * @param array $expectedResult
+	 * @param bool $expectedExactIdMatch
+	 * @param bool $expectedMoreResults
 	 * @param array $userToGroupMapping
 	 * @param bool $validEmail
 	 */
-	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail): void {
+	public function testSearchGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -634,9 +634,9 @@ class MailPluginTest extends TestCase {
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
-		$this->assertSame($exactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
-		$this->assertEquals($expected, $result);
-		$this->assertSame($reachedEnd, $moreResults);
+		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertEquals($expectedResult, $result);
+		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
 	public function dataGetEmailGroupsOnly() {
