@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IMimeTypeLoader;
@@ -93,5 +94,71 @@ class FileAccess implements IFileAccess {
 
 		$rows = $query->executeQuery()->fetchAll();
 		return $this->rowsToEntries($rows);
+	}
+
+	/**
+	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
+	 * Allows filtering by mime types, encryption status, and limits the number of results.
+	 *
+	 * @param int $storageId The ID of the storage to search within.
+	 * @param int $rootId The file ID of the ancestor to base the search on.
+	 * @param int $lastFileId The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param array $mimeTypes An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
+	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @return \Generator A generator yielding matching files as cache entries.
+	 * @throws Exception
+	 */
+	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator {
+		$qb = $this->getQuery();
+		$qb->selectFileCache();
+		$qb->andWhere($qb->expr()->eq('filecache.fileid', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		/** @var array{path:string}|false $root */
+		$root = $result->fetch();
+		$result->closeCursor();
+
+		if ($root === false) {
+			throw new Exception('Could not fetch storage root');
+		}
+
+		$qb = $this->getQuery();
+
+		$path = $root['path'] === '' ? '' : $root['path'] . '/';
+
+		$qb->select('*')
+			->from('filecache', 'filecache')
+			->andWhere($qb->expr()->like('filecache.path', $qb->createNamedParameter($path . '%')))
+			->andWhere($qb->expr()->eq('filecache.storage', $qb->createNamedParameter($storageId)))
+			->andWhere($qb->expr()->gt('filecache.fileid', $qb->createNamedParameter($lastFileId)));
+
+		if (!$endToEndEncrypted) {
+			$qb->innerJoin('filecache', 'filecache', 'p', $qb->expr()->eq('filecache.parent', 'p.fileid'));
+			$qb->andWhere($qb->expr()->eq('p.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		}
+
+		if (!$serverSideEncrypted) {
+			$qb->andWhere($qb->expr()->eq('filecache.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		}
+
+		if (count($mimeTypes) > 0) {
+			$qb->andWhere($qb->expr()->in('filecache.mimetype', $qb->createNamedParameter($mimeTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
+		if ($maxResults !== 0) {
+			$qb->setMaxResults($maxResults);
+		}
+		$files = $qb->orderBy('filecache.fileid', 'ASC')
+			->executeQuery();
+
+		while (
+			/** @var array */
+			$row = $files->fetch()
+		) {
+			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+		}
+
+		$files->closeCursor();
 	}
 }

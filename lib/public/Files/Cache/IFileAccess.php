@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Cache;
 
+use OCP\DB\Exception;
+
 /**
  * Low level access to the file cache.
  *
@@ -79,4 +81,22 @@ interface IFileAccess {
 	 * @since 29.0.0
 	 */
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array;
+
+	/**
+	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
+	 * Allows filtering by mime types, encryption status, and limits the number of results.
+	 *
+	 * @param int $storageId The ID of the storage to search within.
+	 * @param int $rootId The file ID of the ancestor to base the search on.
+	 * @param int $lastFileId The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param array $mimeTypes An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
+	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @return \Generator A generator yielding matching files as cache entries.
+	 * @throws Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator;
 }
