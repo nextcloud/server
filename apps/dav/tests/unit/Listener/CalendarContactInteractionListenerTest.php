@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\Unit\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;

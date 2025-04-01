@@ -15,6 +15,7 @@ use OCP\EventDispatcher\Event;
  *
  * @package OCA\DAV\Events
  * @since 20.0.0
+ * @deprecated 31.0.2 Use {@see \OCP\Calendar\Events\CalendarObjectDeletedEvent} instead
  */
 class CalendarObjectDeletedEvent extends Event {
 
