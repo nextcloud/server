@@ -25,10 +25,6 @@ class OC_Util {
 	public static $styles = [];
 	public static $headers = [];
 
-	protected static function getAppManager() {
-		return \OC::$server->getAppManager();
-	}
-
 	/**
 	 * Setup the file system
 	 *
