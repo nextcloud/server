@@ -1069,7 +1069,7 @@ class FederatedShareProvider implements IShareProvider {
 
 		$qb->select('*')
 			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter([IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->execute();
 		while ($data = $cursor->fetch()) {
