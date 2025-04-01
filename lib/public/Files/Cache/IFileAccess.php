@@ -94,7 +94,7 @@ interface IFileAccess {
 	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
 	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
 	 * @return \Generator A generator yielding matching files as cache entries.
-	 * @throws Exception
+	 * @throws \OCP\DB\Exception
 	 *
 	 * @since 32.0.0
 	 */
@@ -106,10 +106,10 @@ interface IFileAccess {
 	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
 	 *
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param string|false $excludeMountPoints A string pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param string|false $excludeMountPoints A string containing an SQL LIKE pattern to exclude mount points. Set to false to not exclude any mount points.
 	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
 	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
-	 * @throws Exception
+	 * @throws \OCP\DB\Exception
 	 *
 	 * @since 32.0.0
 	 */
