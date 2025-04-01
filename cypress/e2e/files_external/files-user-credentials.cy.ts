@@ -74,7 +74,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		cy.wait('@setCredentials')
 
 		// Auth dialog should be closed and the set credentials button should be gone
-		cy.get('@authDialog').should('not.exist', { timeout: 2000 })
+		authDialog.should('not.exist', { timeout: 2000 })
 
 		getActionEntryForFile(storageUser.userId, ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
 
