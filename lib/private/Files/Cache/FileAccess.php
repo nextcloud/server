@@ -196,9 +196,9 @@ class FileAccess implements IFileAccess {
 			$rootId = (int)$row['root_id'];
 			$overrideRoot = $rootId;
 			if ($rewriteHomeDirectories && in_array($row['mount_provider_class'], [
-					\OC\Files\Mount\LocalHomeMountProvider::class,
-					\OC\Files\Mount\ObjectHomeMountProvider::class,
-				], true)) {
+				\OC\Files\Mount\LocalHomeMountProvider::class,
+				\OC\Files\Mount\ObjectHomeMountProvider::class,
+			], true)) {
 				// Only crawl files, not cache or trashbin
 				$qb = $this->getQuery();
 				try {
