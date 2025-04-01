@@ -127,31 +127,31 @@ class FileAccess implements IFileAccess {
 
 		$path = $root['path'] === '' ? '' : $root['path'] . '/';
 
-		$qb->select('*')
-			->from('filecache', 'filecache')
-			->andWhere($qb->expr()->like('filecache.path', $qb->createNamedParameter($path . '%')))
-			->andWhere($qb->expr()->eq('filecache.storage', $qb->createNamedParameter($storageId)))
-			->andWhere($qb->expr()->gt('filecache.fileid', $qb->createNamedParameter($lastFileId)));
+		$qb->selectDistinct('*')
+			->from('filecache', 'f')
+			->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($path . '%')))
+			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($lastFileId)));
 
 		if (!$endToEndEncrypted) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
-			$qb->innerJoin('filecache', 'filecache', 'p', $qb->expr()->eq('filecache.parent', 'p.fileid'));
+			$qb->leftJoin('f', 'filecache', 'p', $qb->expr()->eq('f.parent', 'p.fileid'));
 			$qb->andWhere($qb->expr()->eq('p.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
 		if (!$serverSideEncrypted) {
 			// Server side encrypted files have encrypted=1 directly
-			$qb->andWhere($qb->expr()->eq('filecache.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->eq('f.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
 		if (count($mimeTypes) > 0) {
-			$qb->andWhere($qb->expr()->in('filecache.mimetype', $qb->createNamedParameter($mimeTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+			$qb->andWhere($qb->expr()->in('f.mimetype', $qb->createNamedParameter($mimeTypes, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		if ($maxResults !== 0) {
 			$qb->setMaxResults($maxResults);
 		}
-		$files = $qb->orderBy('filecache.fileid', 'ASC')
+		$files = $qb->orderBy('f.fileid', 'ASC')
 			->executeQuery();
 
 		while (
