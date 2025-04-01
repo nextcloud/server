@@ -104,7 +104,6 @@ OC.L10N.register(
     "Set your password" : "قُم بإدخال كلمتك مرورك",
     "Go to %s" : "إنتقِل إلى %s",
     "Install Client" : "تنصيب العميل client",
-    "Logged in account must be a subadmin" : "يجب أن يكون الحساب الذي تم تسجيل الدخول إليه مديراً فرعياً",
     "Apps" : "التطبيقات",
     "Personal" : "شخصي",
     "Administration" : "الإدارة",
@@ -719,7 +718,6 @@ OC.L10N.register(
     "Wipe {userid}'s devices" : "قُم بمَحْو أجهزة {userid}",
     "Wiped {userid}'s devices" : "أجهزة {userid} تمّ محوُها",
     "Failed to load groups with details" : "فل تحميل المجموعات مع التفاصيل",
-    "Failed to load subadmin groups with details" : "فشل تحميل المجموعات الفرعية مع التفاصيل",
     "Failed to update line manager" : "تعذّر تحديث الرئيس المباشر",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "حذفُ حساب {userid} بالكامل بما في ذلك جميع ملفاته الشخصية وبيانات التطبيقات و غيرها.",
     "Account deletion" : "حذف حساب",
@@ -887,6 +885,7 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "هذا الإصدار المُجتمَعِي من نكست كلاود غير مدعوم و الإشعارات الفورية غير متاحة.",
     "Use a second factor besides your password to increase security for your account." : "استخدم عاملاً ثانياً إلى جانب كلمة مرورك لزيادة أمان حسابك.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "إذا كنت تستخدم تطبيقات من طرفٍ ثالثٍ للاتصال بنكست كلاود، فالرجاء التأكد من إنشاء و تهيئة كلمة مرور التطبيق لكل منها قبل تمكين التحقق ثنائي العوامل من الهويّة 2FA.",
+    "Logged in account must be a subadmin" : "يجب أن يكون الحساب الذي تم تسجيل الدخول إليه مديراً فرعياً",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادم الويب عندك يمكنه الاتصال بنفسه. ولذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بنطاق واحد على الأقل من \"النطاقات_الموثوقة\" أو 'overwrite.cli.url'.",
     "Missing optional index \"%s\" in table \"%s\"." : "دليل اختياري ناقص \"%s\" في الجدول \"%s\".",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "تفتقد قاعدة البيانات إلى بعض الفهارس. نظرًا لحقيقة أن إضافة الفهارس على الجداول الكبيرة قد تستغرق بعض الوقت لم تتم إضافتها تلقائيًا. من خلال تشغيل \"occ db: add-missing-indexices\" ، يمكن إضافة تلك الفهارس المفقودة يدويًا أثناء استمرار تشغيل الخادم. بمجرد إضافة الفهارس، تكون الاستعلامات إلى هذه الجداول عادةً أسرع بكثير.",
@@ -931,6 +930,7 @@ OC.L10N.register(
     "Active accounts" : "حسابات نشطة",
     "Follow us on Twitter" : "تابعونا على تويتر",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادم الويب الخاص بك يمكنه الاتصال بنفسه. لذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بواحد على الأقل من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا الفشل نتيجة لعدم تطابق DNS من جانب الخادم أو قاعدة صادرة لجدار الحماية.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. "
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. ",
+    "Failed to load subadmin groups with details" : "فشل تحميل المجموعات الفرعية مع التفاصيل"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

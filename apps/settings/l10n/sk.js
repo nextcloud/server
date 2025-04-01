@@ -104,7 +104,6 @@ OC.L10N.register(
     "Set your password" : "Nastavte si heslo",
     "Go to %s" : "Prejsť na %s",
     "Install Client" : "Inštalácia klienta",
-    "Logged in account must be a subadmin" : "Prihlásený účet musí byť sub-správca",
     "Apps" : "Apky",
     "Personal" : "Osobné",
     "Administration" : "Administrácia",
@@ -719,7 +718,6 @@ OC.L10N.register(
     "Wipe {userid}'s devices" : "Vymazať obsah zariadení {userid}",
     "Wiped {userid}'s devices" : "Vymazané zariadenia užívateľa {userid}",
     "Failed to load groups with details" : "Nepodarilo sa načítať skupiny s podrobnosťami",
-    "Failed to load subadmin groups with details" : "Nepodarilo sa načítať skupiny subadministátorov s podrobnosťami",
     "Failed to update line manager" : "Nepodarilo sa aktualizovať líniového manažéra",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Úplne odstráiť účet používateľa {userid} vrátane všetkých osobných súborov, údajov aplikácií atď.",
     "Account deletion" : "Zmazanie účtu",
@@ -887,6 +885,7 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Toto komunitné vydanie Nextcloud nie je podporované a okamžité upozornenia nie sú k dispozícii.",
     "Use a second factor besides your password to increase security for your account." : "Pre zlepšenie zabezpečenia vášho účtu použite okrem hesla aj druhý faktor.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ak na pripojenie k NextCloudu používate aplikácie tretích strán, pred povolením dvojstupňového overovania totožnosti, nezabudnite pre každú z nich vytvoriť a nastaviť heslo aplikácie.",
+    "Logged in account must be a subadmin" : "Prihlásený účet musí byť sub-správca",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Pre povolenie tejto kontroly musíte zabezpečiť, aby sa váš webový server mohol pripojiť sám k sebe. Preto musí byť schopný rozpoznať a pripojiť sa aspoň k jednému z jeho \"trusted_domains\" alebo \"overwrite.cli.url\".",
     "Missing optional index \"%s\" in table \"%s\"." : "Chýba voliteľný index \"%s\" v tabuľke \"%s\".",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "V databáze chýbajú nejaké indexy. Keďže pridávanie indexov voči veľkým tabuľkám môže trvať dlho, tak neboli pridané automaticky. Spustením príkazu \"occ db:add-missing-indices\" môžete tieto chýbajúce indexy pridať ručne počas behu. Akonáhle budú indexy aktívne, tak požiadavky voči databáze budú podstatne rýchlejšie.",
@@ -931,6 +930,7 @@ OC.L10N.register(
     "Active accounts" : "Aktívne účty",
     "Follow us on Twitter" : "Sleduj nás na Twitter-i",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Ak chcete povoliť spustenie tejto kontroly, musíte sa uistiť, že váš webový server sa môže pripojiť sám k sebe. Preto musí byť schopný rozpoznať a pripojiť sa aspoň k jednej zo svojich `trusted_domains` alebo `overwrite.cli.url`.  Výsledkom nesprávneho nastavenia môže byť nesúlad DNS na strane servera alebo pravidla brány firewall pre výstup.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Bola zistená verzia \"%s\" PostgreSQL. Odporúča sa PostgreSQL >=12 a <=16 pre najlepší výkon, stabilitu a funkčnosť s touto verziou Nextcloud."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Bola zistená verzia \"%s\" PostgreSQL. Odporúča sa PostgreSQL >=12 a <=16 pre najlepší výkon, stabilitu a funkčnosť s touto verziou Nextcloud.",
+    "Failed to load subadmin groups with details" : "Nepodarilo sa načítať skupiny subadministátorov s podrobnosťami"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

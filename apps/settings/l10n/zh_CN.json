@@ -102,7 +102,6 @@
     "Set your password" : "设置您的密码",
     "Go to %s" : "访问 %s",
     "Install Client" : "安装客户端",
-    "Logged in account must be a subadmin" : "登录的账号必须是子管理员",
     "Apps" : "应用",
     "Personal" : "个人",
     "Administration" : "管理",
@@ -717,7 +716,6 @@
     "Wipe {userid}'s devices" : "擦除 {userid} 的设备",
     "Wiped {userid}'s devices" : "已抹除 {userid} 的设备",
     "Failed to load groups with details" : "无法加载包含详情的群组",
-    "Failed to load subadmin groups with details" : "无法加载包含详情的子管理员群组",
     "Failed to update line manager" : "更新行管理员失败",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "完全删除 {userid} 的账号，包括其所有个人文件，应用程序数据等。",
     "Account deletion" : "账号删除",
@@ -885,6 +883,7 @@
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Nextcloud 的此社区版本不受支持，即时通知不可用。",
     "Use a second factor besides your password to increase security for your account." : "使用除您密码之外的第二种方法来增强您账号的安全性。",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "如果您使用第三方应用程序连接到 Nextcloud，请确保在启用双因素身份验证之前为每个应用程序创建和配置应用程序密码。",
+    "Logged in account must be a subadmin" : "登录的账号必须是子管理员",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要允许此检查运行，您必须确保您的网络服务器可以连接到自身。 因此，它必须能够解析并连接到至少一个 `trusted_domains` 或 `overwrite.cli.url`。",
     "Missing optional index \"%s\" in table \"%s\"." : "索引 \"%s\" 不存在于表 \"%s\"。",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "数据库丢失了一些索引。由于给大的数据表添加索引会耗费一些时间，因此程序没有自动对其进行修复。您可以在 Nextcloud 运行时通过命令行手动执行“occ db:add-missing-indices”命令修复丢失的索引。索引修复后会大大提高相应表的查询速度。",
@@ -929,6 +928,7 @@
     "Active accounts" : "活跃账号",
     "Follow us on Twitter" : "在 Twitter 上关注我们！",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "要允许此检查运行，您必须确保您的 Web 服务器可以连接到自身。因此，它必须能够解析并连接到其 \"trusted_domains\" 或 \"overwrite.cli.url\" 中的至少一个。此失败可能是服务端 DNS 不匹配或出站防火墙规则的结果。",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。"
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
+    "Failed to load subadmin groups with details" : "无法加载包含详情的子管理员群组"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
