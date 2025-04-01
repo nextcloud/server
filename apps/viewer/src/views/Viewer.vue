@@ -628,7 +628,7 @@ export default defineComponent({
 
 			// swap title with original one
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
-			if (title && !title.dataset.old) {
+			if (title && !title.dataset.old && fileName !== '') {
 				title.dataset.old = document.title
 				this.updateTitle(fileName)
 			}
