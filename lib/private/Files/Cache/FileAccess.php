@@ -108,7 +108,7 @@ class FileAccess implements IFileAccess {
 	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
 	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
 	 * @return \Generator A generator yielding matching files as cache entries.
-	 * @throws Exception
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator {
 		$qb = $this->getQuery();
@@ -134,11 +134,13 @@ class FileAccess implements IFileAccess {
 			->andWhere($qb->expr()->gt('filecache.fileid', $qb->createNamedParameter($lastFileId)));
 
 		if (!$endToEndEncrypted) {
+			// End to end encrypted files are descendants of a folder with encrypted=1
 			$qb->innerJoin('filecache', 'filecache', 'p', $qb->expr()->eq('filecache.parent', 'p.fileid'));
 			$qb->andWhere($qb->expr()->eq('p.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
 		if (!$serverSideEncrypted) {
+			// Server side encrypted files have encrypted=1 directly
 			$qb->andWhere($qb->expr()->eq('filecache.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
@@ -168,10 +170,10 @@ class FileAccess implements IFileAccess {
 	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
 	 *
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param string|false $excludeMountPoints A string pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param string|false $excludeMountPoints A string containing an SQL LIKE pattern to exclude mount points. Set to false to not exclude any mount points.
 	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
 	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
-	 * @throws Exception
+	 * @throws \OCP\DB\Exception
 	 */
 	public function getDistinctMounts(array $mountProviders = [], string|false $excludeMountPoints = false, bool $rewriteHomeDirectories = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
@@ -193,10 +195,10 @@ class FileAccess implements IFileAccess {
 			$storageId = (int)$row['storage_id'];
 			$rootId = (int)$row['root_id'];
 			$overrideRoot = $rootId;
-			if (in_array($row['mount_provider_class'], [
-				\OC\Files\Mount\LocalHomeMountProvider::class,
-				\OC\Files\Mount\ObjectHomeMountProvider::class,
-			])) {
+			if ($rewriteHomeDirectories && in_array($row['mount_provider_class'], [
+					\OC\Files\Mount\LocalHomeMountProvider::class,
+					\OC\Files\Mount\ObjectHomeMountProvider::class,
+				], true)) {
 				// Only crawl files, not cache or trashbin
 				$qb = $this->getQuery();
 				try {
