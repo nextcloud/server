@@ -104,7 +104,6 @@ OC.L10N.register(
     "Set your password" : "Setze dein Passwort",
     "Go to %s" : "%s aufrufen",
     "Install Client" : "Installiere den Client",
-    "Logged in account must be a subadmin" : "Das angemeldete Konto muss eine Subadministration sein.",
     "Apps" : "Apps",
     "Personal" : "Persönlich",
     "Administration" : "Administration",
@@ -719,7 +718,6 @@ OC.L10N.register(
     "Wipe {userid}'s devices" : "Lösche {userid}s Geräte",
     "Wiped {userid}'s devices" : "{userid}s Geräte bereinigt",
     "Failed to load groups with details" : "Gruppen mit Details konnten nicht geladen werden",
-    "Failed to load subadmin groups with details" : "Subadministrations-Gruppen mit Details konnten nicht geladen werden",
     "Failed to update line manager" : "Fehler beim Aktualisieren des Managers",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Vollständig {userid}s Konto löschen inklusive aller persönlichen Dateien, App-Daten, usw.",
     "Account deletion" : "Kontenlöschung",
@@ -887,6 +885,7 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Diese Community-Version von Nextcloud wird nicht unterstützt und sofortige Benachrichtigungen sind nicht verfügbar.",
     "Use a second factor besides your password to increase security for your account." : "Neben dem Passwort einen zweiten Faktor verwenden, um die Sicherheit des Kontos zu erhöhen.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Wenn du Anwendungen von Drittanbietern verwendest, um dich mit Nextcloud zu verbinden, stelle bitte sicher, dass du für jede Anwendung ein Anwendungspasswort erstellst und einrichtest, bevor du die Zwei-Faktor-Authentifizierung aktivierst.",
+    "Logged in account must be a subadmin" : "Das angemeldete Konto muss eine Unteradministration sein.",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Um diese Prüfung auszuführen, musst du sicherstellen, dass dein Webserver eine Verbindung zu sich selbst herstellen kann. Dafür muss dieser in der Lage sein, sich mit mindestens einer seiner \"trusted_domains\" oder der \"overwrite.cli.url\" zu verbinden und diese aufzulösen.",
     "Missing optional index \"%s\" in table \"%s\"." : "Fehlender optionaler Index \"%s\" in der Tabelle \"%s\".",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "In der Datenbank fehlen einige Indizes. Auf Grund der Tatsache, dass das Hinzufügen von Indizes in großen Tabellen einige Zeit in Anspruch nehmen kann, wurden diese nicht automatisch erzeugt. Durch das Ausführen von \"occ db:add-missing-indices\" können die fehlenden Indizes manuell hinzugefügt werden, während die Instanz weiter läuft. Nachdem die Indizes hinzugefügt wurden, sind Anfragen auf die Tabellen normalerweise schneller.",
@@ -931,6 +930,7 @@ OC.L10N.register(
     "Active accounts" : "Aktive Konten",
     "Follow us on Twitter" : "Uns auf X folgen",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Damit diese Prüfung ausgeführt werden kann, musst du sicherstellen, dass dein Webserver eine Verbindung zu sich selbst herstellen kann. Daher muss er in der Lage sein, mindestens eine seiner `trusted_domains` oder `overwrite.cli.url` aufzulösen und eine Verbindung zu ihnen herzustellen. Dieser Fehler kann das Ergebnis einer serverseitigen DNS-Nichtübereinstimmung oder einer ausgehenden Firewall-Regel sein.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-Version \"%s\" erkannt. Für optimale Leistung, Stabilität und Funktionalität mit dieser Version von Nextcloud wird PostgreSQL >=12 und <=16 empfohlen."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-Version \"%s\" erkannt. Für optimale Leistung, Stabilität und Funktionalität mit dieser Version von Nextcloud wird PostgreSQL >=12 und <=16 empfohlen.",
+    "Failed to load subadmin groups with details" : "Unteradministrations-Gruppen mit Details konnten nicht geladen werden"
 },
 "nplurals=2; plural=(n != 1);");

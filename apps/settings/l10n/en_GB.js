@@ -104,7 +104,6 @@ OC.L10N.register(
     "Set your password" : "Set your password",
     "Go to %s" : "Go to %s",
     "Install Client" : "Install Client",
-    "Logged in account must be a subadmin" : "Logged in account must be a subadmin",
     "Apps" : "Apps",
     "Personal" : "Personal",
     "Administration" : "Administration",
@@ -719,7 +718,6 @@ OC.L10N.register(
     "Wipe {userid}'s devices" : "Wipe {userid}'s devices",
     "Wiped {userid}'s devices" : "Wiped {userid}'s devices",
     "Failed to load groups with details" : "Failed to load groups with details",
-    "Failed to load subadmin groups with details" : "Failed to load subadmin groups with details",
     "Failed to update line manager" : "Failed to update line manager",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Fully delete {userid}'s account including all their personal files, app data, etc.",
     "Account deletion" : "Account deletion",
@@ -887,6 +885,7 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "This community release of Nextcloud is unsupported and instant notifications are unavailable.",
     "Use a second factor besides your password to increase security for your account." : "Use a second factor besides your password to increase security for your account.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication.",
+    "Logged in account must be a subadmin" : "Logged in account must be a subadmin",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`.",
     "Missing optional index \"%s\" in table \"%s\"." : "Missing optional index \"%s\" in table \"%s\".",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.",
@@ -931,6 +930,7 @@ OC.L10N.register(
     "Active accounts" : "Active accounts",
     "Follow us on Twitter" : "Follow us on Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.",
+    "Failed to load subadmin groups with details" : "Failed to load subadmin groups with details"
 },
 "nplurals=2; plural=(n != 1);");
