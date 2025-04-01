@@ -10,11 +10,10 @@
 			:loading="status.isLoading && groups.length === 0"
 			:placeholder="t('workflowengine', 'Type to search for group …')"
 			:options="groups"
-		    :model-value="currentValue"
+			:model-value="currentValue"
 			label="displayname"
 			@search="searchAsync"
-		    @input="update"
-			/>
+			@input="update" />
 	</div>
 </template>
 
@@ -45,6 +44,7 @@ export default {
 			default: () => { return {} },
 		},
 	},
+	emits: ['update:model-value'],
 	data() {
 		return {
 			groups,
@@ -54,12 +54,17 @@ export default {
 	},
 	computed: {
 		currentValue: {
-			get: function () {
+			get() {
 				return this.groups.find(group => group.id === this.newValue) || null
 			},
-			set: function (value) {
+			set(value) {
 				this.newValue = value
-			}
+			},
+		},
+	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
 		},
 	},
 	async mounted() {
@@ -71,12 +76,6 @@ export default {
 		if (this.currentValue === null && this.newValue) {
 			await this.searchAsync(this.newValue)
 		}
-	},
-	emits: ['update:model-value'],
-	watch: {
-		modelValue() {
-			this.updateInternalValue()
-		},
 	},
 	methods: {
 		t,
@@ -111,7 +110,7 @@ export default {
 		update(value) {
 			this.newValue = value.id
 			this.$emit('update:model-value', this.newValue)
-		}
+		},
 	},
 }
 </script>

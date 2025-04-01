@@ -4,8 +4,8 @@
 -->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
-		    v-model="newValue"
+		<NcSelect v-model="newValue"
+			:value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"
 			:clearable="false"
@@ -46,6 +46,16 @@ export default {
 	mixins: [
 		valueMixin,
 	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+		operator: {
+			type: String,
+			default: '',
+		},
+	},
 
 	emits: ['update:model-value'],
 
@@ -60,16 +70,6 @@ export default {
 				},
 			],
 		}
-	},
-	props: {
-		modelValue: {
-			type: String,
-			default: '',
-		},
-		operator: {
-			type: String,
-			default: '',
-		},
 	},
 	computed: {
 		options() {

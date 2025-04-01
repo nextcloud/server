@@ -24,8 +24,8 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
-			type="text"
 			v-model="newValue"
+			type="text"
 			@input="updateCustom">
 	</div>
 </template>
@@ -41,7 +41,6 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
-	emits: ['update:model-value'],
 	mixins: [
 		valueMixin,
 	],
@@ -49,8 +48,9 @@ export default {
 		modelValue: {
 			type: String,
 			default: '',
-		}
+		},
 	},
+	emits: ['update:model-value'],
 	data() {
 		return {
 			newValue: '',
@@ -81,7 +81,7 @@ export default {
 			}
 		},
 		currentValue: {
-			get: function() {
+			get() {
 				if (this.matchingPredefined) {
 					return this.matchingPredefined
 				}
@@ -91,9 +91,9 @@ export default {
 					id: this.newValue,
 				}
 			},
-			set: function(value) {
+			set(value) {
 				this.newValue = value
-			}
+			},
 		},
 	},
 	methods: {
