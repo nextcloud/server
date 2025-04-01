@@ -27,10 +27,12 @@ namespace OCA\DAV\Upload;
 
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -42,6 +44,7 @@ class UploadHome implements ICollection {
 		private CleanupService $cleanupService,
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -109,6 +112,12 @@ class UploadHome implements ICollection {
 
 	private function impl(): Directory {
 		$folder = $this->getUploadFolder();
+		if (!$folder->isCreatable()) {
+			$user = $this->userSession->getUser();
+			$this->logger->warning('Upload home not writable for ' . $user->getUID() . ', attempting to fix', ['permissions' => $folder->getPermissions()]);
+			$cache = $folder->getStorage()->getCache();
+			$cache->update($folder->getId(), ['permissions', Constants::PERMISSION_ALL]);
+		}
 		$view = new View($folder->getPath());
 		return new Directory($view, $folder);
 	}

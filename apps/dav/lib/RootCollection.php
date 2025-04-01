@@ -175,6 +175,7 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->query(CleanupService::class),
 			$rootFolder,
 			$userSession,
+			$logger,
 		);
 		$uploadCollection->disableListing = $disableListing;
 
