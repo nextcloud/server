@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -153,7 +156,11 @@ class JobListTest extends TestCase {
 		$this->assertFalse($this->instance->has($job, 10));
 	}
 
-	protected function createTempJob($class, $argument, $reservedTime = 0, $lastChecked = 0) {
+	protected function createTempJob($class,
+		$argument,
+		int $reservedTime = 0,
+		int $lastChecked = 0,
+		int $lastRun = 0): int {
 		if ($lastChecked === 0) {
 			$lastChecked = time();
 		}
@@ -163,11 +170,12 @@ class JobListTest extends TestCase {
 			->values([
 				'class' => $query->createNamedParameter($class),
 				'argument' => $query->createNamedParameter($argument),
-				'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'last_run' => $query->createNamedParameter($lastRun, IQueryBuilder::PARAM_INT),
 				'last_checked' => $query->createNamedParameter($lastChecked, IQueryBuilder::PARAM_INT),
 				'reserved_at' => $query->createNamedParameter($reservedTime, IQueryBuilder::PARAM_INT),
 			]);
-		$query->execute();
+		$query->executeStatement();
+		return $query->getLastInsertId();
 	}
 
 	public function testGetNext(): void {
@@ -198,6 +206,21 @@ class JobListTest extends TestCase {
 
 		$this->assertEquals(get_class($job), get_class($nextJob));
 		$this->assertEquals(2, $nextJob->getArgument());
+	}
+
+	public function testGetNextSkipTimed(): void {
+		$job = new TestTimedJobNew($this->timeFactory);
+		$jobId = $this->createTempJob(get_class($job), 1, 123456789, 12345, 123456789 - 5);
+		$this->timeFactory->expects(self::atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		$nextJob = $this->instance->getNext();
+
+		self::assertNull($nextJob);
+		$job = $this->instance->getById($jobId);
+		self::assertInstanceOf(TestTimedJobNew::class, $job);
+		self::assertEquals(123456789 - 5, $job->getLastRun());
 	}
 
 	public function testGetNextSkipNonExisting(): void {
