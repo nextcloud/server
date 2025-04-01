@@ -34,18 +34,13 @@ export default {
 	components: {
 		NcSelect,
 	},
-	emits: ['update:model-value'],
 	props: {
 		modelValue: {
 			type: String,
 			default: '[]',
 		},
 	},
-	watch: {
-		modelValue() {
-			this.updateInternalValue()
-		},
-	},
+	emits: ['update:model-value'],
 	data() {
 		return {
 			timezones: zones,
@@ -55,8 +50,13 @@ export default {
 				endTime: null,
 				timezone: moment.tz.guess(),
 			},
-			stringifiedValue : '[]'
+			stringifiedValue: '[]',
 		}
+	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
+		},
 	},
 	beforeMount() {
 		// this is necessary to keep so the value is re-applied when a different

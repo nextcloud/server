@@ -4,8 +4,7 @@
 -->
 <template>
 	<div>
-		<NcSelect
-		    :model-value="currentValue"
+		<NcSelect :model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -31,7 +30,7 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
-		    :value="currentValue.id"
+			:value="currentValue.id"
 			type="text"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
@@ -48,6 +47,12 @@ export default {
 	components: {
 		NcEllipsisedOption,
 		NcSelect,
+	},
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
 	},
 
 	emits: ['update:model-value'],
@@ -79,17 +84,6 @@ export default {
 			newValue: '',
 		}
 	},
-	props: {
-		modelValue: {
-			type: String,
-			default: '',
-		},
-	},
-	watch: {
-		modelValue() {
-			this.updateInternalValue()
-		},
-	},
 	computed: {
 		options() {
 			return [...this.predefinedTypes, this.customValue]
@@ -118,6 +112,11 @@ export default {
 				label: t('workflowengine', 'Custom mimetype'),
 				id: this.newValue,
 			}
+		},
+	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
 		},
 	},
 
