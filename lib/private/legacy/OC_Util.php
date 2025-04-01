@@ -9,7 +9,6 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -19,12 +18,12 @@ use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated 32.0.0 Use \OCP\Util or any appropriate official API instead
+ */
 class OC_Util {
 	public static $styles = [];
 	public static $headers = [];
-
-	/** @var array Local cache of version.php */
-	private static $versionCache = null;
 
 	protected static function getAppManager() {
 		return \OC::$server->getAppManager();
@@ -690,86 +689,6 @@ class OC_Util {
 		$encoded = rawurlencode($component);
 		$encoded = str_replace('%2F', '/', $encoded);
 		return $encoded;
-	}
-
-
-	public function createHtaccessTestFile(\OCP\IConfig $config) {
-		// php dev server does not support htaccess
-		if (php_sapi_name() === 'cli-server') {
-			return false;
-		}
-
-		// testdata
-		$fileName = '/htaccesstest.txt';
-		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
-
-		// creating a test file
-		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
-
-		if (file_exists($testFile)) {// already running this test, possible recursive call
-			return false;
-		}
-
-		$fp = @fopen($testFile, 'w');
-		if (!$fp) {
-			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the web server to write to ' . $testFile);
-		}
-		fwrite($fp, $testContent);
-		fclose($fp);
-
-		return $testContent;
-	}
-
-	/**
-	 * Check if the .htaccess file is working
-	 *
-	 * @param \OCP\IConfig $config
-	 * @return bool
-	 * @throws Exception
-	 * @throws \OCP\HintException If the test file can't get written.
-	 */
-	public function isHtaccessWorking(\OCP\IConfig $config) {
-		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
-			return true;
-		}
-
-		$testContent = $this->createHtaccessTestFile($config);
-		if ($testContent === false) {
-			return false;
-		}
-
-		$fileName = '/htaccesstest.txt';
-		$testFile = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
-
-		// accessing the file via http
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
-		try {
-			$content = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
-		} catch (\Exception $e) {
-			$content = false;
-		}
-
-		if (str_starts_with($url, 'https:')) {
-			$url = 'http:' . substr($url, 6);
-		} else {
-			$url = 'https:' . substr($url, 5);
-		}
-
-		try {
-			$fallbackContent = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
-		} catch (\Exception $e) {
-			$fallbackContent = false;
-		}
-
-		// cleanup
-		@unlink($testFile);
-
-		/*
-		 * If the content is not equal to test content our .htaccess
-		 * is working as required
-		 */
-		return $content !== $testContent && $fallbackContent !== $testContent;
 	}
 
 	/**
