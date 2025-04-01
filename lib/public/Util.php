@@ -102,13 +102,15 @@ class Util {
 	}
 
 	/**
-	 * add a css file
-	 * @param string $application
-	 * @param string $file
+	 * Add a css file
+	 *
+	 * @param string $application application id
+	 * @param ?string $file filename
+	 * @param bool $prepend prepend the style to the beginning of the list
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null): void {
-		\OC_Util::addStyle($application, $file);
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
+		\OC_Util::addStyle($application, $file, $prepend);
 	}
 
 	/**

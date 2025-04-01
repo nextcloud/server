@@ -42,25 +42,25 @@ class UtilTest extends \Test\TestCase {
 				'And It Even May &lt;strong&gt;Nest&lt;/strong&gt;'
 			],
 		];
-		$result = OC_Util::sanitizeHTML($badArray);
+		$result = Util::sanitizeHTML($badArray);
 		$this->assertEquals($goodArray, $result);
 
 		$badString = '<img onload="alert(1)" />';
-		$result = OC_Util::sanitizeHTML($badString);
+		$result = Util::sanitizeHTML($badString);
 		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
 
 		$badString = "<script>alert('Hacked!');</script>";
-		$result = OC_Util::sanitizeHTML($badString);
+		$result = Util::sanitizeHTML($badString);
 		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
 
 		$goodString = 'This is a good string without HTML.';
-		$result = OC_Util::sanitizeHTML($goodString);
+		$result = Util::sanitizeHTML($goodString);
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
 	public function testEncodePath(): void {
 		$component = '/§#@test%&^ä/-child';
-		$result = OC_Util::encodePath($component);
+		$result = Util::encodePath($component);
 		$this->assertEquals('/%C2%A7%23%40test%25%26%5E%C3%A4/-child', $result);
 	}
 
@@ -295,12 +295,12 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testAddStyle(): void {
-		\OC_Util::addStyle('core', 'myFancyCSSFile1');
-		\OC_Util::addStyle('myApp', 'myFancyCSSFile2');
-		\OC_Util::addStyle('core', 'myFancyCSSFile0', true);
-		\OC_Util::addStyle('core', 'myFancyCSSFile10', true);
+		Util::addStyle('core', 'myFancyCSSFile1');
+		Util::addStyle('myApp', 'myFancyCSSFile2');
+		Util::addStyle('core', 'myFancyCSSFile0', true);
+		Util::addStyle('core', 'myFancyCSSFile10', true);
 		// add duplicate
-		\OC_Util::addStyle('core', 'myFancyCSSFile1');
+		Util::addStyle('core', 'myFancyCSSFile1');
 
 		$this->assertEquals([], Util::getScripts());
 		$this->assertEquals([

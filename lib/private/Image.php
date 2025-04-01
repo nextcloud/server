@@ -56,7 +56,7 @@ class Image implements IImage {
 		$this->appConfig = $appConfig ?? Server::get(IAppConfig::class);
 		$this->config = $config ?? Server::get(IConfig::class);
 
-		if (\OC_Util::fileInfoLoaded()) {
+		if (class_exists(finfo::class)) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
 	}
