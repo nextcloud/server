@@ -22,6 +22,7 @@ use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -48,6 +49,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private ICrypto&MockObject $crypto;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
 
 	private ClientFlowLoginController $clientFlowLoginController;
 
@@ -73,6 +75,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -89,6 +92,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			$this->crypto,
 			$this->eventDispatcher,
 			$this->timeFactory,
+			$this->config,
 		);
 	}
 
@@ -163,7 +167,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 				'user' => '',
-				'direct' => 0
+				'direct' => 0,
+				'providedRedirectUri' => '',
 			],
 			'guest'
 		);
@@ -233,7 +238,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 				'user' => '',
-				'direct' => 0
+				'direct' => 0,
+				'providedRedirectUri' => '',
 			],
 			'guest'
 		);
