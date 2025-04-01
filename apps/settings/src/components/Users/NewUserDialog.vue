@@ -73,7 +73,8 @@
 					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
 					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
 					@search="searchGroups"
-					@option:created="createGroup" />
+					@option:created="createGroup"
+					@option:selected="options => addGroup(options.at(-1))" />
 					<!-- If user is not admin, he is a subadmin.
 						Subadmins can't create users outside their groups
 						Therefore, empty select is forbidden -->

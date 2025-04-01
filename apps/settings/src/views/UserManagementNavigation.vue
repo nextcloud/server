@@ -101,17 +101,13 @@ import { mdiAccount, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount, mdiHistor
 import { translate as t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
 
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 import AppNavigationGroupList from '../components/AppNavigationGroupList.vue'

@@ -134,7 +134,7 @@ class UsersController extends Controller {
 		$adminGroupData = [
 			'id' => $adminGroup->getGID(),
 			'name' => $adminGroup->getDisplayName(),
-			'usercount' => $sortGroupsBy === MetaData::SORT_USERCOUNT ? $adminGroup->count() : 0,
+			'usercount' => $sortGroupsBy === \OC\Group\MetaData::SORT_USERCOUNT ? $adminGroup->count() : 0,
 			'disabled' => $adminGroup->countDisabled(),
 			'canAdd' => $adminGroup->canAddUser(),
 			'canRemove' => $adminGroup->canRemoveUser(),
