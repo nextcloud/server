@@ -185,7 +185,8 @@ import PendingActions from './PendingActions.vue'
 import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import logger from '../logger.ts'
+import PendingActionsHandlersMixin from '../mixins/PendingActionsHandlersMixin.js'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingEntryLink',
@@ -210,7 +211,7 @@ export default {
 		ShareExpiryTime,
 	},
 
-	mixins: [SharesMixin, ShareDetails],
+	mixins: [SharesMixin, ShareDetails, PendingActionsHandlersMixin],
 
 	props: {
 		canReshare: {
@@ -312,135 +313,22 @@ export default {
 			}
 			return null
 		},
-
-		passwordExpirationTime() {
-			if (this.share.passwordExpirationTime === null) {
-				return null
-			}
-
-			const expirationTime = moment(this.share.passwordExpirationTime)
-
-			if (expirationTime.diff(moment()) < 0) {
-				return false
-			}
-
-			return expirationTime.fromNow()
-		},
-
 		/**
-		 * Is Talk enabled?
+		 * Is the current share password protected ?
 		 *
 		 * @return {boolean}
 		 */
-		isTalkEnabled() {
-			return OC.appswebroots.spreed !== undefined
-		},
-
-		/**
-		 * Is it possible to protect the password by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
-		},
-
-		/**
-		 * Is the current share password protected by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalk: {
+		isPasswordProtected: {
 			get() {
-				return this.share.sendPasswordByTalk
+				return this.config.enforcePasswordForPublicLink
+					|| !!this.share.password
 			},
 			async set(enabled) {
-				this.share.sendPasswordByTalk = enabled
+				// TODO: directly save after generation to make sure the share is always protected
+				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
+				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
-
-		/**
-		 * Is the current share an email share ?
-		 *
-		 * @return {boolean}
-		 */
-		isEmailShareType() {
-			return this.share
-				? this.share.type === ShareType.Email
-				: false
-		},
-
-		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
-				// Makes no sense
-				return false
-			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-				// For email shares we need a new password in order to enable or
-				// disable
-				return false
-			}
-
-			// Anything else should be fine
-			return true
-		},
-
-		/**
-		 * Pending data.
-		 * If the share still doesn't have an id, it is not synced
-		 * Therefore this is still not valid and requires user input
-		 *
-		 * @return {boolean}
-		 */
-		pendingDataIsMissing() {
-			return this.pendingPassword || this.pendingEnforcedPassword || this.pendingDefaultExpirationDate || this.pendingEnforcedExpirationDate
-		},
-		pendingPassword() {
-			return this.config.enableLinkPasswordByDefault && this.isPendingShare
-		},
-		pendingEnforcedPassword() {
-			return this.config.enforcePasswordForPublicLink && this.isPendingShare
-		},
-		pendingEnforcedExpirationDate() {
-			return this.config.isDefaultExpireDateEnforced && this.isPendingShare
-		},
-		pendingDefaultExpirationDate() {
-			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
-		},
-		isPendingShare() {
-			return !!(this.share && !this.share.id)
-		},
-		sharePolicyHasEnforcedProperties() {
-			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
-		},
-
-		enforcedPropertiesMissing() {
-			// Ensure share exist and the share policy has required properties
-			if (!this.sharePolicyHasEnforcedProperties) {
-				return false
-			}
-
-			if (!this.share) {
-				// if no share, we can't tell if properties are missing or not so we assume properties are missing
-				return true
-			}
-
-			// If share has ID, then this is an incoming link share created from the existing link share
-			// Hence assume required properties
-			if (this.share.id) {
-				return true
-			}
-			// Check if either password or expiration date is missing and enforced
-			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.password
-			const isExpireDateMissing = this.config.isDefaultExpireDateEnforced && !this.share.expireDate
-
-			return isPasswordMissing || isExpireDateMissing
-		},
-		// if newPassword exists, but is empty, it means
-		// the user deleted the original password
-		hasUnsavedPassword() {
-			return this.share.newPassword !== undefined
-		},
-
 		/**
 		 * Return the public share link
 		 *
@@ -517,6 +405,17 @@ export default {
 	},
 
 	methods: {
+		_handleBeforeAddShare(share, resolve) {
+			this._handleShareAdded(share, resolve)
+		},
+		_handleShareAdded(share, resolve) {
+			this.$emit('add:share', share, resolve)
+		},
+
+		_handleShareUpdated(share, resolve) {
+			this.$emit('update:share', share, resolve)
+		},
+
 		/**
 		 * Check if the share requires review
 		 *

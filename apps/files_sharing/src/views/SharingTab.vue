@@ -16,7 +16,9 @@
 			class="sharingTab__content">
 			<!-- shared with me information -->
 			<ul v-if="isSharedWithMe">
-				<SharingEntrySimple v-bind="sharedWithMe" class="sharing-entry__reshare">
+				<SharingEntrySimple v-bind="sharedWithMe"
+					:title="sharedWithMe.name"
+					class="sharing-entry__reshare">
 					<template #avatar>
 						<NcAvatar :user="sharedWithMe.user"
 							:display-name="sharedWithMe.displayName"
@@ -54,7 +56,7 @@
 					@open-sharing-details="toggleShareDetailsView" />
 
 				<!-- other shares list -->
-				<SharingList v-if="!loading"
+				<SharingList v-if="shares.length > 0"
 					ref="shareList"
 					:shares="shares"
 					:file-info="fileInfo"
@@ -95,22 +97,48 @@
 					:shares="shares"
 					@open-sharing-details="toggleShareDetailsView" />
 				<!-- Non link external shares list -->
-				<SharingList v-if="!loading"
+				<SharingList v-if="externalShares.length > 0"
 					:shares="externalShares"
 					:file-info="fileInfo"
 					@open-sharing-details="toggleShareDetailsView" />
 				<!-- link shares list -->
-				<SharingLinkList v-if="!loading && isLinkSharingAllowed"
+				<SharingLinkList v-if="isLinkSharingAllowed"
 					ref="linkShareList"
 					:can-reshare="canReshare"
 					:file-info="fileInfo"
 					:shares="linkShares"
-					@open-sharing-details="toggleShareDetailsView" />
+					@open-sharing-details="toggleShareDetailsView"
+					@add:share="addShare"
+					@update:share="updateShare"
+					@remove:share="removeShare" />
+				<!-- pending actions -->
+				<PendingActions v-if="open"
+					:open.sync="open"
+					:share="share"
+					:config="config"
+					:errors="errors"
+					:pending-password="pendingPassword"
+					:pending-enforced-password="pendingEnforcedPassword"
+					:pending-default-expiration-date="pendingDefaultExpirationDate"
+					:pending-enforced-expiration-date="pendingEnforcedExpirationDate"
+					:default-expiration-date-enabled="defaultExpirationDateEnabled"
+					:saving="saving"
+					:is-password-policy-enabled="isPasswordPolicyEnabled"
+					:date-tomorrow="dateTomorrow"
+					:max-expiration-date-enforced="maxExpirationDateEnforced"
+					:actions-tooltip="actionsTooltip"
+					:is-password-protected="isPasswordProtected"
+					@new-link-share="onNewLinkShare(true)"
+					@cancel="onCancel"
+					@password-disable="onPasswordDisable"
+					@update:isPasswordProtected="onPasswordProtectedChange"
+					@update:defaultExpirationDateEnabled="onExpirationDateToggleChange"
+					@expiration-date-changed="expirationDateChanged" />
 				<!-- Create new share -->
 				<NcButton v-if="canReshare"
 					class="new-link-share"
 					:disabled="loading"
-					@click.prevent.stop="onNewLinkShare">
+					@click.prevent.stop="onNewLinkShare(false)">
 					{{ t('files_sharing', 'Create a link share') }}
 					<template #icon>
 						<LoadingIcon v-if="loading" :size="20" />
@@ -190,6 +218,7 @@ import Share from '../models/Share.ts'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharingInput from '../components/SharingInput.vue'
+import PendingActions from '../components/PendingActions.vue'
 
 import SharingInherited from './SharingInherited.vue'
 import SharingLinkList from './SharingLinkList.vue'
@@ -201,8 +230,7 @@ import logger from '../services/logger.ts'
 
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import LoadingIcon from 'vue-material-design-icons/Loading.vue'
-import PendingActionsHandlersMixin from '../mixins/PendingActionsHandlersMixin.ts'
-import logger from '../logger.ts'
+import PendingActionsHandlersMixin from '../mixins/PendingActionsHandlersMixin.js'
 
 export default {
 	name: 'SharingTab',
@@ -222,6 +250,7 @@ export default {
 		SharingLinkList,
 		SharingList,
 		SharingDetailsTab,
+		PendingActions,
 	},
 	mixins: [ShareDetails, PendingActionsHandlersMixin],
 
@@ -240,6 +269,7 @@ export default {
 			sharedWithMe: {},
 			shares: [],
 			linkShares: [],
+			externalShares: [],
 			logger,
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
@@ -247,6 +277,8 @@ export default {
 			showSharingDetailsView: false,
 			shareDetailsData: {},
 			returnFocusElement: null,
+			pendingActionResolve: null,
+			defaultExpirationDateEnabled: false,
 
 			internalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access.'),
 			externalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID.'),
@@ -301,8 +333,24 @@ export default {
 				: t('files_sharing', 'Email, federated cloud ID')
 		},
 	},
+	beforeMount() {
+		this.defaultExpirationDateEnabled = this.config.isDefaultExpireDateEnabled
+	},
 
 	methods: {
+		_handleBeforeAddShare(share, resolve) {
+			this.share = share
+			this.open = true
+			this.pendingActionResolve = resolve
+		},
+		_handleShareAdded(share, resolve) {
+			this.addShare(share, resolve)
+		},
+
+		_handleShareUpdated(share, resolve) {
+			this.updateShare(share, resolve)
+		},
+
 		/**
 		 * Update current fileInfo and fetch new data
 		 *
@@ -371,6 +419,7 @@ export default {
 			this.sharedWithMe = {}
 			this.shares = []
 			this.linkShares = []
+			this.externalShares = []
 			this.showSharingDetailsView = false
 			this.shareDetailsData = {}
 		},
@@ -489,9 +538,7 @@ export default {
 		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
 		addShare(share, resolve = () => { }) {
-			// only catching share type MAIL as link shares are added differently
-			// meaning: not from the ShareInput
-			if (share.type === ShareType.Email) {
+			if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 				this.linkShares.unshift(share)
 			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
 				if (this.config.showFederatedSharesAsInternal) {
@@ -504,6 +551,34 @@ export default {
 			}
 			this.awaitForShare(share, resolve)
 		},
+
+		/**
+		 * Update a share in the shares list
+		 * and return the newly created share component
+		 *
+		 * @param {Share} share the share to update in the array
+		 * @param {Function} [resolve] a function to run after the share is updated and its component initialized
+		 */
+		updateShare(share, resolve = () => {}) {
+			let shareList
+			if ([ShareType.Link, ShareType.Email].includes(share.type)) {
+				shareList = this.linkShares
+			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
+				if (this.config.showFederatedSharesAsInternal) {
+					shareList = this.shares
+				} else {
+					shareList = this.externalShares
+				}
+			} else {
+				shareList = this.shares
+			}
+			const index = shareList.findIndex(item => item.id === share.id)
+			if (index !== -1) {
+				this.$set(shareList, index, share)
+			}
+			this.awaitForShare(share, resolve)
+		},
+
 		/**
 		 * Remove a share from the shares list
 		 *
@@ -532,9 +607,8 @@ export default {
 		awaitForShare(share, resolve) {
 			this.$nextTick(() => {
 				let listComponent = this.$refs.shareList
-				// Only mail shares comes from the input, link shares
-				// are managed internally in the SharingLinkList component
-				if (share.type === ShareType.Email) {
+				// Link and mail shares are managed in the SharingLinkList component
+				if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 					listComponent = this.$refs.linkShareList
 				}
 				const newShare = listComponent.$children.find(component => component.share === share)
