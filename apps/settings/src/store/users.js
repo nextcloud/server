@@ -636,11 +636,14 @@ const actions = {
 	 * @param {string} userid User id
 	 * @return {Promise}
 	 */
-	wipeUserDevices(context, userid) {
-		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
-				.catch((error) => { throw error })
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+	async wipeUserDevices(context, userid) {
+		try {
+			await api.requireAdmin()
+			return await api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			return Promise.reject(new Error('Failed to wipe user devices'))
+		}
 	},
 
 	/**
@@ -730,7 +733,7 @@ const actions = {
 	 * @param {string} options.value Value of the change
 	 * @return {Promise}
 	 */
-	setUserData(context, { userid, key, value }) {
+	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
 		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
@@ -740,11 +743,13 @@ const actions = {
 					|| allowedEmpty.indexOf(key) !== -1
 				)
 			) {
-				return api.requireAdmin().then((response) => {
-					return api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-						.then((response) => context.commit('setUserData', { userid, key, value }))
-						.catch((error) => { throw error })
-				}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+				try {
+					await api.requireAdmin()
+					await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+					return context.commit('setUserData', { userid, key, value })
+				} catch (error) {
+					context.commit('API_FAILURE', { userid, error })
+				}
 			}
 		}
 		return Promise.reject(new Error('Invalid request data'))
