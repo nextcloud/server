@@ -55,6 +55,8 @@ class ZipFolderPlugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('method:GET', $this->handleDownload(...), 100);
+		// low priority to give any other afterMethod:* a chance to fire before we cancel everything
+		$this->server->on('afterMethod:GET', $this->afterDownload(...), 999);
 	}
 
 	/**
@@ -171,5 +173,20 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 		$streamer->finalize();
 		return false;
+	}
+
+	/**
+	 * Tell sabre/dav not to trigger it's own response sending logic as the handleDownload will have already send the response
+	 *
+	 * @return false|null
+	 */
+	public function afterDownload(Request $request, Response $response): ?bool {
+		$node = $this->tree->getNodeForPath($request->getPath());
+		if (!($node instanceof Directory)) {
+			// only handle directories
+			return null;
+		} else {
+			return false;
+		}
 	}
 }
