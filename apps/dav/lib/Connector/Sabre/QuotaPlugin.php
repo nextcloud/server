@@ -36,6 +36,8 @@ use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 /**
  * This plugin check user quota and deny creating files when they exceeds the quota.
@@ -78,6 +80,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
 		$server->on('beforeCreateFile', [$this, 'beforeCreateFile'], 10);
+		$server->on('method:MKCOL', [$this, 'onCreateCollection'], 30);
 		$server->on('beforeMove', [$this, 'beforeMove'], 10);
 		$server->on('beforeCopy', [$this, 'beforeCopy'], 10);
 	}
@@ -109,6 +112,31 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		return $this->checkQuota($parent->getPath() . '/' . basename($uri));
+	}
+
+	/**
+	 * Check quota before creating directory
+	 *
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 * @return bool
+	 * @throws InsufficientStorage
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 */
+	public function onCreateCollection(RequestInterface $request, ResponseInterface $response): bool {
+		try {
+			$destinationPath = $this->server->calculateUri($request->getUrl());
+			$quotaPath = $this->getPathForDestination($destinationPath);
+		} catch (\Exception $e) {
+			return true;
+		}
+		if ($quotaPath) {
+			// MKCOL does not have a Content-Length header, so we can use
+			// a fixed value for the quota check.
+			return $this->checkQuota($quotaPath, 4096, true);
+		}
+
+		return true;
 	}
 
 	/**
@@ -197,7 +225,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @throws InsufficientStorage
 	 * @return bool
 	 */
-	public function checkQuota(string $path, $length = null) {
+	public function checkQuota(string $path, $length = null, $isDir = false) {
 		if ($length === null) {
 			$length = $this->getLength();
 		}
@@ -228,6 +256,9 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				// If LEGACY chunked upload, clean up
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
+				}
+				if ($isDir) {
+					throw new InsufficientStorage("Insufficient space in $path. $freeSpace available. Cannot create directory");
 				}
 				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
