@@ -102,7 +102,6 @@
     "Set your password" : "Socraigh do phasfhocal",
     "Go to %s" : "Téigh go %s",
     "Install Client" : "Suiteáil Cliant",
-    "Logged in account must be a subadmin" : "Ní mór gur fo-riarachán é cuntas logáilte isteach",
     "Apps" : "Feidhmchláir",
     "Personal" : "Pearsanta",
     "Administration" : "Riarachán",
@@ -717,7 +716,6 @@
     "Wipe {userid}'s devices" : "Glan gléasanna {userid}",
     "Wiped {userid}'s devices" : "Scriosadh gléasanna {userid}",
     "Failed to load groups with details" : "Theip ar lódáil na ngrúpaí le sonraí",
-    "Failed to load subadmin groups with details" : "Theip ar lódáil na ngrúpaí fo-riaracháin le sonraí",
     "Failed to update line manager" : "Theip ar an mbainisteoir líne a nuashonrú",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Scrios go hiomlán cuntas {userid} lena n-áirítear a chomhaid phearsanta go léir, sonraí aipe, etc.",
     "Account deletion" : "Scriosadh cuntais",
@@ -885,6 +883,7 @@
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ní thacaítear leis an scaoileadh pobail seo de Nextcloud agus níl fógraí meandracha ar fáil.",
     "Use a second factor besides your password to increase security for your account." : "Úsáid fachtóir eile seachas do phasfhocal chun slándáil do chuntais a mhéadú.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Má úsáideann tú feidhmchláir tríú páirtí chun nascadh le Nextcloud, déan cinnte le do thoil pasfhocal aipe a chruthú agus a chumrú le haghaidh gach ceann acu sula gceadaítear fíordheimhniú dara fachtóir.",
+    "Logged in account must be a subadmin" : "Ní mór gur fo-riarachán é cuntas logáilte isteach",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Le gur féidir an tseiceáil seo a rith caithfidh tú a chinntiú gur féidir le do fhreastalaí gréasáin nascadh leis féin. Mar sin caithfidh sé a bheith in ann réiteach agus ceangal a dhéanamh le ceann amháin ar a laghad dá `fearainn_iontaofa` nó don `overwrite.cli.url`.",
     "Missing optional index \"%s\" in table \"%s\"." : "Innéacs roghnach \"%s\" ar iarraidh i dtábla \"%s\".",
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Tá roinnt innéacsanna in easnamh ar an mbunachar sonraí. Toisc go bhféadfadh go dtógfadh roinnt ama innéacsanna a chur leis na táblaí móra níor cuireadh leis go huathoibríoch iad. Trí \"occ db:add-missing-indices\" a rith, d'fhéadfaí na hinnéacsanna sin atá in easnamh a chur leis de láimh agus an ásc ag feidhmiú i gcónaí. Nuair a chuirtear na hinnéacsanna isteach is iondúil go mbíonn fiosruithe ar na táblaí sin i bhfad níos tapúla.",
@@ -929,6 +928,7 @@
     "Active accounts" : "Cuntais ghníomhacha",
     "Follow us on Twitter" : "Lean muid ar Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Le gur féidir an tseiceáil seo a rith caithfidh tú a chinntiú gur féidir le do fhreastalaí Gréasáin nascadh leis féin. Mar sin caithfidh sé a bheith in ann réiteach agus ceangal a dhéanamh le ceann amháin ar a laghad dá chuid `fearainn_iontaofa` nó an `overwrite.cli.url`. D'fhéadfadh an teip seo a bheith mar thoradh ar mhímheaitseáil DNS ar thaobh an fhreastalaí nó riail balla dóiteáin amach.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​leagan PostgreSQL \"%s\". Moltar PostgreSQL >=12 agus <=16 don fheidhmíocht is fearr, don chobhsaíocht agus don fheidhmiúlacht leis an leagan seo de Nextcloud."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​leagan PostgreSQL \"%s\". Moltar PostgreSQL >=12 agus <=16 don fheidhmíocht is fearr, don chobhsaíocht agus don fheidhmiúlacht leis an leagan seo de Nextcloud.",
+    "Failed to load subadmin groups with details" : "Theip ar lódáil na ngrúpaí fo-riaracháin le sonraí"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }
