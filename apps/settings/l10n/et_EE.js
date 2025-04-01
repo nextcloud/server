@@ -256,7 +256,6 @@ OC.L10N.register(
     "Delete account" : "Kustuta konto",
     "Resend welcome email" : "Saada tervituskiri uuesti",
     "Failed to load groups with details" : "Gruppe koos üksikasjadega ei õnnestunud laadida",
-    "Failed to load subadmin groups with details" : "Alamgruppe koos üksikasjadega ei õnnestunud laadida",
     "Password can't be empty" : "Salasõna ei saa olla tühi",
     "Password was successfully changed" : "Salasõna muutmine õnnestus",
     "Email can't be empty" : "E-posti aadress ei saa olla tühi",
@@ -317,6 +316,7 @@ OC.L10N.register(
     "_{userCount} user …_::_{userCount} users …_" : ["{userCount} kasutaja…","{userCount} kasutajat…"],
     "_{userCount} user_::_{userCount} users_" : ["{userCount} kasutaja","{userCount} kasutajat"],
     "Username" : "Kasutajanimi",
-    "User backend" : "Kasutaja taustarakendus"
+    "User backend" : "Kasutaja taustarakendus",
+    "Failed to load subadmin groups with details" : "Alamgruppe koos üksikasjadega ei õnnestunud laadida"
 },
 "nplurals=2; plural=(n != 1);");
