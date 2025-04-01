@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Cache;
 
-use OCP\DB\Exception;
-
 /**
  * Low level access to the file cache.
  *
