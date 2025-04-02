@@ -369,7 +369,7 @@ OC.L10N.register(
     "Could not copy app password. Please copy it manually." : "Nem lehet az alkalmazásjelszót másolni. Másolja át kézileg.",
     "Could not copy login name. Please copy it manually." : "Nem lehet másolni a bejelentkezési nevet. Másolja kézileg.",
     "New app password" : "Új alkalmazásjelszó",
-    "Use the credentials below to configure your app or device. For security reasons this password will only be shown once." : "Használd a lenti hitelesítő adatokat, hogy beállítsd az alkalmazásod, vagy eszközöd. Biztonsági okokból ez a jelszó csak egyszer jelenik meg.",
+    "Use the credentials below to configure your app or device. For security reasons this password will only be shown once." : "Használja a lenti hitelesítő adatokat az alkalmazása vagy eszköze beállításához. Biztonsági okokból ez a jelszó csak egyszer jelenik meg.",
     "Login" : "Bejelentkezés",
     "Password" : "Jelszó",
     "Show QR code for mobile apps" : "A mobilalkalmazások QR-kódjának megjelenítése",
