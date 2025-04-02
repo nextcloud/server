@@ -310,12 +310,8 @@ export default defineComponent({
 		},
 
 		onMenuClosed() {
-			// TODO: remove timeout once https://github.com/nextcloud-libraries/nextcloud-vue/pull/6683 is merged
-			// and updated on server.
-			setTimeout(() => {
-				// We reset the actions menu state when the menu is finally closed
-				this.openedMenu = false
-			}, 100)
+			// We reset the actions menu state when the menu is finally closed
+			this.openedMenu = false
 		},
 	},
 })
