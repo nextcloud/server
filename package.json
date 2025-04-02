@@ -123,7 +123,7 @@
     "@babel/plugin-transform-private-methods": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
     "@cypress/vue2": "^2.1.1",
-    "@cypress/webpack-preprocessor": "^6.0.2",
+    "@cypress/webpack-preprocessor": "^6.0.4",
     "@nextcloud/babel-config": "^1.2.0",
     "@nextcloud/cypress": "^1.0.0-beta.14",
     "@nextcloud/eslint-config": "^8.4.2",
