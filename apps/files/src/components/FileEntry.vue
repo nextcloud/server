@@ -67,7 +67,8 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
@@ -202,6 +203,19 @@ export default defineComponent({
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
+		},
+
+		mtime() {
+			// If the mtime is not a valid date, return it as is
+			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
+				return this.source.mtime
+			}
+
+			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
+				return this.source.crtime
+			}
+
+			return null
 		},
 
 		mtimeTitle() {

@@ -3,29 +3,61 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { User } from '@nextcloud/cypress'
+
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
 export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
 export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
 
-export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).find('button[aria-label="Actions"]')
-export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
+export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
+export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
+
+export const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	if (action.length > 0) {
+		cy.log('Found action in row')
+		return cy.wrap(action)
+	}
+
+	// Else look in the action menu
+	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
+	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
+export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFileId(fileid).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
+
+export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
+	// If we cannot find the action in the row, it might be in the action menu
+	return getRowForFile(filename).should('be.visible')
+		.then(row => searchForActionInRow(row, actionId))
+}
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
-	getActionButtonForFileId(fileid).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getActionButtonForFileId(fileid).click({ force: true })
+	getActionEntryForFileId(fileid, actionId)
+		.find('button').last()
+		.should('exist').click({ force: true })
 }
 export const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	// Even if it's inline, we open the action menu to get all actions visible
+	getActionButtonForFile(filename).click({ force: true })
+	getActionEntryForFile(filename, actionId)
+		.find('button').last()
+		.should('exist').click({ force: true })
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
 	getActionsForFileId(fileid).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
-	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFile(filename).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
 export const selectAllFiles = () => {
@@ -151,7 +183,7 @@ export const createFolder = (folderName: string) => {
 
 	// TODO: replace by proper data-cy selectors
 	cy.get('[data-cy-upload-picker] .action-item__menutoggle').first().click()
-	cy.contains('.upload-picker__menu-entry button', 'New folder').click()
+	cy.get('[data-cy-upload-picker-menu-entry="newFolder"] button').click()
 	cy.get('[data-cy-files-new-node-dialog]').should('be.visible')
 	cy.get('[data-cy-files-new-node-dialog-input]').type(`{selectall}${folderName}`)
 	cy.get('[data-cy-files-new-node-dialog-submit]').click()
@@ -175,4 +207,78 @@ export const haveValidity = (validity: string | RegExp) => {
 		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
 	}
 	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
+}
+
+export const deleteFileWithRequest = (user: User, path: string) => {
+	// Ensure path starts with a slash and has no double slashes
+	path = `/${path}`.replace(/\/+/g, '/')
+
+	cy.request('/csrftoken').then(({ body }) => {
+		const requestToken = body.token
+		cy.request({
+			method: 'DELETE',
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}${path}`,
+			auth: {
+				user: user.userId,
+				password: user.password,
+			},
+			headers: {
+				requestToken,
+			},
+			retryOnStatusCodeFailure: true,
+		})
+	})
+}
+
+export const triggerFileListAction = (actionId: string) => {
+	cy.get(`button[data-cy-files-list-action="${CSS.escape(actionId)}"]`).last()
+		.should('exist').click({ force: true })
+}
+
+export const reloadCurrentFolder = () => {
+	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
+	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
+	cy.wait('@propfind')
+}
+
+/**
+ * Enable the grid mode for the files list.
+ * Will fail if already enabled!
+ */
+export function enableGridMode() {
+	cy.intercept('**/apps/files/api/v1/config/grid_view').as('setGridMode')
+	cy.findByRole('button', { name: 'Switch to grid view' })
+		.should('be.visible')
+		.click()
+	cy.wait('@setGridMode')
+}
+
+/**
+ * Calculate the needed viewport height to limit the visible rows of the file list.
+ * Requires a logged in user.
+ *
+ * @param rows The number of rows that should be displayed at the same time
+ */
+export function calculateViewportHeight(rows: number): Cypress.Chainable<number> {
+	cy.visit('/apps/files')
+
+	return cy.get('[data-cy-files-list]')
+		.should('be.visible')
+		.then((filesList) => {
+			const windowHeight = Cypress.$('body').outerHeight()!
+			// Size of other page elements
+			const outerHeight = Math.ceil(windowHeight - filesList.outerHeight()!)
+			// Size of before and filters
+			const beforeHeight = Math.ceil(Cypress.$('.files-list__before').outerHeight()!)
+			const filterHeight = Math.ceil(Cypress.$('.files-list__filters').outerHeight()!)
+			// Size of the table header
+			const tableHeaderHeight = Math.ceil(Cypress.$('[data-cy-files-list-thead]').outerHeight()!)
+			// table row height
+			const rowHeight = Math.ceil(Cypress.$('[data-cy-files-list-tbody] tr').outerHeight()!)
+
+			// sum it up
+			const viewportHeight = outerHeight + beforeHeight + filterHeight + tableHeaderHeight + rows * rowHeight
+			cy.log(`Calculated viewport height: ${viewportHeight} (${outerHeight} + ${beforeHeight} + ${filterHeight} + ${tableHeaderHeight} + ${rows} * ${rowHeight})`)
+			return cy.wrap(viewportHeight)
+		})
 }

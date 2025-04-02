@@ -33,9 +33,9 @@ class ServerFactory {
 	 * @param ITimeZoneProvider|null $timeZoneProvider
 	 */
 	public function __construct(
-		IOptions $options = null,
-		ISystem $system = null,
-		ITimeZoneProvider $timeZoneProvider = null
+		?IOptions $options = null,
+		?ISystem $system = null,
+		?ITimeZoneProvider $timeZoneProvider = null
 	) {
 		if (is_null($options)) {
 			$options = new Options();

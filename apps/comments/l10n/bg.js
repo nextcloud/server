@@ -16,16 +16,15 @@ OC.L10N.register(
     "Delete comment" : "Изтрий коментар",
     "Cancel edit" : "Отказ на редактиране",
     "Post comment" : "Публикуване на коментар",
+    "Unable to load the comments list" : "Списъкът с коментари не може да се зареди",
     "No comments yet, start the conversation!" : "Все още няма коментари, започнете разговор!",
     "No more messages" : " Няма повече съобщения",
     "Retry" : "Опитай отново",
-    "Unable to load the comments list" : "Списъкът с коментари не може да се зареди",
     "_1 new comment_::_{unread} new comments_" : ["{unread} нови коментари","{unread} нови коментари"],
     "Comment" : "Коментар",
     "An error occurred while trying to edit the comment" : "Възникна грешка при опит за редактиране на коментара",
     "Comment deleted" : " Изтрит е коментар",
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
-    "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит"
+    "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар"
 },
 "nplurals=2; plural=(n != 1);");

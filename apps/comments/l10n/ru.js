@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Опубликовать комментарий",
     "@ for mentions, : for emoji, / for smart picker" : "@ для упоминаний, : для эмодзи, / для интеллектуального выбора",
     "Could not reload comments" : "Не удалось перезагрузить комментарии",
+    "Failed to mark comments as read" : "Не удалось пометить комментарии как прочитанные",
+    "Unable to load the comments list" : "Невозможно загрузить список комментариев",
     "No comments yet, start the conversation!" : "Комментарии отсутствуют, начните обсуждение!",
     "No more messages" : "Сообщений нет",
     "Retry" : "Повторить",
-    "Failed to mark comments as read" : "Не удалось пометить комментарии как прочитанные",
-    "Unable to load the comments list" : "Невозможно загрузить список комментариев",
     "_1 new comment_::_{unread} new comments_" : ["1 новый комментарий","{unread} новых комментариев","{unread} новых комментариев","{unread} новых комментариев"],
     "Comment" : "Комментарий",
     "An error occurred while trying to edit the comment" : "Попытка редактирования комментария завершилась ошибкой",
     "Comment deleted" : "Комментарий удалён",
     "An error occurred while trying to delete the comment" : "Попытка удаления комментария завершилась ошибкой",
-    "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вы были упомянуты на \"{file}\", в комментарии пользователя, который с тех пор был удалён"
+    "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

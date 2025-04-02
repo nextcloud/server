@@ -24,10 +24,12 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -269,6 +271,12 @@ class View {
 	protected function renameUpdate(Storage $sourceStorage, Storage $targetStorage, string $sourceInternalPath, string $targetInternalPath): void {
 		if ($this->updaterEnabled) {
 			$targetStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
+	}
+
+	protected function copyUpdate(Storage $sourceStorage, Storage $targetStorage, string $sourceInternalPath, string $targetInternalPath): void {
+		if ($this->updaterEnabled) {
+			$targetStorage->getUpdater()->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
 	}
 
@@ -688,17 +696,23 @@ class View {
 	 *
 	 * @param string $source source path
 	 * @param string $target target path
+	 * @param array $options
 	 *
 	 * @return bool|mixed
 	 * @throws LockedException
 	 */
-	public function rename($source, $target) {
+	public function rename($source, $target, array $options = []) {
+		$checkSubMounts = $options['checkSubMounts'] ?? true;
+
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 
 		if (str_starts_with($absolutePath2, $absolutePath1 . '/')) {
 			throw new ForbiddenException("Moving a folder into a child folder is forbidden", false);
 		}
+
+		/** @var IMountManager $mountManager */
+		$mountManager = \OC::$server->get(IMountManager::class);
 
 		$targetParts = explode('/', $absolutePath2);
 		$targetUser = $targetParts[1] ?? null;
@@ -757,24 +771,28 @@ class View {
 					try {
 						$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE, true);
 
+						if ($checkSubMounts) {
+							$movedMounts = $mountManager->findIn($this->getAbsolutePath($source));
+						} else {
+							$movedMounts = [];
+						}
+
 						if ($internalPath1 === '') {
-							if ($mount1 instanceof MoveableMount) {
-								$sourceParentMount = $this->getMount(dirname($source));
-								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($targetUser, $absolutePath2)) {
-									/**
-									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
-									 */
-									$sourceMountPoint = $mount1->getMountPoint();
-									$result = $mount1->moveMount($absolutePath2);
-									$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
-								} else {
-									$result = false;
-								}
-							} else {
-								$result = false;
-							}
+							$sourceParentMount = $this->getMount(dirname($source));
+							$movedMounts[] = $mount1;
+							$this->validateMountMove($movedMounts, $sourceParentMount, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
+							/**
+							 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
+							 */
+							$sourceMountPoint = $mount1->getMountPoint();
+							$result = $mount1->moveMount($absolutePath2);
+							$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+
 							// moving a file/folder within the same mount point
 						} elseif ($storage1 === $storage2) {
+							if (count($movedMounts) > 0) {
+								$this->validateMountMove($movedMounts, $mount1, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
+							}
 							if ($storage1) {
 								$result = $storage1->rename($internalPath1, $internalPath2);
 							} else {
@@ -782,6 +800,9 @@ class View {
 							}
 							// moving a file/folder between storages (from $storage1 to $storage2)
 						} else {
+							if (count($movedMounts) > 0) {
+								$this->validateMountMove($movedMounts, $mount1, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
+							}
 							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 						}
 
@@ -829,6 +850,56 @@ class View {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * @throws ForbiddenException
+	 */
+	private function validateMountMove(array $mounts, IMountPoint $sourceMount, IMountPoint $targetMount, bool $targetIsShared): void {
+		$targetPath = $this->getRelativePath($targetMount->getMountPoint());
+		if ($targetPath) {
+			$targetPath = trim($targetPath, '/');
+		} else {
+			$targetPath = $targetMount->getMountPoint();
+		}
+
+		$l = \OC::$server->get(IFactory::class)->get('files');
+		foreach ($mounts as $mount) {
+			$sourcePath = $this->getRelativePath($mount->getMountPoint());
+			if ($sourcePath) {
+				$sourcePath = trim($sourcePath, '/');
+			} else {
+				$sourcePath = $mount->getMountPoint();
+			}
+
+			if (!$mount instanceof MoveableMount) {
+				throw new ForbiddenException($l->t('Storage %s cannot be moved', [$sourcePath]), false);
+			}
+
+			if ($targetIsShared) {
+				if ($sourceMount instanceof SharedMount) {
+					throw new ForbiddenException($l->t('Moving a share (%s) into a shared folder is not allowed', [$sourcePath]), false);
+				} else {
+					throw new ForbiddenException($l->t('Moving a storage (%s) into a shared folder is not allowed', [$sourcePath]), false);
+				}
+			}
+
+			if ($sourceMount !== $targetMount) {
+				if ($sourceMount instanceof SharedMount) {
+					if ($targetMount instanceof SharedMount) {
+						throw new ForbiddenException($l->t('Moving a share (%s) into another share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					} else {
+						throw new ForbiddenException($l->t('Moving a share (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					}
+				} else {
+					if ($targetMount instanceof SharedMount) {
+						throw new ForbiddenException($l->t('Moving a storage (%s) into a share (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					} else {
+						throw new ForbiddenException($l->t('Moving a storage (%s) into another storage (%s) is not allowed', [$sourcePath, $targetPath]), false);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -897,7 +968,9 @@ class View {
 						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 					}
 
-					$this->writeUpdate($storage2, $internalPath2);
+					if ($result) {
+						$this->copyUpdate($storage1, $storage2, $internalPath1, $internalPath2);
+					}
 
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
@@ -1963,9 +2036,9 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			// rethrow with the a human-readable path
+			// rethrow with the human-readable path
 			throw new LockedException(
-				$this->getPathRelativeToFiles($absolutePath),
+				$path,
 				$e,
 				$e->getExistingLock()
 			);
@@ -2003,20 +2076,12 @@ class View {
 				);
 			}
 		} catch (LockedException $e) {
-			try {
-				// rethrow with the a human-readable path
-				throw new LockedException(
-					$this->getPathRelativeToFiles($absolutePath),
-					$e,
-					$e->getExistingLock()
-				);
-			} catch (\InvalidArgumentException $ex) {
-				throw new LockedException(
-					$absolutePath,
-					$ex,
-					$e->getExistingLock()
-				);
-			}
+			// rethrow with the a human-readable path
+			throw new LockedException(
+				$path,
+				$e,
+				$e->getExistingLock()
+			);
 		}
 
 		return true;

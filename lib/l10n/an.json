@@ -6,11 +6,10 @@
     "today" : "Hue",
     "yesterday" : "Ayer",
     "last month" : "Zaguero mes",
-    "last year" : "Zaguero año",
-    "Apps" : "Aplicazions",
-    "Settings" : "Configurazión",
+    "last year" : "Zaguero anyo",
+    "Apps" : "Aplicacions",
+    "Settings" : "Configuración",
     "Email" : "Correu electronico",
-    "Help" : "Aduya",
     "Users" : "Usuarios"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

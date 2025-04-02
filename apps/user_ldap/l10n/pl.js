@@ -6,12 +6,10 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Nieprawidłowa konfiguracja: Anonimowe podpinanie jest niedozwolone.",
     "Valid configuration, connection established!" : "Konfiguracja poprawna, połączenie ustanowione!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Konfiguracja poprawna, ale powiązanie nie powiodło się. Sprawdź konfigurację serwera i poświadczenia.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Nieprawidłowa konfiguracja. Sprawdź logi po więcej szczegółów.",
     "No action specified" : "Nie określono akcji",
     "No configuration specified" : "Nie określono konfiguracji",
     "No data specified" : "Nie określono danych",
     "Invalid data specified" : "Podano nieprawidłowe dane",
-    " Could not set configuration %s" : "Nie można ustawić konfiguracji %s",
     "Action does not exist" : "Akcja nie istnieje",
     "Renewing …" : "Odnawianie…",
     "Very weak password" : "Bardzo słabe hasło",
@@ -54,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Brak symbolu zastępczego \"%uid\". Zostanie zastąpiony nazwą logowania podczas odpytywania LDAP/AD.",
     "Please provide a login name to test against" : "Wprowadź nazwę użytkownika, aby wykonać test ponownie",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Pole do wpisu dla grupy zostało wyłączone, ponieważ LDAP/AD nie obsługuje memberOf.",
-    "Password change rejected. Hint: " : "Zmiana hasła odrzucona: Wskazówka:",
     "Please login with the new password" : "Zaloguj się przy użyciu nowego hasła",
     "LDAP User backend" : "Moduł użytkownika LDAP",
     "Your password will expire tomorrow." : "Twoje hasło wygasa jutro.",
@@ -212,6 +209,6 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nazwy użytkowników służą do przechowywania i przypisywania metadanych. Aby precyzyjnie zidentyfikować i rozpoznać użytkowników, każdy użytkownik LDAP będzie miał wewnętrzną nazwę użytkownika. Wymaga to mapowania z nazwy użytkownika na użytkownika LDAP. Utworzona nazwa użytkownika jest mapowana na UUID użytkownika LDAP. Dodatkowo DN jest buforowany w celu zmniejszenia interakcji LDAP, ale nie jest używany do identyfikacji. Zmiany zostaną wykryte jeśli DN zmieni się. Wewnętrzna nazwa użytkownika jest używana wszędzie. Wyczyszczenie mapowań pozostawi pozostałości po nim. Wyczyszczenie mapowań nie ma wpływu na konfigurację, ale ma wpływ na wszystkie konfiguracje LDAP! Nigdy nie usuwaj mapowań w środowisku produkcyjnym, tylko na etapie testowym lub eksperymentalnym.",
     "Clear Username-LDAP User Mapping" : "Czyść Mapowanie użytkownika LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Znaleziono nieprawidłowe identyfikatory UUID użytkowników lub grup LDAP. Sprawdź ustawienia \"Zastąp wykrywanie UUID\" w części eksperckiej konfiguracji LDAP i użyj \"occ ldap:update-uuid\", aby je zaktualizować."
+    "Invalid configuration. Please have a look at the logs for further details." : "Nieprawidłowa konfiguracja. Sprawdź logi po więcej szczegółów."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -218,16 +218,21 @@ export default defineComponent({
 	methods: {
 		onPageNext() {
 			const form = this.$refs.form as HTMLFormElement
-			if (!form.checkValidity()) {
-				form.reportValidity()
-				return
-			}
+
+			// Reset custom validity
+			form.querySelectorAll('input').forEach(input => input.setCustomValidity(''))
 
 			// custom destination validation
 			// cannot share root
 			if (this.destination === '/' || this.destination === '') {
 				const destinationInput = form.querySelector('input[name="destination"]') as HTMLInputElement
 				destinationInput?.setCustomValidity(t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
+				form.reportValidity()
+				return
+			}
+
+			// If the form is not valid, show the error message
+			if (!form.checkValidity()) {
 				form.reportValidity()
 				return
 			}

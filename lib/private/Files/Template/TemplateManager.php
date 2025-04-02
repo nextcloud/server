@@ -179,7 +179,6 @@ class TemplateManager implements ITemplateManager {
 			if ($path instanceof Folder) {
 				return $path;
 			}
-			$this->logger->warning('Template folder ' . $path . ' not found or invalid', ['app' => 'files_templates']);
 		}
 		throw new NotFoundException();
 	}

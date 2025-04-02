@@ -70,9 +70,7 @@
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
     "Translate" : "Tradurre",
-    "Help" : "Ajuda",
     "Users" : "Utilizaires",
-    "Open »%s«" : "Dobrir « %s »",
-    "User disabled" : "Utilizaire desactivat"
+    "Open »%s«" : "Dobrir « %s »"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

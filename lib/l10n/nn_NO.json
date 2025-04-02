@@ -74,11 +74,7 @@
     "Authentication error" : "Feil i autentisering",
     "Summary" : "Oppsumering",
     "File name is too long" : "Filnamnet er for langt",
-    "Help" : "Hjelp",
     "Users" : "Brukarar",
-    "Unknown user" : "Ukjend brukar",
-    "Open »%s«" : "Opna »%s«",
-    "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
-    "User disabled" : "Brukar deaktivert"
+    "Open »%s«" : "Opna »%s«"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

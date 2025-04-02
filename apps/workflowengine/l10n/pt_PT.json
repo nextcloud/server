@@ -49,9 +49,9 @@
     "Thunderbird & Outlook addons" : "Extras do Thunderbird & Outlook",
     "Select groups" : "Selecionar grupos",
     "Groups" : "Grupos",
+    "Save" : "Guardar",
     "Cancel" : "Cancelar",
     "Delete" : "Apagar",
-    "Save" : "Guardar",
     "matches" : "corresponde",
     "does not match" : "não corresponde",
     "is" : "é",
@@ -77,7 +77,6 @@
     "not between" : "fora de",
     "Request user agent" : "Solicitar agente de utilizador",
     "is member of" : "é membro de",
-    "is not member of" : "não é um membro de",
-    "User group membership" : "Grupos do utilizador"
+    "is not member of" : "não é um membro de"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

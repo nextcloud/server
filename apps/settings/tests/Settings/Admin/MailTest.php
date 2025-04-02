@@ -7,17 +7,17 @@ namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MailTest extends TestCase {
-	/** @var Mail */
-	private $admin;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
+
+	private Mail $admin;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -30,7 +30,22 @@ class MailTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public static function dataGetForm(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/** @dataProvider dataGetForm */
+	public function testGetForm(bool $sendmail) {
+		$finder = $this->createMock(IBinaryFinder::class);
+		$finder->expects(self::once())
+			->method('findBinaryPath')
+			->with('sendmail')
+			->willReturn($sendmail ? '/usr/bin/sendmail': false);
+		$this->overwriteService(IBinaryFinder::class, $finder);
+
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
@@ -51,7 +66,7 @@ class MailTest extends TestCase {
 			'settings',
 			'settings/admin/additional-mail',
 			[
-				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
+				'sendmail_is_available' => $sendmail,
 				'mail_domain' => 'mx.nextcloud.com',
 				'mail_from_address' => 'no-reply@nextcloud.com',
 				'mail_smtpmode' => 'smtp',

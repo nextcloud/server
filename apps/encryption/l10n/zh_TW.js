@@ -53,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "基本加密模組",
     "Your private key password no longer matches your log-in password." : "您的私鑰密碼與您的登入密碼不相符。",
     "Set your old private key password to your current log-in password:" : "將您的舊私鑰密碼設為您現在的登入密碼：",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " 如果您忘記舊密碼，可以請求管理員協助取回檔案。",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "如果您忘記舊密碼，可以請求管理員協助取回檔案。",
     "Old log-in password" : "舊登入密碼",
     "Current log-in password" : "目前登入密碼",
     "Update Private Key Password" : "更新私鑰密碼",
     "Enable password recovery:" : "啟用密碼還原：",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用此選項，讓您可以在忘記密碼的情況下，取回對您已加密檔案的存取權",
     "Enabled" : "已啟用",
-    "Disabled" : "已停用",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "還原金鑰是用於加密檔案的另一把加密金鑰。當使用者忘記密碼時，可以用它來還原使用者的檔案。"
+    "Disabled" : "已停用"
 },
 "nplurals=1; plural=0;");

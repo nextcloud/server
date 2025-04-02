@@ -18,16 +18,15 @@ OC.L10N.register(
     "New comment" : "Nieuwe reactie",
     "Post comment" : "Plaats reactie",
     "@ for mentions, : for emoji, / for smart picker" : "@ voor vermeldingen, : voor emoji, / voor smart picker",
+    "Unable to load the comments list" : "Kan reactielijst niet laden",
     "No comments yet, start the conversation!" : "Nog geen reacties, start de discussie!",
     "No more messages" : "Geen berichten meer",
     "Retry" : "Opnieuw proberen",
-    "Unable to load the comments list" : "Kan reactielijst niet laden",
     "_1 new comment_::_{unread} new comments_" : ["1 nieuwe reactie","{unread} nieuwe reacties"],
     "Comment" : "Reactie",
     "An error occurred while trying to edit the comment" : "Er trad een fout op bij het bewerken van de reactie",
     "Comment deleted" : "Reactie verwijderd",
     "An error occurred while trying to delete the comment" : "Er trad een fout op bij het verwijderen van de reactie",
-    "An error occurred while trying to create the comment" : "Er trad een fout op bij het creëren van de reactie",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Je werd vermeld op \"{file}\" in een reactie door een sindsdien verwijderde gebruiker"
+    "An error occurred while trying to create the comment" : "Er trad een fout op bij het creëren van de reactie"
 },
 "nplurals=2; plural=(n != 1);");

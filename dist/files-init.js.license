@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
@@ -23,8 +22,6 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
-SPDX-FileCopyrightText: John Molakvoæ <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
@@ -39,7 +36,6 @@ SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -64,22 +60,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.1
+	- version: 6.1.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.0
+	- version: 3.10.2
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -97,19 +93,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.7.1
+	- version: 1.9.0
 	- license: AGPL-3.0-or-later
-- @vueuse/core
-	- version: 11.0.1
-	- license: MIT
-- @vueuse/shared
-	- version: 11.0.1
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.23.1
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
+	- license: MIT
+- @vueuse/core
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.3.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -118,7 +114,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.9
+	- version: 1.8.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -142,7 +138,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -210,12 +206,6 @@ This file is generated from multiple sources. Included packages:
 - is-typed-array
 	- version: 1.1.13
 	- license: MIT
-- lodash.get
-	- version: 4.4.2
-	- license: MIT
-- node-gettext
-	- version: 3.0.0
-	- license: MIT
 - buffer
 	- version: 6.0.3
 	- license: MIT
@@ -254,9 +244,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - set-function-length
 	- version: 1.2.2
-	- license: MIT
-- simple-eta
-	- version: 3.0.2
 	- license: MIT
 - style-loader
 	- version: 3.3.4

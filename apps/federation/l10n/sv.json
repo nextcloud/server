@@ -14,9 +14,6 @@
     "Each server must validate the other. This process may require a few cron cycles." : "Varje server måste validera den andra. Denna process kan kräva några cron-cykler.",
     "+ Add trusted server" : "+ Lägg till betrodd server",
     "Trusted server" : "Betrodd server",
-    "Add" : "Lägg till",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federation låter dig ansluta med andra betrodda servrar för att utbyta användarkatalogen.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation låter dig ansluta till andra betrodda servrar för att utbyta användarinformation. Till exempel kommer detta användas för att auto-komplettera externa användare för federerad delning.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation låter dig ansluta till andra betrodda servrar för att utbyta användarinformation. Till exempel kommer detta användas för att auto-komplettera externa användare för federerad delning. Det är inte nödvändigt att lägga till en server som betrodd för att skapa en federerad delning."
+    "Add" : "Lägg till"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

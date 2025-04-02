@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
-import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import axios, { isAxiosError } from '@nextcloud/axios'
 
 import jQuery from 'jquery'
 
@@ -1522,21 +1524,30 @@ window.addEventListener('DOMContentLoaded', function() {
 		const uid = $form.find('[name=uid]').val()
 		const user = $form.find('[name=username]').val()
 		const password = $form.find('[name=password]').val()
-		await axios.request({
-			method: 'POST',
-			data: JSON.stringify({
-				uid,
-				user,
-				password,
-			}),
-			url: OC.generateUrl('apps/files_external/globalcredentials'),
-			confirmPassword: PwdConfirmationMode.Strict,
-		})
 
-		$submit.val(t('files_external', 'Saved'))
-		setTimeout(function() {
+		try {
+			await axios.request({
+				method: 'POST',
+				data: {
+					uid,
+					user,
+					password,
+				},
+				url: generateUrl('apps/files_external/globalcredentials'),
+				confirmPassword: PwdConfirmationMode.Strict,
+			})
+
+			$submit.val(t('files_external', 'Saved'))
+			setTimeout(function() {
+				$submit.val(t('files_external', 'Save'))
+			}, 2500)
+		} catch (error) {
 			$submit.val(t('files_external', 'Save'))
-		}, 2500)
+			if (isAxiosError(error)) {
+				const message = error.response?.data?.message || t('files_external', 'Failed to save global credentials')
+				showError(t('files_external', 'Failed to save global credentials: {message}', { message }))
+			}
+		}
 
 		return false
 	})

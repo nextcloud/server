@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Post trácht",
     "@ for mentions, : for emoji, / for smart picker" : "@ le haghaidh tagairtí, : le haghaidh emoji, / le haghaidh roghnóir cliste",
     "Could not reload comments" : "Níorbh fhéidir na nótaí tráchta a athlódáil",
+    "Failed to mark comments as read" : "Theip ar nótaí tráchta a mharcáil mar léite",
+    "Unable to load the comments list" : "Ní féidir an liosta tuairimí a lódáil",
     "No comments yet, start the conversation!" : "Gan trácht ar bith go fóill, cuir tús leis an gcomhrá!",
     "No more messages" : "Níl a thuilleadh teachtaireachtaí",
     "Retry" : "Bain triail eile as",
-    "Failed to mark comments as read" : "Theip ar nótaí tráchta a mharcáil mar léite",
-    "Unable to load the comments list" : "Ní féidir an liosta tuairimí a lódáil",
     "_1 new comment_::_{unread} new comments_" : ["1 trácht nua","{unread} nóta tráchta nua","{unread} nóta tráchta nua","{unread} nóta tráchta nua","{unread} nóta tráchta nua"],
     "Comment" : "Trácht",
     "An error occurred while trying to edit the comment" : "Tharla earráid agus an nóta tráchta á chur in eagar",
     "Comment deleted" : "Trácht scriosta",
     "An error occurred while trying to delete the comment" : "Tharla earráid agus an nóta tráchta á scriosadh",
-    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Luadh thú ar \"{file}\", i nóta tráchta ó úsáideoir atá scriosta ó shin"
+    "An error occurred while trying to create the comment" : "Tharla earráid agus an nóta tráchta á chruthú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -375,7 +375,8 @@ class Storage {
 			$fileInfo->getId(), [
 				'encrypted' => $oldVersion,
 				'encryptedVersion' => $oldVersion,
-				'size' => $oldFileInfo->getSize()
+				'size' => $oldFileInfo->getData()['size'],
+				'unencrypted_size' => $oldFileInfo->getData()['unencrypted_size'],
 			]
 		);
 
@@ -383,8 +384,6 @@ class Storage {
 		if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
 			$files_view->touch($file, $revision);
 			Storage::scheduleExpire($user->getUID(), $file);
-
-			$node = $userFolder->get($file);
 
 			return true;
 		} elseif ($versionCreated) {
@@ -694,7 +693,15 @@ class Storage {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
-			[$toDelete, $size] = self::getAutoExpireList($time, $versions);
+			// Exclude versions that are newer than the minimum age from the auto expiration logic.
+			$minAge = $expiration->getMinAgeAsTimestamp();
+			if ($minAge !== false) {
+				$versionsToAutoExpire = array_filter($versions, fn ($version) => $version['version'] < $minAge);
+			} else {
+				$versionsToAutoExpire = $versions;
+			}
+
+			[$toDelete, $size] = self::getAutoExpireList($time, $versionsToAutoExpire);
 		} else {
 			$size = 0;
 			$toDelete = [];  // versions we want to delete

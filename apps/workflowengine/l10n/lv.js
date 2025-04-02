@@ -31,9 +31,9 @@ OC.L10N.register(
     "Select groups" : "Izvēlieties grupas",
     "Groups" : "Grupas",
     "Add new flow" : "Pievienot jaunu plūsmu",
+    "Save" : "Saglabāt",
     "Cancel" : "Atcelt",
     "Delete" : "Dzēst",
-    "Save" : "Saglabāt",
     "Available flows" : "Pieejamās plūsmas",
     "No flows installed" : "Nav uzstādītu plūsmu",
     "More flows" : "Vairāk plūsmu",
@@ -63,7 +63,6 @@ OC.L10N.register(
     "not between" : "nav starp",
     "Request user agent" : "Nepieciešams lietotāja aģents",
     "is member of" : "ir biedrs",
-    "is not member of" : "nav biedrs",
-    "User group membership" : "Lietotāju grupas piederība"
+    "is not member of" : "nav biedrs"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -1747,8 +1747,12 @@
                                     },
                                     "publicUpload": {
                                         "type": "string",
-                                        "default": "false",
-                                        "description": "If public uploading is allowed"
+                                        "nullable": true,
+                                        "enum": [
+                                            "true",
+                                            "false"
+                                        ],
+                                        "description": "If public uploading is allowed (deprecated)"
                                     },
                                     "password": {
                                         "type": "string",

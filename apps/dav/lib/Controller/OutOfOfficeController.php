@@ -21,6 +21,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\User\IAvailabilityCoordinator;
+use function mb_strlen;
 
 /**
  * @psalm-import-type DAVOutOfOfficeData from ResponseDefinitions
@@ -106,11 +107,10 @@ class OutOfOfficeController extends OCSController {
 	 * @param string $status Short text that is set as user status during the absence
 	 * @param string $message Longer multiline message that is shown to others during the absence
 	 * @param ?string $replacementUserId User id of the replacement user
-	 * @param ?string $replacementUserDisplayName Display name of the replacement user
-	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'|'statusLength'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Absence data
-	 * 400: When the first day is not before the last day
+	 * 400: When validation fails, e.g. data range error or the first day is not before the last day
 	 * 401: When the user is not logged in
 	 * 404: When the replacementUserId was provided but replacement user was not found
 	 */
@@ -121,14 +121,16 @@ class OutOfOfficeController extends OCSController {
 		string $status,
 		string $message,
 		?string $replacementUserId,
-		?string $replacementUserDisplayName
-
 	): DataResponse {
 		$user = $this->userSession?->getUser();
 		if ($user === null) {
 			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
 		}
+		if (mb_strlen($status) > 100) {
+			return new DataResponse(['error' => 'statusLength'], Http::STATUS_BAD_REQUEST);
+		}
 
+		$replacementUser = null;
 		if ($replacementUserId !== null) {
 			$replacementUser = $this->userManager->get($replacementUserId);
 			if ($replacementUser === null) {
@@ -149,7 +151,7 @@ class OutOfOfficeController extends OCSController {
 			$status,
 			$message,
 			$replacementUserId,
-			$replacementUserDisplayName
+			$replacementUser?->getDisplayName()
 		);
 		$this->coordinator->clearCache($user->getUID());
 

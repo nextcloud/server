@@ -155,7 +155,7 @@ export default defineComponent({
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return this.$navigation?.active?.name || t('files', 'Home')
+				return this.currentView?.name || t('files', 'Home')
 			}
 
 			const source = this.getFileSourceFromPath(path)

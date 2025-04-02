@@ -61,7 +61,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -130,7 +130,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -145,7 +145,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.4.1
+	- version: 4.5.3
 	- license: MIT
 - for-each
 	- version: 0.3.3
@@ -286,7 +286,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.3.0
 	- license: MIT
 - strnum
-	- version: 1.0.5
+	- version: 1.1.2
 	- license: MIT
 - url-join
 	- version: 5.0.0
@@ -310,7 +310,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.7.1
+	- version: 5.8.0
 	- license: MIT
 - webpack
 	- version: 5.94.0

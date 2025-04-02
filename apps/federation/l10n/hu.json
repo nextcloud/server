@@ -10,9 +10,6 @@
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "A föderáció lehetővé teszi a más megbízható kiszolgálókhoz kapcsolódást, hogy a kiszolgálók fiókjegyzéket cseréljenek. Például ennek segítségével lesznek automatikusan kiegészítve a külső fiókok a föderált megosztásnál. Nem szükséges egy kiszolgálót megbízhatóként hozzáadni ahhoz, hogy föderált megosztást hozzon létre.",
     "+ Add trusted server" : "+ Megbízható kiszolgáló hozzáadása",
     "Trusted server" : "Megbízható kiszolgáló",
-    "Add" : "Hozzáadás",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "A föderáció lehetővé teszi a más megbízható kiszolgálókhoz kapcsolódást, hogy a kiszolgálók felhasználójegyzéket cserélhessenek.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "A föderáció lehetővé teszi a más megbízható kiszolgálókhoz kapcsolódást, hogy a kiszolgálók felhasználójegyzéket cseréljenek. Például ennek segítségével lesznek automatikusan kiegészítve a külső felhasználók a föderált megosztásnál.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "A föderáció lehetővé teszi a más megbízható kiszolgálókhoz kapcsolódást, hogy a kiszolgálók felhasználójegyzéket cseréljenek. Például ennek segítségével lesznek automatikusan kiegészítve a külső felhasználók a föderált megosztásnál. Nem szükséges egy kiszolgálót megbízhatóként hozzáadni ahhoz, hogy föderált megosztást hozzon létre."
+    "Add" : "Hozzáadás"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

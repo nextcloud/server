@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Yorum gönder",
     "@ for mentions, : for emoji, / for smart picker" : "Anmalar için @, emojiler için :, akıllı seçici için /",
     "Could not reload comments" : "Yorumlar yeniden yüklenemedi",
+    "Failed to mark comments as read" : "Yorumlar okunmuş olarak işaretlenemedi",
+    "Unable to load the comments list" : "Yorum listesi yüklenemedi",
     "No comments yet, start the conversation!" : "Henüz bir yorum yapılmamış! Bir görüşme başlatın!",
     "No more messages" : "Başka ileti yok",
     "Retry" : "Yeniden dene",
-    "Failed to mark comments as read" : "Yorumlar okunmuş olarak işaretlenemedi",
-    "Unable to load the comments list" : "Yorum listesi yüklenemedi",
     "_1 new comment_::_{unread} new comments_" : ["1 yeni yorum","{unread} yeni yorum"],
     "Comment" : "Yorum",
     "An error occurred while trying to edit the comment" : "Yorum düzenlenmeye çalışılırken bir sorun çıktı",
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
-    "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız"
+    "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı"
 },
 "nplurals=2; plural=(n > 1);");

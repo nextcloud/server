@@ -15,7 +15,7 @@
 		@update:open="$emit('close')">
 		<!-- Header -->
 		<NcNoteCard class="external-storage-auth__header"
-			:text="t('files_external', 'To access the storage, you need to provide the authentification informations.')"
+			:text="t('files_external', 'To access the storage, you need to provide the authentication credentials.')"
 			type="info" />
 
 		<!-- Login -->
@@ -76,7 +76,7 @@ export default defineComponent({
 	computed: {
 		dialogButtons() {
 			return [{
-				label: t('files_external', 'Submit'),
+				label: t('files_external', 'Confirm'),
 				type: 'primary',
 				nativeType: 'submit',
 			}]

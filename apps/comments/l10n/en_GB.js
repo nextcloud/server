@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Post comment",
     "@ for mentions, : for emoji, / for smart picker" : "@ for mentions, : for emoji, / for smart picker",
     "Could not reload comments" : "Could not reload comments",
+    "Failed to mark comments as read" : "Failed to mark comments as read",
+    "Unable to load the comments list" : "Unable to load the comments list",
     "No comments yet, start the conversation!" : "No comments yet, start the conversation!",
     "No more messages" : "No more messages",
     "Retry" : "Retry",
-    "Failed to mark comments as read" : "Failed to mark comments as read",
-    "Unable to load the comments list" : "Unable to load the comments list",
     "_1 new comment_::_{unread} new comments_" : ["1 new comment","{unread} new comments"],
     "Comment" : "Comment",
     "An error occurred while trying to edit the comment" : "An error occurred while trying to edit the comment",
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
-    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted"
+    "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment"
 },
 "nplurals=2; plural=(n != 1);");

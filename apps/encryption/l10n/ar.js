@@ -53,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "وحدة التشفير الأساسية",
     "Your private key password no longer matches your log-in password." : "لم تعد كلمة مرور المفتاح الخاص تطابق كلمة مرور تسجيل الدخول الخاصة بك.",
     "Set your old private key password to your current log-in password:" : "قم بتعيين كلمة مرور المفتاح الخاص القديم على كلمة مرور تسجيل الدخول الحالية:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "اذا كنت لاتتذكر كلمة المرور، تستطيع ان تطلب من المدير أستعادة ملفاتك.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "إذا كنت لا تتذكر كلمة مرورك القديمة، فيمكنك أن تطلب من المشرف استرداد ملفاتك.",
     "Old log-in password" : "كلمة المرور القديمة الخاصة بالدخول",
     "Current log-in password" : "كلمة المرور الحالية الخاصة بالدخول",
     "Update Private Key Password" : "تحديث كلمة المرور لـ المفتاح الخاص",
     "Enable password recovery:" : "تفعيل استعادة كلمة المرور:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "تفعيل هذا الخيار يمكنك من اعادة الوصول الى ملفاتك المشفرة عند فقدان كلمة المرور",
     "Enabled" : "مفعلة",
-    "Disabled" : "معطلة",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "مفتاح الاسترداد هو مفتاح تشفير إضافي يُستخدم لتشفير الملفات. يسمح باستعادة ملفات المستخدم إذا نسي المستخدم كلمة المرور الخاصة به."
+    "Disabled" : "معطلة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

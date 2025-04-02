@@ -213,7 +213,7 @@ trait S3ConnectionTrait {
 	}
 
 	protected function getSSECKey(): ?string {
-		if (isset($this->params['sse_c_key'])) {
+		if (isset($this->params['sse_c_key']) && !empty($this->params['sse_c_key'])) {
 			return $this->params['sse_c_key'];
 		}
 

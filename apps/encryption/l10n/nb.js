@@ -53,14 +53,12 @@ OC.L10N.register(
     "Basic encryption module" : "Grunnleggende krypteringsmodul",
     "Your private key password no longer matches your log-in password." : "Passordet for din private nøkkel stemmer ikke lenger med påloggingspassordet ditt.",
     "Set your old private key password to your current log-in password:" : "Sett ditt gamle passord for privat nøkkel til ditt nåværende påloggingspassord:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Hvis du ikke husker det gamle passordet ditt kan du spørre administratoren om å gjenopprette filene dine.",
     "Old log-in password" : "Gammelt påloggingspassord",
     "Current log-in password" : "Nåværende påloggingspassord",
     "Update Private Key Password" : "Oppdater passord for privat nøkkel",
     "Enable password recovery:" : "Aktiver gjenoppretting av passord:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt.",
     "Enabled" : "Aktivert",
-    "Disabled" : "Inaktiv",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Gjenopprettingsnøkkelen er en ekstra krypteringsnøkkel som brukes til å kryptere filer. Den tillater gjenoppretting av en brukers filer i tilfelle brukeren glemmer passordet sitt."
+    "Disabled" : "Inaktiv"
 },
 "nplurals=2; plural=(n != 1);");

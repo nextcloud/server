@@ -41,7 +41,7 @@ class TestViewDirectory extends \OC\Files\View {
 		return $this->deletables[$path];
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($path1, $path2, array $options = []) {
 		return $this->canRename;
 	}
 
