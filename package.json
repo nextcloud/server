@@ -66,7 +66,7 @@
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.0.1",
     "@vueuse/integrations": "^11.1.0",
-    "backbone": "^1.4.1",
+    "backbone": "^1.6.1",
     "blueimp-md5": "^2.19.0",
     "blurhash": "^2.0.5",
     "browserslist-useragent-regexp": "^4.1.1",
