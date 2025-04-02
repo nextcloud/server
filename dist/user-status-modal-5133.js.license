@@ -90,7 +90,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.23.1
+	- version: 8.24.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.1.0
@@ -123,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.4
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
-	- version: 15.0.2
+	- version: 15.0.4
 	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
