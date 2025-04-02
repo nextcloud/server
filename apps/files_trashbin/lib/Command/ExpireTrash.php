@@ -64,10 +64,12 @@ class ExpireTrash extends Command {
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p): void {
+
+			$users = $this->userManager->getSeenUsers();
+			foreach ($users as $user) {
 				$p->advance();
 				$this->expireTrashForUser($user);
-			});
+			}
 			$p->finish();
 			$output->writeln('');
 		}
