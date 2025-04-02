@@ -429,8 +429,7 @@ class User implements IUser {
 	}
 
 	public function canChangeEmail(): bool {
-		// Fallback to display name value to avoid changing behavior with the new option.
-		return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+		return $this->config->getSystemValueBool('allow_user_to_change_email', true);
 	}
 
 	/**
