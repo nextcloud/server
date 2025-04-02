@@ -33,7 +33,8 @@ class ExpireTrash extends Command {
 	 * @param IUserManager|null $userManager
 	 * @param Expiration|null $expiration
 	 */
-	public function __construct(?IUserManager $userManager = null,
+	public function __construct(private LoggerInterface $logger,
+		?IUserManager $userManager = null,
 		?Expiration $expiration = null) {
 		parent::__construct();
 
@@ -74,10 +75,12 @@ class ExpireTrash extends Command {
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+
+			$users = $this->userManager->getSeenUsers();
+			foreach ($users as $user) {
 				$p->advance();
 				$this->expireTrashForUser($user);
-			});
+			}
 			$p->finish();
 			$output->writeln('');
 		}
