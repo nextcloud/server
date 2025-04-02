@@ -37,13 +37,6 @@ class GuestAvatar extends Avatar {
 	}
 
 	/**
-	 * Returns the guest user display name.
-	 */
-	public function getDisplayName(): string {
-		return $this->userDisplayName;
-	}
-
-	/**
 	 * Setting avatars isn't implemented for guests.
 	 *
 	 * @param \OCP\IImage|resource|string $data
