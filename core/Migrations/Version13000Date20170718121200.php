@@ -501,7 +501,9 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['class'], 'job_class_index');
+			// Redundant after Version24000Date20211230140012
+			// Removed in Version32000Date20250402070341
+			// $table->addIndex(['class'], 'job_class_index');
 			$table->addIndex(['last_checked', 'reserved_at'], 'job_lastcheck_reserved');
 		}
 
