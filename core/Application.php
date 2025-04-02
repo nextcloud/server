@@ -190,6 +190,13 @@ class Application extends App {
 				'job_lastcheck_reserved',
 				['last_checked', 'reserved_at']
 			);
+			$event->replaceIndex(
+				'jobs',
+				['jobs_time_sensitive'],
+				'jobs_sensitive_lastcheck_reserved',
+				['time_sensitive', 'last_checked', 'reserved_at'],
+				false,
+			);
 
 			$event->addMissingIndex(
 				'direct_edit',
