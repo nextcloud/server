@@ -246,14 +246,6 @@ class Manager {
 	}
 
 	public function isWebAuthnAvailable(): bool {
-		if (!extension_loaded('bcmath')) {
-			return false;
-		}
-
-		if (!extension_loaded('gmp')) {
-			return false;
-		}
-
 		if (!$this->config->getSystemValueBool('auth.webauthn.enabled', true)) {
 			return false;
 		}

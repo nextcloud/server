@@ -14,34 +14,25 @@ type SetupInfo = {
 }
 
 /**
- *
- * @param user
- * @param fileName
- * @param domain
- * @param requesttoken
- * @param metadata
  */
 function setMetadata(user: User, fileName: string, requesttoken: string, metadata: object) {
-	cy.url().then(url => {
-		const hostname = new URL(url).hostname
-		cy.request({
-			method: 'PROPPATCH',
-			url: `http://${hostname}/remote.php/dav/files/${user.userId}/${fileName}`,
-			auth: { user: user.userId, pass: user.password },
-			headers: {
-				requesttoken,
-			},
-			body: `<?xml version="1.0"?>
-				<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
-					<d:set>
-						<d:prop>
-							${Object.entries(metadata).map(([key, value]) => `<${key}>${value}</${key}>`).join('\n')}
-						</d:prop>
-					</d:set>
-				</d:propertyupdate>`,
-		})
+	const base = Cypress.config('baseUrl')!.replace(/\/index\.php\/?/, '')
+	cy.request({
+		method: 'PROPPATCH',
+		url: `${base}/remote.php/dav/files/${user.userId}/${fileName}`,
+		auth: { user: user.userId, pass: user.password },
+		headers: {
+			requesttoken,
+		},
+		body: `<?xml version="1.0"?>
+			<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+				<d:set>
+					<d:prop>
+						${Object.entries(metadata).map(([key, value]) => `<${key}>${value}</${key}>`).join('\n')}
+					</d:prop>
+				</d:set>
+			</d:propertyupdate>`,
 	})
-
 }
 
 /**

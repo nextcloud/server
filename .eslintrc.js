@@ -35,6 +35,9 @@ module.exports = {
 		jsdoc: {
 			mode: 'typescript',
 		},
+		'import/resolver': {
+			typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
+		},
 	},
 	overrides: [
 		// Allow any in tests
@@ -43,6 +46,6 @@ module.exports = {
 			rules: {
 				'@typescript-eslint/no-explicit-any': 'warn',
 			},
-		}
+		},
 	],
 }
