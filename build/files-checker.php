@@ -27,7 +27,6 @@ $expectedFiles = [
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
 	'.reuse',
-	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
 	'.user.ini',
