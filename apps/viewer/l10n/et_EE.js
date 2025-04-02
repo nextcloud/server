@@ -53,7 +53,7 @@ OC.L10N.register(
     "are not images" : "ei ole pildid",
     "is not an image" : "ei ole pilt",
     "to be uploaded" : "ootab üleslaadimist",
-    "Crop" : "Lõika",
+    "Crop" : "Kadreeri",
     "Original" : "Algne",
     "Custom" : "Kohandatud",
     "Square" : "Ruut",
@@ -118,7 +118,7 @@ OC.L10N.register(
     "Name is required." : "Nimi on nõutud.",
     "Quality" : "Kvaliteet",
     "Saved image size (width x height)" : "Salvestasin pildi suuruse (laius x kõrgus)",
-    "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Pane tähele, et valitud kärpimisala on väiksem kui rakendatud suuruse muutmine, mis võib põhjustada kvaliteedi langust",
+    "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Pane tähele, et valitud kadreerimisala on väiksem kui rakendatud suuruse muutmine, mis võib põhjustada kvaliteedikadu",
     "Actual size (100%)" : "Tegelik suurus (100%)",
     "Fit size" : "Mahuta suurus",
     "Select image to add …" : "Vali pilt mida lisada ...",
@@ -126,6 +126,6 @@ OC.L10N.register(
     "Menu" : "Menüü",
     "Width" : "Laius",
     "Height" : "Kõrgus",
-    "No preview available for this crop item" : "Selle lõiketüübi jaoks pole eelvaadet saadaval"
+    "No preview available for this crop item" : "Selle kadreerimistüübi jaoks pole eelvaadet saadaval"
 },
 "nplurals=2; plural=(n != 1);");
