@@ -14,6 +14,8 @@ use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use Psr\Log\LoggerInterface;
+use OC\User\User;
+use OCP\IConfig;
 
 /**
  * This class gets and sets users avatars.
@@ -35,20 +37,21 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(
+		LoggerInterface $logger,
+		private User $user,
+		private IConfig $config,
+	) {
 		$this->logger = $logger;
+		$this->user = $user;
+		$this->config = $config;
 	}
-
-	/**
-	 * Returns the user display name.
-	 */
-	abstract public function getDisplayName(): string;
 
 	/**
 	 * Returns the first letter of the display name, or "?" if no name given.
 	 */
 	private function getAvatarText(): string {
-		$displayName = $this->getDisplayName();
+		$displayName = $this->user->getDisplayName();
 		if (empty($displayName) === true) {
 			return '?';
 		}
@@ -84,8 +87,7 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $darkTheme): string {
-		$userDisplayName = $this->getDisplayName();
+	protected function getAvatarVector(string $userDisplayName, int $size, bool $darkTheme): string {
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
@@ -93,6 +95,24 @@ abstract class Avatar implements IAvatar {
 		$text = $this->getAvatarText();
 		$toReplace = ['{size}', '{fill}', '{fgFill}', '{letter}'];
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
+	}
+
+	protected function getFont(string $userDisplayName): string {
+		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
+			switch ($this->config->getUserValue($this->user->getUID(), 'core', 'lang', '')) {
+				case 'zh_TW':
+					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
+				case 'zh_HK':
+					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
+				case 'ja':
+					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+				case 'ko':
+					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+				default:
+					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
+			}
+		}
+		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 	}
 
 	/**
@@ -108,8 +128,8 @@ abstract class Avatar implements IAvatar {
 			return null;
 		}
 		try {
-			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $darkTheme);
+			$font = $this->getFont($userDisplayName);
+			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
@@ -151,7 +171,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$font = $this->getFont($userDisplayName);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(

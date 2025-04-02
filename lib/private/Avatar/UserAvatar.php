@@ -30,7 +30,11 @@ class UserAvatar extends Avatar {
 		LoggerInterface $logger,
 		private IConfig $config,
 	) {
-		parent::__construct($logger);
+		parent::__construct(
+			$logger,
+			$user,
+			$config,
+		);
 	}
 
 	/**
@@ -202,7 +206,7 @@ class UserAvatar extends Avatar {
 			$ext = $this->getExtension($generated, $darkTheme);
 		} catch (NotFoundException $e) {
 			if (!$data = $this->generateAvatarFromSvg(1024, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), 1024, $darkTheme);
+				$data = $this->generateAvatar($this->user->getDisplayName(), 1024, $darkTheme);
 			}
 			$avatar = $this->folder->newFile($darkTheme ? 'avatar-dark.png' : 'avatar.png');
 			$avatar->putContent($data);
@@ -235,7 +239,7 @@ class UserAvatar extends Avatar {
 			}
 			if ($generated) {
 				if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-					$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+					$data = $this->generateAvatar($this->user->getDisplayName(), $size, $darkTheme);
 				}
 			} else {
 				$avatar = new \OCP\Image();
@@ -260,13 +264,6 @@ class UserAvatar extends Avatar {
 		}
 
 		return $file;
-	}
-
-	/**
-	 * Returns the user display name.
-	 */
-	public function getDisplayName(): string {
-		return $this->user->getDisplayName();
 	}
 
 	/**
