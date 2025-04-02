@@ -80,7 +80,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
 			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
-			$loginResult = $this->userManager->checkPassword($user->getUid(), $password);
+			$loginName = $this->session->get('loginname');
+			$loginResult = $this->userManager->checkPassword($loginName, $password);
 			if ($loginResult === false) {
 				throw new NotConfirmedException();
 			}
