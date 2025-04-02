@@ -39,8 +39,9 @@
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
-			:open.sync="openedMenu"
-			@close="openedSubmenu = null">
+			:open="openedMenu"
+			@close="onMenuClose"
+			@closed="onMenuClosed">
 			<!-- Default actions list-->
 			<NcActionButton v-for="action, index in enabledMenuActions"
 				:key="action.id"
@@ -257,7 +258,7 @@ export default defineComponent({
 	},
 
 	watch: {
-		// Close any submenu when the menu is closed
+		// Close any submenu when the menu state changes
 		openedMenu() {
 			this.openedSubmenu = null
 		},
@@ -348,6 +349,20 @@ export default defineComponent({
 					menuAction.$el.querySelector('button')?.focus()
 				}
 			})
+		},
+
+		onMenuClose() {
+			// We reset the submenu state when the menu is closing
+			this.openedSubmenu = null
+		},
+
+		onMenuClosed() {
+			// TODO: remove timeout once https://github.com/nextcloud-libraries/nextcloud-vue/pull/6683 is merged
+			// and updated on server.
+			setTimeout(() => {
+				// We reset the actions menu state when the menu is finally closed
+				this.openedMenu = false
+			}, 100)
 		},
 
 		t,
