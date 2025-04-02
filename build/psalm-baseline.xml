@@ -2037,11 +2037,6 @@
       <code><![CDATA[!$isDefaultTemplates]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/Files/Type/Detection.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$mimetype]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>
       <code><![CDATA[$mtime]]></code>
