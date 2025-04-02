@@ -1005,10 +1005,24 @@ export default {
 
 				this.creating = true
 				const share = await this.addShare(incomingShare)
-				this.creating = false
+				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
+				this.share._share.id = share.id
+				await this.queueUpdate(...permissionsAndAttributes)
+				// Also a ugly hack to update the updated permissions
+				for (const prop of permissionsAndAttributes) {
+					if (prop in share && prop in this.share) {
+						try {
+							share[prop] = this.share[prop]
+						} catch {
+							share._share[prop] = this.share[prop]
+						}
+					}
+				}
 				this.share = share
+				this.creating = false
 				this.$emit('add:share', this.share)
 			} else {
+				// Let's update after creation as some attrs are only available after creation
 				this.$emit('update:share', this.share)
 				emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
