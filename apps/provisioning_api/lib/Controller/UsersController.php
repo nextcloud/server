@@ -757,7 +757,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		// Fallback to display name value to avoid changing behavior with the new option.
-		if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
+		if ($this->config->getSystemValue('allow_user_to_change_email', true)) {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
@@ -918,8 +918,7 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 			}
 
-			// Fallback to display name value to avoid changing behavior with the new option.
-			if ($this->config->getSystemValue('allow_user_to_change_email', $allowDisplayNameChange)) {
+			if ($this->config->getSystemValue('allow_user_to_change_email', true)) {
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
