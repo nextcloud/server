@@ -24,8 +24,8 @@ package-lock.json                             @nextcloud/server-dependabot
 
 # App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
-/apps/cloud_federation_api/appinfo/info.xml   @mejo-
-/apps/comments/appinfo/info.xml               @edward-ly @Pytal
+/apps/cloud_federation_api/appinfo/info.xml   @nfebe @mejo-
+/apps/comments/appinfo/info.xml               @edward-ly @sorbaugh
 /apps/contactsinteraction/appinfo/info.xml    @kesselb @SebastianKrupinski
 /apps/contactsinteraction/lib                 @kesselb @SebastianKrupinski
 /apps/contactsinteraction/tests               @kesselb @SebastianKrupinski
@@ -36,21 +36,21 @@ package-lock.json                             @nextcloud/server-dependabot
 /apps/dav/tests/unit/CardDAV                  @hamza221 @SebastianKrupinski
 /apps/encryption/appinfo/info.xml             @come-nc @icewind1991
 /apps/federatedfilesharing/appinfo/info.xml   @icewind1991 @danxuliu
-/apps/federation/appinfo/info.xml             @nfebe
-/apps/files/appinfo/info.xml                  @skjnldsv @Pytal @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @nfebe
+/apps/federation/appinfo/info.xml             @nfebe @sorbaugh
+/apps/files/appinfo/info.xml                  @skjnldsv @ArtificialOwl @come-nc @artonge @icewind1991 @szaimen @susnux @nfebe
 /apps/files_external/appinfo/info.xml         @icewind1991 @artonge
-/apps/files_reminders/appinfo/info.xml        @Pytal
+/apps/files_reminders/appinfo/info.xml        @skjnldsv @sorbaugh
 /apps/files_sharing/appinfo/info.xml          @skjnldsv @come-nc
-/apps/files_trashbin/appinfo/info.xml         @Pytal @icewind1991
+/apps/files_trashbin/appinfo/info.xml         @icewind1991 @sorbaugh
 /apps/files_versions/appinfo/info.xml         @artonge @icewind1991
 /apps/oauth2/appinfo/info.xml                 @julien-nc @ChristophWurst
 /apps/provisioning_api/appinfo/info.xml       @provokateurin @nickvergessen
-/apps/settings/appinfo/info.xml               @Pytal @JuliaKirschenheuter
-/apps/sharebymail/appinfo/info.xml            @Altahrim
+/apps/settings/appinfo/info.xml               @JuliaKirschenheuter @sorbaugh
+/apps/sharebymail/appinfo/info.xml            @Altahrim @skjnldsv
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
 /apps/theming/appinfo/info.xml                @skjnldsv @juliusknorr
 /apps/twofactor_backupcodes/appinfo/info.xml  @st3iny @miaulalala @ChristophWurst
-/apps/updatenotification/appinfo/info.xml     @Pytal @JuliaKirschenheuter
+/apps/updatenotification/appinfo/info.xml     @JuliaKirschenheuter @sorbaugh
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml         @julien-nc @juliusknorr
@@ -80,8 +80,8 @@ package-lock.json                             @nextcloud/server-dependabot
 /core/routes.php                    @Altahrim @nextcloud/server-backend
 
 # OpenAPI
-openapi*.json                       @provokateurin
-ResponseDefinitions.php             @provokateurin
+openapi*.json                       @provokateurin @nextcloud/server-backend
+ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 
 # Talk team
 /lib/private/Comments               @nickvergessen @nextcloud/talk-backend
