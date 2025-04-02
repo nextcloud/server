@@ -194,7 +194,7 @@ class Application extends App {
 				'jobs',
 				['jobs_time_sensitive'],
 				'jobs_sensitive_lastcheck_reserved',
-				['time_sensitive', 'last_checked', 'reserved_at'],
+				['last_checked', 'time_sensitive', 'reserved_at'],
 				false,
 			);
 

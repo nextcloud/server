@@ -33,7 +33,7 @@ class Version24000Date20220131153041 extends SimpleMigrationStep {
 			// jobs_time_sensitive replaced by jobs_sensitive_lastcheck_reserved
 			// $table->addIndex(['time_sensitive'], 'jobs_time_sensitive');
 			// Added later on (32 and backported)
-			$table->addIndex(['time_sensitive', 'last_checked', 'reserved_at'], 'jobs_sensitive_lastcheck_reserved');
+			$table->addIndex(['last_checked', 'time_sensitive', 'reserved_at'], 'jobs_sensitive_lastcheck_reserved');
 			return $schema;
 		}
 		return null;
