@@ -42,4 +42,15 @@ class Auth extends Action {
 			[]
 		);
 	}
+
+	public function loginFailed(array $params): void {
+		$this->log(
+			'Login failed: "%s"',
+			$params,
+			[
+				'uid',
+			],
+			true
+		);
+	}
 }
