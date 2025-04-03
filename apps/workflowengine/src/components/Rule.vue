@@ -29,8 +29,13 @@
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
 			<Operation :operation="operation" :colored="false">
+				<component :is="operation.element"
+					v-if="operation.element"
+					ref="operationComponent"
+					:model-value="inputValue"
+					@update:model-value="updateOperationByEvent" />
 				<component :is="operation.options"
-					v-if="operation.options"
+					v-else-if="operation.options"
 					v-model="rule.operation"
 					@input="updateOperation" />
 			</Operation>
@@ -95,9 +100,14 @@ export default {
 			error: null,
 			dirty: this.rule.id < 0,
 			originalRule: null,
+			element: null,
+			inputValue: '',
 		}
 	},
 	computed: {
+		/**
+		 * @return {OperatorPlugin}
+		 */
 		operation() {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
@@ -123,11 +133,24 @@ export default {
 	},
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
+
+		if (this.operation?.element) {
+			this.$refs.operationComponent.value = this.rule.operation
+		} else if (this.operation?.options) {
+			// keeping this in an else for apps that try to be backwards compatible and may ship both
+			// to be removed in 03/2028
+			console.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.element` instead.')
+		}
 	},
 	methods: {
 		async updateOperation(operation) {
 			this.$set(this.rule, 'operation', operation)
-			await this.updateRule()
+			this.updateRule()
+		},
+		async updateOperationByEvent(event) {
+			this.inputValue = event.detail[0]
+			this.$set(this.rule, 'operation', event.detail[0])
+			this.updateRule()
 		},
 		validate(/* state */) {
 			this.error = null
@@ -164,6 +187,7 @@ export default {
 			if (this.rule.id < 0) {
 				this.$store.dispatch('removeRule', this.rule)
 			} else {
+				this.inputValue = this.originalRule.operation
 				this.$store.dispatch('updateRule', this.originalRule)
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 				this.dirty = false
