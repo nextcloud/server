@@ -12,6 +12,7 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,6 +26,7 @@ class ExpireTrash extends Command {
 	 * @param Expiration|null $expiration
 	 */
 	public function __construct(
+		private LoggerInterface $logger,
 		private ?IUserManager $userManager = null,
 		private ?Expiration $expiration = null,
 	) {
@@ -64,10 +66,12 @@ class ExpireTrash extends Command {
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p): void {
+
+			$users = $this->userManager->getSeenUsers();
+			foreach ($users as $user) {
 				$p->advance();
 				$this->expireTrashForUser($user);
-			});
+			}
 			$p->finish();
 			$output->writeln('');
 		}
@@ -75,12 +79,16 @@ class ExpireTrash extends Command {
 	}
 
 	public function expireTrashForUser(IUser $user) {
-		$uid = $user->getUID();
-		if (!$this->setupFS($uid)) {
-			return;
+		try {
+			$uid = $user->getUID();
+			if (!$this->setupFS($uid)) {
+				return;
+			}
+			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
+			Trashbin::deleteExpiredFiles($dirContent, $uid);
+		} catch (\Throwable $e) {
+			$this->logger->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
 		}
-		$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-		Trashbin::deleteExpiredFiles($dirContent, $uid);
 	}
 
 	/**
