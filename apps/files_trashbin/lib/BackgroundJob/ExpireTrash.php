@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IAppConfig;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class ExpireTrash extends TimedJob {
 
@@ -40,6 +41,7 @@ class ExpireTrash extends TimedJob {
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private Expiration $expiration,
+		private LoggerInterface $logger,
 		ITimeFactory $time
 	) {
 		parent::__construct($time);
@@ -63,12 +65,16 @@ class ExpireTrash extends TimedJob {
 		$users = $this->userManager->getSeenUsers($offset);
 
 		foreach ($users as $user) {
-			$uid = $user->getUID();
-			if (!$this->setupFS($uid)) {
-				continue;
+			try {
+				$uid = $user->getUID();
+				if (!$this->setupFS($uid)) {
+					continue;
+				}
+				$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
+				Trashbin::deleteExpiredFiles($dirContent, $uid);
+			} catch (\Throwable $e) {
+				$this->logger->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
 			}
-			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-			Trashbin::deleteExpiredFiles($dirContent, $uid);
 
 			$offset++;
 
