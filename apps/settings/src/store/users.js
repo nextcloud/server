@@ -8,15 +8,22 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 import { GroupSorting } from '../constants/GroupManagement.ts'
+import { naturalCollator } from '../utils/sorting.ts'
 import api from './api.js'
 import logger from '../logger.ts'
+
+const usersSettings = loadState('settings', 'usersSettings', {})
 
 const localStorage = getBuilder('settings').persist(true).build()
 
 const defaults = {
+	/**
+	 * @type {import('../views/user-types').IGroup}
+	 */
 	group: {
 		id: '',
 		name: '',
@@ -29,14 +36,14 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [],
-	orderBy: GroupSorting.UserCount,
+	groups: [...(usersSettings.systemGroups ?? [])],
+	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
 	disabledUsersOffset: 0,
 	disabledUsersLimit: 25,
-	userCount: 0,
+	userCount: usersSettings.userCount ?? 0,
 	showConfig: {
 		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
 		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
@@ -62,21 +69,17 @@ const mutations = {
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
 	},
-	initGroups(state, { groups, orderBy, userCount }) {
-		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
-		state.orderBy = orderBy
-		state.userCount = userCount
-	},
-	addGroup(state, { gid, displayName }) {
+	/**
+	 * @param {object} state store state
+	 * @param {import('../views/user-types.js').IGroup} newGroup new group
+	 */
+	addGroup(state, newGroup) {
 		try {
-			if (typeof state.groups.find((group) => group.id === gid) !== 'undefined') {
+			if (typeof state.groups.find((group) => group.id === newGroup.id) !== 'undefined') {
 				return
 			}
 			// extend group to default values
-			const group = Object.assign({}, defaults.group, {
-				id: gid,
-				name: displayName,
-			})
+			const group = Object.assign({}, defaults.group, newGroup)
 			state.groups.unshift(group)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -156,6 +159,9 @@ const mutations = {
 			state.userCount += user.enabled ? 1 : -1 // update Active Users count
 			user.groups.forEach(userGroup => {
 				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				if (!group) {
+					return
+				}
 				group.disabled += user.enabled ? -1 : 1 // update group disabled count
 			})
 			break
@@ -164,9 +170,11 @@ const mutations = {
 			state.userCount++ // increment Active Users count
 
 			user.groups.forEach(userGroup => {
-				state.groups
-					.find(groupSearch => groupSearch.id === userGroup)
-				    .usercount++ // increment group total count
+				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				if (!group) {
+					return
+				}
+				group.usercount++ // increment group total count
 			})
 			break
 		case 'remove':
@@ -185,6 +193,9 @@ const mutations = {
 				disabledGroup.usercount-- // decrement Disabled Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						return
+					}
 					group.disabled-- // decrement group disabled count
 				})
 			}
@@ -212,6 +223,20 @@ const mutations = {
 		state.users = []
 		state.usersOffset = 0
 		state.disabledUsersOffset = 0
+	},
+
+	/**
+	 * Reset group list
+	 *
+	 * @param {object} state the store state
+	 */
+	resetGroups(state) {
+		const systemGroups = state.groups.filter(group => [
+			'admin',
+			'__nc_internal_recent',
+			'disabled',
+		].includes(group.id))
+		state.groups = [...systemGroups]
 	},
 
 	setShowConfig(state, { key, value }) {
@@ -244,20 +269,16 @@ const getters = {
 	getGroups(state) {
 		return state.groups
 	},
-	getSubadminGroups(state) {
-		// Can't be subadmin of admin, recent, or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-	},
 	getSortedGroups(state) {
 		const groups = [...state.groups]
 		if (state.orderBy === GroupSorting.UserCount) {
 			return groups.sort((a, b) => {
 				const numA = a.usercount - a.disabled
 				const numB = b.usercount - b.disabled
-				return (numA < numB) ? 1 : (numB < numA ? -1 : a.name.localeCompare(b.name))
+				return (numA < numB) ? 1 : (numB < numA ? -1 : naturalCollator.compare(a.name, b.name))
 			})
 		} else {
-			return groups.sort((a, b) => a.name.localeCompare(b.name))
+			return groups.sort((a, b) => naturalCollator.compare(a.name, b.name))
 		}
 	},
 	getGroupSorting(state) {
@@ -443,7 +464,7 @@ const actions = {
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
 					response.data.ocs.data.groups.forEach(function(group) {
-						context.commit('addGroup', { gid: group, displayName: group })
+						context.commit('addGroup', { id: group, name: group })
 					})
 					return true
 				}
@@ -510,7 +531,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			return api.post(generateOcsUrl('cloud/groups'), { groupid: gid })
 				.then((response) => {
-					context.commit('addGroup', { gid, displayName: gid })
+					context.commit('addGroup', { id: gid, name: gid })
 					return { gid, displayName: gid }
 				})
 				.catch((error) => { throw error })
