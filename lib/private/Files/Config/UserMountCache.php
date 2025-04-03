@@ -98,15 +98,18 @@ class UserMountCache implements IUserMountCache {
 			$userUID = $user->getUID();
 			try {
 				foreach ($addedMounts as $mount) {
+					$this->logger->debug("Adding mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->addToCache($mount);
 					/** @psalm-suppress InvalidArgument */
 					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
 				}
 				foreach ($removedMounts as $mount) {
+					$this->logger->debug("Removing mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->removeFromCache($mount);
 					unset($this->mountsForUsers[$userUID][$mount->getKey()]);
 				}
 				foreach ($changedMounts as $mount) {
+					$this->logger->debug("Updating mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->updateCachedMount($mount);
 					/** @psalm-suppress InvalidArgument */
 					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
