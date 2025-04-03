@@ -19,7 +19,7 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMProvider;
 use Psr\Log\LoggerInterface;
 
-class Capabilities implements ICapability {
+class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	public const API_VERSION = '1.1.0';
 
 	public function __construct(
@@ -66,11 +66,6 @@ class Capabilities implements ICapability {
 		$this->provider->setEnabled(true);
 		$this->provider->setApiVersion(self::API_VERSION);
 		$this->provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
-
-		$pos = strrpos($url, '/');
-		if ($pos === false) {
-			throw new OCMArgumentException('generated route should contains a slash character');
-		}
 
 		$this->provider->setEndPoint(substr($url, 0, $pos));
 

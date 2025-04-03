@@ -21,7 +21,6 @@ use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -77,7 +76,6 @@ class RequestHandlerController extends Controller {
 		private ICloudIdManager $cloudIdManager,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
-		private TrustedServers $trustedServers,
 		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
@@ -262,11 +260,6 @@ class RequestHandlerController extends Controller {
 			$response = new JSONResponse(['message' => 'Invalid or non existing token', 'error' => true], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
 			return $response;
-		}
-		if (!$this->trustedServers->isTrustedServer($recipientProvider)) {
-			$response = ['message' => 'Remote server not trusted', 'error' => true];
-			$status = Http::STATUS_FORBIDDEN;
-			return new JSONResponse($response, $status);
 		}
 		try {
 			$invitation = $this->federatedInviteMapper->findByToken($token);
