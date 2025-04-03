@@ -15,8 +15,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
-	/** @var IConfig */
-	private $config;
+	private Iconfig $config;
 
 	/**
 	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
@@ -33,13 +32,9 @@ class Movie extends ProviderV2 {
 	/** @var string */
 	private $binary;
 
-	/**
-	 * {@inheritDoc}
-	 */
-
 	public function __construct(array $config) {
 		parent::__construct($config);
-		$this->config = \OC::$server->get(IConfig::class);
+		$this->config = Server::get(IConfig::class);
 	}
 
 	public function getMimeType(): string {
@@ -117,22 +112,21 @@ class Movie extends ProviderV2 {
 
 	private function useHdr(string $absPath): bool {
 		// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
-		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe';
+		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
 		// run ffprobe on the video file to get value of "color_transfer"
 		$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
 			'-show_entries', 'stream=color_transfer',
 			'-of', 'default=noprint_wrappers=1:nokey=1',
 			$absPath];
 		$test_hdr_proc = proc_open($test_hdr_cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $test_hdr_pipes);
-		if (is_resource($test_hdr_proc)) {
-			$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
-			$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
-			proc_close($test_hdr_proc);
-			// search build options for libzimg (provides zscale filter)
-			$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
-		} else {
-			$ffmpeg_libzimg_installed = false;
+		if ($test_hdr_proc === false) {
+			return false;
 		}
+		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+		proc_close($test_hdr_proc);
+		// search build options for libzimg (provides zscale filter)
+		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
 		// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video. Force colorspace to '2020_ncl'
 		// because some videos are tagged incorrectly as 'reserved' resulting in fail.
 		// Only return true if video is detected as HDR and libzimg is installed.
