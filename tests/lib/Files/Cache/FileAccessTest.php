@@ -250,7 +250,7 @@ class FileAccessTest extends TestCase {
 		$queryBuilder->insert('filecache')
 			->values([
 				'fileid' => 5,
-				'parent' => 0,
+				'parent' => 1,
 				'path' => $queryBuilder->createNamedParameter('files/serversideencrypted'),
 				'path_hash' => $queryBuilder->createNamedParameter(md5('files/serversideencrypted')),
 				'storage' => $queryBuilder->createNamedParameter(1),
@@ -350,10 +350,9 @@ class FileAccessTest extends TestCase {
 
 		$result = iterator_to_array($generator);
 
-		var_dump($result);
-
-		$this->assertCount(1, $result);
-		$this->assertEquals('files/serversideencrypted', $result[0]->getPath());
+		$this->assertCount(3, $result);
+		$paths = array_map(fn(CacheEntry $entry) => $entry->getPath(), $result);
+		$this->assertEquals(['files/documents', 'files/photos', 'files/serversideencrypted'], $paths);
 	}
 
 	/**
