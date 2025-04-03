@@ -15,7 +15,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
-	private Iconfig $config;
+	private IConfig $config;
 
 	/**
 	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
@@ -155,7 +155,7 @@ class Movie extends ProviderV2 {
 					'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
 					$tmpPath];
 			} else {
-				// alway default to generating preview using non-HDR command
+				// always default to generating preview using non-HDR command
 				$cmd = [$this->binary, '-y', '-ss', (string)$second,
 					'-i', $absPath,
 					'-f', 'mjpeg', '-vframes', '1',
