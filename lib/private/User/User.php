@@ -428,6 +428,10 @@ class User implements IUser {
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
 	}
 
+	public function canChangeEmail(): bool {
+		return $this->config->getSystemValueBool('allow_user_to_change_email', true);
+	}
+
 	/**
 	 * check if the user is enabled
 	 *

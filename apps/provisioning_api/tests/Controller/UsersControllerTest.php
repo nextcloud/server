@@ -41,6 +41,7 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
@@ -1639,6 +1640,8 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
 	}
 
@@ -1832,6 +1835,8 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getBackend')
 			->willReturn($backend);
+
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
 
 		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
@@ -4224,7 +4229,8 @@ class UsersControllerTest extends TestCase {
 
 	public function dataGetEditableFields() {
 		return [
-			[false, ISetDisplayNameBackend::class, [
+			[false, true, ISetDisplayNameBackend::class, [
+				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
@@ -4237,7 +4243,21 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_BIOGRAPHY,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 			]],
-			[true, ISetDisplayNameBackend::class, [
+			[true, false, ISetDisplayNameBackend::class, [
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			]],
+			[true, true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::COLLECTION_EMAIL,
@@ -4252,8 +4272,61 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_BIOGRAPHY,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
 			]],
-			[true, UserInterface::class, [
+			[false, false, ISetDisplayNameBackend::class, [
+				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			]],
+			[false, true, UserInterface::class, [
 				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			]],
+			[true, false, UserInterface::class, [
+				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			]],
+			[true, true, UserInterface::class, [
+				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_FEDIVERSE,
+				IAccountManager::PROPERTY_ORGANISATION,
+				IAccountManager::PROPERTY_ROLE,
+				IAccountManager::PROPERTY_HEADLINE,
+				IAccountManager::PROPERTY_BIOGRAPHY,
+				IAccountManager::PROPERTY_PROFILE_ENABLED,
+			]],
+			[false, false, UserInterface::class, [
 				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
@@ -4276,13 +4349,12 @@ class UsersControllerTest extends TestCase {
 	 * @param string $userBackend
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, string $userBackend, array $expected) {
-		$this->config
-			->method('getSystemValue')
-			->with(
-				$this->equalTo('allow_user_to_change_display_name'),
-				$this->anything()
-			)->willReturn($allowedToChangeDisplayName);
+	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $allowedToChangeEmail, string $userBackend, array $expected): void {
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => match ($key) {
+			'allow_user_to_change_display_name' => $allowedToChangeDisplayName,
+			'allow_user_to_change_email' => $allowedToChangeEmail,
+			default => throw new RuntimeException('Unexpected system config key: ' . $key),
+		});
 
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')
