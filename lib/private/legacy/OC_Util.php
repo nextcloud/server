@@ -20,7 +20,6 @@ use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class OC_Util {
-	public static $scripts = [];
 	public static $styles = [];
 	public static $headers = [];
 
@@ -236,60 +235,6 @@ class OC_Util {
 	}
 
 	/**
-	 * add a javascript file
-	 *
-	 * @deprecated 24.0.0 - Use \OCP\Util::addScript
-	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Script to the beginning of the list
-	 * @return void
-	 */
-	public static function addScript($application, $file = null, $prepend = false) {
-		$path = OC_Util::generatePath($application, 'js', $file);
-
-		// core js files need separate handling
-		if ($application !== 'core' && $file !== null) {
-			self::addTranslations($application);
-		}
-		self::addExternalResource($application, $prepend, $path, 'script');
-	}
-
-	/**
-	 * add a javascript file from the vendor sub folder
-	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Script to the beginning of the list
-	 * @return void
-	 */
-	public static function addVendorScript($application, $file = null, $prepend = false) {
-		$path = OC_Util::generatePath($application, 'vendor', $file);
-		self::addExternalResource($application, $prepend, $path, 'script');
-	}
-
-	/**
-	 * add a translation JS file
-	 *
-	 * @deprecated 24.0.0
-	 *
-	 * @param string $application application id
-	 * @param string|null $languageCode language code, defaults to the current language
-	 * @param bool|null $prepend prepend the Script to the beginning of the list
-	 */
-	public static function addTranslations($application, $languageCode = null, $prepend = false) {
-		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
-		}
-		if (!empty($application)) {
-			$path = "$application/l10n/$languageCode";
-		} else {
-			$path = "l10n/$languageCode";
-		}
-		self::addExternalResource($application, $prepend, $path, 'script');
-	}
-
-	/**
 	 * add a css file
 	 *
 	 * @param string $application application id
@@ -331,14 +276,6 @@ class OC_Util {
 					array_unshift(self::$styles, $path);
 				} else {
 					self::$styles[] = $path;
-				}
-			}
-		} elseif ($type === 'script') {
-			if (!in_array($path, self::$scripts)) {
-				if ($prepend === true) {
-					array_unshift(self::$scripts, $path);
-				} else {
-					self::$scripts [] = $path;
 				}
 			}
 		}

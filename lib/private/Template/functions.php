@@ -123,22 +123,6 @@ function script($app, $file = null): void {
 }
 
 /**
- * Shortcut for adding vendor scripts to a page
- * @param string $app the appname
- * @param string|string[] $file the filename,
- *                              if an array is given it will add all scripts
- */
-function vendor_script($app, $file = null): void {
-	if (is_array($file)) {
-		foreach ($file as $f) {
-			OC_Util::addVendorScript($app, $f);
-		}
-	} else {
-		OC_Util::addVendorScript($app, $file);
-	}
-}
-
-/**
  * Shortcut for adding styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
@@ -176,7 +160,7 @@ function vendor_style($app, $file = null): void {
  *                    if an array is given it will add all styles
  */
 function translation($app): void {
-	OC_Util::addTranslations($app);
+	Util::addTranslations($app);
 }
 
 /**
