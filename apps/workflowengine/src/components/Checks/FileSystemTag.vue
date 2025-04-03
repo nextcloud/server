@@ -17,18 +17,21 @@ export default {
 		NcSelectTags,
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
 	},
+
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			newValue: [],
 		}
 	},
 	watch: {
-		value() {
+		modelValue() {
 			this.updateValue()
 		},
 	},
@@ -37,14 +40,14 @@ export default {
 	},
 	methods: {
 		updateValue() {
-			if (this.value !== '') {
-				this.newValue = parseInt(this.value)
+			if (this.modelValue !== '') {
+				this.newValue = parseInt(this.modelValue)
 			} else {
 				this.newValue = null
 			}
 		},
 		update() {
-			this.$emit('input', this.newValue || '')
+			this.$emit('update:model-value', this.newValue || '')
 		},
 	},
 }

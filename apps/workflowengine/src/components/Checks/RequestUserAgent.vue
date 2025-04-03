@@ -4,7 +4,7 @@
 -->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect v-model="currentValue"
 			:placeholder="t('workflowengine', 'Select a user agent')"
 			label="label"
 			:options="options"
@@ -24,8 +24,8 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
+			v-model="newValue"
 			type="text"
-			:value="currentValue.id"
 			@input="updateCustom">
 	</div>
 </template>
@@ -44,6 +44,13 @@ export default {
 	mixins: [
 		valueMixin,
 	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+	},
+	emits: ['update:model-value'],
 	data() {
 		return {
 			newValue: '',
@@ -73,15 +80,20 @@ export default {
 				id: '',
 			}
 		},
-		currentValue() {
-			if (this.matchingPredefined) {
-				return this.matchingPredefined
-			}
-			return {
-				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom user agent'),
-				id: this.newValue,
-			}
+		currentValue: {
+			get() {
+				if (this.matchingPredefined) {
+					return this.matchingPredefined
+				}
+				return {
+					icon: 'icon-settings-dark',
+					label: t('workflowengine', 'Custom user agent'),
+					id: this.newValue,
+				}
+			},
+			set(value) {
+				this.newValue = value
+			},
 		},
 	},
 	methods: {
@@ -94,12 +106,12 @@ export default {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
-		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+		updateCustom() {
+			this.newValue = this.currentValue.id
+			this.$emit('update:model-value', this.newValue)
 		},
 	},
 }
