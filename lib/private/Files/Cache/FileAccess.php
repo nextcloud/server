@@ -135,8 +135,16 @@ class FileAccess implements IFileAccess {
 
 		if (!$endToEndEncrypted) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
-			$qb->leftJoin('f', 'filecache', 'p', $qb->expr()->eq('f.parent', 'p.fileid'));
-			$qb->andWhere($qb->expr()->eq('p.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			// Use a subquery to check the `encrypted` status of the parent folder
+			$subQuery = $this->getQuery()->select('p.encrypted')
+				->from('filecache', 'p')
+				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
+				->setMaxResults(1)
+				->getSQL();
+
+			$qb->andWhere(
+				$qb->expr()->eq($qb->createFunction(sprintf('(%s)', $subQuery)), $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
 		}
 
 		if (!$serverSideEncrypted) {
@@ -151,8 +159,8 @@ class FileAccess implements IFileAccess {
 		if ($maxResults !== 0) {
 			$qb->setMaxResults($maxResults);
 		}
-		$files = $qb->orderBy('f.fileid', 'ASC')
-			->executeQuery();
+		$qb->orderBy('f.fileid', 'ASC');
+		$files = $qb->executeQuery();
 
 		while (
 			/** @var array */
