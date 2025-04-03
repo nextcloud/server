@@ -3,6 +3,7 @@
     "Reminder for {name}" : "{name} 的提醒",
     "View file" : "檢視檔案",
     "View folder" : "檢視資料夾",
+    "Files reminder" : "檔案提醒",
     "Set file reminders" : "設定檔案提醒",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 檔案提醒**\n\n設定檔案提醒。\n\n注意：要使用「檔案提醒」應用程式，請確定已安裝並啟用「通知」應用程式。「通知」應用程式提供必要的 API，讓「檔案提醒」應用程式能正常運作。",
     "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
