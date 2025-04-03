@@ -27,6 +27,7 @@ on:
       - '**.js'
       - '**.ts'
       - '**.vue'
+      - '.gitmodules'
   push:
     branches:
       - ionos-dev
