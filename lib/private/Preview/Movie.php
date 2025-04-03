@@ -15,7 +15,7 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
-	private Iconfig $config;
+	private IConfig $config;
 
 	/**
 	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
@@ -127,8 +127,7 @@ class Movie extends ProviderV2 {
 		proc_close($test_hdr_proc);
 		// search build options for libzimg (provides zscale filter)
 		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
-		// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video. Force colorspace to '2020_ncl'
-		// because some videos are tagged incorrectly as 'reserved' resulting in fail.
+		// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video.
 		// Only return true if video is detected as HDR and libzimg is installed.
 		if (($test_hdr_stdout === 'smpte2084' || $test_hdr_stdout === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false) {
 			return true;
@@ -149,13 +148,15 @@ class Movie extends ProviderV2 {
 				$tmpPath];
 		} elseif ($binaryType === 'ffmpeg') {
 			if ($this->useHdr($absPath)) {
+				// Force colorspace to '2020_ncl' because some videos are
+				// tagged incorrectly as 'reserved' resulting in fail if not forced.
 				$cmd = [$this->binary, '-y', '-ss', (string)$second,
 					'-i', $absPath,
 					'-f', 'mjpeg', '-vframes', '1',
 					'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
 					$tmpPath];
 			} else {
-				// alway default to generating preview using non-HDR command
+				// always default to generating preview using non-HDR command
 				$cmd = [$this->binary, '-y', '-ss', (string)$second,
 					'-i', $absPath,
 					'-f', 'mjpeg', '-vframes', '1',
