@@ -16,7 +16,6 @@ use OCA\CloudFederationAPI\Controller\RequestHandlerController;
 use OCA\CloudFederationAPI\Db\FederatedInvite;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -50,7 +49,6 @@ class RequestHandlerControllerTest extends TestCase {
 	private ICloudIdManager&MockObject $cloudIdManager;
 	private ISignatureManager&MockObject $signatureManager;
 	private OCMSignatoryManager&MockObject $signatoryManager;
-	private TrustedServers&MockObject $trustedServers;
 	private ITimeFactory&MockObject $timeFactory;
 
 	private RequestHandlerController $requestHandlerController;
@@ -73,7 +71,6 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->signatureManager = $this->createMock(ISignatureManager::class);
 		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
-		$this->trustedServers = $this->createMock(TrustedServers::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->requestHandlerController = new RequestHandlerController(
@@ -93,24 +90,17 @@ class RequestHandlerControllerTest extends TestCase {
 			$this->cloudIdManager,
 			$this->signatureManager,
 			$this->signatoryManager,
-			$this->trustedServers,
 			$this->timeFactory,
 		);
 	}
 
 	public function testInviteAccepted(): void {
 		$token = 'token';
-		$trusted_server = 'http://127.0.0.1';
 		$userId = 'userId';
 		$invite = new FederatedInvite();
 		$invite->setCreatedAt(1);
 		$invite->setUserId($userId);
 		$invite->setToken($token);
-
-		$this->trustedServers->expects(self::once())
-			->method('isTrustedServer')
-			->with($trusted_server)
-			->willReturn(true);
 
 		$this->federatedInviteMapper->expects(self::once())
 			->method('findByToken')
@@ -134,7 +124,7 @@ class RequestHandlerControllerTest extends TestCase {
 			->with($userId)
 			->willReturn($user);
 
-		$recipientProvider = $trusted_server;
+		$recipientProvider = 'http://127.0.0.1';
 		$recipientId = 'remote';
 		$recipientEmail = 'remote@example.org';
 		$recipientName = 'Remote Remoteson';
