@@ -3,6 +3,9 @@
     "Reminder for {name}" : "تذكير لـ {name}",
     "View file" : "أعرُض الملف",
     "View folder" : "أعرُض المجلد",
+    "Files reminder" : "التذكير بالملفات",
+    "This files_reminder can work properly." : "وظيفة التذكير بالملفات هذه تعمل بالشكل الصحيح.",
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "تطبيق التذكير بالملفات يحتاج إلى تطبيق الإشعارات ليعمل بالشكل الصحيح. عليك إمّا أن تقوم بتمكين الإشعارات او تعطيل التذكير بالملفات.",
     "Set file reminders" : "ضبط تذكير بالملفات",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 التذكير بالملفات** \n\nضبط التذكير بالملفات. \n\nملاحظة: لاستخدام تطبيق \"التذكير بالملفات\"، تأكد من تثبيت تطبيق الإشعارات وتمكينه. يوفر تطبيق الإشعارات واجهة برمجة التطبيقات API اللازمة لتطبيق \"التذكير بالملفات\" ليعمل بالشكل الصحيح.",
     "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\"",

@@ -185,6 +185,8 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Подесите подразумевани фолдер за прихваћена дељења",
     "Reset" : "Ресетуј",
     "Reset folder to system default" : "Vratite fasciklu na podrazumevane vrednosti sistema",
+    "Share expiration: " : "Истек дељења:",
+    "Share Expiration" : "Истицање дељења",
     "group" : "група",
     "conversation" : "разговор",
     "remote" : "удаљени",
