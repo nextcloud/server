@@ -8,9 +8,14 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
+use OCP\Calendar\ICalendarExport;
+use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
@@ -24,7 +29,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -257,4 +262,27 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
 	}
+
+	/**
+	 * Export objects
+	 *
+	 * @since 32.0.0
+	 *
+	 * @return Generator<mixed, \Sabre\VObject\Component\VCalendar, mixed, mixed>
+	 */
+	public function export(?CalendarExportOptions $options = null): Generator {
+		foreach (
+			$this->backend->exportCalendar(
+				$this->calendarInfo['id'],
+				$this->backend::CALENDAR_TYPE_CALENDAR,
+				$options
+			) as $event
+		) {
+			$vObject = Reader::read($event['calendardata']);
+			if ($vObject instanceof VCalendar) {
+				yield $vObject;
+			}
+		}
+	}
+
 }
