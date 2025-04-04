@@ -66,6 +66,7 @@
 		<command>OCA\DAV\Command\ExportCalendar</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
 		<command>OCA\DAV\Command\GetAbsenceCommand</command>
+		<command>OCA\DAV\Command\ImportCalendar</command>
 		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\ListCalendarShares</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
