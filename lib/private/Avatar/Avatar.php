@@ -48,10 +48,15 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
+	 * Returns the user display name.
+	 */
+	abstract public function getDisplayName(): string;
+
+	/**
 	 * Returns the first letter of the display name, or "?" if no name given.
 	 */
 	private function getAvatarText(): string {
-		$displayName = $this->user->getDisplayName();
+		$displayName = $this->getDisplayName();
 		if (empty($displayName) === true) {
 			return '?';
 		}
@@ -97,9 +102,13 @@ abstract class Avatar implements IAvatar {
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
 	}
 
+	/**
+	 * Select the rendering font based on the user's display name and language 
+	 */
 	protected function getFont(string $userDisplayName): string {
 		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
-			switch ($this->config->getUserValue($this->user->getUID(), 'core', 'lang', '')) {
+			$userlang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', '');
+			switch ($userlang) {
 				case 'zh_TW':
 					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
 				case 'zh_HK':
@@ -118,7 +127,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
