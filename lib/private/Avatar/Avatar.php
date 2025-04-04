@@ -37,21 +37,20 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(
-		LoggerInterface $logger,
-		private User $user,
-		private IConfig $config,
-	) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
-		$this->user = $user;
-		$this->config = $config;
 	}
+
+	/**
+	 * Returns the user display name.
+	 */
+	abstract public function getDisplayName(): string;
 
 	/**
 	 * Returns the first letter of the display name, or "?" if no name given.
 	 */
 	private function getAvatarText(): string {
-		$displayName = $this->user->getDisplayName();
+		$displayName = $this->getDisplayName();
 		if (empty($displayName) === true) {
 			return '?';
 		}
@@ -102,7 +101,8 @@ abstract class Avatar implements IAvatar {
 	 */
 	private function getFont(string $userDisplayName): string {
 		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
-			switch ($this->config->getUserValue($this->user->getUID(), 'core', 'lang', '')) {
+			$userlang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', '');
+			switch ($userlang) {
 				case 'zh_TW':
 					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
 				case 'zh_HK':
@@ -121,7 +121,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}

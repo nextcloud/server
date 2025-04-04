@@ -29,11 +29,7 @@ class PlaceholderAvatar extends Avatar {
 		private User $user,
 		LoggerInterface $logger,
 	) {
-		parent::__construct(
-			$logger,
-			$user,
-			$config,
-		);
+		parent::__construct($logger);
 	}
 
 	/**
@@ -91,20 +87,28 @@ class PlaceholderAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
-			if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-				$data = $this->generateAvatar($this->user->getDisplayName(), $size, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 			}
 
 			try {
 				$file = $this->folder->newFile($path);
 				$file->putContent($data);
 			} catch (NotPermittedException $e) {
-				$this->logger->error('Failed to save avatar placeholder for ' . $this->getUID());
+				$this->logger->error('Failed to save avatar placeholder for ' . $this->user->getUID());
 				throw new NotFoundException();
 			}
 		}
 
 		return $file;
+	}
+
+	/**
+	 * Returns the user display name.
+	 */
+	public function getDisplayName(): string {
+		return $this->user->getDisplayName();
 	}
 
 	/**
