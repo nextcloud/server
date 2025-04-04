@@ -139,7 +139,6 @@ class FileAccess implements IFileAccess {
 			$subQuery = $this->getQuery()->select('p.encrypted')
 				->from('filecache', 'p')
 				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
-				->setMaxResults(1)
 				->getSQL();
 
 			$qb->andWhere(
