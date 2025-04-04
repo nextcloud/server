@@ -11,6 +11,7 @@ namespace Test;
 
 use OC\InitialStateService;
 use OC\TemplateLayout;
+use OCA\Theming\Service\ThemesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -45,7 +46,12 @@ class TemplateLayoutTest extends \Test\TestCase {
 			->willReturn('42');
 
 		$initialState = $this->createMock(InitialStateService::class);
+		$themesService = $this->createMock(ThemesService::class);
+		$themesService->expects(self::once())
+			->method('getEnabledThemes')
+			->willReturn([]);
 
+		$this->overwriteService(ThemesService::class, $themesService);
 		$this->overwriteService(IConfig::class, $config);
 		$this->overwriteService(IAppManager::class, $appManager);
 		$this->overwriteService(InitialStateService::class, $initialState);

@@ -81,13 +81,6 @@ class TemplateLayout extends \OC_Template {
 			} else {
 				Util::addScript('core', 'unified-search', 'core');
 			}
-			// Set body data-theme
-			$this->assign('enabledThemes', []);
-			if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-				/** @var \OCA\Theming\Service\ThemesService */
-				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
-				$this->assign('enabledThemes', $themesService->getEnabledThemes());
-			}
 
 			// Set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
@@ -151,22 +144,12 @@ class TemplateLayout extends \OC_Template {
 			if ($user) {
 				$userDisplayName = $user->getDisplayName();
 			}
-			$theme = $this->config->getSystemValueString('enforce_theme', '');
-			$this->assign('enabledThemes', $theme === '' ? [] : [$theme]);
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
 		} elseif ($renderAs === TemplateResponse::RENDER_AS_PUBLIC) {
 			parent::__construct('core', 'layout.public');
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
-
-			// Set body data-theme
-			$this->assign('enabledThemes', []);
-			if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-				/** @var \OCA\Theming\Service\ThemesService $themesService */
-				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
-				$this->assign('enabledThemes', $themesService->getEnabledThemes());
-			}
 
 			// Set logo link target
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
@@ -195,10 +178,15 @@ class TemplateLayout extends \OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
+
+		// Set body data-theme
+		$themesService = \OCP\Server::get(\OCA\Theming\Service\ThemesService::class);
+		$this->assign('enabledThemes', $themesService->getEnabledThemes());
+
 		// Send the language, locale, and direction to our layouts
 		$lang = \OC::$server->get(IFactory::class)->findLanguage();
 		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
-		$direction = \OC::$server->getL10NFactory()->getLanguageDirection($lang);
+		$direction = \OC::$server->get(IFactory::class)->getLanguageDirection($lang);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
