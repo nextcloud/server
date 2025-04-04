@@ -5,10 +5,15 @@
 
 if [ -d "dist" ]; then
 	missing=''
-	for f in apps/*; do
-		grep "directory name=\"$f\"" psalm.xml 2>&1 > /dev/null
+	for app in apps/*; do
+		if git check-ignore "$app" -q ; then
+			echo "ℹ️  Ignoring non shipped app: $app"
+			continue
+		fi
+
+		grep "directory name=\"$app\"" psalm.xml 2>&1 > /dev/null
 		if [ $? -ne 0 ]; then
-			missing="$missing- $f\n"
+			missing="$missing  - $app\n"
 		fi
 	done
 
