@@ -1023,6 +1023,7 @@ export default {
 				this.creating = false
 				this.$emit('add:share', this.share)
 			} else {
+				// Let's update after creation as some attrs are only available after creation
 				this.$emit('update:share', this.share)
 				emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
