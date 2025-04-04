@@ -193,6 +193,7 @@ class FileAccess implements IFileAccess {
 		if ($excludeMountPoints !== false) {
 			$qb->andWhere($qb->expr()->notLike('mount_point', $qb->createPositionalParameter($excludeMountPoints)));
 		}
+		$qb->orderBy('root_id', 'ASC');
 		$result = $qb->executeQuery();
 
 
@@ -217,7 +218,7 @@ class FileAccess implements IFileAccess {
 						->andWhere($qb->expr()->eq('filecache.path', $qb->createNamedParameter('files')))
 						->executeQuery()->fetch();
 					if ($root !== false) {
-						$overrideRoot = intval($root['fileid']);
+						$overrideRoot = (int)$root['fileid'];
 					}
 				} catch (Exception $e) {
 					$this->logger->error('Could not fetch home storage files root for storage ' . $storageId, ['exception' => $e]);
