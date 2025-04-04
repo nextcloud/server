@@ -97,7 +97,10 @@ abstract class Avatar implements IAvatar {
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
 	}
 
-	protected function getFont(string $userDisplayName): string {
+	/**
+	 * Select the rendering font based on the user's display name and language 
+	 */
+	private function getFont(string $userDisplayName): string {
 		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
 			switch ($this->config->getUserValue($this->user->getUID(), 'core', 'lang', '')) {
 				case 'zh_TW':
@@ -126,9 +129,10 @@ abstract class Avatar implements IAvatar {
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
 		if (in_array('RSVG', $formats, true)) {
 			return null;
-		}
+		}		
+		$text = $this->getAvatarText();
 		try {
-			$font = $this->getFont($userDisplayName);
+			$font = $this->getFont($text);
 			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
@@ -171,7 +175,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = $this->getFont($userDisplayName);
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
