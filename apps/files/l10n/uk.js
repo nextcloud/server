@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 файл та {folderCount} каталог","1 файл та {folderCount} каталоги","1 файл та {folderCount} каталогів","1 файл та {folderCount} каталогів"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} файл та 1 каталог","{fileCount} файли та 1 каталог","{fileCount} файлів та 1 каталог","{fileCount} файлів та 1 каталог"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} файлів та {folderCount} каталогів",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n приховано)"," (%n прихованих)"," (%n прихованих)"," (%n прихованих)"],
     "Filename must not be empty." : "Імена файлів не мають бути порожні.",
     "\"{char}\" is not allowed inside a filename." : "Символ \"{char}\" не дозволено у імені файлу.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" є зарезервованим ім'ям і не дозволяється у іменах файлів.",

@@ -22,7 +22,7 @@ OC.L10N.register(
     "{temperature} {unit} snow showers" : "{temperature} {unit} pancadas de neve",
     "{temperature} {unit} snow showers and polar twilight later today" : "{temperature} {unit} pancadas de neve e crepúsculo polar ainda hoje",
     "{temperature} {unit} snow showers and polar twilight" : "{temperature} {unit} pancadas de neve e crepúsculo polar",
-    "{temperature} {unit} snow later today" : "{temperature} {unit} neve ainda hoje",
+    "{temperature} {unit} snow later today" : "{temperature} {unit} neve mais tarde hoje",
     "{temperature} {unit} snow" : "{temperature} {unit} neve",
     "{temperature} {unit} fair weather later today" : "{temperature} {unit} tempo bom mais tarde hoje",
     "{temperature} {unit} fair weather" : "{temperature} {unit} tempo bom",

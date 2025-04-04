@@ -636,7 +636,7 @@ OC.L10N.register(
     "Edit your Profile visibility" : "Visibilité du profil",
     "Unable to update profile enabled state" : "Impossible de mettre à jour l'état du profil",
     "Enable profile" : "Activer le profil",
-    "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Le paramètre le plus restrictif entre la visibilité et la confidentialité est respecté. Par exemple, si la visibilité est définie à \"Montrer à tout le monde\" et que la confidentialité est \"Privée\", \"Privée\" est respecté.",
+    "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Le paramètre le plus restrictif entre la visibilité et la confidentialité est respecté. Par exemple, si la visibilité est définie à \"Montrer à tout le monde\" et que la confidentialité est \"Privé\", \"Privé\" est respecté.",
     "Unable to update visibility of {displayId}" : "Impossible de mettre à jour la visibilité de {displayId}",
     "she/her" : "elle/elle",
     "he/him" : "il/lui",
