@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 Datei und {folderCount} Ordner","1 Datei und {folderCount} Ordner"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} Datei und 1 Ordner","{fileCount} Dateien und 1 Ordner"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} Dateien und {folderCount} Ordner",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n versteckt)","(%n versteckt)"],
     "Filename must not be empty." : "Dateiname darf nicht leer sein.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" ist innerhalb eines Dateinamens nicht zulässig.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ist ein reservierter Name und für Dateinamen nicht zulässig.",

@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 фајл и {folderCount} фолдер","1 фајл и {folderCount} фолдера","1 фајл и {folderCount} фолдера"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} фајл и 1 фолдер","{fileCount} фајла и 1 фолдер","{fileCount} фајлова и 1 фолдер"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} фајлова и {folderCount} фолдера",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n сакривен)","(%n сакривена)","(%n сакривених)"],
     "Filename must not be empty." : "Назив фајла не може бити празан.",
     "\"{char}\" is not allowed inside a filename." : "„{char}“ није дозвољен карактер у имену фајла.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}” је резервисано име и не сме се користити као име фајла.",

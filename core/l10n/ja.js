@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "アカウント名",
     "Server side authentication failed!" : "サーバーサイドの認証に失敗しました！",
     "Please contact your administrator." : "管理者にお問い合わせください。",
+    "Session error" : "セッションエラー",
+    "It appears your session token has expired, please refresh the page and try again." : "セッショントークンの有効期限が切れました。ページを更新して再度お試しください。",
     "An internal error occurred." : "内部エラーが発生しました。",
     "Please try again or contact your administrator." : "もう一度やり直してみるか、管理者にお問い合わせください。",
     "Password" : "パスワード",
