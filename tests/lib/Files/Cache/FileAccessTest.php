@@ -40,7 +40,7 @@ class FileAccessTest extends TestCase {
 		);
 
 		// Clear and prepare `filecache` table for tests
-		$queryBuilder = $this->dbConnection->getQueryBuilder();
+		$queryBuilder = $this->dbConnection->getQueryBuilder()->runAcrossAllShards();
 		$queryBuilder->delete('filecache')->executeStatement();
 
 		// Clean up potential leftovers from other tests
@@ -173,7 +173,9 @@ class FileAccessTest extends TestCase {
 			->executeStatement();
 
 		// Simulate adding a "files" directory to the filecache table
+		$queryBuilder = $this->dbConnection->getQueryBuilder()->runAcrossAllShards();
 		$queryBuilder->delete('filecache')->executeStatement();
+		$queryBuilder = $this->dbConnection->getQueryBuilder();
 		$queryBuilder->insert('filecache')
 			->values([
 				'fileid' => $queryBuilder->createNamedParameter(99, IQueryBuilder::PARAM_INT),
