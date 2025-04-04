@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ファイルと {folderCount} フォルダ"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} ファイルと 1 フォルダ"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} ファイルと {folderCount} フォルダ",
+    "_(%n hidden)_::_ (%n hidden)_" : [" (%n 非公開)"],
     "Filename must not be empty." : "ファイル名は空白にできません。",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\"はファイル名には使用できません。",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\"は予約名であり、ファイル名には使用できません。",

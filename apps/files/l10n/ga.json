@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 chomhad agus {folderCount} fillteán","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} comhad agus 1 fillteán","{fileCount} comhaid agus 1 fillteán","{fileCount} comhaid agus 1 fillteán","{fileCount} comhaid agus 1 fillteán","{fileCount} comhaid agus 1 fillteán"],
     "{fileCount} files and {folderCount} folders" : "comhaid {fileCount} agus fillteáin {folderCount}",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n i bhfolach)","(%n i bhfolach)","(%n i bhfolach)","(%n i bhfolach)","(%n i bhfolach)"],
     "Filename must not be empty." : "Ní ceadmhach ainm an chomhaid a bheith folamh.",
     "\"{char}\" is not allowed inside a filename." : "Ní cheadaítear \"{char}\" taobh istigh d'ainm comhaid.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "Is ainm forchoimeádta é \"{segment}\" agus ní cheadaítear é d'ainmneacha comhaid.",

@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fail ja {folderCount} kaust","1 fail ja {folderCount} kausta"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} fail ja 1 kaust","{fileCount} faili ja 1 kaust"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} faili ja {folderCount} kausta",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n peidetud)"," (%n peidetud)"],
     "Filename must not be empty." : "Failinimi ei saa olla tühi.",
     "\"{char}\" is not allowed inside a filename." : "„{char}“ pole failinimedes lubatud.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}“ on reserveeritud nimi ja seda failinimedes ei saa kasutada.",

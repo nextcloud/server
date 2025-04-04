@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 soubor a {folderCount} složka","1 soubor a {folderCount} složky","1 soubor a {folderCount} složek","1 soubor a {folderCount} složky"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} soubor a 1 složka","{fileCount} soubory a 1 složka","{fileCount} souborů a 1 složka","{fileCount} soubory a 1 složka"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} souborů a {folderCount} složek",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n skrytý)","(%n skryté)","(%n skrytých)","(%n skryté)"],
     "Filename must not be empty." : "Je třeba vyplnit název souboru.",
     "\"{char}\" is not allowed inside a filename." : "„{char}“ není v názvu souboru možné použít.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}“ je vyhrazeným názvem a není povoleno k použití pro názvy souborů.",

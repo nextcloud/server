@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 arquivo e {folderCount} pastas","1 arquivo e {folderCount} pastas","1 arquivo e {folderCount} pastas"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} arquivos e 1 pasta","{fileCount} arquivos e 1 pasta","{fileCount} arquivos e 1 pasta"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} arquivos e {folderCount} pastas",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n oculto)"," (%n ocultos)"," (%n ocultos)"],
     "Filename must not be empty." : "O nome do arquivo não pode estar vazio.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" não é permitido dentro de um nome de arquivo.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" é um nome reservado e não é permitido para nomes de arquivos.",

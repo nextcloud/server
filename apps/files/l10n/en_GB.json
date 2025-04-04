@@ -329,6 +329,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 file and {folderCount} folder","1 file and {folderCount} folders"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} file and 1 folder","{fileCount} files and 1 folder"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} files and {folderCount} folders",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n hidden)"," (%n hidden)"],
     "Filename must not be empty." : "Filename must not be empty.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" is not allowed inside a filename.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" is a reserved name and not allowed for filenames.",
