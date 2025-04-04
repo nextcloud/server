@@ -128,7 +128,7 @@ abstract class Avatar implements IAvatar {
 			return null;
 		}
 		try {
-			$font = $this->getFont($userDisplayName);
+			$font = $this->getFont($text);
 			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
@@ -171,7 +171,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = $this->getFont($userDisplayName);
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
