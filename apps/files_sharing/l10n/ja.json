@@ -183,6 +183,8 @@
     "Set default folder for accepted shares" : "共有を受け入れるためのデフォルトフォルダーを指定",
     "Reset" : "リセット",
     "Reset folder to system default" : "フォルダをシステムのデフォルトに戻す",
+    "Share expiration: " : "共有期限:",
+    "Share Expiration" : "共有期限",
     "group" : "グループ",
     "conversation" : "会話",
     "remote" : "リモート",
