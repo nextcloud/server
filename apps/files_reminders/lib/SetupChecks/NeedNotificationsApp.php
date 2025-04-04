@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\SetupChecks;
+namespace OCA\FilesReminders\SetupChecks;
 
 use OCP\App\IAppManager;
 use OCP\SetupCheck\ISetupCheck;
