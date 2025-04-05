@@ -95,6 +95,16 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 		]);
 	}
 
+	private function parseS3Metadata(array $metadata): array {
+		$result = [];
+		foreach ($metadata as $key => $value) {
+			if (str_starts_with($key, 'x-amz-meta-')) {
+				$result[substr($key, strlen('x-amz-meta-'))] = $value;
+			}
+		}
+		return $result;
+	}
+
 	public function getObjectMetaData(string $urn): array {
 		$object = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
@@ -104,7 +114,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaD
 			'mtime' => $object['LastModified'],
 			'etag' => trim($object['ETag'], '"'),
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
-		];
+		] + $this->parseS3Metadata($object['Metadata'] ?? []);
 	}
 
 	public function listObjects(string $prefix = ''): \Iterator {
