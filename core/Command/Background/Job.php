@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Background;
 
+use OCP\BackgroundJob\Events\BeforeJobExecutedEvent;
+use OCP\BackgroundJob\Events\JobExecutedEvent;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Job extends Command {
 	public function __construct(
 		protected IJobList $jobList,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
@@ -67,8 +71,10 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
+		$this->eventDispatcher->dispatchTyped(new BeforeJobExecutedEvent($job));
 		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 		$job->execute($this->jobList);
+		$this->eventDispatcher->dispatchTyped(new JobExecutedEvent($job));
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
