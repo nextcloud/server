@@ -77,7 +77,7 @@ $filesDropPlugin = new FilesDropPlugin();
 
 // Define root url with /public.php/dav/files/TOKEN
 /** @var string $baseuri defined in public.php */
-preg_match('/(^files\/[a-z0-9-]+)/i', substr($requestUri, strlen($baseuri)), $match);
+preg_match('/(^files\/[a-z0-9-_]+)/i', substr($requestUri, strlen($baseuri)), $match);
 $baseuri = $baseuri . $match[0];
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
