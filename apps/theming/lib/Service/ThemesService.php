@@ -148,8 +148,7 @@ class ThemesService {
 	}
 
 	/**
-	 * Get the list of all enabled themes IDs
-	 * for the logged-in user
+	 * Get the list of all enabled themes IDs for the current user.
 	 *
 	 * @return string[]
 	 */
