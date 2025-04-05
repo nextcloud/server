@@ -86,7 +86,7 @@ class MailPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetEmail
+	 * @dataProvider dataSearch
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
@@ -136,7 +136,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public function dataGetEmail() {
+	public function dataSearch() {
 		return [
 			// data set 0
 			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, false, false],
@@ -570,7 +570,7 @@ class MailPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetEmailGroupsOnly
+	 * @dataProvider dataSearchGroupsOnly
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
@@ -639,7 +639,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public function dataGetEmailGroupsOnly() {
+	public function dataSearchGroupsOnly() {
 		return [
 			// The user `User` can share with the current user
 			[
