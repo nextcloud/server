@@ -411,7 +411,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
 				$root,
-				$c->get(SystemConfig::class)
+				$c->get(SystemConfig::class),
+				$this->get(IEventDispatcher::class)
 			);
 			$previewConnector->connectWatcher();
 
