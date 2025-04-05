@@ -79,4 +79,37 @@ interface IFileAccess {
 	 * @since 29.0.0
 	 */
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array;
+
+	/**
+	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
+	 * Allows filtering by mime types, encryption status, and limits the number of results.
+	 *
+	 * @param int $storageId The ID of the storage to search within.
+	 * @param int $rootId The file ID of the ancestor to base the search on.
+	 * @param int $lastFileId The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param list<int> $mimeTypes An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
+	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @return \Generator A generator yielding matching files as cache entries.
+	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator;
+
+	/**
+	 * Retrieves a list of all distinct mounts.
+	 * Allows filtering by specific mount providers and excluding certain mount points.
+	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
+	 *
+	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
+	 * @param string|false $excludeMountPoints A string containing an SQL LIKE pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
+	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
+	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
+	 */
+	public function getDistinctMounts(array $mountProviders = [], string|false $excludeMountPoints = false, bool $rewriteHomeDirectories = true): \Generator;
 }

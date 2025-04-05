@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IMimeTypeLoader;
@@ -93,5 +94,142 @@ class FileAccess implements IFileAccess {
 
 		$rows = $query->executeQuery()->fetchAll();
 		return $this->rowsToEntries($rows);
+	}
+
+	/**
+	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
+	 * Allows filtering by mime types, encryption status, and limits the number of results.
+	 *
+	 * @param int $storageId The ID of the storage to search within.
+	 * @param int $rootId The file ID of the ancestor to base the search on.
+	 * @param int $lastFileId The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param list<int> $mimeTypes An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
+	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @return \Generator A generator yielding matching files as cache entries.
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator {
+		$qb = $this->getQuery();
+		$qb->selectFileCache();
+		$qb->andWhere($qb->expr()->eq('filecache.fileid', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		/** @var array{path:string}|false $root */
+		$root = $result->fetch();
+		$result->closeCursor();
+
+		if ($root === false) {
+			throw new Exception('Could not fetch storage root');
+		}
+
+		$qb = $this->getQuery();
+
+		$path = $root['path'] === '' ? '' : $root['path'] . '/';
+
+		$qb->selectDistinct('*')
+			->from('filecache', 'f')
+			->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($path . '%')))
+			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($lastFileId)));
+
+		if (!$endToEndEncrypted) {
+			// End to end encrypted files are descendants of a folder with encrypted=1
+			// Use a subquery to check the `encrypted` status of the parent folder
+			$subQuery = $this->getQuery()->select('p.encrypted')
+				->from('filecache', 'p')
+				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
+				->getSQL();
+
+			$qb->andWhere(
+				$qb->expr()->eq($qb->createFunction(sprintf('(%s)', $subQuery)), $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			);
+		}
+
+		if (!$serverSideEncrypted) {
+			// Server side encrypted files have encrypted=1 directly
+			$qb->andWhere($qb->expr()->eq('f.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		}
+
+		if (count($mimeTypes) > 0) {
+			$qb->andWhere($qb->expr()->in('f.mimetype', $qb->createNamedParameter($mimeTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
+		if ($maxResults !== 0) {
+			$qb->setMaxResults($maxResults);
+		}
+		$qb->orderBy('f.fileid', 'ASC');
+		$files = $qb->executeQuery();
+
+		while (
+			/** @var array */
+			$row = $files->fetch()
+		) {
+			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+		}
+
+		$files->closeCursor();
+	}
+
+	/**
+	 * Retrieves a list of all distinct mounts.
+	 * Allows filtering by specific mount providers and excluding certain mount points.
+	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
+	 *
+	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
+	 * @param string|false $excludeMountPoints A string containing an SQL LIKE pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
+	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getDistinctMounts(array $mountProviders = [], string|false $excludeMountPoints = false, bool $rewriteHomeDirectories = true): \Generator {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
+			->from('mounts');
+		if (count($mountProviders) > 0) {
+			$qb->where($qb->expr()->in('mount_provider_class', $qb->createPositionalParameter($mountProviders, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+		if ($excludeMountPoints !== false) {
+			$qb->andWhere($qb->expr()->notLike('mount_point', $qb->createPositionalParameter($excludeMountPoints)));
+		}
+		$qb->orderBy('root_id', 'ASC');
+		$result = $qb->executeQuery();
+
+
+		while (
+			/** @var array{storage_id:int, root_id:int,mount_provider_class:string} $row */
+			$row = $result->fetch()
+		) {
+			$storageId = (int)$row['storage_id'];
+			$rootId = (int)$row['root_id'];
+			$overrideRoot = $rootId;
+			if ($rewriteHomeDirectories && in_array($row['mount_provider_class'], [
+				\OC\Files\Mount\LocalHomeMountProvider::class,
+				\OC\Files\Mount\ObjectHomeMountProvider::class,
+			], true)) {
+				// Only crawl files, not cache or trashbin
+				$qb = $this->getQuery();
+				try {
+					$qb->selectFileCache();
+					/** @var array|false $root */
+					$root = $qb
+						->andWhere($qb->expr()->eq('filecache.storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($qb->expr()->eq('filecache.path', $qb->createNamedParameter('files')))
+						->executeQuery()->fetch();
+					if ($root !== false) {
+						$overrideRoot = (int)$root['fileid'];
+					}
+				} catch (Exception $e) {
+					$this->logger->error('Could not fetch home storage files root for storage ' . $storageId, ['exception' => $e]);
+					continue;
+				}
+			}
+			yield [
+				'storage_id' => $storageId,
+				'root_id' => $rootId,
+				'override_root' => $overrideRoot,
+			];
+		}
+		$result->closeCursor();
 	}
 }
