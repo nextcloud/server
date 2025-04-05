@@ -12,12 +12,14 @@ use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OC\User\LazyUser;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -56,6 +58,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
 		private IManager $shareManager,
+		private IConfig $config,
 	) {
 	}
 
@@ -483,6 +486,15 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	protected function createUserSpecificGroupShare(IShare $share, string $recipient): int {
 		$type = $share->getNodeType();
 
+		$shareFolder = $this->config->getSystemValue('share_folder', '/');
+		$allowCustomShareFolder = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+		if ($allowCustomShareFolder) {
+			$shareFolder = $this->config->getUserValue($recipient, Application::APP_ID, 'share_folder', $shareFolder);
+		}
+
+		$target = $shareFolder . '/' . $share->getNode()->getName();
+		$target = \OC\Files\Filesystem::normalizePath($target);
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -494,7 +506,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				'item_type' => $qb->createNamedParameter($type),
 				'item_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
-				'file_target' => $qb->createNamedParameter($share->getTarget()),
+				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->executeStatement();
