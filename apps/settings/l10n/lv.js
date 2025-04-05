@@ -2,7 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Private" : "Privāts",
-    "Local" : "Lokāls",
+    "Local" : "Vietējs",
     "Federated" : "Federated",
     "Verify" : "Verificēt",
     "Unable to change password" : "Nav iespējams nomainīt paroli",
@@ -136,7 +136,7 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "The file must be a PNG or JPG" : "Failam jābūt PNG vai JPG",
+    "The file must be a PNG or JPG" : "Datnei jābūt PNG vai JPG",
     "Unable to update date of birth" : "Nevarēja atjaunināt dzimšanas datumu",
     "Enter your date of birth" : "Ievadiet Jūsu dzimšanas datumu",
     "You are using {s}{usage}{/s}" : "Jūs izmantojat {s}{usage}{/s}",
