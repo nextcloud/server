@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد","1 ملف و{folderCount} مجلدات","1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} ملف و 1 مجلد","{fileCount} ملف و 1 مجلد","{fileCount} ملف و 1 مجلد","{fileCount} ملفات و 1 مجلد ","{fileCount} ملف و 1 مجلد","{fileCount} ملف و 1 مجلد"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} ملف و {folderCount} مجلد",
+    "_(%n hidden)_::_ (%n hidden)_" : [" (%n مخفية)","(%n مخفية)"," (%n مخفية)"," (%n مخفية)"," (%n مخفية)"," (%n مخفية)"],
     "Filename must not be empty." : "يجب ألّا يكون اسم الملف فارغاً.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" غير مسموح به في اسم الملف.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" هو اسم محجوز و لا يجوز استعماله كاسم لملف.",
