@@ -110,6 +110,9 @@ jobs:
       - name: Check that all and only expected files are included
         run: php ./build/files-checker.php
 
+      - name: Check that all shipped apps are linted by psalm
+        run: sh ./build/psalm-checker.sh
+
   summary:
     permissions:
       contents: none
