@@ -26,6 +26,10 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\CloudFederationAPI\\Config' => __DIR__ . '/..' . '/../lib/Config.php',
         'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
+        'OCA\\CloudFederationAPI\\Db\\FederatedInvite' => __DIR__ . '/..' . '/../lib/Db/FederatedInvite.php',
+        'OCA\\CloudFederationAPI\\Db\\FederatedInviteMapper' => __DIR__ . '/..' . '/../lib/Db/FederatedInviteMapper.php',
+        'OCA\\CloudFederationAPI\\Events\\FederatedInviteAcceptedEvent' => __DIR__ . '/..' . '/../lib/Events/FederatedInviteAcceptedEvent.php',
+        'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
         'OCA\\CloudFederationAPI\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
