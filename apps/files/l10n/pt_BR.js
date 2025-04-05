@@ -449,7 +449,7 @@ OC.L10N.register(
     "List of favorites files and folders." : "Lista de arquivos e pastas favoritos.",
     "Personal Files" : "Arquivos pessoais",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo arquivo de texto arquivo.txt",
+    "New text file.txt" : "Novo arquivo de texto.txt",
     "Favored" : "Favoritado",
     "Favor" : "Favor",
     "Not favored" : "Não favoritado",

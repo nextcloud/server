@@ -31,7 +31,7 @@ OC.L10N.register(
     "Your status was set automatically" : "Seu status foi definido automaticamente",
     "Clear status message" : "Limpar mensagem de status",
     "Set status message" : "Definir mensagem de status",
-    "Don't clear" : "Não limpar",
+    "Don't clear" : "Não limpe",
     "Today" : "Hoje",
     "This week" : "Esta semana",
     "Online" : "Online",

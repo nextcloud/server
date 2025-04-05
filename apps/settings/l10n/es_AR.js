@@ -104,6 +104,7 @@ OC.L10N.register(
     "Set your password" : "Establecé tu contraseña",
     "Go to %s" : "Ir a %s",
     "Install Client" : "Instalar cliente",
+    "Logged in account must be a sub admin" : "La cuenta conectada debe ser de un subadministrador",
     "Apps" : "Aplicaciones",
     "Personal" : "Personal",
     "Administration" : "Administración",
