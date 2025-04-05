@@ -14,6 +14,7 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -29,39 +30,45 @@ class Show extends Base {
 		$this
 			->setName('admin-delegation:show')
 			->setDescription('show delegated settings')
+			->addOption(
+				'output',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'Output format (plain, json or json_pretty, default is plain)',
+				$this->defaultOutputFormat
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$io = new SymfonyStyle($input, $output);
-		$io->title('Current delegations');
-
 		$sections = $this->settingManager->getAdminSections();
-		$settings = [];
-		$headers = ['Name', 'SettingId', 'Delegated to groups'];
-		foreach ($sections as $sectionPriority) {
-			foreach ($sectionPriority as $section) {
-				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				if (empty($sectionSettings)) {
-					continue;
-				}
 
-				$io->section('Section: ' . $section->getID());
-				$io->table($headers, array_map(function (IDelegatedSettings $setting) use ($section) {
-					$className = get_class($setting);
-					$groups = array_map(
-						static fn (AuthorizedGroup $group) => $group->getGroupId(),
-						$this->authorizedGroupService->findExistingGroupsForClass($className)
-					);
-					natsort($groups);
-					return [
-						$setting->getName() ?: 'Global',
-						$className,
-						implode(', ', $groups),
-					];
-				}, $sectionSettings));
-			}
+		$settings = [];
+		switch ($input->getOption('output')) {
+			case self::OUTPUT_FORMAT_JSON:
+				$output->writeln(json_encode($this->buildOutput($sections)));
+				break;
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$output->writeln(json_encode($this->buildOutput($sections), JSON_PRETTY_PRINT));
+				break;
+			default:
+				$currentDelegations = $this->buildOutput($sections);
+
+				$io = new SymfonyStyle($input, $output);
+				$io->title('Current delegations');
+
+				$headers = ['Name', 'SettingId', 'Delegated to groups'];
+
+				foreach ($currentDelegations['currentDelegations'] as $delegationGroup) {
+					$io->section('Section: ' . $delegationGroup['section']);
+					$io->table($headers, array_map(function (array $delegations) {
+						return [
+							$delegations['name'],
+							$delegations['settingId'],
+							$delegations['delegatedToGroups']
+						];
+					}, $delegationGroup['delegations']));
+				}
 		}
 
 		return 0;
@@ -73,5 +80,41 @@ class Show extends Base {
 	 */
 	private function getDelegatedSettings(array $settings, array $innerSection): array {
 		return $settings + array_filter($innerSection, fn (ISettings $setting) => $setting instanceof IDelegatedSettings);
+	}
+
+	private function buildOutput(array $sections): array {
+		$currentDelegations = [
+			'currentDelegations' => []
+		];
+
+		foreach ($sections as $sectionPriority) {
+			foreach ($sectionPriority as $section) {
+				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
+				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
+				if (empty($sectionSettings)) {
+					continue;
+				}
+
+				$currentDelegations['currentDelegations'][] = [
+					'section' => $section->getID(),
+					'delegations' =>
+						array_map(function (IDelegatedSettings $setting) use ($section) {
+							$className = get_class($setting);
+							$groups = array_map(
+								static fn (AuthorizedGroup $group) => $group->getGroupId(),
+								$this->authorizedGroupService->findExistingGroupsForClass($className)
+							);
+							natsort($groups);
+							return [
+								'name' => $setting->getName() ?: 'Global',
+								'settingId' => $className,
+								'delegatedToGroups' => implode(', ', $groups)
+							];
+						}, $sectionSettings)
+				];
+			}
+		}
+
+		return $currentDelegations;
 	}
 }
