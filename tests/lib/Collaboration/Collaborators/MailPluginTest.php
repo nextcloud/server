@@ -94,7 +94,7 @@ class MailPluginTest extends TestCase {
 	 * @param bool $expectedMoreResults
 	 * @param bool $validEmail
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetEmail')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearch')]
 	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -132,7 +132,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public static function dataGetEmail(): array {
+	public static function dataSearch(): array {
 		return [
 			// data set 0
 			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, false, false],
@@ -575,7 +575,7 @@ class MailPluginTest extends TestCase {
 	 * @param array $userToGroupMapping
 	 * @param bool $validEmail
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetEmailGroupsOnly')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchGroupsOnly')]
 	public function testSearchGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -632,7 +632,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public static function dataGetEmailGroupsOnly(): array {
+	public static function dataSearchGroupsOnly(): array {
 		return [
 			// The user `User` can share with the current user
 			[
