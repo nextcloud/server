@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 個檔案與 {folderCount} 個資料夾"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} 個檔案與 1 個資料夾"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} 個檔案與 {folderCount} 個資料夾",
+    "_(%n hidden)_::_ (%n hidden)_" : ["（%n 隱藏）"],
     "Filename must not be empty." : "檔案名稱不能為空。",
     "\"{char}\" is not allowed inside a filename." : "檔案名稱中不允許出現「{char}」",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "「{segment}」是保留名稱，不允許用在檔案名稱。",
