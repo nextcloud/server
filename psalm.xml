@@ -30,6 +30,7 @@
 		<directory name="apps/federation"/>
 		<directory name="apps/files"/>
 		<directory name="apps/files_external"/>
+		<directory name="apps/files_reminders"/>
 		<directory name="apps/files_sharing"/>
 		<directory name="apps/files_trashbin"/>
 		<directory name="apps/files_versions"/>

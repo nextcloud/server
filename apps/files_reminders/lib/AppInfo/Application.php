@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\FilesReminders\AppInfo;
 
 use OCA\DAV\Events\SabrePluginAddEvent;
+use OCA\DAV\SetupChecks\NeedNotificationsApp;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\FilesReminders\Listener\LoadAdditionalScriptsListener;
 use OCA\FilesReminders\Listener\NodeDeletedListener;
