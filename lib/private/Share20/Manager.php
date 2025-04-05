@@ -1965,14 +1965,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Copied from \OC_Util::isSharingDisabledForUser
-	 *
-	 * TODO: Deprecate function from OC_Util
-	 *
-	 * @param string $userId
-	 * @return bool
+	 * Check if sharing is disabled for the current user
 	 */
-	public function sharingDisabledForUser($userId) {
+	public function sharingDisabledForUser(string $userId): bool {
 		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 
