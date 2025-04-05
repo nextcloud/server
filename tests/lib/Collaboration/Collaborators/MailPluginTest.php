@@ -92,7 +92,9 @@ class MailPluginTest extends TestCase {
 	 * @param array $contacts
 	 * @param bool $shareeEnumeration
 	 * @param array $expected
+	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
+	 * @param bool $validEmail
 	 */
 	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail): void {
 		$this->config->expects($this->any())
@@ -575,7 +577,8 @@ class MailPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
-	 * @param array groups
+	 * @param array $userToGroupMapping
+	 * @param bool $validEmail
 	 */
 	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail): void {
 		$this->config->expects($this->any())
