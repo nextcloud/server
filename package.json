@@ -136,7 +136,7 @@
     "@testing-library/cypress": "^10.0.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/user-event": "^14.6.1",
-    "@testing-library/vue": "^5.8.3",
+    "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^3.3.32",
     "@types/wait-on": "^5.3.4",
     "@vitejs/plugin-vue2": "^2.3.1",
