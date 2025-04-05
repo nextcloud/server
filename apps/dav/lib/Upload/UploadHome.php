@@ -25,21 +25,27 @@
  */
 namespace OCA\DAV\Upload;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Constants;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
-	/** @var array */
-	private $principalInfo;
-	/** @var CleanupService */
-	private $cleanupService;
+	private ?Folder $uploadFolder = null;
 
-	public function __construct(array $principalInfo, CleanupService $cleanupService) {
-		$this->principalInfo = $principalInfo;
-		$this->cleanupService = $cleanupService;
+	public function __construct(
+		private array $principalInfo,
+		private CleanupService $cleanupService,
+		private IRootFolder $rootFolder,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function createFile($name, $data = null) {
@@ -84,28 +90,39 @@ class UploadHome implements ICollection {
 		return $this->impl()->getLastModified();
 	}
 
-	/**
-	 * @return Directory
-	 */
-	private function impl() {
-		$view = $this->getView();
-		$rootInfo = $view->getFileInfo('');
-		return new Directory($view, $rootInfo);
+	private function getUploadFolder(): Folder {
+		if ($this->uploadFolder === null) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
+			$path = '/' . $user->getUID() . '/uploads';
+			try {
+				$folder = $this->rootFolder->get($path);
+				if (!$folder instanceof Folder) {
+					throw new \Exception('Upload folder is a file');
+				}
+				$this->uploadFolder = $folder;
+			} catch (NotFoundException $e) {
+				$this->uploadFolder = $this->rootFolder->newFolder($path);
+			}
+		}
+		return $this->uploadFolder;
 	}
 
-	private function getView() {
-		$rootView = new View();
-		$user = \OC::$server->getUserSession()->getUser();
-		Filesystem::initMountPoints($user->getUID());
-		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
-			$rootView->mkdir('/' . $user->getUID() . '/uploads');
+	private function impl(): Directory {
+		$folder = $this->getUploadFolder();
+		if (!$folder->isCreatable()) {
+			$user = $this->userSession->getUser();
+			$this->logger->warning('Upload home not writable for ' . $user->getUID() . ', attempting to fix', ['permissions' => $folder->getPermissions()]);
+			$cache = $folder->getStorage()->getCache();
+			$cache->update($folder->getId(), ['permissions', Constants::PERMISSION_ALL]);
 		}
-		return new View('/' . $user->getUID() . '/uploads');
+		$view = new View($folder->getPath());
+		return new Directory($view, $folder);
 	}
 
 	private function getStorage() {
-		$view = $this->getView();
-		$storage = $view->getFileInfo('')->getStorage();
-		return $storage;
+		return $this->getUploadFolder()->getStorage();
 	}
 }
