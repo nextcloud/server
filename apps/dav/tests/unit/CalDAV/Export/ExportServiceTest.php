@@ -9,19 +9,24 @@ use Generator;
 use OCA\DAV\CalDAV\Export\ExportService;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\ICalendarExport;
+use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 
 class ExportServiceTest extends \Test\TestCase {
 
 	private ExportService $service;
+	private IConfig|MockObject $config;
 	private ICalendarExport|MockObject $calendar;
 	private array $mockExportCollection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->service = new ExportService();
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getSystemValue')
+			->willReturn('32.0.0.0');
+		$this->service = new ExportService($this->config);
 		$this->calendar = $this->createMock(ICalendarExport::class);
 
 	}
