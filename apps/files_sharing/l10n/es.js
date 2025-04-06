@@ -112,7 +112,7 @@ OC.L10N.register(
     "You received {share} as a share by {user}" : "Has recibido {share} como un recurso compartido de {user}",
     "You received {share} to group {group} as a share by {user}" : "Has recibido {share} para el grupo {group} como un recurso compartido de {user}",
     "Accept" : "Aceptar",
-    "Decline" : "Declinar",
+    "Decline" : "Rechazar",
     "Remember to upload the files to %s" : "Recuerde subir los archivos a %s",
     "We would like to kindly remind you that you have not yet uploaded any files to the shared folder." : "Queremos recordarle amablemente que Ud. todavía no ha subido archivos a la carpeta compartida.",
     "Open \"%s\"" : "Abrir \"%s\"",
