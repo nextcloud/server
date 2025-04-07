@@ -80,12 +80,6 @@ class TemplateLayout {
 				} else {
 					Util::addScript('core', 'unified-search', 'core');
 				}
-				// Set body data-theme
-				$page->assign('enabledThemes', []);
-				if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-					$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
-					$page->assign('enabledThemes', $themesService->getEnabledThemes());
-				}
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
@@ -164,13 +158,6 @@ class TemplateLayout {
 				$page->assign('appid', $appId);
 				$page->assign('bodyid', 'body-public');
 
-				// Set body data-theme
-				$page->assign('enabledThemes', []);
-				if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
-					$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
-					$page->assign('enabledThemes', $themesService->getEnabledThemes());
-				}
-
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
 				$page->assign('logoUrl', $logoUrl);
@@ -209,6 +196,10 @@ class TemplateLayout {
 		$page->assign('language', $lang);
 		$page->assign('locale', $locale);
 		$page->assign('direction', $direction);
+
+		// Set body data-theme
+		$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
+		$page->assign('enabledThemes', $themesService->getEnabledThemes());
 
 		if ($this->config->getSystemValueBool('installed', false)) {
 			if (empty(self::$versionHash)) {
