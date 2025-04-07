@@ -7,15 +7,17 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\SetupChecks;
+namespace OCA\FilesReminders\SetupChecks;
 
 use OCP\App\IAppManager;
+use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class NeedNotificationsApp implements ISetupCheck {
 	public function __construct(
 		private IAppManager $appManager,
+		private IL10N $l10n,
 	) {
 	}
 
