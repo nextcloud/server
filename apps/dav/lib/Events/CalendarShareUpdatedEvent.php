@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Events;
 
 use OCP\EventDispatcher\Event;
-use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
-use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 
 /**
  * Class CalendarShareUpdatedEvent
  *
  * @package OCA\DAV\Events
  * @since 20.0.0
+ *
+ * @psalm-import-type CalendarInfo from \OCA\DAV\CalDAV\CalDavBackend
  */
 class CalendarShareUpdatedEvent extends Event {
 	private int $calendarId;
@@ -37,7 +37,8 @@ class CalendarShareUpdatedEvent extends Event {
 	 * CalendarShareUpdatedEvent constructor.
 	 *
 	 * @param int $calendarId
-	 * @param array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string } $calendarData
+	 * @psalm-param CalendarInfo $calendarData
+	 * @param array $calendarData
 	 * @param list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}> $oldShares
 	 * @param list<array{href: string, commonName: string, readOnly: bool}> $added
 	 * @param list<string> $removed
@@ -64,7 +65,8 @@ class CalendarShareUpdatedEvent extends Event {
 	}
 
 	/**
-	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string }
+	 * @psalm-return CalendarInfo
+	 * @return array
 	 * @since 20.0.0
 	 */
 	public function getCalendarData(): array {

@@ -89,6 +89,19 @@ use function time;
  * Code is heavily inspired by https://github.com/fruux/sabre-dav/blob/master/lib/CalDAV/Backend/PDO.php
  *
  * @package OCA\DAV\CalDAV
+ *
+ * @psalm-type CalendarInfo = array{
+ *     id: int,
+ *     uri: string,
+ *     principaluri: string,
+ *     '{http://calendarserver.org/ns/}getctag': string,
+ *     '{http://sabredav.org/ns}sync-token': int,
+ *     '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': \Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet,
+ *     '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': \Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp,
+ *     '{DAV:}displayname': string,
+ *     '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string,
+ *     '{http://nextcloud.com/ns}owner-displayname': string,
+ * }
  */
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
 	use TTransactional;
@@ -650,7 +663,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @return array{id: int, uri: string, '{http://calendarserver.org/ns/}getctag': string, '{http://sabredav.org/ns}sync-token': int, '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set': SupportedCalendarComponentSet, '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp': ScheduleCalendarTransp, '{urn:ietf:params:xml:ns:caldav}calendar-timezone': ?string }|null
+	 * @psalm-return CalendarInfo|null
+	 * @return array|null
 	 */
 	public function getCalendarById(int $calendarId): ?array {
 		$fields = array_column($this->propertyMap, 0);
@@ -3594,5 +3608,27 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$cmd->delete($this->dbObjectInvitationsTable)
 			->where($cmd->expr()->eq('uid', $cmd->createNamedParameter($eventId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$cmd->executeStatement();
+	}
+
+	public function unshare(IShareable $shareable, string $principal): void {
+		$this->atomic(function () use ($shareable, $principal): void {
+			$calendarData = $this->getCalendarById($shareable->getResourceId());
+			if ($calendarData === null) {
+				throw new \RuntimeException('Trying to update shares for non-existing calendar: ' . $shareable->getResourceId());
+			}
+
+			$oldShares = $this->getShares($shareable->getResourceId());
+			$unshare = $this->calendarSharingBackend->unshare($shareable, $principal);
+
+			if ($unshare) {
+				$this->dispatcher->dispatchTyped(new CalendarShareUpdatedEvent(
+					$shareable->getResourceId(),
+					$calendarData,
+					$oldShares,
+					[],
+					[$principal]
+				));
+			}
+		}, $this->db);
 	}
 }
