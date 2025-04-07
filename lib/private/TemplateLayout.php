@@ -149,6 +149,13 @@ class TemplateLayout {
 				if ($user) {
 					$userDisplayName = $user->getDisplayName();
 				}
+
+				$page->assign('enabledThemes', []);
+				if ($this->appManager->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+					$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
+					$page->assign('enabledThemes', $themesService->getEnabledThemes());
+				}
+
 				$page->assign('user_displayname', $userDisplayName);
 				$page->assign('user_uid', \OC_User::getUser());
 				break;
