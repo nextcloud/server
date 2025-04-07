@@ -1967,7 +1967,7 @@ class Manager implements IManager {
 	/**
 	 * Check if sharing is disabled for the current user
 	 */
-	public function sharingDisabledForUser(string $userId): bool {
+	public function sharingDisabledForUser(?string $userId): bool {
 		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 
