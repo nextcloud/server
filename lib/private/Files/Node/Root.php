@@ -389,7 +389,7 @@ class Root extends Folder implements IRootFolder {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
 			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
-			if ($cachedPath && str_starts_with($path, $cachedPath)) {
+			if ($cachedPath && str_starts_with($cachedPath, $path)) {
 				// getting the node by path is significantly cheaper than finding it by id
 				$node = $this->get($cachedPath);
 				// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
