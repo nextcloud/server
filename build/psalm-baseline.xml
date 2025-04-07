@@ -848,6 +848,12 @@
       <code><![CDATA[test]]></code>
     </TooManyArguments>
   </file>
+  <file src="apps/files_reminders/lib/Model/RichReminder.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[public function __construct(]]></code>
+      <code><![CDATA[public function __construct(]]></code>
+    </ConstructorSignatureMismatch>
+  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <RedundantCast>
       <code><![CDATA[(int)$code]]></code>
