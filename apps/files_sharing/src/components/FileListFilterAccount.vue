@@ -36,14 +36,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IAccountData } from '../filters/AccountFilter.ts'
+import type { IAccountData } from '../files_filters/AccountFilter.ts'
 
 import { translate as t } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
 import { mdiAccountMultiple } from '@mdi/js'
-import { useBrowserLocation } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
-import { useNavigation } from '../../../files/src/composables/useNavigation.ts'
 
 import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -61,8 +58,6 @@ const emit = defineEmits<{
 	(event: 'update:accounts', value: IAccountData[]): void
 }>()
 
-const { currentView } = useNavigation()
-const currentLocation = useBrowserLocation()
 const accountFilter = ref('')
 const availableAccounts = ref<IUserSelectData[]>([])
 const selectedAccounts = ref<IUserSelectData[]>([])
@@ -106,71 +101,27 @@ watch(selectedAccounts, () => {
 })
 
 /**
- * Update the accounts owning nodes or have nodes shared to them
- * @param path The path inside the current view to load for accounts
- */
-async function updateAvailableAccounts(path: string = '/') {
-	availableAccounts.value = []
-	if (!currentView.value) {
-		return
-	}
-
-	const { contents } = await currentView.value.getContents(path)
-	const available = new Map<string, IUserSelectData>()
-	for (const node of contents) {
-		const owner = node.owner
-		if (owner && !available.has(owner)) {
-			available.set(owner, {
-				id: owner,
-				user: owner,
-				displayName: node.attributes['owner-display-name'] ?? node.owner,
-			})
-		}
-
-		const sharees = node.attributes.sharees?.sharee
-		if (sharees) {
-			// ensure sharees is an array (if only one share then it is just an object)
-			for (const sharee of [sharees].flat()) {
-				// Skip link shares and other without user
-				if (sharee.id === '') {
-					continue
-				}
-				if (sharee.type !== ShareType.User && sharee.type !== ShareType.Remote) {
-					continue
-				}
-				// Add if not already added
-				if (!available.has(sharee.id)) {
-					available.set(sharee.id, {
-						id: sharee.id,
-						user: sharee.id,
-						displayName: sharee['display-name'],
-					})
-				}
-			}
-		}
-	}
-	availableAccounts.value = [...available.values()]
-}
-
-/**
  * Reset this filter
  */
 function resetFilter() {
 	selectedAccounts.value = []
 	accountFilter.value = ''
 }
-defineExpose({ resetFilter, toggleAccount })
 
-// When the current view changes or the current directory,
-// then we need to rebuild the available accounts
-watch([currentView, currentLocation], () => {
-	if (currentView.value) {
-		// we have no access to the files router here...
-		const path = (currentLocation.value.search ?? '?dir=/').match(/(?<=&|\?)dir=([^&#]+)/)?.[1]
-		resetFilter()
-		updateAvailableAccounts(decodeURIComponent(path ?? '/'))
-	}
-}, { immediate: true })
+/**
+ * Update list of available accounts in current view.
+ *
+ * @param accounts - Accounts to use
+ */
+function setAvailableAccounts(accounts: IAccountData[]): void {
+	availableAccounts.value = accounts.map(({ uid, displayName }) => ({ displayName, id: uid, user: uid }))
+}
+
+defineExpose({
+	resetFilter,
+	setAvailableAccounts,
+	toggleAccount,
+})
 </script>
 
 <style scoped lang="scss">
