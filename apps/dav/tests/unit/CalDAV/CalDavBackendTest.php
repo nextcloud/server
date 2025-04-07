@@ -18,6 +18,7 @@ use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
+use Psr\Log\NullLogger;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -520,7 +521,7 @@ EOD;
 		sort($stateLive['deleted']);
 		// test live state
 		$this->assertEquals($stateTest, $stateLive, 'Failed test delta sync state with events in calendar');
-		
+
 		/** modify/delete events in calendar */
 		$this->deleteEvent($calendarId, $event1);
 		$this->modifyEvent($calendarId, $event2, '20250701T140000Z', '20250701T150000Z');
@@ -1847,5 +1848,47 @@ EOD;
 		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
 		$this->assertEquals('Missing DTSTART 1', $results[2]['objects'][0]['SUMMARY'][0]);
 		$this->assertEquals('Missing DTSTART 2', $results[3]['objects'][0]['SUMMARY'][0]);
+	}
+
+	public function testUnshare(): void {
+		$principalGroup = 'principal:' . self::UNIT_TEST_GROUP;
+		$principalUser = 'principal:' . self::UNIT_TEST_USER;
+
+		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')
+			->willReturnCallback(fn ($text, $parameters = []) => vsprintf($text, $parameters));
+		$config = $this->createMock(IConfig::class);
+		$logger = new NullLogger();
+
+		$this->principal->expects($this->exactly(2))
+			->method('findByUri')
+			->willReturnMap([
+				[$principalGroup, '', self::UNIT_TEST_GROUP],
+				[$principalUser, '', self::UNIT_TEST_USER],
+			]);
+		$this->groupManager->expects($this->once())
+			->method('groupExists')
+			->willReturn(true);
+		$this->dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped');
+
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = $this->backend->getCalendarById($calendarId);
+
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n, $config, $logger);
+
+		$this->backend->updateShares(
+			shareable: $calendar,
+			add: [
+				['href' => $principalGroup, 'readOnly' => false]
+			],
+			remove: []
+		);
+
+		$this->backend->unshare(
+			shareable: $calendar,
+			principal: $principalUser
+		);
+
 	}
 }

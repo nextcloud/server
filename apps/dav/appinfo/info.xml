@@ -56,18 +56,20 @@
 	</repair-steps>
 
 	<commands>
+		<command>OCA\DAV\Command\ClearCalendarUnshares</command>
 		<command>OCA\DAV\Command\ClearContactsPhotoCache</command>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
-		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\ListCalendarShares</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
-		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<settings>
