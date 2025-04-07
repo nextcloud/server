@@ -537,6 +537,7 @@ class File extends Node implements IFile {
 	 * @return array|bool
 	 */
 	public function getDirectDownload() {
+		return [];
 		if (Server::get(IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
