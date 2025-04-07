@@ -2607,11 +2607,6 @@
       <code><![CDATA[\Test\Util\User\Dummy]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/private/legacy/OC_Util.php">
-    <InvalidReturnType>
-      <code><![CDATA[void]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
