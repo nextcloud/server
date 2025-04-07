@@ -28,12 +28,14 @@ class File implements ICache {
 	 * @throws \OC\ForbiddenException
 	 * @throws \OC\User\NoUserException
 	 */
-	protected function getStorage() {
+	protected function getStorage(?IUser $user = null): Folder {
 		if ($this->storage !== null) {
 			return $this->storage;
 		}
-		$session = Server::get(IUserSession::class);
-		$user = $session->getUser();
+		if (!$user) {
+			$session = Server::get(IUserSession::class);
+			$user = $session->getUser();
+		}
 		$rootFolder = Server::get(IRootFolder::class);
 		if ($user) {
 			$userId = $user->getUID();
@@ -156,8 +158,8 @@ class File implements ICache {
 	 * Runs GC
 	 * @throws \OC\ForbiddenException
 	 */
-	public function gc() {
-		$storage = $this->getStorage();
+	public function gc(?IUser $user = null) {
+		$storage = $this->getStorage($user);
 		// extra hour safety, in case of stray part chunks that take longer to write,
 		// because touch() is only called after the chunk was finished
 
