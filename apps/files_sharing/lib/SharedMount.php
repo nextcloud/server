@@ -104,7 +104,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 			$this->updateFileTarget($newMountPoint, $share);
 		}
 
-		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
+		$this->cache->set($cacheKey, $newMountPoint, 2 * 24 * 60 * 60);
 
 		return $newMountPoint;
 	}
