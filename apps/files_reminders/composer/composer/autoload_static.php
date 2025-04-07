@@ -41,6 +41,7 @@ class ComposerStaticInitFilesReminders
         'OCA\\FilesReminders\\Model\\RichReminder' => __DIR__ . '/..' . '/../lib/Model/RichReminder.php',
         'OCA\\FilesReminders\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\FilesReminders\\Service\\ReminderService' => __DIR__ . '/..' . '/../lib/Service/ReminderService.php',
+        'OCA\\FilesReminders\\SetupChecks\\NeedNotificationsApp' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedNotificationsApp.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

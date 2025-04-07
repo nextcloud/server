@@ -76,7 +76,7 @@ class Notifier implements INotifier {
 						[
 							'name' => [
 								'type' => 'highlight',
-								'id' => $node->getId(),
+								'id' => (string)$node->getId(),
 								'name' => $node->getName(),
 							],
 						],

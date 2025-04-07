@@ -26,4 +26,5 @@ return array(
     'OCA\\FilesReminders\\Model\\RichReminder' => $baseDir . '/../lib/Model/RichReminder.php',
     'OCA\\FilesReminders\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\FilesReminders\\Service\\ReminderService' => $baseDir . '/../lib/Service/ReminderService.php',
+    'OCA\\FilesReminders\\SetupChecks\\NeedNotificationsApp' => $baseDir . '/../lib/SetupChecks/NeedNotificationsApp.php',
 );
