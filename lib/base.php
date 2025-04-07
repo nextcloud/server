@@ -856,8 +856,8 @@ class OC {
 				}
 
 				try {
-					$cache = new \OC\Cache\File();
-					$cache->gc();
+					// $cache = new \OC\Cache\File();
+					// $cache->gc();
 				} catch (\OC\ServerNotAvailableException $e) {
 					// not a GC exception, pass it on
 					throw $e;
