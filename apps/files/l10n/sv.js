@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil och {folderCount} mapp","1 fil och {folderCount} mappar"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} fil och 1 mapp","{fileCount} filer och 1 mapp"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} filer och {folderCount} mappar",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n gömd)"," (%n gömd)"],
     "Filename must not be empty." : "Filnamn får inte vara tomt.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" är inte tillåtet i ett filnamn.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" är ett reserverat namn och inte tillåtet som filnamn.",
