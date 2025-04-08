@@ -386,7 +386,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$subSelect->select('resourceid')
 				->from('dav_shares', 'd')
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
-				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
+				->andWhere($subSelect->expr()->eq('d.principaluri', $select->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 
 			$select->select($fields)
 				->from('dav_shares', 's')
