@@ -1065,7 +1065,12 @@ class Manager implements IManager {
 
 		foreach ($userIds as $userId) {
 			foreach ($shareTypes as $shareType) {
-				$provider = $this->factory->getProviderForType($shareType);
+				try {
+					$provider = $this->factory->getProviderForType($shareType);
+				} catch (ProviderException $e) {
+					continue;
+				}
+
 				if ($node instanceof Folder) {
 					/* We need to get all shares by this user to get subshares */
 					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
