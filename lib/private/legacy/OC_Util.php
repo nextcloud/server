@@ -58,7 +58,7 @@ class OC_Util {
 	 *
 	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return bool
-	 * @deprecated 32.0.0 use shareApiLinkEnforcePassword directly
+	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
 		/** @var IManager $shareManager */
@@ -72,7 +72,7 @@ class OC_Util {
 	 * @param IGroupManager $groupManager
 	 * @param IUser|null $user
 	 * @return bool
-	 * @deprecated 32.0.0 use sharingDisabledForUser directly
+	 * @deprecated 32.0.0 use OCP\Share\IManager's sharingDisabledForUser directly
 	 */
 	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
 		/** @var IManager $shareManager */
@@ -85,7 +85,7 @@ class OC_Util {
 	 * check if share API enforces a default expire date
 	 *
 	 * @return bool
-	 * @deprecated 32.0.0 use shareApiLinkDefaultExpireDateEnforced directly
+	 * @deprecated 32.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
 	 */
 	public static function isDefaultExpireDateEnforced() {
 		/** @var IManager $shareManager */
@@ -615,7 +615,7 @@ class OC_Util {
 	 * the apps visible for the current user
 	 *
 	 * @return string URL
-	 * @deprecated 32.0.0 use linkToDefaultPageUrl directly
+	 * @deprecated 32.0.0 use IURLGenerator's linkToDefaultPageUrl directly
 	 */
 	public static function getDefaultPageUrl() {
 		/** @var IURLGenerator $urlGenerator */
