@@ -61,7 +61,6 @@ OC.L10N.register(
     "No LDAP base DN was given" : "Ingen LDAP-base DN har angetts",
     "User base DN is not a subnode of global base DN" : "Användarens base DN är inte en undernod till den globala base DN",
     "Group base DN is not a subnode of global base DN" : "Gruppens base DN är inte en undernod till den globala base DN",
-    "Login filter does not contain %uid place holder" : "Inloggningsfiltret innehåller inte %uid platshållaren",
     "Please login with the new password" : "Vänligen logga in med det nya lösenordet",
     "LDAP User backend" : "LDAP användarbackend",
     "Your password will expire tomorrow." : "Ditt lösenord kommer att gå ut imorgon.",

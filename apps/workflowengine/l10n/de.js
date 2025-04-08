@@ -82,7 +82,7 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Delete" : "Löschen",
     "Available flows" : "Verfügbare Abläufe",
-    "For details on how to write your own flow, check out the development documentation." : "Informationen zur Erstellung eigener Abläufe findest du in der Entwickler-Dokumentation.",
+    "For details on how to write your own flow, check out the development documentation." : "Informationen zur Erstellung eigener Abläufe finden sich in der Entwickler-Dokumentation.",
     "No flows installed" : "Keine Abläufe installiert",
     "Ask your administrator to install new flows." : "Bitte deine Administration, neue Abläufe zu installieren.",
     "More flows" : "Weitere Abläufe",

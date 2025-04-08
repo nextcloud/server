@@ -59,7 +59,6 @@
     "No LDAP base DN was given" : "Níor tugadh bonn LDAP DN",
     "User base DN is not a subnode of global base DN" : "Ní fonód de bhonn domhanda DN é an bonn úsáideora DN",
     "Group base DN is not a subnode of global base DN" : "Ní fonód de bhonn domhanda DN é bonnghrúpa DN",
-    "Login filter does not contain %uid place holder" : "Níl %u coinneálaí áite san áireamh sa scagaire logála isteach",
     "Please login with the new password" : "Logáil isteach leis an bpasfhocal nua le do thoil",
     "LDAP User backend" : "Inneall Úsáideora LDAP",
     "Your password will expire tomorrow." : "Rachaidh do phasfhocal in éag amárach.",

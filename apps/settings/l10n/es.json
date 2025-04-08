@@ -693,6 +693,8 @@
     "Language" : "Idioma",
     "Set default language" : "Establecer idioma por defecto",
     "Add new account" : "Añadir nueva cuenta",
+    "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} cuenta …","{userCount} cuentas …","{userCount} cuentas …"],
+    "_{userCount} account_::_{userCount} accounts_" : ["{userCount} cuenta","{userCount} cuentas","{userCount} cuentas"],
     "Total rows summary" : "Resumen de filas totales",
     "Scroll to load more rows" : "Desplácese para cargar más filas",
     "Password or insufficient permissions message" : "Contraseña o mensaje de permisos insuficientes",
@@ -714,12 +716,16 @@
     "Remote wipe of devices" : "Eliminación remota de dispositivos",
     "Wipe {userid}'s devices" : "Eliminar dispositivos de {userid}",
     "Wiped {userid}'s devices" : "Dispositivos de {userid} borrados",
+    "Failed to load groups with details" : "Fallo al cargar grupos con detalles",
+    "Failed to load sub admin groups with details" : "Fallo al cargar grupos de subadministradores con detalles",
     "Failed to update line manager" : "No se pudo actualizar el administrador",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Eliminar completamente la cuenta de {userid}, incluyendo todos sus archivos personales, datos de las apps, etc.",
     "Account deletion" : "Eliminación de la cuenta",
     "Delete {userid}'s account" : "Eliminar cuentas de {userid}",
     "Display name was successfully changed" : "El nombre para mostrar se ha cambiado correctamente",
+    "Password can't be empty" : "La contraseña no puede estar vacía",
     "Password was successfully changed" : "La contraseña se ha cambiado correctamente",
+    "Email can't be empty" : "El correo electrónico no puede estar vacío",
     "Email was successfully changed" : "El email se ha cambiado correctamente",
     "Welcome mail sent!" : "¡Correo de bienvenida enviado!",
     "Loading account …" : "Cargando cuenta ...",
@@ -744,6 +750,7 @@
     "Sorting" : "Orden",
     "The system config enforces sorting the groups by name. This also disables showing the member count." : "La configuración de sistema obliga a que los grupos sean ordenados por nombre. Esto también impide mostrar la cantidad de miembros.",
     "Group list sorting" : "Ordenado de la lista de grupos",
+    "Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list." : "El ordenamiento sólo aplica a los grupos actualmente cargados por razones de rendimiento. Los grupos se cargarán a medida que navegue o busque en la lista.",
     "By member count" : "Por número de miembros",
     "By name" : "Por nombre",
     "Send email" : "Enviar mensaje",
@@ -923,6 +930,7 @@
     "Active accounts" : "Cuentas activas",
     "Follow us on Twitter" : "Síguenos en Twitter",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Para permitir que este chequeo se lleve a cabo, debe asegurarse que su servidor pueda conectarse a sí mismo. Por tanto, este debe poder resolver y conectarse a alguno de sus `trusted_domains` o al url definido en `overwrite.cli.url`. Este fallo puede ser resultado de una inconsistencia DNS del lado del servidor o una regla de salida del cortafuegos.",
-    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Se detectó la versión PostgreSQL \"%s\". Se sugiere utilizar PostgreSQL >=12 y <=16 para el mejor rendimiento, estabilidad y funcionalidad con esta versión de Nextcloud."
+    "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Se detectó la versión PostgreSQL \"%s\". Se sugiere utilizar PostgreSQL >=12 y <=16 para el mejor rendimiento, estabilidad y funcionalidad con esta versión de Nextcloud.",
+    "Failed to load subadmin groups with details" : "Fallo al cargar grupos de subadministradores con detalles"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
