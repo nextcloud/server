@@ -32,8 +32,8 @@ class Movie extends ProviderV2 {
 	/** @var string */
 	private $binary;
 
-	public function __construct(array $config) {
-		parent::__construct($config);
+	public function __construct(array $options = []) {
+		parent::__construct($options);
 		$this->config = Server::get(IConfig::class);
 	}
 
