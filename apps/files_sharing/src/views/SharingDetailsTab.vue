@@ -22,7 +22,7 @@
 		<div class="sharingTabDetailsView__wrapper">
 			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
 				<div>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-bundle-READ_ONLY" :button-variant="true"
+					<NcCheckboxRadioSwitch :button-variant="true"
 						data-cy-files-sharing-share-permissions-bundle="read-only"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.READ_ONLY.toString()"
@@ -35,7 +35,7 @@
 							<ViewIcon :size="20" />
 						</template>
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-bundle-ALL" :button-variant="true"
+					<NcCheckboxRadioSwitch :button-variant="true"
 						data-cy-files-sharing-share-permissions-bundle="upload-edit"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.ALL.toString()"
@@ -54,7 +54,6 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="allowsFileDrop"
-						class="sharingTabDetailsView__permission-bundle-FILE_DROP"
 						data-cy-files-sharing-share-permissions-bundle="file-drop"
 						:button-variant="true"
 						:checked.sync="sharingPermission"
@@ -69,7 +68,7 @@
 							<UploadIcon :size="20" />
 						</template>
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-bundle-CUSTOM" :button-variant="true"
+					<NcCheckboxRadioSwitch :button-variant="true"
 						data-cy-files-sharing-share-permissions-bundle="custom"
 						:checked.sync="sharingPermission"
 						:value="'custom'"
@@ -124,7 +123,7 @@
 						</template>
 					</NcInputField>
 					<template v-if="isPublicShare">
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__password-protection" :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
+						<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="password-protection" :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
@@ -144,12 +143,12 @@
 							{{ t('files_sharing', 'Password expired') }}
 						</span>
 					</template>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__video-verification" v-if="canTogglePasswordProtectedByTalkAvailable"
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="video-verification" v-if="canTogglePasswordProtectedByTalkAvailable"
 						:checked.sync="isPasswordProtectedByTalk"
 						@update:checked="onPasswordProtectedByTalkChange">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__expiration-date" :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="expiration-date" :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
 						{{ isExpiryDateEnforced
 							? t('files_sharing', 'Expiration date (enforced)')
 							: t('files_sharing', 'Set expiration date') }}
@@ -164,19 +163,19 @@
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
 						@input="onExpirationChange" />
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__hide-download" v-if="isPublicShare"
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="hide-download" v-if="isPublicShare"
 						:disabled="canChangeHideDownload"
 						:checked.sync="share.hideDownload"
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-else class="sharingTabDetailsView__allow-download"
+					<NcCheckboxRadioSwitch v-else data-cy-files-sharing-share-advanced-section="allow-download"
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
 						{{ t('files_sharing', 'Allow download and sync') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__note-to-recipient" :checked.sync="writeNoteToRecipientIsChecked">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="note-to-recipient" :checked.sync="writeNoteToRecipientIsChecked">
 						{{ t('files_sharing', 'Note to recipient') }}
 					</NcCheckboxRadioSwitch>
 					<template v-if="writeNoteToRecipientIsChecked">
@@ -195,33 +194,33 @@
 						:action="action"
 						:file-info="fileInfo"
 						:share="share" />
-					<NcCheckboxRadioSwitch class="sharingTabDetailsView__custom-permissions" :checked.sync="setCustomPermissions">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="custom-permissions" :checked.sync="setCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-read" :disabled="!canRemoveReadPermission"
+						<NcCheckboxRadioSwitch :disabled="!canRemoveReadPermission"
 							:checked.sync="hasRead"
 							data-cy-files-sharing-share-permissions-checkbox="read">
 							{{ t('files_sharing', 'Read') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-create" v-if="isFolder"
+						<NcCheckboxRadioSwitch v-if="isFolder"
 							:disabled="!canSetCreate"
 							:checked.sync="canCreate"
 							data-cy-files-sharing-share-permissions-checkbox="create">
 							{{ t('files_sharing', 'Create') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-edit" :disabled="!canSetEdit"
+						<NcCheckboxRadioSwitch :disabled="!canSetEdit"
 							:checked.sync="canEdit"
 							data-cy-files-sharing-share-permissions-checkbox="update">
 							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-share" v-if="resharingIsPossible"
+						<NcCheckboxRadioSwitch v-if="resharingIsPossible"
 							:disabled="!canSetReshare"
 							:checked.sync="canReshare"
 							data-cy-files-sharing-share-permissions-checkbox="share">
 							{{ t('files_sharing', 'Share') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch class="sharingTabDetailsView__permission-delete" :disabled="!canSetDelete"
+						<NcCheckboxRadioSwitch :disabled="!canSetDelete"
 							:checked.sync="canDelete"
 							data-cy-files-sharing-share-permissions-checkbox="delete">
 							{{ t('files_sharing', 'Delete') }}
