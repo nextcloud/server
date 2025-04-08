@@ -61,7 +61,6 @@ OC.L10N.register(
     "No LDAP base DN was given" : "LDAP base DN değeri belirtilmemiş",
     "User base DN is not a subnode of global base DN" : "Kullanıcı base DN değeri genel base DN düğümünün bir alt düğümü değil ",
     "Group base DN is not a subnode of global base DN" : "Grup base DN değeri genel base DN düğümünün bir alt düğümü değil ",
-    "Login filter does not contain %uid place holder" : "Oturum açma süzgecinde %uid yer belirticisi bulunmuyor",
     "Please login with the new password" : "Lütfen yeni parolanız ile oturum açın",
     "LDAP User backend" : "LDAP kullanıcı arka yüzü",
     "Your password will expire tomorrow." : "Parolanızın geçerlilik süresi yarın dolacak.",
