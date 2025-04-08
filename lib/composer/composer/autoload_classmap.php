@@ -816,6 +816,7 @@ return array(
     'OCP\\Talk\\ITalkBackend' => $baseDir . '/lib/public/Talk/ITalkBackend.php',
     'OCP\\TaskProcessing\\EShapeType' => $baseDir . '/lib/public/TaskProcessing/EShapeType.php',
     'OCP\\TaskProcessing\\Events\\AbstractTaskProcessingEvent' => $baseDir . '/lib/public/TaskProcessing/Events/AbstractTaskProcessingEvent.php',
+    'OCP\\TaskProcessing\\Events\\GetTaskProcessingProvidersEvent' => $baseDir . '/lib/public/TaskProcessing/Events/GetTaskProcessingProvidersEvent.php',
     'OCP\\TaskProcessing\\Events\\TaskFailedEvent' => $baseDir . '/lib/public/TaskProcessing/Events/TaskFailedEvent.php',
     'OCP\\TaskProcessing\\Events\\TaskSuccessfulEvent' => $baseDir . '/lib/public/TaskProcessing/Events/TaskSuccessfulEvent.php',
     'OCP\\TaskProcessing\\Exception\\Exception' => $baseDir . '/lib/public/TaskProcessing/Exception/Exception.php',

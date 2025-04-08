@@ -865,6 +865,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Talk\\ITalkBackend' => __DIR__ . '/../../..' . '/lib/public/Talk/ITalkBackend.php',
         'OCP\\TaskProcessing\\EShapeType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/EShapeType.php',
         'OCP\\TaskProcessing\\Events\\AbstractTaskProcessingEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/AbstractTaskProcessingEvent.php',
+        'OCP\\TaskProcessing\\Events\\GetTaskProcessingProvidersEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/GetTaskProcessingProvidersEvent.php',
         'OCP\\TaskProcessing\\Events\\TaskFailedEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/TaskFailedEvent.php',
         'OCP\\TaskProcessing\\Events\\TaskSuccessfulEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/TaskSuccessfulEvent.php',
         'OCP\\TaskProcessing\\Exception\\Exception' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Exception/Exception.php',
