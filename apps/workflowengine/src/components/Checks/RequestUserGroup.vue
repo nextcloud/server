@@ -25,6 +25,7 @@ import axios from '@nextcloud/axios'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 const groups = []
+const wantedGroups = []
 const status = {
 	isLoading: false,
 }
@@ -49,6 +50,7 @@ export default {
 		return {
 			groups,
 			status,
+			wantedGroups,
 			newValue: '',
 		}
 	},
@@ -82,6 +84,13 @@ export default {
 
 		searchAsync(searchQuery) {
 			if (this.status.isLoading) {
+				if (searchQuery) {
+					// The first 20 groups are loaded up front (indicated by an
+					// empty searchQuery parameter), afterwards we may load
+					// groups that have not been fetched yet, but are used
+					// in existing rules.
+					this.enqueueWantedGroup(searchQuery)
+				}
 				return
 			}
 
@@ -94,11 +103,15 @@ export default {
 					})
 				})
 				this.status.isLoading = false
+				this.findGroupByQueue()
 			}, (error) => {
 				console.error('Error while loading group list', error.response)
 			})
 		},
-		updateInternalValue() {
+		async updateInternalValue() {
+			if (!this.newValue) {
+				await this.searchAsync(this.modelValue)
+			}
 			this.newValue = this.modelValue
 		},
 		addGroup(group) {
@@ -107,9 +120,31 @@ export default {
 				this.groups.push(group)
 			}
 		},
+		hasGroup(group) {
+			const index = this.groups.findIndex((item) => item.id === group)
+			return index > -1
+		},
 		update(value) {
 			this.newValue = value.id
 			this.$emit('update:model-value', this.newValue)
+		},
+		enqueueWantedGroup(expectedGroupId) {
+			const index = this.wantedGroups.findIndex((groupId) => groupId === expectedGroupId)
+			if (index === -1) {
+				this.wantedGroups.push(expectedGroupId)
+			}
+		},
+		async findGroupByQueue() {
+			let nextQuery
+			do {
+				nextQuery = this.wantedGroups.shift()
+				if (this.hasGroup(nextQuery)) {
+					nextQuery = undefined
+				}
+			} while (!nextQuery && this.wantedGroups.length > 0)
+			if (nextQuery) {
+				await this.searchAsync(nextQuery)
+			}
 		},
 	},
 }
