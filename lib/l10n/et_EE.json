@@ -145,6 +145,7 @@
     "File name is too long" : "Failinimi on liiga pikk",
     "Users" : "Kasutajad",
     "Open »%s«" : "Ava »%s«",
+    "%1$s shared »%2$s« with you." : "%1$s jagas sinuga „%2$s“ faili.",
     "Click the button below to open it." : "Vajuta allolevat nuppu, et see avada.",
     "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -59,7 +59,6 @@
     "No LDAP base DN was given" : "Nenhum DN de base LDAP foi fornecido",
     "User base DN is not a subnode of global base DN" : "O DN de base do usuário não é um subnó do DN de base global",
     "Group base DN is not a subnode of global base DN" : "O DN de base do grupo não é um subnó do DN de base global",
-    "Login filter does not contain %uid place holder" : "O filtro de login não contém o espaço reservado %uid",
     "Please login with the new password" : "Logue-se com a nova senha",
     "LDAP User backend" : "Estrutura do Usuário LDAP",
     "Your password will expire tomorrow." : "Sua senha vai expirar amanhã.",
