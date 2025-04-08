@@ -139,7 +139,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
+							if ($this->shareType === IShare::TYPE_USER && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$singleResult = [[
 									'label' => $displayName,
 									'uuid' => $contact['UID'] ?? $emailAddress,
@@ -180,19 +180,25 @@ class MailPlugin implements ISearchPlugin {
 								}
 							}
 							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
-								$userResults['wide'][] = [
-									'label' => $displayName,
-									'uuid' => $contact['UID'] ?? $emailAddress,
-									'name' => $contact['FN'] ?? $displayName,
-									'value' => [
-										'shareType' => IShare::TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-								];
+								if ($this->shareType === IShare::TYPE_USER) {
+									$userResults['wide'][] = [
+										'label' => $displayName,
+										'uuid' => $contact['UID'] ?? $emailAddress,
+										'name' => $contact['FN'] ?? $displayName,
+										'value' => [
+											'shareType' => IShare::TYPE_USER,
+											'shareWith' => $cloud->getUser(),
+										],
+										'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
+									];
+								}
 								continue;
 							}
 						}
+						continue;
+					}
+
+					if ($this->shareType !== IShare::TYPE_EMAIL) {
 						continue;
 					}
 
@@ -247,10 +253,12 @@ class MailPlugin implements ISearchPlugin {
 			];
 		}
 
-		if (!empty($userResults['wide'])) {
+		if ($this->shareType === IShare::TYPE_USER && !empty($userResults['wide'])) {
 			$searchResult->addResultSet($userType, $userResults['wide'], []);
 		}
-		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
+		if ($this->shareType === IShare::TYPE_EMAIL) {
+			$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
+		}
 
 		return !$reachedEnd;
 	}
