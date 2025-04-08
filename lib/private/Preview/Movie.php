@@ -5,32 +5,21 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
 	private IConfig $config;
 
-	/**
-	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
-	 * @var string
-	 */
-	public static $avconvBinary;
-
-	/**
-	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
-	 * @var string
-	 */
-	public static $ffmpegBinary;
-
-	/** @var string */
-	private $binary;
+	private ?string $binary = null;
 
 	public function __construct(array $options = []) {
 		parent::__construct($options);
@@ -45,14 +34,9 @@ class Movie extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function isAvailable(FileInfo $file): bool {
-		// TODO: remove when avconv is dropped
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
 				$this->binary = $this->options['movieBinary'];
-			} elseif (is_string(self::$avconvBinary)) {
-				$this->binary = self::$avconvBinary;
-			} elseif (is_string(self::$ffmpegBinary)) {
-				$this->binary = self::$ffmpegBinary;
 			}
 		}
 		return is_string($this->binary);
@@ -89,14 +73,11 @@ class Movie extends ProviderV2 {
 				return null;
 			}
 
-			$result = null;
-			if (is_string($absPath)) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+			if ($result === null) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
 				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-					if ($result === null) {
-						$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
-					}
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
 				}
 			}
 
@@ -137,7 +118,15 @@ class Movie extends ProviderV2 {
 	}
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
-		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpPath = Server::get(ITempManager::class)->getTemporaryFile();
+
+		if ($tmpPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $absPath,
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
@@ -190,7 +179,7 @@ class Movie extends ProviderV2 {
 		}
 
 		if ($second === 0) {
-			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->info('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
 		}
 
