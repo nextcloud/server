@@ -68,6 +68,12 @@ class Movie extends ProviderV2 {
 			// in some cases this doesn't work for example when the moov atom is at the
 			// end of the file, so if it fails we fall back to getting the full file
 			$sizeAttempts = [5242880, null];
+
+			// do not attempt to download the file if the storage is not local (e.g. S3)
+			// We don't want to download the whole (e.g. 37Gb) file
+			if (!$file->getStorage()->isLocal()) {
+				$sizeAttempts = [5242880];
+			}
 		} else {
 			// size is irrelevant, only attempt once
 			$sizeAttempts = [null];
