@@ -78,19 +78,16 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->get(IManager::class);
+			self::$shareManager = Server::get(IManager::class);
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
-		if ($user !== null) {
-			$user = $user->getUID();
-		}
+		$user = Server::get(\OCP\IUserSession::class)->getUser();
 
-		return self::$shareManager->sharingDisabledForUser($user);
+		return self::$shareManager->sharingDisabledForUser($user?->getUID());
 	}
 
 	/**
@@ -102,13 +99,15 @@ class Util {
 	}
 
 	/**
-	 * add a css file
-	 * @param string $application
-	 * @param string $file
+	 * Add a css file
+	 *
+	 * @param string $application application id
+	 * @param ?string $file filename
+	 * @param bool $prepend prepend the style to the beginning of the list
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null): void {
-		\OC_Util::addStyle($application, $file);
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
+		\OC_Util::addStyle($application, $file, $prepend);
 	}
 
 	/**

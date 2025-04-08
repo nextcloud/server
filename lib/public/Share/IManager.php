@@ -485,11 +485,9 @@ interface IManager {
 	/**
 	 * Check if sharing is disabled for the given user
 	 *
-	 * @param string $userId
-	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function sharingDisabledForUser($userId);
+	public function sharingDisabledForUser(?string $userId): bool;
 
 	/**
 	 * Check if outgoing server2server shares are allowed

@@ -25,12 +25,7 @@ class ShareDisableChecker {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
 
-
-	/**
-	 * @param ?string $userId
-	 * @return bool
-	 */
-	public function sharingDisabledForUser(?string $userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		if ($userId === null) {
 			return false;
 		}

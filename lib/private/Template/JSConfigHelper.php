@@ -30,6 +30,7 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Share\IManager as IShareManager;
@@ -161,6 +162,8 @@ class JSConfigHelper {
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
+		$shareManager = Server::get(IShareManager::class);
+
 		$array = [
 			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
@@ -235,11 +238,11 @@ class JSConfigHelper {
 					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => Util::isSharingDisabledForUser(),
+					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
 					'resharingAllowed' => Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => \OC::$server->get(IShareManager::class)->allowGroupSharing(),
+					'allowGroupSharing' => $shareManager->allowGroupSharing(),
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
