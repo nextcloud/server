@@ -281,6 +281,7 @@ Feature: sharees
     And the HTTP status code should be "200"
     # UserPlugin provides two identical results (except for the field order, but
     # that is hidden by the check).
+    # MailPlugin does not add a result if there is already one for that user.
     And "exact users" sharees returned are
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
@@ -301,6 +302,7 @@ Feature: sharees
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
+    # MailPlugin does not add a result if there is already one for that user.
     And "users" sharees returned are
       | Sharee2 | 0 | Sharee2 | sharee2@system.com |
     And "exact groups" sharees returned is empty
@@ -320,7 +322,8 @@ Feature: sharees
     And the HTTP status code should be "200"
     # UserPlugin only searches in the system e-mail address, but not in
     # secondary addresses.
-    And "exact users" sharees returned is empty
+    And "exact users" sharees returned are
+      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
@@ -340,7 +343,11 @@ Feature: sharees
     And "exact users" sharees returned is empty
     # UserPlugin only searches in the system e-mail address, but not in
     # secondary addresses.
-    And "users" sharees returned is empty
+    # MailPlugin adds a result for every e-mail address of the contact unless
+    # there is an exact match.
+    And "users" sharees returned are
+      | Sharee2 (sharee2@system.com)    | 0 | Sharee2 | sharee2@system.com |
+      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty
@@ -394,8 +401,7 @@ Feature: sharees
       | shareType | 4 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And "exact users" sharees returned are
-      | Sharee2 (sharee2@system.com) | 0 | Sharee2 | sharee2@system.com |
+    And "exact users" sharees returned is empty
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
@@ -413,11 +419,7 @@ Feature: sharees
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
-    # MailPlugin adds a result for every e-mail address of the contact unless
-    # there is an exact match.
-    And "users" sharees returned are
-      | Sharee2 (sharee2@system.com)    | 0 | Sharee2 | sharee2@system.com |
-      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
+    And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty
@@ -434,8 +436,7 @@ Feature: sharees
       | shareType | 4 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And "exact users" sharees returned are
-      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
+    And "exact users" sharees returned is empty
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
@@ -453,11 +454,7 @@ Feature: sharees
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And "exact users" sharees returned is empty
-    # MailPlugin adds a result for every e-mail address of the contact unless
-    # there is an exact match.
-    And "users" sharees returned are
-      | Sharee2 (sharee2@system.com)    | 0 | Sharee2 | sharee2@system.com |
-      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
+    And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
     And "exact remotes" sharees returned is empty
@@ -540,7 +537,8 @@ Feature: sharees
       | shareTypes | 0 4 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And "exact users" sharees returned is empty
+    And "exact users" sharees returned are
+      | Sharee2 (sharee2@secondary.com) | 0 | Sharee2 | sharee2@secondary.com |
     And "users" sharees returned is empty
     And "exact groups" sharees returned is empty
     And "groups" sharees returned is empty
