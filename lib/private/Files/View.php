@@ -1466,8 +1466,7 @@ class View {
 	public function addSubMounts(FileInfo $info, $extOnly = false): void {
 		$mounts = Filesystem::getMountManager()->findIn($info->getPath());
 		$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
-			$subStorage = $mount->getStorage();
-			return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
+			return !($extOnly && $mount instanceof SharedMount);
 		}));
 	}
 
