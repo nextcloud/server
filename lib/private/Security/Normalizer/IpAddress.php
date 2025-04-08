@@ -24,7 +24,7 @@ class IpAddress {
 	}
 
 	/**
-	 * Return the given subnet for an IPv6 address (64 first bits)
+	 * Return the given subnet for an IPv6 address (48 first bits)
 	 */
 	private function getIPv6Subnet(string $ip): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
@@ -36,9 +36,9 @@ class IpAddress {
 		}
 
 		$binary = \inet_pton($ip);
-		$mask = inet_pton('FFFF:FFFF:FFFF:FFFF::');
+		$mask = inet_pton('FFFF:FFFF:FFFF::');
 
-		return inet_ntop($binary & $mask) . '/64';
+		return inet_ntop($binary & $mask) . '/48';
 	}
 
 	/**
@@ -63,7 +63,7 @@ class IpAddress {
 
 
 	/**
-	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
+	 * Gets either the /32 (IPv4) or the /48 (IPv6) subnet of an IP address
 	 */
 	public function getSubnet(): string {
 		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
