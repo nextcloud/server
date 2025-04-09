@@ -70,7 +70,7 @@ OC.L10N.register(
     "in %s" : "в %s",
     "Transferred from %1$s on %2$s" : "Перенесено від %1$s до %2$s",
     "Files compatibility" : "Сумісність файлів",
-    "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Дозволити обмежувати імена файлів для забезпечення сумісності з різними клієнтами. Типово всі імена файлів, які  відповідають моделі POSIX (напр. Linux, macOS) дозволені.",
+    "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Дозволити обмежувати імена файлів для забезпечення сумісності з різними клієнтами. Типово всі імена файлів, які  відповідають моделі POSIX (напр., Linux, macOS), дозволені.",
     "Enforce Windows compatibility" : "Увімкнути сумісність із Windows",
     "This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity." : "Це унеможливить використання імен файлів, які не сумісні з системами Windows, напр., використанння зарезервованих імен або спеціальних символів. Зауважте, що це не обмежить сумісність за регістром символів.",
     "File Management" : "Керування файлами",
