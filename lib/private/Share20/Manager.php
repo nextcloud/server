@@ -597,7 +597,11 @@ class Manager implements IManager {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
-					throw new \InvalidArgumentException($this->l->t('Path contains files shared with you'));
+					// Using a flat sharing model ensures the file owner can always see who has access.
+					// Allowing parent folder sharing would require tracking inherited access, which adds complexity
+					// and hurts performance/scalability.
+					// So we forbid sharing a parent folder of a share you received.
+					throw new \InvalidArgumentException($this->l->t('You cannot share a folder that contains other shares'));
 				}
 			}
 		}
