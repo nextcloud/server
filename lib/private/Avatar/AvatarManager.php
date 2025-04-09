@@ -21,6 +21,7 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -71,6 +72,19 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
+		// If we are requesting the avatar of another user;
+		if ($requestingUser === null || $requestingUser->getUID() !== $user->getUID()) {
+			// And if the user has not set a custom avatar, nor a display name;
+			// Then we can use the guest avatar for single letters.
+			if (empty($user->getDisplayName()) || !$this->hasComplexDisplayName($user->getDisplayName())
+				&& !$this->hasCustomAvatar($user)) {
+				return $this->getGuestAvatar($user->getUID());
+			}
+		}
+
+		// Else, let's check the avatar scope
+		// If the requesting user is the same as the user,
+		// the knownUserService will obviously return true
 		try {
 			$account = $this->accountManager->getAccount($user);
 			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
@@ -96,6 +110,25 @@ class AvatarManager implements IAvatarManager {
 		}
 
 		return new PlaceholderAvatar($folder, $user, $this->logger);
+	}
+
+	// Check if the user have set a custom avatar
+	private function hasCustomAvatar(IUser $user): bool {
+		// generated will be true if the system generated the avatar
+		// and false if the user uploaded a custom avatar
+		// It can also be non-existent if the user has no avatar yet
+		return $this->config->getUserValue($user->getUID(), 'avatar', 'generated', '') === 'false';
+	}
+
+	/**
+	 * Check if the display name is complex (e.g. "John Doe" or "John Doe Jr.")
+	 * @see the getAvatarText() method in Avatar.php
+	 */
+	private function hasComplexDisplayName(string $displayName): bool {
+		$firstTwoLetters = array_map(function ($namePart) {
+			return mb_strtoupper(mb_substr($namePart, 0, 1), 'UTF-8');
+		}, explode(' ', $displayName, 2));
+		return count($firstTwoLetters) > 1;
 	}
 
 	/**
