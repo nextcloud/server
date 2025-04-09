@@ -21,6 +21,7 @@ OC.L10N.register(
     "Warning" : "Kemenadenn",
     "Confirm" : "Kadarnaat",
     "Original" : "Orin",
+    "Text" : "Testenn",
     "Size" : "Ment",
     "Menu" : "Roll"
 },
