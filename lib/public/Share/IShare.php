@@ -379,7 +379,7 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
-	 * Set overwrite flag for falsy expiry date vavlues
+	 * Set overwrite flag for falsy expiry date values
 	 *
 	 * @param bool $noExpirationDate
 	 * @return \OCP\Share\IShare The modified object
