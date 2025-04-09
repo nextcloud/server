@@ -28,6 +28,7 @@ class CloudIdManager implements ICloudIdManager {
 	/** @var IUserManager */
 	private $userManager;
 	private ICache $memCache;
+	private ICache $displayNameCache;
 	/** @var array[] */
 	private array $cache = [];
 
@@ -42,6 +43,7 @@ class CloudIdManager implements ICloudIdManager {
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->memCache = $cacheFactory->createDistributed('cloud_id_');
+		$this->displayNameCache = $cacheFactory->createDistributed('cloudid_name_');
 		$eventDispatcher->addListener(UserChangedEvent::class, [$this, 'handleUserEvent']);
 		$eventDispatcher->addListener(CardUpdatedEvent::class, [$this, 'handleCardEvent']);
 	}
@@ -108,13 +110,18 @@ class CloudIdManager implements ICloudIdManager {
 
 			if (!empty($user) && !empty($remote)) {
 				$remote = $this->ensureDefaultProtocol($remote);
-				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
+				return new CloudId($id, $user, $remote, null);
 			}
 		}
 		throw new \InvalidArgumentException('Invalid cloud id');
 	}
 
-	protected function getDisplayNameFromContact(string $cloudId): ?string {
+	public function getDisplayNameFromContact(string $cloudId): ?string {
+		$cachedName = $this->displayNameCache->get($cloudId);
+		if ($cachedName !== null) {
+			return $cachedName;
+		}
+
 		$addressBookEntries = $this->contactsManager->search($cloudId, ['CLOUD'], [
 			'limit' => 1,
 			'enumeration' => false,
@@ -128,14 +135,17 @@ class CloudIdManager implements ICloudIdManager {
 						// Warning, if user decides to make his full name local only,
 						// no FN is found on federated servers
 						if (isset($entry['FN'])) {
+							$this->displayNameCache->set($cloudId, $entry['FN'], 15 * 60);
 							return $entry['FN'];
 						} else {
+							$this->displayNameCache->set($cloudId, $cloudID, 15 * 60);
 							return $cloudID;
 						}
 					}
 				}
 			}
 		}
+		$this->displayNameCache->set($cloudId, $cloudId, 15 * 60);
 		return null;
 	}
 
@@ -168,7 +178,7 @@ class CloudIdManager implements ICloudIdManager {
 			$localUser = $this->userManager->get($user);
 			$displayName = $localUser ? $localUser->getDisplayName() : '';
 		} else {
-			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
+			$displayName = null;
 		}
 
 		// For the visible cloudID we only strip away https
