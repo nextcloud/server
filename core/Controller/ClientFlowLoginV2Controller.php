@@ -326,7 +326,9 @@ class ClientFlowLoginV2Controller extends Controller {
 			logger('core')->error('Client login flow state token is not set', [
 				'sessionToken' => $currentToken,
 				'requestToken' => $stateToken,
+				'entryNamesInSession' => implode(',', method_exists($this->session, 'dumpKeys') ? $this->session->dumpKeys() : ['(unexpected session instance)']),
 				'loginFlow' => 'v2',
+				'backingSessionClass' => get_class($this->session),
 			]);
 			return false;
 		}

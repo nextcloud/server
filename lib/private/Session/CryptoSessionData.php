@@ -141,6 +141,10 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		return null;
 	}
 
+	public function dumpKeys(): array {
+		return array_keys($this->sessionValues);
+	}
+
 	/**
 	 * Check if a named key exists in the session
 	 *
