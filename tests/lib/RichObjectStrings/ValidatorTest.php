@@ -10,6 +10,7 @@ namespace Test\RichObjectStrings;
 
 use OC\RichObjectStrings\Validator;
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class ValidatorTest extends TestCase {
@@ -36,6 +37,9 @@ class ValidatorTest extends TestCase {
 		]);
 		$this->addToAssertionCount(2);
 
+		$this->expectException(InvalidObjectExeption::class);
+
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, value 123 for key key is not a string');
 		$v->validate('test {string1} test.', [
 			'string1' => [
 				'type' => 'user',
@@ -45,6 +49,7 @@ class ValidatorTest extends TestCase {
 			],
 		]);
 
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, key 456 is not a string');
 		$v->validate('test {string1} test.', [
 			'string1' => [
 				'type' => 'user',

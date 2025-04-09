@@ -10,8 +10,6 @@ namespace OC\RichObjectStrings;
 use OCP\RichObjectStrings\Definitions;
 use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
-use OCP\Server;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class Validator
@@ -81,10 +79,10 @@ class Validator implements IValidator {
 
 		foreach ($parameter as $key => $value) {
 			if (!is_string($key)) {
-				Server::get(LoggerInterface::class)->error('Object for placeholder ' . $placeholder . ' is invalid, key ' . $key . ' is not a string');
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, key ' . $key . ' is not a string');
 			}
 			if (!is_string($value)) {
-				Server::get(LoggerInterface::class)->error('Object for placeholder ' . $placeholder . ' is invalid, value ' . $value . ' for key ' . $key . ' is not a string');
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, value ' . $value . ' for key ' . $key . ' is not a string');
 			}
 		}
 	}
