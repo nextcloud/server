@@ -251,6 +251,7 @@
 				</NcButton>
 				<NcButton type="primary"
 					data-cy-files-sharing-share-editor-action="save"
+					:disabled="creating"
 					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
@@ -1003,8 +1004,16 @@ export default {
 					incomingShare.password = this.share.password
 				}
 
-				this.creating = true
-				const share = await this.addShare(incomingShare)
+				let share
+				try {
+					this.creating = true
+					share = await this.addShare(incomingShare)
+				} catch (error) {
+					this.creating = false
+					// Error is already handled by ShareRequests mixin
+					return
+				}
+
 				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
 				this.share._share.id = share.id
 				await this.queueUpdate(...permissionsAndAttributes)
@@ -1018,6 +1027,7 @@ export default {
 						}
 					}
 				}
+
 				this.share = share
 				this.creating = false
 				this.$emit('add:share', this.share)
