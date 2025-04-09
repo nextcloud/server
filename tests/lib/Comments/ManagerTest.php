@@ -507,14 +507,14 @@ class ManagerTest extends TestCase {
 		}
 
 		$saveSuccessful = $manager->save($comment);
-		$this->assertTrue($saveSuccessful);
-		$this->assertTrue($comment->getId() !== '');
-		$this->assertTrue($comment->getId() !== '0');
-		$this->assertTrue(!is_null($comment->getCreationDateTime()));
+		$this->assertTrue($saveSuccessful, 'Comment saving was not successful');
+		$this->assertNotEquals('', $comment->getId(), 'Comment ID should not be empty');
+		$this->assertNotEquals('0', $comment->getId(), 'Comment ID should not be string \'0\'');
+		$this->assertNotNull($comment->getCreationDateTime(), 'Comment creation date should not be null');
 
 		$loadedComment = $manager->get($comment->getId());
-		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
-		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp());
+		$this->assertSame($comment->getMessage(), $loadedComment->getMessage(), 'Comment message should match');
+		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp(), 'Comment creation date should match');
 		return $comment;
 	}
 
