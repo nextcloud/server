@@ -350,7 +350,10 @@ class CustomPropertiesBackend implements BackendInterface {
 			)),
 			)
 			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())));
+			->andWhere($query->expr()->orX(
+				$query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())),
+				$query->expr()->isNull('p.userid'),
+			));
 		$result = $query->executeQuery();
 
 		$propsByPath = [];
