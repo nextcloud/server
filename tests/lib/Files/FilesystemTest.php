@@ -13,6 +13,8 @@ use OC\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Server;
 
 class DummyMountProvider implements IMountProvider {
 	private $mounts = [];
@@ -295,7 +297,7 @@ class FilesystemTest extends \Test\TestCase {
 		} else {
 			$user = self::TEST_FILESYSTEM_USER1;
 			$backend = new \Test\Util\User\Dummy();
-			\OC_User::useBackend($backend);
+			Server::get(IUserManager::class)->registerBackend($backend);
 			$backend->createUser($user, $user);
 			$userObj = \OC::$server->getUserManager()->get($user);
 			\OC::$server->getUserSession()->setUser($userObj);

@@ -10,6 +10,8 @@ namespace Test\Files;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -45,7 +47,7 @@ class EtagTest extends \Test\TestCase {
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 
 		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC_User::useBackend($this->userBackend);
+		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
 	protected function tearDown(): void {

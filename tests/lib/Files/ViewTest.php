@@ -26,6 +26,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -100,8 +101,8 @@ class ViewTest extends \Test\TestCase {
 		parent::setUp();
 		\OC_Hook::clear();
 
-		\OC_User::clearBackends();
-		\OC_User::useBackend(new \Test\Util\User\Dummy());
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 
 		//login
 		$userManager = \OC::$server->getUserManager();

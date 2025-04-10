@@ -71,7 +71,7 @@ abstract class TestCase extends \Test\TestCase {
 		);
 
 		// reset backend
-		\OC_User::clearBackends();
+		Server::get(IUserManager::class)->clearBackends();
 		Server::get(IGroupManager::class)->clearBackends();
 
 		// clear share hooks
@@ -80,7 +80,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
-		\OC_User::useBackend($backend);
+		Server::get(IUserManager::class)->registerBackend($backend);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
@@ -160,8 +160,8 @@ abstract class TestCase extends \Test\TestCase {
 		Filesystem::tearDown();
 
 		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(IGroupManager::class)->clearBackends();
 		Server::get(IGroupManager::class)->addBackend(new Database());
 
