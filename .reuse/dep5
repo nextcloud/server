@@ -131,6 +131,10 @@ Files: build/stubs/pcntl.php build/stubs/zip.php
 Copyright: 2022 JetBrains
 License: Apache-2.0
 
+Files: build/stubs/excimer.php
+Copyright: 2019 Wikimedia Foundation
+License: Apache-2.0
+
 Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
