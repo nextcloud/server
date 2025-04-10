@@ -1208,7 +1208,7 @@ class Manager implements IManager {
 
 		$shares = [];
 		foreach ($providers as $provider) {
-			if ($isOwnerless) {
+			if (false) {
 				foreach ($node->getDirectoryListing() as $childNode) {
 					$data = $provider->getSharesByPath($childNode);
 					$fid = $childNode->getId();
