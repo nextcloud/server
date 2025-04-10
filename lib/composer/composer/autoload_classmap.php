@@ -1852,6 +1852,7 @@ return array(
     'OC\\Profile\\Actions\\WebsiteAction' => $baseDir . '/lib/private/Profile/Actions/WebsiteAction.php',
     'OC\\Profile\\ProfileManager' => $baseDir . '/lib/private/Profile/ProfileManager.php',
     'OC\\Profile\\TProfileHelper' => $baseDir . '/lib/private/Profile/TProfileHelper.php',
+    'OC\\Profiler\\BuiltInProfiler' => $baseDir . '/lib/private/Profiler/BuiltInProfiler.php',
     'OC\\Profiler\\FileProfilerStorage' => $baseDir . '/lib/private/Profiler/FileProfilerStorage.php',
     'OC\\Profiler\\Profile' => $baseDir . '/lib/private/Profiler/Profile.php',
     'OC\\Profiler\\Profiler' => $baseDir . '/lib/private/Profiler/Profiler.php',
