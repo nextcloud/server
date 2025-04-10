@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "路径已与此群组共享",
     "Link sharing is not allowed" : "不允许共享链接",
     "Public upload is not allowed" : "不允许公开上传",
-    "Path contains files shared with you" : "路径包含与你共享的文件",
     "Sharing is disabled" : "共享已禁用",
     "Sharing is disabled for you" : "已为您禁用共享",
     "Cannot share with the share owner" : "无法与共享所有者共享",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "点击下方按钮可打开它。",
     "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
     "Cannot download file" : "无法下载文件",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "请确定在根目录下有一个名为\".ocdata\"的文件。"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "请确定在根目录下有一个名为\".ocdata\"的文件。",
+    "Path contains files shared with you" : "路径包含与你共享的文件"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

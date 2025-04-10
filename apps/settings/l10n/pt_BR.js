@@ -792,7 +792,7 @@ OC.L10N.register(
     "Date of birth" : "Data de nascimento",
     "Full name" : "Nome completo",
     "Additional email" : "E-mail adicional ",
-    "Fediverse (e.g. Mastodon)" : "Fediverse (e.x. Mastodon)",
+    "Fediverse (e.g. Mastodon)" : "Fediverso (p. ex. Mastodon)",
     "Headline" : "Título",
     "Organisation" : "Organização",
     "Phone number" : "Número de telefone",

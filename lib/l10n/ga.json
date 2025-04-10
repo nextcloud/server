@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Tá an chonair roinnte leis an ngrúpa seo cheana féin",
     "Link sharing is not allowed" : "Ní cheadaítear nasc a roinnt",
     "Public upload is not allowed" : "Ní cheadaítear uaslódáil phoiblí",
-    "Path contains files shared with you" : "Tá comhaid a roinntear leat sa chonair",
     "Sharing is disabled" : "Tá roinnt díchumasaithe",
     "Sharing is disabled for you" : "Tá comhroinnt díchumasaithe duit",
     "Cannot share with the share owner" : "Ní féidir a roinnt leis an úinéir na scaireanna",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "Cliceáil ar an gcnaipe thíos chun é a oscailt.",
     "File is currently busy, please try again later" : "Tá an comhad gnóthach faoi láthair, bain triail eile as ar ball le do thoil",
     "Cannot download file" : "Ní féidir an comhad a íoslódáil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Cinntigh go bhfuil comhad darb ainm \".ocdata\" i bhfréamh an eolaire sonraí."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Cinntigh go bhfuil comhad darb ainm \".ocdata\" i bhfréamh an eolaire sonraí.",
+    "Path contains files shared with you" : "Tá comhaid a roinntear leat sa chonair"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

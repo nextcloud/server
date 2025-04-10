@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Path is already shared with this group",
     "Link sharing is not allowed" : "Link sharing is not allowed",
     "Public upload is not allowed" : "Public upload is not allowed",
-    "Path contains files shared with you" : "Path contains files shared with you",
     "Sharing is disabled" : "Sharing is disabled",
     "Sharing is disabled for you" : "Sharing is disabled for you",
     "Cannot share with the share owner" : "Cannot share with the share owner",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "Click the button below to open it.",
     "File is currently busy, please try again later" : "File is currently busy, please try again later",
     "Cannot download file" : "Cannot download file",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ensure there is a file called \".ocdata\" in the root of the data directory."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ensure there is a file called \".ocdata\" in the root of the data directory.",
+    "Path contains files shared with you" : "Path contains files shared with you"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

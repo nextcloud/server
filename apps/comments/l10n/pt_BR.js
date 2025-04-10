@@ -11,7 +11,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> para arquivos",
     "Files" : "Arquivos",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Você foi mencionado em \"{file}\", em um comentário de uma conta que já foi excluída",
-    "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionou você em um comentário em \"{file}\"",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionou você em um comentário sobre \"{file}\"",
     "Files app plugin to add comments to files" : "Complemento do aplicativo Files para adicionar comentários",
     "Edit comment" : "Editar comentário",
     "Delete comment" : "Excluir comentário",
