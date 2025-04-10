@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Le chemin est déjà partagé avec ce groupe",
     "Link sharing is not allowed" : "Le partage de liens n'est pas autorisé",
     "Public upload is not allowed" : "Le téléversement public n'est pas autorisé",
-    "Path contains files shared with you" : "Le chemin contient des fichiers partagés avec vous",
     "Sharing is disabled" : "Le partage est désactivé",
     "Sharing is disabled for you" : "Le partage est désactivé pour vous",
     "Cannot share with the share owner" : "Impossible de partager avec le propriétaire de l'action",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "Cliquez sur le bouton ci-dessous pour l'ouvrir",
     "File is currently busy, please try again later" : "Le fichier est actuellement utilisé, veuillez réessayer plus tard",
     "Cannot download file" : "Impossible de télécharger le fichier",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assurez-vous que le répertoire de données contient un fichier \".ocdata\" à sa racine."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assurez-vous que le répertoire de données contient un fichier \".ocdata\" à sa racine.",
+    "Path contains files shared with you" : "Le chemin contient des fichiers partagés avec vous"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

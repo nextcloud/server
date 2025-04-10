@@ -197,7 +197,6 @@
     "Path is already shared with this group" : "El camí ja està compartit amb aquest grup",
     "Link sharing is not allowed" : "La compartició d'enllaços no és permesa",
     "Public upload is not allowed" : "La pujada pública no és permesa",
-    "Path contains files shared with you" : "El camí conté fitxers compartits amb tu",
     "Sharing is disabled" : "S’ha desactivat la compartició",
     "Sharing is disabled for you" : "La compartició està desactivada per a tu",
     "Cannot share with the share owner" : "No es pot compartir amb el propietari de la compartició",
@@ -453,6 +452,7 @@
     "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
     "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
     "Cannot download file" : "No es pot baixar el fitxer",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades.",
+    "Path contains files shared with you" : "El camí conté fitxers compartits amb tu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "A ruta xa está compartida con este grupo",
     "Link sharing is not allowed" : "Non se permite compartir ligazóns",
     "Public upload is not allowed" : "Non se permite o envío público",
-    "Path contains files shared with you" : "A ruta contén ficheiros compartidos con Vde.",
     "Sharing is disabled" : "A compartición está desactivada",
     "Sharing is disabled for you" : "A compartición está desactivada para Vde.",
     "Cannot share with the share owner" : "Non é posíbel compartir co propietario do compartido",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "Prema no botón de embaixo para abrilo.",
     "File is currently busy, please try again later" : "O ficheiro está ocupado neste momento, ténteo máis adiante.",
     "Cannot download file" : "Non é posíbel descargar o ficheiro",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrese de que existe un ficheiro chamado «.ocdata» na raíz do directorio de datos."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrese de que existe un ficheiro chamado «.ocdata» na raíz do directorio de datos.",
+    "Path contains files shared with you" : "A ruta contén ficheiros compartidos con Vde."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

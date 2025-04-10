@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Umístění už je této skupině nasdíleno",
     "Link sharing is not allowed" : "Sdílení odkazů není povoleno",
     "Public upload is not allowed" : "Veřejné nahrávání není povoleno",
-    "Path contains files shared with you" : "Popis umístění obsahuje soubory, které vám byly nasdíleny",
     "Sharing is disabled" : "Sdílení je vypnuto",
     "Sharing is disabled for you" : "Máte zakázáno sdílet",
     "Cannot share with the share owner" : "Nelze sdílet zpět vlastníkovi sdílení",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "Pro otevření klikněte na tlačítko níže.",
     "File is currently busy, please try again later" : "Soubor je nyní používán, zkuste to později",
     "Cannot download file" : "Soubor se nedaří stáhnout",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“.",
+    "Path contains files shared with you" : "Popis umístění obsahuje soubory, které vám byly nasdíleny"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
