@@ -167,7 +167,6 @@
     "Path is already shared with this group" : "يول ئاللىقاچان بۇ گۇرۇپپا بىلەن ئورتاقلاشتى",
     "Link sharing is not allowed" : "ئۇلىنىشنى ئورتاقلىشىشقا بولمايدۇ",
     "Public upload is not allowed" : "ئاممىۋى يوللاشقا بولمايدۇ",
-    "Path contains files shared with you" : "يول سىز بىلەن ئورتاقلاشقان ھۆججەتلەرنى ئۆز ئىچىگە ئالىدۇ",
     "Sharing is disabled" : "ئورتاقلىشىش چەكلەنگەن",
     "Sharing is disabled for you" : "ئورتاقلىشىش سىز ئۈچۈن چەكلەنگەن",
     "Cannot share with the share owner" : "پاي ئىگىسى بىلەن ئورتاقلىشالمايدۇ",
@@ -391,6 +390,7 @@
     "Click the button below to open it." : "ئۇنى ئېچىش ئۈچۈن تۆۋەندىكى كۇنۇپكىنى بېسىڭ.",
     "File is currently busy, please try again later" : "ھۆججەت ھازىر ئالدىراش ، كېيىن قايتا سىناڭ",
     "Cannot download file" : "ھۆججەتنى چۈشۈرگىلى بولمايدۇ",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "سانلىق مەلۇمات مۇندەرىجىسىنىڭ يىلتىزىدا \".ocdata\" دەپ ئاتىلىدىغان ھۆججەتنىڭ بارلىقىغا كاپالەتلىك قىلىڭ."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "سانلىق مەلۇمات مۇندەرىجىسىنىڭ يىلتىزىدا \".ocdata\" دەپ ئاتىلىدىغان ھۆججەتنىڭ بارلىقىغا كاپالەتلىك قىلىڭ.",
+    "Path contains files shared with you" : "يول سىز بىلەن ئورتاقلاشقان ھۆججەتلەرنى ئۆز ئىچىگە ئالىدۇ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

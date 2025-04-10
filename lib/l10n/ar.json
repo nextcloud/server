@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "المسار تمّت مشاركته سلفاً مع هذه المجموعة",
     "Link sharing is not allowed" : "المشاركة عبر الروابط غير مسموحة",
     "Public upload is not allowed" : "الرفع من قِبَل العموم غير مسموح به",
-    "Path contains files shared with you" : "يحتوي المسار على ملفات تمّت مشاركتها معك",
     "Sharing is disabled" : "المشاركة معطلة",
     "Sharing is disabled for you" : "المشاركة معطلة بالنسبة لك",
     "Cannot share with the share owner" : "لا يمكنك المشاركة مع مالك المشاركة",
@@ -455,6 +454,7 @@
     "Click the button below to open it." : "اضغط على الزر الذي تحته ليتم فتحه.",
     "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
     "Cannot download file" : "لا يمكن تنزيل الملف",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory.",
+    "Path contains files shared with you" : "يحتوي المسار على ملفات تمّت مشاركتها معك"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
