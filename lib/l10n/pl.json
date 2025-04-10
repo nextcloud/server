@@ -169,7 +169,6 @@
     "Path is already shared with this group" : "Ścieżka jest już udostępniona tej grupie",
     "Link sharing is not allowed" : "Udostępnianie odnośników jest niedozwolone",
     "Public upload is not allowed" : "Przesyłanie publiczne nie jest dozwolone",
-    "Path contains files shared with you" : "Ścieżka zawiera pliki udostępnione Tobie",
     "Sharing is disabled" : "Udostępnianie jest wyłączone",
     "Sharing is disabled for you" : "Udostępnianie jest dla Ciebie wyłączone",
     "Cannot share with the share owner" : "Nie można udostępnić właścicielowi udziału",
@@ -341,6 +340,7 @@
     "Click the button below to open it." : "Kliknij przycisk poniżej, aby otworzyć.",
     "File is currently busy, please try again later" : "Plik jest obecnie niedostępny, spróbuj później",
     "Cannot download file" : "Nie można pobrać pliku",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Upewnij się, że w katalogu \"data\" znajduje się plik o nazwie \".ocdata\"."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Upewnij się, że w katalogu \"data\" znajduje się plik o nazwie \".ocdata\".",
+    "Path contains files shared with you" : "Ścieżka zawiera pliki udostępnione Tobie"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Sökvägen delas redan med den här gruppen",
     "Link sharing is not allowed" : "Länkdelning är inte tillåtet",
     "Public upload is not allowed" : "Offentlig uppladdning är inte tillåten",
-    "Path contains files shared with you" : "Sökvägen innehåller filer som delas med dig",
     "Sharing is disabled" : "Delning är inaktiverat",
     "Sharing is disabled for you" : "Delning är inaktiverat för dig",
     "Cannot share with the share owner" : "Kan inte dela med ägaren",
@@ -432,6 +431,7 @@
     "Click the button below to open it." : "Klicka på knappen nedan för att öppna det.",
     "File is currently busy, please try again later" : "Filen är för tillfället upptagen, försök igen senare",
     "Cannot download file" : "Kan inte ladda ner fil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data.",
+    "Path contains files shared with you" : "Sökvägen innehåller filer som delas med dig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

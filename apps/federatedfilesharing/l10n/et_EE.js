@@ -23,6 +23,7 @@ OC.L10N.register(
     "Sharing" : "Jagamine",
     "Federated file sharing" : "Failide jagamine liitpilves",
     "Provide federated file sharing across servers" : "Toeta failide jagamist liitpilves üle serverite",
+    "Confirm data upload to lookup server" : "Kinnita andmete üleslaadimine tuvastusserverisse",
     "Disable upload" : "Keela üleslaadimine",
     "Enable data upload" : "Luba andmete üleslaadimine",
     "Disable querying" : "Keela päringute tegemine",

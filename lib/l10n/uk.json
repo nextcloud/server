@@ -199,7 +199,6 @@
     "Path is already shared with this group" : "Шлях вже надано у спільний доступ для цієї групи",
     "Link sharing is not allowed" : "Спільний доступ через посилання не дозволено",
     "Public upload is not allowed" : "Публічні завантаження не дозволено",
-    "Path contains files shared with you" : "Шлях містить файли, якими поділилися з вами",
     "Sharing is disabled" : "Спільний доступ вимкнено",
     "Sharing is disabled for you" : "Ви не маєте права надавати у доступ файли або каталоги",
     "Cannot share with the share owner" : "Неможливо надавати у доступ власникові спільного ресурсу",
@@ -361,6 +360,7 @@
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
     "Cannot download file" : "Неможливо звантажити файл",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\"."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\".",
+    "Path contains files shared with you" : "Шлях містить файли, якими поділилися з вами"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
