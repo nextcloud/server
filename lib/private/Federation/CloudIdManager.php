@@ -119,6 +119,9 @@ class CloudIdManager implements ICloudIdManager {
 	public function getDisplayNameFromContact(string $cloudId): ?string {
 		$cachedName = $this->displayNameCache->get($cloudId);
 		if ($cachedName !== null) {
+			if ($cachedName === $cloudId) {
+				return null;
+			}
 			return $cachedName;
 		}
 
@@ -138,8 +141,8 @@ class CloudIdManager implements ICloudIdManager {
 							$this->displayNameCache->set($cloudId, $entry['FN'], 15 * 60);
 							return $entry['FN'];
 						} else {
-							$this->displayNameCache->set($cloudId, $cloudID, 15 * 60);
-							return $cloudID;
+							$this->displayNameCache->set($cloudId, $cloudId, 15 * 60);
+							return null;
 						}
 					}
 				}
