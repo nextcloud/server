@@ -101,19 +101,19 @@ class FileAccess implements IFileAccess {
 	 * Allows filtering by mime types, encryption status, and limits the number of results.
 	 *
 	 * @param int $storageId The ID of the storage to search within.
-	 * @param int $rootId The file ID of the ancestor to base the search on.
-	 * @param int $lastFileId The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
-	 * @param list<int> $mimeTypes An array of mime types to filter the results. If empty, no mime type filtering will be applied.
+	 * @param int $folderId The file ID of the ancestor to base the search on.
+	 * @param int $fileIdCursor The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
+	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
+	 * @param list<int> $mimeTypeIds An array of mime types to filter the results. If empty, no mime type filtering will be applied.
 	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
 	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
-	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
 	 * @return \Generator A generator yielding matching files as cache entries.
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getByAncestorInStorage(int $storageId, int $rootId, int $lastFileId = 0, array $mimeTypes = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true, int $maxResults = 100): \Generator {
+	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator {
 		$qb = $this->getQuery();
 		$qb->selectFileCache();
-		$qb->andWhere($qb->expr()->eq('filecache.fileid', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)));
+		$qb->andWhere($qb->expr()->eq('filecache.fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		/** @var array{path:string}|false $root */
 		$root = $result->fetch();
@@ -131,7 +131,7 @@ class FileAccess implements IFileAccess {
 			->from('filecache', 'f')
 			->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($path . '%')))
 			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
-			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($lastFileId)));
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)));
 
 		if (!$endToEndEncrypted) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
@@ -151,8 +151,8 @@ class FileAccess implements IFileAccess {
 			$qb->andWhere($qb->expr()->eq('f.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		}
 
-		if (count($mimeTypes) > 0) {
-			$qb->andWhere($qb->expr()->in('f.mimetype', $qb->createNamedParameter($mimeTypes, IQueryBuilder::PARAM_INT_ARRAY)));
+		if (count($mimeTypeIds) > 0) {
+			$qb->andWhere($qb->expr()->in('f.mimetype', $qb->createNamedParameter($mimeTypeIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		if ($maxResults !== 0) {
@@ -177,20 +177,20 @@ class FileAccess implements IFileAccess {
 	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
 	 *
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param string|false $excludeMountPoints A string containing an SQL LIKE pattern to exclude mount points. Set to false to not exclude any mount points.
+	 * @param bool $excludeTrashbinMounts Whether to exclude mounts that mount directories in a user's trashbin.
 	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
 	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getDistinctMounts(array $mountProviders = [], string|false $excludeMountPoints = false, bool $rewriteHomeDirectories = true): \Generator {
+	public function getDistinctMounts(array $mountProviders = [], bool $excludeTrashbinMounts = true, bool $rewriteHomeDirectories = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
 			->from('mounts');
 		if (count($mountProviders) > 0) {
 			$qb->where($qb->expr()->in('mount_provider_class', $qb->createPositionalParameter($mountProviders, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
-		if ($excludeMountPoints !== false) {
-			$qb->andWhere($qb->expr()->notLike('mount_point', $qb->createPositionalParameter($excludeMountPoints)));
+		if ($excludeTrashbinMounts === true) {
+			$qb->andWhere($qb->expr()->notLike('mount_point', $qb->createPositionalParameter('/%/files_trashbin/%')));
 		}
 		$qb->orderBy('root_id', 'ASC');
 		$result = $qb->executeQuery();
@@ -203,6 +203,8 @@ class FileAccess implements IFileAccess {
 			$storageId = (int)$row['storage_id'];
 			$rootId = (int)$row['root_id'];
 			$overrideRoot = $rootId;
+			// LocalHomeMountProvider is the default provider for user home directories
+			// ObjectHomeMountProvider is the home directory provider for when S3 primary storage is used
 			if ($rewriteHomeDirectories && in_array($row['mount_provider_class'], [
 				\OC\Files\Mount\LocalHomeMountProvider::class,
 				\OC\Files\Mount\ObjectHomeMountProvider::class,
@@ -214,7 +216,8 @@ class FileAccess implements IFileAccess {
 					/** @var array|false $root */
 					$root = $qb
 						->andWhere($qb->expr()->eq('filecache.storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-						->andWhere($qb->expr()->eq('filecache.path', $qb->createNamedParameter('files')))
+						->andWhere($qb->expr()->eq('filecache.parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
+						->andWhere($qb->expr()->eq('filecache.name', $qb->createNamedParameter('files')))
 						->executeQuery()->fetch();
 					if ($root !== false) {
 						$overrideRoot = (int)$root['fileid'];
@@ -224,10 +227,11 @@ class FileAccess implements IFileAccess {
 					continue;
 				}
 			}
+			// Reference to root_id is still necessary even if we have the overridden_root_id, because storage_id and root_id uniquely identify a mount
 			yield [
 				'storage_id' => $storageId,
 				'root_id' => $rootId,
-				'override_root' => $overrideRoot,
+				'overridden_root' => $overrideRoot,
 			];
 		}
 		$result->closeCursor();

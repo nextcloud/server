@@ -71,7 +71,7 @@ class FileAccessTest extends TestCase {
 				'storage_id' => $queryBuilder->createNamedParameter(2, IQueryBuilder::PARAM_INT),
 				'root_id' => $queryBuilder->createNamedParameter(20, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass2'),
-				'mount_point' => $queryBuilder->createNamedParameter('/cache'),
+				'mount_point' => $queryBuilder->createNamedParameter('/foobar/files_trashbin/test'),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -81,7 +81,7 @@ class FileAccessTest extends TestCase {
 				'storage_id' => $queryBuilder->createNamedParameter(3, IQueryBuilder::PARAM_INT),
 				'root_id' => $queryBuilder->createNamedParameter(30, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass1'),
-				'mount_point' => $queryBuilder->createNamedParameter('/trashbin'),
+				'mount_point' => $queryBuilder->createNamedParameter('/documents'),
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
@@ -93,25 +93,19 @@ class FileAccessTest extends TestCase {
 	public function testGetDistinctMountsWithoutFilters(): void {
 		$result = iterator_to_array($this->fileAccess->getDistinctMounts());
 
-		$this->assertCount(3, $result);
+		$this->assertCount(2, $result);
 
 		$this->assertEquals([
 			'storage_id' => 1,
 			'root_id' => 10,
-			'override_root' => 10,
+			'overridden_root' => 10,
 		], $result[0]);
-
-		$this->assertEquals([
-			'storage_id' => 2,
-			'root_id' => 20,
-			'override_root' => 20,
-		], $result[1]);
 
 		$this->assertEquals([
 			'storage_id' => 3,
 			'root_id' => 30,
-			'override_root' => 30,
-		], $result[2]);
+			'overridden_root' => 30,
+		], $result[1]);
 	}
 
 	/**
@@ -125,13 +119,13 @@ class FileAccessTest extends TestCase {
 		$this->assertEquals([
 			'storage_id' => 1,
 			'root_id' => 10,
-			'override_root' => 10,
+			'overridden_root' => 10,
 		], $result[0]);
 
 		$this->assertEquals([
 			'storage_id' => 3,
 			'root_id' => 30,
-			'override_root' => 30,
+			'overridden_root' => 30,
 		], $result[1]);
 	}
 
@@ -139,21 +133,27 @@ class FileAccessTest extends TestCase {
 	 * Test that getDistinctMounts excludes certain mount points
 	 */
 	public function testGetDistinctMountsWithExclusionFilter(): void {
-		$result = iterator_to_array($this->fileAccess->getDistinctMounts([], '/cache'));
+		$result = iterator_to_array($this->fileAccess->getDistinctMounts([], false));
 
-		$this->assertCount(2, $result);
+		$this->assertCount(3, $result);
 
 		$this->assertEquals([
 			'storage_id' => 1,
 			'root_id' => 10,
-			'override_root' => 10,
+			'overridden_root' => 10,
 		], $result[0]);
+
+		$this->assertEquals([
+			'storage_id' => 2,
+			'root_id' => 20,
+			'overridden_root' => 20,
+		], $result[1]);
 
 		$this->assertEquals([
 			'storage_id' => 3,
 			'root_id' => 30,
-			'override_root' => 30,
-		], $result[1]);
+			'overridden_root' => 30,
+		], $result[2]);
 	}
 
 	/**
@@ -180,8 +180,9 @@ class FileAccessTest extends TestCase {
 			->values([
 				'fileid' => $queryBuilder->createNamedParameter(99, IQueryBuilder::PARAM_INT),
 				'storage' => $queryBuilder->createNamedParameter(4, IQueryBuilder::PARAM_INT),
-				'path' => $queryBuilder->createNamedParameter('files'),
-				'path_hash' => $queryBuilder->createNamedParameter(md5('files')),
+				'parent' => $queryBuilder->createNamedParameter(40),
+				'name' => $queryBuilder->createNamedParameter('files'),
+				'path_hash' => $queryBuilder->createNamedParameter(md5('/home/user/files')),
 			])
 			->executeStatement();
 
@@ -190,7 +191,7 @@ class FileAccessTest extends TestCase {
 		$this->assertEquals([
 			'storage_id' => 4,
 			'root_id' => 40,
-			'override_root' => 99,
+			'overridden_root' => 99,
 		], end($result));
 	}
 
@@ -298,17 +299,17 @@ class FileAccessTest extends TestCase {
 			1, // storageId
 			1, // rootId
 			0, // lastFileId
+			10, // maxResults
 			[], // mimeTypes
 			true, // include end-to-end encrypted files
 			true, // include server-side encrypted files
-			10 // maxResults
 		);
 
 		$result = iterator_to_array($generator);
 
 		$this->assertCount(4, $result);
 
-		$paths = array_map(fn(CacheEntry $entry) => $entry->getPath(), $result);
+		$paths = array_map(fn (CacheEntry $entry) => $entry->getPath(), $result);
 		$this->assertEquals([
 			'files/documents',
 			'files/photos',
@@ -325,10 +326,10 @@ class FileAccessTest extends TestCase {
 			1,
 			1,
 			0,
+			10,
 			[2], // Only include documents (mimetype=2)
 			true,
 			true,
-			10
 		);
 
 		$result = iterator_to_array($generator);
@@ -345,16 +346,16 @@ class FileAccessTest extends TestCase {
 			1,
 			1,
 			0,
+			10,
 			[],
 			false, // exclude end-to-end encrypted files
 			true,
-			10
 		);
 
 		$result = iterator_to_array($generator);
 
 		$this->assertCount(3, $result);
-		$paths = array_map(fn(CacheEntry $entry) => $entry->getPath(), $result);
+		$paths = array_map(fn (CacheEntry $entry) => $entry->getPath(), $result);
 		$this->assertEquals(['files/documents', 'files/photos', 'files/serversideencrypted'], $paths);
 	}
 
@@ -366,10 +367,10 @@ class FileAccessTest extends TestCase {
 			1,
 			1,
 			0,
+			10,
 			[],
 			true,
 			false, // exclude server-side encrypted files
-			10
 		);
 
 		$result = iterator_to_array($generator);
@@ -386,10 +387,10 @@ class FileAccessTest extends TestCase {
 			1,
 			1,
 			0,
+			1, // Limit to 1 result
 			[],
 			true,
 			true,
-			1 // Limit to 1 result
 		);
 
 		$result = iterator_to_array($generator);
@@ -406,10 +407,10 @@ class FileAccessTest extends TestCase {
 			1,
 			3, // Filter by rootId
 			0,
+			10,
 			[],
 			true,
 			true,
-			10
 		);
 
 		$result = iterator_to_array($generator);
@@ -426,10 +427,10 @@ class FileAccessTest extends TestCase {
 			2, // Filter by storage
 			6, // and by rootId
 			0,
+			10,
 			[],
 			true,
 			true,
-			10
 		);
 
 		$result = iterator_to_array($generator);
