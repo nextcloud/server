@@ -24,8 +24,8 @@
 		<NcTextField ref="input"
 			class="public-auth-prompt__input"
 			data-cy-public-auth-prompt-dialog-name
-			:label="t('files_sharing', 'Nickname')"
-			:placeholder="t('files_sharing', 'Enter your nickname')"
+			:label="t('files_sharing', 'Name')"
+			:placeholder="t('files_sharing', 'Enter your name')"
 			minlength="2"
 			name="name"
 			required
