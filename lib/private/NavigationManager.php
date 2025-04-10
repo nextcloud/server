@@ -110,9 +110,10 @@ class NavigationManager implements INavigationManager {
 	}
 
 	private function updateDefaultEntries() {
+		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 		foreach ($this->entries as $id => $entry) {
 			if ($entry['type'] === 'link') {
-				$this->entries[$id]['default'] = $id === $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
+				$this->entries[$id]['default'] = $id === $defaultEntryId;
 			}
 		}
 	}
