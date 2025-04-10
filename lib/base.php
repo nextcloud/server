@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Encryption\HookManager;
+use OC\Profiler\BuiltInProfiler;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
@@ -14,6 +15,7 @@ use OC\Share20\UserRemovedListener;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -123,7 +125,6 @@ class OC {
 				OC::$SUBURI = OC::$SUBURI . 'index.php';
 			}
 		}
-
 
 		if (OC::$CLI) {
 			OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
@@ -520,7 +521,7 @@ class OC {
 	 * We use an additional cookie since we want to protect logout CSRF and
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
-	private static function performSameSiteCookieProtection(\OCP\IConfig $config): void {
+	private static function performSameSiteCookieProtection(IConfig $config): void {
 		$request = Server::get(IRequest::class);
 
 		// Some user agents are notorious and don't really properly follow HTTP
@@ -633,6 +634,16 @@ class OC {
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
+		try {
+			$profiler = new BuiltInProfiler(
+				Server::get(IConfig::class),
+				Server::get(IRequest::class),
+			);
+			$profiler->start();
+		} catch (\Throwable $e) {
+			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
+		}
+
 		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
@@ -652,7 +663,7 @@ class OC {
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
 
-		$config = Server::get(\OCP\IConfig::class);
+		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),

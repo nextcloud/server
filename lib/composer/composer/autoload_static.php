@@ -1901,6 +1901,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Profile\\Actions\\WebsiteAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/WebsiteAction.php',
         'OC\\Profile\\ProfileManager' => __DIR__ . '/../../..' . '/lib/private/Profile/ProfileManager.php',
         'OC\\Profile\\TProfileHelper' => __DIR__ . '/../../..' . '/lib/private/Profile/TProfileHelper.php',
+        'OC\\Profiler\\BuiltInProfiler' => __DIR__ . '/../../..' . '/lib/private/Profiler/BuiltInProfiler.php',
         'OC\\Profiler\\FileProfilerStorage' => __DIR__ . '/../../..' . '/lib/private/Profiler/FileProfilerStorage.php',
         'OC\\Profiler\\Profile' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profile.php',
         'OC\\Profiler\\Profiler' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profiler.php',
