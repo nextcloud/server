@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Piotr Mrowczynski piotr@owncloud.com
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files_Sharing;
@@ -31,11 +17,9 @@ use OCP\Files\NotFoundException;
  */
 class ViewOnly {
 
-	/** @var Folder */
-	private $userFolder;
-
-	public function __construct(Folder $userFolder) {
-		$this->userFolder = $userFolder;
+	public function __construct(
+		private Folder $userFolder,
+	) {
 	}
 
 	/**
@@ -102,20 +86,13 @@ class ViewOnly {
 		}
 
 		// Extract extra permissions
-		/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		/** @var SharedStorage $storage */
 		$share = $storage->getShare();
 
-		$canDownload = true;
-
-		// Check if read-only and on whether permission can download is both set and disabled.
+		// Check whether download-permission was denied (granted if not set)
 		$attributes = $share->getAttributes();
-		if ($attributes !== null) {
-			$canDownload = $attributes->getAttribute('permissions', 'download');
-		}
+		$canDownload = $attributes?->getAttribute('permissions', 'download');
 
-		if ($canDownload !== null && !$canDownload) {
-			return false;
-		}
-		return true;
+		return $canDownload !== false;
 	}
 }

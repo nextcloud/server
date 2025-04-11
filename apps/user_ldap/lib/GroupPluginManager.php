@@ -1,29 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class GroupPluginManager {
@@ -59,7 +42,7 @@ class GroupPluginManager {
 		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				Server::get(LoggerInterface::class)->debug('Registered action ' . $action . ' to plugin ' . get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}

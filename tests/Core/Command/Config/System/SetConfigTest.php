@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Config\System;
@@ -53,7 +39,7 @@ class SetConfigTest extends TestCase {
 	}
 
 
-	public function setData() {
+	public static function dataTest() {
 		return [
 			[['name'], 'newvalue', null, 'newvalue'],
 			[['a', 'b', 'c'], 'foobar', null, ['b' => ['c' => 'foobar']]],
@@ -62,14 +48,14 @@ class SetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider setData
+	 * @dataProvider dataTest
 	 *
 	 * @param array $configNames
 	 * @param string $newValue
 	 * @param mixed $existingData
 	 * @param mixed $expectedValue
 	 */
-	public function testSet($configNames, $newValue, $existingData, $expectedValue) {
+	public function testSet($configNames, $newValue, $existingData, $expectedValue): void {
 		$this->systemConfig->expects($this->once())
 			->method('setValue')
 			->with($configNames[0], $expectedValue);
@@ -102,7 +88,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider setUpdateOnlyProvider
 	 */
-	public function testSetUpdateOnly($configNames, $existingData) {
+	public function testSetUpdateOnly($configNames, $existingData): void {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$this->systemConfig->expects($this->never())
@@ -149,7 +135,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueProvider
 	 */
-	public function testCastValue($value, $type, $expectedValue) {
+	public function testCastValue($value, $type, $expectedValue): void {
 		$this->assertSame($expectedValue,
 			$this->invokePrivate($this->command, 'castValue', [$value, $type])
 		);
@@ -170,7 +156,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueInvalidProvider
 	 */
-	public function testCastValueInvalid($value, $type) {
+	public function testCastValueInvalid($value, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->invokePrivate($this->command, 'castValue', [$value, $type]);

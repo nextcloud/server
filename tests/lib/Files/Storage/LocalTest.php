@@ -1,26 +1,13 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Storage;
+
+use OC\Files\Storage\Wrapper\Jail;
 
 /**
  * Class LocalTest
@@ -47,14 +34,14 @@ class LocalTest extends Storage {
 		parent::tearDown();
 	}
 
-	public function testStableEtag() {
+	public function testStableEtag(): void {
 		$this->instance->file_put_contents('test.txt', 'foobar');
 		$etag1 = $this->instance->getETag('test.txt');
 		$etag2 = $this->instance->getETag('test.txt');
 		$this->assertEquals($etag1, $etag2);
 	}
 
-	public function testEtagChange() {
+	public function testEtagChange(): void {
 		$this->instance->file_put_contents('test.txt', 'foo');
 		$this->instance->touch('test.txt', time() - 2);
 		$etag1 = $this->instance->getETag('test.txt');
@@ -64,21 +51,21 @@ class LocalTest extends Storage {
 	}
 
 
-	public function testInvalidArgumentsEmptyArray() {
+	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new \OC\Files\Storage\Local([]);
 	}
 
 
-	public function testInvalidArgumentsNoArray() {
+	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local(null);
+		new \OC\Files\Storage\Local([]);
 	}
 
 
-	public function testDisallowSymlinksOutsideDatadir() {
+	public function testDisallowSymlinksOutsideDatadir(): void {
 		$this->expectException(\OCP\Files\ForbiddenException::class);
 
 		$subDir1 = $this->tmpDir . 'sub1';
@@ -94,7 +81,7 @@ class LocalTest extends Storage {
 		$storage->file_put_contents('sym/foo', 'bar');
 	}
 
-	public function testDisallowSymlinksInsideDatadir() {
+	public function testDisallowSymlinksInsideDatadir(): void {
 		$subDir1 = $this->tmpDir . 'sub1';
 		$subDir2 = $this->tmpDir . 'sub1/sub2';
 		$sym = $this->tmpDir . 'sub1/sym';
@@ -109,21 +96,21 @@ class LocalTest extends Storage {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testWriteUmaskFilePutContents() {
+	public function testWriteUmaskFilePutContents(): void {
 		$oldMask = umask(0333);
 		$this->instance->file_put_contents('test.txt', 'sad');
 		umask($oldMask);
 		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
 
-	public function testWriteUmaskMkdir() {
+	public function testWriteUmaskMkdir(): void {
 		$oldMask = umask(0333);
 		$this->instance->mkdir('test.txt');
 		umask($oldMask);
 		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
 
-	public function testWriteUmaskFopen() {
+	public function testWriteUmaskFopen(): void {
 		$oldMask = umask(0333);
 		$handle = $this->instance->fopen('test.txt', 'w');
 		fwrite($handle, 'foo');
@@ -132,7 +119,7 @@ class LocalTest extends Storage {
 		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
 
-	public function testWriteUmaskCopy() {
+	public function testWriteUmaskCopy(): void {
 		$this->instance->file_put_contents('source.txt', 'sad');
 		$oldMask = umask(0333);
 		$this->instance->copy('source.txt', 'test.txt');
@@ -140,14 +127,35 @@ class LocalTest extends Storage {
 		$this->assertTrue($this->instance->isUpdatable('test.txt'));
 	}
 
-	public function testUnavailableExternal() {
+	public function testUnavailableExternal(): void {
 		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
 		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
 	}
 
-	public function testUnavailableNonExternal() {
+	public function testUnavailableNonExternal(): void {
 		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist']);
 		// no exception thrown
 		$this->assertNotNull($this->instance);
+	}
+
+	public function testMoveNestedJail(): void {
+		$this->instance->mkdir('foo');
+		$this->instance->mkdir('foo/bar');
+		$this->instance->mkdir('target');
+		$this->instance->file_put_contents('foo/bar/file.txt', 'foo');
+		$jail1 = new Jail([
+			'storage' => $this->instance,
+			'root' => 'foo'
+		]);
+		$jail2 = new Jail([
+			'storage' => $jail1,
+			'root' => 'bar'
+		]);
+		$jail3 = new Jail([
+			'storage' => $this->instance,
+			'root' => 'target'
+		]);
+		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
+		$this->assertTrue($this->instance->file_exists('target/file.txt'));
 	}
 }

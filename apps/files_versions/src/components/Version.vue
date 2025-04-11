@@ -1,29 +1,17 @@
 <!--
- - @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- - @license AGPL-3.0-or-later
- -
- - This program is free software: you can redistribute it and/or modify
- - it under the terms of the GNU Affero General Public License as
- - published by the Free Software Foundation, either version 3 of the
- - License, or (at your option) any later version.
- -
- - This program is distributed in the hope that it will be useful,
- - but WITHOUT ANY WARRANTY; without even the implied warranty of
- - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- - GNU Affero General Public License for more details.
- -
- - You should have received a copy of the GNU Affero General Public License
- - along with this program. If not, see <http://www.gnu.org/licenses/>.
- -->
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcListItem class="version"
 		:force-display-actions="true"
+		:actions-aria-label="t('files_versions', 'Actions for version from {versionHumanExplicitDate}', { versionHumanExplicitDate })"
 		:data-files-versions-version="version.fileVersion"
 		@click="click">
 		<!-- Icon -->
 		<template #icon>
 			<div v-if="!(loadPreview || previewLoaded)" class="version__image" />
-			<img v-else-if="(isCurrent || version.hasPreview) && !previewErrored"
+			<img v-else-if="version.previewUrl && !previewErrored"
 				:src="version.previewUrl"
 				alt=""
 				decoding="async"
@@ -41,14 +29,21 @@
 		<!-- author -->
 		<template #name>
 			<div class="version__info">
-				<div v-if="versionLabel" class="version__info__label">{{ versionLabel }}</div>
-				<div v-if="versionAuthor" class="version__info">
-					<div v-if="versionLabel">•</div>
+				<div v-if="versionLabel"
+					class="version__info__label"
+					data-cy-files-version-label
+					:title="versionLabel">
+					{{ versionLabel }}
+				</div>
+				<div v-if="versionAuthor"
+					class="version__info"
+					data-cy-files-version-author-name>
+					<span v-if="versionLabel">•</span>
 					<NcAvatar class="avatar"
 						:user="version.author"
-						:size="16"
-						:disable-menu="true"
-						:disable-tooltip="true"
+						:size="20"
+						disable-menu
+						disable-tooltip
 						:show-user-status="false" />
 					<div>{{ versionAuthor }}</div>
 				</div>
@@ -58,10 +53,12 @@
 		<!-- Version file size as subline -->
 		<template #subname>
 			<div class="version__info version__info__subline">
-				<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
-				<!-- Separate dot to improve alignement -->
+				<NcDateTime class="version__info__date"
+					relative-time="short"
+					:timestamp="version.mtime" />
+				<!-- Separate dot to improve alignment -->
 				<span>•</span>
-				<span>{{ version.size | humanReadableSize }}</span>
+				<span>{{ humanReadableSize }}</span>
 			</div>
 		</template>
 
@@ -116,9 +113,21 @@
 		</template>
 	</NcListItem>
 </template>
-
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { Version } from '../utils/versions'
+
+import { getCurrentUser } from '@nextcloud/auth'
+import { Permission, formatFileSize } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { joinPaths } from '@nextcloud/paths'
+import { getRootUrl, generateUrl } from '@nextcloud/router'
+import { defineComponent } from 'vue'
+
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
+import logger from '../utils/logger'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
@@ -127,20 +136,12 @@ import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
-
-import { defineComponent, type PropType } from 'vue'
-import axios from '@nextcloud/axios'
-import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import { joinPaths } from '@nextcloud/paths'
-import { loadState } from '@nextcloud/initial-state'
-import { Permission, formatFileSize } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import Tooltip from '@nextcloud/vue/directives/Tooltip'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
@@ -151,6 +152,7 @@ export default defineComponent({
 		NcActionLink,
 		NcActionButton,
 		NcAvatar,
+		NcDateTime,
 		NcListItem,
 		BackupRestore,
 		Download,
@@ -162,20 +164,6 @@ export default defineComponent({
 
 	directives: {
 		tooltip: Tooltip,
-	},
-
-	created() {
-		this.fetchDisplayName()
-	},
-
-	filters: {
-		humanReadableSize(bytes: number): string {
-			return formatFileSize(bytes)
-		},
-
-		humanDateFromNow(timestamp: number): string {
-			return moment(timestamp).fromNow()
-		},
 	},
 
 	props: {
@@ -216,11 +204,15 @@ export default defineComponent({
 			previewLoaded: false,
 			previewErrored: false,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-			versionAuthor: '',
+			versionAuthor: '' as string | null,
 		}
 	},
 
 	computed: {
+		humanReadableSize() {
+			return formatFileSize(this.version.size)
+		},
+
 		versionLabel(): string {
 			const label = this.version.label ?? ''
 
@@ -239,16 +231,16 @@ export default defineComponent({
 			return label
 		},
 
+		versionHumanExplicitDate(): string {
+			return moment(this.version.mtime).format('LLLL')
+		},
+
 		downloadURL(): string {
 			if (this.isCurrent) {
 				return getRootUrl() + joinPaths('/remote.php/webdav', this.fileInfo.path, this.fileInfo.name)
 			} else {
 				return getRootUrl() + this.version.url
 			}
-		},
-
-		formattedDate(): string {
-			return moment(this.version.mtime).format('LLL')
 		},
 
 		enableLabeling(): boolean {
@@ -277,13 +269,17 @@ export default defineComponent({
 				const downloadAttribute = this.fileInfo.shareAttributes
 					.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
 				// If the download attribute is set to false, the file is not downloadable
-				if (downloadAttribute?.enabled === false) {
+				if (downloadAttribute?.value === false) {
 					return false
 				}
 			}
 
 			return true
 		},
+	},
+
+	created() {
+		this.fetchDisplayName()
 	},
 
 	methods: {
@@ -304,21 +300,26 @@ export default defineComponent({
 		},
 
 		async fetchDisplayName() {
-			// check to make sure that we have a valid author - in case database did not migrate, null author, etc.
-			if (this.version.author) {
+			this.versionAuthor = null
+			if (!this.version.author) {
+				return
+			}
+
+			if (this.version.author === getCurrentUser()?.uid) {
+				this.versionAuthor = t('files_versions', 'You')
+			} else {
 				try {
-					const { data } = await axios.get(generateOcsUrl(`/cloud/users/${this.version.author}`))
-					this.versionAuthor = data.ocs.data.displayname
-				} catch (e) {
-					// Promise got rejected - default to null author to not try to load author profile
-					this.versionAuthor = null
+					const { data } = await axios.post(generateUrl('/displaynames'), { users: [this.version.author] })
+					this.versionAuthor = data.users[this.version.author]
+				} catch (error) {
+					logger.warn('Could not load user display name', { error })
 				}
 			}
 		},
 
 		click() {
 			if (!this.canView) {
-				window.location = this.downloadURL
+				window.location.href = this.downloadURL
 				return
 			}
 			this.$emit('click', { version: this.version })
@@ -351,11 +352,20 @@ export default defineComponent({
 
 		&__label {
 			font-weight: 700;
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&__date {
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		&__subline {
-		color: var(--color-text-maxcontrast)
-	}
+			color: var(--color-text-maxcontrast)
+		}
 	}
 
 	&__image {

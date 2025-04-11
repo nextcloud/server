@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Db;
@@ -46,6 +29,10 @@ use OCP\User\IOutOfOfficeData;
  * @method void setStatus(string $status)
  * @method string getMessage()
  * @method void setMessage(string $message)
+ * @method string getReplacementUserId()
+ * @method void setReplacementUserId(?string $replacementUserId)
+ * @method string getReplacementUserDisplayName()
+ * @method void setReplacementUserDisplayName(?string $replacementUserDisplayName)
  */
 class Absence extends Entity implements JsonSerializable {
 	protected string $userId = '';
@@ -60,17 +47,23 @@ class Absence extends Entity implements JsonSerializable {
 
 	protected string $message = '';
 
+	protected ?string $replacementUserId = null;
+
+	protected ?string $replacementUserDisplayName = null;
+
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('firstDay', 'string');
 		$this->addType('lastDay', 'string');
 		$this->addType('status', 'string');
 		$this->addType('message', 'string');
+		$this->addType('replacementUserId', 'string');
+		$this->addType('replacementUserDisplayName', 'string');
 	}
 
 	public function toOutOufOfficeData(IUser $user, string $timezone): IOutOfOfficeData {
 		if ($user->getUID() !== $this->getUserId()) {
-			throw new InvalidArgumentException("The user doesn't match the user id of this absence! Expected " . $this->getUserId() . ", got " . $user->getUID());
+			throw new InvalidArgumentException("The user doesn't match the user id of this absence! Expected " . $this->getUserId() . ', got ' . $user->getUID());
 		}
 		if ($this->getId() === null) {
 			throw new Exception('Creating out-of-office data without ID');
@@ -87,6 +80,8 @@ class Absence extends Entity implements JsonSerializable {
 			$endDate->getTimestamp(),
 			$this->getStatus(),
 			$this->getMessage(),
+			$this->getReplacementUserId(),
+			$this->getReplacementUserDisplayName(),
 		);
 	}
 
@@ -97,6 +92,8 @@ class Absence extends Entity implements JsonSerializable {
 			'lastDay' => $this->lastDay,
 			'status' => $this->status,
 			'message' => $this->message,
+			'replacementUserId' => $this->replacementUserId,
+			'replacementUserDisplayName' => $this->replacementUserDisplayName,
 		];
 	}
 }

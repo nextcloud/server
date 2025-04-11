@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -42,6 +24,12 @@ class ListCommand extends Base {
 		$this
 			->setName('group:list')
 			->setDescription('list configured groups')
+			->addArgument(
+				'searchstring',
+				InputArgument::OPTIONAL,
+				'Filter the groups to only those matching the search string',
+				''
+			)
 			->addOption(
 				'limit',
 				'l',
@@ -69,7 +57,7 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$groups = $this->groupManager->search((string)$input->getArgument('searchstring'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
 		return 0;
 	}
@@ -87,25 +75,19 @@ class ListCommand extends Base {
 
 	/**
 	 * @param IGroup[] $groups
-	 * @return array
 	 */
-	private function formatGroups(array $groups, bool $addInfo = false) {
-		$keys = array_map(function (IGroup $group) {
-			return $group->getGID();
-		}, $groups);
-
-		if ($addInfo) {
-			$values = array_map(function (IGroup $group) {
-				return [
+	private function formatGroups(array $groups, bool $addInfo = false): \Generator {
+		foreach ($groups as $group) {
+			if ($addInfo) {
+				$value = [
+					'displayName' => $group->getDisplayName(),
 					'backends' => $group->getBackendNames(),
 					'users' => $this->usersForGroup($group),
 				];
-			}, $groups);
-		} else {
-			$values = array_map(function (IGroup $group) {
-				return $this->usersForGroup($group);
-			}, $groups);
+			} else {
+				$value = $this->usersForGroup($group);
+			}
+			yield $group->getGID() => $value;
 		}
-		return array_combine($keys, $values);
 	}
 }

@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcDialog content-classes="app-changelog-dialog"
 		:buttons="dialogButtons"
@@ -15,7 +19,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { ref, watchEffect } from 'vue'
 
 import axios from '@nextcloud/axios'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import Markdown from './Markdown.vue'
 
 const props = withDefaults(

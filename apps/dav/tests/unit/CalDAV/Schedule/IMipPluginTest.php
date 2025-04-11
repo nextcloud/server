@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017, Georg Ehrke
- *
- * @author brad2014 <brad2014@users.noreply.github.com>
- * @author Brad Rubenstein <brad@wbr.tech>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
@@ -34,12 +11,17 @@ use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
-use OCP\IConfig;
-use OCP\IUserManager;
+use OCP\IAppConfig;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessage as IMailMessageNew;
+use OCP\Mail\Provider\IMessageSend as IMailMessageSend;
+use OCP\Mail\Provider\IService as IMailService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
@@ -47,6 +29,11 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 use function array_merge;
+
+interface IMailServiceMock extends IMailService, IMailMessageSend {
+	// workaround for creating mock class with multiple interfaces
+	// TODO: remove after phpUnit 10 is supported.
+}
 
 class IMipPluginTest extends TestCase {
 
@@ -65,11 +52,14 @@ class IMipPluginTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var IConfig|MockObject */
+	/** @var IAppConfig|MockObject */
 	private $config;
 
-	/** @var IUserManager|MockObject */
-	private $userManager;
+	/** @var IUserSession|MockObject */
+	private $userSession;
+
+	/** @var IUser|MockObject */
+	private $user;
 
 	/** @var IMipPlugin */
 	private $plugin;
@@ -85,6 +75,15 @@ class IMipPluginTest extends TestCase {
 
 	/** @var EventComparisonService|MockObject */
 	private $eventComparisonService;
+
+	/** @var IMailManager|MockObject */
+	private $mailManager;
+
+	/** @var IMailService|IMailMessageSend|MockObject */
+	private $mailService;
+
+	/** @var IMailMessageNew|MockObject */
+	private $mailMessageNew;
 
 	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
@@ -106,9 +105,13 @@ class IMipPluginTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
 
-		$this->config = $this->createMock(IConfig::class);
+		$this->config = $this->createMock(IAppConfig::class);
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$this->user = $this->createMock(IUser::class);
+
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
 
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaults->method('getName')
@@ -118,16 +121,22 @@ class IMipPluginTest extends TestCase {
 
 		$this->eventComparisonService = $this->createMock(EventComparisonService::class);
 
+		$this->mailManager = $this->createMock(IMailManager::class);
+
+		$this->mailService = $this->createMock(IMailServiceMock::class);
+
+		$this->mailMessageNew = $this->createMock(IMailMessageNew::class);
+
 		$this->plugin = new IMipPlugin(
 			$this->config,
 			$this->mailer,
 			$this->logger,
 			$this->timeFactory,
 			$this->defaults,
-			$this->userManager,
-			'user123',
+			$this->userSession,
 			$this->service,
-			$this->eventComparisonService
+			$this->eventComparisonService,
+			$this->mailManager,
 		);
 	}
 
@@ -193,7 +202,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -213,8 +222,15 @@ class IMipPluginTest extends TestCase {
 			->method('buildBodyData')
 			->with($newVevent, $oldVEvent)
 			->willReturn($data);
-		$this->userManager->expects(self::never())
-			->method('getDisplayName');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
@@ -227,12 +243,12 @@ class IMipPluginTest extends TestCase {
 			->method('getAttendeeRsvpOrReqForParticipant')
 			->willReturn(true);
 		$this->config->expects(self::once())
-			->method('getAppValue')
+			->method('getValueString')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -289,7 +305,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('the-shire@hobb.it')
@@ -307,8 +323,15 @@ class IMipPluginTest extends TestCase {
 			->willReturn(true);
 		$this->service->expects(self::never())
 			->method('buildBodyData');
-		$this->userManager->expects(self::never())
-			->method('getDisplayName');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::never())
 			->method('getFrom');
 		$this->service->expects(self::never())
@@ -318,7 +341,7 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::never())
 			->method('getAttendeeRsvpOrReqForParticipant');
 		$this->config->expects(self::never())
-			->method('getAppValue');
+			->method('getValueString');
 		$this->service->expects(self::never())
 			->method('createInvitationToken');
 		$this->service->expects(self::never())
@@ -330,7 +353,6 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.0', $message->getScheduleStatus());
 	}
-
 
 	public function testParsingRecurrence(): void {
 		$message = new Message();
@@ -384,7 +406,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVCalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -404,9 +426,15 @@ class IMipPluginTest extends TestCase {
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
-		$this->userManager->expects(self::once())
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
@@ -419,12 +447,12 @@ class IMipPluginTest extends TestCase {
 			->method('getAttendeeRsvpOrReqForParticipant')
 			->willReturn(true);
 		$this->config->expects(self::once())
-			->method('getAppValue')
+			->method('getValueString')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -439,7 +467,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	public function testEmailValidationFailed() {
+	public function testEmailValidationFailed(): void {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -457,7 +485,7 @@ class IMipPluginTest extends TestCase {
 
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -509,7 +537,7 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->setVCalendar($oldVcalendar);
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -529,8 +557,15 @@ class IMipPluginTest extends TestCase {
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
-		$this->userManager->expects(self::never())
-			->method('getDisplayName');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
@@ -543,12 +578,12 @@ class IMipPluginTest extends TestCase {
 			->method('getAttendeeRsvpOrReqForParticipant')
 			->willReturn(true);
 		$this->config->expects(self::once())
-			->method('getAppValue')
+			->method('getValueString')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -566,6 +601,218 @@ class IMipPluginTest extends TestCase {
 			->method('error');
 		$this->plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
+	public function testMailProviderSend(): void {
+		// construct iTip message with event and attendees
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$calendar = new VCalendar();
+		$event = new VEvent($calendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$event->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$event->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $calendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// construct
+		foreach ($event->select('ATTENDEE') as $entry) {
+			if (strcasecmp($entry->getValue(), $message->recipient) === 0) {
+				$attendee = $entry;
+			}
+		}
+		// construct body data return
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		// construct system config mock returns
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		// construct user mock returns
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		// construct user session mock returns
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		// construct service mock returns
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($attendee);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($event, null)
+			->willReturn($data);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $event, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $event, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['old' => [] ,'new' => [$event]]);
+		// construct mail mock returns
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		// construct mail provider mock returns
+		$this->mailService
+			->method('initiateMessage')
+			->willReturn($this->mailMessageNew);
+		$this->mailService
+			->method('sendMessage')
+			->with($this->mailMessageNew);
+		$this->mailManager
+			->method('findServiceByAddress')
+			->with('user1', 'gandalf@wiz.ard')
+			->willReturn($this->mailService);
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testMailProviderDisabled(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldVEvent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, $oldVEvent)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->config->expects(self::once())
+			->method('getValueBool')
+			->with('core', 'mail_providers_enabled', true)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
 	public function testNoOldEvent(): void {
@@ -597,7 +844,7 @@ class IMipPluginTest extends TestCase {
 		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -618,8 +865,15 @@ class IMipPluginTest extends TestCase {
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
-		$this->userManager->expects(self::never())
-			->method('getDisplayName');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
@@ -632,12 +886,12 @@ class IMipPluginTest extends TestCase {
 			->method('getAttendeeRsvpOrReqForParticipant')
 			->willReturn(true);
 		$this->config->expects(self::once())
-			->method('getAppValue')
+			->method('getValueString')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
-			->with($message, $newVevent, '1496912700')
+			->with($message, $newVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -683,7 +937,7 @@ class IMipPluginTest extends TestCase {
 		}
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
-			->willReturn('1496912700');
+			->willReturn(1496912700);
 		$this->mailer->expects(self::once())
 			->method('validateMailAddress')
 			->with('frodo@hobb.it')
@@ -704,9 +958,15 @@ class IMipPluginTest extends TestCase {
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
-		$this->userManager->expects(self::once())
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
@@ -719,7 +979,7 @@ class IMipPluginTest extends TestCase {
 			->method('getAttendeeRsvpOrReqForParticipant')
 			->willReturn(true);
 		$this->config->expects(self::once())
-			->method('getAppValue')
+			->method('getValueString')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('no');
 		$this->service->expects(self::never())

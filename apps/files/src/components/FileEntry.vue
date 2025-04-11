@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<tr :class="{
@@ -33,7 +16,7 @@
 		class="files-list__row"
 		v-on="rowListeners">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<FileEntryCheckbox :fileid="fileid"
@@ -47,23 +30,22 @@
 			<FileEntryPreview ref="preview"
 				:source="source"
 				:dragover="dragover"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
-				:display-name="displayName"
+				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
 		<FileEntryActions v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
-			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source" />
 
@@ -82,13 +64,14 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView?.id}-${column.id}`"
+			:class="`files-list__row-${currentView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
@@ -100,21 +83,25 @@
 </template>
 
 <script lang="ts">
+import { formatFileSize } from '@nextcloud/files'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-import { Permission, formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
-import FileEntryMixin from './FileEntryMixin.ts'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryMixin from './FileEntryMixin.ts'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
@@ -135,15 +122,7 @@ export default defineComponent({
 	],
 
 	props: {
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		compact: {
 			type: Boolean,
 			default: false,
 		},
@@ -155,12 +134,25 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const filesListWidth = useFileListWidth()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
+
 		return {
 			actionsMenuStore,
 			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
+
+			currentDir,
+			currentFileId,
+			currentView,
+			filesListWidth,
 		}
 	},
 
@@ -190,63 +182,70 @@ export default defineComponent({
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView?.columns || []
+			return this.currentView.columns || []
 		},
 
 		size() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (typeof size !== 'number' || size < 0) {
+			const size = this.source.size
+			if (size === undefined || isNaN(size) || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
 		},
+
 		sizeOpacity() {
 			const maxOpacitySize = 10 * 1024 * 1024
 
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
+			const size = this.source.size
+			if (size === undefined || isNaN(size) || size < 0) {
 				return {}
 			}
 
-			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
+			const ratio = Math.round(Math.min(100, 100 * Math.pow((size / maxOpacitySize), 2)))
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
 
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
+		mtime() {
+			// If the mtime is not a valid date, return it as is
+			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
+				return this.source.mtime
 			}
 
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
+			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
+				return this.source.crtime
 			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
+
+			return null
 		},
+
 		mtimeTitle() {
 			if (this.source.mtime) {
 				return moment(this.source.mtime).format('LLL')
 			}
 			return ''
 		},
+	},
 
-		/**
-		 * This entry is the current active node
-		 */
-		isActive() {
-			return this.fileid === this.currentFileId?.toString?.()
-		},
+	created() {
+		useHotKey('Enter', this.triggerDefaultAction, {
+			stop: true,
+			prevent: true,
+		})
 	},
 
 	methods: {
 		formatFileSize,
+
+		triggerDefaultAction() {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+		},
 	},
 })
 </script>

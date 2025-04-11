@@ -3,29 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Calendar;
+
+use DateTimeInterface;
+use OCP\IUser;
 
 /**
  * This class provides access to the Nextcloud CalDAV backend.
@@ -65,7 +49,7 @@ interface IManager {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
-	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
+	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
@@ -157,6 +141,13 @@ interface IManager {
 	public function newQuery(string $principalUri) : ICalendarQuery;
 
 	/**
+	 * Handle a iMip REQUEST message
+	 *
+	 * @since 31.0.0
+	 */
+	public function handleIMipRequest(string $principalUri, string $sender, string $recipient, string $calendarData): bool;
+
+	/**
 	 * Handle a iMip REPLY message
 	 *
 	 * @since 25.0.0
@@ -169,4 +160,28 @@ interface IManager {
 	 * @since 25.0.0
 	 */
 	public function handleIMipCancel(string $principalUri, string $sender, ?string $replyTo, string $recipient, string $calendarData): bool;
+
+	/**
+	 * Create a new event builder instance. Please have a look at its documentation and the
+	 * \OCP\Calendar\ICreateFromString interface on how to use it.
+	 *
+	 * @since 31.0.0
+	 */
+	public function createEventBuilder(): ICalendarEventBuilder;
+
+	/**
+	 * Check the availability of the given organizer and attendees in the given time range.
+	 *
+	 * @since 31.0.0
+	 *
+	 * @param IUser $organizer The organizing user from whose perspective to do the availability check.
+	 * @param string[] $attendees Email addresses of attendees to check for (with or without a "mailto:" prefix). Only users on this instance can be checked. The rest will be silently ignored.
+	 * @return IAvailabilityResult[] Availabilities of the organizer and all attendees which are also users on this instance. As such, the array might not contain an entry for each given attendee.
+	 */
+	public function checkAvailability(
+		DateTimeInterface $start,
+		DateTimeInterface $end,
+		IUser $organizer,
+		array $attendees,
+	): array;
 }

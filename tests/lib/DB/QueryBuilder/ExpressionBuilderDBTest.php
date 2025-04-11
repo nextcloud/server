@@ -1,30 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Types\Types;
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\Server;
 use Test\TestCase;
@@ -67,7 +52,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	 * @param string $param2
 	 * @param boolean $match
 	 */
-	public function testLike($param1, $param2, $match) {
+	public function testLike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -104,7 +89,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	 * @param string $param2
 	 * @param boolean $match
 	 */
-	public function testILike($param1, $param2, $match) {
+	public function testILike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -156,53 +141,53 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
 	}
 
-	public function testDateTimeEquals() {
+	public function testDateTimeEquals(): void {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
 
-	public function testDateTimeLess() {
+	public function testDateTimeLess(): void {
 		$dateTime = new \DateTime('2022-01-01');
 		$dateTimeCompare = new \DateTime('2022-01-02');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
 	}
 
-	public function testDateTimeGreater() {
+	public function testDateTimeGreater(): void {
 		$dateTime = new \DateTime('2023-01-02');
 		$dateTimeCompare = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -214,8 +199,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string) $key),
-				'configvalue' => $query->createNamedParameter((string) $value),
+				'configkey' => $query->createNamedParameter((string)$key),
+				'configvalue' => $query->createNamedParameter((string)$value),
 			])
 			->execute();
 	}
@@ -238,7 +223,7 @@ class ExpressionBuilderDBTest extends TestCase {
 				'notnull' => true,
 			]);
 
-			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
+			$table->addColumn('datetime', Types::DATETIME, [
 				'notnull' => false,
 			]);
 

@@ -2,8 +2,12 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
-
+#
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+#
 # This is the testsuite running all non-database agnostic unit tests
+
 name: PHPUnit nodb
 
 on:
@@ -38,6 +42,7 @@ jobs:
               - '**/lib/**'
               - '**/templates/**'
               - '**/tests/**'
+              - 'resources/**'
               - 'vendor/**'
               - 'vendor-bin/**'
               - '.php-cs-fixer.dist.php'
@@ -53,7 +58,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.1', '8.3', '8.4']
         include:
           - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
@@ -69,12 +74,12 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7fdd3ece872ec7ec4c098ae5ab7637d5e0a96067 # v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -102,7 +107,7 @@ jobs:
 
       - name: Upload nodb code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@v5.4.0
         with:
           files: ./clover.nodb.xml
           flags: phpunit-nodb

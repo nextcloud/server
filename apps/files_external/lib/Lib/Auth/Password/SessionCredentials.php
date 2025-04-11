@@ -1,35 +1,19 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\SessionStorageWrapper;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageAuthException;
 use OCP\IL10N;
 use OCP\IUser;
@@ -39,16 +23,17 @@ use OCP\IUser;
  */
 class SessionCredentials extends AuthMechanism {
 
-	/** @var CredentialsStore */
-	private $credentialsStore;
-
-	public function __construct(IL10N $l, CredentialsStore $credentialsStore) {
-		$this->credentialsStore = $credentialsStore;
-
+	public function __construct(
+		IL10N $l,
+		private CredentialsStore $credentialsStore,
+	) {
 		$this->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Log-in credentials, save in session'))
-			->addParameters([]);
+			->addParameters([
+				(new DefinitionParameter('password', $l->t('Password')))
+					->setType(DefinitionParameter::VALUE_PASSWORD),
+			]);
 	}
 
 	/**
@@ -73,7 +58,7 @@ class SessionCredentials extends AuthMechanism {
 		$storage->setBackendOption('password', $credentials->getPassword());
 	}
 
-	public function wrapStorage(Storage $storage) {
+	public function wrapStorage(IStorage $storage): IStorage {
 		return new SessionStorageWrapper(['storage' => $storage]);
 	}
 }

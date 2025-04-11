@@ -1,22 +1,9 @@
 <?php
+
 /**
- * @author Piotr Mrowczynski piotr@owncloud.com
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\DAV;
@@ -26,6 +13,7 @@ use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -36,12 +24,10 @@ use Sabre\HTTP\RequestInterface;
  */
 class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
-	private ?Folder $userFolder;
 
 	public function __construct(
-		?Folder $userFolder,
+		private ?Folder $userFolder,
 	) {
-		$this->userFolder = $userFolder;
 	}
 
 	/**
@@ -58,6 +44,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 		//Sabre\DAV\CorePlugin::httpGet
 		$this->server->on('method:GET', [$this, 'checkViewOnly'], 90);
 		$this->server->on('method:COPY', [$this, 'checkViewOnly'], 90);
+		$this->server->on('method:MOVE', [$this, 'checkViewOnly'], 90);
 	}
 
 	/**
@@ -85,7 +72,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 					$nodes = $this->userFolder->getById($node->getId());
 					$node = array_pop($nodes);
 					if (!$node) {
-						throw new NotFoundException("Version file not accessible by current user");
+						throw new NotFoundException('Version file not accessible by current user');
 					}
 				}
 			} else {
@@ -94,11 +81,11 @@ class ViewOnlyPlugin extends ServerPlugin {
 
 			$storage = $node->getStorage();
 
-			if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			if (!$storage->instanceOfStorage(ISharedStorage::class)) {
 				return true;
 			}
 			// Extract extra permissions
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
 
 			$attributes = $share->getAttributes();

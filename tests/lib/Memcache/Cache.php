@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Memcache;
@@ -15,65 +14,65 @@ abstract class Cache extends \Test\Cache\TestCache {
 	 */
 	protected $instance;
 
-	public function testExistsAfterSet() {
+	public function testExistsAfterSet(): void {
 		$this->assertFalse($this->instance->hasKey('foo'));
 		$this->instance->set('foo', 'bar');
 		$this->assertTrue($this->instance->hasKey('foo'));
 	}
 
-	public function testGetAfterSet() {
+	public function testGetAfterSet(): void {
 		$this->assertNull($this->instance->get('foo'));
 		$this->instance->set('foo', 'bar');
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
-	public function testGetArrayAfterSet() {
+	public function testGetArrayAfterSet(): void {
 		$this->assertNull($this->instance->get('foo'));
 		$this->instance->set('foo', ['bar']);
 		$this->assertEquals(['bar'], $this->instance->get('foo'));
 	}
 
-	public function testDoesNotExistAfterRemove() {
+	public function testDoesNotExistAfterRemove(): void {
 		$this->instance->set('foo', 'bar');
 		$this->instance->remove('foo');
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
-	public function testRemoveNonExisting() {
+	public function testRemoveNonExisting(): void {
 		$this->instance->remove('foo');
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
-	public function testArrayAccessSet() {
+	public function testArrayAccessSet(): void {
 		$this->instance['foo'] = 'bar';
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
-	public function testArrayAccessGet() {
+	public function testArrayAccessGet(): void {
 		$this->instance->set('foo', 'bar');
 		$this->assertEquals('bar', $this->instance['foo']);
 	}
 
-	public function testArrayAccessExists() {
+	public function testArrayAccessExists(): void {
 		$this->assertFalse(isset($this->instance['foo']));
 		$this->instance->set('foo', 'bar');
 		$this->assertTrue(isset($this->instance['foo']));
 	}
 
-	public function testArrayAccessUnset() {
+	public function testArrayAccessUnset(): void {
 		$this->instance->set('foo', 'bar');
 		unset($this->instance['foo']);
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
-	public function testAdd() {
+	public function testAdd(): void {
 		$this->assertTrue($this->instance->add('foo', 'bar'));
 		$this->assertEquals('bar', $this->instance->get('foo'));
 		$this->assertFalse($this->instance->add('foo', 'asd'));
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
-	public function testInc() {
+	public function testInc(): void {
 		$this->assertEquals(1, $this->instance->inc('foo'));
 		$this->assertEquals(1, $this->instance->get('foo'));
 		$this->assertEquals(2, $this->instance->inc('foo'));
@@ -86,7 +85,7 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
-	public function testDec() {
+	public function testDec(): void {
 		$this->assertFalse($this->instance->dec('foo'));
 		$this->instance->set('foo', 20);
 		$this->assertEquals(19, $this->instance->dec('foo'));
@@ -98,30 +97,53 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
-	public function testCasNotChanged() {
+	public function testCasNotChanged(): void {
 		$this->instance->set('foo', 'bar');
 		$this->assertTrue($this->instance->cas('foo', 'bar', 'asd'));
 		$this->assertEquals('asd', $this->instance->get('foo'));
 	}
 
-	public function testCasChanged() {
+	public function testCasChanged(): void {
 		$this->instance->set('foo', 'bar1');
 		$this->assertFalse($this->instance->cas('foo', 'bar', 'asd'));
 		$this->assertEquals('bar1', $this->instance->get('foo'));
 	}
 
-	public function testCadNotChanged() {
+	public function testCasNotSet(): void {
+		$this->assertFalse($this->instance->cas('foo', 'bar', 'asd'));
+	}
+
+	public function testCadNotChanged(): void {
 		$this->instance->set('foo', 'bar');
 		$this->assertTrue($this->instance->cad('foo', 'bar'));
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
-	public function testCadChanged() {
+	public function testCadChanged(): void {
 		$this->instance->set('foo', 'bar1');
 		$this->assertFalse($this->instance->cad('foo', 'bar'));
 		$this->assertTrue($this->instance->hasKey('foo'));
 	}
 
+	public function testCadNotSet(): void {
+		$this->assertFalse($this->instance->cad('foo', 'bar'));
+	}
+
+	public function testNcadNotChanged(): void {
+		$this->instance->set('foo', 'bar');
+		$this->assertFalse($this->instance->ncad('foo', 'bar'));
+		$this->assertTrue($this->instance->hasKey('foo'));
+	}
+
+	public function testNcadChanged(): void {
+		$this->instance->set('foo', 'bar1');
+		$this->assertTrue($this->instance->ncad('foo', 'bar'));
+		$this->assertFalse($this->instance->hasKey('foo'));
+	}
+
+	public function testNcadNotSet(): void {
+		$this->assertFalse($this->instance->ncad('foo', 'bar'));
+	}
 
 	protected function tearDown(): void {
 		if ($this->instance) {

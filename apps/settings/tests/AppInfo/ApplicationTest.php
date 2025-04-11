@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\AppInfo;
 
@@ -57,7 +38,7 @@ class ApplicationTest extends TestCase {
 		$this->container = $this->app->getContainer();
 	}
 
-	public function testContainerAppName() {
+	public function testContainerAppName(): void {
 		$this->app = new Application();
 		$this->assertEquals('settings', $this->container->getAppName());
 	}
@@ -81,7 +62,7 @@ class ApplicationTest extends TestCase {
 	 * @param string $service
 	 * @param string $expected
 	 */
-	public function testContainerQuery($service, $expected) {
+	public function testContainerQuery($service, $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}
 }

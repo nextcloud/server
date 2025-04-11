@@ -3,23 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
- *
- * @author Michael Weimann <mail@michael-weimann.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Avatar;
@@ -59,7 +44,7 @@ class GuestAvatarTest extends TestCase {
 	 * For the test a static name "einstein" is used and
 	 * the generated image is compared with an expected one.
 	 */
-	public function testGet() {
+	public function testGet(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
@@ -74,7 +59,7 @@ class GuestAvatarTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testIsCustomAvatar() {
+	public function testIsCustomAvatar(): void {
 		self::assertFalse($this->guestAvatar->isCustomAvatar());
 	}
 }

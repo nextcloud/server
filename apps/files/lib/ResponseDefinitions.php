@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
- *
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files;
@@ -39,16 +22,54 @@ namespace OCA\Files;
  *     hasPreview: bool,
  * }
  *
+ * @psalm-type FilesTemplateField = array{
+ *     index: string,
+ *     type: string,
+ *     alias: ?string,
+ *     tag: ?string,
+ *     id: ?int,
+ *     content?: string,
+ *     checked?: bool,
+ * }
+ *
+ * @psalm-type FilesTemplate = array{
+ *      templateType: string,
+ *      templateId: string,
+ *      basename: string,
+ *      etag: string,
+ *      fileid: int,
+ *      filename: string,
+ *      lastmod: int,
+ *      mime: string,
+ *      size: int|float,
+ *      type: string,
+ *      hasPreview: bool,
+ *      previewUrl: ?string,
+ *      fields: list<FilesTemplateField>,
+ *  }
+ *
  * @psalm-type FilesTemplateFileCreator = array{
  *     app: string,
  *     label: string,
  *     extension: string,
  *     iconClass: ?string,
  *     iconSvgInline: ?string,
- *     mimetypes: string[],
+ *     mimetypes: list<string>,
  *     ratio: ?float,
  *     actionLabel: string,
  * }
+ *
+ * @psalm-type FilesTemplateFileCreatorWithTemplates = FilesTemplateFileCreator&array{
+ *     templates: list<FilesTemplate>,
+ * }
+ *
+ * @psalm-type FilesFolderTree = list<array{
+ *     id: int,
+ *     basename: string,
+ *     displayName?: string,
+ *     children: list<array{}>,
+ * }>
+ *
  */
 class ResponseDefinitions {
 }

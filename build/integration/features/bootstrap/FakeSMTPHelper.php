@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Daniel Calviño Sánchez <danxuliu@gmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // Code below modified from https://github.com/axllent/fake-smtp/blob/f0856f8a0df6f4ca5a573cf31428c09ebc5b9ea3/fakeSMTP.php,
 // which is under the MIT license (https://github.com/axllent/fake-smtp/blob/f0856f8a0df6f4ca5a573cf31428c09ebc5b9ea3/LICENSE)
@@ -52,7 +34,7 @@ class fakeSMTP {
 		$hasValidTo = false;
 		$receivingData = false;
 		$header = true;
-		$this->reply('220 '.$this->serverHello);
+		$this->reply('220 ' . $this->serverHello);
 		$this->mail['ipaddress'] = $this->detectIP();
 		while ($data = fgets($this->fd)) {
 			$data = preg_replace('@\r\n@', "\n", $data);
@@ -78,7 +60,7 @@ class fakeSMTP {
 						$this->reply('250 2.1.5 Ok');
 						$hasValidTo = true;
 					} else {
-						$this->reply('501 5.1.3 Bad recipient address syntax '.$match[1]);
+						$this->reply('501 5.1.3 Bad recipient address syntax ' . $match[1]);
 					}
 				}
 			} elseif (!$receivingData && preg_match('/^RSET$/i', trim($data))) {
@@ -88,7 +70,7 @@ class fakeSMTP {
 			} elseif (!$receivingData && preg_match('/^NOOP$/i', trim($data))) {
 				$this->reply('250 2.0.0 Ok');
 			} elseif (!$receivingData && preg_match('/^VRFY (.*)/i', trim($data), $match)) {
-				$this->reply('250 2.0.0 '.$match[1]);
+				$this->reply('250 2.0.0 ' . $match[1]);
 			} elseif (!$receivingData && preg_match('/^DATA/i', trim($data))) {
 				if (!$hasValidTo) {
 					$this->reply('503 5.5.1 Error: need RCPT command');
@@ -97,7 +79,7 @@ class fakeSMTP {
 					$receivingData = true;
 				}
 			} elseif (!$receivingData && preg_match('/^(HELO|EHLO)/i', $data)) {
-				$this->reply('250 HELO '.$this->mail['ipaddress']);
+				$this->reply('250 HELO ' . $this->mail['ipaddress']);
 			} elseif (!$receivingData && preg_match('/^QUIT/i', trim($data))) {
 				break;
 			} elseif (!$receivingData) {
@@ -106,7 +88,7 @@ class fakeSMTP {
 			} elseif ($receivingData && $data == ".\n") {
 				/* Email Received, now let's look at it */
 				$receivingData = false;
-				$this->reply('250 2.0.0 Ok: queued as '.$this->generateRandom(10));
+				$this->reply('250 2.0.0 Ok: queued as ' . $this->generateRandom(10));
 				$splitmail = explode("\n\n", $this->mail['rawEmail'], 2);
 				if (count($splitmail) == 2) {
 					$this->mail['emailHeaders'] = $splitmail[0];
@@ -127,14 +109,14 @@ class fakeSMTP {
 			}
 		}
 		/* Say good bye */
-		$this->reply('221 2.0.0 Bye '.$this->mail['ipaddress']);
+		$this->reply('221 2.0.0 Bye ' . $this->mail['ipaddress']);
 
 		fclose($this->fd);
 	}
 
 	public function log($s) {
 		if ($this->logFile) {
-			file_put_contents($this->logFile, trim($s)."\n", FILE_APPEND);
+			file_put_contents($this->logFile, trim($s) . "\n", FILE_APPEND);
 		}
 	}
 

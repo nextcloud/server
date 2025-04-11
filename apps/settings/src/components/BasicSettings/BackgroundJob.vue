@@ -1,23 +1,6 @@
 <!--
-	- @copyright 2022 Carl Schwan <carl@carlschwan.eu>
-	-
-	- @author Carl Schwan <carl@carlschwan.eu>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -73,6 +56,7 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
+		<!-- eslint-disable-next-line vue/no-v-html The translation is sanitized-->
 		<em v-html="cronLabel" />
 	</NcSettingsSection>
 </template>
@@ -80,13 +64,15 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import moment from '@nextcloud/moment'
-import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { confirmPassword } from '@nextcloud/password-confirmation'
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
+
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+
 import '@nextcloud/password-confirmation/dist/style.css'
 
 const lastCron = loadState('settings', 'lastCron')
@@ -126,7 +112,7 @@ export default {
 				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
 					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
 					linkend: '</a>',
-				}, undefined, { escape: false, sanitize: false })
+				}, undefined, { escape: false })
 			}
 			return desc
 		},
@@ -199,6 +185,7 @@ export default {
 	background-color: var(--color-error);
 	width: initial;
 }
+
 .warning {
 	margin-top: 8px;
 	padding: 5px;
@@ -207,6 +194,7 @@ export default {
 	background-color: var(--color-warning);
 	width: initial;
 }
+
 .ajaxSwitch {
 	margin-top: 1rem;
 }

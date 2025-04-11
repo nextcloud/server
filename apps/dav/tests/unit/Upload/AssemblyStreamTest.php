@@ -1,33 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Goetz <markus@woboq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Upload;
 
+use OCA\DAV\Upload\AssemblyStream;
 use Sabre\DAV\File;
 
 class AssemblyStreamTest extends \Test\TestCase {
@@ -36,7 +16,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	 * @dataProvider providesNodes()
 	 */
 	public function testGetContents($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+		$stream = AssemblyStream::wrap($nodes);
 		$content = stream_get_contents($stream);
 
 		$this->assertEquals($expected, $content);
@@ -45,12 +25,16 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContentsFread($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+	public function testGetContentsFread($expected, $nodes, $chunkLength = 3): void {
+		$stream = AssemblyStream::wrap($nodes);
 
 		$content = '';
 		while (!feof($stream)) {
-			$content .= fread($stream, 3);
+			$chunk = fread($stream, $chunkLength);
+			$content .= $chunk;
+			if ($chunkLength !== 3) {
+				$this->assertEquals($chunkLength, strlen($chunk));
+			}
 		}
 
 		$this->assertEquals($expected, $content);
@@ -60,7 +44,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	 * @dataProvider providesNodes()
 	 */
 	public function testSeek($expected, $nodes): void {
-		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
+		$stream = AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
 		if (fseek($stream, $offset) === -1) {
@@ -76,11 +60,11 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$dataLess8k = $this->makeData(8191);
 
 		$tonofnodes = [];
-		$tonofdata = "";
+		$tonofdata = '';
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata = rand(0, 100); // variable length and content
+			$thisdata = random_int(0, 100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i, $thisdata));
+			$tonofnodes[] = $this->buildNode((string)$i, (string)$thisdata);
 		}
 
 		return[
@@ -123,7 +107,19 @@ class AssemblyStreamTest extends \Test\TestCase {
 				]],
 			'a ton of nodes' => [
 				$tonofdata, $tonofnodes
-			]
+			],
+			'one read over multiple nodes' => [
+				'1234567890', [
+					$this->buildNode('0', '1234'),
+					$this->buildNode('1', '5678'),
+					$this->buildNode('2', '90'),
+				], 10],
+			'two reads over multiple nodes' => [
+				'1234567890', [
+					$this->buildNode('0', '1234'),
+					$this->buildNode('1', '5678'),
+					$this->buildNode('2', '90'),
+				], 5],
 		];
 	}
 

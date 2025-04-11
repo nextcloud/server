@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christian Jürges <christian@eqipe.ch>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author sammo2828 <sammo2828@gmail.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption;
 
@@ -38,19 +17,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DecryptAll {
-	/** @var  OutputInterface */
+	/** @var OutputInterface */
 	protected $output;
 
-	/** @var  InputInterface */
+	/** @var InputInterface */
 	protected $input;
 
-	/** @var  array files which couldn't be decrypted */
+	/** @var array files which couldn't be decrypted */
 	protected $failed;
 
 	public function __construct(
 		protected IManager $encryptionManager,
 		protected IUserManager $userManager,
-		protected View $rootView
+		protected View $rootView,
 	) {
 		$this->failed = [];
 	}
@@ -135,7 +114,7 @@ class DecryptAll {
 			$fetchUsersProgress = new ProgressBar($this->output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
 			$fetchUsersProgress->start();
-			$fetchUsersProgress->setMessage("Fetch list of users...");
+			$fetchUsersProgress->setMessage('Fetch list of users...');
 			$fetchUsersProgress->advance();
 
 			foreach ($this->userManager->getBackends() as $backend) {
@@ -149,7 +128,7 @@ class DecryptAll {
 					$offset += $limit;
 					$fetchUsersProgress->advance();
 				} while (count($users) >= $limit);
-				$fetchUsersProgress->setMessage("Fetch list of users... finished");
+				$fetchUsersProgress->setMessage('Fetch list of users... finished');
 				$fetchUsersProgress->finish();
 			}
 		} else {
@@ -161,7 +140,7 @@ class DecryptAll {
 		$progress = new ProgressBar($this->output);
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
-		$progress->setMessage("starting to decrypt files...");
+		$progress->setMessage('starting to decrypt files...');
 		$progress->advance();
 
 		$numberOfUsers = count($userList);
@@ -172,7 +151,7 @@ class DecryptAll {
 			$userNo++;
 		}
 
-		$progress->setMessage("starting to decrypt files... finished");
+		$progress->setMessage('starting to decrypt files... finished');
 		$progress->finish();
 
 		$this->output->writeln("\n\n");

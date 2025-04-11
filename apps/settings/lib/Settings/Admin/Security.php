@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Admin;
 
@@ -35,22 +14,16 @@ use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-	private IManager $manager;
-	private IUserManager $userManager;
 	private MandatoryTwoFactor $mandatoryTwoFactor;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
 
-	public function __construct(IManager $manager,
-		IUserManager $userManager,
+	public function __construct(
+		private IManager $manager,
+		private IUserManager $userManager,
 		MandatoryTwoFactor $mandatoryTwoFactor,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator) {
-		$this->manager = $manager;
-		$this->userManager = $userManager;
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+	) {
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -88,8 +61,8 @@ class Security implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

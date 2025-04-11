@@ -53,15 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "Kryptering",
     "Your private key password no longer matches your log-in password." : "Ditt lösenord för din privata nyckel matchar inte längre ditt inloggningslösenord.",
     "Set your old private key password to your current log-in password:" : "Sätt ditt gamla privatnyckellösenord till ditt aktuella inloggningslösenord:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Om du inte kommer ihåg ditt gamla lösenord kan du be din administratör att återställa dina filer.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Om du inte kommer ihåg ditt gamla lösenord kan du be din administratör att återställa dina filer.",
     "Old log-in password" : "Gammalt inloggningslösenord",
     "Current log-in password" : "Nuvarande inloggningslösenord",
     "Update Private Key Password" : "Uppdatera lösenordet för din privata nyckel",
     "Enable password recovery:" : "Aktivera lösenordsåterställning:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Om du aktiverar det här alternativet kan du återställa åtkomst till dina krypterade filer vid lösenordsförlust",
     "Enabled" : "Aktiverad",
-    "Disabled" : "Inaktiverad",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Logga in i webbgränssnittet, gå till \"Säkerhet\" i dina personliga inställningar och uppdatera ditt krypteringslösenord genom att ange detta lösenord i fältet \"Gammalt inloggningslösenord\" samt ditt nuvarande inloggningslösenord.",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Återställningsnyckeln är en extra krypteringsnyckel som används för att kryptera filer. Den gör det möjligt att återställa en användares filer om användaren glömmer sitt lösenord."
+    "Disabled" : "Inaktiverad"
 },
 "nplurals=2; plural=(n != 1);");

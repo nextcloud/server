@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
 
@@ -142,8 +120,9 @@ interface IUserManager {
 	/**
 	 * @return IUser[]
 	 * @since 28.0.0
+	 * @since 30.0.0 $search parameter added
 	 */
-	public function getDisabledUsers(?int $limit = null, int $offset = 0): array;
+	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
 
 	/**
 	 * Search known users (from phonebook sync) by displayName
@@ -183,6 +162,16 @@ interface IUserManager {
 	 * @since 8.0.0
 	 */
 	public function countUsers();
+
+	/**
+	 * Get how many users exists in total, whithin limit
+	 *
+	 * @param int $limit Limit the count to avoid resource waste. 0 to disable
+	 * @param bool $onlyMappedUsers Count mapped users instead of all users for compatible backends
+	 *
+	 * @since 31.0.0
+	 */
+	public function countUsersTotal(int $limit = 0, bool $onlyMappedUsers = false): int|false;
 
 	/**
 	 * @param \Closure $callback
@@ -231,4 +220,26 @@ interface IUserManager {
 	 * @since 26.0.0
 	 */
 	public function validateUserId(string $uid, bool $checkDataDirectory = false): void;
+
+	/**
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param int|null $limit how many records to fetch
+	 * @param int $offset from which offset to fetch
+	 * @param string $search search users based on search params
+	 * @return list<string> list of user IDs
+	 * @since 30.0.0
+	 */
+	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
+
+	/**
+	 * Gets the list of users.
+	 * An iterator is returned allowing the caller to stop the iteration at any time.
+	 * The offset argument allows the caller to continue the iteration at a specific offset.
+	 *
+	 * @param int $offset from which offset to fetch
+	 * @return \Iterator<IUser> list of IUser object
+	 * @since 32.0.0
+	 */
+	public function getSeenUsers(int $offset = 0): \Iterator;
 }

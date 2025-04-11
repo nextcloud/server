@@ -1,32 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\BackgroundJob;
 
 use OCP\ILogger;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Simple base class to extend to run periodic background jobs.
@@ -47,6 +30,15 @@ abstract class TimedJob extends Job {
 	 */
 	public function setInterval(int $seconds) {
 		$this->interval = $seconds;
+	}
+
+	/**
+	 * Get the interval [seconds] for the job
+	 *
+	 * @since 32.0.0
+	 */
+	public function getInterval(): int {
+		return $this->interval;
 	}
 
 	/**
@@ -71,8 +63,8 @@ abstract class TimedJob extends Job {
 	 * @since 24.0.0
 	 */
 	public function setTimeSensitivity(int $sensitivity): void {
-		if ($sensitivity !== IJob::TIME_SENSITIVE &&
-			$sensitivity !== IJob::TIME_INSENSITIVE) {
+		if ($sensitivity !== self::TIME_SENSITIVE &&
+			$sensitivity !== self::TIME_INSENSITIVE) {
 			throw new \InvalidArgumentException('Invalid sensitivity');
 		}
 
@@ -86,7 +78,7 @@ abstract class TimedJob extends Job {
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead
+	 * @deprecated 25.0.0 Use start() instead
 	 */
 	final public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
@@ -99,6 +91,9 @@ abstract class TimedJob extends Job {
 	 */
 	final public function start(IJobList $jobList): void {
 		if (($this->time->getTime() - $this->lastRun) > $this->interval) {
+			if ($this->interval >= 12 * 60 * 60 && $this->isTimeSensitive()) {
+				Server::get(LoggerInterface::class)->debug('TimedJob ' . get_class($this) . ' has a configured interval of ' . $this->interval . ' seconds, but is also marked as time sensitive. Please consider marking it as time insensitive to allow more sensitive jobs to run when needed.');
+			}
 			parent::start($jobList);
 		}
 	}

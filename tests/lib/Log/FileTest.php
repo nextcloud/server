@@ -1,20 +1,8 @@
 <?php
 /**
  *
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Log;
@@ -37,29 +25,29 @@ class FileTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$config = \OC::$server->getSystemConfig();
-		$this->restore_logfile = $config->getValue("logfile");
+		$this->restore_logfile = $config->getValue('logfile');
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
-		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
+		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown(): void {
 		$config = \OC::$server->getSystemConfig();
 		if (isset($this->restore_logfile)) {
-			$config->getValue("logfile", $this->restore_logfile);
+			$config->getValue('logfile', $this->restore_logfile);
 		} else {
-			$config->deleteValue("logfile");
+			$config->deleteValue('logfile');
 		}
 		if (isset($this->restore_logdateformat)) {
-			$config->getValue("logdateformat", $this->restore_logdateformat);
+			$config->getValue('logdateformat', $this->restore_logdateformat);
 		} else {
-			$config->deleteValue("logdateformat");
+			$config->deleteValue('logdateformat');
 		}
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();
 	}
 
-	public function testLogging() {
+	public function testLogging(): void {
 		$config = \OC::$server->get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
@@ -74,13 +62,13 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check log has data content
-		$values = (array) json_decode($line, true);
+		$values = (array)json_decode($line, true);
 		$this->assertArrayNotHasKey('message', $values['data']);
 		$this->assertEquals('extra', $values['data']['something']);
 		$this->assertEquals('Testing logging', $values['message']);
 	}
 
-	public function testMicrosecondsLogTimestamp() {
+	public function testMicrosecondsLogTimestamp(): void {
 		$config = \OC::$server->getConfig();
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
@@ -95,7 +83,7 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check timestamp has microseconds part
-		$values = (array) json_decode($line);
+		$values = (array)json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
 	}

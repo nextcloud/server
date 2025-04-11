@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2020-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Mount;
@@ -12,7 +11,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class MountTest extends \Test\TestCase {
-	public function testFromStorageObject() {
+	public function testFromStorageObject(): void {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()
 			->getMock();
@@ -20,12 +19,12 @@ class MountTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testFromStorageClassname() {
+	public function testFromStorageClassname(): void {
 		$mount = new \OC\Files\Mount\MountPoint('\OC\Files\Storage\Temporary', '/foo');
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testWrapper() {
+	public function testWrapper(): void {
 		$test = $this;
 		$wrapper = function ($mountPoint, $storage) use (&$test) {
 			$test->assertEquals('/foo/', $mountPoint);

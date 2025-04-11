@@ -3,33 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Settings;
 
-use OC\User\Backend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -41,7 +19,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
-use OCP\User\Backend\ICountUsersBackend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -56,7 +33,7 @@ class Admin implements ISettings {
 		private IRegistry $subscriptionRegistry,
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
-		private IInitialState $initialState
+		private IInitialState $initialState,
 	) {
 	}
 
@@ -162,26 +139,6 @@ class Admin implements ISettings {
 	}
 
 	private function isWebUpdaterRecommended(): bool {
-		return $this->getUserCount() < 100;
-	}
-
-	/**
-	 * @see https://github.com/nextcloud/server/blob/39494fbf794d982f6f6551c984e6ca4c4e947d01/lib/private/Support/Subscription/Registry.php#L188-L216 implementation reference
-	 */
-	private function getUserCount(): int {
-		$userCount = 0;
-		$backends = $this->userManager->getBackends();
-		foreach ($backends as $backend) {
-			// TODO: change below to 'if ($backend instanceof ICountUsersBackend) {'
-			if ($backend->implementsActions(Backend::COUNT_USERS)) {
-				/** @var ICountUsersBackend $backend */
-				$backendUsers = $backend->countUsers();
-				if ($backendUsers !== false) {
-					$userCount += $backendUsers;
-				}
-			}
-		}
-
-		return $userCount;
+		return (int)$this->userManager->countUsersTotal(100) < 100;
 	}
 }

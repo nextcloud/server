@@ -2,24 +2,8 @@
 
 declare(strict_types=1);
 /**
- *
- * @copyright Copyright (c) 2021, Mattia Narducci (mattianarducci1@gmail.com)
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\Command;
@@ -116,7 +100,7 @@ class DeleteCalendarTest extends TestCase {
 	public function testInvalidCalendar(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
-			'User <' . self::USER . '> has no calendar named <' . self::NAME .  '>.');
+			'User <' . self::USER . '> has no calendar named <' . self::NAME . '>.');
 
 		$this->userManager->expects($this->once())
 			->method('userExists')
@@ -142,7 +126,7 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => $id,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => self::NAME
+			'uri' => self::NAME,
 		];
 
 		$this->userManager->expects($this->once())
@@ -203,7 +187,8 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => $id,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI
+			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI,
+			'{DAV:}displayname' => 'Test',
 		];
 
 		$this->userManager->expects($this->once())
@@ -232,7 +217,8 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => 1234,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI
+			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI,
+			'{DAV:}displayname' => 'Test',
 		];
 		$this->userManager->expects($this->once())
 			->method('userExists')

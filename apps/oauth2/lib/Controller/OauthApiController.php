@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\OAuth2\Controller;
 
@@ -35,6 +15,10 @@ use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -46,6 +30,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
 	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
@@ -67,10 +52,6 @@ class OauthApiController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=oauth2GetToken)
-	 *
 	 * Get a token
 	 *
 	 * @param string $grant_type Token type that should be granted
@@ -84,9 +65,12 @@ class OauthApiController extends Controller {
 	 * 200: Token returned
 	 * 400: Getting token is not possible
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'oauth2GetToken')]
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
-		?string $client_id, ?string $client_secret
+		?string $client_id, ?string $client_secret,
 	): JSONResponse {
 
 		// We only handle two types
@@ -156,7 +140,8 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$storedClientSecret = $this->crypto->decrypt($client->getSecret());
+			$storedClientSecretHash = $client->getSecret();
+			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
 		} catch (\Exception $e) {
 			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
 			// we don't throttle here because it might not be a bruteforce attack
@@ -165,7 +150,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $storedClientSecret !== $client_secret) {
+		if ($client->getClientIdentifier() !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);

@@ -1,23 +1,6 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { User } from '@nextcloud/cypress'
@@ -72,15 +55,17 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 		})
 		cy.runOccCommand(`group:add '${groupName}'`)
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).should('exist')
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).within(() => {
-			cy.get('.counter-bubble__counter')
-				.should('not.exist') // is hidden when 0
-		})
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('.counter-bubble__counter')
+			.should('not.exist') // is hidden when 0
 	})
 
 	it('see that the user is in the list', () => {
@@ -118,8 +103,7 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 
 	it('see the group was successfully assigned', () => {
 		// see a new memeber
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
-			.contains('li', groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('.counter-bubble__counter')
 			.should('contain', '1')
 	})
@@ -138,18 +122,20 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	before(() => {
 		cy.runOccCommand(`group:add '${groupName}'`)
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups contains the group foo
-			cy.contains(groupName).should('exist').scrollIntoView()
-			// open the actions menu for the group
-			cy.contains('li', groupName).within(() => {
-				cy.get('button.action-item__menutoggle').click({ force: true })
-			})
-		})
+		// see that the list of groups contains the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
+		// open the actions menu for the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.find('button.action-item__menutoggle')
+			.click({ force: true })
 	})
 
 	it('can delete the group', () => {
@@ -163,10 +149,9 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups does not contain the group
-			cy.contains(groupName).should('not.exist')
-		})
+		// see that the list of groups does not contain the group
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
 			const groups: string[] = Object.keys(JSON.parse($response.stdout))
@@ -186,19 +171,22 @@ describe('Settings: Delete a non empty group', () => {
 			cy.runOccCommand(`group:addUser '${groupName}' '${$user.userId}'`)
 		})
 		cy.login(admin)
+		cy.intercept('GET', '**/ocs/v2.php/cloud/groups/details?search=&offset=*&limit=*').as('loadGroups')
 		cy.visit('/settings/users')
+		cy.wait('@loadGroups')
 	})
 	after(() => cy.deleteUser(testUser))
 
 	it('see that the group is in the list', () => {
 		// see that the list of groups contains the group
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').contains('li', groupName).should('exist').scrollIntoView()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('exist')
+			.scrollIntoView()
 	})
 
 	it('can delete the group', () => {
 		// open the menu
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
-			.contains('li', groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('button.action-item__menutoggle')
 			.click({ force: true })
 
@@ -212,10 +200,9 @@ describe('Settings: Delete a non empty group', () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			// see that the list of groups does not contain the group foo
-			cy.contains(groupName).should('not.exist')
-		})
+		// see that the list of groups does not contain the group foo
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
 			const groups: string[] = Object.keys(JSON.parse($response.stdout))
@@ -224,13 +211,13 @@ describe('Settings: Delete a non empty group', () => {
 	})
 })
 
-describe.only('Settings: Sort groups in the UI', () => {
+describe('Settings: Sort groups in the UI', () => {
 	before(() => {
 		// Clear state
 		cy.runOccCommand('group:list --output json').then((output) => {
 			const groups = Object.keys(JSON.parse(output.stdout)).filter((group) => group !== 'admin')
 			groups.forEach((group) => {
-				cy.runOccCommand(`group:delete "${group}"`)
+				cy.runOccCommand(`group:delete '${group}'`)
 			})
 		})
 
@@ -238,7 +225,7 @@ describe.only('Settings: Sort groups in the UI', () => {
 		cy.runOccCommand('group:add A')
 		cy.runOccCommand('group:add B')
 		cy.createRandomUser().then((user) => {
-			cy.runOccCommand(`group:adduser B "${user.userId}"`)
+			cy.runOccCommand(`group:adduser B '${user.userId}'`)
 		})
 
 		// Visit the settings as admin

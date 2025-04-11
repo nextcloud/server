@@ -1,31 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Session;
 use OCP\ISession;
 use Test\TestCase;
@@ -36,12 +18,12 @@ class SessionTest extends TestCase {
 	 * @var Session
 	 */
 	private $instance;
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
 
-	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet() {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet(): void {
+		$this->expectException(PrivateKeyMissingException::class);
 		$this->expectExceptionMessage('Private Key missing for user: please try to log-out and log-in again');
 
 		$this->instance->getPrivateKey();
@@ -50,7 +32,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @depends testThatGetPrivateKeyThrowsExceptionWhenNotSet
 	 */
-	public function testSetAndGetPrivateKey() {
+	public function testSetAndGetPrivateKey(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertEquals('dummyPrivateKey', $this->instance->getPrivateKey());
 	}
@@ -58,7 +40,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @depends testSetAndGetPrivateKey
 	 */
-	public function testIsPrivateKeySet() {
+	public function testIsPrivateKeySet(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertTrue($this->instance->isPrivateKeySet());
 
@@ -69,21 +51,21 @@ class SessionTest extends TestCase {
 		self::$tempStorage['privateKey'] = 'dummyPrivateKey';
 	}
 
-	public function testDecryptAllModeActivated() {
+	public function testDecryptAllModeActivated(): void {
 		$this->instance->prepareDecryptAll('user1', 'usersKey');
 		$this->assertTrue($this->instance->decryptAllModeActivated());
 		$this->assertSame('user1', $this->instance->getDecryptAllUid());
 		$this->assertSame('usersKey', $this->instance->getDecryptAllKey());
 	}
 
-	public function testDecryptAllModeDeactivated() {
+	public function testDecryptAllModeDeactivated(): void {
 		$this->assertFalse($this->instance->decryptAllModeActivated());
 	}
 
 	/**
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
-	public function testGetDecryptAllUidException() {
+	public function testGetDecryptAllUidException(): void {
 		$this->expectException(\Exception::class);
 
 		$this->instance->getDecryptAllUid();
@@ -92,7 +74,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'No uid found while in decrypt all mode'
 	 */
-	public function testGetDecryptAllUidException2() {
+	public function testGetDecryptAllUidException2(): void {
 		$this->expectException(\Exception::class);
 
 		$this->instance->prepareDecryptAll(null, 'key');
@@ -102,8 +84,8 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
-	public function testGetDecryptAllKeyException() {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+	public function testGetDecryptAllKeyException(): void {
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->getDecryptAllKey();
 	}
@@ -111,15 +93,15 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'No key found while in decrypt all mode'
 	 */
-	public function testGetDecryptAllKeyException2() {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+	public function testGetDecryptAllKeyException2(): void {
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->prepareDecryptAll('user', null);
 		$this->instance->getDecryptAllKey();
 	}
 
 
-	public function testSetAndGetStatusWillSetAndReturn() {
+	public function testSetAndGetStatusWillSetAndReturn(): void {
 		// Check if get status will return 0 if it has not been set before
 		$this->assertEquals(0, $this->instance->getStatus());
 
@@ -139,7 +121,7 @@ class SessionTest extends TestCase {
 	 * @param int $status
 	 * @param bool $expected
 	 */
-	public function testIsReady($status, $expected) {
+	public function testIsReady($status, $expected): void {
 		/** @var Session | \PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$this->sessionMock])
@@ -186,7 +168,7 @@ class SessionTest extends TestCase {
 	}
 
 
-	public function testClearWillRemoveValues() {
+	public function testClearWillRemoveValues(): void {
 		$this->instance->setPrivateKey('privateKey');
 		$this->instance->setStatus('initStatus');
 		$this->instance->prepareDecryptAll('user', 'key');
@@ -202,15 +184,15 @@ class SessionTest extends TestCase {
 
 		$this->sessionMock->expects($this->any())
 			->method('set')
-			->willReturnCallback([$this, "setValueTester"]);
+			->willReturnCallback([$this, 'setValueTester']);
 
 		$this->sessionMock->expects($this->any())
 			->method('get')
-			->willReturnCallback([$this, "getValueTester"]);
+			->willReturnCallback([$this, 'getValueTester']);
 
 		$this->sessionMock->expects($this->any())
 			->method('remove')
-			->willReturnCallback([$this, "removeValueTester"]);
+			->willReturnCallback([$this, 'removeValueTester']);
 
 
 		$this->instance = new Session($this->sessionMock);

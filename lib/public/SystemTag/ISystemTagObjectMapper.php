@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\SystemTag;
 
@@ -49,7 +31,7 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 *
 	 * @return array with object id as key and an array
-	 * of tag ids as value
+	 *               of tag ids as value
 	 *
 	 * @since 9.0.0
 	 */
@@ -66,9 +48,9 @@ interface ISystemTagObjectMapper {
 	 * @return string[] array of object ids or empty array if none found
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 * @throws \InvalidArgumentException When a limit is specified together with
-	 * multiple tag ids
+	 *                                   multiple tag ids
 	 *
 	 * @since 9.0.0
 	 */
@@ -87,7 +69,7 @@ interface ISystemTagObjectMapper {
 	 * @param string|array $tagIds tag id or array of tag ids to assign
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -106,7 +88,7 @@ interface ISystemTagObjectMapper {
 	 * @param string|array $tagIds tag id or array of tag ids to unassign
 	 *
 	 * @throws TagNotFoundException if at least one of the
-	 * given tags does not exist
+	 *                              given tags does not exist
 	 *
 	 * @since 9.0.0
 	 */
@@ -119,14 +101,37 @@ interface ISystemTagObjectMapper {
 	 * @param string $objectType object type
 	 * @param string $tagId tag id to check
 	 * @param bool $all true to check that ALL objects have the tag assigned,
-	 * false to check that at least ONE object has the tag.
+	 *                  false to check that at least ONE object has the tag.
 	 *
 	 * @return bool true if the condition set by $all is matched, false
-	 * otherwise
+	 *              otherwise
 	 *
 	 * @throws TagNotFoundException if the tag does not exist
 	 *
 	 * @since 9.0.0
 	 */
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool;
+
+
+	/**
+	 * Get the list of object types that have objects assigned to them.
+	 *
+	 * @return string[] list of object types
+	 *
+	 * @since 31.0.0
+	 */
+	public function getAvailableObjectTypes(): array;
+
+	/**
+	 * Set the list of object ids for the given tag.
+	 * This will replace the current list of object ids.
+	 *
+	 * @param string $tagId tag id
+	 * @param string $objectType object type
+	 * @param string[] $objectIds list of object ids
+	 *
+	 * @throws TagNotFoundException if the tag does not exist
+	 * @since 31.0.0
+	 */
+	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void;
 }

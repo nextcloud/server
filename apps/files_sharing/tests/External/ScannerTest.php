@@ -1,29 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Files\Cache\Cache;
 use OCA\Files_Sharing\External\Scanner;
+use OCA\Files_Sharing\External\Storage;
 use Test\TestCase;
 
 /**
@@ -31,9 +16,9 @@ use Test\TestCase;
  */
 class ScannerTest extends TestCase {
 	protected Scanner $scanner;
-	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
-	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cache;
 
 	protected function setUp(): void {
@@ -52,7 +37,7 @@ class ScannerTest extends TestCase {
 		$this->scanner = new Scanner($this->storage);
 	}
 
-	public function testScan() {
+	public function testScan(): void {
 		$this->storage->expects($this->any())
 			->method('getShareInfo')
 			->willReturn(['status' => 'success', 'data' => []]);
@@ -64,7 +49,7 @@ class ScannerTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testScanFile() {
+	public function testScanFile(): void {
 		// FIXME add real tests, we are currently only checking for
 		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
 		// compatible with OC\Files\Cache\Scanner::*()

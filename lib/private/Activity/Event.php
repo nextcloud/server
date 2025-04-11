@@ -3,34 +3,16 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Phil Davis <phil.davis@inf.org>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Activity;
 
 use OCP\Activity\Exceptions\InvalidValueException;
 use OCP\Activity\IEvent;
 use OCP\RichObjectStrings\InvalidObjectExeption;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Event implements IEvent {
@@ -52,7 +34,7 @@ class Event implements IEvent {
 	protected $subjectParsed = '';
 	/** @var string */
 	protected $subjectRich = '';
-	/** @var array */
+	/** @var array<string, array<string, string>> */
 	protected $subjectRichParameters = [];
 	/** @var string */
 	protected $message = '';
@@ -62,7 +44,7 @@ class Event implements IEvent {
 	protected $messageParsed = '';
 	/** @var string */
 	protected $messageRich = '';
-	/** @var array */
+	/** @var array<string, array<string, string>> */
 	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';
@@ -79,14 +61,11 @@ class Event implements IEvent {
 
 	/** @var IEvent|null */
 	protected $child;
-	/** @var IValidator */
-	protected $richValidator;
 
-	/**
-	 * @param IValidator $richValidator
-	 */
-	public function __construct(IValidator $richValidator) {
-		$this->richValidator = $richValidator;
+	public function __construct(
+		protected IValidator $richValidator,
+		protected IRichTextFormatter $richTextFormatter,
+	) {
 	}
 
 	/**
@@ -236,37 +215,13 @@ class Event implements IEvent {
 
 		if ($this->subjectParsed === '') {
 			try {
-				$this->subjectParsed = $this->richToParsed($subject, $parameters);
+				$this->subjectParsed = $this->richTextFormatter->richToParsed($subject, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richSubjectParameters', $e);
 			}
 		}
 
 		return $this;
-	}
-
-	/**
-	 * @throws \InvalidArgumentException if a parameter has no name or no type
-	 */
-	private function richToParsed(string $message, array $parameters): string {
-		$placeholders = [];
-		$replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			foreach (['name','type'] as $requiredField) {
-				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
-					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
-				}
-			}
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} elseif ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'] ?? $parameter['name'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -278,7 +233,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters(): array {
@@ -336,7 +291,7 @@ class Event implements IEvent {
 
 		if ($this->messageParsed === '') {
 			try {
-				$this->messageParsed = $this->richToParsed($message, $parameters);
+				$this->messageParsed = $this->richTextFormatter->richToParsed($message, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richMessageParameters', $e);
 			}
@@ -354,7 +309,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters(): array {

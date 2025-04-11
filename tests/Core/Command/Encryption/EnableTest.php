@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -59,7 +45,7 @@ class EnableTest extends TestCase {
 	}
 
 
-	public function dataEnable() {
+	public static function dataEnable(): array {
 		return [
 			['no', null, [], true, 'Encryption enabled', 'No encryption module is loaded'],
 			['yes', null, [], false, 'Encryption is already enabled', 'No encryption module is loaded'],
@@ -71,15 +57,8 @@ class EnableTest extends TestCase {
 
 	/**
 	 * @dataProvider dataEnable
-	 *
-	 * @param string $oldStatus
-	 * @param string $defaultModule
-	 * @param array $availableModules
-	 * @param bool $isUpdating
-	 * @param string $expectedString
-	 * @param string $expectedDefaultModuleString
 	 */
-	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString) {
+	public function testEnable(string $oldStatus, ?string $defaultModule, array $availableModules, bool $isUpdating, string $expectedString, string $expectedDefaultModuleString): void {
 		if ($isUpdating) {
 			$this->config->expects($this->once())
 				->method('setAppValue')
@@ -93,27 +72,30 @@ class EnableTest extends TestCase {
 		if (empty($availableModules)) {
 			$this->config->expects($this->once())
 				->method('getAppValue')
-				->with('core', 'encryption_enabled', $this->anything())
-				->willReturn($oldStatus);
+				->willReturnMap([
+					['core', 'encryption_enabled', 'no', $oldStatus],
+				]);
 		} else {
 			$this->config->expects($this->exactly(2))
 				->method('getAppValue')
-				->withConsecutive(
-					['core', 'encryption_enabled', $this->anything()],
-					['core', 'default_encryption_module', $this->anything()],
-				)->willReturnOnConsecutiveCalls(
-					$oldStatus,
-					$defaultModule,
-				);
+				->willReturnMap([
+					['core', 'encryption_enabled', 'no', $oldStatus],
+					['core', 'default_encryption_module', null, $defaultModule],
+				]);
 		}
 
+		$calls = [
+			[$expectedString, 0],
+			['', 0],
+			[$expectedDefaultModuleString, 0],
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				[$this->stringContains($expectedString)],
-				[''],
-				[$this->stringContains($expectedDefaultModuleString)],
-			);
+			->willReturnCallback(function (string $message, int $level) use (&$calls): void {
+				$call = array_shift($calls);
+				$this->assertStringContainsString($call[0], $message);
+				$this->assertSame($call[1], $level);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

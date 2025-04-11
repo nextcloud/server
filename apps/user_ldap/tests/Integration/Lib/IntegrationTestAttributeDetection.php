@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\user_ldap\tests\Integration\Lib;
 
@@ -32,6 +14,10 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../Bootstrap.php';
@@ -46,28 +32,28 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		$this->connection->setConfiguration(['ldapGroupFilter' => 'objectClass=groupOfNames']);
 		$this->connection->setConfiguration(['ldapGroupMemberAssocAttr' => 'member']);
 
-		$userMapper = new UserMapping(\OC::$server->getDatabaseConnection());
+		$userMapper = new UserMapping(Server::get(IDBConnection::class));
 		$userMapper->clear();
 		$this->access->setUserMapper($userMapper);
 
-		$groupMapper = new GroupMapping(\OC::$server->getDatabaseConnection());
+		$groupMapper = new GroupMapping(Server::get(IDBConnection::class));
 		$groupMapper->clear();
 		$this->access->setGroupMapper($groupMapper);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
-		$userManager = \OC::$server->getUserManager();
+		$userBackend = new User_LDAP($this->access, Server::get(\OCP\Notification\IManager::class), Server::get(UserPluginManager::class), Server::get(LoggerInterface::class), Server::get(DeletedUsersIndex::class));
+		$userManager = Server::get(IUserManager::class);
 		$userManager->clearBackends();
 		$userManager->registerBackend($userBackend);
 
-		$groupBackend = new Group_LDAP($this->access, \OC::$server->query(GroupPluginManager::class), \OC::$server->get(IConfig::class));
-		$groupManger = \OC::$server->getGroupManager();
+		$groupBackend = new Group_LDAP($this->access, Server::get(GroupPluginManager::class), Server::get(IConfig::class));
+		$groupManger = Server::get(IGroupManager::class);
 		$groupManger->clearBackends();
 		$groupManger->addBackend($groupBackend);
 	}
 
 	protected function caseNativeUUIDAttributeUsers() {
 		// trigger importing of users which also triggers UUID attribute detection
-		\OC::$server->getUserManager()->search('', 5, 0);
+		Server::get(IUserManager::class)->search('', 5, 0);
 		return $this->connection->ldapUuidUserAttribute === 'entryuuid';
 	}
 
@@ -76,7 +62,7 @@ class IntegrationTestAttributeDetection extends AbstractIntegrationTest {
 		// are similar, but we take no chances.
 
 		// trigger importing of users which also triggers UUID attribute detection
-		\OC::$server->getGroupManager()->search('', 5, 0);
+		Server::get(IGroupManager::class)->search('', 5, 0);
 		return $this->connection->ldapUuidGroupAttribute === 'entryuuid';
 	}
 }

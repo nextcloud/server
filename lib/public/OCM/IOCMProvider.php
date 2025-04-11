@@ -3,27 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCP\OCM;
 
 use JsonSerializable;
@@ -137,6 +119,22 @@ interface IOCMProvider extends JsonSerializable {
 	 */
 	public function extractProtocolEntry(string $resourceName, string $protocol): string;
 
+	//	/**
+	//	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	//	 *
+	//	 * @param Signatory $signatory
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function setSignatory(Signatory $signatory): void;
+
+	//	/**
+	//	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	//	 *
+	//	 * @return Signatory|null returns null if no Signatory available
+	//	 * @experimental 31.0.0
+	//	 */
+	//	public function getSignatory(): ?Signatory;
+
 	/**
 	 * import data from an array
 	 *
@@ -151,13 +149,18 @@ interface IOCMProvider extends JsonSerializable {
 	/**
 	 * @return array{
 	 *     enabled: bool,
-	 *     apiVersion: string,
+	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     resourceTypes: array{
+	 *     publicKey?: array{
+	 *         keyId: string,
+	 *         publicKeyPem: string
+	 *	   },
+	 *     resourceTypes: list<array{
 	 *         name: string,
-	 *         shareTypes: string[],
+	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
-	 *     }[]
+	 *     }>,
+	 *     version: string
 	 * }
 	 * @since 28.0.0
 	 */

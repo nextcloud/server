@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Pavel Krasikov <klonishe@gmail.com>
- * @author Pierre Rudloff <contact@rudloff.pro>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework\Http;
 
@@ -45,7 +26,7 @@ class EmptyContentSecurityPolicy {
 	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/11925
 	 */
 	protected $evalScriptAllowed = null;
@@ -55,7 +36,7 @@ class EmptyContentSecurityPolicy {
 	protected $allowedScriptDomains = null;
 	/**
 	 * @var bool Whether inline CSS is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/13458
 	 */
 	protected $inlineStyleAllowed = null;
@@ -108,7 +89,7 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Use the according JS nonce
+	 * The base64 encoded nonce to be used for script source.
 	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
 	 * @param string $nonce
@@ -125,7 +106,7 @@ class EmptyContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 * @since 8.1.0
-	 * @deprecated Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
+	 * @deprecated 17.0.0 Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
 	 */
 	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed = $state;
@@ -467,7 +448,7 @@ class EmptyContentSecurityPolicy {
 				if ($this->strictDynamicAllowed) {
 					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$scriptSrc .= '\'nonce-'.base64_encode($this->jsNonce).'\'';
+				$scriptSrc .= '\'nonce-' . $this->jsNonce . '\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);

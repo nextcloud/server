@@ -1,31 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Jakub Onderka <ahoj@jakubonderka.cz>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\App\AppStore\Fetcher;
 
@@ -42,7 +18,8 @@ class AppFetcher extends Fetcher {
 	/** @var bool */
 	private $ignoreMaxVersion;
 
-	public function __construct(Factory $appDataFactory,
+	public function __construct(
+		Factory $appDataFactory,
 		IClientService $clientService,
 		ITimeFactory $timeFactory,
 		IConfig $config,
@@ -77,7 +54,8 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		if (empty($response)) {
+		if (!isset($response['data']) || $response['data'] === null) {
+			$this->logger->warning('Response from appstore is invalid, apps could not be retrieved. Try again later.', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 
@@ -172,11 +150,13 @@ class AppFetcher extends Fetcher {
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 
-
-	public function get($allowUnstable = false) {
+	public function get($allowUnstable = false): array {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		$apps = parent::get($allowPreReleases);
+		if (empty($apps)) {
+			return [];
+		}
 		$allowList = $this->config->getSystemValue('appsallowlist');
 
 		// If the admin specified a allow list, filter apps from the appstore

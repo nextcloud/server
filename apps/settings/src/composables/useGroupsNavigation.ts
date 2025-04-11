@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import type { ComputedRef, Ref } from 'vue'
 import type { IGroup } from '../views/user-types'
 
@@ -30,7 +34,7 @@ export const useFormatGroups = (groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => 
 	const userGroups = computed(() => {
 		const formatted = groups.value
 			// filter out disabled and admin
-			.filter(group => group.id !== 'disabled' && group.id !== 'admin')
+			.filter(group => group.id !== 'disabled' && group.id !== '__nc_internal_recent' && group.id !== 'admin')
 			// format group
 			.map(group => formatGroupMenu(group))
 			// remove invalid
@@ -48,5 +52,10 @@ export const useFormatGroups = (groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => 
 	 */
 	const disabledGroup = computed(() => formatGroupMenu(groups.value.find(group => group.id === 'disabled')))
 
-	return { adminGroup, disabledGroup, userGroups }
+	/**
+	 * The group of recent users
+	 */
+	const recentGroup = computed(() => formatGroupMenu(groups.value.find(group => group.id === '__nc_internal_recent')))
+
+	return { adminGroup, recentGroup, disabledGroup, userGroups }
 }

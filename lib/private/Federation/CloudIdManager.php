@@ -3,30 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Guillaume Virlet <github@virlet.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Federation;
 
@@ -50,6 +28,7 @@ class CloudIdManager implements ICloudIdManager {
 	/** @var IUserManager */
 	private $userManager;
 	private ICache $memCache;
+	private ICache $displayNameCache;
 	/** @var array[] */
 	private array $cache = [];
 
@@ -58,12 +37,13 @@ class CloudIdManager implements ICloudIdManager {
 		IURLGenerator $urlGenerator,
 		IUserManager $userManager,
 		ICacheFactory $cacheFactory,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->contactsManager = $contactsManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->memCache = $cacheFactory->createDistributed('cloud_id_');
+		$this->displayNameCache = $cacheFactory->createDistributed('cloudid_name_');
 		$eventDispatcher->addListener(UserChangedEvent::class, [$this, 'handleUserEvent']);
 		$eventDispatcher->addListener(CardUpdatedEvent::class, [$this, 'handleCardEvent']);
 	}
@@ -81,7 +61,7 @@ class CloudIdManager implements ICloudIdManager {
 		if ($event instanceof CardUpdatedEvent) {
 			$data = $event->getCardData()['carddata'];
 			foreach (explode("\r\n", $data) as $line) {
-				if (str_starts_with($line, "CLOUD;")) {
+				if (str_starts_with($line, 'CLOUD;')) {
 					$parts = explode(':', $line, 2);
 					if (isset($parts[1])) {
 						$key = $parts[1];
@@ -106,7 +86,7 @@ class CloudIdManager implements ICloudIdManager {
 		}
 
 		// Find the first character that is not allowed in user names
-		$id = $this->fixRemoteURL($cloudId);
+		$id = $this->stripShareLinkFragments($cloudId);
 		$posSlash = strpos($id, '/');
 		$posColon = strpos($id, ':');
 
@@ -129,13 +109,22 @@ class CloudIdManager implements ICloudIdManager {
 			$this->userManager->validateUserId($user);
 
 			if (!empty($user) && !empty($remote)) {
-				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
+				$remote = $this->ensureDefaultProtocol($remote);
+				return new CloudId($id, $user, $remote, null);
 			}
 		}
 		throw new \InvalidArgumentException('Invalid cloud id');
 	}
 
-	protected function getDisplayNameFromContact(string $cloudId): ?string {
+	public function getDisplayNameFromContact(string $cloudId): ?string {
+		$cachedName = $this->displayNameCache->get($cloudId);
+		if ($cachedName !== null) {
+			if ($cachedName === $cloudId) {
+				return null;
+			}
+			return $cachedName;
+		}
+
 		$addressBookEntries = $this->contactsManager->search($cloudId, ['CLOUD'], [
 			'limit' => 1,
 			'enumeration' => false,
@@ -146,17 +135,20 @@ class CloudIdManager implements ICloudIdManager {
 			if (isset($entry['CLOUD'])) {
 				foreach ($entry['CLOUD'] as $cloudID) {
 					if ($cloudID === $cloudId) {
-						// Warning, if user decides to make his full name local only,
+						// Warning, if user decides to make their full name local only,
 						// no FN is found on federated servers
 						if (isset($entry['FN'])) {
+							$this->displayNameCache->set($cloudId, $entry['FN'], 15 * 60);
 							return $entry['FN'];
 						} else {
-							return $cloudID;
+							$this->displayNameCache->set($cloudId, $cloudId, 15 * 60);
+							return null;
 						}
 					}
 				}
 			}
 		}
+		$this->displayNameCache->set($cloudId, $cloudId, 15 * 60);
 		return null;
 	}
 
@@ -174,8 +166,9 @@ class CloudIdManager implements ICloudIdManager {
 		// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
 		// this way if a user has an explicit non-https cloud id this will be preserved
 		// we do still use the version without protocol for looking up the display name
-		$remote = $this->fixRemoteURL($remote);
+		$remote = $this->stripShareLinkFragments($remote);
 		$host = $this->removeProtocolFromUrl($remote);
+		$remote = $this->ensureDefaultProtocol($remote);
 
 		$key = $user . '@' . ($isLocal ? 'local' : $host);
 		$cached = $this->cache[$key] ?? $this->memCache->get($key);
@@ -188,7 +181,7 @@ class CloudIdManager implements ICloudIdManager {
 			$localUser = $this->userManager->get($user);
 			$displayName = $localUser ? $localUser->getDisplayName() : '';
 		} else {
-			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
+			$displayName = null;
 		}
 
 		// For the visible cloudID we only strip away https
@@ -220,6 +213,14 @@ class CloudIdManager implements ICloudIdManager {
 		return $url;
 	}
 
+	protected function ensureDefaultProtocol(string $remote): string {
+		if (!str_contains($remote, '://')) {
+			$remote = 'https://' . $remote;
+		}
+
+		return $remote;
+	}
+
 	/**
 	 * Strips away a potential file names and trailing slashes:
 	 * - http://localhost
@@ -232,7 +233,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $remote
 	 * @return string
 	 */
-	protected function fixRemoteURL(string $remote): string {
+	protected function stripShareLinkFragments(string $remote): string {
 		$remote = str_replace('\\', '/', $remote);
 		if ($fileNamePosition = strpos($remote, '/index.php')) {
 			$remote = substr($remote, 0, $fileNamePosition);

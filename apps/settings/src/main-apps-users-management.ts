@@ -1,51 +1,33 @@
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Vue from 'vue'
-import VTooltip from 'v-tooltip'
+import Vuex from 'vuex'
+import VTooltipPlugin from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { t, n } from '@nextcloud/l10n'
 
 import SettingsApp from './views/SettingsApp.vue'
 import router from './router/index.ts'
 import { useStore } from './store/index.js'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { PiniaVuePlugin, createPinia } from 'pinia'
-
-Vue.use(VTooltip, { defaultHtml: false })
-
-const store = useStore()
-sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken() ?? '')
+__webpack_nonce__ = getCSPNonce()
 
 // bind to window
 Vue.prototype.t = t
 Vue.prototype.n = n
 Vue.use(PiniaVuePlugin)
+Vue.use(VTooltipPlugin, { defaultHtml: false })
+Vue.use(Vuex)
+
+const store = useStore()
+sync(store, router)
 
 const pinia = createPinia()
 

@@ -1,27 +1,11 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { Node, FileType, Permission, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 export const action = new FileAction({
 	id: 'view-in-folder',
@@ -31,6 +15,11 @@ export const action = new FileAction({
 	iconSvgInline: () => FolderMoveSvg,
 
 	enabled(nodes: Node[], view: View) {
+		// Not enabled for public shares
+		if (isPublicShare()) {
+			return false
+		}
+
 		// Only works outside of the main files view
 		if (view.id === 'files') {
 			return false
@@ -44,6 +33,11 @@ export const action = new FileAction({
 		const node = nodes[0]
 
 		if (!node.isDavRessource) {
+			return false
+		}
+
+		// Can only view files that are in the user root folder
+		if (!node.root?.startsWith('/files')) {
 			return false
 		}
 
@@ -61,7 +55,7 @@ export const action = new FileAction({
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: 'files', fileid: node.fileid },
+			{ view: 'files', fileid: String(node.fileid) },
 			{ dir: node.dirname },
 		)
 		return null

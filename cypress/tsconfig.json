@@ -1,7 +1,14 @@
 {
 	"extends": "../tsconfig.json",
-	"include": ["./**/*.ts"],
+	"include": ["./**/*.ts", "../**/*.cy.ts", "./cypress-e2e.d.ts", "./cypress-component.d.ts"],
+	"exclude": [],
 	"compilerOptions": {
-		"types": ["cypress", "cypress-axe", "cypress-wait-until", "dockerode"],
+		"types": [
+			"@testing-library/cypress",
+			"cypress",
+			"cypress-axe",
+			"cypress-wait-until",
+			"dockerode"
+		],
 	}
 }

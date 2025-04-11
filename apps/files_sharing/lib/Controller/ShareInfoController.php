@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Controller;
 
@@ -28,6 +9,10 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Files\File;
@@ -42,9 +27,6 @@ use OCP\Share\IManager;
  */
 class ShareInfoController extends ApiController {
 
-	/** @var IManager */
-	private $shareManager;
-
 	/**
 	 * ShareInfoController constructor.
 	 *
@@ -52,31 +34,31 @@ class ShareInfoController extends ApiController {
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IManager $shareManager) {
+		private IManager $shareManager,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=shareinfo)
-	 *
 	 * Get the info about a share
 	 *
 	 * @param string $t Token of the share
 	 * @param string|null $password Password of the share
 	 * @param string|null $dir Subdirectory to get info about
 	 * @param int $depth Maximum depth to get info about
-	 * @return JSONResponse<Http::STATUS_OK, Files_SharingShareInfo, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, Files_SharingShareInfo, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Share info returned
 	 * 403: Getting share info is not allowed
 	 * 404: Share not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'shareinfo')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function info(string $t, ?string $password = null, ?string $dir = null, int $depth = -1): JSONResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($t);

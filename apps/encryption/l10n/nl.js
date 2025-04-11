@@ -47,14 +47,12 @@ OC.L10N.register(
     "Basic encryption module" : "Basis versleutelingsmodule",
     "Your private key password no longer matches your log-in password." : "Het wachtwoord van je privésleutel komt niet meer overeen met je inlogwachtwoord.",
     "Set your old private key password to your current log-in password:" : "Stel het wachtwoord van je oude privésleutel in op je huidige inlogwachtwoord.",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Als je je oude wachtwoord niet meer weet, kun je de beheerder vragen je bestanden terug te halen.",
     "Old log-in password" : "Oude wachtwoord",
     "Current log-in password" : "Huidige wachtwoord",
     "Update Private Key Password" : "Bijwerken wachtwoord Privésleutel",
     "Enable password recovery:" : "Activeren wachtwoord herstel:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
-    "Disabled" : "Uitgeschakeld",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet."
+    "Disabled" : "Uitgeschakeld"
 },
 "nplurals=2; plural=(n != 1);");

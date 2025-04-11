@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
@@ -49,7 +32,6 @@ class PhpModules implements ISetupCheck {
 		'zlib',
 	];
 	protected const RECOMMENDED_MODULES = [
-		'bcmath',
 		'exif',
 		'gmp',
 		'intl',
@@ -75,8 +57,7 @@ class PhpModules implements ISetupCheck {
 		return match($module) {
 			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
 			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
-			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
-			'gmp' => $this->l10n->t('for WebAuthn passwordless login, and SFTP storage'),
+			'gmp' => $this->l10n->t('required for SFTP storage and recommended for WebAuthn performance'),
 			'exif' => $this->l10n->t('for picture rotation in server and metadata extraction in the Photos app'),
 			default => '',
 		};
@@ -94,7 +75,7 @@ class PhpModules implements ISetupCheck {
 			$moduleList = implode(
 				"\n",
 				array_map(
-					fn (string $module) => '- '.$module.' '.$this->getRecommendedModuleDescription($module),
+					fn (string $module) => '- ' . $module . ' ' . $this->getRecommendedModuleDescription($module),
 					$missingRecommendedModules
 				)
 			);

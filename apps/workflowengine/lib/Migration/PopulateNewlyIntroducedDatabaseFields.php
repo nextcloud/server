@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Migration;
 
@@ -34,11 +16,9 @@ use OCP\WorkflowEngine\IManager;
 
 class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $dbc;
-
-	public function __construct(IDBConnection $dbc) {
-		$this->dbc = $dbc;
+	public function __construct(
+		private IDBConnection $dbc,
+	) {
 	}
 
 	public function getName() {
@@ -59,7 +39,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$insertQuery = $qb->insert('flow_operations_scope');
 		while (($id = $ids->fetchOne()) !== false) {
 			$insertQuery->values(['operation_id' => $qb->createNamedParameter($id), 'type' => IManager::SCOPE_ADMIN]);
-			$insertQuery->execute();
+			$insertQuery->executeStatement();
 		}
 	}
 
@@ -73,7 +53,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		// in case the repair step is executed multiple times for whatever reason.
 
 		/** @var IResult $result */
-		$result = $selectQuery->execute();
+		$result = $selectQuery->executeQuery();
 		return $result;
 	}
 }

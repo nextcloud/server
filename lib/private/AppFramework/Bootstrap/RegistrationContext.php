@@ -3,33 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use NCU\Config\Lexicon\IConfigLexicon;
+use OC\Config\Lexicon\CoreConfigLexicon;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -46,6 +28,7 @@ use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
+use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
@@ -160,8 +143,23 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
 	private array $declarativeSettings = [];
 
+	/** @var array<array-key, string> */
+	private array $configLexiconClasses = ['core' => CoreConfigLexicon::class];
+
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
+	private array $taskProcessingProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
+	private array $taskProcessingTaskTypes = [];
+
+	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
+	private array $fileConversionProviders = [];
+	
+	/** @var ServiceRegistration<IMailProvider>[] */
+	private $mailProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -411,6 +409,41 @@ class RegistrationContext {
 					$declarativeSettingsClass
 				);
 			}
+
+			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
+				$this->context->registerTaskProcessingProvider(
+					$this->appId,
+					$taskProcessingProviderClass
+				);
+			}
+
+			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
+				$this->context->registerTaskProcessingTaskType(
+					$this->appId,
+					$taskProcessingTaskTypeClass
+				);
+			}
+
+			public function registerFileConversionProvider(string $class): void {
+				$this->context->registerFileConversionProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			public function registerMailProvider(string $class): void {
+				$this->context->registerMailProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			public function registerConfigLexicon(string $configLexiconClass): void {
+				$this->context->registerConfigLexicon(
+					$this->appId,
+					$configLexiconClass
+				);
+			}
 		};
 	}
 
@@ -527,10 +560,10 @@ class RegistrationContext {
 	public function registerTalkBackend(string $appId, string $backend) {
 		// Some safeguards for invalid registrations
 		if ($appId !== 'spreed') {
-			throw new RuntimeException("Only the Talk app is allowed to register a Talk backend");
+			throw new RuntimeException('Only the Talk app is allowed to register a Talk backend');
 		}
 		if ($this->talkBackendRegistration !== null) {
-			throw new RuntimeException("There can only be one Talk backend");
+			throw new RuntimeException('There can only be one Talk backend');
 		}
 
 		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);
@@ -588,6 +621,41 @@ class RegistrationContext {
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
 		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingProvider(string $appId, string $taskProcessingProviderClass): void {
+		$this->taskProcessingProviders[] = new ServiceRegistration($appId, $taskProcessingProviderClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
+		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\Files\Conversion\IConversionProvider> $class
+	 */
+	public function registerFileConversionProvider(string $appId, string $class): void {
+		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<IMailProvider> $migratorClass
+	 */
+	public function registerMailProvider(string $appId, string $class): void {
+		$this->mailProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<IConfigLexicon> $configLexiconClass
+	 */
+	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
+		$this->configLexiconClasses[$appId] = $configLexiconClass;
 	}
 
 	/**
@@ -919,5 +987,49 @@ class RegistrationContext {
 	 */
 	public function getDeclarativeSettings(): array {
 		return $this->declarativeSettings;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\IProvider>[]
+	 */
+	public function getTaskProcessingProviders(): array {
+		return $this->taskProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\ITaskType>[]
+	 */
+	public function getTaskProcessingTaskTypes(): array {
+		return $this->taskProcessingTaskTypes;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[]
+	 */
+	public function getFileConversionProviders(): array {
+		return $this->fileConversionProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IMailProvider>[]
+	 */
+	public function getMailProviders(): array {
+		return $this->mailProviders;
+	}
+
+	/**
+	 * returns IConfigLexicon registered by the app.
+	 * null if none registered.
+	 *
+	 * @param string $appId
+	 *
+	 * @return IConfigLexicon|null
+	 */
+	public function getConfigLexicon(string $appId): ?IConfigLexicon {
+		if (!array_key_exists($appId, $this->configLexiconClasses)) {
+			return null;
+		}
+
+		return \OCP\Server::get($this->configLexiconClasses[$appId]);
 	}
 }

@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
  * This configuration file is only provided to document the different
  * configuration options and their usage.
  *
@@ -223,6 +229,15 @@ $CONFIG = [
 'default_locale' => 'en_US',
 
 /**
+ * With this setting is possible to reduce the languages available in the
+ * language chooser. The languages have to be set as array values using ISO_639-1
+ * language codes such as ``en`` for English, ``de`` for German etc.
+ *
+ * For example: Set to ['de', 'fr'] to only allow German and French languages.
+ */
+'reduce_to_languages' => [],
+
+/**
  * This sets the default region for phone numbers on your Nextcloud server,
  * using ISO 3166-1 country codes such as ``DE`` for Germany, ``FR`` for France, …
  * It is required to allow inserting phone numbers in the user profiles starting
@@ -273,8 +288,9 @@ $CONFIG = [
 
 /**
  * The directory where the skeleton files are located. These files will be
- * copied to the data directory of new users. Leave empty to not copy any
- * skeleton files.
+ * copied to the data directory of new users. Set empty string to not copy any
+ * skeleton files. If unset and templatedirectory is empty string, shipped
+ * templates will be used to create a template directory for the user.
  * ``{lang}`` can be used as a placeholder for the language of the user.
  * If the directory does not exist, it falls back to non dialect (from ``de_DE``
  * to ``de``). If that does not exist either, it falls back to ``default``
@@ -283,18 +299,16 @@ $CONFIG = [
  */
 'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
 
-
 /**
  * The directory where the template files are located. These files will be
- * copied to the template directory of new users. Leave empty to not copy any
+ * copied to the template directory of new users. Set empty string to not copy any
  * template files.
  * ``{lang}`` can be used as a placeholder for the language of the user.
  * If the directory does not exist, it falls back to non dialect (from ``de_DE``
  * to ``de``). If that does not exist either, it falls back to ``default``
  *
- * If this is not set creating a template directory will only happen if no custom
- * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
- * to create a template directory for the user.
+ * To disable creating a template directory, set both skeletondirectory and
+ * templatedirectory to empty strings.
  */
 'templatedirectory' => '/path/to/nextcloud/templates',
 
@@ -326,6 +340,13 @@ $CONFIG = [
 'davstorage.request_timeout' => 30,
 
 /**
+ * The timeout in seconds for synchronizing address books, e.g. federated system address books (as run by `occ federation:sync-addressbooks`).
+ *
+ * Defaults to ``30`` seconds
+ */
+'carddav_sync_request_timeout' => 30,
+
+/**
  * `true` enabled a relaxed session timeout, where the session timeout would no longer be
  * handled by Nextcloud but by either the PHP garbage collection or the expiration of
  * potential other session backends like redis.
@@ -346,8 +367,10 @@ $CONFIG = [
 
 /**
  * Enable or disable the automatic logout after session_lifetime, even if session
- * keepalive is enabled. This will make sure that an inactive browser will be logged out
- * even if requests to the server might extend the session lifetime.
+ * keepalive is enabled. This will make sure that an inactive browser will log itself out
+ * even if requests to the server might extend the session lifetime. Note: the logout is
+ * handled on the client side. This is not a way to limit the duration of potentially
+ * compromised sessions.
  *
  * Defaults to ``false``
  */
@@ -370,7 +393,7 @@ $CONFIG = [
  * Tokens are still checked every 5 minutes for validity
  * max value: 300
  *
- * Defaults to ``300``
+ * Defaults to ``60``
  */
 'token_auth_activity_update' => 60,
 
@@ -384,6 +407,17 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
+ * Whether the brute force protection should write into the database even when a memory cache is available
+ *
+ * Using the database is most likely worse for performance, but makes investigating
+ * issues a lot easier as it's possible to look directly at the table to see all
+ * logged remote addresses and actions.
+ *
+ * Defaults to ``false``
+ */
+'auth.bruteforce.protection.force.database' => false,
+
+/**
  * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
  *
  * In testing mode brute force attempts are still recorded, but the requests do
@@ -395,6 +429,17 @@ $CONFIG = [
  * Defaults to ``false``
  */
 'auth.bruteforce.protection.testing' => false,
+
+/**
+ * Brute force protection: maximum number of attempts before blocking
+ *
+ * When more than max-attempts login requests are sent to Nextcloud, requests
+ * will abort with "429 Too Many Requests".
+ * For security reasons, change it only if you know what you are doing.
+ *
+ * Defaults to ``10``
+ */
+'auth.bruteforce.max-attempts' => 10,
 
 /**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
@@ -478,13 +523,15 @@ $CONFIG = [
 
 /**
  * Enable SMTP class debugging.
+ * NOTE: ``loglevel`` will likely need to be adjusted too. See docs:
+ *   https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html#enabling-debug-mode
  *
  * Defaults to ``false``
  */
 'mail_smtpdebug' => false,
 
 /**
- * Which mode to use for sending mail: ``sendmail``, ``smtp`` or ``qmail``.
+ * Which mode to use for sending mail: ``sendmail``, ``smtp``, ``qmail`` or ``null``.
  *
  * If you are using local or remote SMTP, set this to ``smtp``.
  *
@@ -493,6 +540,9 @@ $CONFIG = [
  *
  * For ``qmail`` the binary is /var/qmail/bin/sendmail, and it must be installed
  * on your Unix system.
+ *
+ * Use the string ``null`` to send no mails (disable mail delivery). This can be
+ * useful if mails should be sent via APIs and rendering messages is not necessary.
  *
  * Defaults to ``smtp``
  */
@@ -637,6 +687,8 @@ $CONFIG = [
  * are generated within Nextcloud using any kind of command line tools (cron or
  * occ). The value should contain the full base URL:
  * ``https://www.example.com/nextcloud``
+ * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
+ * Otherwise there might be problems with the URL generation via cron.
  *
  * Defaults to ``''`` (empty string)
  */
@@ -728,6 +780,11 @@ $CONFIG = [
 /**
  * If the trash bin app is enabled (default), this setting defines the policy
  * for when files and folders in the trash bin will be permanently deleted.
+ *
+ * If the user quota limit is exceeded due to deleted files in the trash bin,
+ * retention settings will be ignored and files will be cleaned up until
+ * the quota requirements are met.
+ *
  * The app allows for two settings, a minimum time for trash bin retention,
  * and a maximum time for trash bin retention.
  *
@@ -878,16 +935,16 @@ $CONFIG = [
  *
  * Defaults to the following domains:
  *
- *  - www.nextcloud.com
- *  - www.startpage.com
- *  - www.eff.org
- *  - www.edri.org
+ *  - https://www.nextcloud.com
+ *  - https://www.startpage.com
+ *  - https://www.eff.org
+ *  - https://www.edri.org
  */
 'connectivity_check_domains' => [
-	'www.nextcloud.com',
-	'www.startpage.com',
-	'www.eff.org',
-	'www.edri.org'
+	'https://www.nextcloud.com',
+	'https://www.startpage.com',
+	'https://www.eff.org',
+	'https://www.edri.org'
 ],
 
 /**
@@ -1042,6 +1099,9 @@ $CONFIG = [
  *                this condition is met
  *  - ``apps``:   if the log message is invoked by one of the specified apps,
  *                this condition is met
+ *  - ``matches``: if all the conditions inside a group match,
+ *                this condition is met. This allows to log only entries to an app
+ *                by a few users.
  *
  * Defaults to an empty array.
  */
@@ -1049,6 +1109,15 @@ $CONFIG = [
 	'shared_secret' => '57b58edb6637fe3059b3595cf9c41b9',
 	'users' => ['sample-user'],
 	'apps' => ['files'],
+	'matches' => [
+		[
+			'shared_secret' => '57b58edb6637fe3059b3595cf9c41b9',
+			'users' => ['sample-user'],
+			'apps' => ['files'],
+			'loglevel' => 1,
+			'message' => 'contains substring'
+		],
+	],
 ],
 
 /**
@@ -1119,6 +1188,7 @@ $CONFIG = [
  * - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
  * - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
  * - iOS client app id: ``1125420102``
+ * - F-Droid client: ``https://f-droid.org/packages/com.nextcloud.client/``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -1128,6 +1198,8 @@ $CONFIG = [
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
 'customclient_ios_appid' =>
 		'1125420102',
+'customclient_fdroid' =>
+	'https://f-droid.org/packages/com.nextcloud.client/',
 /**
  * Apps
  *
@@ -1135,9 +1207,9 @@ $CONFIG = [
  */
 
 /**
- * Set the default app to open on login. Use the app names as they appear in the
- * URL after clicking them in the Apps menu, such as documents, calendar, and
- * gallery. You can use a comma-separated list of app names, so if the first
+ * Set the default app to open on login. The entry IDs can be retrieved from
+ * the Navigations OCS API endpoint: https://docs.nextcloud.com/server/latest/develper_manual/_static/openapi.html#/operations/core-navigation-get-apps-navigation.
+ * You can use a comma-separated list of app names, so if the first
  * app is not enabled for a user then Nextcloud will try the second one, and so
  * on. If no enabled apps are found it defaults to the dashboard app.
  *
@@ -1275,13 +1347,19 @@ $CONFIG = [
 /**
  * custom path for ffmpeg binary
  *
- * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg``
+ * in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the
+ * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp,
+ * x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
+ *
+ * If you want Imaginary to also create preview images from PDF Documents, you
+ * have to add the ``OC\Preview\ImaginaryPDF`` provider as well.
  *
  * See https://github.com/h2non/imaginary
  */
@@ -1339,6 +1417,23 @@ $CONFIG = [
 	'OC\Preview\TXT',
 	'OC\Preview\XBitmap',
 ],
+
+/**
+ * Maximum file size for metadata generation.
+ * If a file exceeds this size, metadata generation will be skipped.
+ * Note: memory equivalent to this size will be used for metadata generation.
+ *
+ * Default: 256 megabytes.
+ */
+'metadata_max_filesize' => 256,
+
+/**
+ * Maximum file size for file conversion.
+ * If a file exceeds this size, the file will not be converted.
+ *
+ * Default: 100 MiB
+ */
+'max_file_conversion_filesize' => 100,
 
 /**
  * LDAP
@@ -1793,6 +1888,15 @@ $CONFIG = [
 'transferIncomingShares' => false,
 
 /**
+ * Federated Cloud Sharing
+ */
+
+ /**
+  * Allow self-signed certificates for federated shares
+  */
+'sharing.federation.allowSelfSignedCertificates' => false,
+
+/**
  * Hashing
  */
 
@@ -1961,26 +2065,54 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Blacklist a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
+ * Block a specific file or files and disallow the upload of files with this name.
+ * This blocks any access to those files (read and write).
+ * ``.htaccess`` is blocked by default.
+ *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ *
+ * Note that this list is case-insensitive.
  *
  * Defaults to ``array('.htaccess')``
  */
-'blacklisted_files' => ['.htaccess'],
+'forbidden_filenames' => ['.htaccess'],
 
 /**
- * Blacklist characters from being used in filenames. This is useful if you
+ * Disallow the upload of files with specific basenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
+ *
+ * The basename is the name of the file without the extension,
+ * e.g. for "archive.tar.gz" the basename would be "archive".
+ *
+ * Note that this list is case-insensitive.
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_filename_basenames' => [],
+
+/**
+ * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
- * The '/' and '\' characters are always forbidden.
+ * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
  *
- * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"')``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
  *
  * Defaults to ``array()``
  */
-'forbidden_chars' => [],
+'forbidden_filename_characters' => [],
+
+/**
+ * Deny extensions from being used for filenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
+ *
+ * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
+ *
+ * Defaults to ``array('.filepart', '.part')``
+ */
+'forbidden_filename_extensions' => ['.part', '.filepart'],
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
@@ -1996,6 +2128,14 @@ $CONFIG = [
  * E.g. dark, dark-highcontrast, default, light, light-highcontrast, opendyslexic
  */
 'enforce_theme' => '',
+
+
+/**
+ * This setting allows to disable the PWA functionality that allows browsers to open web applications in dedicated windows.
+ *
+ * Defaults to ``true``
+ */
+'theming.standalone_window.enabled' => true,
 
 /**
  * The default cipher for encrypting files. Currently supported are:
@@ -2027,9 +2167,18 @@ $CONFIG = [
  * client may not function as expected, and could lead to permanent data loss for
  * clients or other unexpected results.
  *
- * Defaults to ``2.3.0``
+ * Defaults to ``2.7.0``
  */
-'minimum.supported.desktop.version' => '2.3.0',
+'minimum.supported.desktop.version' => '2.7.0',
+
+/**
+ * The maximum Nextcloud desktop client version that will be allowed to sync with
+ * this server instance. All connections made from later clients will be denied
+ * by the server.
+ *
+ * Defaults to ``99.99.99``
+ */
+'maximum.supported.desktop.version' => '99.99.99',
 
 /**
  * Option to allow local storage to contain symlinks.
@@ -2169,6 +2318,16 @@ $CONFIG = [
 'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
 
 /**
+ * List of trusted IP ranges for admin actions
+ *
+ * If this list is non-empty, all admin actions must be triggered from
+ * IP addresses inside theses ranges.
+ *
+ * Defaults to an empty array.
+ */
+'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+/**
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
@@ -2178,21 +2337,6 @@ $CONFIG = [
  * Defaults to ``10`` megabytes
  */
 'max_filesize_animated_gifs_public_sharing' => 10,
-
-
-/**
- * Enables transactional file locking.
- * This is enabled by default.
- *
- * Prevents concurrent processes from accessing the same files
- * at the same time. Can help prevent side effects that would
- * be caused by concurrent operations. Mainly relevant for
- * very large installations with many users working with
- * shared files.
- *
- * Defaults to ``true``
- */
-'filelocking.enabled' => true,
 
 /**
  * Set the lock's time-to-live in seconds.
@@ -2234,6 +2378,11 @@ $CONFIG = [
  * Allows to modify the cli-upgrade link in order to link to a different documentation
  */
 'upgrade.cli-upgrade-link' => '',
+
+/**
+ * Allows to modify the exception server logs documentation link in order to link to a different documentation
+ */
+'documentation_url.server_logs' => '',
 
 /**
  * Set this Nextcloud instance to debugging mode
@@ -2433,9 +2582,51 @@ $CONFIG = [
 'unified_search.enabled' => false,
 
 /**
- * Enable features that are do respect accessibility standards yet.
+ * Enable features that don't respect accessibility standards yet.
  *
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Directories where nextcloud looks for binaries.
+ * This is used to find external binaries like libreoffice, sendmail, ffmpeg and more.
+ *
+ * Defaults to ``['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin','/opt/bin']``
+ */
+'binary_search_paths' => [
+	'/usr/local/sbin',
+	'/usr/local/bin',
+	'/usr/sbin',
+	'/usr/bin',
+	'/sbin',
+	'/bin',
+	'/opt/bin',
+],
+
+/**
+ * The maximum chunk size to use for chunked uploads.
+ * A bigger chunk size results in higher throughput, but above 100 MiB there are only diminishing returns,
+ * while services like Cloudflare already limit to 100 MiB.
+ *
+ * Defaults to 100 MiB.
+ */
+'files.chunked_upload.max_size' => 100 * 1024 * 1024,
+
+/**
+ * The maximum number of chunks uploaded in parallel during chunked uploads.
+ * A bigger count results in higher throughput, but will also consume more server workers,
+ * while the improvements diminish.
+ *
+ * Defaults to 5.
+ */
+'files.chunked_upload.max_parallel_count' => 5,
+
+/**
+ * Allow users to manually delete files from their trashbin.
+ * Automated deletions are not affected and will continue to work in cases like low remaining quota for example.
+ *
+ * Defaults to true.
+ */
+'files.trash.delete' => true,
 ];

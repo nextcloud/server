@@ -8,7 +8,6 @@ OC.L10N.register(
     "Secret key" : "Kunci rahasia",
     "Add client" : "Tambah klien",
     "Add" : "Tambah",
-    "Delete" : "Hapus",
-    "Secret" : "Rahasia"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

@@ -13,11 +13,11 @@ OC.L10N.register(
     "Client Identifier" : "Identificador do Cliente",
     "Secret key" : "Chave secreta",
     "Delete client" : "Excluir cliente",
+    "Make sure you store the secret key, it cannot be recovered." : "Certifique-se de armazenar a chave secreta, ela não pode ser recuperada.",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar",
-    "Delete" : "Excluir",
     "Show client secret" : "Mostra senha do cliente",
     "Hide client secret" : "Ocultar segredo do cliente",
-    "Secret" : "Secreto"
+    "Delete" : "Excluir"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

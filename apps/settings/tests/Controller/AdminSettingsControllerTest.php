@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan C. Borchardt <hey@jancborchardt.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Controller;
 
@@ -35,7 +14,9 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -50,26 +31,17 @@ use Test\TestCase;
  */
 class AdminSettingsControllerTest extends TestCase {
 
-	/** @var AdminSettingsController */
-	private $adminSettingsController;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var INavigationManager|MockObject */
-	private $navigationManager;
-	/** @var IManager|MockObject */
-	private $settingsManager;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IGroupManager|MockObject */
-	private $groupManager;
-	/** @var ISubAdmin|MockObject */
-	private $subAdmin;
-	/** @var IDeclarativeManager|MockObject */
-	private $declarativeSettingsManager;
-	/** @var IInitialState|MockObject */
-	private $initialState;
-	/** @var string */
-	private $adminUid = 'lololo';
+	private IRequest&MockObject $request;
+	private INavigationManager&MockObject $navigationManager;
+	private IManager&MockObject $settingsManager;
+	private IUserSession&MockObject $userSession;
+	private IGroupManager&MockObject $groupManager;
+	private ISubAdmin&MockObject $subAdmin;
+	private IDeclarativeManager&MockObject $declarativeSettingsManager;
+	private IInitialState&MockObject $initialState;
+
+	private string $adminUid = 'lololo';
+	private AdminSettingsController $adminSettingsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -95,18 +67,22 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->initialState,
 		);
 
-		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'mylongrandompassword');
+		$user = Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
-		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
+		Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+		Server::get(IUserManager::class)
+			->get($this->adminUid)
+			->delete();
+		\OC_User::setUserId(null);
+		Server::get(IUserSession::class)->setUser(null);
 
 		parent::tearDown();
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession
 			->method('getUser')
@@ -120,6 +96,12 @@ class AdminSettingsControllerTest extends TestCase {
 			->method('isSubAdmin')
 			->with($user)
 			->willReturn(false);
+
+		$form = new TemplateResponse('settings', 'settings/empty');
+		$setting = $this->createMock(ServerDevNotice::class);
+		$setting->expects(self::any())
+			->method('getForm')
+			->willReturn($form);
 		$this->settingsManager
 			->expects($this->once())
 			->method('getAdminSections')
@@ -132,7 +114,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAllowedAdminSettings')
 			->with('test')
-			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
+			->willReturn([5 => [$setting]]);
 		$this->declarativeSettingsManager
 			->expects($this->any())
 			->method('getFormIDs')

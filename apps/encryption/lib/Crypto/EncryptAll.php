@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Kenneth Newwood <kenneth@newwood.name>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Crypto;
 
@@ -49,72 +29,28 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll {
 
-	/** @var Setup */
-	protected $userSetup;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var View */
-	protected $rootView;
-
-	/** @var KeyManager */
-	protected $keyManager;
-
-	/** @var Util */
-	protected $util;
-
-	/** @var array  */
+	/** @var array */
 	protected $userPasswords;
 
-	/** @var  IConfig */
-	protected $config;
-
-	/** @var IMailer */
-	protected $mailer;
-
-	/** @var  IL10N */
-	protected $l;
-
-	/** @var  IFactory */
-	protected $l10nFactory;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var  OutputInterface */
+	/** @var OutputInterface */
 	protected $output;
 
-	/** @var  InputInterface */
+	/** @var InputInterface */
 	protected $input;
 
-	/** @var ISecureRandom */
-	protected $secureRandom;
-
 	public function __construct(
-		Setup $userSetup,
-		IUserManager $userManager,
-		View $rootView,
-		KeyManager $keyManager,
-		Util $util,
-		IConfig $config,
-		IMailer $mailer,
-		IL10N $l,
-		IFactory $l10nFactory,
-		QuestionHelper $questionHelper,
-		ISecureRandom $secureRandom
+		protected Setup $userSetup,
+		protected IUserManager $userManager,
+		protected View $rootView,
+		protected KeyManager $keyManager,
+		protected Util $util,
+		protected IConfig $config,
+		protected IMailer $mailer,
+		protected IL10N $l,
+		protected IFactory $l10nFactory,
+		protected QuestionHelper $questionHelper,
+		protected ISecureRandom $secureRandom,
 	) {
-		$this->userSetup = $userSetup;
-		$this->userManager = $userManager;
-		$this->rootView = $rootView;
-		$this->keyManager = $keyManager;
-		$this->util = $util;
-		$this->config = $config;
-		$this->mailer = $mailer;
-		$this->l = $l;
-		$this->l10nFactory = $l10nFactory;
-		$this->questionHelper = $questionHelper;
-		$this->secureRandom = $secureRandom;
 		// store one time passwords for the users
 		$this->userPasswords = [];
 	}
@@ -223,7 +159,7 @@ class EncryptAll {
 				$userNo++;
 			}
 		}
-		$progress->setMessage("all files encrypted");
+		$progress->setMessage('all files encrypted');
 		$progress->finish();
 	}
 

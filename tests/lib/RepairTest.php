@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -62,7 +61,7 @@ class RepairTest extends TestCase {
 		});
 	}
 
-	public function testRunRepairStep() {
+	public function testRunRepairStep(): void {
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();
 
@@ -75,7 +74,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepThatFail() {
+	public function testRunRepairStepThatFail(): void {
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->run();
 
@@ -88,7 +87,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepsWithException() {
+	public function testRunRepairStepsWithException(): void {
 		$mock = $this->createMock(TestRepairStep::class);
 		$mock->expects($this->any())
 			->method('run')
@@ -120,7 +119,7 @@ class RepairTest extends TestCase {
 		);
 	}
 
-	public function testRunRepairStepsContinueAfterWarning() {
+	public function testRunRepairStepsContinueAfterWarning(): void {
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();

@@ -1,17 +1,18 @@
 <?php
 /**
- * Copyright (c) 2014 Thomas Müller <deepdiver@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Repair;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OC\DB\ConnectionAdapter;
 use OC\Repair\Collation;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -33,57 +34,42 @@ class TestCollationRepair extends Collation {
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairCollationTest extends TestCase {
-	/**
-	 * @var TestCollationRepair
-	 */
-	private $repair;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	private TestCollationRepair $repair;
+	private ConnectionAdapter $connection;
+	private string $tableName;
+	private IConfig $config;
 
-	/**
-	 * @var string
-	 */
-	private $tableName;
-
-	/**
-	 * @var \OCP\IConfig
-	 */
-	private $config;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->get(IDBConnection::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->config = \OC::$server->getConfig();
-		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$this->markTestSkipped("Test only relevant on MySql");
+		$this->connection = \OCP\Server::get(ConnectionAdapter::class);
+		$this->config = \OCP\Server::get(IConfig::class);
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
+			$this->markTestSkipped('Test only relevant on MySql');
 		}
 
-		$dbPrefix = $this->config->getSystemValueString("dbtableprefix");
-		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$dbPrefix = $this->config->getSystemValueString('dbtableprefix');
+		$this->tableName = $this->getUniqueID($dbPrefix . '_collation_test');
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
 
 		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);
 	}
 
 	protected function tearDown(): void {
-		$this->connection->getInner()->getSchemaManager()->dropTable($this->tableName);
+		$this->connection->getInner()->createSchemaManager()->dropTable($this->tableName);
 		parent::tearDown();
 	}
 
-	public function testCollationConvert() {
+	public function testCollationConvert(): void {
 		$tables = $this->repair->getAllNonUTF8BinTables($this->connection);
 		$this->assertGreaterThanOrEqual(1, count($tables));
 
-		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$outputMock = $this->getMockBuilder(IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 

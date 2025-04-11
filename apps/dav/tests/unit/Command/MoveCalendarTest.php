@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\Command;
 
@@ -45,10 +24,10 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Command
  */
 class MoveCalendarTest extends TestCase {
-	/** @var \OCP\IUserManager|MockObject $userManager */
+	/** @var IUserManager|MockObject $userManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager|MockObject $groupManager */
+	/** @var IGroupManager|MockObject $groupManager */
 	private $groupManager;
 
 	/** @var \OCP\Share\IManager|MockObject $shareManager */
@@ -215,7 +194,7 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function dataTestMoveWithDestinationNotPartOfGroup(): array {
@@ -261,7 +240,7 @@ class MoveCalendarTest extends TestCase {
 			]);
 		if ($shareWithGroupMembersOnly === true) {
 			$this->expectException(InvalidArgumentException::class);
-			$this->expectExceptionMessage("User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.");
+			$this->expectExceptionMessage('User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.');
 		}
 
 		$commandTester = new CommandTester($this->command);
@@ -315,7 +294,7 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function testMoveWithDestinationNotPartOfGroupAndForce(): void {
@@ -363,7 +342,7 @@ class MoveCalendarTest extends TestCase {
 			'--force' => true
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function dataTestMoveWithCalendarAlreadySharedToDestination(): array {
@@ -401,17 +380,17 @@ class MoveCalendarTest extends TestCase {
 			);
 
 		$this->calDav->expects($this->once())->method('getShares')
-				->with(1234)
-				->willReturn([
-					[
-						'href' => 'principal:principals/users/user2',
-						'{DAV:}displayname' => 'Personal'
-					]
-				]);
+			->with(1234)
+			->willReturn([
+				[
+					'href' => 'principal:principals/users/user2',
+					'{DAV:}displayname' => 'Personal'
+				]
+			]);
 
 		if ($force === false) {
 			$this->expectException(InvalidArgumentException::class);
-			$this->expectExceptionMessage("The calendar <personal> is already shared to user <user2>.You may use -f to move the calendar while deleting this share.");
+			$this->expectExceptionMessage('The calendar <personal> is already shared to user <user2>.You may use -f to move the calendar while deleting this share.');
 		} else {
 			$this->calDav->expects($this->once())->method('updateShares');
 		}

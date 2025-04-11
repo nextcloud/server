@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security;
@@ -33,13 +32,13 @@ class CryptoTest extends \Test\TestCase {
 	/**
 	 * @dataProvider defaultEncryptionProvider
 	 */
-	public function testDefaultEncrypt($stringToEncrypt) {
+	public function testDefaultEncrypt($stringToEncrypt): void {
 		$ciphertext = $this->crypto->encrypt($stringToEncrypt);
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($ciphertext));
 	}
 
 
-	public function testWrongPassword() {
+	public function testWrongPassword(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('HMAC does not match.');
 
@@ -48,14 +47,14 @@ class CryptoTest extends \Test\TestCase {
 		$this->crypto->decrypt($ciphertext, 'A wrong password!');
 	}
 
-	public function testLaterDecryption() {
+	public function testLaterDecryption(): void {
 		$stringToEncrypt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.';
 		$encryptedString = '44a35023cca2e7a6125e06c29fc4b2ad9d8a33d0873a8b45b0de4ef9284f260c6c46bf25dc62120644c59b8bafe4281ddc47a70c35ae6c29ef7a63d79eefacc297e60b13042ac582733598d0a6b4de37311556bb5c480fd2633de4e6ebafa868c2d1e2d80a5d24f9660360dba4d6e0c8|lhrFgK0zd9U160Wo|a75e57ab701f9124e1113543fd1dc596f21e20d456a0d1e813d5a8aaec9adcb11213788e96598b67fe9486a9f0b99642c18296d0175db44b1ae426e4e91080ee';
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd'));
 	}
 
 
-	public function testWrongIV() {
+	public function testWrongIV(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('HMAC does not match.');
 
@@ -64,7 +63,7 @@ class CryptoTest extends \Test\TestCase {
 	}
 
 
-	public function testWrongParameters() {
+	public function testWrongParameters(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Authenticated ciphertext could not be decoded.');
 
@@ -72,14 +71,14 @@ class CryptoTest extends \Test\TestCase {
 		$this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd');
 	}
 
-	public function testLegacy() {
+	public function testLegacy(): void {
 		$cipherText = 'e16599188e3d212f5c7f17fdc2abca46|M1WfLAxbcAmITeD6|509457885d6ca5e6c3bfd3741852687a7f2bffce197f8d5ae97b65818b15a1b7f616b68326ff312371540f4ca8ac55f8e2de4aa13aab3474bd3431e51214e3ee';
 		$password = 'mypass';
 
 		$this->assertSame('legacy test', $this->crypto->decrypt($cipherText, $password));
 	}
 
-	public function testVersion2CiphertextDecryptsToCorrectPlaintext() {
+	public function testVersion2CiphertextDecryptsToCorrectPlaintext(): void {
 		$this->assertSame(
 			'This is a plaintext value that will be encrypted with version 2. Which addresses the reduced permutations on the IV.',
 			$this->crypto->decrypt(
@@ -89,7 +88,20 @@ class CryptoTest extends \Test\TestCase {
 		);
 	}
 
-	public function testVersion3CiphertextDecryptsToCorrectPlaintext() {
+	/**
+	 * Test data taken from https://github.com/owncloud/core/blob/9deb8196b20354c8de0cd720ad4d18d52ccc96d8/tests/lib/Security/CryptoTest.php#L56-L60
+	 */
+	public function testOcVersion2CiphertextDecryptsToCorrectPlaintext(): void {
+		$this->assertSame(
+			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
+			$this->crypto->decrypt(
+				'v2|d57dbe4d1317cdf19d4ddc2df807f6b5d63ab1e119c46590ce54bae56a9cd3969168c4ec1600ac9758dd7e7afb9c4c962dd23072c1463add1d9c77c467723b37bb768ef00e3c50898e59247cbb59ce56b74ce5990648ffe9e40d0e95076c27a785bdcf32c219ea4ad5c316b1f12f48c1|6bd21db258a5e406a2c288a444de195f|a19111a4cf1a11ee95fc1734699c20964eaa05bb007e1cecc4cc6872f827a4b7deedc977c13b138d728d68116aa3d82f9673e20c7e447a9788aa3be994b67cd6',
+				'ThisIsAVeryS3cur3P4ssw0rd'
+			)
+		);
+	}
+
+	public function testVersion3CiphertextDecryptsToCorrectPlaintext(): void {
 		$this->assertSame(
 			'Another plaintext value that will be encrypted with version 3. It addresses the related key issue. Old ciphertexts should be decrypted properly, but only use the better version for encryption.',
 			$this->crypto->decrypt(

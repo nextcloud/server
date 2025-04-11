@@ -3,41 +3,26 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Files\Events\Node;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
+use OCP\EventDispatcher\JsonSerializer;
 use OCP\Files\Node;
 
 /**
  * @since 20.0.0
  */
-abstract class AbstractNodesEvent extends Event {
+abstract class AbstractNodesEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 20.0.0
 	 */
 	public function __construct(
 		private Node $source,
-		private Node $target
+		private Node $target,
 	) {
 	}
 
@@ -53,5 +38,15 @@ abstract class AbstractNodesEvent extends Event {
 	 */
 	public function getTarget(): Node {
 		return $this->target;
+	}
+
+	/**
+	 * @since 30.0.0
+	 */
+	public function getWebhookSerializable(): array {
+		return [
+			'source' => JsonSerializer::serializeFileInfo($this->source),
+			'target' => JsonSerializer::serializeFileInfo($this->target),
+		];
 	}
 }

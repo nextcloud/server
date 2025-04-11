@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>testapp_name_missing</id>

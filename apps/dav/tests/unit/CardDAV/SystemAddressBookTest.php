@@ -2,25 +2,9 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\unit\CardDAV;
@@ -166,7 +150,7 @@ VCF;
 			->with(123, 'user.vcf')
 			->willReturn($originalCard);
 
-		$card = $this->addressBook->getChild("user.vcf");
+		$card = $this->addressBook->getChild('user.vcf');
 
 		/** @var VCard $vCard */
 		$vCard = Reader::read($card->get());
@@ -196,7 +180,7 @@ VCF;
 			]);
 		$this->expectException(NotFound::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildWithoutEnumeration(): void {
@@ -209,7 +193,7 @@ VCF;
 			]);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildAsGuest(): void {
@@ -227,7 +211,7 @@ VCF;
 			->willReturn($user);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildWithGroupEnumerationRestriction(): void {
@@ -288,7 +272,7 @@ VCF;
 			->willReturn($user);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetOwnChildWithPhoneNumberEnumerationRestriction(): void {
@@ -321,7 +305,7 @@ VCF;
 				'carddata' => $cardData,
 			]);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetMultipleChildrenWithGroupEnumerationRestriction(): void {

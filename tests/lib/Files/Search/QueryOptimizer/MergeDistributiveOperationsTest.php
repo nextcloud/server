@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Test\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\QueryOptimizer\FlattenSingleArgumentBinaryOperation;
@@ -21,21 +24,21 @@ class MergeDistributiveOperationsTest extends TestCase {
 		$this->simplifier = new FlattenSingleArgumentBinaryOperation();
 	}
 
-	public function testBasicOrOfAnds() {
+	public function testBasicOrOfAnds(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);
@@ -47,21 +50,21 @@ class MergeDistributiveOperationsTest extends TestCase {
 		$this->assertEquals('(storage eq 1 and (path eq "foo" or path eq "bar" or path eq "asd"))', $operator->__toString());
 	}
 
-	public function testDontTouchIfNotSame() {
+	public function testDontTouchIfNotSame(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);
@@ -73,21 +76,21 @@ class MergeDistributiveOperationsTest extends TestCase {
 		$this->assertEquals('((storage eq 1 and path eq "foo") or (storage eq 2 and path eq "bar") or (storage eq 3 and path eq "asd"))', $operator->__toString());
 	}
 
-	public function testMergePartial() {
+	public function testMergePartial(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);
@@ -99,7 +102,7 @@ class MergeDistributiveOperationsTest extends TestCase {
 		$this->assertEquals('((storage eq 1 and (path eq "foo" or path eq "bar")) or (storage eq 2 and path eq "asd"))', $operator->__toString());
 	}
 
-	public function testOptimizeInside() {
+	public function testOptimizeInside(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
 			[
@@ -107,20 +110,20 @@ class MergeDistributiveOperationsTest extends TestCase {
 					ISearchBinaryOperator::OPERATOR_OR,
 					[
 						new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 						]),
 						new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 						]),
 						new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-							new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 						])
 					]
 				),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "text")
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'text')
 			]
 		);
 		$this->assertEquals('(((storage eq 1 and path eq "foo") or (storage eq 1 and path eq "bar") or (storage eq 1 and path eq "asd")) and mimetype eq "text")', $operator->__toString());
@@ -131,22 +134,22 @@ class MergeDistributiveOperationsTest extends TestCase {
 		$this->assertEquals('((storage eq 1 and (path eq "foo" or path eq "bar" or path eq "asd")) and mimetype eq "text")', $operator->__toString());
 	}
 
-	public function testMoveInnerOperations() {
+	public function testMoveInnerOperations(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
-					new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, "size", "100"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
+					new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'size', '100'),
 				])
 			]
 		);

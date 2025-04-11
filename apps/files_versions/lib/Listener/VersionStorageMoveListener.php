@@ -3,29 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license GNU AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Listener;
 
 use Exception;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\IVersionsImporterBackend;
@@ -79,7 +65,7 @@ class VersionStorageMoveListener implements IEventListener {
 		$user = $this->userSession->getUser() ?? $source->getOwner();
 
 		if ($user === null) {
-			throw new Exception("Cannot move versions across storages without a user.");
+			throw new Exception('Cannot move versions across storages without a user.');
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
@@ -145,7 +131,7 @@ class VersionStorageMoveListener implements IEventListener {
 	}
 
 	private function getNodeStorage(Node $node): IStorage {
-		if ($node instanceof NonExistingFile) {
+		if ($node instanceof NonExistingFile || $node instanceof NonExistingFolder) {
 			return $node->getParent()->getStorage();
 		} else {
 			return $node->getStorage();

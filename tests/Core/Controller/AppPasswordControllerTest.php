@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Controller;
@@ -103,7 +86,7 @@ class AppPasswordControllerTest extends TestCase {
 		);
 	}
 
-	public function testGetAppPasswordWithAppPassword() {
+	public function testGetAppPasswordWithAppPassword(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);
@@ -113,7 +96,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPasswordNoLoginCreds() {
+	public function testGetAppPasswordNoLoginCreds(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(false);
@@ -125,7 +108,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPassword() {
+	public function testGetAppPassword(): void {
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -145,7 +128,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				72,
-				ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 			)->willReturn('myToken');
 
 		$this->tokenProvider->expects($this->once())
@@ -166,7 +149,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPasswordNoPassword() {
+	public function testGetAppPasswordNoPassword(): void {
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -186,7 +169,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				72,
-				ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 			)->willReturn('myToken');
 
 		$this->tokenProvider->expects($this->once())
@@ -207,7 +190,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testDeleteAppPasswordNoAppPassword() {
+	public function testDeleteAppPasswordNoAppPassword(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(false);
@@ -217,7 +200,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->deleteAppPassword();
 	}
 
-	public function testDeleteAppPasswordFails() {
+	public function testDeleteAppPasswordFails(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);
@@ -234,7 +217,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->deleteAppPassword();
 	}
 
-	public function testDeleteAppPasswordSuccess() {
+	public function testDeleteAppPasswordSuccess(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);

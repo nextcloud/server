@@ -1,31 +1,13 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Folder, Node } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
-import { FileType, View, getNavigation } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
+import { FileType, View, getFavoriteNodes, getNavigation } from '@nextcloud/files'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
-import { basename } from 'path'
+import { client } from '../services/WebdavClient.ts'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
@@ -33,22 +15,17 @@ import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
 
-// The return type of the initial state
-interface IFavoriteFolder {
-	fileid: number
-	path: string
-}
-
-export const generateFavoriteFolderView = function(folder: IFavoriteFolder, index = 0): View {
+const generateFavoriteFolderView = function(folder: Folder, index = 0): View {
 	return new View({
 		id: generateIdFromPath(folder.path),
-		name: basename(folder.path),
+		name: folder.displayname,
 
 		icon: FolderSvg,
 		order: index,
+
 		params: {
 			dir: folder.path,
-			fileid: folder.fileid.toString(),
+			fileid: String(folder.fileid),
 			view: 'favorites',
 		},
 
@@ -60,21 +37,16 @@ export const generateFavoriteFolderView = function(folder: IFavoriteFolder, inde
 	})
 }
 
-export const generateIdFromPath = function(path: string): string {
+const generateIdFromPath = function(path: string): string {
 	return `favorite-${hashCode(path)}`
 }
 
-export default () => {
-	// Load state in function for mock testing purposes
-	const favoriteFolders = loadState<IFavoriteFolder[]>('files', 'favoriteFolders', [])
-	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index)) as View[]
-	logger.debug('Generating favorites view', { favoriteFolders })
-
+export const registerFavoritesView = async () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'favorites',
 		name: t('files', 'Favorites'),
-		caption: t('files', 'List of favorites files and folders.'),
+		caption: t('files', 'List of favorite files and folders.'),
 
 		emptyTitle: t('files', 'No favorites yet'),
 		emptyCaption: t('files', 'Files and folders you mark as favorite will show up here'),
@@ -87,10 +59,13 @@ export default () => {
 		getContents,
 	}))
 
+	const favoriteFolders = (await getFavoriteNodes(client)).filter(node => node.type === FileType.Folder) as Folder[]
+	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index)) as View[]
+	logger.debug('Generating favorites view', { favoriteFolders })
 	favoriteFoldersViews.forEach(view => Navigation.register(view))
 
 	/**
-	 * Update favourites navigation when a new folder is added
+	 * Update favorites navigation when a new folder is added
 	 */
 	subscribe('files:favorites:added', (node: Node) => {
 		if (node.type !== FileType.Folder) {
@@ -107,7 +82,7 @@ export default () => {
 	})
 
 	/**
-	 * Remove favourites navigation when a folder is removed
+	 * Remove favorites navigation when a folder is removed
 	 */
 	subscribe('files:favorites:removed', (node: Node) => {
 		if (node.type !== FileType.Folder) {
@@ -121,6 +96,21 @@ export default () => {
 		}
 
 		removePathFromFavorites(node.path)
+	})
+
+	/**
+	 * Update favorites navigation when a folder is renamed
+	 */
+	subscribe('files:node:renamed', (node: Node) => {
+		if (node.type !== FileType.Folder) {
+			return
+		}
+
+		if (node.attributes.favorite !== 1) {
+			return
+		}
+
+		updateNodeFromFavorites(node as Folder)
 	})
 
 	/**
@@ -139,8 +129,7 @@ export default () => {
 
 	// Add a folder to the favorites paths array and update the views
 	const addToFavorites = function(node: Folder) {
-		const newFavoriteFolder: IFavoriteFolder = { path: node.path, fileid: node.fileid! }
-		const view = generateFavoriteFolderView(newFavoriteFolder)
+		const view = generateFavoriteFolderView(node)
 
 		// Skip if already exists
 		if (favoriteFolders.find((folder) => folder.path === node.path)) {
@@ -148,7 +137,7 @@ export default () => {
 		}
 
 		// Update arrays
-		favoriteFolders.push(newFavoriteFolder)
+		favoriteFolders.push(node)
 		favoriteFoldersViews.push(view)
 
 		// Update and sort views
@@ -173,5 +162,18 @@ export default () => {
 		// Update and sort views
 		Navigation.remove(id)
 		updateAndSortViews()
+	}
+
+	// Update a folder from the favorites paths array and update the views
+	const updateNodeFromFavorites = function(node: Folder) {
+		const favoriteFolder = favoriteFolders.find((folder) => folder.fileid === node.fileid)
+
+		// Skip if it does not exists
+		if (favoriteFolder === undefined) {
+			return
+		}
+
+		removePathFromFavorites(favoriteFolder.path)
+		addToFavorites(node)
 	}
 }

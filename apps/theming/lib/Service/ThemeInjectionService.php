@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Service;
 
@@ -31,25 +14,16 @@ use OCP\IUserSession;
 
 class ThemeInjectionService {
 
-	private IURLGenerator $urlGenerator;
-	private ThemesService $themesService;
-	private DefaultTheme $defaultTheme;
-	private Util $util;
-	private IConfig $config;
 	private ?string $userId;
 
-	public function __construct(IURLGenerator $urlGenerator,
-		ThemesService $themesService,
-		DefaultTheme $defaultTheme,
-		Util $util,
-		IConfig $config,
-		IUserSession $userSession) {
-		$this->urlGenerator = $urlGenerator;
-		$this->themesService = $themesService;
-		$this->defaultTheme = $defaultTheme;
-		$this->util = $util;
-		$this->config = $config;
-
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private ThemesService $themesService,
+		private DefaultTheme $defaultTheme,
+		private Util $util,
+		private IConfig $config,
+		IUserSession $userSession,
+	) {
 		if ($userSession->getUser() !== null) {
 			$this->userId = $userSession->getUser()->getUID();
 		} else {
@@ -69,12 +43,12 @@ class ThemeInjectionService {
 		$this->addThemeHeaders($defaultTheme);
 
 		// Themes applied by media queries
-		foreach($mediaThemes as $theme) {
+		foreach ($mediaThemes as $theme) {
 			$this->addThemeHeaders($theme, true, $theme->getMediaQuery());
 		}
 
 		// Themes
-		foreach($this->themesService->getThemes() as $theme) {
+		foreach ($this->themesService->getThemes() as $theme) {
 			// Ignore default theme as already processed first
 			if ($theme->getId() === $this->defaultTheme->getId()) {
 				continue;
@@ -116,9 +90,9 @@ class ThemeInjectionService {
 		$metaHeaders = [];
 
 		// Meta headers
-		foreach($this->themesService->getThemes() as $theme) {
+		foreach ($this->themesService->getThemes() as $theme) {
 			if (!empty($theme->getMeta())) {
-				foreach($theme->getMeta() as $meta) {
+				foreach ($theme->getMeta() as $meta) {
 					if (!isset($meta['name']) || !isset($meta['content'])) {
 						continue;
 					}
@@ -131,7 +105,7 @@ class ThemeInjectionService {
 			}
 		}
 
-		foreach($metaHeaders as $name => $content) {
+		foreach ($metaHeaders as $name => $content) {
 			\OCP\Util::addHeader('meta', [
 				'name' => $name,
 				'content' => join(' ', array_unique($content)),

@@ -1,51 +1,24 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Ross Nicoll <jrn@jrn.me.uk>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
-	/** @var RSA */
-	private $rsaMechanism;
-	/** @var GlobalAuth  */
-	private $globalAuth;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IGroupManager */
-	private $groupManager;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -54,17 +27,16 @@ class AjaxController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		RSA $rsaMechanism,
-		GlobalAuth $globalAuth,
-		IUserSession $userSession,
-		IGroupManager $groupManager) {
+		private RSA $rsaMechanism,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->rsaMechanism = $rsaMechanism;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -82,39 +54,53 @@ class AjaxController extends Controller {
 	/**
 	 * Generates an SSH public/private key pair.
 	 *
-	 * @NoAdminRequired
 	 * @param int $keyLength
 	 */
+	#[NoAdminRequired]
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
-		return new JSONResponse(
-			['data' => [
+		return new JSONResponse([
+			'data' => [
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
 			],
-				'status' => 'success'
-			]);
+			'status' => 'success',
+		]);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string $uid
 	 * @param string $user
 	 * @param string $password
-	 * @return bool
+	 * @return JSONResponse
 	 */
-	public function saveGlobalCredentials($uid, $user, $password) {
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function saveGlobalCredentials($uid, $user, $password): JSONResponse {
 		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => $this->l10n->t('You are not logged in'),
+			], Http::STATUS_UNAUTHORIZED);
+		}
 
 		// Non-admins can only edit their own credentials
-		$allowedToEdit = ($currentUser->getUID() === $uid);
+		// Admin can edit global credentials
+		$allowedToEdit = $uid === ''
+			? $this->groupManager->isAdmin($currentUser->getUID())
+			: $currentUser->getUID() === $uid;
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);
-			return true;
-		} else {
-			return false;
+			return new JSONResponse([
+				'status' => 'success',
+			]);
 		}
+
+		return new JSONResponse([
+			'status' => 'success',
+			'message' => $this->l10n->t('Permission denied'),
+		], Http::STATUS_FORBIDDEN);
 	}
 }

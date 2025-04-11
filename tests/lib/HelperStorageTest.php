@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -73,7 +72,7 @@ class HelperStorageTest extends \Test\TestCase {
 	private function getStorageMock($freeSpace = 12) {
 		$this->storageMock = $this->getMockBuilder(Temporary::class)
 			->setMethods(['free_space'])
-			->setConstructorArgs([''])
+			->setConstructorArgs([[]])
 			->getMock();
 
 		$this->storageMock->expects($this->once())
@@ -85,7 +84,7 @@ class HelperStorageTest extends \Test\TestCase {
 	/**
 	 * Test getting the storage info
 	 */
-	public function testGetStorageInfo() {
+	public function testGetStorageInfo(): void {
 		$homeStorage = $this->getStorageMock(12);
 		\OC\Files\Filesystem::mount($homeStorage, [], '/' . $this->user . '/files');
 		$homeStorage->file_put_contents('test.txt', '01234');
@@ -112,7 +111,7 @@ class HelperStorageTest extends \Test\TestCase {
 	/**
 	 * Test getting the storage info, ignoring extra mount points
 	 */
-	public function testGetStorageInfoExcludingExtStorage() {
+	public function testGetStorageInfoExcludingExtStorage(): void {
 		$homeStorage = $this->getStorageMock(12);
 		\OC\Files\Filesystem::mount($homeStorage, [], '/' . $this->user . '/files');
 		$homeStorage->file_put_contents('test.txt', '01234');
@@ -134,7 +133,7 @@ class HelperStorageTest extends \Test\TestCase {
 	/**
 	 * Test getting the storage info, including extra mount points
 	 */
-	public function testGetStorageInfoIncludingExtStorage() {
+	public function testGetStorageInfoIncludingExtStorage(): void {
 		$homeStorage = new \OC\Files\Storage\Temporary([]);
 		\OC\Files\Filesystem::mount($homeStorage, [], '/' . $this->user . '/files');
 		$homeStorage->file_put_contents('test.txt', '01234');
@@ -163,7 +162,7 @@ class HelperStorageTest extends \Test\TestCase {
 	 * when user has no quota set, even when quota ext storage option
 	 * was set
 	 */
-	public function testGetStorageInfoIncludingExtStorageWithNoUserQuota() {
+	public function testGetStorageInfoIncludingExtStorageWithNoUserQuota(): void {
 		$homeStorage = $this->getStorageMock(12);
 		\OC\Files\Filesystem::mount($homeStorage, [], '/' . $this->user . '/files');
 		$homeStorage->file_put_contents('test.txt', '01234');
@@ -187,7 +186,7 @@ class HelperStorageTest extends \Test\TestCase {
 	/**
 	 * Test getting the storage info with quota enabled
 	 */
-	public function testGetStorageInfoWithQuota() {
+	public function testGetStorageInfoWithQuota(): void {
 		$homeStorage = $this->getStorageMock(12);
 		$homeStorage->file_put_contents('test.txt', '01234');
 		$homeStorage = new \OC\Files\Storage\Wrapper\Quota(
@@ -207,7 +206,7 @@ class HelperStorageTest extends \Test\TestCase {
 	/**
 	 * Test getting the storage info when data exceeds quota
 	 */
-	public function testGetStorageInfoWhenSizeExceedsQuota() {
+	public function testGetStorageInfoWhenSizeExceedsQuota(): void {
 		$homeStorage = $this->getStorageMock(12);
 		$homeStorage->file_put_contents('test.txt', '0123456789');
 		$homeStorage = new \OC\Files\Storage\Wrapper\Quota(
@@ -229,7 +228,7 @@ class HelperStorageTest extends \Test\TestCase {
 	 * Test getting the storage info when the remaining
 	 * free storage space is less than the quota
 	 */
-	public function testGetStorageInfoWhenFreeSpaceLessThanQuota() {
+	public function testGetStorageInfoWhenFreeSpaceLessThanQuota(): void {
 		$homeStorage = $this->getStorageMock(12);
 		$homeStorage->file_put_contents('test.txt', '01234');
 		$homeStorage = new \OC\Files\Storage\Wrapper\Quota(

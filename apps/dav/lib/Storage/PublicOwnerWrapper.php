@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Storage;
 
@@ -29,27 +12,25 @@ use OC\Files\Storage\Wrapper\Wrapper;
 
 class PublicOwnerWrapper extends Wrapper {
 
-	/** @var string */
-	private $owner;
+	private string $owner;
 
 	/**
-	 * @param array $arguments ['storage' => $storage, 'owner' => $owner]
+	 * @param array $parameters ['storage' => $storage, 'owner' => $owner]
 	 *
 	 * $storage: The storage the permissions mask should be applied on
 	 * $owner: The owner to use in case no owner is found
 	 */
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		$this->owner = $arguments['owner'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		$this->owner = $parameters['owner'];
 	}
 
-	public function getOwner($path) {
+	public function getOwner(string $path): string|false {
 		$owner = parent::getOwner($path);
-
-		if ($owner === null || $owner === false) {
-			return $this->owner;
+		if ($owner !== false) {
+			return $owner;
 		}
 
-		return $owner;
+		return $this->owner;
 	}
 }

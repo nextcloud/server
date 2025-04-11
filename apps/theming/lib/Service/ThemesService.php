@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Service;
 
@@ -33,24 +16,23 @@ use OCA\Theming\Themes\LightTheme;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class ThemesService {
-	private IUserSession $userSession;
-	private IConfig $config;
-
 	/** @var ITheme[] */
 	private array $themesProviders;
 
-	public function __construct(IUserSession $userSession,
-		IConfig $config,
-		DefaultTheme $defaultTheme,
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private DefaultTheme $defaultTheme,
 		LightTheme $lightTheme,
-		DarkTheme $darkTheme,
+		private DarkTheme $darkTheme,
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
-		DyslexiaFont $dyslexiaFont) {
-		$this->userSession = $userSession;
-		$this->config = $config;
+		DyslexiaFont $dyslexiaFont,
+	) {
 
 		// Register themes
 		$this->themesProviders = [
@@ -69,6 +51,28 @@ class ThemesService {
 	 * @return ITheme[]
 	 */
 	public function getThemes(): array {
+		// Enforced theme if configured
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		if ($enforcedTheme !== '') {
+			if (!isset($this->themesProviders[$enforcedTheme])) {
+				$this->logger->error('Enforced theme not found', ['theme' => $enforcedTheme]);
+				return $this->themesProviders;
+			}
+
+			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
+			$darkTheme = $this->themesProviders[$this->darkTheme->getId()];
+			$theme = $this->themesProviders[$enforcedTheme];
+			return [
+				// Leave the default theme as a fallback
+				$defaultTheme->getId() => $defaultTheme,
+				// Make sure we also have the dark theme to allow apps
+				// to scope sections of their UI to the dark theme
+				$darkTheme->getId() => $darkTheme,
+				// Finally, the enforced theme
+				$theme->getId() => $theme,
+			];
+		}
+
 		return $this->themesProviders;
 	}
 
@@ -123,7 +127,7 @@ class ThemesService {
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
 		}
-		
+
 		return $themesIds;
 	}
 
@@ -144,19 +148,21 @@ class ThemesService {
 	}
 
 	/**
-	 * Get the list of all enabled themes IDs
-	 * for the logged-in user
+	 * Get the list of all enabled themes IDs for the current user.
 	 *
 	 * @return string[]
 	 */
 	public function getEnabledThemes(): array {
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 		$user = $this->userSession->getUser();
 		if ($user === null) {
+			if ($enforcedTheme !== '') {
+				return [$enforcedTheme];
+			}
 			return [];
 		}
 
-		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
-		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '[]'));
+		$enabledThemes = json_decode($this->config->getUserValue($user->getUID(), Application::APP_ID, 'enabled-themes', '["default"]'));
 		if ($enforcedTheme !== '') {
 			return array_merge([$enforcedTheme], $enabledThemes);
 		}

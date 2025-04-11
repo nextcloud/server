@@ -1,26 +1,10 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Greta Doci <gretadoci@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { formatFileSize } from '@nextcloud/files'
+import { useFormatDateTime } from '@nextcloud/vue'
 
 export default {
 	props: {
@@ -31,14 +15,6 @@ export default {
 		settings: {
 			type: Object,
 			default: () => ({}),
-		},
-		groups: {
-			type: Array,
-			default: () => [],
-		},
-		subAdminsGroups: {
-			type: Array,
-			default: () => [],
 		},
 		quotaOptions: {
 			type: Array,
@@ -53,45 +29,37 @@ export default {
 			default: () => [],
 		},
 	},
+	setup(props) {
+		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, {
+			relativeTime: false,
+			format: {
+				timeStyle: 'short',
+				dateStyle: 'short',
+			},
+		})
+		return {
+			formattedFullTime,
+		}
+	},
+	data() {
+		return {
+			availableGroups: this.user.groups.map(id => ({ id, name: id })),
+			availableSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+			userGroups: this.user.groups.map(id => ({ id, name: id })),
+			userSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+		}
+	},
 	computed: {
 		showConfig() {
 			return this.$store.getters.getShowConfig
 		},
 
-		/* GROUPS MANAGEMENT */
-		userGroups() {
-			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
-			return userGroups
-		},
-		userSubAdminsGroups() {
-			const userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id))
-			return userSubAdminsGroups
-		},
-		availableGroups() {
-			return this.groups.map((group) => {
-				// clone object because we don't want
-				// to edit the original groups
-				const groupClone = Object.assign({}, group)
-
-				// two settings here:
-				// 1. user NOT in group but no permission to add
-				// 2. user is in group but no permission to remove
-				groupClone.$isDisabled
-					= (group.canAdd === false
-						&& !this.user.groups.includes(group.id))
-					|| (group.canRemove === false
-						&& this.user.groups.includes(group.id))
-				return groupClone
-			})
-		},
-
 		/* QUOTA MANAGEMENT */
 		usedSpace() {
-			if (this.user.quota.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota.used) })
-			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			const quotaUsed = this.user.quota.used > 0 ? this.user.quota.used : 0
+			return t('settings', '{size} used', { size: formatFileSize(quotaUsed, true) })
 		},
+
 		usedQuota() {
 			let quota = this.user.quota.quota
 			if (quota > 0) {
@@ -103,11 +71,12 @@ export default {
 			}
 			return isNaN(quota) ? 0 : quota
 		},
+
 		// Mapping saved values to objects
 		userQuota() {
 			if (this.user.quota.quota >= 0) {
 				// if value is valid, let's map the quotaOptions or return custom quota
-				const humanQuota = OC.Util.humanFileSize(this.user.quota.quota)
+				const humanQuota = formatFileSize(this.user.quota.quota)
 				const userQuota = this.quotaOptions.find(quota => quota.id === humanQuota)
 				return userQuota || { id: humanQuota, label: humanQuota }
 			} else if (this.user.quota.quota === 'default') {
@@ -137,16 +106,26 @@ export default {
 			return userLang
 		},
 
+		userFirstLogin() {
+			if (this.user.firstLoginTimestamp > 0) {
+				return this.formattedFullTime
+			}
+			if (this.user.firstLoginTimestamp < 0) {
+				return t('settings', 'Unknown')
+			}
+			return t('settings', 'Never')
+		},
+
 		/* LAST LOGIN */
 		userLastLoginTooltip() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.formatDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.formatDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return ''
 		},
 		userLastLogin() {
-			if (this.user.lastLogin > 0) {
-				return OC.Util.relativeModifiedDate(this.user.lastLogin)
+			if (this.user.lastLoginTimestamp > 0) {
+				return OC.Util.relativeModifiedDate(this.user.lastLoginTimestamp * 1000)
 			}
 			return t('settings', 'Never')
 		},

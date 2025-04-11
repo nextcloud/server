@@ -1,28 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\Http;
+use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -31,22 +16,15 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BearerAuth extends AbstractBearer {
-	private IUserSession $userSession;
-	private ISession $session;
-	private IRequest $request;
-	private string $principalPrefix;
-
-	public function __construct(IUserSession $userSession,
-		ISession $session,
-		IRequest $request,
-		$principalPrefix = 'principals/users/') {
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->request = $request;
-		$this->principalPrefix = $principalPrefix;
-
+	public function __construct(
+		private IUserSession $userSession,
+		private ISession $session,
+		private IRequest $request,
+		private IConfig $config,
+		private string $principalPrefix = 'principals/users/',
+	) {
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
@@ -81,6 +59,14 @@ class BearerAuth extends AbstractBearer {
 	 * @param ResponseInterface $response
 	 */
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
-		$response->setStatus(401);
+		// Legacy ownCloud clients still authenticate via OAuth2
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		$userAgent = $request->getHeader('User-Agent');
+		if ($enableOcClients && $userAgent !== null && str_contains($userAgent, 'mirall')) {
+			parent::challenge($request, $response);
+			return;
+		}
+
+		$response->setStatus(Http::STATUS_UNAUTHORIZED);
 	}
 }

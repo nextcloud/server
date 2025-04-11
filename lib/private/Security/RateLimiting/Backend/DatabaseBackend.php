@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2021 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Security\RateLimiting\Backend;
 
@@ -39,7 +20,7 @@ class DatabaseBackend implements IBackend {
 	public function __construct(
 		private IConfig $config,
 		private IDBConnection $dbConnection,
-		private ITimeFactory $timeFactory
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -54,14 +35,14 @@ class DatabaseBackend implements IBackend {
 	 * @throws Exception
 	 */
 	private function getExistingAttemptCount(
-		string $identifier
+		string $identifier,
 	): int {
 		$currentTime = $this->timeFactory->getDateTime();
 
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_NAME)
 			->where(
-				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
+				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			)
 			->executeStatement();
 
@@ -106,7 +87,7 @@ class DatabaseBackend implements IBackend {
 		$qb->insert(self::TABLE_NAME)
 			->values([
 				'hash' => $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR),
-				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATE),
+				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATETIME_MUTABLE),
 			]);
 
 		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {

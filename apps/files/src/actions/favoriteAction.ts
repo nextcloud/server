@@ -1,36 +1,27 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { Node, View } from '@nextcloud/files'
+
 import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
-import { Permission, type Node, View, FileAction } from '@nextcloud/files'
+import { Permission, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { encodePath } from '@nextcloud/paths'
+import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import axios from '@nextcloud/axios'
+import PQueue from 'p-queue'
 import Vue from 'vue'
 
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import logger from '../logger.js'
-import { encodePath } from '@nextcloud/paths'
+import logger from '../logger.ts'
+
+export const ACTION_FAVORITE = 'favorite'
+
+const queue = new PQueue({ concurrency: 5 })
 
 // If any of the nodes is not favorited, we display the favorite action.
 const shouldFavorite = (nodes: Node[]): boolean => {
@@ -73,7 +64,7 @@ export const favoriteNode = async (node: Node, view: View, willFavorite: boolean
 }
 
 export const action = new FileAction({
-	id: 'favorite',
+	id: ACTION_FAVORITE,
 	displayName(nodes: Node[]) {
 		return shouldFavorite(nodes)
 			? t('files', 'Add to favorites')
@@ -86,8 +77,14 @@ export const action = new FileAction({
 	},
 
 	enabled(nodes: Node[]) {
-		// We can only favorite nodes within files and with permissions
-		return !nodes.some(node => !node.root?.startsWith?.('/files'))
+		// Not enabled for public shares
+		if (isPublicShare()) {
+			return false
+		}
+
+		// We can only favorite nodes if they are located in files
+		return nodes.every(node => node.root?.startsWith?.('/files'))
+			// and we have permissions
 			&& nodes.every(node => node.permissions !== Permission.NONE)
 	},
 
@@ -97,7 +94,25 @@ export const action = new FileAction({
 	},
 	async execBatch(nodes: Node[], view: View) {
 		const willFavorite = shouldFavorite(nodes)
-		return Promise.all(nodes.map(async node => await favoriteNode(node, view, willFavorite)))
+
+		// Map each node to a promise that resolves with the result of exec(node)
+		const promises = nodes.map(node => {
+			// Create a promise that resolves with the result of exec(node)
+			const promise = new Promise<boolean>(resolve => {
+				queue.add(async () => {
+					try {
+						await favoriteNode(node, view, willFavorite)
+						resolve(true)
+					} catch (error) {
+						logger.error('Error while adding file to favorite', { error, source: node.source, node })
+						resolve(false)
+					}
+				})
+			})
+			return promise
+		})
+
+		return Promise.all(promises)
 	},
 
 	order: -50,

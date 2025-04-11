@@ -1,32 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Group\Database;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 
 /**
  * Class Test_Files_Sharing_Base
@@ -36,15 +22,15 @@ use OC\Group\Database;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
-	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
+	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
+	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		// reset backend
 		\OC_User::clearBackends();
-		\OC::$server->getGroupManager()->clearBackends();
+		Server::get(IGroupManager::class)->clearBackends();
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
@@ -62,11 +48,11 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function tearDownAfterClass(): void {
 		// cleanup users
-		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
+		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER1);
 		if ($user !== null) {
 			$user->delete();
 		}
-		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
+		$user = Server::get(IUserManager::class)->get(self::TEST_FILES_SHARING_API_USER2);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -78,8 +64,8 @@ abstract class TestCase extends \Test\TestCase {
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
-		\OC::$server->getGroupManager()->clearBackends();
-		\OC::$server->getGroupManager()->addBackend(new Database());
+		Server::get(IGroupManager::class)->clearBackends();
+		Server::get(IGroupManager::class)->addBackend(new Database());
 
 		parent::tearDownAfterClass();
 	}
@@ -95,8 +81,8 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			$userManager = \OC::$server->getUserManager();
-			$groupManager = \OC::$server->getGroupManager();
+			$userManager = Server::get(IUserManager::class);
+			$groupManager = Server::get(IGroupManager::class);
 
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
@@ -107,9 +93,9 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC::$server->getUserSession()->setUser(null);
-		\OC\Files\Filesystem::tearDown();
-		\OC::$server->getUserSession()->login($user, $password);
+		Server::get(IUserSession::class)->setUser(null);
+		Filesystem::tearDown();
+		Server::get(IUserSession::class)->login($user, $password);
 		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);

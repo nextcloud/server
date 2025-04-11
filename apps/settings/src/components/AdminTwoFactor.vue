@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcSettingsSection :name="t('settings', 'Two-Factor Authentication')"
 		:description="t('settings', 'Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.')"
@@ -67,10 +71,10 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 
 import sortedUniq from 'lodash/sortedUniq.js'
@@ -171,8 +175,7 @@ export default {
 	.two-factor-loading {
 		display: inline-block;
 		vertical-align: sub;
-		margin-left: -2px;
-		margin-right: 1px;
+		margin-inline: -2px 1px;
 	}
 
 	.top-margin {

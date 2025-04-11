@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\OAuth2\Migration;
 
@@ -36,21 +18,11 @@ use OCP\Migration\IRepairStep;
 
 class SetTokenExpiration implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var ITimeFactory */
-	private $time;
-
-	/** @var TokenProvider */
-	private $tokenProvider;
-
-	public function __construct(IDBConnection $connection,
-		ITimeFactory $timeFactory,
-		TokenProvider $tokenProvider) {
-		$this->connection = $connection;
-		$this->time = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
+	public function __construct(
+		private IDBConnection $connection,
+		private ITimeFactory $time,
+		private TokenProvider $tokenProvider,
+	) {
 	}
 
 	public function getName(): string {
@@ -62,7 +34,7 @@ class SetTokenExpiration implements IRepairStep {
 		$qb->select('*')
 			->from('oauth2_access_tokens');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
 			$token = AccessToken::fromRow($row);

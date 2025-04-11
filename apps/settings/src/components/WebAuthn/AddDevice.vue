@@ -1,23 +1,7 @@
 <!--
-  - @copyright 2020, Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @author Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div v-if="!isHttps && !isLocalhost">
@@ -39,14 +23,16 @@
 		<div v-else-if="step === RegistrationSteps.NAMING"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
-			<NcTextField ref="nameInput"
-				class="new-webauthn-device__name"
-				:label="t('settings', 'Device name')"
-				:value.sync="name"
-				show-trailing-button
-				:trailing-button-label="t('settings', 'Add')"
-				trailing-button-icon="arrowRight"
-				@trailing-button-click="submit" />
+			<form @submit.prevent="submit">
+				<NcTextField ref="nameInput"
+					class="new-webauthn-device__name"
+					:label="t('settings', 'Device name')"
+					:value.sync="name"
+					show-trailing-button
+					:trailing-button-label="t('settings', 'Add')"
+					trailing-button-icon="arrowRight"
+					@trailing-button-click="submit" />
+			</form>
 		</div>
 
 		<div v-else-if="step === RegistrationSteps.PERSIST"
@@ -64,14 +50,16 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import logger from '../../logger.ts'
 import {
 	startRegistration,
 	finishRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
+
+import '@nextcloud/password-confirmation/dist/style.css'
 
 const logAndPass = (text) => (data) => {
 	logger.debug(text)
@@ -191,8 +179,7 @@ export default {
 .webauthn-loading {
 	display: inline-block;
 	vertical-align: sub;
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-inline: 2px;
 }
 
 .new-webauthn-device {

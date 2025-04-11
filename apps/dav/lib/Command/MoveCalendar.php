@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Command;
 
@@ -71,7 +50,7 @@ class MoveCalendar extends Command {
 			->addArgument('destinationuid',
 				InputArgument::REQUIRED,
 				'User who will receive the calendar')
-			->addOption('force', 'f', InputOption::VALUE_NONE, "Force the migration by removing existing shares and renaming calendars in case of conflicts");
+			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force the migration by removing existing shares and renaming calendars in case of conflicts');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -118,8 +97,8 @@ class MoveCalendar extends Command {
 			 * Warn that share links have changed if there are shares
 			 */
 			$this->io->note([
-				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
-				"Sharees will need to change \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $newName ?: $calendar['uri'] . "_shared_by_$userDestination\""
+				'Please note that moving calendar ' . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
+				'Sharees will need to change "example.com/remote.php/dav/calendars/uid/' . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $newName ?: $calendar['uri'] . "_shared_by_$userDestination\""
 			]);
 		}
 
@@ -176,7 +155,7 @@ class MoveCalendar extends Command {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {
-					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
+					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . '> was shared. You may use -f to move the calendar while deleting this share.');
 				}
 			}
 
@@ -187,7 +166,7 @@ class MoveCalendar extends Command {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/users/' . $userOrGroup]);
 				} else {
-					throw new \InvalidArgumentException("The calendar <" . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
+					throw new \InvalidArgumentException('The calendar <' . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
 				}
 			}
 		}

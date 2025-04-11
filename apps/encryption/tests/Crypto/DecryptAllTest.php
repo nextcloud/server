@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests\Crypto;
 
@@ -34,22 +17,22 @@ use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
 
-	/** @var  DecryptAll */
+	/** @var DecryptAll */
 	protected $instance;
 
-	/** @var Util | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $keyManager;
 
-	/** @var  Crypt | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt | \PHPUnit\Framework\MockObject\MockObject */
 	protected $crypt;
 
-	/** @var  Session | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
 	protected $questionHelper;
 
 	protected function setUp(): void {
@@ -75,7 +58,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function testUpdateSession() {
+	public function testUpdateSession(): void {
 		$this->session->expects($this->once())->method('prepareDecryptAll')
 			->with('user1', 'key1');
 
@@ -88,7 +71,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId) {
+	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId): void {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';
 		$userKey = 'userKey';

@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -73,18 +50,19 @@ class PreviewManager implements IPreview {
 	private IServerContainer $container;
 	private IBinaryFinder $binaryFinder;
 	private IMagickSupport $imagickSupport;
+	private bool $enablePreviews;
 
 	public function __construct(
-		IConfig                  $config,
-		IRootFolder              $rootFolder,
-		IAppData                 $appData,
-		IEventDispatcher 		 $eventDispatcher,
-		GeneratorHelper          $helper,
-		?string                  $userId,
-		Coordinator              $bootstrapCoordinator,
-		IServerContainer         $container,
-		IBinaryFinder            $binaryFinder,
-		IMagickSupport           $imagickSupport
+		IConfig $config,
+		IRootFolder $rootFolder,
+		IAppData $appData,
+		IEventDispatcher $eventDispatcher,
+		GeneratorHelper $helper,
+		?string $userId,
+		Coordinator $bootstrapCoordinator,
+		IServerContainer $container,
+		IBinaryFinder $binaryFinder,
+		IMagickSupport $imagickSupport,
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -96,6 +74,7 @@ class PreviewManager implements IPreview {
 		$this->container = $container;
 		$this->binaryFinder = $binaryFinder;
 		$this->imagickSupport = $imagickSupport;
+		$this->enablePreviews = $config->getSystemValueBool('enable_previews', true);
 	}
 
 	/**
@@ -109,7 +88,7 @@ class PreviewManager implements IPreview {
 	 * @return void
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return;
 		}
 
@@ -124,7 +103,7 @@ class PreviewManager implements IPreview {
 	 * Get all providers
 	 */
 	public function getProviders(): array {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return [];
 		}
 
@@ -181,6 +160,7 @@ class PreviewManager implements IPreview {
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		$this->throwIfPreviewsDisabled();
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
@@ -204,6 +184,7 @@ class PreviewManager implements IPreview {
 	 * @since 19.0.0
 	 */
 	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+		$this->throwIfPreviewsDisabled();
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
@@ -214,7 +195,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return false;
 		}
 
@@ -239,7 +220,7 @@ class PreviewManager implements IPreview {
 	 * Check if a preview can be generated for a file
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file): bool {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return false;
 		}
 
@@ -364,9 +345,10 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\WebP::class, '/image\/webp/');
 		$this->registerCoreProvider(Preview\AVIF::class, '/image\/avif/');
 		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
-		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
+		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg$/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
+		$this->registerCoreProvider(Preview\ImaginaryPDF::class, Preview\ImaginaryPDF::supportedMimeTypes());
 
 		// SVG and Bitmap require imagick
 		if ($this->imagickSupport->hasExtension()) {
@@ -378,9 +360,9 @@ class PreviewManager implements IPreview {
 				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
-				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
-				'TGA' => ['mimetype' => '/image\/t(ar)?ga/', 'class' => Preview\TGA::class],
-				'SGI' => ['mimetype' => '/image\/sgi/', 'class' => Preview\SGI::class],
+				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => Preview\HEIC::class],
+				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => Preview\TGA::class],
+				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => Preview\SGI::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
@@ -409,7 +391,7 @@ class PreviewManager implements IPreview {
 
 
 			if (is_string($movieBinary)) {
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
 	}
@@ -475,6 +457,15 @@ class PreviewManager implements IPreview {
 					return null;
 				}
 			});
+		}
+	}
+
+	/**
+	 * @throws NotFoundException if preview generation is disabled
+	 */
+	private function throwIfPreviewsDisabled(): void {
+		if (!$this->enablePreviews) {
+			throw new NotFoundException('Previews disabled');
 		}
 	}
 }

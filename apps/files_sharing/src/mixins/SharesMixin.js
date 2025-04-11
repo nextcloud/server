@@ -1,47 +1,28 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Gary Kim <gary@garykim.dev>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
-// eslint-disable-next-line import/no-unresolved, n/no-missing-import
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { ShareType } from '@nextcloud/sharing'
+import { emit } from '@nextcloud/event-bus'
+
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import SharesRequests from './ShareRequests.js'
-import ShareTypes from './ShareTypes.js'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
 
 import {
 	BUNDLED_PERMISSIONS,
 } from '../lib/SharePermissionsToolBox.js'
+import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
 
 export default {
-	mixins: [SharesRequests, ShareTypes],
+	mixins: [SharesRequests],
 
 	props: {
 		fileInfo: {
@@ -62,6 +43,8 @@ export default {
 	data() {
 		return {
 			config: new Config(),
+			node: null,
+			ShareType,
 
 			// errors helpers
 			errors: {},
@@ -84,7 +67,9 @@ export default {
 	},
 
 	computed: {
-
+		path() {
+			return (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
+		},
 		/**
 		 * Does the current share have a note
 		 *
@@ -108,10 +93,10 @@ export default {
 		// Datepicker language
 		lang() {
 			const weekdaysShort = window.dayNamesShort
-				? window.dayNamesShort // provided by nextcloud
+				? window.dayNamesShort // provided by Nextcloud
 				: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
 			const monthsShort = window.monthNamesShort
-				? window.monthNamesShort // provided by nextcloud
+				? window.monthNamesShort // provided by Nextcloud
 				: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.']
 			const firstDayOfWeek = window.firstDay ? window.firstDay : 0
 
@@ -125,15 +110,18 @@ export default {
 				monthFormat: 'MMM',
 			}
 		},
+		isNewShare() {
+			return !this.share.id
+		},
 		isFolder() {
 			return this.fileInfo.type === 'dir'
 		},
 		isPublicShare() {
 			const shareType = this.share.shareType ?? this.share.type
-			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+			return [ShareType.Link, ShareType.Email].includes(shareType)
 		},
 		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			return this.share.type === ShareType.RemoteGroup || this.share.type === ShareType.Remote
 		},
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
@@ -143,7 +131,7 @@ export default {
 				return this.config.isDefaultExpireDateEnforced
 			}
 			if (this.isRemoteShare) {
-			    return this.config.isDefaultRemoteExpireDateEnforced
+				return this.config.isDefaultRemoteExpireDateEnforced
 			}
 			return this.config.isDefaultInternalExpireDateEnforced
 		},
@@ -172,6 +160,21 @@ export default {
 
 	methods: {
 		/**
+		 * Fetch WebDAV node
+		 *
+		 * @return {Node}
+		 */
+		async getNode() {
+			const node = { path: this.path }
+			try {
+				this.node = await fetchNode(node.path)
+				logger.info('Fetched node:', { node: this.node })
+			} catch (error) {
+				logger.error('Error:', error)
+			}
+		},
+
+		/**
 		 * Check if a share is valid before
 		 * firing the request
 		 *
@@ -194,19 +197,7 @@ export default {
 		},
 
 		/**
-		 * @param {string} date a date with YYYY-MM-DD format
-		 * @return {Date} date
-		 */
-		parseDateString(date) {
-			if (!date) {
-				return
-			}
-			const regex = /([0-9]{4}-[0-9]{2}-[0-9]{2})/i
-			return new Date(date.match(regex)?.pop())
-		},
-
-		/**
-		 * @param {Date} date
+		 * @param {Date} date the date to format
 		 * @return {string} date a date with YYYY-MM-DD format
 		 */
 		formatDateToString(date) {
@@ -221,17 +212,9 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange: debounce(function(date) {
-			this.share.expireDate = this.formatDateToString(new Date(date))
-		}, 500),
-		/**
-		 * Uncheck expire date
-		 * We need this method because @update:checked
-		 * is ran simultaneously as @uncheck, so
-		 * so we cannot ensure data is up-to-date
-		 */
-		onExpirationDisable() {
-			this.share.expireDate = ''
+		onExpirationChange(date) {
+			const formattedDate = date ? this.formatDateToString(new Date(date)) : ''
+			this.share.expireDate = formattedDate
 		},
 
 		/**
@@ -269,6 +252,8 @@ export default {
 					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
 				showSuccess(message)
 				this.$emit('remove:share', this.share)
+				await this.getNode()
+				emit('files:node:updated', this.node)
 			} catch (error) {
 				// re-open menu if error
 				this.open = true
@@ -293,14 +278,16 @@ export default {
 				// force value to string because that is what our
 				// share api controller accepts
 				propertyNames.forEach(name => {
-					if ((typeof this.share[name]) === 'object') {
+					if (this.share[name] === null || this.share[name] === undefined) {
+						properties[name] = ''
+					} else if ((typeof this.share[name]) === 'object') {
 						properties[name] = JSON.stringify(this.share[name])
 					} else {
 						properties[name] = this.share[name].toString()
 					}
 				})
 
-				this.updateQueue.add(async () => {
+				return this.updateQueue.add(async () => {
 					this.saving = true
 					this.errors = {}
 					try {
@@ -316,21 +303,52 @@ export default {
 
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
-						showSuccess(t('files_sharing', 'Share {propertyName} saved', { propertyName: propertyNames[0] }))
-					} catch ({ message }) {
+						showSuccess(this.updateSuccessMessage(propertyNames))
+					} catch (error) {
+						logger.error('Could not update share', { error, share: this.share, propertyNames })
+
+						const { message } = error
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)
-							showError(t('files_sharing', message))
+							showError(message)
+						} else {
+							// We do not have information what happened, but we should still inform the user
+							showError(t('files_sharing', 'Could not update share'))
 						}
 					} finally {
 						this.saving = false
 					}
 				})
-				return
 			}
 
 			// This share does not exists on the server yet
 			console.debug('Updated local share', this.share)
+		},
+
+		/**
+		 * @param {string[]} names Properties changed
+		 */
+		updateSuccessMessage(names) {
+			if (names.length !== 1) {
+				return t('files_sharing', 'Share saved')
+			}
+
+			switch (names[0]) {
+			case 'expireDate':
+				return t('files_sharing', 'Share expiry date saved')
+			case 'hideDownload':
+				return t('files_sharing', 'Share hide-download state saved')
+			case 'label':
+				return t('files_sharing', 'Share label saved')
+			case 'note':
+				return t('files_sharing', 'Share note for recipient saved')
+			case 'password':
+				return t('files_sharing', 'Share password saved')
+			case 'permissions':
+				return t('files_sharing', 'Share permissions saved')
+			default:
+				return t('files_sharing', 'Share saved')
+			}
 		},
 
 		/**

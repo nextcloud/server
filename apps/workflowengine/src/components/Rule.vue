@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
 		<div class="trigger">
@@ -25,8 +29,13 @@
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
 			<Operation :operation="operation" :colored="false">
+				<component :is="operation.element"
+					v-if="operation.element"
+					ref="operationComponent"
+					:model-value="inputValue"
+					@update:model-value="updateOperationByEvent" />
 				<component :is="operation.options"
-					v-if="operation.options"
+					v-else-if="operation.options"
 					v-model="rule.operation"
 					@input="updateOperation" />
 			</Operation>
@@ -53,13 +62,13 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import CheckMark from 'vue-material-design-icons/Check.vue'
-import Close from 'vue-material-design-icons/Close.vue'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import Tooltip from '@nextcloud/vue/directives/Tooltip'
+import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import IconCheckMark from 'vue-material-design-icons/Check.vue'
+import IconClose from 'vue-material-design-icons/Close.vue'
 
 import Event from './Event.vue'
 import Check from './Check.vue'
@@ -68,10 +77,7 @@ import Operation from './Operation.vue'
 export default {
 	name: 'Rule',
 	components: {
-		ArrowRight,
 		Check,
-		CheckMark,
-		Close,
 		Event,
 		NcActionButton,
 		NcActions,
@@ -94,9 +100,14 @@ export default {
 			error: null,
 			dirty: this.rule.id < 0,
 			originalRule: null,
+			element: null,
+			inputValue: '',
 		}
 	},
 	computed: {
+		/**
+		 * @return {OperatorPlugin}
+		 */
 		operation() {
 			return this.$store.getters.getOperationForRule(this.rule)
 		},
@@ -104,15 +115,15 @@ export default {
 			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
-					icon: 'Close',
+					icon: IconClose,
 					type: 'warning',
 					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
 			if (!this.dirty) {
-				return { title: t('workflowengine', 'Active'), icon: 'CheckMark', type: 'success' }
+				return { title: t('workflowengine', 'Active'), icon: IconCheckMark, type: 'success' }
 			}
-			return { title: t('workflowengine', 'Save'), icon: 'ArrowRight', type: 'primary' }
+			return { title: t('workflowengine', 'Save'), icon: IconArrowRight, type: 'primary' }
 
 		},
 		lastCheckComplete() {
@@ -122,13 +133,26 @@ export default {
 	},
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
+
+		if (this.operation?.element) {
+			this.$refs.operationComponent.value = this.rule.operation
+		} else if (this.operation?.options) {
+			// keeping this in an else for apps that try to be backwards compatible and may ship both
+			// to be removed in 03/2028
+			console.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.element` instead.')
+		}
 	},
 	methods: {
 		async updateOperation(operation) {
 			this.$set(this.rule, 'operation', operation)
-			await this.updateRule()
+			this.updateRule()
 		},
-		validate(state) {
+		async updateOperationByEvent(event) {
+			this.inputValue = event.detail[0]
+			this.$set(this.rule, 'operation', event.detail[0])
+			this.updateRule()
+		},
+		validate(/* state */) {
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
 		},
@@ -163,6 +187,7 @@ export default {
 			if (this.rule.id < 0) {
 				this.$store.dispatch('removeRule', this.rule)
 			} else {
+				this.inputValue = this.originalRule.operation
 				this.$store.dispatch('updateRule', this.originalRule)
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 				this.dirty = false
@@ -192,16 +217,16 @@ export default {
 		justify-content: end;
 
 		button {
-			margin-left: 5px;
+			margin-inline-start: 5px;
 		}
 		button:last-child{
-			margin-right: 10px;
+			margin-inline-end: 10px;
 		}
 	}
 
 	.error-message {
 		float: right;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 	}
 
 	.flow-icon {
@@ -211,7 +236,7 @@ export default {
 	.rule {
 		display: flex;
 		flex-wrap: wrap;
-		border-left: 5px solid var(--color-primary-element);
+		border-inline-start: 5px solid var(--color-primary-element);
 
 		.trigger,
 		.action {
@@ -225,19 +250,20 @@ export default {
 		}
 		.icon-confirm {
 			background-position: right 27px;
-			padding-right: 20px;
-			margin-right: 20px;
+			padding-inline-end: 20px;
+			margin-inline-end: 20px;
 		}
 	}
+
 	.trigger p, .action p {
 		min-height: 34px;
 		display: flex;
 
 		& > span {
 			min-width: 50px;
-			text-align: right;
+			text-align: end;
 			color: var(--color-text-maxcontrast);
-			padding-right: 10px;
+			padding-inline-end: 10px;
 			padding-top: 6px;
 		}
 		.multiselect {
@@ -245,9 +271,11 @@ export default {
 			max-width: 300px;
 		}
 	}
+
 	.trigger p:first-child span {
 			padding-top: 3px;
 	}
+
 	.trigger p:last-child {
 			padding-top: 8px;
 	}
@@ -255,13 +283,13 @@ export default {
 	.check--add {
 		background-position: 7px center;
 		background-color: transparent;
-		padding-left: 6px;
+		padding-inline-start: 6px;
 		margin: 0;
 		width: 180px;
 		border-radius: var(--border-radius);
 		color: var(--color-text-maxcontrast);
 		font-weight: normal;
-		text-align: left;
+		text-align: start;
 		font-size: 1em;
 	}
 

@@ -3,23 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security\IdentityProof;
@@ -94,7 +79,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testGetKeyWithExistingKey() {
+	public function testGetKeyWithExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -137,7 +122,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGetKeyWithNotExistingKey() {
+	public function testGetKeyWithNotExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -192,7 +177,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGenerateKeyPair() {
+	public function testGenerateKeyPair(): void {
 		$manager = $this->getManager();
 		$data = 'MyTestData';
 
@@ -204,7 +189,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(2048, $details['bits']);
 	}
 
-	public function testGetSystemKey() {
+	public function testGetSystemKey(): void {
 		$manager = $this->getManager(['retrieveKey']);
 
 		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
@@ -221,7 +206,7 @@ class ManagerTest extends TestCase {
 
 
 
-	public function testGetSystemKeyFailure() {
+	public function testGetSystemKeyFailure(): void {
 		$this->expectException(\RuntimeException::class);
 
 		$manager = $this->getManager(['retrieveKey']);

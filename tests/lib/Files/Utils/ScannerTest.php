@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Utils;
@@ -62,7 +61,7 @@ class ScannerTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testReuseExistingRoot() {
+	public function testReuseExistingRoot(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
 		Filesystem::getMountManager()->addMount($mount);
@@ -84,7 +83,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($oldRoot, $newRoot);
 	}
 
-	public function testReuseExistingFile() {
+	public function testReuseExistingFile(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
 		Filesystem::getMountManager()->addMount($mount);
@@ -106,7 +105,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertEquals($old, $new);
 	}
 
-	public function testScanSubMount() {
+	public function testScanSubMount(): void {
 		$uid = $this->getUniqueID();
 		$this->userBackend->createUser($uid, 'test');
 
@@ -160,7 +159,7 @@ class ScannerTest extends \Test\TestCase {
 	 * @dataProvider invalidPathProvider
 	 * @param string $invalidPath
 	 */
-	public function testInvalidPathScanning($invalidPath) {
+	public function testInvalidPathScanning($invalidPath): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Invalid path to scan');
 
@@ -168,7 +167,7 @@ class ScannerTest extends \Test\TestCase {
 		$scanner->scan($invalidPath);
 	}
 
-	public function testPropagateEtag() {
+	public function testPropagateEtag(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
 		Filesystem::getMountManager()->addMount($mount);
@@ -192,7 +191,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
 	}
 
-	public function testShallow() {
+	public function testShallow(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
 		Filesystem::getMountManager()->addMount($mount);

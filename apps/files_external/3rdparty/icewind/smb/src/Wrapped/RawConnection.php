@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Wrapped;
@@ -214,6 +213,7 @@ class RawConnection {
 
 		$this->authStream = fopen('php://temp', 'w+');
 		fwrite($this->authStream, $auth);
+		rewind($this->authStream);
 	}
 
 	/**

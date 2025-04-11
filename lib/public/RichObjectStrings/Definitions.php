@@ -1,31 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vitor Mattos <vitor@php.rio>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\RichObjectStrings;
 
@@ -367,6 +343,36 @@ class Definitions {
 					'required' => false,
 					'description' => 'The mtime of the file/folder as unix timestamp',
 					'example' => '1661854213',
+				],
+				'etag' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The ETag of the file/folder',
+					'example' => 'abcdefghi',
+				],
+				'permissions' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The permissions on the file/folder',
+					'example' => '3',
+				],
+				'width' => [
+					'since' => '29.0.0',
+					'required' => false,
+					'description' => 'The width in pixels if the file is an image',
+					'example' => '1920',
+				],
+				'height' => [
+					'since' => '29.0.0',
+					'required' => false,
+					'description' => 'The height in pixels if the file is an image',
+					'example' => '1080',
+				],
+				'blurhash' => [
+					'since' => '30.0.0',
+					'required' => false,
+					'description' => 'The blurhash of the image',
+					'example' => 'LEHV9uae2yk8pyo0adR*.7kCMdnj',
 				],
 			],
 		],

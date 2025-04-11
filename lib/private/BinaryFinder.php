@@ -2,22 +2,8 @@
 
 declare(strict_types = 1);
 /**
- * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC;
@@ -25,15 +11,28 @@ namespace OC;
 use OCP\IBinaryFinder;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
  * Service that find the binary path for a program
  */
 class BinaryFinder implements IBinaryFinder {
+	public const DEFAULT_BINARY_SEARCH_PATHS = [
+		'/usr/local/sbin',
+		'/usr/local/bin',
+		'/usr/sbin',
+		'/usr/bin',
+		'/sbin',
+		'/bin',
+		'/opt/bin',
+	];
 	private ICache $cache;
 
-	public function __construct(ICacheFactory $cacheFactory) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		private IConfig $config,
+	) {
 		$this->cache = $cacheFactory->createLocal('findBinaryPath');
 	}
 
@@ -51,15 +50,10 @@ class BinaryFinder implements IBinaryFinder {
 		if (\OCP\Util::isFunctionEnabled('exec')) {
 			$exeSniffer = new ExecutableFinder();
 			// Returns null if nothing is found
-			$result = $exeSniffer->find($program, null, [
-				'/usr/local/sbin',
-				'/usr/local/bin',
-				'/usr/sbin',
-				'/usr/bin',
-				'/sbin',
-				'/bin',
-				'/opt/bin',
-			]);
+			$result = $exeSniffer->find(
+				$program,
+				null,
+				$this->config->getSystemValue('binary_search_paths', self::DEFAULT_BINARY_SEARCH_PATHS));
 			if ($result === null) {
 				$result = false;
 			}

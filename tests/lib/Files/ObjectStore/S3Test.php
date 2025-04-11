@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\ObjectStore;
@@ -75,7 +60,7 @@ class S3Test extends ObjectStoreTest {
 		return new S3($config['arguments']);
 	}
 
-	public function testUploadNonSeekable() {
+	public function testUploadNonSeekable(): void {
 		$this->cleanupAfter('multiparttest');
 
 		$s3 = $this->getInstance();
@@ -87,7 +72,7 @@ class S3Test extends ObjectStoreTest {
 		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
 	}
 
-	public function testSeek() {
+	public function testSeek(): void {
 		$this->cleanupAfter('seek');
 
 		$data = file_get_contents(__FILE__);
@@ -116,10 +101,10 @@ class S3Test extends ObjectStoreTest {
 		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
-	public function testEmptyUpload() {
+	public function testEmptyUpload(): void {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
@@ -148,7 +133,11 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	/** @dataProvider dataFileSizes */
-	public function testFileSizes($size) {
+	public function testFileSizes($size): void {
+		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
+			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
+		}
+
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 

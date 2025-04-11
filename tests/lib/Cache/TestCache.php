@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Cache;
@@ -22,7 +21,7 @@ abstract class TestCache extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testSimple() {
+	public function testSimple(): void {
 		$this->assertNull($this->instance->get('value1'));
 		$this->assertFalse($this->instance->hasKey('value1'));
 		
@@ -51,7 +50,7 @@ abstract class TestCache extends \Test\TestCase {
 		$this->assertFalse($this->instance->hasKey('value1'));
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value . '1');
 		$this->instance->set('1_value2', $value . '2');

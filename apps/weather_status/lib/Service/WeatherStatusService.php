@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Julien Veyssier
- *
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WeatherStatus\Service;
 
@@ -67,7 +49,7 @@ class WeatherStatusService {
 		private IUserManager $userManager,
 		private IAppManager $appManager,
 		private ICacheFactory $cacheFactory,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
 		$this->client = $clientService->newClient();
@@ -88,7 +70,7 @@ class WeatherStatusService {
 
 	/**
 	 * Get favorites list
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getFavorites(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
@@ -97,7 +79,7 @@ class WeatherStatusService {
 
 	/**
 	 * Set favorites list
-	 * @param string[] $favorites
+	 * @param list<string> $favorites
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
@@ -139,7 +121,7 @@ class WeatherStatusService {
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'lon', strval($lon));
 			// resolve and store formatted address
 			$address = $this->resolveLocation($lat, $lon);
-			$address = $address ? $address : $this->l10n->t('Unknown address');
+			$address = $address ?: $this->l10n->t('Unknown address');
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'address', $address);
 			// get and store altitude
 			$altitude = $this->getAltitude($lat, $lon);
@@ -275,6 +257,9 @@ class WeatherStatusService {
 		];
 		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
+		if ($results['error'] !== null) {
+			return $results;
+		}
 		if (count($results) > 0) {
 			return $results[0];
 		}
@@ -302,7 +287,7 @@ class WeatherStatusService {
 	/**
 	 * Get forecast for current location
 	 *
-	 * @return WeatherStatusForecast[]|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
@@ -325,7 +310,7 @@ class WeatherStatusService {
 	 * @param float $lon Longitude of requested forecast, in decimal degree format
 	 * @param float $altitude Altitude of requested forecast, in meter
 	 * @param int $nbValues Number of forecast values (hours)
-	 * @return WeatherStatusForecast[]|array{error: string} Filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string} Filtered forecast data
 	 */
 	private function forecastRequest(float $lat, float $lon, float $altitude, int $nbValues = 10): array {
 		$params = [

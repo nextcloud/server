@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022, Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Background;
@@ -70,7 +53,7 @@ class ListCommand extends Base {
 		$jobsInfo = $this->formatJobs($this->jobList->getJobsIterator($input->getOption('class'), $limit, (int)$input->getOption('offset')));
 		$this->writeTableInOutputFormat($input, $output, $jobsInfo);
 		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN && count($jobsInfo) >= $limit) {
-			$output->writeln("\n<comment>Output is currently limited to " .  $limit . " jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>");
+			$output->writeln("\n<comment>Output is currently limited to " . $limit . ' jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>');
 		}
 		return 0;
 	}

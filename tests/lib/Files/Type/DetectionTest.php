@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Files\Type;
@@ -114,6 +100,41 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	public function dataMimeTypeCustom(): array {
+		return [
+			['123', 'foobar/123'],
+			['a123', 'foobar/123'],
+			['bar', 'foobar/bar'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataMimeTypeCustom
+	 *
+	 * @param string $ext
+	 * @param string $mime
+	 */
+	public function testDetectMimeTypeCustom(string $ext, string $mime): void {
+		$confDir = sys_get_temp_dir();
+		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([]));
+
+		/** @var IURLGenerator $urlGenerator */
+		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		/** @var LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
+
+		// Create new mapping file
+		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([$ext => [$mime]]));
+
+		$detection = new Detection($urlGenerator, $logger, $confDir, $confDir);
+		$mappings = $detection->getAllMappings();
+		$this->assertArrayHasKey($ext, $mappings);
+		$this->assertEquals($mime, $detection->detectPath('foo.' . $ext));
+	}
+
 	public function dataGetSecureMimeType(): array {
 		return [
 			['image/svg+xml', 'text/plain'],
@@ -131,7 +152,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->detection->getSecureMimeType($mimeType));
 	}
 
-	public function testMimeTypeIcon() {
+	public function testMimeTypeIcon(): void {
 		if (!class_exists('org\\bovigo\\vfs\\vfsStream')) {
 			$this->markTestSkipped('Package vfsStream not installed');
 		}

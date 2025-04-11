@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Controller;
@@ -38,6 +21,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\User\IAvailabilityCoordinator;
+use function mb_strlen;
 
 /**
  * @psalm-import-type DAVOutOfOfficeData from ResponseDefinitions
@@ -110,6 +94,8 @@ class OutOfOfficeController extends OCSController {
 			'lastDay' => $data->getLastDay(),
 			'status' => $data->getStatus(),
 			'message' => $data->getMessage(),
+			'replacementUserId' => $data->getReplacementUserId(),
+			'replacementUserDisplayName' => $data->getReplacementUserDisplayName(),
 		]);
 	}
 
@@ -120,11 +106,13 @@ class OutOfOfficeController extends OCSController {
 	 * @param string $lastDay Last day of the absence in format `YYYY-MM-DD`
 	 * @param string $status Short text that is set as user status during the absence
 	 * @param string $message Longer multiline message that is shown to others during the absence
-	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>
+	 * @param ?string $replacementUserId User id of the replacement user
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'|'statusLength'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Absence data
-	 * 400: When the first day is not before the last day
+	 * 400: When validation fails, e.g. data range error or the first day is not before the last day
 	 * 401: When the user is not logged in
+	 * 404: When the replacementUserId was provided but replacement user was not found
 	 */
 	#[NoAdminRequired]
 	public function setOutOfOffice(
@@ -132,10 +120,22 @@ class OutOfOfficeController extends OCSController {
 		string $lastDay,
 		string $status,
 		string $message,
+		?string $replacementUserId,
 	): DataResponse {
 		$user = $this->userSession?->getUser();
 		if ($user === null) {
 			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
+		}
+		if (mb_strlen($status) > 100) {
+			return new DataResponse(['error' => 'statusLength'], Http::STATUS_BAD_REQUEST);
+		}
+
+		$replacementUser = null;
+		if ($replacementUserId !== null) {
+			$replacementUser = $this->userManager->get($replacementUserId);
+			if ($replacementUser === null) {
+				return new DataResponse(null, Http::STATUS_NOT_FOUND);
+			}
 		}
 
 		$parsedFirstDay = new DateTimeImmutable($firstDay);
@@ -150,6 +150,8 @@ class OutOfOfficeController extends OCSController {
 			$lastDay,
 			$status,
 			$message,
+			$replacementUserId,
+			$replacementUser?->getDisplayName()
 		);
 		$this->coordinator->clearCache($user->getUID());
 
@@ -160,6 +162,8 @@ class OutOfOfficeController extends OCSController {
 			'lastDay' => $data->getLastDay(),
 			'status' => $data->getStatus(),
 			'message' => $data->getMessage(),
+			'replacementUserId' => $data->getReplacementUserId(),
+			'replacementUserDisplayName' => $data->getReplacementUserDisplayName(),
 		]);
 	}
 

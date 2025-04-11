@@ -1,22 +1,7 @@
 /**
- * ownCloud
- *
- * @author Vincent Petry
- * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /**
@@ -33,8 +18,11 @@
  * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
 
+const { existsSync } = require('node:fs');
+
 if (!process.env.CHROMIUM_BIN) {
-	process.env.CHROMIUM_BIN = require('puppeteer').executablePath()
+	const chrome = require('puppeteer').executablePath()
+	process.env.CHROMIUM_BIN = chrome
 }
 
 /* jshint node: true */
@@ -56,14 +44,8 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'dist/files_sharing-additionalScripts.js',
 					'dist/files_sharing-files_sharing_tab.js',
-					'dist/files_sharing-files_sharing.js',
 					'dist/files_sharing-main.js',
-					'apps/files_sharing/js/files_drop.js',
-					'apps/files_sharing/js/public.js',
-					'apps/files_sharing/js/sharedfilelist.js',
-					'apps/files_sharing/js/templates.js',
 				],
-				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
 			'files_trashbin',
 		];
@@ -264,14 +246,19 @@ module.exports = function(config) {
 		// - PhantomJS
 		// - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
 		// use PhantomJS_debug for extra local debug
-		browsers: ['ChromiumHeadless'],
+		browsers: ['Chrome_without_sandbox'],
 
 		// you can define custom flags
 		customLaunchers: {
 			PhantomJS_debug: {
 				base: 'PhantomJS',
 				debug: true
-			}
+			},
+			// fix CI
+			Chrome_without_sandbox: {
+				base: 'ChromiumHeadless',
+				flags: ['--no-sandbox'],
+			},
 		},
 
 		// If browser does not capture in given timeout [ms], kill it

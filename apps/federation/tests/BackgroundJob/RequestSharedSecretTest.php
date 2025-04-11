@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation\Tests\BackgroundJob;
 
@@ -34,6 +16,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -68,7 +51,10 @@ class RequestSharedSecretTest extends TestCase {
 	/** @var MockObject|ITimeFactory */
 	private $timeFactory;
 
-	/** @var  RequestSharedSecret */
+	/** @var MockObject|IConfig */
+	private $config;
+
+	/** @var RequestSharedSecret */
 	private $requestSharedSecret;
 
 	protected function setUp(): void {
@@ -84,6 +70,7 @@ class RequestSharedSecretTest extends TestCase {
 		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->discoveryService->expects($this->any())->method('discover')->willReturn([]);
 		$this->httpClientService->expects($this->any())->method('newClient')->willReturn($this->httpClient);
@@ -95,7 +82,8 @@ class RequestSharedSecretTest extends TestCase {
 			$this->trustedServers,
 			$this->discoveryService,
 			$this->logger,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->config,
 		);
 	}
 
@@ -105,7 +93,7 @@ class RequestSharedSecretTest extends TestCase {
 	 * @param bool $isTrustedServer
 	 * @param bool $retainBackgroundJob
 	 */
-	public function testStart($isTrustedServer, $retainBackgroundJob) {
+	public function testStart($isTrustedServer, $retainBackgroundJob): void {
 		/** @var RequestSharedSecret |MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
 			->setConstructorArgs(
@@ -116,7 +104,8 @@ class RequestSharedSecretTest extends TestCase {
 					$this->trustedServers,
 					$this->discoveryService,
 					$this->logger,
-					$this->timeFactory
+					$this->timeFactory,
+					$this->config,
 				]
 			)->setMethods(['parentStart'])->getMock();
 		$this->invokePrivate($requestSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
@@ -188,6 +177,7 @@ class RequestSharedSecretTest extends TestCase {
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willReturn($this->response);
 
@@ -214,7 +204,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	public function testRunExpired() {
+	public function testRunExpired(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -244,7 +234,7 @@ class RequestSharedSecretTest extends TestCase {
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 	}
 
-	public function testRunConnectionError() {
+	public function testRunConnectionError(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -273,6 +263,7 @@ class RequestSharedSecretTest extends TestCase {
 						],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
 

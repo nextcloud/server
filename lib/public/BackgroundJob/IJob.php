@@ -1,35 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\BackgroundJob;
 
 use OCP\ILogger;
 
 /**
- * This interface represend a backgroud job run with cron
+ * This interface represents a background job run with cron
  *
  * To implement a background job, you must extend either \OCP\BackgroundJob\Job,
  * \OCP\BackgroundJob\TimedJob or \OCP\BackgroundJob\QueuedJob
@@ -52,7 +33,7 @@ interface IJob {
 	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger|null $logger
 	 * @since 7.0.0
-	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * @deprecated 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
 	public function execute(IJobList $jobList, ?ILogger $logger = null);

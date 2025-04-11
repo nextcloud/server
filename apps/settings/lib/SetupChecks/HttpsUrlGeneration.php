@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\SetupChecks;
@@ -64,12 +47,19 @@ class HttpsUrlGeneration implements ISetupCheck {
 		}
 		$generatedUrl = $this->urlGenerator->getAbsoluteURL('index.php');
 		if (!str_starts_with($generatedUrl, 'https://')) {
-			return SetupResult::warning(
-				$this->l10n->t('You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly.'),
-				$this->urlGenerator->linkToDocs('admin-reverse-proxy')
-			);
+			if (!\OC::$CLI) {
+				return SetupResult::warning(
+					$this->l10n->t('You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This likely means that your instance is behind a reverse proxy and the Nextcloud `overwrite*` config values are not set correctly.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy')
+				);
+				/* We were called from CLI so we can't be 100% sure which scenario is applicable */
+			} else {
+				return SetupResult::info(
+					$this->l10n->t('Your instance is generating insecure URLs. If you access your instance over HTTPS, this likely means that your instance is behind a reverse proxy and the Nextcloud `overwrite*` config values are not set correctly.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy')
+				);
+			}
 		}
-
 		return SetupResult::success($this->l10n->t('You are accessing your instance over a secure connection, and your instance is generating secure URLs.'));
 	}
 }

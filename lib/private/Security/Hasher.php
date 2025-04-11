@@ -1,30 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MichaIng <micha@dietpi.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security;
 
@@ -99,7 +79,7 @@ class Hasher implements IHasher {
 	/**
 	 * Get the version and hash from a prefixedHash
 	 * @param string $prefixedHash
-	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
+	 * @return null|array{version: int, hash: string} Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
 	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
@@ -126,7 +106,7 @@ class Hasher implements IHasher {
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = \strlen($hash);
-		if (($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
+		if (($hashLength === 60 && password_verify($message . $this->legacySalt, $hash)) ||
 			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
@@ -209,5 +189,19 @@ class Hasher implements IHasher {
 		}
 
 		return $default;
+	}
+
+	public function validate(string $prefixedHash): bool {
+		$splitHash = $this->splitHash($prefixedHash);
+		if (empty($splitHash)) {
+			return false;
+		}
+		$validVersions = [3, 2, 1];
+		$version = $splitHash['version'];
+		if (!in_array($version, $validVersions, true)) {
+			return false;
+		}
+		$algoName = password_get_info($splitHash['hash'])['algoName'];
+		return $algoName !== 'unknown';
 	}
 }

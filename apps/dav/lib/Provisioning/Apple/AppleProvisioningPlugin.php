@@ -1,31 +1,11 @@
 <?php
 /**
- * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nils Wittenbrink <nilswittenbrink@web.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Provisioning\Apple;
 
+use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -42,52 +22,22 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var IURLGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
-	 * @var IUserSession
-	 */
-	protected $userSession;
-
-	/**
 	 * @var \OC_Defaults
 	 */
 	protected $themingDefaults;
 
 	/**
-	 * @var IRequest
-	 */
-	protected $request;
-
-	/**
-	 * @var IL10N
-	 */
-	protected $l10n;
-
-	/**
-	 * @var \Closure
-	 */
-	protected $uuidClosure;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
+		protected IUserSession $userSession,
+		protected IURLGenerator $urlGenerator,
 		\OC_Defaults $themingDefaults,
-		IRequest $request,
-		IL10N $l10n,
-		\Closure $uuidClosure
+		protected IRequest $request,
+		protected IL10N $l10n,
+		protected \Closure $uuidClosure,
 	) {
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
 		$this->themingDefaults = $themingDefaults;
-		$this->request = $request;
-		$this->l10n = $l10n;
-		$this->uuidClosure = $uuidClosure;
 	}
 
 	/**
@@ -117,7 +67,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$useSSL = ($serverProtocol === 'https');
 
 		if (!$useSSL) {
-			$response->setStatus(200);
+			$response->setStatus(Http::STATUS_OK);
 			$response->setHeader('Content-Type', 'text/plain; charset=utf-8');
 			$response->setBody($this->l10n->t('Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS.', [$this->themingDefaults->getName()]));
 
@@ -126,11 +76,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 
 		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
-		if (isset($parsedUrl['port'])) {
-			$serverPort = $parsedUrl['port'];
-		} else {
-			$serverPort = 443;
-		}
+		$serverPort = $parsedUrl['port'] ?? 443;
 		$server_url = $parsedUrl['host'];
 
 		$description = $this->themingDefaults->getName();
@@ -154,7 +100,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$filename = $userId . '-' . AppleProvisioningNode::FILENAME;
 
 		$xmlSkeleton = $this->getTemplate();
-		$body = vsprintf($xmlSkeleton, array_map(function ($v) {
+		$body = vsprintf($xmlSkeleton, array_map(function (string $v) {
 			return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
 		}, [
 			$description,
@@ -179,7 +125,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		]
 		));
 
-		$response->setStatus(200);
+		$response->setStatus(Http::STATUS_OK);
 		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setBody($body);

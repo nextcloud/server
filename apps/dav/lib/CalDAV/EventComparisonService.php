@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @author 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV;
 
@@ -54,14 +37,14 @@ class EventComparisonService {
 	 */
 	private function removeIfUnchanged(VEvent $filterEvent, array &$eventsToFilter): bool {
 		$filterEventData = [];
-		foreach(self::EVENT_DIFF as $eventDiff) {
+		foreach (self::EVENT_DIFF as $eventDiff) {
 			$filterEventData[] = IMipService::readPropertyWithDefault($filterEvent, $eventDiff, '');
 		}
 
 		/** @var VEvent $component */
 		foreach ($eventsToFilter as $k => $eventToFilter) {
 			$eventToFilterData = [];
-			foreach(self::EVENT_DIFF as $eventDiff) {
+			foreach (self::EVENT_DIFF as $eventDiff) {
 				$eventToFilterData[] = IMipService::readPropertyWithDefault($eventToFilter, $eventDiff, '');
 			}
 			// events are identical and can be removed
@@ -90,23 +73,23 @@ class EventComparisonService {
 		$newEventComponents = $new->getComponents();
 
 		foreach ($newEventComponents as $k => $event) {
-			if(!$event instanceof VEvent) {
+			if (!$event instanceof VEvent) {
 				unset($newEventComponents[$k]);
 			}
 		}
 
-		if(empty($old)) {
+		if (empty($old)) {
 			return ['old' => null, 'new' => $newEventComponents];
 		}
 
 		$oldEventComponents = $old->getComponents();
-		if(is_array($oldEventComponents) && !empty($oldEventComponents)) {
+		if (is_array($oldEventComponents) && !empty($oldEventComponents)) {
 			foreach ($oldEventComponents as $k => $event) {
-				if(!$event instanceof VEvent) {
+				if (!$event instanceof VEvent) {
 					unset($oldEventComponents[$k]);
 					continue;
 				}
-				if($this->removeIfUnchanged($event, $newEventComponents)) {
+				if ($this->removeIfUnchanged($event, $newEventComponents)) {
 					unset($oldEventComponents[$k]);
 				}
 			}

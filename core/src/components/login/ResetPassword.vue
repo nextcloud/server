@@ -1,78 +1,68 @@
 <!--
-  - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<form class="login-form" @submit.prevent="submit">
-		<fieldset class="login-form__fieldset">
-			<NcTextField id="user"
-				:value.sync="user"
-				name="user"
-				:maxlength="255"
-				autocapitalize="off"
-				:label="t('core', 'Login or email')"
-				:error="userNameInputLengthIs255"
-				:helper-text="userInputHelperText"
-				required
-				@change="updateUsername" />
-			<LoginButton :value="t('core', 'Reset password')" />
+	<form class="reset-password-form" @submit.prevent="submit">
+		<h2>{{ t('core', 'Reset password') }}</h2>
 
-			<NcNoteCard v-if="message === 'send-success'"
-				type="success">
-				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
-			</NcNoteCard>
-			<NcNoteCard v-else-if="message === 'send-error'"
-				type="error">
-				{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
-			</NcNoteCard>
-			<NcNoteCard v-else-if="message === 'reset-error'"
-				type="error">
-				{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
-			</NcNoteCard>
+		<NcTextField id="user"
+			:value.sync="user"
+			name="user"
+			:maxlength="255"
+			autocapitalize="off"
+			:label="t('core', 'Login or email')"
+			:error="userNameInputLengthIs255"
+			:helper-text="userInputHelperText"
+			required
+			@change="updateUsername" />
 
-			<a class="login-form__link"
-				href="#"
-				@click.prevent="$emit('abort')">
-				{{ t('core', 'Back to login') }}
-			</a>
-		</fieldset>
+		<LoginButton :loading="loading" :value="t('core', 'Reset password')" />
+
+		<NcButton type="tertiary" wide @click="$emit('abort')">
+			{{ t('core', 'Back to login') }}
+		</NcButton>
+
+		<NcNoteCard v-if="message === 'send-success'"
+			type="success">
+			{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
+		</NcNoteCard>
+		<NcNoteCard v-else-if="message === 'send-error'"
+			type="error">
+			{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
+		</NcNoteCard>
+		<NcNoteCard v-else-if="message === 'reset-error'"
+			type="error">
+			{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
+		</NcNoteCard>
 	</form>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
+<script lang="ts">
 import { generateUrl } from '@nextcloud/router'
-import LoginButton from './LoginButton.vue'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { defineComponent } from 'vue'
+
+import axios from '@nextcloud/axios'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AuthMixin from '../../mixins/auth.js'
+import LoginButton from './LoginButton.vue'
+import logger from '../../logger.js'
 
-export default {
+export default defineComponent({
 	name: 'ResetPassword',
 	components: {
 		LoginButton,
+		NcButton,
 		NcNoteCard,
 		NcTextField,
 	},
+
 	mixins: [AuthMixin],
+
 	props: {
 		username: {
 			type: String,
@@ -83,11 +73,12 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			error: false,
 			loading: false,
-			message: undefined,
+			message: '',
 			user: this.username,
 		}
 	},
@@ -100,57 +91,38 @@ export default {
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
-		submit() {
+
+		async submit() {
 			this.loading = true
 			this.error = false
 			this.message = ''
 			const url = generateUrl('/lostpassword/email')
 
-			const data = {
-				user: this.user,
+			try {
+				const { data } = await axios.post(url, { user: this.user })
+				if (data.status !== 'success') {
+					throw new Error(`got status ${data.status}`)
+				}
+
+				this.message = 'send-success'
+			} catch (error) {
+				logger.error('could not send reset email request', { error })
+
+				this.error = true
+				this.message = 'send-error'
+			} finally {
+				this.loading = false
 			}
-
-			return axios.post(url, data)
-				.then(resp => resp.data)
-				.then(data => {
-					if (data.status !== 'success') {
-						throw new Error(`got status ${data.status}`)
-					}
-
-					this.message = 'send-success'
-				})
-				.catch(e => {
-					console.error('could not send reset email request', e)
-
-					this.error = true
-					this.message = 'send-error'
-				})
-				.then(() => { this.loading = false })
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
-.login-form {
-	text-align: left;
-	font-size: 1rem;
-
-	&__fieldset {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: .5rem;
-	}
-
-	&__link {
-		display: block;
-		font-weight: normal !important;
-		padding-bottom: 1rem;
-		cursor: pointer;
-		font-size: var(--default-font-size);
-		text-align: center;
-		padding: .5rem 1rem 1rem 1rem;
-	}
+.reset-password-form {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	width: 100%;
 }
 </style>

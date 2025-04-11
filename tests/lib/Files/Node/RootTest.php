@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Node;
@@ -76,7 +75,7 @@ class RootTest extends \Test\TestCase {
 		return new FileInfo('', null, '', $data, null);
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
@@ -107,7 +106,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 
-	public function testGetNotFound() {
+	public function testGetNotFound(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		/**
@@ -138,7 +137,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 
-	public function testGetInvalidPath() {
+	public function testGetInvalidPath(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$view = $this->getRootViewMock();
@@ -157,7 +156,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 
-	public function testGetNoStorages() {
+	public function testGetNoStorages(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		$view = $this->getRootViewMock();
@@ -175,7 +174,7 @@ class RootTest extends \Test\TestCase {
 		$root->get('/bar/foo');
 	}
 
-	public function testGetUserFolder() {
+	public function testGetUserFolder(): void {
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$this->getRootViewMock(),
@@ -214,7 +213,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 
-	public function testGetUserFolderWithNoUserObj() {
+	public function testGetUserFolderWithNoUserObj(): void {
 		$this->expectException(\OC\User\NoUserException::class);
 		$this->expectExceptionMessage('Backends provided no user object');
 

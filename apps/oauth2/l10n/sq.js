@@ -9,7 +9,6 @@ OC.L10N.register(
     "Secret key" : "Kyç i fshehtë",
     "Add client" : "Shto klient",
     "Add" : "Shto ",
-    "Delete" : "Delete",
-    "Secret" : "Sekret"
+    "Delete" : "Delete"
 },
 "nplurals=2; plural=(n != 1);");

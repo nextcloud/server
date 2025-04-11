@@ -3,43 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Artem Sidorenko <artem@posteo.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author hoellen <dev@hoellen.eu>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Michael Kuhn <michael@ikkoku.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Steffen Lindner <mail@steffen-lindner.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Stephen Michel <git@smichel.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 require_once __DIR__ . '/lib/versioncheck.php';
@@ -56,6 +22,23 @@ use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
+
+	if (isset($argv[1]) && ($argv[1] === '-h' || $argv[1] === '--help')) {
+		echo 'Description:
+  Run the background job routine
+
+Usage:
+  php -f cron.php -- [-h] [--verbose] [<job-classes>...]
+
+Arguments:
+  job-classes                  Optional job class list to only run those jobs
+                               Providing a class will ignore the time-sensitivity restriction
+
+Options:
+  -h, --help                 Display this help message
+  -v, --verbose              Output more information' . PHP_EOL;
+		exit(0);
+	}
 
 	if (Util::needUpgrade()) {
 		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
@@ -76,11 +59,12 @@ try {
 
 	// load all apps to get all api routes properly setup
 	Server::get(IAppManager::class)->loadApps();
-
 	Server::get(ISession::class)->close();
 
+	$verbose = isset($argv[1]) && ($argv[1] === '-v' || $argv[1] === '--verbose');
+
 	// initialize a dummy memory session
-	$session = new \OC\Session\Memory('');
+	$session = new \OC\Session\Memory();
 	$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
 	$session = $cryptoWrapper->wrapSession($session);
 	\OC::$server->setSession($session);
@@ -110,16 +94,16 @@ try {
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
+			echo 'The posix extensions are required - see https://www.php.net/manual/en/book.posix.php' . PHP_EOL;
 			exit(1);
 		}
 
 		$user = posix_getuid();
-		$dataDirectoryUser = fileowner($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data'));
-		if ($user !== $dataDirectoryUser) {
-			echo "Cron has to be executed with the user that owns the data directory" . PHP_EOL;
-			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
+		$configUser = fileowner(OC::$configDir . 'config.php');
+		if ($user !== $configUser) {
+			echo 'Console has to be executed with the user that owns the file config/config.php' . PHP_EOL;
+			echo 'Current user id: ' . $user . PHP_EOL;
+			echo 'Owner id of config.php: ' . $configUser . PHP_EOL;
 			exit(1);
 		}
 
@@ -129,12 +113,16 @@ try {
 			$appConfig->setValueString('core', 'backgroundjobs_mode', 'cron');
 		}
 
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, $verbose ? 2 : 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
 		// Low-load hours
 		$onlyTimeSensitive = false;
 		$startHour = $config->getSystemValueInt('maintenance_window_start', 100);
-		if ($startHour <= 23) {
+		if ($jobClasses === null && $startHour <= 23) {
 			$date = new \DateTime('now', new \DateTimeZone('UTC'));
-			$currentHour = (int) $date->format('G');
+			$currentHour = (int)$date->format('G');
 			$endHour = $startHour + 4;
 
 			if ($startHour <= 20) {
@@ -160,7 +148,8 @@ try {
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		while ($job = $jobList->getNext($onlyTimeSensitive)) {
+
+		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
 				$jobList->unlockJob($job);
 				break;
@@ -169,31 +158,66 @@ try {
 			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
+			$timeBefore = time();
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
+
+			if ($verbose) {
+				echo 'Starting job ' . $jobDetails . PHP_EOL;
+			}
 
 			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 			$job->execute($jobList);
 
+			$timeAfter = time();
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
 
-			if ($memoryAfter - $memoryBefore > 10_000_000) {
-				$logger->warning('Used memory grew by more than 10 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
+			$cronInterval = 5 * 60;
+			$timeSpent = $timeAfter - $timeBefore;
+			if ($timeSpent > $cronInterval) {
+				$logLevel = match (true) {
+					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
+					default => \OCP\ILogger::DEBUG,
+				};
+				$logger->log(
+					$logLevel,
+					'Background job ' . $jobDetails . ' ran for ' . $timeSpent . ' seconds',
+					['app' => 'cron']
+				);
 			}
-			if ($memoryPeakAfter > 300_000_000) {
-				$logger->warning('Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')', ['app' => 'cron']);
+
+			if ($memoryAfter - $memoryBefore > 50_000_000) {
+				$message = 'Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter) . ' (before: ' . Util::humanFileSize($memoryBefore) . ')';
+				$logger->warning($message, ['app' => 'cron']);
+				if ($verbose) {
+					echo $message . PHP_EOL;
+				}
+			}
+			if ($memoryPeakAfter > 300_000_000 && $memoryPeakBefore <= 300_000_000) {
+				$message = 'Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')';
+				$logger->warning($message, ['app' => 'cron']);
+				if ($verbose) {
+					echo $message . PHP_EOL;
+				}
 			}
 
 			// clean up after unclean jobs
 			Server::get(\OC\Files\SetupManager::class)->tearDown();
 			$tempManager->clean();
 
+			if ($verbose) {
+				echo 'Job ' . $jobDetails . ' done in ' . ($timeAfter - $timeBefore) . ' seconds' . PHP_EOL;
+			}
+
 			$jobList->setLastJob($job);
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if ($timeAfter > $endTime) {
 				break;
 			}
 		}

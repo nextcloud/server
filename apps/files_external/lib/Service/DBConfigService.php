@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
@@ -45,25 +24,10 @@ class DBConfigService {
 	public const APPLICABLE_TYPE_GROUP = 2;
 	public const APPLICABLE_TYPE_USER = 3;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var ICrypto
-	 */
-	private $crypto;
-
-	/**
-	 * DBConfigService constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param ICrypto $crypto
-	 */
-	public function __construct(IDBConnection $connection, ICrypto $crypto) {
-		$this->connection = $connection;
-		$this->crypto = $crypto;
+	public function __construct(
+		private IDBConnection $connection,
+		private ICrypto $crypto,
+	) {
 	}
 
 	public function getMountById(int $mountId): ?array {
@@ -133,7 +97,7 @@ class DBConfigService {
 			)
 			)
 			->groupBy(['a.mount_id']);
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		$result = $stmt->fetchAll();
 		$stmt->closeCursor();
 
@@ -264,7 +228,7 @@ class DBConfigService {
 				'priority' => $builder->createNamedParameter($priority, IQueryBuilder::PARAM_INT),
 				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
-		$query->execute();
+		$query->executeStatement();
 		return $query->getLastInsertId();
 	}
 
@@ -277,22 +241,22 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_mounts')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_config')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_options')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -306,7 +270,7 @@ class DBConfigService {
 			->set('mount_point', $builder->createNamedParameter($newMountPoint))
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -320,7 +284,7 @@ class DBConfigService {
 			->set('auth_backend', $builder->createNamedParameter($newAuthBackend))
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -346,7 +310,7 @@ class DBConfigService {
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
 				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -369,7 +333,7 @@ class DBConfigService {
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
 				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -398,11 +362,11 @@ class DBConfigService {
 			$query = $query->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR)));
 		}
 
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function getMountsFromQuery(IQueryBuilder $query) {
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$mounts = $result->fetchAll();
 		$uniqueMounts = [];
 		foreach ($mounts as $mount) {
@@ -453,7 +417,7 @@ class DBConfigService {
 			->from($table)
 			->where($builder->expr()->in('mount_id', $placeHolders));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 

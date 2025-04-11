@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /**
@@ -64,4 +47,44 @@ export enum UnifiedSearchFilter {
  */
 export function getUnifiedSearchFilter(filter: UnifiedSearchFilter) {
 	return getUnifiedSearchModal().find(`[data-cy-unified-search-filters] [data-cy-unified-search-filter="${CSS.escape(filter)}"]`)
+}
+
+/**
+ * Assertion that an element is fully within the current viewport.
+ * @param $el The element
+ * @param expected If the element is expected to be fully in viewport or not fully
+ * @example
+ * ```js
+ * cy.get('#my-element')
+ *   .should(beFullyInViewport)
+ * ```
+ */
+export function beFullyInViewport($el: JQuery<HTMLElement>, expected = true) {
+	const { top, left, bottom, right } = $el.get(0)!.getBoundingClientRect()
+	const innerHeight = Cypress.$('body').innerHeight()!
+	const innerWidth = Cypress.$('body').innerWidth()!
+	const fullyVisible = top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth
+
+	console.debug(`fullyVisible: ${fullyVisible}, top: ${top >= 0}, left: ${left >= 0}, bottom: ${bottom <= innerHeight}, right: ${right <= innerWidth}`)
+
+	if (expected) {
+		// eslint-disable-next-line no-unused-expressions
+		expect(fullyVisible, 'Fully within viewport').to.be.true
+	} else {
+		// eslint-disable-next-line no-unused-expressions
+		expect(fullyVisible, 'Not fully within viewport').to.be.false
+	}
+}
+
+/**
+ * Opposite of `beFullyInViewport` - resolves when element is not or only partially in viewport.
+ * @param $el The element
+ * @example
+ * ```js
+ * cy.get('#my-element')
+ *   .should(notBeFullyInViewport)
+ * ```
+ */
+export function notBeFullyInViewport($el: JQuery<HTMLElement>) {
+	return beFullyInViewport($el, false)
 }

@@ -116,6 +116,12 @@ source_file = translationfiles/templates/oauth2.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:profile]
+file_filter = translationfiles/<lang>/profile.po
+source_file = translationfiles/templates/profile.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:provisioning_api]
 file_filter = translationfiles/<lang>/provisioning_api.po
 source_file = translationfiles/templates/provisioning_api.pot
@@ -173,6 +179,12 @@ type        = PO
 [o:nextcloud:p:nextcloud:r:weather_status]
 file_filter = translationfiles/<lang>/weather_status.po
 source_file = translationfiles/templates/weather_status.pot
+source_lang = en
+type        = PO
+
+[o:nextcloud:p:nextcloud:r:webhook_listeners]
+file_filter = translationfiles/<lang>/webhook_listeners.po
+source_file = translationfiles/templates/webhook_listeners.pot
 source_lang = en
 type        = PO
 

@@ -1,30 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Files\Sharing;
 
 use OC\Files\View;
+use OCP\Share\IShare;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -35,20 +17,19 @@ use Sabre\HTTP\ResponseInterface;
  */
 class FilesDropPlugin extends ServerPlugin {
 
-	/** @var View */
-	private $view;
+	private ?View $view = null;
+	private ?IShare $share = null;
+	private bool $enabled = false;
 
-	/** @var bool */
-	private $enabled = false;
-
-	/**
-	 * @param View $view
-	 */
-	public function setView($view) {
+	public function setView(View $view): void {
 		$this->view = $view;
 	}
 
-	public function enable() {
+	public function setShare(IShare $share): void {
+		$this->share = $share;
+	}
+
+	public function enable(): void {
 		$this->enabled = true;
 	}
 
@@ -61,25 +42,51 @@ class FilesDropPlugin extends ServerPlugin {
 	 * @return void
 	 * @throws MethodNotAllowed
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(\Sabre\DAV\Server $server): void {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 999);
 		$this->enabled = false;
 	}
 
-	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		if (!$this->enabled) {
+	public function beforeMethod(RequestInterface $request, ResponseInterface $response): void {
+		if (!$this->enabled || $this->share === null || $this->view === null) {
 			return;
 		}
 
+		// Only allow file drop
 		if ($request->getMethod() !== 'PUT') {
 			throw new MethodNotAllowed('Only PUT is allowed on files drop');
 		}
 
+		// Always upload at the root level
 		$path = explode('/', $request->getPath());
 		$path = array_pop($path);
 
+		// Extract the attributes for the file request
+		$isFileRequest = false;
+		$attributes = $this->share->getAttributes();
+		$nickName = $request->hasHeader('X-NC-Nickname') ? urldecode($request->getHeader('X-NC-Nickname')) : null;
+		if ($attributes !== null) {
+			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
+		}
+
+		// We need a valid nickname for file requests
+		if ($isFileRequest && ($nickName == null || trim($nickName) === '')) {
+			throw new MethodNotAllowed('Nickname is required for file requests');
+		}
+		
+		// If this is a file request we need to create a folder for the user
+		if ($isFileRequest) {
+			// Check if the folder already exists
+			if (!($this->view->file_exists($nickName) === true)) {
+				$this->view->mkdir($nickName);
+			}
+			// Put all files in the subfolder
+			$path = $nickName . '/' . $path;
+		}
+		
 		$newName = \OC_Helper::buildNotExistingFileNameForView('/', $path, $this->view);
 		$url = $request->getBaseUrl() . $newName;
 		$request->setUrl($url);
 	}
+
 }

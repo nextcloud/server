@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>
- *
- * @author Johannes Leuker <j.leuker@hosting.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\SystemTag;
 
@@ -57,6 +40,12 @@ class Edit extends Base {
 				null,
 				InputOption::VALUE_OPTIONAL,
 				'sets the access control level (public, restricted, invisible)',
+			)
+			->addOption(
+				'color',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'set the tag color',
 			);
 	}
 
@@ -97,15 +86,30 @@ class Edit extends Base {
 			}
 		}
 
+		$color = $tag->getColor();
+		if ($input->hasOption('color')) {
+			$color = $input->getOption('color');
+			if (substr($color, 0, 1) === '#') {
+				$color = substr($color, 1);
+			}
+
+			if ($input->getOption('color') === '') {
+				$color = null;
+			} elseif (strlen($color) !== 6 || !ctype_xdigit($color)) {
+				$output->writeln('<error>Color must be a 6-digit hexadecimal value</error>');
+				return 2;
+			}
+		}
+
 		try {
-			$this->systemTagManager->updateTag($input->getArgument('id'), $name, $userVisible, $userAssignable);
-			$output->writeln('<info>Tag updated ("' . $name . '", '. $userVisible . ', ' . $userAssignable . ')</info>');
+			$this->systemTagManager->updateTag($input->getArgument('id'), $name, $userVisible, $userAssignable, $color);
+			$output->writeln('<info>Tag updated ("' . $name . '", ' . json_encode($userVisible) . ', ' . json_encode($userAssignable) . ', "' . ($color ? "#$color" : '') . '")</info>');
 			return 0;
 		} catch (TagNotFoundException $e) {
 			$output->writeln('<error>Tag not found</error>');
 			return 1;
 		} catch (TagAlreadyExistsException $e) {
-			$output->writeln('<error>'.$e->getMessage().'</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 2;
 		}
 	}

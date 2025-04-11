@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Share20;
@@ -45,26 +31,26 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetIdInvalid() {
+	public function testSetIdInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('String expected.');
 
 		$this->share->setId(1.2);
 	}
 
-	public function testSetIdInt() {
+	public function testSetIdInt(): void {
 		$this->share->setId(42);
 		$this->assertEquals('42', $this->share->getId());
 	}
 
 
-	public function testSetIdString() {
+	public function testSetIdString(): void {
 		$this->share->setId('foo');
 		$this->assertEquals('foo', $this->share->getId());
 	}
 
 
-	public function testSetIdOnce() {
+	public function testSetIdOnce(): void {
 		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new internal id to a share');
 
@@ -73,7 +59,7 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetProviderIdInt() {
+	public function testSetProviderIdInt(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('String expected.');
 
@@ -81,14 +67,14 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetProviderIdString() {
+	public function testSetProviderIdString(): void {
 		$this->share->setProviderId('foo');
 		$this->share->setId('bar');
 		$this->assertEquals('foo:bar', $this->share->getFullId());
 	}
 
 
-	public function testSetProviderIdOnce() {
+	public function testSetProviderIdOnce(): void {
 		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new provider id to a share');
 

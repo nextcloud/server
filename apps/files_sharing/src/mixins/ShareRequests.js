@@ -1,35 +1,17 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 // TODO: remove when ie not supported
 import 'url-search-params-polyfill'
 
+import { emit } from '@nextcloud/event-bus'
+import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import Share from '../models/Share.js'
-import { emit } from '@nextcloud/event-bus'
+
+import Share from '../models/Share.ts'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 
@@ -46,10 +28,10 @@ export default {
 		 * @param {string} [data.password]  password to protect public link Share with
 		 * @param {number} [data.permissions]  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all (default: 31, for public shares: 1)
 		 * @param {boolean} [data.sendPasswordByTalk] send the password via a talk conversation
-		 * @param {string} [data.expireDate] expire the shareautomatically after
+		 * @param {string} [data.expireDate] expire the share automatically after
 		 * @param {string} [data.label] custom label
 		 * @param {string} [data.attributes] Share attributes encoded as json
-		 * @param data.note
+		 * @param {string} data.note custom note to recipient
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
@@ -65,7 +47,7 @@ export default {
 			} catch (error) {
 				console.error('Error while creating share', error)
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
+				showError(
 					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
 					{ type: 'error' },
 				)

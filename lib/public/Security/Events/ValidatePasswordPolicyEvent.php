@@ -3,49 +3,47 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Security\Events;
 
 use OCP\EventDispatcher\Event;
+use OCP\Security\PasswordContext;
 
 /**
+ * This event can be emitted to request a validation of a password.
+ *
+ * If a password policy app is installed and the password
+ * is invalid, an `\OCP\HintException` will be thrown.
  * @since 18.0.0
  */
 class ValidatePasswordPolicyEvent extends Event {
-	/** @var string */
-	private $password;
 
 	/**
 	 * @since 18.0.0
+	 * @since 31.0.0 - $context parameter added
 	 */
-	public function __construct(string $password) {
+	public function __construct(
+		private string $password,
+		private PasswordContext $context = PasswordContext::ACCOUNT,
+	) {
 		parent::__construct();
-		$this->password = $password;
 	}
 
 	/**
+	 * Get the password that should be validated.
 	 * @since 18.0.0
 	 */
 	public function getPassword(): string {
 		return $this->password;
+	}
+
+	/**
+	 * Get the context this password should validated for.
+	 * @since 31.0.0
+	 */
+	public function getContext(): PasswordContext {
+		return $this->context;
 	}
 }

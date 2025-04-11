@@ -1,12 +1,11 @@
 <?php
 /**
- * Copyright (c) 2012 Thomas Müller <thomas.mueller@tmit.eu>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-require_once __DIR__.'/../lib/base.php';
+require_once __DIR__ . '/../lib/base.php';
 
 function enableApp($app) {
 	try {
@@ -25,3 +24,4 @@ enableApp('provisioning_api');
 enableApp('federation');
 enableApp('federatedfilesharing');
 enableApp('admin_audit');
+enableApp('webhook_listeners');

@@ -1,33 +1,12 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Anna Larch <anna@nextcloud.com>
- * @author Arne Hamann <kontakt+github@arne.email>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP\Contacts;
 
@@ -56,7 +35,7 @@ interface IManager {
 	 *  Following function shows how to search for contacts for the name and the email address.
 	 *
 	 *		public static function getMatchingRecipient($term) {
-	 *			$cm = \OC::$server->getContactsManager();
+	 *			$cm = \OCP\Server::get(\OCP\Contacts\IManager::class);
 	 *			// The API is not active -> nothing to do
 	 *			if (!$cm->isEnabled()) {
 	 *				return array();
@@ -89,14 +68,14 @@ interface IManager {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options = array() to define the search behavior
-	 *  - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
-	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
-	 * 	- 'limit' - Set a numeric limit for the search results
-	 * 	- 'offset' - Set the offset for the limited search results
-	 * 	- 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
-	 * 	- 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
-	 * 	- 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
+	 *                       - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+	 *                       example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+	 *                       - 'escape_like_param' - If set to false wildcards _ and % are not escaped
+	 *                       - 'limit' - Set a numeric limit for the search results
+	 *                       - 'offset' - Set the offset for the limited search results
+	 *                       - 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
+	 *                       - 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
+	 *                       - 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
 	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 example.php
 .editorconfig
 icewind/smb/tests
@@ -8,6 +11,7 @@ icewind/smb/.scrutinizer.yml
 icewind/smb/example-apache-kerberos.php
 icewind/smb/codecov.yml
 icewind/streams/tests
+icewind/**/example*.php
 .github
 .php_cs*
 psalm.xml

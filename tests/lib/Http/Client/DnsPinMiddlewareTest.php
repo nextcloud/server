@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace lib\Http\Client;
@@ -59,7 +42,7 @@ class DnsPinMiddlewareTest extends TestCase {
 			->getMock();
 	}
 
-	public function testPopulateDnsCacheIPv4() {
+	public function testPopulateDnsCacheIPv4(): void {
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
 				self::arrayHasKey('curl', $options);
@@ -152,7 +135,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testPopulateDnsCacheIPv6() {
+	public function testPopulateDnsCacheIPv6(): void {
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
 				self::arrayHasKey('curl', $options);
@@ -267,7 +250,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testAllowLocalAddress() {
+	public function testAllowLocalAddress(): void {
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
 				self::assertArrayNotHasKey('curl', $options);
@@ -285,7 +268,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testRejectIPv4() {
+	public function testRejectIPv4(): void {
 		$this->expectException(LocalServerException::class);
 		$this->expectExceptionMessage('violates local access rules');
 
@@ -332,7 +315,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testRejectIPv6() {
+	public function testRejectIPv6(): void {
 		$this->expectException(LocalServerException::class);
 		$this->expectExceptionMessage('violates local access rules');
 
@@ -379,7 +362,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testRejectCanonicalName() {
+	public function testRejectCanonicalName(): void {
 		$this->expectException(LocalServerException::class);
 		$this->expectExceptionMessage('violates local access rules');
 
@@ -469,7 +452,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testRejectFaultyResponse() {
+	public function testRejectFaultyResponse(): void {
 		$this->expectException(LocalServerException::class);
 		$this->expectExceptionMessage('No DNS record found for www.example.com');
 
@@ -495,7 +478,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testIgnoreSubdomainForSoaQuery() {
+	public function testIgnoreSubdomainForSoaQuery(): void {
 		$mockHandler = new MockHandler([
 			static function (RequestInterface $request, array $options) {
 				// The handler should not be called
@@ -554,10 +537,11 @@ class DnsPinMiddlewareTest extends TestCase {
 			['nextcloud' => ['allow_local_address' => false]]
 		);
 
-		$this->assertCount(4, $dnsQueries);
+		$this->assertCount(3, $dnsQueries);
 		$this->assertContains('example.com' . DNS_SOA, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_A, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_AAAA, $dnsQueries);
-		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
+		// CNAME should not be queried if A or AAAA succeeded already
+		$this->assertNotContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
 	}
 }

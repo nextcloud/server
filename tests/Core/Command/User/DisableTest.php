@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Command\User;
@@ -51,7 +34,7 @@ class DisableTest extends TestCase {
 		$this->command = new Disable($this->userManager);
 	}
 
-	public function testValidUser() {
+	public function testValidUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('setEnabled')
@@ -74,7 +57,7 @@ class DisableTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testInvalidUser() {
+	public function testInvalidUser(): void {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('user')

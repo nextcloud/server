@@ -3,31 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
@@ -40,6 +17,7 @@ use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject;
 use Sabre\VObject\Component\VEvent;
@@ -55,15 +33,14 @@ class EmailProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'EMAIL';
 
-	private IMailer $mailer;
-
-	public function __construct(IConfig $config,
-		IMailer $mailer,
+	public function __construct(
+		IConfig $config,
+		private IMailer $mailer,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->mailer = $mailer;
 	}
 
 	/**
@@ -110,7 +87,7 @@ class EmailProvider extends AbstractProvider {
 				$lang = $fallbackLanguage;
 			}
 			$l10n = $this->getL10NForLang($lang);
-			$fromEMail = \OCP\Util::getDefaultEmailAddress('reminders-noreply');
+			$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
@@ -172,11 +149,11 @@ class EmailProvider extends AbstractProvider {
 			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem((string) $vevent->LOCATION, $l10n->t('Where:'),
+			$template->addBodyListItem((string)$vevent->LOCATION, $l10n->t('Where:'),
 				$this->getAbsoluteImagePath('actions/address.png'));
 		}
 		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
+			$template->addBodyListItem((string)$vevent->DESCRIPTION, $l10n->t('Description:'),
 				$this->getAbsoluteImagePath('actions/more.png'));
 		}
 	}

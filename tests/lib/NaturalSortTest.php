@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <PVince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -12,7 +11,7 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider naturalSortDataProvider
 	 */
-	public function testNaturalSortCompare($array, $sorted) {
+	public function testNaturalSortCompare($array, $sorted): void {
 		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
 			return;
@@ -25,7 +24,7 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider defaultCollatorDataProvider
 	 */
-	public function testDefaultCollatorCompare($array, $sorted) {
+	public function testDefaultCollatorCompare($array, $sorted): void {
 		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
 		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);

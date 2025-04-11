@@ -2,42 +2,24 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Sharing;
 
 use OC\User\NoUserException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 
 class OrphanHelper {
-	private IDBConnection $connection;
-	private IRootFolder $rootFolder;
-
 	public function __construct(
-		IDBConnection $connection,
-		IRootFolder $rootFolder
+		private IDBConnection $connection,
+		private IRootFolder $rootFolder,
+		private IUserMountCache $userMountCache,
 	) {
-		$this->connection = $connection;
-		$this->rootFolder = $rootFolder;
 	}
 
 	public function isShareValid(string $owner, int $fileId): bool {
@@ -76,8 +58,7 @@ class OrphanHelper {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('id', 'file_source', 'uid_owner', 'file_target')
 			->from('share')
-			->where($query->expr()->eq('item_type', $query->createNamedParameter('file')))
-			->orWhere($query->expr()->eq('item_type', $query->createNamedParameter('folder')));
+			->where($query->expr()->in('item_type', $query->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			yield [
@@ -87,5 +68,27 @@ class OrphanHelper {
 				'target' => (string)$row['file_target'],
 			];
 		}
+	}
+
+	public function findOwner(int $fileId): ?string {
+		$mounts = $this->userMountCache->getMountsForFileId($fileId);
+		if (!$mounts) {
+			return null;
+		}
+		foreach ($mounts as $mount) {
+			$userHomeMountPoint = '/' . $mount->getUser()->getUID() . '/';
+			if ($mount->getMountPoint() === $userHomeMountPoint) {
+				return $mount->getUser()->getUID();
+			}
+		}
+		return null;
+	}
+
+	public function updateShareOwner(int $shareId, string $owner): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->update('share')
+			->set('uid_owner', $query->createNamedParameter($owner))
+			->where($query->expr()->eq('id', $query->createNamedParameter($shareId, IQueryBuilder::PARAM_INT)));
+		$query->executeStatement();
 	}
 }

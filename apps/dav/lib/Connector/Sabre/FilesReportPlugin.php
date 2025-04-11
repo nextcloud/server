@@ -1,34 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\Folder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
@@ -61,55 +43,8 @@ class FilesReportPlugin extends ServerPlugin {
 	private $server;
 
 	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var View
-	 */
-	private $fileView;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * Manager for private tags
-	 *
-	 * @var ITagManager
-	 */
-	private $fileTagger;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var Folder
-	 */
-	private $userFolder;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
-
-	/**
 	 * @param Tree $tree
-	 * @param View $view
+	 * @param View $fileView
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param ITagManager $fileTagger manager for private tags
@@ -118,25 +53,20 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param Folder $userFolder
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(Tree $tree,
-		View $view,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper,
-		ITagManager $fileTagger,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		Folder $userFolder,
-		IAppManager $appManager
+	public function __construct(
+		private Tree $tree,
+		private View $fileView,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		/**
+		 * Manager for private tags
+		 */
+		private ITagManager $fileTagger,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private Folder $userFolder,
+		private IAppManager $appManager,
 	) {
-		$this->tree = $tree;
-		$this->fileView = $view;
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
-		$this->fileTagger = $fileTagger;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->userFolder = $userFolder;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -254,7 +184,7 @@ class FilesReportPlugin extends ServerPlugin {
 			new MultiStatus($responses)
 		);
 
-		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setStatus(Http::STATUS_MULTI_STATUS);
 		$this->server->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$this->server->httpResponse->setBody($xml);
 
@@ -375,7 +305,7 @@ class FilesReportPlugin extends ServerPlugin {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return [];
 		}
-		return \OCA\Circles\Api\v1\Circles::getFilesForCircles($circlesIds);
+		return Circles::getFilesForCircles($circlesIds);
 	}
 
 
@@ -383,7 +313,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * Prepare propfind response for the given nodes
 	 *
 	 * @param string $filesUri $filesUri URI leading to root of the files URI,
-	 * with a leading slash but no trailing slash
+	 *                         with a leading slash but no trailing slash
 	 * @param string[] $requestedProps requested properties
 	 * @param Node[] nodes nodes for which to fetch and prepare responses
 	 * @return Response[]
@@ -430,7 +360,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 		$results = [];
 		foreach ($fileIds as $fileId) {
-			$entry = $folder->getFirstNodeById($fileId);
+			$entry = $folder->getFirstNodeById((int)$fileId);
 			if ($entry) {
 				$results[] = $this->wrapNode($entry);
 			}
@@ -439,7 +369,7 @@ class FilesReportPlugin extends ServerPlugin {
 		return $results;
 	}
 
-	protected function wrapNode(\OCP\Files\Node $node): File|Directory {
+	protected function wrapNode(INode $node): File|Directory {
 		if ($node instanceof \OCP\Files\File) {
 			return new File($this->fileView, $node);
 		} else {

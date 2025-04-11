@@ -1,28 +1,8 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Florent <florent@coppint.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
 
@@ -147,7 +127,7 @@ trait S3ObjectTrait {
 			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway("Error while uploading to S3 bucket", 0, $e);
+			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway('Error while uploading to S3 bucket', 0, $e);
 		}
 	}
 
@@ -160,20 +140,33 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
+		$canSeek = fseek($stream, 0, SEEK_CUR) === 0;
 		$psrStream = Utils::streamFor($stream);
 
-		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
-		// so the optimisation does not apply
-		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
-		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
-		$buffer->seek(0);
-		if ($buffer->getSize() < $this->putSizeLimit) {
-			// buffer is fully seekable, so use it directly for the small upload
-			$this->writeSingle($urn, $buffer, $mimetype);
+
+		$size = $psrStream->getSize();
+		if ($size === null || !$canSeek) {
+			// The s3 single-part upload requires the size to be known for the stream.
+			// So for input streams that don't have a known size, we need to copy (part of)
+			// the input into a temporary stream so the size can be determined
+			$buffer = new Psr7\Stream(fopen('php://temp', 'rw+'));
+			Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
+			$buffer->seek(0);
+			if ($buffer->getSize() < $this->putSizeLimit) {
+				// buffer is fully seekable, so use it directly for the small upload
+				$this->writeSingle($urn, $buffer, $mimetype);
+			} else {
+				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
+				$this->writeMultiPart($urn, $loadStream, $mimetype);
+			}
 		} else {
-			$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
-			$this->writeMultiPart($urn, $loadStream, $mimetype);
+			if ($size < $this->putSizeLimit) {
+				$this->writeSingle($urn, $psrStream, $mimetype);
+			} else {
+				$this->writeMultiPart($urn, $psrStream, $mimetype);
+			}
 		}
+		$psrStream->close();
 	}
 
 	/**
@@ -203,14 +196,14 @@ trait S3ObjectTrait {
 
 		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
 			$copy = new MultipartCopy($this->getConnection(), [
-				"source_bucket" => $this->getBucket(),
-				"source_key" => $from
+				'source_bucket' => $this->getBucket(),
+				'source_key' => $from
 			], array_merge([
-				"bucket" => $this->getBucket(),
-				"key" => $to,
-				"acl" => "private",
-				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
-				"source_metadata" => $sourceMetadata
+				'bucket' => $this->getBucket(),
+				'key' => $to,
+				'acl' => 'private',
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'source_metadata' => $sourceMetadata
 			], $options));
 			$copy->copy();
 		} else {

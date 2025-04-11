@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\user_ldap\tests\Service;
 
@@ -45,17 +26,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateGroupsServiceTest extends TestCase {
-	/** @var Group_Proxy|MockObject  */
+	/** @var Group_Proxy|MockObject */
 	protected $groupBackend;
-	/** @var IEventDispatcher|MockObject  */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var IGroupManager|MockObject  */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var GroupMembershipMapper|MockObject  */
+	/** @var GroupMembershipMapper|MockObject */
 	protected $groupMembershipMapper;
 	/** @var IConfig|MockObject */
 	protected $config;
@@ -156,7 +137,7 @@ class UpdateGroupsServiceTest extends TestCase {
 		$removedEvents = 0;
 		$this->dispatcher->expects($this->exactly(4))
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents) {
+			->willReturnCallback(function ($event) use (&$addedEvents, &$removedEvents): void {
 				if ($event instanceof UserRemovedEvent) {
 					$removedEvents++;
 				} elseif ($event instanceof UserAddedEvent) {

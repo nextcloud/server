@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /** @var \OCP\IL10N $l */
@@ -51,6 +34,13 @@ $mail_sendmailmode = [
 ?>
 
 <div class="section" id="mail_general_settings">
+<?php if ($_['mail_smtpmode'] === 'null') { ?>
+	<h2><?php p($l->t('Email server'));?></h2>
+
+	<p>
+	 <?php p($l->t('Mail delivery is disabled by instance config "%s".', ['mail_smtpmode'])); ?>
+	</p>
+<?php } else { ?>
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
 		<a 	target="_blank"
@@ -160,4 +150,5 @@ $mail_sendmailmode = [
 	<em><?php p($l->t('Test and verify email settings')); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t('Send email')); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
+<?php } ?>
 </div>

@@ -1,9 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
- *
+ * SPDX-FileCopyrightText: 2016 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Wrapped;

@@ -1,30 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming;
 
@@ -36,19 +13,17 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Server;
+use OCP\ServerVersion;
 
 class Util {
-
-	private IConfig $config;
-	private IAppManager $appManager;
-	private IAppData $appData;
-	private ImageManager $imageManager;
-
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->appData = $appData;
-		$this->imageManager = $imageManager;
+	public function __construct(
+		private ServerVersion $serverVersion,
+		private IConfig $config,
+		private IAppManager $appManager,
+		private IAppData $appData,
+		private ImageManager $imageManager,
+	) {
 	}
 
 	/**
@@ -93,7 +68,7 @@ class Util {
 			$contrast = $this->colorContrast($color, $blurredBackground);
 
 			// Min. element contrast is 3:1 but we need to keep hover states in mind -> min 3.2:1
-			$minContrast = $highContrast ? 5.5 : 3.2;
+			$minContrast = $highContrast ? 5.6 : 3.2;
 
 			while ($contrast < $minContrast && $iteration++ < 100) {
 				$hsl = Color::hexToHsl($color);
@@ -212,17 +187,17 @@ class Util {
 	 */
 	public function generateRadioButton($color) {
 		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' .
-			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="'.$color.'"/></svg>';
+			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="' . $color . '"/></svg>';
 		return base64_encode($radioButtonIcon);
 	}
 
 
 	/**
-	 * @param $app string app name
+	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
 	public function getAppIcon($app) {
-		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$app = $this->appManager->cleanAppId($app);
 		try {
 			$appPath = $this->appManager->getAppPath($app);
 			$icon = $appPath . '/img/' . $app . '.svg';
@@ -248,14 +223,17 @@ class Util {
 	}
 
 	/**
-	 * @param $app string app name
-	 * @param $image string relative path to image in app folder
+	 * @param string $app app name
+	 * @param string $image relative path to image in app folder
 	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
-		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$app = $this->appManager->cleanAppId($app);
+		/**
+		 * @psalm-taint-escape file
+		 */
 		$image = str_replace(['\0', '\\', '..'], '', $image);
-		if ($app === "core") {
+		if ($app === 'core') {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
 				return $icon;
@@ -295,8 +273,8 @@ class Util {
 	/**
 	 * replace default color with a custom one
 	 *
-	 * @param $svg string content of a svg file
-	 * @param $color string color to match
+	 * @param string $svg content of a svg file
+	 * @param string $color color to match
 	 * @return string
 	 */
 	public function colorizeSvg($svg, $color) {
@@ -328,18 +306,20 @@ class Util {
 	}
 
 	public function getCacheBuster(): string {
-		$userSession = \OC::$server->get(IUserSession::class);
+		$userSession = Server::get(IUserSession::class);
 		$userId = '';
 		$user = $userSession->getUser();
 		if (!is_null($user)) {
 			$userId = $user->getUID();
 		}
+		$serverVersion = $this->serverVersion->getVersionString();
+		$themingAppVersion = $this->appManager->getAppVersion('theming');
 		$userCacheBuster = '';
 		if ($userId) {
 			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
 			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
 		}
 		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
-		return substr(sha1($userCacheBuster . $systemCacheBuster), 0, 8);
+		return substr(sha1($serverVersion . $themingAppVersion . $userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }

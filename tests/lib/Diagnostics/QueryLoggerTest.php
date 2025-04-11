@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Piotr Mrowczynski <piotr@owncloud.com>
- *
- * @copyright Copyright (c) 2017, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Diagnostics;
@@ -34,16 +20,16 @@ class QueryLoggerTest extends TestCase {
 		$this->logger = new QueryLogger();
 	}
 
-	public function testQueryLogger() {
+	public function testQueryLogger(): void {
 		// Module is not activated and this should not be logged
-		$this->logger->startQuery("SELECT", ["testuser", "count"], ["string", "int"]);
+		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();
 		$queries = $this->logger->getQueries();
 		$this->assertSame(0, sizeof($queries));
 
 		// Activate module and log some query
 		$this->logger->activate();
-		$this->logger->startQuery("SELECT", ["testuser", "count"], ["string", "int"]);
+		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();
 
 		$queries = $this->logger->getQueries();

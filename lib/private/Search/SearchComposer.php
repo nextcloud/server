@@ -3,32 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Search;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Core\ResponseDefinitions;
+use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
@@ -42,7 +25,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use function array_filter;
 use function array_map;
+use function array_values;
+use function in_array;
 
 /**
  * Queries individual \OCP\Search\IProvider implementations and composes a
@@ -62,6 +48,7 @@ use function array_map;
  * results are awaited or shown as they come in.
  *
  * @see IProvider::search() for the arguments of the individual search requests
+ * @psalm-import-type CoreUnifiedSearchProvider from ResponseDefinitions
  */
 class SearchComposer {
 	/**
@@ -78,7 +65,8 @@ class SearchComposer {
 		private Coordinator $bootstrapCoordinator,
 		private ContainerInterface $container,
 		private IURLGenerator $urlGenerator,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		$this->commonFilters = [
 			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
@@ -130,6 +118,8 @@ class SearchComposer {
 			}
 		}
 
+		$this->providers = $this->filterProviders($this->providers);
+
 		$this->loadFilters();
 	}
 
@@ -149,7 +139,7 @@ class SearchComposer {
 			}
 			foreach ($provider->getSupportedFilters() as $filterName) {
 				if ($this->getFilterDefinition($filterName, $providerId) === null) {
-					throw new InvalidArgumentException('Invalid filter '. $filterName);
+					throw new InvalidArgumentException('Invalid filter ' . $filterName);
 				}
 			}
 		}
@@ -175,7 +165,7 @@ class SearchComposer {
 	 * @param string $route the route the user is currently at
 	 * @param array $routeParameters the parameters of the route the user is currently at
 	 *
-	 * @return array
+	 * @return list<CoreUnifiedSearchProvider>
 	 */
 	public function getProviders(string $route, array $routeParameters): array {
 		$this->loadLazyProviders();
@@ -202,7 +192,7 @@ class SearchComposer {
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
 					'order' => $order,
-					'triggers' => $triggers,
+					'triggers' => array_values($triggers),
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
 					'inAppSearch' => $provider instanceof IInAppSearch,
 				];
@@ -219,12 +209,29 @@ class SearchComposer {
 		return $providers;
 	}
 
+	/**
+	 * Filter providers based on 'unified_search.providers_allowed' core app config array
+	 * @param array $providers
+	 * @return array
+	 */
+	private function filterProviders(array $providers): array {
+		$allowedProviders = $this->appConfig->getValueArray('core', 'unified_search.providers_allowed');
+
+		if (empty($allowedProviders)) {
+			return $providers;
+		}
+
+		return array_values(array_filter($providers, function ($p) use ($allowedProviders) {
+			return in_array($p['id'], $allowedProviders);
+		}));
+	}
+
 	private function fetchIcon(string $appId, string $providerId): string {
 		$icons = [
-			[$providerId, $providerId.'.svg'],
+			[$providerId, $providerId . '.svg'],
 			[$providerId, 'app.svg'],
-			[$appId, $providerId.'.svg'],
-			[$appId, $appId.'.svg'],
+			[$appId, $providerId . '.svg'],
+			[$appId, $appId . '.svg'],
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];

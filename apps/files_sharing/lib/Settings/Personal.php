@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Hinrich Mahler <nextcloud@mahlerhome.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Settings;
 
@@ -35,17 +16,11 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
-	/** @var IConfig */
-	private $config;
-	/** @var IInitialState */
-	private $initialState;
-	/** @var string */
-	private $userId;
-
-	public function __construct(IConfig $config, IInitialState $initialState, string $userId) {
-		$this->config = $config;
-		$this->initialState = $initialState;
-		$this->userId = $userId;
+	public function __construct(
+		private IConfig $config,
+		private IInitialState $initialState,
+		private string $userId,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {

@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Migration;
 
@@ -33,11 +15,9 @@ use OCP\Migration\IRepairStep;
 
 class RemoveClassifiedEventActivity implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	/**
@@ -76,7 +56,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 			->from('calendarobjects', 'o')
 			->leftJoin('o', 'calendars', 'c', $query->expr()->eq('c.id', 'o.calendarid'))
 			->where($query->expr()->eq('o.classification', $query->createNamedParameter(CalDavBackend::CLASSIFICATION_PRIVATE)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
 			if ($row['principaluri'] === null) {
@@ -87,7 +67,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 				->setParameter('type', 'calendar')
 				->setParameter('calendar_id', $row['calendarid'])
 				->setParameter('event_uid', '%' . $this->connection->escapeLikeParameter('{"id":"' . $row['uid'] . '"') . '%');
-			$deletedEvents += $delete->execute();
+			$deletedEvents += $delete->executeStatement();
 		}
 		$result->closeCursor();
 
@@ -110,7 +90,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 			->from('calendarobjects', 'o')
 			->leftJoin('o', 'calendars', 'c', $query->expr()->eq('c.id', 'o.calendarid'))
 			->where($query->expr()->eq('o.classification', $query->createNamedParameter(CalDavBackend::CLASSIFICATION_CONFIDENTIAL)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
 			if ($row['principaluri'] === null) {
@@ -122,7 +102,7 @@ class RemoveClassifiedEventActivity implements IRepairStep {
 				->setParameter('calendar_id', $row['calendarid'])
 				->setParameter('event_uid', '%' . $this->connection->escapeLikeParameter('{"id":"' . $row['uid'] . '"') . '%')
 				->setParameter('filtered_name', '%' . $this->connection->escapeLikeParameter('{"id":"' . $row['uid'] . '","name":"Busy"') . '%');
-			$deletedEvents += $delete->execute();
+			$deletedEvents += $delete->executeStatement();
 		}
 		$result->closeCursor();
 

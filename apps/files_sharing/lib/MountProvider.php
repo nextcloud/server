@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
@@ -33,6 +11,8 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -43,7 +23,7 @@ use Psr\Log\LoggerInterface;
 
 class MountProvider implements IMountProvider {
 	/**
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
 	 * @param IManager $shareManager
 	 * @param LoggerInterface $logger
 	 */
@@ -52,16 +32,17 @@ class MountProvider implements IMountProvider {
 		protected IManager $shareManager,
 		protected LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
-		protected ICacheFactory $cacheFactory
+		protected ICacheFactory $cacheFactory,
+		protected IMountManager $mountManager,
 	) {
 	}
 
 	/**
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
 	 *
-	 * @param \OCP\IUser $user
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @param IUser $user
+	 * @param IStorageFactory $loader
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1);
@@ -73,21 +54,26 @@ class MountProvider implements IMountProvider {
 
 
 		// filter out excluded shares and group shares that includes self
-		$shares = array_filter($shares, function (\OCP\Share\IShare $share) use ($user) {
+		$shares = array_filter($shares, function (IShare $share) use ($user) {
 			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		$mounts = [];
+		$mounts = $this->mountManager->getAll();
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
 		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
+
+		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
+		$maxValidatedShare = $validShareCache->get($user->getUID()) ?? 0;
+		$newMaxValidatedShare = $maxValidatedShare;
+
 		foreach ($superShares as $share) {
 			try {
-				/** @var \OCP\Share\IShare $parentShare */
+				/** @var IShare $parentShare */
 				$parentShare = $share[0];
 
 				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
@@ -101,6 +87,7 @@ class MountProvider implements IMountProvider {
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
 				}
+				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
 					$mounts,
@@ -118,8 +105,10 @@ class MountProvider implements IMountProvider {
 					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					$this->cacheFactory->createLocal('share-valid-mountpoint')
+					($shareId <= $maxValidatedShare)
 				);
+
+				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
 
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
@@ -139,6 +128,8 @@ class MountProvider implements IMountProvider {
 			}
 		}
 
+		$validShareCache->set($user->getUID(), $newMaxValidatedShare, 24 * 60 * 60);
+
 		// array_filter removes the null values from the array
 		return array_values(array_filter($mounts));
 	}
@@ -146,9 +137,9 @@ class MountProvider implements IMountProvider {
 	/**
 	 * Groups shares by path (nodeId) and target path
 	 *
-	 * @param \OCP\Share\IShare[] $shares
-	 * @return \OCP\Share\IShare[][] array of grouped shares, each element in the
-	 * array is a group which itself is an array of shares
+	 * @param IShare[] $shares
+	 * @return IShare[][] array of grouped shares, each element in the
+	 *                    array is a group which itself is an array of shares
 	 */
 	private function groupShares(array $shares) {
 		$tmp = [];
@@ -183,16 +174,16 @@ class MountProvider implements IMountProvider {
 	 * grouped shares. The most permissive permissions are used based on the permissions
 	 * of all shares within the group.
 	 *
-	 * @param \OCP\Share\IShare[] $allShares
-	 * @param \OCP\IUser $user user
+	 * @param IShare[] $allShares
+	 * @param IUser $user user
 	 * @return array Tuple of [superShare, groupedShares]
 	 */
-	private function buildSuperShares(array $allShares, \OCP\IUser $user) {
+	private function buildSuperShares(array $allShares, IUser $user) {
 		$result = [];
 
 		$groupedShares = $this->groupShares($allShares);
 
-		/** @var \OCP\Share\IShare[] $shares */
+		/** @var IShare[] $shares */
 		foreach ($groupedShares as $shares) {
 			if (count($shares) === 0) {
 				continue;
@@ -237,7 +228,7 @@ class MountProvider implements IMountProvider {
 							continue;
 						}
 						// update supershare attributes with subshare attribute
-						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['enabled']);
+						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['value']);
 					}
 				}
 

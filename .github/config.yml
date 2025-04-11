@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 firstPRMergeComment: >
     Thanks for your first pull request and welcome to the community!
     Feel free to keep them coming! If you are looking for issues to tackle then have a look at this selection: https://github.com/nextcloud/server/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22

@@ -1,33 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\MountConfig;
 
 use OCA\Files_External\Service\GlobalStoragesService;
 
@@ -136,7 +116,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testAddStorage($storageParams) {
+	public function testAddStorage($storageParams): void {
 		$storage = $this->makeStorageConfig($storageParams);
 		$newStorage = $this->service->addStorage($storage);
 
@@ -160,7 +140,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testUpdateStorage($updatedStorageParams) {
+	public function testUpdateStorage($updatedStorageParams): void {
 		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
@@ -202,7 +182,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'all'
 					],
 				],
@@ -215,7 +195,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 				],
@@ -228,7 +208,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1',
 					],
 				],
@@ -240,12 +220,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 				],
@@ -258,12 +238,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1'
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -276,22 +256,22 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1'
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -302,7 +282,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider hooksAddStorageDataProvider
 	 */
-	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls) {
+	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($applicableUsers);
 		$storage->setApplicableGroups($applicableGroups);
@@ -334,27 +314,27 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					// delete the "all entry"
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'all',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1'
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -369,12 +349,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -389,12 +369,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -409,18 +389,18 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1'
 					],
 					// create the "all" entry
 					[
 						Filesystem::signal_create_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'all'
 					],
 				],
@@ -445,7 +425,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$sourceApplicableGroups,
 		$updatedApplicableUsers,
 		$updatedApplicableGroups,
-		$expectedCalls) {
+		$expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -473,7 +453,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	}
 
 
-	public function testHooksRenameMountPoint() {
+	public function testHooksRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers(['user1', 'user2']);
 		$storage->setApplicableGroups(['group1', 'group2']);
@@ -491,50 +471,50 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 			[
 				Filesystem::signal_delete_mount,
 				'/mountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				'user1',
 			],
 			[
 				Filesystem::signal_delete_mount,
 				'/mountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				'user2',
 			],
 			[
 				Filesystem::signal_delete_mount,
 				'/mountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+				MountConfig::MOUNT_TYPE_GROUP,
 				'group1',
 			],
 			[
 				Filesystem::signal_delete_mount,
 				'/mountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+				MountConfig::MOUNT_TYPE_GROUP,
 				'group2',
 			],
 			// creates new one
 			[
 				Filesystem::signal_create_mount,
 				'/renamedMountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				'user1',
 			],
 			[
 				Filesystem::signal_create_mount,
 				'/renamedMountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+				MountConfig::MOUNT_TYPE_USER,
 				'user2',
 			],
 			[
 				Filesystem::signal_create_mount,
 				'/renamedMountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+				MountConfig::MOUNT_TYPE_GROUP,
 				'group1',
 			],
 			[
 				Filesystem::signal_create_mount,
 				'/renamedMountpoint',
-				\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+				MountConfig::MOUNT_TYPE_GROUP,
 				'group2',
 			],
 		];
@@ -561,22 +541,22 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user1',
 					],
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'user2',
 					],
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group1'
 					],
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP,
+						MountConfig::MOUNT_TYPE_GROUP,
 						'group2'
 					],
 				],
@@ -588,7 +568,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 				[
 					[
 						Filesystem::signal_delete_mount,
-						\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+						MountConfig::MOUNT_TYPE_USER,
 						'all',
 					],
 				],
@@ -602,7 +582,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	public function testHooksDeleteStorage(
 		$sourceApplicableUsers,
 		$sourceApplicableGroups,
-		$expectedCalls) {
+		$expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);

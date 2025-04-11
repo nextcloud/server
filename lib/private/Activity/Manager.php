@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Activity;
 
@@ -43,20 +21,10 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
-	/** @var IRequest */
-	protected $request;
-
-	/** @var IUserSession */
-	protected $session;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IValidator */
-	protected $validator;
 
 	/** @var string */
 	protected $formattingObjectType;
@@ -70,20 +38,14 @@ class Manager implements IManager {
 	/** @var string */
 	protected $currentUserId;
 
-	protected $l10n;
-
 	public function __construct(
-		IRequest $request,
-		IUserSession $session,
-		IConfig $config,
-		IValidator $validator,
-		IL10N $l10n
+		protected IRequest $request,
+		protected IUserSession $session,
+		protected IConfig $config,
+		protected IValidator $validator,
+		protected IRichTextFormatter $richTextFormatter,
+		protected IL10N $l10n,
 	) {
-		$this->request = $request;
-		$this->session = $session;
-		$this->config = $config;
-		$this->validator = $validator;
-		$this->l10n = $l10n;
 	}
 
 	/** @var \Closure[] */
@@ -126,7 +88,7 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent(): IEvent {
-		return new Event($this->validator);
+		return new Event($this->validator, $this->richTextFormatter);
 	}
 
 	/**
@@ -313,7 +275,7 @@ class Manager implements IManager {
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
-			&& $this->formattingObjectId === (int) $this->request->getParam('object_id');
+			&& $this->formattingObjectId === (int)$this->request->getParam('object_id');
 	}
 
 	/**
@@ -366,7 +328,7 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
 	protected function getUserFromToken(): string {
-		$token = (string) $this->request->getParam('token', '');
+		$token = (string)$this->request->getParam('token', '');
 		if (strlen($token) !== 30) {
 			throw new \UnexpectedValueException('The token is invalid');
 		}

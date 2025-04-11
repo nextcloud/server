@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Versions\Sabre;
 
@@ -34,32 +16,15 @@ use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
-		IRootFolder $rootFolder,
+		private IRootFolder $rootFolder,
 		IConfig $config,
-		IUserManager $userManager,
-		IVersionManager $versionManager,
-		IUserSession $userSession
+		private IUserManager $userManager,
+		private IVersionManager $versionManager,
+		private IUserSession $userSession,
 	) {
 		parent::__construct($principalBackend, 'principals/users');
-
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
-		$this->versionManager = $versionManager;
-		$this->userSession = $userSession;
 
 		$this->disableListing = !$config->getSystemValue('debug', false);
 	}

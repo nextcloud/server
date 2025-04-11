@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -57,7 +56,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 			self::$user = $this->getUniqueID();
 		}
 
-		\OC::$server->getUserManager()->createUser(self::$user, 'password');
+		\OC::$server->getUserManager()->createUser(self::$user, 'NotAnEasyPassword123456+');
 		$this->loginAsUser(self::$user);
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
@@ -87,7 +86,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testWrite() {
+	public function testWrite(): void {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->cache->put('foo.txt', ['mtime' => 100, 'storage_mtime' => 150]);
@@ -122,7 +121,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $mtime);
 	}
 
-	public function testWriteWithMountPoints() {
+	public function testWriteWithMountPoints(): void {
 		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$storage2->getScanner()->scan(''); //initialize etags
 		$cache2 = $storage2->getCache();
@@ -148,7 +147,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$rootCachedData = $this->cache->get('');
@@ -183,7 +182,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 	}
 
-	public function testDeleteWithMountPoints() {
+	public function testDeleteWithMountPoints(): void {
 		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
@@ -209,7 +208,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertGreaterThanOrEqual($folderCachedData['mtime'], $cachedData['mtime']);
 	}
 
-	public function testRename() {
+	public function testRename(): void {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$rootCachedData = $this->cache->get('');
@@ -231,7 +230,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 	}
 
-	public function testRenameExtension() {
+	public function testRenameExtension(): void {
 		$fooCachedData = $this->cache->get('foo.txt');
 		$this->assertEquals('text/plain', $fooCachedData['mimetype']);
 		Filesystem::rename('foo.txt', 'foo.abcd');
@@ -239,7 +238,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertEquals('application/octet-stream', $fooCachedData['mimetype']);
 	}
 
-	public function testRenameWithMountPoints() {
+	public function testRenameWithMountPoints(): void {
 		$storage2 = new \OC\Files\Storage\Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
@@ -272,7 +271,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		//		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 
-	public function testTouch() {
+	public function testTouch(): void {
 		$rootCachedData = $this->cache->get('');
 		$fooCachedData = $this->cache->get('foo.txt');
 		Filesystem::touch('foo.txt');

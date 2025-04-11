@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Mikael Hammarin <mikael@try2.se>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -42,32 +19,12 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IDBConnection $dbConn
-	 */
-	public function __construct(IUserManager $userManager,
-		IGroupManager $groupManager,
-		IDBConnection $dbConn,
-		IEventDispatcher $eventDispatcher) {
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->dbConn = $dbConn;
-		$this->eventDispatcher = $eventDispatcher;
-
+	public function __construct(
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IDBConnection $dbConn,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
 			$this->post_deleteUser($user);
 		});
@@ -89,7 +46,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 				'gid' => $qb->createNamedParameter($group->getGID()),
 				'uid' => $qb->createNamedParameter($user->getUID())
 			])
-			->execute();
+			->executeStatement();
 
 		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
@@ -108,7 +65,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeStatement();
 
 		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
@@ -146,7 +103,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$result = $qb->select('gid')
 			->from('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeQuery();
 
 		$groups = [];
 		while ($row = $result->fetch()) {
@@ -179,7 +136,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$result = $qb->select('uid')
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->execute();
+			->executeQuery();
 
 		$users = [];
 		while ($row = $result->fetch()) {
@@ -202,7 +159,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$result = $qb->select('*')
 			->from('group_admin')
-			->execute();
+			->executeQuery();
 
 		$subadmins = [];
 		while ($row = $result->fetch()) {
@@ -236,7 +193,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->from('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeQuery();
 
 		$fetch = $result->fetch();
 		$result->closeCursor();
@@ -256,13 +213,18 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			return true;
 		}
 
+		// Check if the user is already an admin
+		if ($this->groupManager->isDelegatedAdmin($user->getUID())) {
+			return true;
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$result = $qb->select('gid')
 			->from('group_admin')
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1)
-			->execute();
+			->executeQuery();
 
 		$isSubAdmin = $result->fetch();
 		$result->closeCursor();
@@ -277,6 +239,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return bool
 	 */
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
+		if ($subadmin->getUID() === $user->getUID()) {
+			return true;
+		}
 		if (!$this->isSubAdmin($subadmin)) {
 			return false;
 		}
@@ -299,7 +264,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -311,6 +276,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
-			->execute();
+			->executeStatement();
 	}
 }

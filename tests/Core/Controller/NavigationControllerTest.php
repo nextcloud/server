@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Controller;
@@ -59,13 +42,14 @@ class NavigationControllerTest extends TestCase {
 		);
 	}
 
-	public function dataGetNavigation() {
+	public static function dataGetNavigation(): array {
 		return [
-			[false], [true]
+			[false],
+			[true],
 		];
 	}
 	/** @dataProvider dataGetNavigation */
-	public function testGetAppNavigation($absolute) {
+	public function testGetAppNavigation(bool $absolute): void {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
@@ -76,11 +60,10 @@ class NavigationControllerTest extends TestCase {
 				->willReturn('http://localhost/');
 			$this->urlGenerator->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->withConsecutive(['/index.php/apps/files'], ['icon'])
-				->willReturnOnConsecutiveCalls(
-					'http://localhost/index.php/apps/files',
-					'http://localhost/icon'
-				);
+				->willReturnMap([
+					['/index.php/apps/files', 'http://localhost/index.php/apps/files'],
+					['icon', 'http://localhost/icon'],
+				]);
 			$actual = $this->controller->getAppsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
@@ -94,7 +77,7 @@ class NavigationControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataGetNavigation */
-	public function testGetSettingsNavigation($absolute) {
+	public function testGetSettingsNavigation(bool $absolute): void {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('settings')
@@ -105,14 +88,10 @@ class NavigationControllerTest extends TestCase {
 				->willReturn('http://localhost/');
 			$this->urlGenerator->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->withConsecutive(
-					['/index.php/settings/user'],
-					['/core/img/settings.svg']
-				)
-				->willReturnOnConsecutiveCalls(
-					'http://localhost/index.php/settings/user',
-					'http://localhost/core/img/settings.svg'
-				);
+				->willReturnMap([
+					['/index.php/settings/user', 'http://localhost/index.php/settings/user'],
+					['/core/img/settings.svg', 'http://localhost/core/img/settings.svg']
+				]);
 			$actual = $this->controller->getSettingsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/settings/user', $actual->getData()[0]['href']);
@@ -125,7 +104,7 @@ class NavigationControllerTest extends TestCase {
 		}
 	}
 
-	public function testGetAppNavigationEtagMatch() {
+	public function testGetAppNavigationEtagMatch(): void {
 		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
 		$this->request->expects($this->once())
 			->method('getHeader')
@@ -140,7 +119,7 @@ class NavigationControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
 	}
 
-	public function testGetSettingsNavigationEtagMatch() {
+	public function testGetSettingsNavigationEtagMatch(): void {
 		$navigation = [ ['id' => 'logout', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
 		$this->request->expects($this->once())
 			->method('getHeader')

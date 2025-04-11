@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Remco Brenninkmeijer <requist1@starmail.nl>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Archive;
 
@@ -48,15 +23,9 @@ class TAR extends Archive {
 	 */
 	private $cachedHeaders = false;
 
-	/**
-	 * @var \Archive_Tar
-	 */
-	private $tar = null;
+	private \Archive_Tar $tar;
 
-	/**
-	 * @var string
-	 */
-	private $path;
+	private string $path;
 
 	public function __construct(string $source) {
 		$types = [null, 'gz', 'bz2'];
@@ -137,7 +106,7 @@ class TAR extends Archive {
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
-		$this->tar = null;
+		$this->tar->_close();
 		unlink($this->path);
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
@@ -209,11 +178,16 @@ class TAR extends Archive {
 	 * get all files in the archive
 	 */
 	public function getFiles(): array {
-		if ($this->fileList) {
+		if ($this->fileList !== false) {
 			return $this->fileList;
 		}
-		if (!$this->cachedHeaders) {
-			$this->cachedHeaders = $this->tar->listContent();
+		if ($this->cachedHeaders === false) {
+			$headers = $this->tar->listContent();
+			if (is_array($headers)) {
+				$this->cachedHeaders = $headers;
+			} else {
+				return [];
+			}
 		}
 		$files = [];
 		foreach ($this->cachedHeaders as $header) {
@@ -230,6 +204,7 @@ class TAR extends Archive {
 	 */
 	public function getFile(string $path) {
 		$string = $this->tar->extractInString($path);
+		/** @var ?string $string */
 		if (is_string($string)) {
 			return $string;
 		} else {
@@ -300,7 +275,6 @@ class TAR extends Archive {
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		\OCP\Files::rmdirr($tmp . $path);
-		$this->tar = null;
 		unlink($this->path);
 		$this->reopen();
 		$this->tar->createModify([$tmp], '', $tmp);
@@ -347,10 +321,7 @@ class TAR extends Archive {
 	 * reopen the archive to ensure everything is written
 	 */
 	private function reopen(): void {
-		if ($this->tar) {
-			$this->tar->_close();
-			$this->tar = null;
-		}
+		$this->tar->_close();
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
@@ -359,7 +330,7 @@ class TAR extends Archive {
 	 * Get error object from archive_tar.
 	 */
 	public function getError(): ?\PEAR_Error {
-		if ($this->tar instanceof \Archive_Tar && $this->tar->error_object instanceof \PEAR_Error) {
+		if ($this->tar->error_object instanceof \PEAR_Error) {
 			return $this->tar->error_object;
 		}
 		return null;

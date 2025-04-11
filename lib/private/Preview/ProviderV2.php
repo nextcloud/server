@@ -3,47 +3,26 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\ITempManager;
 use OCP\Preview\IProviderV2;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 abstract class ProviderV2 implements IProviderV2 {
-	/** @var array */
-	protected $options;
+	protected array $tmpFiles = [];
 
-	/** @var array */
-	protected $tmpFiles = [];
-
-	/**
-	 * Constructor
-	 *
-	 * @param array $options
-	 */
-	public function __construct(array $options = []) {
-		$this->options = $options;
+	public function __construct(
+		protected array $options = [],
+	) {
 	}
 
 	/**
@@ -67,7 +46,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @param File $file
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @return null|\OCP\IImage false if no preview was generated
+	 * @return null|\OCP\IImage null if no preview was generated
 	 * @since 17.0.0
 	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
@@ -80,14 +59,24 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * Get a path to either the local file or temporary file
 	 *
 	 * @param File $file
-	 * @param int $maxSize maximum size for temporary files
-	 * @return string|false
+	 * @param ?int $maxSize maximum size for temporary files
 	 */
-	protected function getLocalFile(File $file, ?int $maxSize = null) {
+	protected function getLocalFile(File $file, ?int $maxSize = null): string|false {
 		if ($this->useTempFile($file)) {
-			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
+			$absPath = Server::get(ITempManager::class)->getTemporaryFile();
+
+			if ($absPath === false) {
+				Server::get(LoggerInterface::class)->error(
+					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+					['app' => 'core']
+				);
+				return false;
+			}
 
 			$content = $file->fopen('r');
+			if ($content === false) {
+				return false;
+			}
 
 			if ($maxSize) {
 				$content = stream_get_contents($content, $maxSize);

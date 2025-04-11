@@ -1,31 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\PublicShareController;
@@ -41,24 +24,17 @@ use OCP\Share\IShare;
 
 class PublicPreviewController extends PublicShareController {
 
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var IPreview */
-	private $previewManager;
-
 	/** @var IShare */
 	private $share;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ShareManager $shareManger,
+		private ShareManager $shareManager,
 		ISession $session,
-		IPreview $previewManager) {
+		private IPreview $previewManager,
+	) {
 		parent::__construct($appName, $request, $session);
-
-		$this->shareManager = $shareManger;
-		$this->previewManager = $previewManager;
 	}
 
 	protected function getPasswordHash(): ?string {
@@ -80,9 +56,6 @@ class PublicPreviewController extends PublicShareController {
 
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview for a shared file
 	 *
 	 * @param string $token Token of the share
@@ -90,20 +63,25 @@ class PublicPreviewController extends PublicShareController {
 	 * @param int $x Width of the preview
 	 * @param int $y Height of the preview
 	 * @param bool $a Whether to not crop the preview
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Preview returned
 	 * 400: Getting preview is not possible
 	 * 403: Getting preview is not allowed
 	 * 404: Share or preview not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreview(
 		string $token,
 		string $file = '',
 		int $x = 32,
 		int $y = 32,
-		$a = false
+		$a = false,
 	) {
+		$cacheForSeconds = 60 * 60 * 24; // 1 day
+
 		if ($token === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -119,7 +97,17 @@ class PublicPreviewController extends PublicShareController {
 		}
 
 		$attributes = $share->getAttributes();
-		if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+		// Only explicitly set to false will forbid the download!
+		$downloadForbidden = $attributes?->getAttribute('permissions', 'download') === false;
+		// Is this header is set it means our UI is doing a preview for no-download shares
+		// we check a header so we at least prevent people from using the link directly (obfuscation)
+		$isPublicPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+
+		if ($isPublicPreview && $downloadForbidden) {
+			// Only cache for 15 minutes on public preview requests to quickly remove from cache
+			$cacheForSeconds = 15 * 60;
+		} elseif ($downloadForbidden) {
+			// This is not a public share preview so we only allow a preview if download permissions are granted
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -133,7 +121,7 @@ class PublicPreviewController extends PublicShareController {
 
 			$f = $this->previewManager->getPreview($file, $x, $y, !$a);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
-			$response->cacheFor(3600 * 24);
+			$response->cacheFor($cacheForSeconds);
 			return $response;
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -143,20 +131,21 @@ class PublicPreviewController extends PublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * Get a direct link preview for a shared file
 	 *
 	 * @param string $token Token of the share
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Preview returned
 	 * 400: Getting preview is not possible
 	 * 403: Getting preview is not allowed
 	 * 404: Share or preview not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {

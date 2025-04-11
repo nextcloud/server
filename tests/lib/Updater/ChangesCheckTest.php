@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Updater;
@@ -71,7 +54,7 @@ class ChangesCheckTest extends TestCase {
 	/**
 	 * @dataProvider statusCodeProvider
 	 */
-	public function testEvaluateResponse(int $statusCode, int $expected) {
+	public function testEvaluateResponse(int $statusCode, int $expected): void {
 		$response = $this->createMock(IResponse::class);
 		$response->expects($this->atLeastOnce())
 			->method('getStatusCode')
@@ -86,7 +69,7 @@ class ChangesCheckTest extends TestCase {
 		$this->assertSame($expected, $evaluation);
 	}
 
-	public function testCacheResultInsert() {
+	public function testCacheResultInsert(): void {
 		$version = '13.0.4';
 		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->exactly(2))
@@ -102,7 +85,7 @@ class ChangesCheckTest extends TestCase {
 		$this->invokePrivate($this->checker, 'cacheResult', [$entry, $version]);
 	}
 
-	public function testCacheResultUpdate() {
+	public function testCacheResultUpdate(): void {
 		$version = '13.0.4';
 		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->once())
@@ -289,7 +272,7 @@ class ChangesCheckTest extends TestCase {
 	/**
 	 * @dataProvider changesXMLProvider
 	 */
-	public function testExtractData(string $body, array $expected) {
+	public function testExtractData(string $body, array $expected): void {
 		$actual = $this->invokePrivate($this->checker, 'extractData', [$body]);
 		$this->assertSame($expected, $actual);
 	}
@@ -304,7 +287,7 @@ class ChangesCheckTest extends TestCase {
 	/**
 	 * @dataProvider etagProvider
 	 */
-	public function testQueryChangesServer(string $etag) {
+	public function testQueryChangesServer(string $etag): void {
 		$uri = 'https://changes.nextcloud.server/?13.0.5';
 		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->any())
@@ -341,7 +324,7 @@ class ChangesCheckTest extends TestCase {
 	/**
 	 * @dataProvider versionProvider
 	 */
-	public function testNormalizeVersion(string $input, string $expected) {
+	public function testNormalizeVersion(string $input, string $expected): void {
 		$normalized = $this->checker->normalizeVersion($input);
 		$this->assertSame($expected, $normalized);
 	}
@@ -361,7 +344,7 @@ class ChangesCheckTest extends TestCase {
 	 * @dataProvider changeDataProvider
 	 *
 	 */
-	public function testGetChangesForVersion(string $inputVersion, string $normalizedVersion, bool $isFound) {
+	public function testGetChangesForVersion(string $inputVersion, string $normalizedVersion, bool $isFound): void {
 		$mocker = $this->mapper->expects($this->once())
 			->method('getChanges')
 			->with($normalizedVersion);
@@ -385,7 +368,7 @@ class ChangesCheckTest extends TestCase {
 		$this->assertTrue(isset($data['changelogURL']));
 	}
 
-	public function testGetChangesForVersionEmptyData() {
+	public function testGetChangesForVersionEmptyData(): void {
 		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->once())
 			->method('__call')

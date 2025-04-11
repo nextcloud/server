@@ -3,23 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security\Normalizer;
@@ -51,20 +36,20 @@ class IpAddressTest extends TestCase {
 				'192.168.0.123/32',
 			],
 			[
-				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
-				'2001:db8:85a3::/64',
+				'2001:0db8:0000:0000:0000:8a2e:0370:7334',
+				'2001:db8::/48',
 			],
 			[
 				'2001:db8:3333:4444:5555:6666:7777:8888',
-				'2001:db8:3333:4444::/64',
+				'2001:db8:3333::/48',
 			],
 			[
 				'::1234:5678',
-				'::/64',
+				'::/48',
 			],
 			[
 				'[::1]',
-				'::/64',
+				'::/48',
 			],
 		];
 	}
@@ -75,11 +60,11 @@ class IpAddressTest extends TestCase {
 	 * @param string $input
 	 * @param string $expected
 	 */
-	public function testGetSubnet($input, $expected) {
+	public function testGetSubnet($input, $expected): void {
 		$this->assertSame($expected, (new IpAddress($input))->getSubnet());
 	}
 
-	public function testToString() {
+	public function testToString(): void {
 		$this->assertSame('127.0.0.1', (string)(new IpAddress('127.0.0.1')));
 	}
 }

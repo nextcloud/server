@@ -1,50 +1,33 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Robin Appelman <robin@icewind.nl>
- * @author szaimen <szaimen@e.mail.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\ISharedMountPoint;
 
 class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 
 	/**
-	 * @var \OCA\Files_Sharing\External\Manager
-	 */
-	protected $manager;
-
-	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param string|Storage $storage
 	 * @param string $mountpoint
 	 * @param array $options
 	 * @param \OCA\Files_Sharing\External\Manager $manager
 	 * @param \OC\Files\Storage\StorageFactory $loader
 	 */
-	public function __construct($storage, $mountpoint, $options, $manager, $loader = null) {
+	public function __construct(
+		$storage,
+		$mountpoint,
+		$options,
+		protected $manager,
+		$loader = null,
+	) {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
-		$this->manager = $manager;
 	}
 
 	/**

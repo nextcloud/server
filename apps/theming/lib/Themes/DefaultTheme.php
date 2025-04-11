@@ -2,79 +2,42 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Themes;
 
+use OC\AppFramework\Http\Request;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
 
-	public Util $util;
-	public ThemingDefaults $themingDefaults;
-	public IUserSession $userSession;
-	public IURLGenerator $urlGenerator;
-	public ImageManager $imageManager;
-	public IConfig $config;
-	public IL10N $l;
-	public IAppManager $appManager;
-
 	public string $defaultPrimaryColor;
 	public string $primaryColor;
 
-	public function __construct(Util $util,
-		ThemingDefaults $themingDefaults,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		ImageManager $imageManager,
-		IConfig $config,
-		IL10N $l,
-		IAppManager $appManager) {
-		$this->util = $util;
-		$this->themingDefaults = $themingDefaults;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->imageManager = $imageManager;
-		$this->config = $config;
-		$this->l = $l;
-		$this->appManager = $appManager;
-
+	public function __construct(
+		public Util $util,
+		public ThemingDefaults $themingDefaults,
+		public IUserSession $userSession,
+		public IURLGenerator $urlGenerator,
+		public ImageManager $imageManager,
+		public IConfig $config,
+		public IL10N $l,
+		public IAppManager $appManager,
+		private ?IRequest $request,
+	) {
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
-
-		// Override primary colors (if set) to improve accessibility
-		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
-			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 	}
 
 	public function getId(): string {
@@ -120,12 +83,29 @@ class DefaultTheme implements ITheme {
 		$colorSuccess = '#2d7b41';
 		$colorInfo = '#0071ad';
 
+		$user = $this->userSession->getUser();
+		// Chromium based browsers currently (2024) have huge performance issues with blur filters
+		$isChromium = $this->request !== null && $this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_MS_EDGE]);
+		// Ignore MacOS because they always have hardware accelartion
+		$isChromium = $isChromium && !$this->request->isUserAgent(['/Macintosh/']);
+		// Allow to force the blur filter
+		$forceEnableBlur = $user === null ? false : $this->config->getUserValue(
+			$user->getUID(),
+			'theming',
+			'force_enable_blur_filter',
+		);
+		$workingBlur = match($forceEnableBlur) {
+			'yes' => true,
+			'no' => false,
+			default => !$isChromium
+		};
+
 		$variables = [
 			'--color-main-background' => $colorMainBackground,
 			'--color-main-background-rgb' => $colorMainBackgroundRGB,
 			'--color-main-background-translucent' => 'rgba(var(--color-main-background-rgb), .97)',
 			'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .8)',
-			'--filter-background-blur' => 'blur(25px)',
+			'--filter-background-blur' => $workingBlur ? 'blur(25px)' : 'none',
 
 			// to use like this: background-image: linear-gradient(0, var('--gradient-main-background));
 			'--gradient-main-background' => 'var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%',
@@ -146,7 +126,7 @@ class DefaultTheme implements ITheme {
 			'--color-text-light' => 'var(--color-main-text)', // deprecated
 			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
-			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,
@@ -172,7 +152,7 @@ class DefaultTheme implements ITheme {
 			'--color-loading-dark' => '#444444',
 
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
-			'--color-box-shadow' => "rgba(var(--color-box-shadow-rgb), 0.5)",
+			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
@@ -180,33 +160,52 @@ class DefaultTheme implements ITheme {
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
+			'--font-size-small' => '13px',
+			// 1.5 * font-size for accessibility
+			'--default-line-height' => '1.5',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
-			'--border-radius' => '3px',
-			'--border-radius-large' => '10px',
+			// Border width for input elements such as text fields and selects
+			'--border-width-input' => '1px',
+			'--border-width-input-focused' => '2px',
+
+			// Border radii (new values)
+			'--border-radius-small' => '4px', // For smaller elements
+			'--border-radius-element' => '8px', // For interactive elements such as buttons, input, navigation and list items
+			'--border-radius-container' => '12px', // For smaller containers like action menus
+			'--border-radius-container-large' => '16px', // For bigger containers like body or modals
+
+			// Border radii (deprecated)
+			'--border-radius' => 'var(--border-radius-small)',
+			'--border-radius-large' => 'var(--border-radius-element)',
 			'--border-radius-rounded' => '28px',
-			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
-			'--default-clickable-area' => '44px',
-			'--default-line-height' => '24px',
+			'--default-clickable-area' => '34px',
+			'--clickable-area-large' => '48px',
+			'--clickable-area-small' => '24px',
+
 			'--default-grid-baseline' => '4px',
 
 			// various structure data
 			'--header-height' => '50px',
+			'--header-menu-item-height' => '44px',
 			'--navigation-width' => '300px',
 			'--sidebar-min-width' => '300px',
 			'--sidebar-max-width' => '500px',
-			'--list-min-width' => '200px',
-			'--list-max-width' => '300px',
-			'--header-menu-item-height' => '44px',
-			'--header-menu-profile-item-height' => '66px',
 
-			// mobile. Keep in sync with core/js/js.js
+			// Border radius of the body container
+			'--body-container-radius' => 'var(--border-radius-container-large)',
+			// Margin of the body container
+			'--body-container-margin' => 'calc(var(--default-grid-baseline) * 2)',
+			// Height of the body container to fully fill the view port
+			'--body-height' => 'calc(100% - env(safe-area-inset-bottom) - var(--header-height) - var(--body-container-margin))',
+
+			// mobile. Keep in sync with core/src/init.js
 			'--breakpoint-mobile' => '1024px',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',

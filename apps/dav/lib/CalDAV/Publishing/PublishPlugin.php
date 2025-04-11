@@ -1,34 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
@@ -51,28 +30,21 @@ class PublishPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * Config instance to get instance secret.
-	 *
-	 * @var IConfig
-	 */
-	protected $config;
-
-	/**
-	 * URL Generator for absolute URLs.
-	 *
-	 * @var IURLGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
 	 * PublishPlugin constructor.
 	 *
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IConfig $config, IURLGenerator $urlGenerator) {
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		/**
+		 * Config instance to get instance secret.
+		 */
+		protected IConfig $config,
+		/**
+		 * URL Generator for absolute URLs.
+		 */
+		protected IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**
@@ -119,17 +91,17 @@ class PublishPlugin extends ServerPlugin {
 
 	public function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof Calendar) {
-			$propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node) {
+			$propFind->handle('{' . self::NS_CALENDARSERVER . '}publish-url', function () use ($node) {
 				if ($node->getPublishStatus()) {
 					// We return the publish-url only if the calendar is published.
 					$token = $node->getPublishStatus();
-					$publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
+					$publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri() . 'public-calendars/') . $token;
 
 					return new Publisher($publishUrl, true);
 				}
 			});
 
-			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function () use ($node) {
+			$propFind->handle('{' . self::NS_CALENDARSERVER . '}allowed-sharing-modes', function () use ($node) {
 				$canShare = (!$node->isSubscription() && $node->canWrite());
 				$canPublish = (!$node->isSubscription() && $node->canWrite());
 
@@ -155,7 +127,7 @@ class PublishPlugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = (string) $request->getHeader('Content-Type');
+		$contentType = (string)$request->getHeader('Content-Type');
 		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
@@ -182,7 +154,7 @@ class PublishPlugin extends ServerPlugin {
 
 		switch ($documentType) {
 
-			case '{'.self::NS_CALENDARSERVER.'}publish-calendar':
+			case '{' . self::NS_CALENDARSERVER . '}publish-calendar':
 
 				// We can only deal with IShareableCalendar objects
 				if (!$node instanceof Calendar) {
@@ -208,7 +180,7 @@ class PublishPlugin extends ServerPlugin {
 				$node->setPublishStatus(true);
 
 				// iCloud sends back the 202, so we will too.
-				$response->setStatus(202);
+				$response->setStatus(Http::STATUS_ACCEPTED);
 
 				// Adding this because sending a response body may cause issues,
 				// and I wanted some type of indicator the response was handled.
@@ -217,7 +189,7 @@ class PublishPlugin extends ServerPlugin {
 				// Breaking the event chain
 				return false;
 
-			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar':
+			case '{' . self::NS_CALENDARSERVER . '}unpublish-calendar':
 
 				// We can only deal with IShareableCalendar objects
 				if (!$node instanceof Calendar) {
@@ -242,7 +214,7 @@ class PublishPlugin extends ServerPlugin {
 
 				$node->setPublishStatus(false);
 
-				$response->setStatus(200);
+				$response->setStatus(Http::STATUS_OK);
 
 				// Adding this because sending a response body may cause issues,
 				// and I wanted some type of indicator the response was handled.

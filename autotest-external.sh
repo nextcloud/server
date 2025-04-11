@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 #
-# ownCloud
-#
-# @author Thomas Müller
-# @author Morris Jobke
-# @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
-# @copyright 2014 Morris Jobke hey@morrisjobke.de
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel

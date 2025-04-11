@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Native;
@@ -114,6 +113,13 @@ class NativeShare extends AbstractShare {
 		$info->getSize();
 
 		return $info;
+	}
+
+	/**
+	 * @return array{"mode": int, "size": int, "mtime": int}
+	 */
+	public function rawStat(string $path): array {
+		return $this->getState()->stat($this->buildUrl($path));
 	}
 
 	/**

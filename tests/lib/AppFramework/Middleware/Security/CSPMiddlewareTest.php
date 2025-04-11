@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware\Security;
@@ -29,23 +12,19 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfToken;
-use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CSPMiddlewareTest extends \Test\TestCase {
-	/** @var CSPMiddleware|MockObject */
+	/** @var CSPMiddleware&MockObject */
 	private $middleware;
-	/** @var Controller|MockObject */
+	/** @var Controller&MockObject */
 	private $controller;
-	/** @var ContentSecurityPolicyManager|MockObject */
+	/** @var ContentSecurityPolicyManager&MockObject */
 	private $contentSecurityPolicyManager;
-	/** @var CsrfTokenManager|MockObject */
-	private $csrfTokenManager;
-	/** @var ContentSecurityPolicyNonceManager|MockObject */
+	/** @var ContentSecurityPolicyNonceManager&MockObject */
 	private $cspNonceManager;
 
 	protected function setUp(): void {
@@ -53,16 +32,14 @@ class CSPMiddlewareTest extends \Test\TestCase {
 
 		$this->controller = $this->createMock(Controller::class);
 		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
-		$this->csrfTokenManager = $this->createMock(CsrfTokenManager::class);
 		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
 		$this->middleware = new CSPMiddleware(
 			$this->contentSecurityPolicyManager,
 			$this->cspNonceManager,
-			$this->csrfTokenManager
 		);
 	}
 
-	public function testAfterController() {
+	public function testAfterController(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')
@@ -94,7 +71,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerEmptyCSP() {
+	public function testAfterControllerEmptyCSP(): void {
 		$response = $this->createMock(Response::class);
 		$emptyPolicy = new EmptyContentSecurityPolicy();
 		$response->expects($this->any())
@@ -106,19 +83,15 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerWithContentSecurityPolicy3Support() {
+	public function testAfterControllerWithContentSecurityPolicy3Support(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(true);
-		$token = $this->createMock(CsrfToken::class);
-		$token
+		$token = base64_encode('the-nonce');
+		$this->cspNonceManager
 			->expects($this->once())
-			->method('getEncryptedValue')
-			->willReturn('MyEncryptedToken');
-		$this->csrfTokenManager
-			->expects($this->once())
-			->method('getToken')
+			->method('getNonce')
 			->willReturn($token);
 		$response = $this->createMock(Response::class);
 		$defaultPolicy = new ContentSecurityPolicy();

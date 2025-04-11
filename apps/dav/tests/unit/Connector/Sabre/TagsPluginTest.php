@@ -1,52 +1,29 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\TagList;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Upload\UploadFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUser;
+use OCP\IUserSession;
 use Sabre\DAV\Tree;
 
-/**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
 class TagsPluginTest extends \Test\TestCase {
-	public const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
-	public const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
-	public const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
+	public const TAGS_PROPERTYNAME = TagsPlugin::TAGS_PROPERTYNAME;
+	public const FAVORITE_PROPERTYNAME = TagsPlugin::FAVORITE_PROPERTYNAME;
+	public const TAG_FAVORITE = TagsPlugin::TAG_FAVORITE;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -59,17 +36,27 @@ class TagsPluginTest extends \Test\TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCP\ITagManager
+	 * @var ITagManager
 	 */
 	private $tagManager;
 
 	/**
-	 * @var \OCP\ITags
+	 * @var ITags
 	 */
 	private $tagger;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\TagsPlugin
+	 * @var IEventDispatcher
+	 */
+	private $eventDispatcher;
+
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
+	 * @var TagsPlugin
 	 */
 	private $plugin;
 
@@ -85,11 +72,24 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tagManager = $this->getMockBuilder(ITagManager::class)
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->eventDispatcher = $this->getMockBuilder(IEventDispatcher::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$user = $this->createMock(IUser::class);
+		/**
+		 * @var IUserSession
+		 */
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->withAnyParameters()
+			->willReturn($user);
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')
 			->willReturn($this->tagger);
-		$this->plugin = new \OCA\DAV\Connector\Sabre\TagsPlugin($this->tree, $this->tagManager);
+		$this->plugin = new TagsPlugin($this->tree, $this->tagManager, $this->eventDispatcher, $this->userSession);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -222,7 +222,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 						self::FAVORITE_PROPERTYNAME => true,
 					]
 				]
@@ -233,7 +233,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+						self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2']),
 					]
 				]
 			],
@@ -261,7 +261,7 @@ class TagsPluginTest extends \Test\TestCase {
 				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
 				[
 					200 => [
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList([]),
+						self::TAGS_PROPERTYNAME => new TagList([]),
 						self::FAVORITE_PROPERTYNAME => false,
 					]
 				]
@@ -324,7 +324,7 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2', 'tagkeep'])
 		]);
 
 		$this->plugin->handleUpdateProperties(
@@ -370,7 +370,7 @@ class TagsPluginTest extends \Test\TestCase {
 
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch([
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2'])
+			self::TAGS_PROPERTYNAME => new TagList(['tag1', 'tag2'])
 		]);
 
 		$this->plugin->handleUpdateProperties(

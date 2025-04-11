@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\OAuth2\Tests\Controller;
 
@@ -39,6 +18,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -91,7 +71,7 @@ class SettingsControllerTest extends TestCase {
 
 	}
 
-	public function testAddClient() {
+	public function testAddClient(): void {
 		$this->secureRandom
 			->expects($this->exactly(2))
 			->method('generate')
@@ -102,13 +82,13 @@ class SettingsControllerTest extends TestCase {
 
 		$this->crypto
 			->expects($this->once())
-			->method('encrypt')
-			->willReturn('MyEncryptedSecret');
+			->method('calculateHMAC')
+			->willReturn('MyHashedSecret');
 
 		$client = new Client();
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -117,7 +97,7 @@ class SettingsControllerTest extends TestCase {
 			->with($this->callback(function (Client $c) {
 				return $c->getName() === 'My Client Name' &&
 					$c->getRedirectUri() === 'https://example.com/' &&
-					$c->getSecret() === 'MyEncryptedSecret' &&
+					$c->getSecret() === bin2hex('MyHashedSecret') &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
@@ -138,16 +118,19 @@ class SettingsControllerTest extends TestCase {
 		], $data);
 	}
 
-	public function testDeleteClient() {
+	public function testDeleteClient(): void {
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
-		$function = function (IUser $user) use (&$count) {
-			$count++;
+		$function = function (IUser $user) use (&$count): void {
+			if ($user->getLastLogin() > 0) {
+				$count++;
+			}
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
+		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
 		// expect one call per user and ensure the correct client name
@@ -160,7 +143,7 @@ class SettingsControllerTest extends TestCase {
 		$client->setId(123);
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -195,7 +178,7 @@ class SettingsControllerTest extends TestCase {
 		$user1->delete();
 	}
 
-	public function testInvalidRedirectUri() {
+	public function testInvalidRedirectUri(): void {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());

@@ -1,25 +1,8 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -29,13 +12,12 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use Test\TestCase;
 
 class PublicTemplateResponseTest extends TestCase {
-	public function testSetParamsConstructor() {
+	public function testSetParamsConstructor(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 	}
 
-	public function testAdditionalElements() {
+	public function testAdditionalElements(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
 		$template->setHeaderTitle('Header');
 		$template->setHeaderDetails('Details');
@@ -44,7 +26,7 @@ class PublicTemplateResponseTest extends TestCase {
 		$this->assertEquals('Details', $template->getHeaderDetails());
 	}
 
-	public function testActionSingle() {
+	public function testActionSingle(): void {
 		$actions = [
 			new Http\Template\SimpleMenuAction('link', 'Download', 'download', 'downloadLink', 0)
 		];
@@ -57,7 +39,7 @@ class PublicTemplateResponseTest extends TestCase {
 	}
 
 
-	public function testActionMultiple() {
+	public function testActionMultiple(): void {
 		$actions = [
 			new Http\Template\SimpleMenuAction('link1', 'Download1', 'download1', 'downloadLink1', 100),
 			new Http\Template\SimpleMenuAction('link2', 'Download2', 'download2', 'downloadLink2', 20),
@@ -72,9 +54,8 @@ class PublicTemplateResponseTest extends TestCase {
 	}
 
 
-	public function testGetRenderAs() {
+	public function testGetRenderAs(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 		$this->assertEquals('public', $template->getRenderAs());
 	}

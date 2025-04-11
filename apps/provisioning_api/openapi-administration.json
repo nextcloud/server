@@ -75,6 +75,285 @@
                         "type": "string"
                     }
                 }
+            },
+            "UserDetails": {
+                "type": "object",
+                "required": [
+                    "additional_mail",
+                    "address",
+                    "backend",
+                    "backendCapabilities",
+                    "biography",
+                    "display-name",
+                    "displayname",
+                    "email",
+                    "fediverse",
+                    "groups",
+                    "headline",
+                    "id",
+                    "language",
+                    "firstLoginTimestamp",
+                    "lastLoginTimestamp",
+                    "lastLogin",
+                    "locale",
+                    "manager",
+                    "notify_email",
+                    "organisation",
+                    "phone",
+                    "profile_enabled",
+                    "pronouns",
+                    "quota",
+                    "role",
+                    "subadmin",
+                    "twitter",
+                    "website"
+                ],
+                "properties": {
+                    "additional_mail": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "additional_mailScope": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserDetailsScope"
+                        }
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "addressScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "avatarScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "backend": {
+                        "type": "string"
+                    },
+                    "backendCapabilities": {
+                        "type": "object",
+                        "required": [
+                            "setDisplayName",
+                            "setPassword"
+                        ],
+                        "properties": {
+                            "setDisplayName": {
+                                "type": "boolean"
+                            },
+                            "setPassword": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "biography": {
+                        "type": "string"
+                    },
+                    "biographyScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "display-name": {
+                        "type": "string"
+                    },
+                    "displayname": {
+                        "type": "string"
+                    },
+                    "displaynameScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "emailScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "fediverse": {
+                        "type": "string"
+                    },
+                    "fediverseScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "groups": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "headline": {
+                        "type": "string"
+                    },
+                    "headlineScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "type": "string"
+                    },
+                    "firstLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastLogin": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "locale": {
+                        "type": "string"
+                    },
+                    "manager": {
+                        "type": "string"
+                    },
+                    "notify_email": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "organisation": {
+                        "type": "string"
+                    },
+                    "organisationScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "phoneScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "profile_enabled": {
+                        "type": "string"
+                    },
+                    "profile_enabledScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "pronouns": {
+                        "type": "string"
+                    },
+                    "pronounsScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "quota": {
+                        "$ref": "#/components/schemas/UserDetailsQuota"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "roleScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "storageLocation": {
+                        "type": "string"
+                    },
+                    "subadmin": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "twitter": {
+                        "type": "string"
+                    },
+                    "twitterScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "website": {
+                        "type": "string"
+                    },
+                    "websiteScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    }
+                }
+            },
+            "UserDetailsQuota": {
+                "type": "object",
+                "properties": {
+                    "free": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
+                    },
+                    "quota": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "relative": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
+                    },
+                    "total": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
+                    },
+                    "used": {
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "format": "double"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
+                    }
+                }
+            },
+            "UserDetailsScope": {
+                "type": "string",
+                "enum": [
+                    "v2-private",
+                    "v2-local",
+                    "v2-federated",
+                    "v2-published",
+                    "private",
+                    "contacts",
+                    "public"
+                ]
             }
         }
     },
@@ -461,25 +740,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupid"
+                                ],
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "description": "ID of the group"
+                                    },
+                                    "displayname": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Display name of the group"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "displayname",
-                        "in": "query",
-                        "description": "Display name of the group",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -539,25 +824,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "description": "Key to update, only 'displayname'"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "New value for the key"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "key",
-                        "in": "query",
-                        "description": "Key to update, only 'displayname'",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "groupId",
                         "in": "path",
@@ -679,6 +970,123 @@
                 }
             }
         },
+        "/ocs/v2.php/cloud/users/recent": {
+            "get": {
+                "operationId": "users-get-last-logged-in-users",
+                "summary": "Gets the list of users sorted by lastLogin, from most recent to least recent",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users details returned based on last logged in information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "type": "object",
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/cloud/users/{userId}/subadmins": {
             "get": {
                 "operationId": "users-get-user-sub-admin-groups",
@@ -767,16 +1175,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupid"
+                                ],
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "description": "ID of the group"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -845,18 +1263,18 @@
                 ],
                 "parameters": [
                     {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
                         "required": true,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID of the user",
+                        "name": "groupid",
+                        "in": "query",
+                        "description": "ID of the group",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1124,15 +1542,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "defaultValue",
-                        "in": "query",
-                        "description": "Default returned value if the value is empty",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
                         "name": "app",
                         "in": "path",
                         "description": "ID of the app",
@@ -1148,6 +1557,15 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "defaultValue",
+                        "in": "query",
+                        "description": "Default returned value if the value is empty",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     },
                     {

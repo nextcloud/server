@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Files\Mount;
 
 use OC\Files\Mount\ObjectHomeMountProvider;
@@ -30,7 +34,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->provider = new ObjectHomeMountProvider($this->config);
 	}
 
-	public function testSingleBucket() {
+	public function testSingleBucket(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('objectstore'), '')
@@ -52,7 +56,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
 	}
 
-	public function testMultiBucket() {
+	public function testMultiBucket(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->with($this->equalTo('objectstore_multibucket'), '')
@@ -96,7 +100,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertEquals('49', $config['arguments']['bucket']);
 	}
 
-	public function testMultiBucketWithPrefix() {
+	public function testMultiBucketWithPrefix(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->with('objectstore_multibucket')
@@ -143,7 +147,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertEquals('myBucketPrefix49', $config['arguments']['bucket']);
 	}
 
-	public function testMultiBucketBucketAlreadySet() {
+	public function testMultiBucketBucketAlreadySet(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('objectstore_multibucket')
@@ -183,7 +187,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertEquals('awesomeBucket1', $config['arguments']['bucket']);
 	}
 
-	public function testMultiBucketConfigFirst() {
+	public function testMultiBucketConfigFirst(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->with('objectstore_multibucket')
@@ -199,7 +203,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertInstanceOf('OC\Files\Mount\MountPoint', $mount);
 	}
 
-	public function testMultiBucketConfigFirstFallBackSingle() {
+	public function testMultiBucketConfigFirstFallBackSingle(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->withConsecutive(
@@ -220,7 +224,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertInstanceOf('OC\Files\Mount\MountPoint', $mount);
 	}
 
-	public function testNoObjectStore() {
+	public function testNoObjectStore(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturn('');

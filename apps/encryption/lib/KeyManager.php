@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption;
 
@@ -235,7 +211,7 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId() .
 			'.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);
@@ -311,11 +287,9 @@ class KeyManager {
 	/**
 	 * Decrypt private key and store it
 	 *
-	 * @param string $uid user id
-	 * @param string $passPhrase users password
 	 * @return boolean
 	 */
-	public function init($uid, $passPhrase) {
+	public function init(string $uid, ?string $passPhrase) {
 		$this->session->setStatus(Session::INIT_EXECUTED);
 
 		try {
@@ -324,6 +298,10 @@ class KeyManager {
 				$passPhrase = $this->getMasterKeyPassword();
 				$privateKey = $this->getSystemPrivateKey($uid);
 			} else {
+				if ($passPhrase === null) {
+					$this->logger->warning('Master key is disabled but not passphrase provided.');
+					return false;
+				}
 				$privateKey = $this->getPrivateKey($uid);
 			}
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey, $passPhrase, $uid);
@@ -367,12 +345,9 @@ class KeyManager {
 	}
 
 	/**
-	 * @param string $path
-	 * @param $uid
 	 * @param ?bool $useLegacyFileKey null means try both
-	 * @return string
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey): string {
+	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
 		if ($uid === '') {
 			$uid = null;
 		}
@@ -385,8 +360,10 @@ class KeyManager {
 				return '';
 			}
 		}
-
-		if ($this->util->isMasterKeyEnabled()) {
+		if ($useDecryptAll) {
+			$shareKey = $this->getShareKey($path, $this->session->getDecryptAllUid());
+			$privateKey = $this->session->getDecryptAllKey();
+		} elseif ($this->util->isMasterKeyEnabled()) {
 			$uid = $this->getMasterKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
 			if ($publicAccess) {

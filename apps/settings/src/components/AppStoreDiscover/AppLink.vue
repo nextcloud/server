@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<a v-if="linkProps" v-bind="linkProps">
 		<slot />
@@ -35,12 +18,10 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
+import type { INavigationEntry } from '../../../../../core/src/types/navigation'
 
-const knownRoutes = Object.fromEntries(
-	Object.entries(
-		loadState<Record<string, { app?: string, href: string }>>('core', 'apps'),
-	).map(([k, v]) => [v.app ?? k, v.href]),
-)
+const apps = loadState<INavigationEntry[]>('core', 'apps')
+const knownRoutes = Object.fromEntries(apps.map((app) => [app.app ?? app.id, app.href]))
 
 /**
  * This component either shows a native link to the installed app or external size - or a router link to the appstore page of the app if not installed

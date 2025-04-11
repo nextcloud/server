@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Copyright (c) 2015 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Command;
@@ -93,40 +92,40 @@ abstract class AsyncBusTest extends TestCase {
 		self::$lastCommand = '';
 	}
 
-	public function testSimpleCommand() {
+	public function testSimpleCommand(): void {
 		$command = new SimpleCommand();
 		$this->getBus()->push($command);
 		$this->runJobs();
 		$this->assertEquals('SimpleCommand', self::$lastCommand);
 	}
 
-	public function testStateFullCommand() {
+	public function testStateFullCommand(): void {
 		$command = new StateFullCommand('foo');
 		$this->getBus()->push($command);
 		$this->runJobs();
 		$this->assertEquals('foo', self::$lastCommand);
 	}
 
-	public function testStaticCallable() {
+	public function testStaticCallable(): void {
 		$this->getBus()->push(['\Test\Command\AsyncBusTest', 'DummyCommand']);
 		$this->runJobs();
 		$this->assertEquals('static', self::$lastCommand);
 	}
 
-	public function testMemberCallable() {
+	public function testMemberCallable(): void {
 		$command = new StateFullCommand('bar');
 		$this->getBus()->push([$command, 'handle']);
 		$this->runJobs();
 		$this->assertEquals('bar', self::$lastCommand);
 	}
 
-	public function testFunctionCallable() {
+	public function testFunctionCallable(): void {
 		$this->getBus()->push('\Test\Command\BasicFunction');
 		$this->runJobs();
 		$this->assertEquals('function', self::$lastCommand);
 	}
 
-	public function testClosure() {
+	public function testClosure(): void {
 		$this->getBus()->push(function () {
 			AsyncBusTest::$lastCommand = 'closure';
 		});
@@ -134,7 +133,7 @@ abstract class AsyncBusTest extends TestCase {
 		$this->assertEquals('closure', self::$lastCommand);
 	}
 
-	public function testClosureSelf() {
+	public function testClosureSelf(): void {
 		$this->getBus()->push(function () {
 			AsyncBusTest::$lastCommand = 'closure-self';
 		});
@@ -143,7 +142,7 @@ abstract class AsyncBusTest extends TestCase {
 	}
 
 
-	public function testClosureThis() {
+	public function testClosureThis(): void {
 		// clean class to prevent phpunit putting closure in $this
 		$test = new ThisClosureTest();
 		$test->test($this->getBus());
@@ -151,7 +150,7 @@ abstract class AsyncBusTest extends TestCase {
 		$this->assertEquals('closure-this', self::$lastCommand);
 	}
 
-	public function testClosureBind() {
+	public function testClosureBind(): void {
 		$state = 'bar';
 		$this->getBus()->push(function () use ($state) {
 			AsyncBusTest::$lastCommand = 'closure-' . $state;
@@ -160,14 +159,14 @@ abstract class AsyncBusTest extends TestCase {
 		$this->assertEquals('closure-bar', self::$lastCommand);
 	}
 
-	public function testFileFileAccessCommand() {
+	public function testFileFileAccessCommand(): void {
 		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('', self::$lastCommand);
 		$this->runJobs();
 		$this->assertEquals('FileAccess', self::$lastCommand);
 	}
 
-	public function testFileFileAccessCommandSync() {
+	public function testFileFileAccessCommandSync(): void {
 		$this->getBus()->requireSync('\OC\Command\FileAccess');
 		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('FileAccess', self::$lastCommand);

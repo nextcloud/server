@@ -1,35 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr M <mrow4a@yahoo.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author tbartenstein <tbartenstein@users.noreply.github.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files;
 
@@ -121,11 +95,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		unset($this->data[$offset]);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	#[\ReturnTypeWillChange]
-	public function offsetGet($offset) {
+	public function offsetGet(mixed $offset): mixed {
 		return match ($offset) {
 			'type' => $this->getType(),
 			'etag' => $this->getEtag(),
@@ -160,7 +130,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int|null
 	 */
 	public function getId() {
-		return isset($this->data['fileid']) ? (int)  $this->data['fileid'] : null;
+		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
 	/**
@@ -190,7 +160,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getEtag() {
-		$this->updateEntryfromSubMounts();
+		$this->updateEntryFromSubMounts();
 		if (count($this->childEtags) > 0) {
 			$combinedEtag = $this->data['etag'] . '::' . implode('::', $this->childEtags);
 			return md5($combinedEtag);
@@ -205,7 +175,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getSize($includeMounts = true) {
 		if ($includeMounts) {
-			$this->updateEntryfromSubMounts();
+			$this->updateEntryFromSubMounts();
 
 			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 				return $this->data['unencrypted_size'];
@@ -221,8 +191,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getMTime() {
-		$this->updateEntryfromSubMounts();
-		return (int) $this->data['mtime'];
+		$this->updateEntryFromSubMounts();
+		return (int)$this->data['mtime'];
 	}
 
 	/**
@@ -236,14 +206,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * Return the current version used for the HMAC in the encryption app
 	 */
 	public function getEncryptedVersion(): int {
-		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPermissions() {
-		return (int) $this->data['permissions'];
+		return (int)$this->data['permissions'];
 	}
 
 	/**
@@ -344,7 +314,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->subMounts = $mounts;
 	}
 
-	private function updateEntryfromSubMounts(): void {
+	private function updateEntryFromSubMounts(): void {
 		if ($this->subMountsUsed) {
 			return;
 		}
@@ -405,11 +375,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function getCreationTime(): int {
-		return (int) $this->data['creation_time'];
+		return (int)$this->data['creation_time'];
 	}
 
 	public function getUploadTime(): int {
-		return (int) $this->data['upload_time'];
+		return (int)$this->data['upload_time'];
 	}
 
 	public function getParentId(): int {

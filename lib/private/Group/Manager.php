@@ -1,48 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Knut Ahlers <knut@ahlers.me>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author macjohnny <estebanmarin@gmx.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roman Kreisel <mail@romankreisel.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author voxsim "Simon Vocella"
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -51,6 +20,7 @@ use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use function is_string;
 
@@ -73,11 +43,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var GroupInterface[] */
 	private $backends = [];
 
-	/** @var \OC\User\Manager */
-	private $userManager;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-
 	/** @var array<string, IGroup> */
 	private $cachedGroups = [];
 
@@ -89,35 +54,26 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	private DisplayNameCache $displayNameCache;
 
-	public function __construct(\OC\User\Manager $userManager,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		ICacheFactory $cacheFactory) {
-		$this->userManager = $userManager;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	private const MAX_GROUP_LENGTH = 255;
+
+	public function __construct(
+		private \OC\User\Manager $userManager,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		ICacheFactory $cacheFactory,
+		private IRemoteAddress $remoteAddress,
+	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
-		$cachedGroups = &$this->cachedGroups;
-		$cachedUserGroups = &$this->cachedUserGroups;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			unset($cachedGroups[$group->getGID()]);
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postDelete', function (IGroup $group): void {
+			unset($this->cachedGroups[$group->getGID()]);
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postAddUser', function (IGroup $group): void {
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postRemoveUser', function (IGroup $group): void {
+			$this->cachedUserGroups = [];
 		});
 	}
 
@@ -281,12 +237,22 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return null;
 		} elseif ($group = $this->get($gid)) {
 			return $group;
+		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
+			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
-					if ($backend->createGroup($gid)) {
+					if ($backend instanceof ICreateNamedGroupBackend) {
+						$groupName = $gid;
+						if (($gid = $backend->createGroup($groupName)) !== null) {
+							$group = $this->getGroupObject($gid);
+							$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
+							$this->emit('\OC\Group', 'postCreate', [$group]);
+							return $group;
+						}
+					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 						$this->emit('\OC\Group', 'postCreate', [$group]);
@@ -356,12 +322,28 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if admin
 	 */
 	public function isAdmin($userId) {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
 		foreach ($this->backends as $backend) {
 			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
 		return $this->isInGroup($userId, 'admin');
+	}
+
+	public function isDelegatedAdmin(string $userId): bool {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
+		// Check if the user as admin delegation for users listing
+		$authorizedGroupMapper = \OCP\Server::get(AuthorizedGroupMapper::class);
+		$user = $this->userManager->get($userId);
+		$authorizedClasses = $authorizedGroupMapper->findAllClassesForUser($user);
+		return in_array(\OCA\Settings\Settings\Admin\Users::class, $authorizedClasses, true);
 	}
 
 	/**
@@ -379,7 +361,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return string[] with group ids
+	 * @return list<string> with group ids
 	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
@@ -387,7 +369,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $uid the user id
-	 * @return string[]
+	 * @return list<string>
 	 */
 	private function getUserIdGroupIds(string $uid): array {
 		if (!isset($this->cachedUserGroups[$uid])) {
@@ -470,7 +452,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[(string) $groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[(string)$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}

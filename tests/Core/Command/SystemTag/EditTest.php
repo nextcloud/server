@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>
- *
- * @author Johannes Leuker <developers@hosting.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Core\Command\SystemTag;
@@ -57,7 +40,7 @@ class EditTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = '5';
 		$tagName = 'unwichtige Dateien';
 		$newTagName = 'moderat wichtige Dateien';
@@ -98,19 +81,20 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<info>Tag updated ("'.$newTagName.'", '.$newTagUserVisible.', '.$newTagUserAssignable.')</info>'
+				'<info>Tag updated ("' . $newTagName . '", ' . json_encode($newTagUserVisible) . ', ' . json_encode($newTagUserAssignable) . ', "")</info>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAlreadyExists() {
+	public function testAlreadyExists(): void {
 		$tagId = '5';
 		$tagName = 'unwichtige Dateien';
 		$tagUserVisible = false;
@@ -152,7 +136,7 @@ class EditTest extends TestCase {
 		$this->systemTagManager->method('updateTag')
 			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
 				throw new TagAlreadyExistsException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists'
+					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
 			});
 
@@ -162,19 +146,20 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<error>Tag ("' . $newTagName . '", '. $newTagUserVisible . ', ' . $newTagUserAssignable . ') already exists</error>'
+				'<error>Tag ("' . $newTagName . '", ' . $newTagUserVisible . ', ' . $newTagUserAssignable . ') already exists</error>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNotFound() {
+	public function testNotFound(): void {
 		$tagId = '404';
 
 		$this->input->method('getArgument')
@@ -186,8 +171,8 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('getTagsByIds')
-		->with($tagId)
-		->willReturn([]);
+			->with($tagId)
+			->willReturn([]);
 
 		$this->output->expects($this->once())
 			->method('writeln')

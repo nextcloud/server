@@ -1,30 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -35,6 +15,12 @@ use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
+	/**
+	 * Anything above 0.1s to load the capabilities of an app qualifies for bad code
+	 * and should be cached within the app.
+	 */
+	public const ACCEPTABLE_LOADING_TIME = 0.1;
+
 	/** @var \Closure[] */
 	private $capabilities = [];
 
@@ -46,7 +32,7 @@ class CapabilitiesManager {
 	}
 
 	/**
-	 * Get an array of al the capabilities that are registered at this manager
+	 * Get an array of all the capabilities that are registered at this manager
 	 *
 	 * @param bool $public get public capabilities only
 	 * @throws \InvalidArgumentException
@@ -71,7 +57,27 @@ class CapabilitiesManager {
 						// that we would otherwise inject to every page load
 						continue;
 					}
+					$startTime = microtime(true);
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
+					$endTime = microtime(true);
+					$timeSpent = $endTime - $startTime;
+					if ($timeSpent > self::ACCEPTABLE_LOADING_TIME) {
+						$logLevel = match (true) {
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => \OCP\ILogger::FATAL,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => \OCP\ILogger::ERROR,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 4 => \OCP\ILogger::WARN,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 2 => \OCP\ILogger::INFO,
+							default => \OCP\ILogger::DEBUG,
+						};
+						$this->logger->log(
+							$logLevel,
+							'Capabilities of {className} took {duration} seconds to generate.',
+							[
+								'className' => get_class($c),
+								'duration' => round($timeSpent, 2),
+							]
+						);
+					}
 				}
 			} else {
 				throw new \InvalidArgumentException('The given Capability (' . get_class($c) . ') does not implement the ICapability interface');

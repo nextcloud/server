@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Route;
@@ -28,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -40,30 +26,53 @@ use Test\TestCase;
  * @package Test\Route
  */
 class RouterTest extends TestCase {
-	public function testGenerateConsecutively(): void {
+	private Router $router;
+	private IAppManager&MockObject $appManager;
+
+	protected function setUp(): void {
+		parent::setUp();
 		/** @var LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 		$logger->method('info')
 			->willReturnCallback(
 				function (string $message, array $data) {
-					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
+					$this->fail('Unexpected info log: ' . (string)($data['exception'] ?? $message));
 				}
 			);
-		$router = new Router(
+
+		$this->appManager = $this->createMock(IAppManager::class);
+
+		$this->router = new Router(
 			$logger,
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
 			$this->createMock(ContainerInterface::class),
-			$this->createMock(IAppManager::class),
+			$this->appManager,
 		);
+	}
 
-		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
+	public function testHeartbeat(): void {
+		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
+	}
+
+	public function testGenerateConsecutively(): void {
+		$this->appManager->expects(self::atLeastOnce())
+			->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->appManager->expects(self::atLeastOnce())
+			->method('getAppPath')
+			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+		$this->appManager->expects(self::atLeastOnce())
+			->method('isAppLoaded')
+			->willReturn(true);
+
+		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 
 		// the OCS route is the prefixed one for the AppFramework - see /ocs/v1.php for routing details
-		$this->assertEquals('/index.php/ocsapp/apps/dav/api/v1/direct', $router->generate('ocs.dav.direct.getUrl'));
+		$this->assertEquals('/index.php/ocsapp/apps/dav/api/v1/direct', $this->router->generate('ocs.dav.direct.getUrl'));
 
 		// test caching
-		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
+		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 	}
 }

@@ -1,70 +1,41 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage\PolyFill;
 
 trait CopyDirectory {
 	/**
 	 * Check if a path is a directory
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function is_dir($path);
+	abstract public function is_dir(string $path): bool;
 
 	/**
 	 * Check if a file or folder exists
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function file_exists($path);
+	abstract public function file_exists(string $path): bool;
 
 	/**
 	 * Delete a file or folder
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function unlink($path);
+	abstract public function unlink(string $path): bool;
 
 	/**
 	 * Open a directory handle for a folder
 	 *
-	 * @param string $path
-	 * @return resource | bool
+	 * @return resource|false
 	 */
-	abstract public function opendir($path);
+	abstract public function opendir(string $path);
 
 	/**
 	 * Create a new folder
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	abstract public function mkdir($path);
+	abstract public function mkdir(string $path): bool;
 
-	public function copy($source, $target) {
+	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source)) {
 			if ($this->file_exists($target)) {
 				$this->unlink($target);
@@ -78,15 +49,11 @@ trait CopyDirectory {
 
 	/**
 	 * For adapters that don't support copying folders natively
-	 *
-	 * @param $source
-	 * @param $target
-	 * @return bool
 	 */
-	protected function copyRecursive($source, $target) {
+	protected function copyRecursive(string $source, string $target): bool {
 		$dh = $this->opendir($source);
 		$result = true;
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				if ($this->is_dir($source . '/' . $file)) {
 					$this->mkdir($target . '/' . $file);

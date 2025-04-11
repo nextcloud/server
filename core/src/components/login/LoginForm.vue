@@ -1,23 +1,7 @@
 <!--
-  - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<form ref="loginForm"
@@ -33,9 +17,9 @@
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="csrfCheckFailed"
-				:heading="t('core', 'Temporary error')"
+				:heading="t('core', 'Session error')"
 				type="error">
-				{{ t('core', 'Please try again.') }}
+				{{ t('core', 'It appears your session token has expired, please refresh the page and try again.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
 				<div v-for="(message, index) in messages"
@@ -117,11 +101,11 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
-import { debounce } from 'debounce'
+import debounce from 'debounce'
 
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AuthMixin from '../../mixins/auth.js'
 import LoginButton from './LoginButton.vue'
@@ -254,9 +238,9 @@ export default {
 		},
 		loginText() {
 			if (this.emailEnabled) {
-				return t('core', 'Login with username or email')
+				return t('core', 'Account name or email')
 			}
-			return t('core', 'Login with username')
+			return t('core', 'Account name')
 		},
 	},
 
@@ -290,7 +274,13 @@ export default {
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
-		submit() {
+		submit(event) {
+			if (this.loading) {
+				// Prevent the form from being submitted twice
+				event.preventDefault()
+				return
+			}
+
 			this.loading = true
 			this.$emit('submit')
 		},
@@ -300,8 +290,9 @@ export default {
 
 <style lang="scss" scoped>
 .login-form {
-	text-align: left;
+	text-align: start;
 	font-size: 1rem;
+	margin: 0;
 
 	&__fieldset {
 		width: 100%;
@@ -313,6 +304,11 @@ export default {
 	&__headline {
 		text-align: center;
 		overflow-wrap: anywhere;
+	}
+
+	// Only show the error state if the user interacted with the login box
+	:deep(input:invalid:not(:user-invalid)) {
+		border-color: var(--color-border-maxcontrast) !important;
 	}
 }
 </style>

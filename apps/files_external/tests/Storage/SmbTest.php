@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Storage;
 
@@ -33,6 +10,7 @@ use OC\Files\Notify\Change;
 use OC\Files\Notify\RenameChange;
 use OCA\Files_External\Lib\Storage\SMB;
 use OCP\Files\Notify\IChange;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Class SmbTest
@@ -76,14 +54,14 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		return [['folder']];
 	}
 
-	public function testRenameWithSpaces() {
+	public function testRenameWithSpaces(): void {
 		$this->instance->mkdir('with spaces');
 		$result = $this->instance->rename('with spaces', 'foo bar');
 		$this->assertTrue($result);
 		$this->assertTrue($this->instance->is_dir('foo bar'));
 	}
 
-	public function testStorageId() {
+	public function testStorageId(): void {
 		$this->instance = new SMB([
 			'host' => 'testhost',
 			'user' => 'testuser',
@@ -95,7 +73,23 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance = null;
 	}
 
-	public function testNotifyGetChanges() {
+	public function testNotifyGetChanges(): void {
+		$lastError = null;
+		for ($i = 0; $i < 5; $i++) {
+			try {
+				$this->tryTestNotifyGetChanges();
+				return;
+			} catch (ExpectationFailedException $e) {
+				$lastError = $e;
+				$this->tearDown();
+				$this->setUp();
+				sleep(1);
+			}
+		}
+		throw $lastError;
+	}
+
+	private function tryTestNotifyGetChanges(): void {
 		$notifyHandler = $this->instance->notify('');
 		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
@@ -136,7 +130,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		}
 	}
 
-	public function testNotifyListen() {
+	public function testNotifyListen(): void {
 		$notifyHandler = $this->instance->notify('');
 		usleep(100 * 1000); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
@@ -159,7 +153,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		}
 	}
 
-	public function testRenameRoot() {
+	public function testRenameRoot(): void {
 		// root can't be renamed
 		$this->assertFalse($this->instance->rename('', 'foo1'));
 
@@ -168,12 +162,12 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance->rmdir('foo2');
 	}
 
-	public function testUnlinkRoot() {
+	public function testUnlinkRoot(): void {
 		// root can't be deleted
 		$this->assertFalse($this->instance->unlink(''));
 	}
 
-	public function testRmdirRoot() {
+	public function testRmdirRoot(): void {
 		// root can't be deleted
 		$this->assertFalse($this->instance->rmdir(''));
 	}

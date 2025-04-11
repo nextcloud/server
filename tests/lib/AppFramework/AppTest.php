@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework;
@@ -86,7 +71,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testControllerNameAndMethodAreBeingPassed() {
+	public function testControllerNameAndMethodAreBeingPassed(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -102,19 +87,19 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testBuildAppNamespace() {
+	public function testBuildAppNamespace(): void {
 		$ns = App::buildAppNamespace('someapp');
 		$this->assertEquals('OCA\Someapp', $ns);
 	}
 
 
-	public function testBuildAppNamespaceCore() {
+	public function testBuildAppNamespaceCore(): void {
 		$ns = App::buildAppNamespace('someapp', 'OC\\');
 		$this->assertEquals('OC\Someapp', $ns);
 	}
 
 
-	public function testBuildAppNamespaceInfoXml() {
+	public function testBuildAppNamespaceInfoXml(): void {
 		$ns = App::buildAppNamespace('namespacetestapp', 'OCA\\');
 		$this->assertEquals('OCA\NameSpaceTestApp', $ns);
 	}
@@ -126,7 +111,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testOutputIsPrinted() {
+	public function testOutputIsPrinted(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -149,7 +134,7 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataNoOutput
 	 */
-	public function testNoOutput(string $statusCode) {
+	public function testNoOutput(string $statusCode): void {
 		$return = [$statusCode, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -165,7 +150,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testCallbackIsCalled() {
+	public function testCallbackIsCalled(): void {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
 			->getMock();
 
@@ -180,7 +165,7 @@ class AppTest extends \Test\TestCase {
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
-	public function testCoreApp() {
+	public function testCoreApp(): void {
 		$this->container['AppName'] = 'core';
 		$this->container['OC\Core\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
@@ -198,7 +183,7 @@ class AppTest extends \Test\TestCase {
 		App::main('Foo', $this->controllerMethod, $this->container);
 	}
 
-	public function testSettingsApp() {
+	public function testSettingsApp(): void {
 		$this->container['AppName'] = 'settings';
 		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
@@ -216,7 +201,7 @@ class AppTest extends \Test\TestCase {
 		App::main('Foo', $this->controllerMethod, $this->container);
 	}
 
-	public function testApp() {
+	public function testApp(): void {
 		$this->container['AppName'] = 'bar';
 		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];

@@ -3,28 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CardDAV\Activity\Provider;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -40,30 +24,16 @@ class Card extends Base {
 	public const SUBJECT_UPDATE = 'card_update';
 	public const SUBJECT_DELETE = 'card_delete';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	public function __construct(IFactory $languageFactory,
+	public function __construct(
+		protected IFactory $languageFactory,
 		IURLGenerator $url,
-		IManager $activityManager,
+		protected IManager $activityManager,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
-		IEventMerger $eventMerger,
-		IAppManager $appManager) {
+		protected IEventMerger $eventMerger,
+		protected IAppManager $appManager,
+	) {
 		parent::__construct($userManager, $groupManager, $url);
-		$this->languageFactory = $languageFactory;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -71,11 +41,11 @@ class Card extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->languageFactory->get('dav', $language);
@@ -99,7 +69,7 @@ class Card extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $l->t('You updated contact {card} in address book {addressbook}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event, $l);

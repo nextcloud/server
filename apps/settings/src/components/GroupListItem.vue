@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2021 Martin Jänel <spammemore@posteo.de>
-  -
-  - @author Martin Jänel <spammemore@posteo.de>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<Fragment>
@@ -46,6 +29,7 @@
 		</NcModal>
 
 		<NcAppNavigationItem :key="id"
+			ref="listItem"
 			:exact="true"
 			:name="name"
 			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
@@ -62,7 +46,7 @@
 				</NcCounterBubble>
 			</template>
 			<template #actions>
-				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					ref="displayNameInput"
 					:trailing-button-label="t('settings', 'Submit')"
 					type="text"
@@ -73,7 +57,7 @@
 						<Pencil :size="20" />
 					</template>
 				</NcActionInput>
-				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					@click="showRemoveGroupModal = true">
 					<template #icon>
 						<Delete :size="20" />
@@ -88,13 +72,13 @@
 <script>
 import { Fragment } from 'vue-frag'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'

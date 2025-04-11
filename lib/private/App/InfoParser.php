@@ -1,36 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\App;
 
 use OCP\ICache;
-use function libxml_disable_entity_loader;
 use function simplexml_load_string;
 
 class InfoParser {
@@ -59,13 +35,7 @@ class InfoParser {
 		}
 
 		libxml_use_internal_errors(true);
-		if ((PHP_VERSION_ID < 80000)) {
-			$loadEntities = libxml_disable_entity_loader(false);
-			$xml = simplexml_load_string(file_get_contents($file));
-			libxml_disable_entity_loader($loadEntities);
-		} else {
-			$xml = simplexml_load_string(file_get_contents($file));
-		}
+		$xml = simplexml_load_string(file_get_contents($file));
 
 		if ($xml === false) {
 			libxml_clear_errors();
@@ -143,6 +113,12 @@ class InfoParser {
 		if (!array_key_exists('personal-section', $array['settings'])) {
 			$array['settings']['personal-section'] = [];
 		}
+		if (!array_key_exists('dependencies', $array)) {
+			$array['dependencies'] = [];
+		}
+		if (!array_key_exists('backend', $array['dependencies'])) {
+			$array['dependencies']['backend'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
@@ -207,9 +183,22 @@ class InfoParser {
 		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
-
 		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
 			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
+		}
+		if (isset($array['dependencies']['backend']) && !is_array($array['dependencies']['backend'])) {
+			$array['dependencies']['backend'] = [$array['dependencies']['backend']];
+		}
+
+		// Ensure some fields are always arrays
+		if (isset($array['screenshot']) && !is_array($array['screenshot'])) {
+			$array['screenshot'] = [$array['screenshot']];
+		}
+		if (isset($array['author']) && !is_array($array['author'])) {
+			$array['author'] = [$array['author']];
+		}
+		if (isset($array['category']) && !is_array($array['category'])) {
+			$array['category'] = [$array['category']];
 		}
 
 		if ($this->cache !== null) {
@@ -245,7 +234,7 @@ class InfoParser {
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
-				$array[$element] = $totalElement > 1 ? [] : "";
+				$array[$element] = $totalElement > 1 ? [] : '';
 			}
 			/** @var \SimpleXMLElement $node */
 			// Has attributes

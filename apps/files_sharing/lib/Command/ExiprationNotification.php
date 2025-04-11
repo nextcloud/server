@@ -3,29 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Command;
 
+use OCA\Files_Sharing\OrphanHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Notification\IManager as NotificationManager;
@@ -36,25 +19,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExiprationNotification extends Command {
-	/** @var NotificationManager */
-	private $notificationManager;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var ShareManager */
-	private $shareManager;
-
-	public function __construct(ITimeFactory $time,
-		NotificationManager $notificationManager,
-		IDBConnection $connection,
-		ShareManager $shareManager) {
+	public function __construct(
+		private ITimeFactory $time,
+		private NotificationManager $notificationManager,
+		private IDBConnection $connection,
+		private ShareManager $shareManager,
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-
-		$this->notificationManager = $notificationManager;
-		$this->connection = $connection;
-		$this->time = $time;
-		$this->shareManager = $shareManager;
 	}
 
 	protected function configure() {
@@ -80,7 +52,8 @@ class ExiprationNotification extends Command {
 		foreach ($shares as $share) {
 			if ($share->getExpirationDate() === null
 				|| $share->getExpirationDate()->getTimestamp() < $minTime->getTimestamp()
-				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()) {
+				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()
+				|| !$this->orphanHelper->isShareValid($share->getSharedBy(), $share->getNodeId())) {
 				continue;
 			}
 

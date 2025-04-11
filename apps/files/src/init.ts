@@ -1,29 +1,12 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@nextcloud/files'
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
-import { action as editLocallyAction } from './actions/editLocallyAction'
+import { action as editLocallyAction } from './actions/openLocallyAction.ts'
 import { action as favoriteAction } from './actions/favoriteAction'
 import { action as moveOrCopyAction } from './actions/moveOrCopyAction'
 import { action as openFolderAction } from './actions/openFolderAction'
@@ -31,20 +14,28 @@ import { action as openInFilesAction } from './actions/openInFilesAction'
 import { action as renameAction } from './actions/renameAction'
 import { action as sidebarAction } from './actions/sidebarAction'
 import { action as viewInFolderAction } from './actions/viewInFolderAction'
+
+import { registerHiddenFilesFilter } from './filters/HiddenFilesFilter.ts'
+import { registerTypeFilter } from './filters/TypeFilter.ts'
+import { registerModifiedFilter } from './filters/ModifiedFilter.ts'
+
 import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { entry as newTemplatesFolder } from './newMenu/newTemplatesFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
-import registerFavoritesView from './views/favorites'
+import { registerFavoritesView } from './views/favorites.ts'
 import registerRecentView from './views/recent'
 import registerPersonalFilesView from './views/personal-files'
 import registerFilesView from './views/files'
+import { registerFolderTreeView } from './views/folderTree.ts'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
-
 import { initLivePhotos } from './services/LivePhotos'
+import { isPublicShare } from '@nextcloud/sharing/public'
+import { registerConvertActions } from './actions/convertAction.ts'
 
 // Register file actions
+registerConvertActions()
 registerFileAction(deleteAction)
 registerFileAction(downloadAction)
 registerFileAction(editLocallyAction)
@@ -61,16 +52,25 @@ addNewFileMenuEntry(newFolderEntry)
 addNewFileMenuEntry(newTemplatesFolder)
 registerTemplateEntries()
 
-// Register files views
-registerFavoritesView()
-registerFilesView()
-registerRecentView()
-registerPersonalFilesView()
+// Register files views when not on public share
+if (isPublicShare() === false) {
+	registerFavoritesView()
+	registerFilesView()
+	registerRecentView()
+	registerPersonalFilesView()
+	registerFolderTreeView()
+}
+
+// Register file list filters
+registerHiddenFilesFilter()
+registerTypeFilter()
+registerModifiedFilter()
 
 // Register preview service worker
 registerPreviewServiceWorker()
 
 registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:metadata-blurhash', { nc: 'http://nextcloud.org/ns' })
 
 initLivePhotos()

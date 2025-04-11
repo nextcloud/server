@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  - SPDX-FileCopyrightText: 2013 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<D:propfind xmlns:D="DAV:">
+	<D:prop>
+		<D:current-user-principal/>
+	</D:prop>
+</D:propfind>

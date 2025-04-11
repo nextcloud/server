@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files;
@@ -59,8 +44,8 @@ class DummyMountProvider implements IMountProvider {
  * @package Test\Files
  */
 class FilesystemTest extends \Test\TestCase {
-	public const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
-	public const TEST_FILESYSTEM_USER2 = "test-filesystem-user1";
+	public const TEST_FILESYSTEM_USER1 = 'test-filesystem-user1';
+	public const TEST_FILESYSTEM_USER2 = 'test-filesystem-user1';
 
 	/**
 	 * @var array tmpDirs
@@ -95,7 +80,7 @@ class FilesystemTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testMount() {
+	public function testMount(): void {
 		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/');
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/'));
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/some/folder'));
@@ -210,7 +195,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * @dataProvider normalizePathData
 	 */
-	public function testNormalizePath($expected, $path, $stripTrailingSlash = true) {
+	public function testNormalizePath($expected, $path, $stripTrailingSlash = true): void {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
 	}
 
@@ -228,11 +213,11 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * @dataProvider normalizePathKeepUnicodeData
 	 */
-	public function testNormalizePathKeepUnicode($expected, $path, $keepUnicode = false) {
+	public function testNormalizePathKeepUnicode($expected, $path, $keepUnicode = false): void {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, true, false, $keepUnicode));
 	}
 
-	public function testNormalizePathKeepUnicodeCache() {
+	public function testNormalizePathKeepUnicodeCache(): void {
 		$nfdName = 'ümlaut';
 		$nfcName = 'ümlaut';
 		// call in succession due to cache
@@ -269,7 +254,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * @dataProvider isValidPathData
 	 */
-	public function testIsValidPath($path, $expected) {
+	public function testIsValidPath($path, $expected): void {
 		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
 	}
 
@@ -291,11 +276,11 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * @dataProvider isFileBlacklistedData
 	 */
-	public function testIsFileBlacklisted($path, $expected) {
+	public function testIsFileBlacklisted($path, $expected): void {
 		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
 	}
 
-	public function testNormalizePathUTF8() {
+	public function testNormalizePathUTF8(): void {
 		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->markTestSkipped('UTF8 normalizer Patchwork was not found');
 		}
@@ -304,7 +289,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("\\foo\\baru\xCC\x88"));
 	}
 
-	public function testHooks() {
+	public function testHooks(): void {
 		if (\OC\Files\Filesystem::getView()) {
 			$user = \OC_User::getUser();
 		} else {
@@ -339,7 +324,7 @@ class FilesystemTest extends \Test\TestCase {
 	 * Tests that an exception is thrown when passed user does not exist.
 	 *
 	 */
-	public function testLocalMountWhenUserDoesNotExist() {
+	public function testLocalMountWhenUserDoesNotExist(): void {
 		$this->expectException(\OC\User\NoUserException::class);
 
 		$userId = $this->getUniqueID('user_');
@@ -348,13 +333,13 @@ class FilesystemTest extends \Test\TestCase {
 	}
 
 
-	public function testNullUserThrows() {
+	public function testNullUserThrows(): void {
 		$this->expectException(\OC\User\NoUserException::class);
 
 		\OC\Files\Filesystem::initMountPoints(null);
 	}
 
-	public function testNullUserThrowsTwice() {
+	public function testNullUserThrowsTwice(): void {
 		$thrown = 0;
 		try {
 			\OC\Files\Filesystem::initMountPoints(null);
@@ -372,7 +357,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Tests that an exception is thrown when passed user does not exist.
 	 */
-	public function testLocalMountWhenUserDoesNotExistTwice() {
+	public function testLocalMountWhenUserDoesNotExistTwice(): void {
 		$thrown = 0;
 		$userId = $this->getUniqueID('user_');
 
@@ -394,7 +379,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Tests that the home storage is used for the user's mount point
 	 */
-	public function testHomeMount() {
+	public function testHomeMount(): void {
 		$userId = $this->getUniqueID('user_');
 
 		\OC::$server->getUserManager()->createUser($userId, $userId);
@@ -424,7 +409,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Test that the default cache dir is part of the user's home
 	 */
-	public function testMountDefaultCacheDir() {
+	public function testMountDefaultCacheDir(): void {
 		$userId = $this->getUniqueID('user_');
 		$config = \OC::$server->getConfig();
 		$oldCachePath = $config->getSystemValueString('cache_path', '');
@@ -453,7 +438,7 @@ class FilesystemTest extends \Test\TestCase {
 	 * Test that an external cache is mounted into
 	 * the user's home
 	 */
-	public function testMountExternalCacheDir() {
+	public function testMountExternalCacheDir(): void {
 		$userId = $this->getUniqueID('user_');
 
 		$config = \OC::$server->getConfig();
@@ -480,7 +465,7 @@ class FilesystemTest extends \Test\TestCase {
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}
 
-	public function testRegisterMountProviderAfterSetup() {
+	public function testRegisterMountProviderAfterSetup(): void {
 		\OC\Files\Filesystem::initMountPoints(self::TEST_FILESYSTEM_USER2);
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 		$mount = new MountPoint(new Temporary([]), '/foo/bar');

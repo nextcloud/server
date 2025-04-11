@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Mount;
@@ -12,7 +11,7 @@ use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\Temporary;
 
 class LongId extends Temporary {
-	public function getId() {
+	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
 }
@@ -28,7 +27,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$rootMount = new \OC\Files\Mount\MountPoint(new Temporary([]), '/');
 		$this->manager->addMount($rootMount);
 		$this->assertEquals($rootMount, $this->manager->find('/'));
@@ -53,7 +52,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals([$mount1, $mount3], $this->manager->findByStorageId($id));
 	}
 
-	public function testLong() {
+	public function testLong(): void {
 		$storage = new LongId([]);
 		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo');
 		$this->manager->addMount($mount);

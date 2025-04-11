@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Remote\Api;
@@ -55,7 +40,7 @@ class OCSTest extends TestCase {
 		return 'https://example.com/ocs/v2.php/' . $url;
 	}
 
-	public function testGetUser() {
+	public function testGetUser(): void {
 		$client = $this->getOCSClient();
 
 		$this->expectGetRequest($this->getOCSUrl('cloud/users/user'),
@@ -68,7 +53,7 @@ class OCSTest extends TestCase {
 	}
 
 	
-	public function testGetUserInvalidResponse() {
+	public function testGetUserInvalidResponse(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid user response, expected field email not found');
 
@@ -82,7 +67,7 @@ class OCSTest extends TestCase {
 	}
 
 	
-	public function testInvalidPassword() {
+	public function testInvalidPassword(): void {
 		$this->expectException(\OC\ForbiddenException::class);
 
 		$client = $this->getOCSClient();

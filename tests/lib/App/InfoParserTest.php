@@ -1,11 +1,9 @@
 <?php
 /**
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\App;
 
 use OC;
@@ -28,7 +26,7 @@ class InfoParserTest extends TestCase {
 		if (!is_null($expectedJson)) {
 			$expectedData = json_decode(file_get_contents(OC::$SERVERROOT . "/tests/data/app/$expectedJson"), true);
 		}
-		$data = $parser->parse(OC::$SERVERROOT. "/tests/data/app/$xmlFile");
+		$data = $parser->parse(OC::$SERVERROOT . "/tests/data/app/$xmlFile");
 
 		$this->assertEquals($expectedData, $data);
 	}
@@ -36,14 +34,14 @@ class InfoParserTest extends TestCase {
 	/**
 	 * @dataProvider providesInfoXml
 	 */
-	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile) {
+	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile);
 	}
 
 	/**
 	 * @dataProvider providesInfoXml
 	 */
-	public function testParsingValidXmlWithCache($expectedJson, $xmlFile) {
+	public function testParsingValidXmlWithCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
@@ -55,6 +53,7 @@ class InfoParserTest extends TestCase {
 			[null, 'invalid-info.xml'],
 			['navigation-one-item.json', 'navigation-one-item.xml'],
 			['navigation-two-items.json', 'navigation-two-items.xml'],
+			['various-single-item.json', 'various-single-item.xml'],
 		];
 	}
 }

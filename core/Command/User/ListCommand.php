@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\User;
 
@@ -77,9 +58,9 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('disabled')) {
-			$users = $this->userManager->getDisabledUsers((int) $input->getOption('limit'), (int) $input->getOption('offset'));
+			$users = $this->userManager->getDisabledUsers((int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		} else {
-			$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+			$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));
@@ -88,18 +69,13 @@ class ListCommand extends Base {
 
 	/**
 	 * @param IUser[] $users
-	 * @param bool [$detailed=false]
-	 * @return array
+	 * @return \Generator<string,string|array>
 	 */
-	private function formatUsers(array $users, bool $detailed = false) {
-		$keys = array_map(function (IUser $user) {
-			return $user->getUID();
-		}, $users);
-
-		$values = array_map(function (IUser $user) use ($detailed) {
+	private function formatUsers(array $users, bool $detailed = false): \Generator {
+		foreach ($users as $user) {
 			if ($detailed) {
 				$groups = $this->groupManager->getUserGroupIds($user);
-				return [
+				$value = [
 					'user_id' => $user->getUID(),
 					'display_name' => $user->getDisplayName(),
 					'email' => (string)$user->getSystemEMailAddress(),
@@ -107,13 +83,25 @@ class ListCommand extends Base {
 					'enabled' => $user->isEnabled(),
 					'groups' => $groups,
 					'quota' => $user->getQuota(),
-					'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
+					'first_seen' => $this->formatLoginDate($user->getFirstLogin()),
+					'last_seen' => $this->formatLoginDate($user->getLastLogin()),
 					'user_directory' => $user->getHome(),
 					'backend' => $user->getBackendClassName()
 				];
+			} else {
+				$value = $user->getDisplayName();
 			}
-			return $user->getDisplayName();
-		}, $users);
-		return array_combine($keys, $values);
+			yield $user->getUID() => $value;
+		}
+	}
+
+	private function formatLoginDate(int $timestamp): string {
+		if ($timestamp < 0) {
+			return 'unknown';
+		} elseif ($timestamp === 0) {
+			return 'never';
+		} else {
+			return date(\DateTimeInterface::ATOM, $timestamp); // ISO-8601
+		}
 	}
 }

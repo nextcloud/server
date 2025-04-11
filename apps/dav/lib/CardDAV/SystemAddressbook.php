@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CardDAV;
 
@@ -50,27 +30,18 @@ use function in_array;
 
 class SystemAddressbook extends AddressBook {
 	public const URI_SHARED = 'z-server-generated--system';
-	/** @var IConfig */
-	private $config;
-	private IUserSession $userSession;
-	private ?TrustedServers $trustedServers;
-	private ?IRequest $request;
-	private ?IGroupManager $groupManager;
 
-	public function __construct(BackendInterface $carddavBackend,
+	public function __construct(
+		BackendInterface $carddavBackend,
 		array $addressBookInfo,
 		IL10N $l10n,
-		IConfig $config,
-		IUserSession $userSession,
-		?IRequest $request = null,
-		?TrustedServers $trustedServers = null,
-		?IGroupManager $groupManager = null) {
+		private IConfig $config,
+		private IUserSession $userSession,
+		private ?IRequest $request = null,
+		private ?TrustedServers $trustedServers = null,
+		private ?IGroupManager $groupManager = null,
+	) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->request = $request;
-		$this->trustedServers = $trustedServers;
-		$this->groupManager = $groupManager;
 
 		$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Accounts');
 		$this->addressBookInfo['{' . Plugin::NS_CARDDAV . '}addressbook-description'] = $l10n->t('System address book which holds all accounts');
@@ -274,7 +245,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$added[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}
@@ -282,7 +253,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$modified[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}

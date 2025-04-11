@@ -1,40 +1,23 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder;
 
 use OCP\DB\QueryBuilder\ICompositeExpression;
 
 class CompositeExpression implements ICompositeExpression, \Countable {
-	/** @var \Doctrine\DBAL\Query\Expression\CompositeExpression */
-	protected $compositeExpression;
+	public const TYPE_AND = 'AND';
+	public const TYPE_OR = 'OR';
 
-	/**
-	 * Constructor.
-	 *
-	 * @param \Doctrine\DBAL\Query\Expression\CompositeExpression $compositeExpression
-	 */
-	public function __construct(\Doctrine\DBAL\Query\Expression\CompositeExpression $compositeExpression) {
-		$this->compositeExpression = $compositeExpression;
+	public function __construct(
+		private string $type,
+		private array $parts = [],
+	) {
 	}
 
 	/**
@@ -45,7 +28,9 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function addMultiple(array $parts = []): ICompositeExpression {
-		$this->compositeExpression->addMultiple($parts);
+		foreach ($parts as $part) {
+			$this->add($part);
+		}
 
 		return $this;
 	}
@@ -58,7 +43,15 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function add($part): ICompositeExpression {
-		$this->compositeExpression->add($part);
+		if ($part === null) {
+			return $this;
+		}
+
+		if ($part instanceof self && count($part) === 0) {
+			return $this;
+		}
+
+		$this->parts[] = $part;
 
 		return $this;
 	}
@@ -69,7 +62,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return integer
 	 */
 	public function count(): int {
-		return $this->compositeExpression->count();
+		return count($this->parts);
 	}
 
 	/**
@@ -78,7 +71,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return string
 	 */
 	public function getType(): string {
-		return $this->compositeExpression->getType();
+		return $this->type;
 	}
 
 	/**
@@ -87,6 +80,13 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return string
 	 */
 	public function __toString(): string {
-		return (string) $this->compositeExpression;
+		if ($this->count() === 1) {
+			return (string)$this->parts[0];
+		}
+		return '(' . implode(') ' . $this->type . ' (', $this->parts) . ')';
+	}
+
+	public function getParts(): array {
+		return $this->parts;
 	}
 }

@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -43,7 +42,7 @@ class ScannerTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testFile() {
+	public function testFile(): void {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo.txt', $data);
 		$this->scanner->scanFile('foo.txt');
@@ -64,7 +63,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($cachedData['mimetype'], 'image/png');
 	}
 
-	public function testFile4Byte() {
+	public function testFile4Byte(): void {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo🙈.txt', $data);
 
@@ -82,7 +81,7 @@ class ScannerTest extends TestCase {
 		}
 	}
 
-	public function testFileInvalidChars() {
+	public function testFileInvalidChars(): void {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents("foo\nbar.txt", $data);
 
@@ -99,7 +98,7 @@ class ScannerTest extends TestCase {
 		$this->storage->file_put_contents('folder/bar.txt', $textData);
 	}
 
-	public function testFolder() {
+	public function testFolder(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -121,7 +120,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($cachedDataFolder2['size'], $cachedDataText2['size']);
 	}
 
-	public function testShallow() {
+	public function testShallow(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('', IScanner::SCAN_SHALLOW);
@@ -149,7 +148,7 @@ class ScannerTest extends TestCase {
 		$this->assertNotEquals($cachedDataFolder['size'], -1);
 	}
 
-	public function testBackgroundScan() {
+	public function testBackgroundScan(): void {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -171,7 +170,7 @@ class ScannerTest extends TestCase {
 		$this->assertFalse($this->cache->getIncomplete());
 	}
 
-	public function testBackgroundScanOnlyRecurseIncomplete() {
+	public function testBackgroundScanOnlyRecurseIncomplete(): void {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
@@ -197,7 +196,7 @@ class ScannerTest extends TestCase {
 		$this->assertFalse($this->cache->getIncomplete());
 	}
 
-	public function testBackgroundScanNestedIncompleteFolders() {
+	public function testBackgroundScanNestedIncompleteFolders(): void {
 		$this->storage->mkdir('folder');
 		$this->scanner->backgroundScan();
 
@@ -235,7 +234,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals(6, $this->cache->get('folder/subfolder2')['size']);
 	}
 
-	public function testReuseExisting() {
+	public function testReuseExisting(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -274,7 +273,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($oldData['size'], $newData['size']);
 	}
 
-	public function testRemovedFile() {
+	public function testRemovedFile(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -284,7 +283,7 @@ class ScannerTest extends TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 	}
 
-	public function testRemovedFolder() {
+	public function testRemovedFolder(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -295,7 +294,7 @@ class ScannerTest extends TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
 	}
 
-	public function testScanRemovedFile() {
+	public function testScanRemovedFile(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -305,7 +304,7 @@ class ScannerTest extends TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
 	}
 
-	public function testETagRecreation() {
+	public function testETagRecreation(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('folder/bar.txt');
@@ -331,7 +330,7 @@ class ScannerTest extends TestCase {
 		$this->assertNotEmpty($newData0['etag']);
 	}
 
-	public function testRepairParent() {
+	public function testRepairParent(): void {
 		$this->fillTestFolders();
 		$this->scanner->scan('');
 		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
@@ -357,7 +356,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($newFolderId, $cachedData['parent']);
 	}
 
-	public function testRepairParentShallow() {
+	public function testRepairParentShallow(): void {
 		$this->fillTestFolders();
 		$this->scanner->scan('');
 		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
@@ -389,7 +388,7 @@ class ScannerTest extends TestCase {
 	 * @param string $path
 	 * @param bool $expected
 	 */
-	public function testIsPartialFile($path, $expected) {
+	public function testIsPartialFile($path, $expected): void {
 		$this->assertSame($expected,
 			$this->scanner->isPartialFile($path)
 		);
@@ -405,7 +404,7 @@ class ScannerTest extends TestCase {
 		];
 	}
 
-	public function testNoETagUnscannedFolder() {
+	public function testNoETagUnscannedFolder(): void {
 		$this->fillTestFolders();
 
 		$this->scanner->scan('');
@@ -424,7 +423,7 @@ class ScannerTest extends TestCase {
 		$this->assertNotEquals($newFolderEntry->getEtag(), $oldFolderEntry->getEtag());
 	}
 
-	public function testNoETagUnscannedSubFolder() {
+	public function testNoETagUnscannedSubFolder(): void {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder/sub');
 

@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing;
 
@@ -29,6 +11,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Util;
 
 /**
  * Class AddressHandler - parse, modify and construct federated sharing addresses
@@ -37,30 +20,18 @@ use OCP\IURLGenerator;
  */
 class AddressHandler {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
 	/**
 	 * AddressHandler constructor.
 	 *
 	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $il10n
+	 * @param IL10N $l
 	 * @param ICloudIdManager $cloudIdManager
 	 */
 	public function __construct(
-		IURLGenerator $urlGenerator,
-		IL10N $il10n,
-		ICloudIdManager $cloudIdManager
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+		private ICloudIdManager $cloudIdManager,
 	) {
-		$this->l = $il10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -104,12 +75,12 @@ class AddressHandler {
 
 		if (rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/')) {
 			// FIXME this should be a method in the user management instead
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user1]
 			);
-			\OCP\Util::emitHook(
+			Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
 				['uid' => &$user2]

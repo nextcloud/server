@@ -1,29 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Tests\Activity;
 
 use OCA\Files\Activity\Provider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -122,7 +105,7 @@ class ProviderTest extends TestCase {
 	 * @param string $name
 	 * @param string $path
 	 */
-	public function testGetFile($parameter, $eventId, $id, $name, $path) {
+	public function testGetFile($parameter, $eventId, $id, $name, $path): void {
 		$provider = $this->getProvider();
 
 		if ($eventId !== null) {
@@ -149,8 +132,8 @@ class ProviderTest extends TestCase {
 	}
 
 
-	public function testGetFileThrows() {
-		$this->expectException(\InvalidArgumentException::class);
+	public function testGetFileThrows(): void {
+		$this->expectException(UnknownActivityException::class);
 
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);

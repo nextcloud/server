@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
 
@@ -37,17 +20,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class DataDirectoryProtectedTest extends TestCase {
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IClientService|MockObject $clientService;
-	private LoggerInterface|MockObject $logger;
-	private DataDirectoryProtected|MockObject $setupcheck;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IClientService&MockObject $clientService;
+	private LoggerInterface&MockObject $logger;
+	private DataDirectoryProtected&MockObject $setupcheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N|MockObject */
+		/** @var IL10N&MockObject */
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n->expects($this->any())
@@ -62,7 +45,7 @@ class DataDirectoryProtectedTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->setupcheck = $this->getMockBuilder(DataDirectoryProtected::class)
-			->onlyMethods(['runHEAD'])
+			->onlyMethods(['runRequest'])
 			->setConstructorArgs([
 				$this->l10n,
 				$this->config,
@@ -76,33 +59,35 @@ class DataDirectoryProtectedTest extends TestCase {
 	/**
 	 * @dataProvider dataTestStatusCode
 	 */
-	public function testStatusCode(array $status, string $expected): void {
-		$responses = array_map(function ($state) {
+	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
+		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);
 			$response->expects($this->any())->method('getStatusCode')->willReturn($state);
+			$response->expects(($this->atMost(1)))->method('getBody')->willReturn($hasBody ? '# Nextcloud data directory' : 'something else');
 			return $response;
 		}, $status);
 
 		$this->setupcheck
 			->expects($this->once())
-			->method('runHEAD')
+			->method('runRequest')
 			->will($this->generate($responses));
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals($expected, $result->getSeverity());
 	}
 
-	public function dataTestStatusCode(): array {
+	public static function dataTestStatusCode(): array {
 		return [
-			'success: forbidden access' => [[403], SetupResult::SUCCESS],
-			'error: can access' => [[200], SetupResult::ERROR],
-			'error: one forbidden one can access' => [[403, 200], SetupResult::ERROR],
-			'warning: connection issue' => [[], SetupResult::WARNING],
+			'success: forbidden access' => [[403], SetupResult::SUCCESS, true],
+			'success: forbidden access with redirect' => [[200], SetupResult::SUCCESS, false],
+			'error: can access' => [[200], SetupResult::ERROR, true],
+			'error: one forbidden one can access' => [[403, 200], SetupResult::ERROR, true],
+			'warning: connection issue' => [[], SetupResult::WARNING, true],
 		];
 	}
 
@@ -112,12 +97,12 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->once())
-			->method('runHEAD')
+			->method('runRequest')
 			->will($this->generate([]));
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();

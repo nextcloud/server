@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Storage\Wrapper;
@@ -28,7 +27,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 		// test that nothing outside our jail is touched
 		$contents = [];
 		$dh = $this->sourceStorage->opendir('');
-		while ($file = readdir($dh)) {
+		while (($file = readdir($dh)) !== false) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				$contents[] = $file;
 			}
@@ -38,12 +37,12 @@ class JailTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testMkDirRooted() {
+	public function testMkDirRooted(): void {
 		$this->instance->mkdir('bar');
 		$this->assertTrue($this->sourceStorage->is_dir('foo/bar'));
 	}
 
-	public function testFilePutContentsRooted() {
+	public function testFilePutContentsRooted(): void {
 		$this->instance->file_put_contents('bar', 'asd');
 		$this->assertEquals('asd', $this->sourceStorage->file_get_contents('foo/bar'));
 	}

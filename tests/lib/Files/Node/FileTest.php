@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Node;
@@ -36,7 +35,7 @@ class FileTest extends NodeTest {
 		return 'unlink';
 	}
 
-	public function testGetContent() {
+	public function testGetContent(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
@@ -64,7 +63,7 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testGetContentNotPermitted() {
+	public function testGetContentNotPermitted(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
@@ -85,7 +84,7 @@ class FileTest extends NodeTest {
 		$node->getContent();
 	}
 
-	public function testPutContent() {
+	public function testPutContent(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
@@ -110,7 +109,7 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testPutContentNotPermitted() {
+	public function testPutContentNotPermitted(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
@@ -127,7 +126,7 @@ class FileTest extends NodeTest {
 		$node->putContent('bar');
 	}
 
-	public function testGetMimeType() {
+	public function testGetMimeType(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
@@ -142,7 +141,7 @@ class FileTest extends NodeTest {
 		$this->assertEquals('text/plain', $node->getMimeType());
 	}
 
-	public function testFOpenRead() {
+	public function testFOpenRead(): void {
 		$stream = fopen('php://memory', 'w+');
 		fwrite($stream, 'bar');
 		rewind($stream);
@@ -181,7 +180,7 @@ class FileTest extends NodeTest {
 		$this->assertEquals('bar', fread($fh, 3));
 	}
 
-	public function testFOpenWrite() {
+	public function testFOpenWrite(): void {
 		$stream = fopen('php://memory', 'w+');
 
 		$root = new \OC\Files\Node\Root(
@@ -222,7 +221,7 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testFOpenReadNotPermitted() {
+	public function testFOpenReadNotPermitted(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$root = new \OC\Files\Node\Root(
@@ -249,7 +248,7 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testFOpenReadWriteNoReadPermissions() {
+	public function testFOpenReadWriteNoReadPermissions(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$root = new \OC\Files\Node\Root(
@@ -276,7 +275,7 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testFOpenReadWriteNoWritePermissions() {
+	public function testFOpenReadWriteNoWritePermissions(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$root = new \OC\Files\Node\Root(

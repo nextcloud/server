@@ -1,27 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect :model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -47,17 +30,16 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
-			type="text"
 			:value="currentValue.id"
+			type="text"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
 </template>
 
 <script>
-import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import valueMixin from './../../mixins/valueMixin.js'
+import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { imagePath } from '@nextcloud/router'
 
 export default {
@@ -66,9 +48,15 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
-	mixins: [
-		valueMixin,
-	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+	},
+
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			predefinedTypes: [
@@ -93,6 +81,7 @@ export default {
 					id: 'application/pdf',
 				},
 			],
+			newValue: '',
 		}
 	},
 	computed: {
@@ -125,21 +114,30 @@ export default {
 			}
 		},
 	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
+		},
+	},
+
 	methods: {
 		validateRegex(string) {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
 			const result = regexRegex.exec(string)
 			return result !== null
 		},
+		updateInternalValue() {
+			this.newValue = this.modelValue
+		},
 		setValue(value) {
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
 		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+			this.newValue = event.target.value || event.detail[0]
+			this.$emit('update:model-value', this.newValue)
 		},
 	},
 }

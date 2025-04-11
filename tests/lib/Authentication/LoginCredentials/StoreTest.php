@@ -1,25 +1,8 @@
 <?php
 
 /**
- * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Authentication\LoginCredentials;
@@ -32,6 +15,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\ISession;
+use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -46,6 +30,8 @@ class StoreTest extends TestCase {
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
+	private $crypto;
 
 	/** @var Store */
 	private $store;
@@ -56,40 +42,44 @@ class StoreTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 
-		$this->store = new Store($this->session, $this->logger, $this->tokenProvider);
+		$this->store = new Store($this->session, $this->logger, $this->crypto, $this->tokenProvider);
 	}
 
-	public function testAuthenticate() {
+	public function testAuthenticate(): void {
 		$params = [
 			'run' => true,
 			'uid' => 'user123',
-			'password' => 123456,
+			'password' => '123456',
 		];
 
 		$this->session->expects($this->once())
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
+		$this->crypto->expects($this->once())
+			->method('encrypt')
+			->willReturn('123456');
 
 		$this->store->authenticate($params);
 	}
 
-	public function testSetSession() {
+	public function testSetSession(): void {
 		$session = $this->createMock(ISession::class);
 
 		$this->store->setSession($session);
 		$this->addToAssertionCount(1);
 	}
 
-	public function testGetLoginCredentialsNoTokenProvider() {
-		$this->store = new Store($this->session, $this->logger, null);
+	public function testGetLoginCredentialsNoTokenProvider(): void {
+		$this->store = new Store($this->session, $this->logger, $this->crypto, null);
 
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentials() {
+	public function testGetLoginCredentials(): void {
 		$uid = 'uid';
 		$user = 'user123';
 		$password = 'passme';
@@ -118,7 +108,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $creds);
 	}
 
-	public function testGetLoginCredentialsSessionNotAvailable() {
+	public function testGetLoginCredentialsSessionNotAvailable(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->will($this->throwException(new SessionNotAvailableException()));
@@ -127,7 +117,7 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsInvalidToken() {
+	public function testGetLoginCredentialsInvalidToken(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
@@ -140,7 +130,7 @@ class StoreTest extends TestCase {
 		$this->store->getLoginCredentials();
 	}
 
-	public function testGetLoginCredentialsPartialCredentialsAndSessionName() {
+	public function testGetLoginCredentialsPartialCredentialsAndSessionName(): void {
 		$uid = 'id987';
 		$user = 'user987';
 		$password = '7389374';
@@ -156,6 +146,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
@@ -178,7 +171,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsPartialCredentials() {
+	public function testGetLoginCredentialsPartialCredentials(): void {
 		$uid = 'id987';
 		$password = '7389374';
 
@@ -193,6 +186,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
@@ -215,7 +211,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsInvalidTokenLoginCredentials() {
+	public function testGetLoginCredentialsInvalidTokenLoginCredentials(): void {
 		$uid = 'id987';
 		$user = 'user987';
 		$password = '7389374';
@@ -231,6 +227,9 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($password);
 		$this->session->expects($this->once())
 			->method('get')
 			->with($this->equalTo('login_credentials'))
@@ -242,7 +241,7 @@ class StoreTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLoginCredentialsPasswordlessToken() {
+	public function testGetLoginCredentialsPasswordlessToken(): void {
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
@@ -253,5 +252,45 @@ class StoreTest extends TestCase {
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
+	}
+
+	public function testAuthenticatePasswordlessToken(): void {
+		$user = 'user987';
+		$password = null;
+
+		$params = [
+			'run' => true,
+			'loginName' => $user,
+			'uid' => $user,
+			'password' => $password,
+		];
+
+		$this->session->expects($this->once())
+			->method('set')
+			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
+
+
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sess2233');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sess2233')
+			->will($this->throwException(new PasswordlessTokenException()));
+
+		$this->session->expects($this->once())
+			->method('exists')
+			->with($this->equalTo('login_credentials'))
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with($this->equalTo('login_credentials'))
+			->willReturn(json_encode($params));
+
+		$this->store->authenticate($params);
+		$actual = $this->store->getLoginCredentials();
+
+		$expected = new Credentials($user, $user, $password);
+		$this->assertEquals($expected, $actual);
 	}
 }

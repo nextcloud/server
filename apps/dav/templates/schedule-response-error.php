@@ -1,8 +1,9 @@
 <?php
-// SPDX-FileCopyrightText: 2018 Georg Ehrke <oc.list@georgehrke.com>
-// SPDX-FileCopyrightText: 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
-// SPDX-FileCopyrightText: 2022 Carl Schwan <carl@carlschwan.eu>
-// SPDX-License-Identifier: AGPL-3.0-or-later
+
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 ?>
 <div class="guest-box">
 	<div class="notecard error">

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Share20;
 
 use OCP\Cache\CappedMemoryCache;
@@ -21,12 +25,7 @@ class ShareDisableChecker {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
 
-
-	/**
-	 * @param ?string $userId
-	 * @return bool
-	 */
-	public function sharingDisabledForUser(?string $userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		if ($userId === null) {
 			return false;
 		}

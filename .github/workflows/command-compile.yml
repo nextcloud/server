@@ -1,3 +1,11 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
 name: Compile Command
 on:
   issue_comment:
@@ -18,6 +26,28 @@ jobs:
       base_ref: ${{ steps.comment-branch.outputs.base_ref }}
 
     steps:
+      - name: Get repository from pull request comment
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        id: get-repository
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const repositoryName = pull.data.head?.repo?.full_name
+            console.log(repositoryName)
+            return repositoryName
+
+      - name: Disabled on forks
+        if: ${{ fromJSON(steps.get-repository.outputs.result) != github.repository }}
+        run: |
+          echo 'Can not execute /compile on forks'
+          exit 1
+
       - name: Check actor permission
         uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v2
         with:
@@ -29,7 +59,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "+1"
+          reactions: '+1'
 
       - name: Parse command
         uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
@@ -46,8 +76,17 @@ jobs:
           fi
 
       - name: Init branch
-        uses: xt0rted/pull-request-comment-branch@d97294d304604fa98a2600a6e2f916a84b596dc7 # v1
+        uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
+
+      - name: Add reaction on failure
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
+        if: failure()
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reactions: '-1'
 
   process:
     runs-on: ubuntu-latest
@@ -55,44 +94,45 @@ jobs:
 
     steps:
       - name: Restore cached git repository
-        uses: buildjet/cache@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           path: .git
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: true
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
           ref: ${{ needs.init.outputs.head_ref }}
 
       - name: Setup git
         run: |
-          git config --local user.email "nextcloud-command@users.noreply.github.com"
-          git config --local user.name "nextcloud-command"
+          git config --local user.email 'nextcloud-command@users.noreply.github.com'
+          git config --local user.name 'nextcloud-command'
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: package-engines-versions
         with:
           fallbackNode: '^20'
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v3
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
-      
+        run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
+
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
-          git fetch origin ${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}
-          git rebase origin/${{ needs.init.outputs.base_ref }}
+          git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
+          git rebase 'origin/${{ needs.init.outputs.base_ref }}'
 
       - name: Install dependencies & build
         env:
@@ -105,30 +145,30 @@ jobs:
       - name: Commit default
         if: ${{ !contains(needs.init.outputs.arg1, 'fixup') && !contains(needs.init.outputs.arg1, 'amend') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --signoff -m 'chore(assets): Recompile assets'
- 
+
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --fixup=HEAD --signoff
 
       - name: Commit amend
         if: ${{ contains(needs.init.outputs.arg1, 'amend') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --amend --no-edit --signoff
           # Remove any [skip ci] from the amended commit
           git commit --amend -m "$(git log -1 --format='%B' | sed '/\[skip ci\]/d')"
- 
+
       - name: Push normally
         if: ${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push origin ${{ needs.init.outputs.head_ref }}
+        run: git push origin '${{ needs.init.outputs.head_ref }}'
 
       - name: Force push
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') || contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push --force origin ${{ needs.init.outputs.head_ref }}
+        run: git push --force origin '${{ needs.init.outputs.head_ref }}'
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
@@ -137,4 +177,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'

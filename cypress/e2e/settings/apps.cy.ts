@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { User } from '@nextcloud/cypress'
@@ -34,8 +17,15 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 		// I am logged in as the admin
 		cy.login(admin)
+
+		// Intercept the apps list request
+		cy.intercept('GET', '*/settings/apps/list').as('fetchAppsList')
+
 		// I open the Apps management
 		cy.visit('/settings/apps/installed')
+
+		// Wait for the apps list to load
+		cy.wait('@fetchAppsList')
 	})
 
 	it('Can enable an installed app', () => {
@@ -133,7 +123,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-your-bundles').find('.active').should('exist')
 		// I see the app bundles
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle')
-		cy.get('#apps-list').contains('tr', 'Education Edition')
+		cy.get('#apps-list').contains('tr', 'Education bundle')
 		// I see that the "Enterprise bundle" is disabled
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle').contains('button', 'Download and enable all')
 	})

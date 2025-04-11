@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Theming\Jobs;
@@ -47,31 +30,20 @@ class MigrateBackgroundImages extends QueuedJob {
 	// will be saved in appdata/theming/global/
 	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.json';
 
-	private IAppDataFactory $appDataFactory;
-	private IJobList $jobList;
-	private IDBConnection $dbc;
-	private IAppData $appData;
-	private LoggerInterface $logger;
-
 	public function __construct(
 		ITimeFactory $time,
-		IAppDataFactory $appDataFactory,
-		IJobList $jobList,
-		IDBConnection $dbc,
-		IAppData $appData,
-		LoggerInterface $logger
+		private IAppDataFactory $appDataFactory,
+		private IJobList $jobList,
+		private IDBConnection $dbc,
+		private IAppData $appData,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->appDataFactory = $appDataFactory;
-		$this->jobList = $jobList;
-		$this->dbc = $dbc;
-		$this->appData = $appData;
-		$this->logger = $logger;
 	}
 
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
-			throw new \Exception('Job '.self::class.' called with wrong argument');
+			throw new \Exception('Job ' . self::class . ' called with wrong argument');
 		}
 
 		switch ($argument['stage']) {

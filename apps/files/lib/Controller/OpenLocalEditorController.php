@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files\Controller;
@@ -30,6 +13,9 @@ use OCA\Files\Db\OpenLocalEditor;
 use OCA\Files\Db\OpenLocalEditorMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -43,42 +29,29 @@ class OpenLocalEditorController extends OCSController {
 	public const TOKEN_DURATION = 600; // 10 Minutes
 	public const TOKEN_RETRIES = 50;
 
-	protected ITimeFactory $timeFactory;
-	protected OpenLocalEditorMapper $mapper;
-	protected ISecureRandom $secureRandom;
-	protected LoggerInterface $logger;
-	protected ?string $userId;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ITimeFactory $timeFactory,
-		OpenLocalEditorMapper $mapper,
-		ISecureRandom $secureRandom,
-		LoggerInterface $logger,
-		?string $userId
+		protected ITimeFactory $timeFactory,
+		protected OpenLocalEditorMapper $mapper,
+		protected ISecureRandom $secureRandom,
+		protected LoggerInterface $logger,
+		protected ?string $userId,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->timeFactory = $timeFactory;
-		$this->mapper = $mapper;
-		$this->secureRandom = $secureRandom;
-		$this->logger = $logger;
-		$this->userId = $userId;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @UserRateThrottle(limit=10, period=120)
-	 *
 	 * Create a local editor
 	 *
 	 * @param string $path Path of the file
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{userId: ?string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{userId: ?string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
 	 * 200: Local editor returned
 	 */
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 10, period: 120)]
 	public function create(string $path): DataResponse {
 		$pathHash = sha1($path);
 
@@ -113,19 +86,18 @@ class OpenLocalEditorController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=openLocalEditor)
-	 *
 	 * Validate a local editor
 	 *
 	 * @param string $path Path of the file
 	 * @param string $token Token of the local editor
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{userId: string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{userId: string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Local editor validated successfully
 	 * 404: Local editor not found
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'openLocalEditor')]
 	public function validate(string $path, string $token): DataResponse {
 		$pathHash = sha1($path);
 

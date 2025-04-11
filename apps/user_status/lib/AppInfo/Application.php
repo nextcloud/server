@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\AppInfo;
 
@@ -40,7 +23,9 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\IConfig;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeEndedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use OCP\User\Events\OutOfOfficeStartedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IManager;
@@ -78,6 +63,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OutOfOfficeChangedEvent::class, OutOfOfficeStatusListener::class);
 		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeStatusListener::class);
 		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeStatusListener::class);
+		$context->registerEventListener(OutOfOfficeStartedEvent::class, OutOfOfficeStatusListener::class);
+		$context->registerEventListener(OutOfOfficeEndedEvent::class, OutOfOfficeStatusListener::class);
 
 		$config = $this->getContainer()->query(IConfig::class);
 		$shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';

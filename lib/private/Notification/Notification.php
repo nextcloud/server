@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Notification;
 
@@ -30,9 +12,18 @@ use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\InvalidValueException;
 use OCP\RichObjectStrings\InvalidObjectExeption;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
+	/**
+	 * A very small and privileged list of apps that are allowed to push during DND.
+	 */
+	public const PRIORITY_NOTIFICATION_APPS = [
+		'spreed',
+		'twofactor_nextcloud_notification',
+	];
+
 	protected string $app = '';
 	protected string $user = '';
 	protected \DateTime $dateTime;
@@ -50,6 +41,7 @@ class Notification implements INotification {
 	protected array $messageRichParameters = [];
 	protected string $link = '';
 	protected string $icon = '';
+	protected bool $priorityNotification = false;
 	protected array $actions = [];
 	protected array $actionsParsed = [];
 	protected bool $hasPrimaryAction = false;
@@ -57,6 +49,7 @@ class Notification implements INotification {
 
 	public function __construct(
 		protected IValidator $richValidator,
+		protected IRichTextFormatter $richTextFormatter,
 	) {
 		$this->dateTime = new \DateTime();
 		$this->dateTime->setTimestamp(0);
@@ -205,37 +198,13 @@ class Notification implements INotification {
 
 		if ($this->subjectParsed === '') {
 			try {
-				$this->subjectParsed = $this->richToParsed($subject, $parameters);
+				$this->subjectParsed = $this->richTextFormatter->richToParsed($subject, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richSubjectParameters', $e);
 			}
 		}
 
 		return $this;
-	}
-
-	/**
-	 * @throws \InvalidArgumentException if a parameter has no name or no type
-	 */
-	private function richToParsed(string $message, array $parameters): string {
-		$placeholders = [];
-		$replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			foreach (['name','type'] as $requiredField) {
-				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
-					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
-				}
-			}
-			if ($parameter['type'] === 'user') {
-				$replacements[] = '@' . $parameter['name'];
-			} elseif ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'] ?? $parameter['name'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
-		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -311,7 +280,7 @@ class Notification implements INotification {
 
 		if ($this->messageParsed === '') {
 			try {
-				$this->messageParsed = $this->richToParsed($message, $parameters);
+				$this->messageParsed = $this->richTextFormatter->richToParsed($message, $parameters);
 			} catch (\InvalidArgumentException $e) {
 				throw new InvalidValueException('richMessageParameters', $e);
 			}
@@ -368,6 +337,25 @@ class Notification implements INotification {
 	 */
 	public function getIcon(): string {
 		return $this->icon;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setPriorityNotification(bool $priorityNotification): INotification {
+		if ($priorityNotification && !in_array($this->getApp(), self::PRIORITY_NOTIFICATION_APPS, true)) {
+			throw new InvalidValueException('priorityNotification');
+		}
+
+		$this->priorityNotification = $priorityNotification;
+		return $this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isPriorityNotification(): bool {
+		return $this->priorityNotification;
 	}
 
 	/**
@@ -474,6 +462,10 @@ class Notification implements INotification {
 	}
 
 	protected function isValidCommon(): bool {
+		if ($this->isPriorityNotification() && !in_array($this->getApp(), self::PRIORITY_NOTIFICATION_APPS, true)) {
+			return false;
+		}
+
 		return
 			$this->getApp() !== ''
 			&&

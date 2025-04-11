@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 return [
 	'routes' => [
@@ -30,9 +11,12 @@ return [
 		['name' => 'invitation_response#decline', 'url' => '/invitation/decline/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#options', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#processMoreOptionsResult', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'POST'],
+		['name' => 'example_content#setDefaultContact', 'url' => '/api/defaultcontact/contact', 'verb' => 'PUT'],
+		['name' => 'example_content#setEnableDefaultContact', 'url' => '/api/defaultcontact/config', 'verb' => 'PUT'],
 	],
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
+		['name' => 'upcoming_events#getEvents', 'url' => '/api/v1/events/upcoming', 'verb' => 'GET'],
 		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}/now', 'verb' => 'GET'],
 		['name' => 'out_of_office#getOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],
 		['name' => 'out_of_office#setOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'POST'],

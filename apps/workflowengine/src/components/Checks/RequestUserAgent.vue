@@ -1,28 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
-
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect v-model="currentValue"
 			:placeholder="t('workflowengine', 'Select a user agent')"
 			label="label"
 			:options="options"
@@ -42,15 +24,15 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
+			v-model="newValue"
 			type="text"
-			:value="currentValue.pattern"
 			@input="updateCustom">
 	</div>
 </template>
 
 <script>
-import NcEllipsisedOption from '@nextcloud/vue/dist/Components/NcEllipsisedOption.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import valueMixin from '../../mixins/valueMixin.js'
 
 export default {
@@ -62,6 +44,13 @@ export default {
 	mixins: [
 		valueMixin,
 	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+	},
+	emits: ['update:model-value'],
 	data() {
 		return {
 			newValue: '',
@@ -91,15 +80,20 @@ export default {
 				id: '',
 			}
 		},
-		currentValue() {
-			if (this.matchingPredefined) {
-				return this.matchingPredefined
-			}
-			return {
-				icon: 'icon-settings-dark',
-				label: t('workflowengine', 'Custom user agent'),
-				id: this.newValue,
-			}
+		currentValue: {
+			get() {
+				if (this.matchingPredefined) {
+					return this.matchingPredefined
+				}
+				return {
+					icon: 'icon-settings-dark',
+					label: t('workflowengine', 'Custom user agent'),
+					id: this.newValue,
+				}
+			},
+			set(value) {
+				this.newValue = value
+			},
 		},
 	},
 	methods: {
@@ -112,12 +106,12 @@ export default {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
-		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+		updateCustom() {
+			this.newValue = this.currentValue.id
+			this.$emit('update:model-value', this.newValue)
 		},
 	},
 }
@@ -127,6 +121,7 @@ export default {
 	input[type='text'] {
 		width: 100%;
 	}
+
 	input[type='text'] {
 		min-height: 48px;
 	}

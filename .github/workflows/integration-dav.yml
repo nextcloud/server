@@ -1,0 +1,125 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: DAV integration tests
+on:
+  pull_request:
+
+concurrency:
+  group: integration-caldav-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/*.php'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - 'build/integration/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
+  integration-caldav:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
+
+    strategy:
+      # do not stop on another job's failure
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1']
+        endpoint: ['old', 'new']
+        service: ['CalDAV', 'CardDAV']
+
+    name: ${{ matrix.service }} (${{ matrix.endpoint }} endpoint) php${{ matrix.php-versions }}
+
+    steps:
+        - name: Checkout server
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          with:
+            submodules: true
+
+        - name: Set up php ${{ matrix.php-versions }}
+          uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+          with:
+            php-version: ${{ matrix.php-versions }}
+            # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+            extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+            coverage: 'none'
+            ini-file: development
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Set up Python
+          uses: LizardByte/setup-python-action@master
+          with:
+            python-version: '2.7'
+
+        - name: Set up CalDAVTester
+          run: |
+            git clone --depth=1 https://github.com/apple/ccs-caldavtester.git CalDAVTester
+            git clone --depth=1 https://github.com/apple/ccs-pycalendar.git pycalendar
+
+        - name: Set up Nextcloud
+          run: |
+            mkdir data
+            ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+            # disable the trashbin, so recurrent deletion of the same object works
+            ./occ config:app:set dav calendarRetentionObligation --value=0
+            # Prepare users
+            OC_PASS=user01 ./occ user:add --password-from-env user01
+            OC_PASS=user02 ./occ user:add --password-from-env user02
+            # Prepare calendars
+            ./occ dav:create-calendar user01 calendar
+            ./occ dav:create-calendar user01 shared
+            ./occ dav:create-calendar user02 calendar
+            # Prepare address books
+            ./occ dav:create-addressbook user01 addressbook
+            ./occ dav:create-addressbook user02 addressbook
+
+        - name: Run Nextcloud
+          run: |
+            php -S localhost:8888 &
+
+        - name: Run CalDAVTester
+          run: |
+            cp "apps/dav/tests/testsuits/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/testsuits/caldavtest/serverinfo.xml"
+            pushd CalDAVTester
+            PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/testsuits/caldavtest" -o cdt.txt \
+              "${{ matrix.service }}/current-user-principal.xml" \
+              "${{ matrix.service }}/sync-report.xml" \
+              ${{ matrix.endpoint == 'new' && format('{0}/sharing-{1}.xml', matrix.service, matrix.service == 'CalDAV' && 'calendars' || 'addressbooks') || ';' }}
+            popd
+
+        - name: Print Nextcloud logs
+          if: always()
+          run: |
+            cat data/nextcloud.log
+
+  caldav-integration-summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, integration-caldav]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.integration-caldav.result != 'success' }}; then exit 1; fi

@@ -1,25 +1,6 @@
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import api from './api.js'
@@ -35,6 +16,7 @@ const state = {
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	gettingCategoriesPromise: null,
+	appApiEnabled: loadState('settings', 'appApiEnabled', false),
 }
 
 const mutations = {
@@ -89,6 +71,9 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+		if (app.id === 'app_api') {
+			state.appApiEnabled = true
+		}
 	},
 
 	setInstallState(state, { appId, canInstall }) {
@@ -105,6 +90,9 @@ const mutations = {
 		if (app.removable) {
 			app.canUnInstall = true
 		}
+		if (app.id === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	uninstallApp(state, appId) {
@@ -114,6 +102,9 @@ const mutations = {
 		state.apps.find(app => app.id === appId).installed = false
 		state.apps.find(app => app.id === appId).canUnInstall = false
 		state.apps.find(app => app.id === appId).canInstall = true
+		if (appId === 'app_api') {
+			state.appApiEnabled = false
+		}
 	},
 
 	updateApp(state, appId) {
@@ -154,6 +145,9 @@ const mutations = {
 }
 
 const getters = {
+	isAppApiEnabled(state) {
+		return state.appApiEnabled
+	},
 	loading(state) {
 		return function(id) {
 			return state.loading[id]
@@ -197,13 +191,13 @@ const actions = {
 					})
 
 					// check for server health
-					return api.get(generateUrl('apps/files'))
+					return api.get(generateUrl('apps/files/'))
 						.then(() => {
 							if (response.data.update_required) {
 								showInfo(
 									t(
 										'settings',
-										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
 									),
 									{
 										onClick: () => window.location.reload(),

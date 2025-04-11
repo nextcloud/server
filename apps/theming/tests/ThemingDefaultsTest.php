@@ -1,36 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -39,8 +10,8 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -49,21 +20,20 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	private IAppConfig&MockObject $appConfig;
+	private IConfig&MockObject $config;
+	private \OC_Defaults $defaults;
+
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	private $appData;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ThemingDefaults */
@@ -78,9 +48,12 @@ class ThemingDefaultsTest extends TestCase {
 	private $imageManager;
 	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
+	/** @var BackgroundService|\PHPUnit\Framework\MockObject\MockObject */
+	private $backgroundService;
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -91,6 +64,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 		$this->defaults = new \OC_Defaults();
 		$this->urlGenerator
 			->expects($this->any())
@@ -98,6 +72,7 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('');
 		$this->template = new ThemingDefaults(
 			$this->config,
+			$this->appConfig,
 			$this->l10n,
 			$this->userSession,
 			$this->urlGenerator,
@@ -105,11 +80,12 @@ class ThemingDefaultsTest extends TestCase {
 			$this->util,
 			$this->imageManager,
 			$this->appManager,
-			$this->navigationManager
+			$this->navigationManager,
+			$this->backgroundService,
 		);
 	}
 
-	public function testGetNameWithDefault() {
+	public function testGetNameWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -119,7 +95,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('Nextcloud', $this->template->getName());
 	}
 
-	public function testGetNameWithCustom() {
+	public function testGetNameWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -129,7 +105,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('MyCustomCloud', $this->template->getName());
 	}
 
-	public function testGetHTMLNameWithDefault() {
+	public function testGetHTMLNameWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -139,7 +115,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('Nextcloud', $this->template->getHTMLName());
 	}
 
-	public function testGetHTMLNameWithCustom() {
+	public function testGetHTMLNameWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -149,7 +125,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('MyCustomCloud', $this->template->getHTMLName());
 	}
 
-	public function testGetTitleWithDefault() {
+	public function testGetTitleWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -159,7 +135,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('Nextcloud', $this->template->getTitle());
 	}
 
-	public function testGetTitleWithCustom() {
+	public function testGetTitleWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -170,7 +146,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 
-	public function testGetEntityWithDefault() {
+	public function testGetEntityWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -180,7 +156,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('Nextcloud', $this->template->getEntity());
 	}
 
-	public function testGetEntityWithCustom() {
+	public function testGetEntityWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -190,7 +166,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('MyCustomCloud', $this->template->getEntity());
 	}
 
-	public function testGetBaseUrlWithDefault() {
+	public function testGetBaseUrlWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -200,7 +176,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($this->defaults->getBaseUrl(), $this->template->getBaseUrl());
 	}
 
-	public function testGetBaseUrlWithCustom() {
+	public function testGetBaseUrlWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -221,7 +197,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @param $imprintUrl
 	 * @dataProvider legalUrlProvider
 	 */
-	public function testGetImprintURL($imprintUrl) {
+	public function testGetImprintURL($imprintUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -235,7 +211,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @param $privacyUrl
 	 * @dataProvider legalUrlProvider
 	 */
-	public function testGetPrivacyURL($privacyUrl) {
+	public function testGetPrivacyURL($privacyUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -245,7 +221,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($privacyUrl, $this->template->getPrivacyUrl());
 	}
 
-	public function testGetSloganWithDefault() {
+	public function testGetSloganWithDefault(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -255,7 +231,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($this->defaults->getSlogan(), $this->template->getSlogan());
 	}
 
-	public function testGetSloganWithCustom() {
+	public function testGetSloganWithCustom(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -265,7 +241,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('My custom Slogan', $this->template->getSlogan());
 	}
 
-	public function testGetShortFooter() {
+	public function testGetShortFooter(): void {
 		$this->config
 			->expects($this->exactly(5))
 			->method('getAppValue')
@@ -280,7 +256,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterEmptyUrl() {
+	public function testGetShortFooterEmptyUrl(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -296,7 +272,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<span class="entity-name">Name</span> – Slogan', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterEmptySlogan() {
+	public function testGetShortFooterEmptySlogan(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -312,7 +288,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a>', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterImprint() {
+	public function testGetShortFooterImprint(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -330,10 +306,10 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a></span>', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterPrivacy() {
+	public function testGetShortFooterPrivacy(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -351,10 +327,10 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
-	public function testGetShortFooterAllLegalLinks() {
+	public function testGetShortFooterAllLegalLinks(): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -372,7 +348,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
 	public function invalidLegalUrlProvider() {
@@ -386,7 +362,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @param $invalidImprintUrl
 	 * @dataProvider invalidLegalUrlProvider
 	 */
-	public function testGetShortFooterInvalidImprint($invalidImprintUrl) {
+	public function testGetShortFooterInvalidImprint($invalidImprintUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -406,7 +382,7 @@ class ThemingDefaultsTest extends TestCase {
 	 * @param $invalidPrivacyUrl
 	 * @dataProvider invalidLegalUrlProvider
 	 */
-	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl) {
+	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -422,109 +398,81 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
-	public function testGetColorPrimaryWithDefault() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', $this->defaults->getColorPrimary()],
-			]);
+	public function testGetColorPrimaryWithDefault(): void {
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn(false);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
+			->willReturn($this->defaults->getColorPrimary());
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
 	}
 
-	public function testGetColorPrimaryWithCustom() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', '#fff'],
-			]);
-
-		$this->assertEquals('#fff', $this->template->getColorPrimary());
-	}
-
-	public function testGetColorPrimaryWithDefaultBackground() {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', ''],
-			]);
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color')
-			->willReturn('');
-
-		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());
-	}
-
-	public function testGetColorPrimaryWithCustomBackground() {
-		$backgroundIndex = 2;
-		$background = array_values(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex];
-
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
-			->willReturn($background['primary_color']);
-
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
-			]);
-
-		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
-	}
-
-	public function testGetColorPrimaryWithCustomBackgroundColor() {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
+	public function testGetColorPrimaryWithCustom(): void {
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn(false);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
 			->willReturn('#fff');
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
-			]);
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
 
-	public function testGetColorPrimaryWithInvalidCustomBackgroundColor() {
+	public function dataGetColorPrimary() {
+		return [
+			'with fallback default' => [
+				'disableTheming' => false,
+				'primaryColor' => '',
+				'userPrimaryColor' => '',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom admin primary' => [
+				'disableTheming' => false,
+				'primaryColor' => '#aaa',
+				'userPrimaryColor' => '',
+				'expected' => '#aaa',
+			],
+			'with custom invalid admin primary' => [
+				'disableTheming' => false,
+				'primaryColor' => 'invalid',
+				'userPrimaryColor' => '',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom invalid user primary' => [
+				'disableTheming' => false,
+				'primaryColor' => '',
+				'userPrimaryColor' => 'invalid-name',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom user primary' => [
+				'disableTheming' => false,
+				'primaryColor' => '',
+				'userPrimaryColor' => '#bbb',
+				'expected' => '#bbb',
+			],
+			'with disabled user theming primary' => [
+				'disableTheming' => true,
+				'primaryColor' => '#aaa',
+				'userPrimaryColor' => '#bbb',
+				'expected' => '#aaa',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetColorPrimary
+	 */
+	public function testGetColorPrimary(bool $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -532,31 +480,38 @@ class ThemingDefaultsTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-
+		$this->appConfig
+			->expects(self::any())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn($disableTheming);
+		$this->appConfig
+			->expects(self::any())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
+			->willReturn($primaryColor);
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
-			->willReturn('nextcloud');
-		$this->config
-			->expects($this->exactly(3))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
-			]);
+			->with('user', 'theming', 'primary_color', '')
+			->willReturn($userPrimaryColor);
 
-		$this->assertEquals($this->template->getDefaultColorPrimary(), $this->template->getColorPrimary());
+		$this->assertEquals($expected, $this->template->getColorPrimary());
 	}
 
-	public function testSet() {
+	public function testSet(): void {
+		$expectedCalls = [
+			['theming', 'MySetting', 'MyValue'],
+			['theming', 'cachebuster', 16],
+		];
+		$i = 0;
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
-			->withConsecutive(
-				['theming', 'MySetting', 'MyValue'],
-				['theming', 'cachebuster', 16],
-			);
+			->willReturnCallback(function () use ($expectedCalls, &$i): void {
+				$this->assertEquals($expectedCalls[$i], func_get_args());
+				$i++;
+			});
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -565,11 +520,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->exactly(2))
 			->method('createDistributed')
-			->withConsecutive(
-				['theming-'],
-				['imagePath'],
-			)
-			->willReturn($this->cache);
+			->willReturnMap([
+				['theming-', $this->cache],
+				['imagePath', $this->cache],
+			]);
 		$this->cache
 			->expects($this->any())
 			->method('clear')
@@ -577,7 +531,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->template->set('MySetting', 'MyValue');
 	}
 
-	public function testUndoName() {
+	public function testUndoName(): void {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
@@ -585,13 +539,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'name', 'Nextcloud'],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				'Nextcloud',
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'name', 'Nextcloud', 'Nextcloud'],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -600,7 +551,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertSame('Nextcloud', $this->template->undo('name'));
 	}
 
-	public function testUndoBaseUrl() {
+	public function testUndoBaseUrl(): void {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
@@ -608,13 +559,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'url', $this->defaults->getBaseUrl()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getBaseUrl(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'url', $this->defaults->getBaseUrl(), $this->defaults->getBaseUrl()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -623,7 +571,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertSame($this->defaults->getBaseUrl(), $this->template->undo('url'));
 	}
 
-	public function testUndoSlogan() {
+	public function testUndoSlogan(): void {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
@@ -631,13 +579,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'slogan', $this->defaults->getSlogan()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getSlogan(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'slogan', $this->defaults->getSlogan(), $this->defaults->getSlogan()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -646,30 +591,25 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertSame($this->defaults->getSlogan(), $this->template->undo('slogan'));
 	}
 
-	public function testUndoColor() {
+	public function testUndoPrimaryColor(): void {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
-			->with('theming', 'color');
+			->with('theming', 'primary_color');
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'color', null],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getColorPrimary(),
-			);
+			->with('theming', 'cachebuster', '0')
+			->willReturn('15');
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
 			->with('theming', 'cachebuster', 16);
 
-		$this->assertSame($this->defaults->getColorPrimary(), $this->template->undo('color'));
+		$this->assertSame($this->defaults->getColorPrimary(), $this->template->undo('primary_color'));
 	}
 
-	public function testUndoDefaultAction() {
+	public function testUndoDefaultAction(): void {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
@@ -687,7 +627,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertSame('', $this->template->undo('defaultitem'));
 	}
 
-	public function testGetBackground() {
+	public function testGetBackground(): void {
 		$this->imageManager
 			->expects($this->once())
 			->method('getImageUrl')
@@ -704,13 +644,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime'],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'',
-				'0'
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', ''],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', $withName)
@@ -718,25 +655,22 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('core-logo?v=0', $this->template->getLogo($useSvg));
 	}
 
-	public function testGetLogoDefaultWithSvg() {
+	public function testGetLogoDefaultWithSvg(): void {
 		$this->getLogoHelper('logo/logo.svg', true);
 	}
 
-	public function testGetLogoDefaultWithoutSvg() {
+	public function testGetLogoDefaultWithoutSvg(): void {
 		$this->getLogoHelper('logo/logo.png', false);
 	}
 
-	public function testGetLogoCustom() {
+	public function testGetLogoCustom(): void {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime', false],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'image/svg+xml',
-				'0',
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', 'image/svg+xml'],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
@@ -744,7 +678,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('custom-logo' . '?v=0', $this->template->getLogo());
 	}
 
-	public function testGetScssVariablesCached() {
+	public function testGetScssVariablesCached(): void {
 		$this->config->expects($this->any())->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('1');
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
@@ -754,7 +688,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $this->template->getScssVariables());
 	}
 
-	public function testGetScssVariables() {
+	public function testGetScssVariables(): void {
 		$this->config
 			->expects($this->any())
 			->method('getAppValue')
@@ -764,8 +698,14 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'backgroundMime', '', 'jpeg'],
 				['theming', 'logoheaderMime', '', 'jpeg'],
 				['theming', 'faviconMime', '', 'jpeg'],
-				['theming', 'color', '', $this->defaults->getColorPrimary()],
-				['theming', 'color', $this->defaults->getColorPrimary(), $this->defaults->getColorPrimary()],
+			]);
+
+		$this->appConfig
+			->expects(self::atLeastOnce())
+			->method('getValueString')
+			->willReturnMap([
+				['theming', 'primary_color', '', false, $this->defaults->getColorPrimary()],
+				['theming', 'primary_color', $this->defaults->getColorPrimary(), false, $this->defaults->getColorPrimary()],
 			]);
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);
@@ -803,7 +743,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($expected, $this->template->getScssVariables());
 	}
 
-	public function testGetDefaultAndroidURL() {
+	public function testGetDefaultAndroidURL(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -813,7 +753,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://play.google.com/store/apps/details?id=com.nextcloud.client', $this->template->getAndroidClientUrl());
 	}
 
-	public function testGetCustomAndroidURL() {
+	public function testGetCustomAndroidURL(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -823,7 +763,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://play.google.com/store/apps/details?id=com.mycloud.client', $this->template->getAndroidClientUrl());
 	}
 
-	public function testGetDefaultiOSURL() {
+	public function testGetDefaultiOSURL(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -833,7 +773,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8', $this->template->getiOSClientUrl());
 	}
 
-	public function testGetCustomiOSURL() {
+	public function testGetCustomiOSURL(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -843,7 +783,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://geo.itunes.apple.com/us/app/nextcloud/id1234567890?mt=8', $this->template->getiOSClientUrl());
 	}
 
-	public function testGetDefaultiTunesAppId() {
+	public function testGetDefaultiTunesAppId(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -853,7 +793,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('1125420102', $this->template->getiTunesAppId());
 	}
 
-	public function testGetCustomiTunesAppId() {
+	public function testGetCustomiTunesAppId(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -873,7 +813,7 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd') {
+	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd'): void {
 		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')

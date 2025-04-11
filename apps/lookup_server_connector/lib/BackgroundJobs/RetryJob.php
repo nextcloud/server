@@ -3,32 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
@@ -43,11 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class RetryJob extends Job {
-	private IClientService $clientService;
 	private string $lookupServer;
-	private IConfig $config;
-	private IUserManager $userManager;
-	private IAccountManager $accountManager;
 	private Signer $signer;
 	protected int $retries = 0;
 	protected bool $retainJob = false;
@@ -60,20 +32,18 @@ class RetryJob extends Job {
 	 * @param IAccountManager $accountManager
 	 * @param Signer $signer
 	 */
-	public function __construct(ITimeFactory $time,
-		IClientService $clientService,
-		IConfig $config,
-		IUserManager $userManager,
-		IAccountManager $accountManager,
-		Signer $signer) {
+	public function __construct(
+		ITimeFactory $time,
+		private IClientService $clientService,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IAccountManager $accountManager,
+		Signer $signer,
+	) {
 		parent::__construct($time);
-		$this->clientService = $clientService;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		$this->signer = $signer;
 
-		$this->lookupServer = $config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
+		$this->lookupServer = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if (!empty($this->lookupServer)) {
 			$this->lookupServer = rtrim($this->lookupServer, '/');
 			$this->lookupServer .= '/users';
@@ -90,7 +60,7 @@ class RetryJob extends Job {
 			return;
 		}
 
-		$this->retries = (int) $this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', '0');
+		$this->retries = (int)$this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', '0');
 
 		if ($this->shouldRemoveBackgroundJob()) {
 			$jobList->remove($this, $this->argument);
@@ -114,10 +84,12 @@ class RetryJob extends Job {
 	 * - max retries are reached (set to 5)
 	 */
 	protected function shouldRemoveBackgroundJob(): bool {
-		return $this->config->getSystemValueBool('has_internet_connection', true) === false ||
-			$this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === '' ||
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
-			$this->retries >= 5;
+		// TODO: Remove global scale condition once lookup server is used for non-global scale federation
+		// return $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') !== 'yes'
+		return !$this->config->getSystemValueBool('gs.enabled', false)
+			|| $this->config->getSystemValueBool('has_internet_connection', true) === false
+			|| $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === ''
+			|| $this->retries >= 5;
 	}
 
 	protected function shouldRun(): bool {
@@ -179,7 +151,7 @@ class RetryJob extends Job {
 				$user->getUID(),
 				'lookup_server_connector',
 				'update_retries',
-				$this->retries + 1
+				(string)($this->retries + 1),
 			);
 		}
 	}
@@ -188,9 +160,13 @@ class RetryJob extends Job {
 		$account = $this->accountManager->getAccount($user);
 
 		$publicData = [];
-		foreach ($account->getProperties() as $property) {
+		foreach ($account->getAllProperties() as $property) {
 			if ($property->getScope() === IAccountManager::SCOPE_PUBLISHED) {
-				$publicData[$property->getName()] = $property->getValue();
+				$publicData[$property->getName()] = [
+					'value' => $property->getValue(),
+					'verified' => $property->getVerified(),
+					'signature' => $property->getVerificationData(),
+				];
 			}
 		}
 

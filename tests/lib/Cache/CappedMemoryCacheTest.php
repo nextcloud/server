@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2016 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Cache;
@@ -33,7 +18,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->instance = new \OCP\Cache\CappedMemoryCache();
 	}
 
-	public function testSetOverCap() {
+	public function testSetOverCap(): void {
 		$instance = new \OCP\Cache\CappedMemoryCache(3);
 
 		$instance->set('1', 'a');
@@ -49,7 +34,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertTrue($instance->hasKey('5'));
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);
 		$this->instance->set('1_value2', $value);
@@ -63,7 +48,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
 
-	public function testIndirectSet() {
+	public function testIndirectSet(): void {
 		$this->instance->set('array', []);
 
 		$this->instance['array'][] = 'foo';

@@ -3,32 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\TwoFactorAuth;
 
 use Exception;
-use OC;
-use OC_App;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
@@ -37,15 +18,10 @@ use OCP\IUser;
 class ProviderLoader {
 	public const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
 
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var OC\AppFramework\Bootstrap\Coordinator */
-	private $coordinator;
-
-	public function __construct(IAppManager $appManager, OC\AppFramework\Bootstrap\Coordinator $coordinator) {
-		$this->appManager = $appManager;
-		$this->coordinator = $coordinator;
+	public function __construct(
+		private IAppManager $appManager,
+		private Coordinator $coordinator,
+	) {
 	}
 
 	/**
@@ -76,12 +52,12 @@ class ProviderLoader {
 			}
 		}
 
-		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProviders();
+		$registeredProviders = $this->coordinator->getRegistrationContext()?->getTwoFactorProviders() ?? [];
 		foreach ($registeredProviders as $provider) {
 			try {
 				$this->loadTwoFactorApp($provider->getAppId());
-				$provider = \OCP\Server::get($provider->getService());
-				$providers[$provider->getId()] = $provider;
+				$providerInstance = \OCP\Server::get($provider->getService());
+				$providers[$providerInstance->getId()] = $providerInstance;
 			} catch (QueryException $exc) {
 				// Provider class can not be resolved
 				throw new Exception('Could not load two-factor auth provider ' . $provider->getService());
@@ -93,12 +69,10 @@ class ProviderLoader {
 
 	/**
 	 * Load an app by ID if it has not been loaded yet
-	 *
-	 * @param string $appId
 	 */
-	protected function loadTwoFactorApp(string $appId) {
-		if (!OC_App::isAppLoaded($appId)) {
-			OC_App::loadApp($appId);
+	protected function loadTwoFactorApp(string $appId): void {
+		if (!$this->appManager->isAppLoaded($appId)) {
+			$this->appManager->loadApp($appId);
 		}
 	}
 }

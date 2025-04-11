@@ -3,28 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
@@ -39,6 +20,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
@@ -54,20 +36,14 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var PluginManager */
-	private $pluginManager;
-	private ?IUser $user;
-	private ?IGroupManager $groupManager;
-
-	public function __construct(Backend\BackendInterface $carddavBackend,
+	public function __construct(
+		Backend\BackendInterface $carddavBackend,
 		string $principalUri,
-		PluginManager $pluginManager,
-		?IUser $user,
-		?IGroupManager $groupManager) {
+		private PluginManager $pluginManager,
+		private ?IUser $user,
+		private ?IGroupManager $groupManager,
+	) {
 		parent::__construct($carddavBackend, $principalUri);
-		$this->pluginManager = $pluginManager;
-		$this->user = $user;
-		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -80,7 +56,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
 		if ($this->config === null) {
-			$this->config = \OC::$server->getConfig();
+			$this->config = Server::get(IConfig::class);
 		}
 
 		/** @var string|array $principal */
@@ -106,9 +82,9 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 				$trustedServers = null;
 				$request = null;
 				try {
-					$trustedServers = \OC::$server->get(TrustedServers::class);
-					$request = \OC::$server->get(IRequest::class);
-				} catch (QueryException | NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+					$trustedServers = Server::get(TrustedServers::class);
+					$request = Server::get(IRequest::class);
+				} catch (QueryException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
 					// nothing to do, the request / trusted servers don't exist
 				}
 				if ($addressBook['principaluri'] === 'principals/system/system') {
@@ -117,7 +93,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 						$addressBook,
 						$this->l10n,
 						$this->config,
-						\OCP\Server::get(IUserSession::class),
+						Server::get(IUserSession::class),
 						$request,
 						$trustedServers,
 						$this->groupManager

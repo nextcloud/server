@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Wrapped;
@@ -144,8 +143,8 @@ class Parser {
 			// A line = explode statement may not fill all array elements
 			// properly. May happen when accessing non Windows Fileservers
 			$words = explode(':', $line, 2);
-			$name = $words[0] ?? '';
-			$value = $words[1] ?? '';
+			$name = isset($words[0]) ? $words[0] : '';
+			$value = isset($words[1]) ? $words[1] : '';
 			$value = trim($value);
 
 			if (!isset($data[$name])) {

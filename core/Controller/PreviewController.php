@@ -3,34 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
-use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -38,6 +22,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
@@ -55,19 +40,16 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
-	 * @param int $x Width of the preview
-	 * @param int $y Height of the preview
-	 * @param bool $a Whether to not crop the preview
+	 * @param int $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
-	 * @param string $mode How to crop the image
+	 * @param 'fill'|'cover' $mode How to crop the image
 	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Preview returned
 	 * 303: Redirect to the mime icon url if mimeFallback is true
@@ -75,7 +57,10 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -99,19 +84,16 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview by file ID
 	 *
 	 * @param int $fileId ID of the file
-	 * @param int $x Width of the preview
-	 * @param int $y Height of the preview
-	 * @param bool $a Whether to not crop the preview
+	 * @param int $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
-	 * @param string $mode How to crop the image
+	 * @param 'fill'|'cover' $mode How to crop the image
 	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
 	 * 200: Preview returned
 	 * 303: Redirect to the mime icon url if mimeFallback is true
@@ -119,7 +101,10 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreviewByFileId(
 		int $fileId = -1,
 		int $x = 32,
@@ -143,7 +128,7 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 */
 	private function fetchPreview(
 		Node $node,
@@ -160,12 +145,21 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($node->getId() <= 0) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		// Is this header is set it means our UI is doing a preview for no-download shares
+		// we check a header so we at least prevent people from using the link directly (obfuscation)
+		$isNextcloudPreview = $this->request->getHeader('X-NC-Preview') === 'true';
 		$storage = $node->getStorage();
-		if ($storage->instanceOfStorage(SharedStorage::class)) {
-			/** @var SharedStorage $storage */
+		if ($isNextcloudPreview === false && $storage->instanceOfStorage(ISharedStorage::class)) {
+			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
 			$attributes = $share->getAttributes();
-			if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+			// No "allow preview" header set, so we must check if
+			// the share has not explicitly disabled download permissions
+			if ($attributes?->getAttribute('permissions', 'download') === false) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}
@@ -189,5 +183,26 @@ class PreviewController extends Controller {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
+	}
+
+	/**
+	 * Get a preview by mime
+	 *
+	 * @param string $mime Mime type
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
+	 *
+	 * 303: The mime icon url
+	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'GET', url: '/core/mimeicon')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getMimeIconUrl(string $mime = 'application/octet-stream') {
+		$url = $this->mimeIconProvider->getMimeIconUrl($mime);
+		if ($url === null) {
+			$url = $this->mimeIconProvider->getMimeIconUrl('application/octet-stream');
+		}
+
+		return new RedirectResponse($url);
 	}
 }

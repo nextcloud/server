@@ -1,30 +1,11 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -61,45 +42,45 @@ class RequestUserAgentTest extends TestCase {
 			['is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'android', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'android', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
-			['is', 'android', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
+			['is', 'android', 'Filelink for *cloud/2.2.0', false],
 			['!is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
 			['!is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'android', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'android', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
-			['!is', 'android', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
+			['!is', 'android', 'Filelink for *cloud/2.2.0', true],
 
 			['is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
 			['is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['is', 'ios', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'ios', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
-			['is', 'ios', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
+			['is', 'ios', 'Filelink for *cloud/2.2.0', false],
 			['!is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
 			['!is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['!is', 'ios', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'ios', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
-			['!is', 'ios', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
+			['!is', 'ios', 'Filelink for *cloud/2.2.0', true],
 
 			['is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
 			['is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'desktop', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['is', 'desktop', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
-			['is', 'desktop', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
+			['is', 'desktop', 'Filelink for *cloud/2.2.0', false],
 			['!is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
 			['!is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'desktop', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['!is', 'desktop', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
-			['!is', 'desktop', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
+			['!is', 'desktop', 'Filelink for *cloud/2.2.0', true],
 
 			['is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
 			['is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'mail', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'mail', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
-			['is', 'mail', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
+			['is', 'mail', 'Filelink for *cloud/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
-			['!is', 'mail', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
+			['!is', 'mail', 'Filelink for *cloud/2.2.0', false],
 		];
 	}
 
@@ -110,12 +91,12 @@ class RequestUserAgentTest extends TestCase {
 	 * @param string $actualValue
 	 * @param bool $expected
 	 */
-	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected) {
+	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->willReturn($actualValue);
 
-		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
+		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->check->executeCheck($operation, $checkValue));
 	}
 }

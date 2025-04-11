@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Settings;
 
@@ -30,18 +10,14 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class Section implements IIconSection {
-	/** @var IL10N */
-	private $l;
-	/** @var IURLGenerator */
-	private $url;
-
 	/**
 	 * @param IURLGenerator $url
 	 * @param IL10N $l
 	 */
-	public function __construct(IURLGenerator $url, IL10N $l) {
-		$this->url = $url;
-		$this->l = $l;
+	public function __construct(
+		private IURLGenerator $url,
+		private IL10N $l,
+	) {
 	}
 
 	/**
@@ -66,8 +42,8 @@ class Section implements IIconSection {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the settings navigation. The sections are arranged in ascending order of
-	 * the priority values. It is required to return a value between 0 and 99.
+	 *             the settings navigation. The sections are arranged in ascending order of
+	 *             the priority values. It is required to return a value between 0 and 99.
 	 *
 	 * E.g.: 70
 	 */

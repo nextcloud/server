@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Themes;
 
@@ -35,6 +18,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DarkThemeTest extends AccessibleThemeTestCase {
@@ -63,6 +47,7 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),
@@ -77,6 +62,14 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
 			->willReturn('#0082c9');
 
 		$this->themingDefaults
@@ -107,37 +100,38 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 			$this->config,
 			$this->l10n,
 			$this->appManager,
+			null,
 		);
 
 		parent::setUp();
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('dark', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('Dark theme', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable dark theme', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('A dark theme to ease your eyes by reducing the overall luminosity and brightness.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-color-scheme: dark)', $this->theme->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
+	public function testGetCustomCss(): void {
 		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 }

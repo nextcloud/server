@@ -1,33 +1,15 @@
 /**
- * @copyright 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { RegistrationResponseJSON } from '@simplewebauthn/types'
+import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/types'
 
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { startRegistration as registerWebAuthn } from '@simplewebauthn/browser'
 
-import Axios from 'axios'
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import logger from '../logger'
 
 /**
@@ -39,13 +21,13 @@ export async function startRegistration() {
 
 	try {
 		logger.debug('Fetching webauthn registration data')
-		const { data } = await axios.get(url)
+		const { data } = await axios.get<PublicKeyCredentialCreationOptionsJSON>(url)
 		logger.debug('Start webauthn registration')
-		const attrs = await registerWebAuthn(data)
+		const attrs = await registerWebAuthn({ optionsJSON: data })
 		return attrs
 	} catch (e) {
 		logger.error(e as Error)
-		if (Axios.isAxiosError(e)) {
+		if (isAxiosError(e)) {
 			throw new Error(t('settings', 'Could not register device: Network error'))
 		} else if ((e as Error).name === 'InvalidStateError') {
 			throw new Error(t('settings', 'Could not register device: Probably already registered'))

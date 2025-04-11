@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
@@ -39,14 +18,10 @@ use OCP\Share\IManager;
  */
 class Capabilities implements ICapability {
 
-	/** @var IConfig */
-	private $config;
-	/** @var IManager */
-	private $shareManager;
-
-	public function __construct(IConfig $config, IManager $shareManager) {
-		$this->config = $config;
-		$this->shareManager = $shareManager;
+	public function __construct(
+		private IConfig $config,
+		private IManager $shareManager,
+	) {
 	}
 
 	/**
@@ -80,6 +55,7 @@ class Capabilities implements ICapability {
 	 *             send_mail?: bool,
 	 *             upload?: bool,
 	 *             upload_files_drop?: bool,
+	 *             custom_tokens?: bool,
 	 *         },
 	 *         user: array{
 	 *             send_mail: bool,
@@ -161,6 +137,7 @@ class Capabilities implements ICapability {
 				$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
 				$public['upload'] = $this->shareManager->shareApiLinkAllowPublicUpload();
 				$public['upload_files_drop'] = $public['upload'];
+				$public['custom_tokens'] = $this->shareManager->allowCustomTokens();
 			}
 			$res['public'] = $public;
 

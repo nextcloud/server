@@ -1,25 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions\Command;
 
@@ -28,6 +11,7 @@ use OCA\Files_Versions\Storage;
 use OCP\Command\ICommand;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Expire implements ICommand {
@@ -41,7 +25,7 @@ class Expire implements ICommand {
 
 	public function handle(): void {
 		/** @var IUserManager $userManager */
-		$userManager = \OC::$server->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		if (!$userManager->userExists($this->user)) {
 			// User has been deleted already
 			return;
@@ -53,7 +37,7 @@ class Expire implements ICommand {
 			// In case of external storage and session credentials, the expiration
 			// fails because the command does not have those credentials
 
-			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->warning($e->getMessage(), [
 				'exception' => $e,
 				'uid' => $this->user,

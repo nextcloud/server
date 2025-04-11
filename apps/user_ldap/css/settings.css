@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 .table {
 	display: table;
 	width: 85%;
@@ -12,7 +17,7 @@
 	display: flex;
 	align-items: center;
 	white-space: nowrap;
-	text-align: left;
+	text-align: start;
 }
 
 .tablerow input, .tablerow textarea {
@@ -24,7 +29,7 @@
 }
 
 #ldap .tablerow label {
-	margin-left: 3px;
+	margin-inline-start: 3px;
 }
 
 .ldapIconCopy {
@@ -45,7 +50,7 @@
 
 .ldapWizardControls {
 	width: 60%;
-	text-align: right;
+	text-align: end;
 }
 
 .ldapWizardInfo {
@@ -65,31 +70,30 @@
 #ldapWizard1 .hostPortCombinatorSpan {
 	width: 14.5%;
 	display: inline-block;
-	text-align: right;
+	text-align: end;
 }
 
 #ldapWizard1 .host {
 	width: 100%;
-	margin-left: 0;
-	margin-right: 0;
+	margin-inline: 0;
 }
 
 .tableCellInput {
-	margin-left: -40%;
+	margin-inline-start: -40%;
 	width: 100%;
 }
 
 .tableCellLabel {
-	text-align: right;
-	padding-right: 25%;
+	text-align: end;
+	padding-inline-end: 25%;
 }
 
 .ldapIndent {
-	margin-left: 50px;
+	margin-inline-start: 50px;
 }
 
 .ldapwarning {
-	margin-left: 22px;
+	margin-inline-start: 22px;
 	color: #FF3B3B;
 }
 
@@ -111,9 +115,9 @@
 	max-width: 200px;
 	display: inline-block;
 	vertical-align: top;
-	text-align: right;
+	text-align: end;
 	padding-top: 9px;
-	padding-right: 5px;
+	padding-inline-end: 5px;
 }
 
 #ldap fieldset input[type=submit] {
@@ -154,7 +158,7 @@ input.ldapVerifyInput {
 .ldapInputColElement {
 	width: 35%;
 	display: inline-block;
-	padding-left: 10px;
+	padding-inline-start: 10px;
 }
 
 .ldapToggle {
@@ -185,7 +189,7 @@ select[multiple=multiple] + button {
 }
 
 #ldap .ldap_saving {
-	margin-right: 15px;
+	margin-inline-end: 15px;
 	color: orange;
 	font-weight: bold;
 }

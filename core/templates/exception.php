@@ -1,23 +1,15 @@
 <?php
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 
 style('core', ['styles', 'header', 'exception']);
 
-function print_exception(Throwable $e, \OCP\IL10N $l): void {
-	print_unescaped('<pre>');
-	p($e->getTraceAsString());
-	print_unescaped('</pre>');
-
-	if ($e->getPrevious() !== null) {
-		print_unescaped('<br />');
-		print_unescaped('<h4>');
-		p($l->t('Previous'));
-		print_unescaped('</h4>');
-
-		print_exception($e->getPrevious(), $l);
-	}
-}
+require_once __DIR__ . '/print_exception.php';
 
 ?>
 <div class="guest-box wide">
@@ -25,6 +17,9 @@ function print_exception(Throwable $e, \OCP\IL10N $l): void {
 	<p><?php p($l->t('The server was unable to complete your request.')) ?></p>
 	<p><?php p($l->t('If this happens again, please send the technical details below to the server administrator.')) ?></p>
 	<p><?php p($l->t('More details can be found in the server log.')) ?></p>
+	<?php if (isset($_['serverLogsDocumentation']) && $_['serverLogsDocumentation'] !== ''): ?>
+		<p><a href="<?php print_unescaped($_['serverLogsDocumentation']) ?>" target="_blank" rel="noopener"><?php p($l->t('For more details see the documentation ↗.')) ?></a></p>
+	<?php endif; ?>
 
 	<h3><?php p($l->t('Technical details')) ?></h3>
 	<ul>

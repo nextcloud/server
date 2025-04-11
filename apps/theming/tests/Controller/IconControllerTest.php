@@ -1,29 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Controller;
 
@@ -48,7 +26,7 @@ class IconControllerTest extends TestCase {
 	private $request;
 	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	/** @var ITimeFactory */
 	private $timeFactory;
 	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconController;
@@ -102,7 +80,7 @@ class IconControllerTest extends TestCase {
 		return new SimpleFile($icon);
 	}
 
-	public function testGetThemedIcon() {
+	public function testGetThemedIcon(): void {
 		$file = $this->iconFileMock('icon-core-filetypes_folder.svg', 'filecontent');
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
@@ -113,7 +91,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 
-	public function testGetFaviconDefault() {
+	public function testGetFaviconDefault(): void {
 		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
@@ -145,7 +123,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
-	public function testGetFaviconFail() {
+	public function testGetFaviconFail(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon', false)
@@ -163,7 +141,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getFavicon());
 	}
 
-	public function testGetTouchIconDefault() {
+	public function testGetTouchIconDefault(): void {
 		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
@@ -195,7 +173,7 @@ class IconControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
 
-	public function testGetTouchIconFail() {
+	public function testGetTouchIconFail(): void {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon')

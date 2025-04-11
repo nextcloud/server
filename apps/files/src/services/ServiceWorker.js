@@ -1,26 +1,9 @@
 /**
- * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { generateUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
+import logger from '../logger.ts'
 
 export default () => {
 	if ('serviceWorker' in navigator) {
@@ -28,7 +11,15 @@ export default () => {
 		window.addEventListener('load', async () => {
 			try {
 				const url = generateUrl('/apps/files/preview-service-worker.js', {}, { noRewrite: true })
-				const registration = await navigator.serviceWorker.register(url, { scope: '/' })
+				let scope = getRootUrl()
+				// If the instance is not in a subfolder an empty string will be returned.
+				// The service worker registration will use the current path if it receives an empty string,
+				// which will result in a service worker registration for every single path the user visits.
+				if (scope === '') {
+					scope = '/'
+				}
+
+				const registration = await navigator.serviceWorker.register(url, { scope })
 				logger.debug('SW registered: ', { registration })
 			} catch (error) {
 				logger.error('SW registration failed: ', { error })

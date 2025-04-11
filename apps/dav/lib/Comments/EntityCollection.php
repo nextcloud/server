@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Comments;
 
@@ -43,11 +27,6 @@ use Sabre\DAV\PropPatch;
 class EntityCollection extends RootCollection implements IProperties {
 	public const PROPERTY_NAME_READ_MARKER = '{http://owncloud.org/ns}readMarker';
 
-	/** @var  string */
-	protected $id;
-
-	protected LoggerInterface $logger;
-
 	/**
 	 * @param string $id
 	 * @param string $name
@@ -57,12 +36,12 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		$id,
+		protected $id,
 		$name,
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		LoggerInterface $logger
+		protected LoggerInterface $logger,
 	) {
 		foreach (['id', 'name'] as $property) {
 			$$property = trim($$property);
@@ -70,10 +49,8 @@ class EntityCollection extends RootCollection implements IProperties {
 				throw new \InvalidArgumentException('"' . $property . '" parameter must be non-empty string');
 			}
 		}
-		$this->id = $id;
 		$this->name = $name;
 		$this->commentsManager = $commentsManager;
-		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 	}

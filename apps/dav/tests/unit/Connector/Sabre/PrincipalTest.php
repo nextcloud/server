@@ -1,32 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2018, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
@@ -120,26 +96,26 @@ class PrincipalTest extends TestCase {
 	public function testGetPrincipalsByPrefixWithUsers(): void {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
-				->expects($this->once())
-				->method('getUID')
-				->willReturn('foo');
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
 		$fooUser
-				->expects($this->once())
-				->method('getDisplayName')
-				->willReturn('Dr. Foo-Bar');
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Dr. Foo-Bar');
 		$fooUser
-				->expects($this->once())
-				->method('getSystemEMailAddress')
-				->willReturn('');
+			->expects($this->once())
+			->method('getSystemEMailAddress')
+			->willReturn('');
 		$barUser = $this->createMock(User::class);
 		$barUser
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('bar');
 		$barUser
-				->expects($this->once())
-				->method('getSystemEMailAddress')
-				->willReturn('bar@nextcloud.com');
+			->expects($this->once())
+			->method('getSystemEMailAddress')
+			->willReturn('bar@nextcloud.com');
 		$this->userManager
 			->expects($this->once())
 			->method('search')
@@ -253,13 +229,13 @@ class PrincipalTest extends TestCase {
 	public function testGetPrincipalsByPathWithMail(): void {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
-				->expects($this->once())
-				->method('getSystemEMailAddress')
-				->willReturn('foo@nextcloud.com');
+			->expects($this->once())
+			->method('getSystemEMailAddress')
+			->willReturn('foo@nextcloud.com');
 		$fooUser
-				->expects($this->once())
-				->method('getUID')
-				->willReturn('foo');
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -875,13 +851,13 @@ class PrincipalTest extends TestCase {
 			->willReturn(true);
 
 		$this->shareManager->expects($this->once())
-				->method('shareWithGroupMembersOnly')
-				->willReturn(true);
+			->method('shareWithGroupMembersOnly')
+			->willReturn(true);
 
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
-				->method('getUser')
-				->willReturn($user);
+			->method('getUser')
+			->willReturn($user);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -889,9 +865,9 @@ class PrincipalTest extends TestCase {
 		$user3->method('getUID')->willReturn('user3');
 
 		$this->userManager->expects($this->once())
-				->method('getByEmail')
-				->with($email)
-				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
+			->method('getByEmail')
+			->with($email)
+			->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
 		if ($email === 'user2@foo.bar') {
 			$this->groupManager->expects($this->exactly(2))
@@ -936,8 +912,8 @@ class PrincipalTest extends TestCase {
 			->willReturn(true);
 
 		$this->shareManager->expects($this->once())
-				->method('shareWithGroupMembersOnly')
-				->willReturn(false);
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -945,9 +921,9 @@ class PrincipalTest extends TestCase {
 		$user3->method('getUID')->willReturn('user3');
 
 		$this->userManager->expects($this->once())
-				->method('getByEmail')
-				->with($email)
-				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
+			->method('getByEmail')
+			->with($email)
+			->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}

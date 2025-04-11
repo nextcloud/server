@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\User;
@@ -63,15 +49,14 @@ class SettingTest extends TestCase {
 
 	public function getCommand(array $methods = []) {
 		if (empty($methods)) {
-			return new Setting($this->userManager, $this->config, $this->connection);
+			return new Setting($this->userManager, $this->config);
 		} else {
-			$mock = $this->getMockBuilder('OC\Core\Command\User\Setting')
+			$mock = $this->getMockBuilder(Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
 					$this->config,
-					$this->connection,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 			return $mock;
 		}
@@ -199,7 +184,7 @@ class SettingTest extends TestCase {
 	 * @param mixed $user
 	 * @param string $expectedException
 	 */
-	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException) {
+	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException): void {
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap($arguments);
@@ -208,7 +193,16 @@ class SettingTest extends TestCase {
 			->willReturnMap($options);
 		$this->consoleInput->expects($this->any())
 			->method('hasParameterOption')
-			->willReturnMap($parameterOptions);
+			->willReturnCallback(function (string|array $config, bool $default = false) use ($parameterOptions): bool {
+				foreach ($parameterOptions as $parameterOption) {
+					if ($config === $parameterOption[0]
+						// Check the default value if the maps has 3 entries
+						&& (!isset($parameterOption[2]) || $default === $parameterOption[1])) {
+						return end($parameterOption);
+					}
+				}
+				return false;
+			});
 
 		if ($user !== false) {
 			$this->userManager->expects($this->once())
@@ -228,7 +222,7 @@ class SettingTest extends TestCase {
 		}
 	}
 
-	public function testCheckInputExceptionCatch() {
+	public function testCheckInputExceptionCatch(): void {
 		$command = $this->getCommand(['checkInput']);
 		$command->expects($this->once())
 			->method('checkInput')
@@ -258,7 +252,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn) {
+	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -322,7 +316,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn) {
+	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -389,7 +383,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn) {
+	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -416,15 +410,16 @@ class SettingTest extends TestCase {
 			if ($defaultValue === null) {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false],
-					]);
+					->willReturn(false);
 			} else {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnMap([
-						['--default-value', false, true],
-					]);
+					->willReturnCallback(function (string|array $config, bool $default = false): bool {
+						if ($config === '--default-value' && $default === false) {
+							return true;
+						}
+						return false;
+					});
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
 					->with('default-value')
@@ -439,7 +434,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function testExecuteList() {
+	public function testExecuteList(): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',

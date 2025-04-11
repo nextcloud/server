@@ -1,47 +1,29 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\External;
 
 use OCP\Federation\ICloudId;
 
 class Cache extends \OC\Files\Cache\Cache {
-	/** @var ICloudId */
-	private $cloudId;
 	private $remote;
 	private $remoteUser;
-	private $storage;
 
 	/**
-	 * @param \OCA\Files_Sharing\External\Storage $storage
+	 * @param Storage $storage
 	 * @param ICloudId $cloudId
 	 */
-	public function __construct($storage, ICloudId $cloudId) {
-		$this->cloudId = $cloudId;
-		$this->storage = $storage;
-		[, $remote] = explode('://', $cloudId->getRemote(), 2);
+	public function __construct(
+		private $storage,
+		private ICloudId $cloudId,
+	) {
+		[, $remote] = explode('://', $this->cloudId->getRemote(), 2);
 		$this->remote = $remote;
-		$this->remoteUser = $cloudId->getUser();
-		parent::__construct($storage);
+		$this->remoteUser = $this->cloudId->getUser();
+		parent::__construct($this->storage);
 	}
 
 	public function get($file) {

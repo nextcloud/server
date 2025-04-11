@@ -2,8 +2,11 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
-name: PHPUnit mariadb
+name: PHPUnit MariaDB
 
 on:
   pull_request:
@@ -53,11 +56,13 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1']
-        mariadb-versions: ['10.3', '10.4', '10.5', '10.6', '10.11']
+        mariadb-versions: ['10.3', '10.6', '10.11', '11.4']
         include:
           - php-versions: '8.3'
-            mariadb-versions: '10.6'
+            mariadb-versions: '10.11'
             coverage: ${{ github.event_name != 'pull_request' }}
+          - php-versions: '8.4'
+            mariadb-versions: '11.4'
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -77,16 +82,16 @@ jobs:
           MYSQL_USER: oc_autotest
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --health-cmd="${{ matrix.mariadb-versions <= 10.4 && 'mysqladmin' || 'mariadb-admin'}} ping" --health-interval 5s --health-timeout 2s --health-retries 5
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -99,10 +104,10 @@ jobs:
       - name: Set up dependencies
         run: composer i
 
-      - name: Enable ONLY_FULL_GROUP_BY MySQL option
+      - name: Enable ONLY_FULL_GROUP_BY MariaDB option
         run: |
           echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
-          echo "SELECT @@sql_mode;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
+          echo 'SELECT @@sql_mode;' | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
 
       - name: Set up Nextcloud
         env:
@@ -119,15 +124,10 @@ jobs:
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4.1.1
+        uses: codecov/codecov-action@v5.4.0
         with:
           files: ./clover.db.xml
           flags: phpunit-mariadb
-
-      - name: Print logs
-        if: always()
-        run: |
-          cat data/nextcloud.log
 
   summary:
     permissions:

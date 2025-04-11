@@ -1,41 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\Cache\Scanner;
 use OC\Files\View;
+use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
@@ -79,8 +54,6 @@ class Encryption implements IEncryptionModule {
 
 	/** @var int Current version of the file */
 	private int $version = 0;
-
-	private bool $useLegacyFileKey = true;
 
 	/** @var array remember encryption signature version */
 	private static $rememberVersion = [];
@@ -127,8 +100,8 @@ class Encryption implements IEncryptionModule {
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
 	 * @return array $header contain data as key-value pairs which should be
-	 *                       written to the header, in case of a write operation
-	 *                       or if no additional data is needed return a empty array
+	 *               written to the header, in case of a write operation
+	 *               or if no additional data is needed return a empty array
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);
@@ -138,7 +111,6 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->useLegacyBase64Encoding = true;
 
-		$this->useLegacyFileKey = ($header['useLegacyFileKey'] ?? 'true') !== 'false';
 
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
@@ -152,19 +124,10 @@ class Encryption implements IEncryptionModule {
 			}
 		}
 
-		if ($this->session->decryptAllModeActivated()) {
-			$shareKey = $this->keyManager->getShareKey($this->path, $this->session->getDecryptAllUid());
-			if ($this->useLegacyFileKey) {
-				$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
-				$this->fileKey = $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
-					$shareKey,
-					$this->session->getDecryptAllKey());
-			} else {
-				$this->fileKey = $this->crypt->multiKeyDecrypt($shareKey, $this->session->getDecryptAllKey());
-			}
-		} else {
-			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $this->useLegacyFileKey);
-		}
+		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
+		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
@@ -225,7 +188,7 @@ class Encryption implements IEncryptionModule {
 	 *                of a write operation
 	 * @throws PublicKeyMissingException
 	 * @throws \Exception
-	 * @throws \OCA\Encryption\Exceptions\MultiKeyEncryptException
+	 * @throws MultiKeyEncryptException
 	 */
 	public function end($path, $position = '0') {
 		$result = '';
@@ -470,7 +433,7 @@ class Encryption implements IEncryptionModule {
 	 * e.g. if all encryption keys exists
 	 *
 	 * @param string $path
-	 * @param string $uid user for whom we want to check if he can read the file
+	 * @param string $uid user for whom we want to check if they can read the file
 	 * @return bool
 	 * @throws DecryptionFailedException
 	 */

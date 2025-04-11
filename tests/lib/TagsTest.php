@@ -1,27 +1,13 @@
 <?php
 /**
- * ownCloud
- *
- * @author Thomas Tanghus
- * @copyright 2012-13 Thomas Tanghus (thomas@tanghus.net)
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -63,7 +49,7 @@ class TagsTest extends \Test\TestCase {
 
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->get(IDBConnection::class));
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class));
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(IEventDispatcher::class));
 	}
 
 	protected function tearDown(): void {
@@ -74,17 +60,17 @@ class TagsTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testTagManagerWithoutUserReturnsNull() {
+	public function testTagManagerWithoutUserReturnsNull(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class));
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(IEventDispatcher::class));
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
-	public function testInstantiateWithDefaults() {
+	public function testInstantiateWithDefaults(): void {
 		$defaultTags = ['Friends', 'Family', 'Work', 'Other'];
 
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
@@ -92,7 +78,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(4, count($tagger->getTags()));
 	}
 
-	public function testAddTags() {
+	public function testAddTags(): void {
 		$tags = ['Friends', 'Family', 'Work', 'Other'];
 
 		$tagger = $this->tagMgr->load($this->objectType);
@@ -109,7 +95,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertCount(4, $tagger->getTags(), 'Wrong number of added tags');
 	}
 
-	public function testAddMultiple() {
+	public function testAddMultiple(): void {
 		$tags = ['Friends', 'Family', 'Work', 'Other'];
 
 		$tagger = $this->tagMgr->load($this->objectType);
@@ -157,7 +143,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertCount(4, $tagger->getTags(), 'Not all previously saved tags found');
 	}
 
-	public function testIsEmpty() {
+	public function testIsEmpty(): void {
 		$tagger = $this->tagMgr->load($this->objectType);
 
 		$this->assertEquals(0, count($tagger->getTags()));
@@ -169,7 +155,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertFalse($tagger->isEmpty());
 	}
 
-	public function testGetTagsForObjects() {
+	public function testGetTagsForObjects(): void {
 		$defaultTags = ['Friends', 'Family', 'Work', 'Other'];
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
@@ -199,7 +185,7 @@ class TagsTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetTagsForObjectsMassiveResults() {
+	public function testGetTagsForObjectsMassiveResults(): void {
 		$defaultTags = ['tag1'];
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 		$tagData = $tagger->getTags();
@@ -224,7 +210,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(1500, count($tags));
 	}
 
-	public function testDeleteTags() {
+	public function testDeleteTags(): void {
 		$defaultTags = ['Friends', 'Family', 'Work', 'Other'];
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
@@ -237,7 +223,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(0, count($tagger->getTags()));
 	}
 
-	public function testRenameTag() {
+	public function testRenameTag(): void {
 		$defaultTags = ['Friends', 'Family', 'Wrok', 'Other'];
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
@@ -248,7 +234,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertFalse($tagger->rename('Work', 'Family')); // Collide with existing tag.
 	}
 
-	public function testTagAs() {
+	public function testTagAs(): void {
 		$objids = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		$tagger = $this->tagMgr->load($this->objectType);
@@ -264,7 +250,7 @@ class TagsTest extends \Test\TestCase {
 	/**
 	 * @depends testTagAs
 	 */
-	public function testUnTag() {
+	public function testUnTag(): void {
 		$objIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 		// Is this "legal"?
@@ -281,7 +267,7 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals(0, count($tagger->getIdsForTag('Family')));
 	}
 
-	public function testFavorite() {
+	public function testFavorite(): void {
 		$tagger = $this->tagMgr->load($this->objectType);
 		$this->assertTrue($tagger->addToFavorites(1));
 		$this->assertEquals([1], $tagger->getFavorites());

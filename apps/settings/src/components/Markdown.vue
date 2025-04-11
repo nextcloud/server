@@ -1,26 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
+	<!-- eslint-disable-next-line vue/no-v-html This is rendered markdown so should be "safe" -->
 	<div class="settings-markdown" v-html="renderMarkdown" />
 </template>
 
@@ -43,7 +27,7 @@ export default {
 	computed: {
 		renderMarkdown() {
 			const renderer = new marked.Renderer()
-			renderer.link = function(href, title, text) {
+			renderer.link = function({ href, title, text }) {
 				let prot
 				try {
 					prot = decodeURIComponent(unescape(href))
@@ -64,18 +48,18 @@ export default {
 				out += '>' + text + '</a>'
 				return out
 			}
-			renderer.heading = (text, level) => {
-				level = Math.min(6, level + (this.minHeading - 1))
-				return `<h${level}>${text}</h${level}>`
+			renderer.heading = ({ text, depth }) => {
+				depth = Math.min(6, depth + (this.minHeading - 1))
+				return `<h${depth}>${text}</h${depth}>`
 			}
-			renderer.image = function(href, title, text) {
+			renderer.image = ({ title, text }) => {
 				if (text) {
 					return text
 				}
 				return title
 			}
-			renderer.blockquote = function(quote) {
-				return quote
+			renderer.blockquote = ({ text }) => {
+				return `<blockquote>${text}</blockquote>`
 			}
 			return dompurify.sanitize(
 				marked(this.text.trim(), {
@@ -116,45 +100,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.settings-markdown::v-deep {
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		font-weight: 600;
-		line-height: 120%;
-		margin-top: 24px;
-		margin-bottom: 12px;
-		color: var(--color-main-text);
-	}
-
-	h1 {
-		font-size: 36px;
-		margin-top: 48px;
-	}
-
-	h2 {
-		font-size: 28px;
-		margin-top: 48px;
-	}
-
-	h3 {
-		font-size: 24px;
-	}
-
-	h4 {
-		font-size: 21px;
-	}
-
-	h5 {
-		font-size: 17px;
-	}
-
-	h6 {
-		font-size: var(--default-font-size);
+.settings-markdown :deep {
+	a {
+		text-decoration: underline;
+		&::after {
+			content: '↗';
+			padding-inline: calc(var(--default-grid-baseline) / 2);
+		}
 	}
 
 	pre {
@@ -177,8 +129,8 @@ export default {
 	}
 
 	ul, ol {
-		padding-left: 10px;
-		margin-left: 10px;
+		padding-inline-start: 10px;
+		margin-inline-start: 10px;
 	}
 
 	ul li {
@@ -194,12 +146,10 @@ export default {
 	}
 
 	blockquote {
-		padding-left: 1em;
-		border-left: 4px solid var(--color-primary-element);
+		padding-inline-start: 1em;
+		border-inline-start: 4px solid var(--color-primary-element);
 		color: var(--color-text-maxcontrast);
-		margin-left: 0;
-		margin-right: 0;
+		margin-inline: 0;
 	}
-
-	}
+}
 </style>

@@ -1,28 +1,11 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './renameAction'
-import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
+import { describe, expect, test, vi } from 'vitest'
 
 const view = {
 	id: 'files',
@@ -34,7 +17,7 @@ describe('Rename action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('rename')
 		expect(action.displayName([], view)).toBe('Rename')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(10)
 	})
@@ -47,14 +30,14 @@ describe('Rename action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
-			permissions: Permission.UPDATE,
+			permissions: Permission.UPDATE | Permission.DELETE,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
 	})
 
-	test('Disabled for node without UPDATE permission', () => {
+	test('Disabled for node without DELETE permission', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
@@ -90,7 +73,7 @@ describe('Rename action enabled tests', () => {
 
 describe('Rename action exec tests', () => {
 	test('Rename', async () => {
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,

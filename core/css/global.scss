@@ -1,23 +1,58 @@
-/* Copyright (c) 2015, Raghu Nayyar, http://raghunayyar.com
- This file is licensed under the Affero General Public License version 3 or later.
- See the COPYING-README file. */
+/*!
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud Inc.
+ * SPDX-FileCopyrightText: 2015 Raghu Nayyar, http://raghunayyar.com
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 /* Global Components */
 
-.pull-left {
-	float: left;
+/* The following lines are a hacky way to adjust float and clear based on direction.
+ Samsung Internet doesn't support `inline-start|end` and :dir.
+ pull-right|left and clear-right|left are also kept for backward compatibility.
+  */
+body[dir='ltr'] {
+	.pull-left,
+	.pull-start {
+		float: left;
+	}
+
+	.pull-right,
+	.pull-end {
+		float: right;
+	}
+
+	.clear-left,
+	.clear-start {
+		clear: left;
+	}
+
+	.clear-right,
+	.clear-end {
+		clear: right;
+	}
 }
 
-.pull-right {
-	float: right;
-}
+body[dir='rtl'] {
+	.pull-left,
+	.pull-start {
+		float: right;
+	}
 
-.clear-left {
-	clear: left;
-}
+	.pull-right,
+	.pull-end {
+		float: left;
+	}
 
-.clear-right {
-	clear: right;
+	.clear-left,
+	.clear-start {
+		clear: right;
+	}
+
+	.clear-right,
+	.clear-end {
+		clear: left;
+	}
 }
 
 .clear-both {
@@ -30,7 +65,7 @@
 
 .hidden-visually {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: -10000px;
 	width: 1px;
 	height: 1px;

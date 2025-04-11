@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Notification;
 
@@ -37,27 +19,10 @@ use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
-use OCP\Util;
+use OCP\Notification\UnknownNotificationException;
+use OCP\ServerVersion;
 
 class Notifier implements INotifier {
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IManager */
-	protected $notificationManager;
-
-	/** @var IFactory */
-	protected $l10NFactory;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $appVersions;
 
@@ -71,14 +36,17 @@ class Notifier implements INotifier {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IURLGenerator $url, IConfig $config, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
-		$this->url = $url;
-		$this->notificationManager = $notificationManager;
-		$this->config = $config;
-		$this->l10NFactory = $l10NFactory;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->appVersions = $this->getAppVersions();
+	public function __construct(
+		protected IURLGenerator $url,
+		protected IConfig $config,
+		protected IManager $notificationManager,
+		protected IFactory $l10NFactory,
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
+		protected IAppManager $appManager,
+		protected ServerVersion $serverVersion,
+	) {
+		$this->appVersions = $this->appManager->getAppInstalledVersions();
 	}
 
 	/**
@@ -105,25 +73,24 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'updatenotification') {
-			throw new \InvalidArgumentException('Unknown app id');
+			throw new UnknownNotificationException('Unknown app id');
 		}
 
 		if ($notification->getSubject() !== 'update_available' && $notification->getSubject() !== 'connection_error') {
-			throw new \InvalidArgumentException('Unknown subject');
+			throw new UnknownNotificationException('Unknown subject');
 		}
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
+			$errors = (int)$this->config->getAppValue('updatenotification', 'update_check_errors', '0');
 			if ($errors === 0) {
-				$this->notificationManager->markProcessed($notification);
-				throw new \InvalidArgumentException('Update checked worked again');
+				throw new AlreadyProcessedException();
 			}
 
 			$notification->setParsedSubject($l->t('The update server could not be reached since %d days to check for new updates.', [$errors]))
@@ -178,15 +145,12 @@ class Notifier implements INotifier {
 	 * @param string $installedVersion
 	 * @throws AlreadyProcessedException When the update is already installed
 	 */
-	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
+	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion): void {
 		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
 			throw new AlreadyProcessedException();
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 
@@ -198,14 +162,10 @@ class Notifier implements INotifier {
 	}
 
 	protected function getCoreVersions(): string {
-		return implode('.', Util::getVersion());
+		return implode('.', $this->serverVersion->getVersion());
 	}
 
-	protected function getAppVersions(): array {
-		return \OC_App::getAppVersions();
-	}
-
-	protected function getAppInfo($appId, $languageCode) {
-		return \OCP\Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
+	protected function getAppInfo(string $appId, ?string $languageCode): ?array {
+		return $this->appManager->getAppInfo($appId, false, $languageCode);
 	}
 }

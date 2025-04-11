@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -35,13 +21,13 @@ class EncryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
 	protected $appManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
@@ -53,7 +39,7 @@ class EncryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
 	protected $encryptionModule;
 
-	/** @var  EncryptAll */
+	/** @var EncryptAll */
 	protected $command;
 
 	protected function setUp(): void {
@@ -81,19 +67,10 @@ class EncryptAllTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 	}
 
-	public function testEncryptAll() {
+	public function testEncryptAll(): void {
 		// trash bin needs to be disabled in order to avoid adding dummy files to the users
 		// trash bin which gets deleted during the encryption process
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
-		// enable single user mode to avoid that other user login during encryption
-		// destructor should disable the single user mode again
-		$this->config->expects($this->once())->method('getSystemValueBool')->with('maintenance', false)->willReturn(false);
-		$this->config->expects($this->exactly(2))
-			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
 
 		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->invokePrivate($instance, 'forceMaintenanceAndTrashbin');
@@ -103,7 +80,7 @@ class EncryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTestExecute
 	 */
-	public function testExecute($answer, $askResult) {
+	public function testExecute($answer, $askResult): void {
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 
 		$this->encryptionManager->expects($this->once())->method('isEnabled')->willReturn(true);
@@ -129,7 +106,7 @@ class EncryptAllTest extends TestCase {
 	}
 
 
-	public function testExecuteException() {
+	public function testExecuteException(): void {
 		$this->expectException(\Exception::class);
 
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);

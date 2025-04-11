@@ -1,28 +1,6 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author npmbuildbot[bot] "npmbuildbot[bot]@users.noreply.github.com"
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import _ from 'underscore'
@@ -98,7 +76,7 @@ export default {
 	 * @param {string} html Message to display
 	 * @param {object} [options] options
 	 * @param {string} [options.type] notification type
-	 * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @param {number} [options.timeout] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
@@ -117,7 +95,7 @@ export default {
 	 * @param {string} text Message to display
 	 * @param {object} [options] options
 	 * @param {string} [options.type] notification type
-	 * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @param {number} [options.timeout] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
@@ -142,7 +120,7 @@ export default {
 	 * Updates (replaces) a sanitized notification.
 	 *
 	 * @param {string} text Message to display
-	 * @return {jQuery} JQuery element for notificaiton row
+	 * @return {jQuery} JQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	showUpdate(text) {
@@ -160,10 +138,10 @@ export default {
 	 *
 	 * @param {string} text Message to show
 	 * @param {Array} [options] options array
-	 * @param {number} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
-	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
+	 * @param {number} [options.timeout] timeout in seconds, if this is 0 it will show the message permanently
+	 * @param {boolean} [options.isHTML] an indicator for HTML notifications (true) or text (false)
 	 * @param {string} [options.type] notification type
-	 * @return {JQuery} the toast element
+	 * @return {jQuery} the toast element
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	showTemporary(text, options) {

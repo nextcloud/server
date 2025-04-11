@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
 
@@ -65,7 +46,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->eventDispatcher);
 	}
 
-	public function testCreateCodes() {
+	public function testCreateCodes(): void {
 		$user = $this->createMock(IUser::class);
 		$number = 5;
 		$user->method('getUID')->willReturn('fritz');
@@ -97,7 +78,7 @@ class BackupCodeStorageTest extends TestCase {
 		}
 	}
 
-	public function testHasBackupCodes() {
+	public function testHasBackupCodes(): void {
 		$user = $this->createMock(IUser::class);
 		$codes = [
 			new BackupCode(),
@@ -112,7 +93,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertTrue($this->storage->hasBackupCodes($user));
 	}
 
-	public function testHasBackupCodesNoCodes() {
+	public function testHasBackupCodesNoCodes(): void {
 		$user = $this->createMock(IUser::class);
 		$codes = [];
 
@@ -124,7 +105,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertFalse($this->storage->hasBackupCodes($user));
 	}
 
-	public function testGetBackupCodeState() {
+	public function testGetBackupCodeState(): void {
 		$user = $this->createMock(IUser::class);
 
 		$code1 = new BackupCode();
@@ -149,7 +130,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertEquals($expected, $this->storage->getBackupCodesState($user));
 	}
 
-	public function testGetBackupCodeDisabled() {
+	public function testGetBackupCodeDisabled(): void {
 		$user = $this->createMock(IUser::class);
 
 		$codes = [];
@@ -167,7 +148,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertEquals($expected, $this->storage->getBackupCodesState($user));
 	}
 
-	public function testValidateCode() {
+	public function testValidateCode(): void {
 		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed(0);
@@ -193,7 +174,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertEquals(1, $code->getUsed());
 	}
 
-	public function testValidateUsedCode() {
+	public function testValidateUsedCode(): void {
 		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed('1');
@@ -214,7 +195,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->assertFalse($this->storage->validateCode($user, 'CHALLENGE'));
 	}
 
-	public function testValidateCodeWithWrongHash() {
+	public function testValidateCodeWithWrongHash(): void {
 		$user = $this->createMock(IUser::class);
 		$code = new BackupCode();
 		$code->setUsed(0);

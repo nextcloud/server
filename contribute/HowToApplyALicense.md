@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # How to apply a license
 
 Originally Nextcloud was licensed under the GNU AGPLv3 only. From
@@ -11,29 +15,15 @@ contributors.
 
 ## Apply a license to a new file
 
-If you create a new file please use a license header
+If you create a new file please use a SPDX license header.
+The year should then be the creation time and the email address is optional.
 
 #### Frontend source (`.js`, `.ts`, `.css` and etc)
 
 ```js
 /**
- * @copyright Copyright (c) <year>, <your name> (<your email address>)
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: [year] [your name] [<your email address>]
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 ````
 
@@ -41,22 +31,8 @@ or `.vue` files
 
 ```html
 <!--
-  - @copyright Copyright (c) <year>, <your name> (<your email address>)
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  - SPDX-FileCopyrightText: [year] [your name] [<your email address>]
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 ```
 
@@ -64,54 +40,44 @@ or `.vue` files
 
 ```php
 /**
- * @copyright Copyright (c) <year>, <your name> (<your email address>)
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: [year] [your name] [<your email address>]
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 ```
 
 ## Apply a licence to an existing file
 
 If you modify an existing file, please keep the existing license header as
-it is and just add your copyright notice, for example:
+it is and just add your copyright notice.
+In order to do so there are two options:
+
+* If a generic header is already present, please just add yourself to the AUTHORS.md file
+* If no generic header is present, you can add yourself with a copyright line as described below
 
 ````diff
 /**
- * @copyright Copyright (c) 2022, Alice (alice@nextcloud.local)
- * @copyright Copyright (c) 2023, Bob (bob@nextcloud.local)
-+* @copyright Copyright (c) <year>, <your name> (<your email address>) 
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Alice <alice@nextcloud.local>
+ * SPDX-FileCopyrightText: 2023 Bob <bob@nextcloud.local>
++* SPDX-FileCopyrightText: [year] [your name] [<your email address>]
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 ````
+
+An example of a generic license header where adding yourself to the AUTHORS.md
+file is prefered please see the example below
+
+```
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+```
+
+For more information on SPDX headers, please see 
+
+* https://reuse.software/ 
+* https://spdx.dev/
 
 ## DCO
 

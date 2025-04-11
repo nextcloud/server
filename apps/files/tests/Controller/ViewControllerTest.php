@@ -1,106 +1,84 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Tests\Controller;
 
-use OCA\Files\Activity\Helper;
+use OC\Files\FilenameValidator;
+use OC\Route\Router;
+use OC\URLGenerator;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Template\ITemplateManager;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class ViewControllerTest
  *
+ * @group RoutingWeirdness
+ *
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewController;
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	private $user;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityHelper;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $templateManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $userConfig;
-	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewConfig;
+	private ContainerInterface&MockObject $container;
+	private IAppManager&MockObject $appManager;
+	private ICacheFactory&MockObject $cacheFactory;
+	private IConfig&MockObject $config;
+	private IEventDispatcher $eventDispatcher;
+	private IEventLogger&MockObject $eventLogger;
+	private IInitialState&MockObject $initialState;
+	private IL10N&MockObject $l10n;
+	private IRequest&MockObject $request;
+	private IRootFolder&MockObject $rootFolder;
+	private ITemplateManager&MockObject $templateManager;
+	private IURLGenerator $urlGenerator;
+	private IUser&MockObject $user;
+	private IUserSession&MockObject $userSession;
+	private LoggerInterface&MockObject $logger;
+	private UserConfig&MockObject $userConfig;
+	private ViewConfig&MockObject $viewConfig;
+	private Router $router;
+
+	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
-		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
+
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -108,14 +86,42 @@ class ViewControllerTest extends TestCase {
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
-		$this->activityHelper = $this->createMock(Helper::class);
-		$this->initialState = $this->createMock(IInitialState::class);
-		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->shareManager = $this->createMock(IManager::class);
-		$this->userConfig = $this->createMock(UserConfig::class);
-		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
+
+		// Make sure we know the app is enabled
+		$this->appManager->expects($this->any())
+			->method('cleanAppId')
+			->willReturnArgument(0);
+		$this->appManager->expects($this->any())
+			->method('getAppPath')
+			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+		$this->appManager->expects($this->any())
+			->method('isAppLoaded')
+			->willReturn(true);
+
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->eventLogger = $this->createMock(IEventLogger::class);
+		$this->container = $this->createMock(ContainerInterface::class);
+		$this->router = new Router(
+			$this->logger,
+			$this->request,
+			$this->config,
+			$this->eventLogger,
+			$this->container,
+			$this->appManager,
+		);
+
+		// Create a real URLGenerator instance to generate URLs
+		$this->urlGenerator = new URLGenerator(
+			$this->config,
+			$this->userSession,
+			$this->cacheFactory,
+			$this->request,
+			$this->router
+		);
+
+		$filenameValidator = $this->createMock(FilenameValidator::class);
+		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
 				$this->request,
@@ -126,20 +132,19 @@ class ViewControllerTest extends TestCase {
 				$this->userSession,
 				$this->appManager,
 				$this->rootFolder,
-				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
-				$this->shareManager,
 				$this->userConfig,
 				$this->viewConfig,
+				$filenameValidator,
 			])
-		->setMethods([
-			'getStorageInfo',
-		])
-		->getMock();
+			->onlyMethods([
+				'getStorageInfo',
+			])
+			->getMock();
 	}
 
-	public function testIndexWithRegularBrowser() {
+	public function testIndexWithRegularBrowser(): void {
 		$this->viewController
 			->expects($this->any())
 			->method('getStorageInfo')
@@ -152,11 +157,6 @@ class ViewControllerTest extends TestCase {
 				'ownerDisplayName' => 'MyDisplayName',
 			]);
 
-		$this->config
-		->expects($this->any())
-			->method('getSystemValue')
-			->with('forbidden_chars', [])
-			->willReturn([]);
 		$this->config
 			->method('getUserValue')
 			->willReturnMap([
@@ -180,34 +180,72 @@ class ViewControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$expected = new Http\TemplateResponse(
+		$expected = new TemplateResponse(
 			'files',
 			'index',
 		);
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
 
-		$this->activityHelper->method('getFavoriteFilePaths')
-			->with($this->user->getUID())
-			->willReturn([
-				'item' => [],
-				'folders' => [
-					'/test1',
-					'/test2/',
-					'/test3/sub4',
-					'/test5/sub6/',
-				],
-			]);
-
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function testShowFileRouteWithTrashedFile() {
-		$this->appManager->expects($this->once())
+	public function dataTestShortRedirect(): array {
+		// openfile is true by default
+		// opendetails is undefined by default
+		// both will be evaluated as truthy
+		return [
+			[null,		null,		'/index.php/apps/files/files/123456?openfile=true'],
+			['',		null,		'/index.php/apps/files/files/123456?openfile=true'],
+			[null,		'',			'/index.php/apps/files/files/123456?openfile=true&opendetails=true'],
+			['',		'', 		'/index.php/apps/files/files/123456?openfile=true&opendetails=true'],
+			['false',	'',			'/index.php/apps/files/files/123456?openfile=false'],
+			[null,		'false',	'/index.php/apps/files/files/123456?openfile=true&opendetails=false'],
+			['true',	'false',	'/index.php/apps/files/files/123456?openfile=true&opendetails=false'],
+			['false',	'true',		'/index.php/apps/files/files/123456?openfile=false&opendetails=true'],
+			['false',	'false',	'/index.php/apps/files/files/123456?openfile=false&opendetails=false'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestShortRedirect
+	 */
+	public function testShortRedirect($openfile, $opendetails, $result) {
+		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
-			->with('files_trashbin')
+			->with('files')
+			->willReturn(true);
+
+		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
+		$this->rootFolder->expects($this->any())
+			->method('getUserFolder')
+			->with('testuser1')
+			->willReturn($baseFolderFiles);
+
+		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
+		$parentNode->expects($this->once())
+			->method('getPath')
+			->willReturn('testuser1/files/Folder');
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->expects($this->once())
+			->method('getParent')
+			->willReturn($parentNode);
+
+		$baseFolderFiles->expects($this->any())
+			->method('getFirstNodeById')
+			->with(123456)
+			->willReturn($node);
+
+		$response = $this->viewController->showFile(123456, $opendetails, $openfile);
+		$this->assertStringContainsString($result, $response->getHeaders()['Location']);
+	}
+
+	public function testShowFileRouteWithTrashedFile(): void {
+		$this->appManager->expects($this->exactly(2))
+			->method('isEnabledForUser')
 			->willReturn(true);
 
 		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
@@ -246,13 +284,7 @@ class ViewControllerTest extends TestCase {
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')
 			->willReturn('/test.d1462861890/sub');
 
-		$this->urlGenerator
-			->expects($this->once())
-			->method('linkToRoute')
-			->with('files.view.indexViewFileid', ['view' => 'trashbin', 'dir' => '/test.d1462861890/sub', 'fileid' => '123'])
-			->willReturn('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
-
-		$expected = new Http\RedirectResponse('/apps/files/trashbin/123?dir=/test.d1462861890/sub');
+		$expected = new RedirectResponse('/index.php/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
 	}
 }

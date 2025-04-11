@@ -1,27 +1,13 @@
 <?php
 /**
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @copyright Copyright (c) 2017, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\DB;
 
-use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
@@ -37,8 +23,8 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
-		$platform = new PostgreSQL100Platform();
+	public function testAlterBigint(): void {
+		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
 
@@ -62,7 +48,7 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	}
 
 	protected function createTableAndColumn($schema, $type) {
-		$table = $schema->createTable("poor_yorick");
+		$table = $schema->createTable('poor_yorick');
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
 			'unsigned' => true,

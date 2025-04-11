@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Accounts;
@@ -33,7 +16,7 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountPropertyTest extends TestCase {
-	public function testConstructor() {
+	public function testConstructor(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -47,7 +30,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::VERIFIED, $accountProperty->getVerified());
 	}
 
-	public function testSetValue() {
+	public function testSetValue(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -60,7 +43,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals('https://example.org', $actualReturn->getValue());
 	}
 
-	public function testSetScope() {
+	public function testSetScope(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -94,7 +77,7 @@ class AccountPropertyTest extends TestCase {
 	/**
 	 * @dataProvider scopesProvider
 	 */
-	public function testSetScopeMapping(string $storedScope, ?string $returnedScope) {
+	public function testSetScopeMapping(string $storedScope, ?string $returnedScope): void {
 		if ($returnedScope === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}
@@ -108,7 +91,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals($returnedScope, $accountProperty->getScope());
 	}
 
-	public function testSetVerified() {
+	public function testSetVerified(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -121,7 +104,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::NOT_VERIFIED, $actualReturn->getVerified());
 	}
 
-	public function testSetVerificationData() {
+	public function testSetVerificationData(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -135,7 +118,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals($token, $actualReturn->getVerificationData());
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',

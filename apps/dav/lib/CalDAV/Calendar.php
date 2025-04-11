@@ -1,30 +1,10 @@
 <?php
+
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Gary Kim <gary@garykim.dev>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV;
 
@@ -51,12 +31,16 @@ use Sabre\DAV\PropPatch;
  * @property CalDavBackend $caldavBackend
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable, IMoveTarget {
-	private IConfig $config;
 	protected IL10N $l10n;
 	private bool $useTrashbin = true;
-	private LoggerInterface $logger;
 
-	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
+	public function __construct(
+		BackendInterface $caldavBackend,
+		$calendarInfo,
+		IL10N $l10n,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 		// Convert deletion date to ISO8601 string
 		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
 			$calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] = (new DateTimeImmutable())
@@ -66,17 +50,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 		parent::__construct($caldavBackend, $calendarInfo);
 
-		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI && strcasecmp($this->calendarInfo['{DAV:}displayname'], 'Contact birthdays') === 0) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
 		if ($this->getName() === CalDavBackend::PERSONAL_CALENDAR_URI &&
 			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
-
-		$this->config = $config;
 		$this->l10n = $l10n;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -209,8 +190,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [
 			$this->getOwner(),
-			$this->getOwner(). '/calendar-proxy-read',
-			$this->getOwner(). '/calendar-proxy-write',
+			$this->getOwner() . '/calendar-proxy-read',
+			$this->getOwner() . '/calendar-proxy-write',
 			parent::getOwner(),
 			'principals/system/public'
 		];
@@ -396,7 +377,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @inheritDoc
 	 */
 	public function restore(): void {
-		$this->caldavBackend->restoreCalendar((int) $this->calendarInfo['id']);
+		$this->caldavBackend->restoreCalendar((int)$this->calendarInfo['id']);
 	}
 
 	public function disableTrashbin(): void {

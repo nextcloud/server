@@ -1,32 +1,14 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
+
+use GdImage;
 
 /**
  * Class for basic image manipulation
@@ -99,7 +81,7 @@ interface IImage {
 
 	/**
 	 * @return string Returns the mimetype of the data. Returns null
-	 * if the data is not valid.
+	 *                if the data is not valid.
 	 * @since 13.0.0
 	 */
 	public function dataMimeType(): ?string;
@@ -222,4 +204,22 @@ interface IImage {
 	 * @since 19.0.0
 	 */
 	public function resizeCopy(int $maxSize): IImage;
+
+	/**
+	 * Loads an image from a string of data.
+	 *
+	 * @param string $str A string of image data as read from a file.
+	 *
+	 * @since 31.0.0
+	 */
+	public function loadFromData(string $str): GdImage|false;
+
+	/**
+	 * Reads the EXIF data for an image.
+	 *
+	 * @param string $data EXIF data
+	 *
+	 * @since 31.0.0
+	 */
+	public function readExif(string $data): void;
 }

@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Controller;
 
@@ -35,9 +11,14 @@ use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
@@ -64,27 +45,30 @@ class AvatarController extends Controller {
 		protected LoggerInterface $logger,
 		protected ?string $userId,
 		protected TimeFactory $timeFactory,
+		protected GuestAvatarController $guestAvatarController,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 * @PublicPage
 	 *
 	 * Get the dark avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param 64|512 $size Size of the avatar
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
-	public function getAvatarDark(string $userId, int $size) {
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -106,6 +90,9 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
+			if ($guestFallback) {
+				return $this->guestAvatarController->getAvatarDark($userId, $size);
+			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -116,22 +103,24 @@ class AvatarController extends Controller {
 
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 * @PublicPage
 	 *
 	 * Get the avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param 64|512 $size Size of the avatar
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
-	public function getAvatar(string $userId, int $size) {
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -153,6 +142,9 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
+			if ($guestFallback) {
+				return $this->guestAvatarController->getAvatar($userId, $size);
+			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -161,9 +153,7 @@ class AvatarController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/')]
 	public function postAvatar(?string $path = null): JSONResponse {
 		$files = $this->request->getUploadedFile('files');
@@ -201,8 +191,7 @@ class AvatarController extends Controller {
 		} elseif (!is_null($files)) {
 			if (
 				$files['error'][0] === 0 &&
-				 is_uploaded_file($files['tmp_name'][0]) &&
-				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
+				 is_uploaded_file($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
@@ -284,9 +273,7 @@ class AvatarController extends Controller {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'DELETE', url: '/avatar/')]
 	public function deleteAvatar(): JSONResponse {
 		try {
@@ -300,16 +287,15 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse|DataDisplayResponse
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/tmp')]
 	public function getTmpAvatar() {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_NOT_FOUND);
 		}
@@ -328,25 +314,23 @@ class AvatarController extends Controller {
 		return $resp;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No valid crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No valid crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_BAD_REQUEST);
 		}

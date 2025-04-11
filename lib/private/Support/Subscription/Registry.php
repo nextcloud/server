@@ -3,31 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Support\Subscription;
 
-use OC\User\Backend;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -38,8 +18,6 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
-use OCP\User\Backend\ICountMappedUsersBackend;
-use OCP\User\Backend\ICountUsersBackend;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
@@ -186,22 +164,8 @@ class Registry implements IRegistry {
 	}
 
 	private function getUserCount(): int {
-		$userCount = 0;
-		$backends = $this->userManager->getBackends();
-		foreach ($backends as $backend) {
-			if ($backend instanceof ICountMappedUsersBackend) {
-				$userCount += $backend->countMappedUsers();
-			} elseif ($backend->implementsActions(Backend::COUNT_USERS)) {
-				/** @var ICountUsersBackend $backend */
-				$backendUsers = $backend->countUsers();
-				if ($backendUsers !== false) {
-					$userCount += $backendUsers;
-				} else {
-					// TODO what if the user count can't be determined?
-					$this->logger->warning('Can not determine user count for ' . get_class($backend), ['app' => 'lib']);
-				}
-			}
-		}
+		/* We cannot limit because we substract disabled users afterward. But we limit to mapped users so should be not too expensive. */
+		$userCount = (int)$this->userManager->countUsersTotal(0, true);
 
 		$disabledUsers = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$disabledUsersCount = count($disabledUsers);

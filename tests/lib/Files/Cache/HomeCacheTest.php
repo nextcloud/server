@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -79,7 +78,7 @@ class HomeCacheTest extends \Test\TestCase {
 	 * that have an unknown size. This makes sure that quota calculation still
 	 * works as it's based on the "files" folder size.
 	 */
-	public function testRootFolderSizeIgnoresUnknownUpdate() {
+	public function testRootFolderSizeIgnoresUnknownUpdate(): void {
 		$dir1 = 'files/knownsize';
 		$dir2 = 'files/unknownsize';
 		$fileData = [];
@@ -111,7 +110,7 @@ class HomeCacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
 
-	public function testRootFolderSizeIsFilesSize() {
+	public function testRootFolderSizeIsFilesSize(): void {
 		$dir1 = 'files';
 		$afile = 'test.txt';
 		$fileData = [];

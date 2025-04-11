@@ -1,26 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions;
 
@@ -32,9 +14,6 @@ class Expiration {
 
 	// how long do we keep files a version if no other value is defined in the config file (unit: days)
 	public const NO_OBLIGATION = -1;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	/** @var string */
 	private $retentionObligation;
@@ -48,12 +27,11 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config, ITimeFactory $timeFactory, LoggerInterface $logger) {
-		$this->timeFactory = $timeFactory;
-		$this->logger = $logger;
+	public function __construct(
+		IConfig $config,
+		private ITimeFactory $timeFactory,
+		private LoggerInterface $logger,
+	) {
 		$this->retentionObligation = $config->getSystemValue('versions_retention_obligation', 'auto');
 
 		if ($this->retentionObligation !== 'disabled') {
@@ -118,6 +96,20 @@ class Expiration {
 		}
 
 		return $isOlderThanMax || $isMinReached;
+	}
+
+	/**
+	 * Get minimal retention obligation as a timestamp
+	 *
+	 * @return int|false
+	 */
+	public function getMinAgeAsTimestamp() {
+		$minAge = false;
+		if ($this->isEnabled() && $this->minAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$minAge = $time - ($this->minAge * 86400);
+		}
+		return $minAge;
 	}
 
 	/**

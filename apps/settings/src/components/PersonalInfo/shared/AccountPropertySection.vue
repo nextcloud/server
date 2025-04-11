@@ -1,23 +1,6 @@
 <!--
-	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -63,13 +46,13 @@
 
 <script>
 import debounce from 'debounce'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import HeaderBar from './HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 export default {
 	name: 'AccountPropertySection',
@@ -165,7 +148,7 @@ export default {
 					return
 				}
 				await this.updateProperty(value)
-			}, 500)
+			}, 1000)
 		},
 	},
 
@@ -224,7 +207,7 @@ section {
 
 			display: flex;
 			gap: 0 2px;
-			margin-right: 5px;
+			margin-inline-end: 5px;
 			margin-bottom: 5px;
 		}
 	}
@@ -235,7 +218,7 @@ section {
 		align-items: center;
 
 		&__icon {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 			align-self: start;
 			margin-top: 4px;
 		}

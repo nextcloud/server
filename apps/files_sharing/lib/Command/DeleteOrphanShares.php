@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Sharing\Command;
@@ -32,11 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DeleteOrphanShares extends Base {
-	private OrphanHelper $orphanHelper;
-
-	public function __construct(OrphanHelper $orphanHelper) {
+	public function __construct(
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-		$this->orphanHelper = $orphanHelper;
 	}
 
 	protected function configure(): void {
@@ -64,7 +48,7 @@ class DeleteOrphanShares extends Base {
 				if ($exists) {
 					$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
 				} else {
-					$output->writeln("  file no longer exists");
+					$output->writeln('  file no longer exists');
 				}
 			}
 		}
@@ -72,14 +56,14 @@ class DeleteOrphanShares extends Base {
 		$count = count($orphans);
 
 		if ($count === 0) {
-			$output->writeln("No orphan shares detected");
+			$output->writeln('No orphan shares detected');
 			return 0;
 		}
 
 		if ($force) {
 			$doDelete = true;
 		} else {
-			$output->writeln("");
+			$output->writeln('');
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion("Delete <info>$count</info> orphan shares? [y/N] ", false);

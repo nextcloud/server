@@ -3,31 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\files_versions\tests\Versions;
 
 use OC\Files\Storage\Local;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\VersionManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
@@ -46,16 +32,18 @@ class VersionManagerTest extends TestCase {
 			->getMock();
 	}
 
-	public function testGetBackendSingle() {
-		$manager = new VersionManager();
+	public function testGetBackendSingle(): void {
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend);
 
 		$this->assertEquals($backend, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendMoreSpecific() {
-		$manager = new VersionManager();
+	public function testGetBackendMoreSpecific(): void {
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -64,8 +52,9 @@ class VersionManagerTest extends TestCase {
 		$this->assertEquals($backend2, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendNoUse() {
-		$manager = new VersionManager();
+	public function testGetBackendNoUse(): void {
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$manager->registerBackend(IStorage::class, $backend1);
@@ -74,8 +63,9 @@ class VersionManagerTest extends TestCase {
 		$this->assertEquals($backend1, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendMultiple() {
-		$manager = new VersionManager();
+	public function testGetBackendMultiple(): void {
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$manager = new VersionManager($dispatcher);
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
 		$backend3 = $this->getBackend();
@@ -84,5 +74,66 @@ class VersionManagerTest extends TestCase {
 		$manager->registerBackend(Local::class, $backend3);
 
 		$this->assertEquals($backend3, $manager->getBackendForStorage($this->getStorage(Local::class)));
+	}
+
+	public function testRollbackSuccess(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(true);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(VersionRestoredEvent::class));
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertTrue($manager->rollback($versionMock));
+	}
+
+	public function testRollbackNull(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(null);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(VersionRestoredEvent::class));
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertNull($manager->rollback($versionMock));
+	}
+
+	public function testRollbackFailure(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+
+		$backendMock->expects($this->once())
+			->method('rollback')
+			->with($versionMock)
+			->willReturn(false);
+
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->never())->method('dispatchTyped');
+
+		$manager = new VersionManager($dispatcherMock);
+
+		$this->assertFalse($manager->rollback($versionMock));
 	}
 }

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 COMPOSER_COMMAND="php composer.phar"
 
 if [ -e "composer.phar" ]
@@ -42,6 +45,7 @@ for app in ${REPODIR}/apps/*; do
 		echo "Regenerating composer files for ${app}"
 		$COMPOSER_COMMAND i --no-dev -d ${app}/composer || exit 1
 		$COMPOSER_COMMAND dump-autoload -d ${app}/composer || exit 1
+		git checkout ${app}/composer/composer/installed.php
     fi
 done
 

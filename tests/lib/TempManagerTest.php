@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -34,8 +33,8 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @param  ?LoggerInterface $logger
-	 * @param  ?IConfig $config
+	 * @param ?LoggerInterface $logger
+	 * @param ?IConfig $config
 	 * @return \OC\TempManager
 	 */
 	protected function getManager($logger = null, $config = null) {
@@ -56,7 +55,7 @@ class TempManagerTest extends \Test\TestCase {
 		return $manager;
 	}
 
-	public function testGetFile() {
+	public function testGetFile(): void {
 		$manager = $this->getManager();
 		$file = $manager->getTemporaryFile('txt');
 		$this->assertStringEndsWith('.txt', $file);
@@ -67,7 +66,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertEquals('bar', file_get_contents($file));
 	}
 
-	public function testGetFolder() {
+	public function testGetFolder(): void {
 		$manager = $this->getManager();
 		$folder = $manager->getTemporaryFolder();
 		$this->assertStringEndsWith('/', $folder);
@@ -78,7 +77,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertEquals('bar', file_get_contents($folder . 'foo.txt'));
 	}
 
-	public function testCleanFiles() {
+	public function testCleanFiles(): void {
 		$manager = $this->getManager();
 		$file1 = $manager->getTemporaryFile('txt');
 		$file2 = $manager->getTemporaryFile('txt');
@@ -91,7 +90,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertFalse(file_exists($file2));
 	}
 
-	public function testCleanFolder() {
+	public function testCleanFolder(): void {
 		$manager = $this->getManager();
 		$folder1 = $manager->getTemporaryFolder();
 		$folder2 = $manager->getTemporaryFolder();
@@ -110,7 +109,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertFalse(file_exists($folder1 . 'bar.txt'));
 	}
 
-	public function testCleanOld() {
+	public function testCleanOld(): void {
 		$manager = $this->getManager();
 		$oldFile = $manager->getTemporaryFile('txt');
 		$newFile = $manager->getTemporaryFile('txt');
@@ -131,7 +130,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertTrue(file_exists($newFile));
 	}
 
-	public function testLogCantCreateFile() {
+	public function testLogCantCreateFile(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$logger = $this->createMock(LoggerInterface::class);
@@ -143,7 +142,7 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertFalse($manager->getTemporaryFile('txt'));
 	}
 
-	public function testLogCantCreateFolder() {
+	public function testLogCantCreateFolder(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$logger = $this->createMock(LoggerInterface::class);
@@ -155,41 +154,30 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertFalse($manager->getTemporaryFolder());
 	}
 
-	public function testBuildFileNameWithPostfix() {
+	public function testGenerateTemporaryPathWithPostfix(): void {
 		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['/tmp/myTemporaryFile', 'postfix']
+			'generateTemporaryPath',
+			['postfix']
 		);
 
-		$this->assertEquals('/tmp/myTemporaryFile-.postfix', $tmpManager);
+		$this->assertStringEndsWith('.postfix', $tmpManager);
 	}
 
-	public function testBuildFileNameWithoutPostfix() {
+	public function testGenerateTemporaryPathTraversal(): void {
 		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['/tmp/myTemporaryFile', '']
-		);
-
-		$this->assertEquals('/tmp/myTemporaryFile', $tmpManager);
-	}
-
-	public function testBuildFileNameWithSuffixPathTraversal() {
-		$logger = $this->createMock(LoggerInterface::class);
-		$tmpManager = self::invokePrivate(
-			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['foo', '../Traversal\\../FileName']
+			'generateTemporaryPath',
+			['../Traversal\\../FileName']
 		);
 
 		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);
 		$this->assertStringEndsWith('.Traversal..FileName', $tmpManager);
 	}
 
-	public function testGetTempBaseDirFromConfig() {
+	public function testGetTempBaseDirFromConfig(): void {
 		$dir = $this->getManager()->getTemporaryFolder();
 
 		$config = $this->createMock(IConfig::class);

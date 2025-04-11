@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\TwoFactorAuth\Db;
 
@@ -46,7 +29,7 @@ class ProviderUserAssignmentDao {
 	 * Get all assigned provider IDs for the given user ID
 	 *
 	 * @return array<string, bool> where the array key is the provider ID (string) and the
-	 *                  value is the enabled state (bool)
+	 *                             value is the enabled state (bool)
 	 */
 	public function getState(string $uid): array {
 		$qb = $this->conn->getQueryBuilder();
@@ -54,7 +37,7 @@ class ProviderUserAssignmentDao {
 		$query = $qb->select('provider_id', 'enabled')
 			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
 			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
@@ -112,7 +95,7 @@ class ProviderUserAssignmentDao {
 			return [
 				'provider_id' => (string)$row['provider_id'],
 				'uid' => (string)$row['uid'],
-				'enabled' => ((int) $row['enabled']) === 1,
+				'enabled' => ((int)$row['enabled']) === 1,
 			];
 		}, $rows));
 	}
@@ -123,6 +106,6 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb->delete(self::TABLE_NAME)
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)));
 
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 	}
 }

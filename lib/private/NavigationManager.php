@@ -1,45 +1,26 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
+use InvalidArgumentException;
 use OC\App\AppManager;
 use OC\Group\Manager;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * Manages the ownCloud navigation
@@ -65,25 +46,27 @@ class NavigationManager implements INavigationManager {
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
-	/** The default app for the current user (cached for the `add` function) */
-	private ?string $defaultApp;
 	/** User defined app order (cached for the `add` function) */
 	private array $customAppOrder;
+	private LoggerInterface $logger;
 
-	public function __construct(IAppManager $appManager,
+	public function __construct(
+		IAppManager $appManager,
 		IURLGenerator $urlGenerator,
 		IFactory $l10nFac,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config) {
+		IConfig $config,
+		LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
+	) {
 		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10nFac = $l10nFac;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->config = $config;
-
-		$this->defaultApp = null;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -116,13 +99,23 @@ class NavigationManager implements INavigationManager {
 				$entry['app'] = $id;
 			}
 
-			// This is the default app that will always be shown first
-			$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
 			// Set order from user defined app order
-			$entry['order'] = $this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
+
+		// Needs to be done after adding the new entry to account for the default entries containing this new entry.
+		$this->updateDefaultEntries();
+	}
+
+	private function updateDefaultEntries() {
+		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
+		foreach ($this->entries as $id => $entry) {
+			if ($entry['type'] === 'link') {
+				$this->entries[$id]['default'] = $id === $defaultEntryId;
+			}
+		}
 	}
 
 	/**
@@ -180,10 +173,10 @@ class NavigationManager implements INavigationManager {
 			unset($navEntry);
 		}
 
-		$activeApp = $this->getActiveEntry();
-		if ($activeApp !== null) {
+		$activeEntry = $this->getActiveEntry();
+		if ($activeEntry !== null) {
 			foreach ($list as $index => &$navEntry) {
-				if ($navEntry['id'] == $activeApp) {
+				if ($navEntry['id'] == $activeEntry) {
 					$navEntry['active'] = true;
 				} else {
 					$navEntry['active'] = false;
@@ -237,8 +230,6 @@ class NavigationManager implements INavigationManager {
 			]);
 		}
 
-		$this->defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
-
 		if ($this->userSession->isLoggedIn()) {
 			// Profile
 			$this->add([
@@ -246,7 +237,7 @@ class NavigationManager implements INavigationManager {
 				'id' => 'profile',
 				'order' => 1,
 				'href' => $this->urlGenerator->linkToRoute(
-					'core.ProfilePage.index',
+					'profile.ProfilePage.index',
 					['targetUserId' => $this->userSession->getUser()->getUID()],
 				),
 				'name' => $l->t('View profile'),
@@ -326,18 +317,19 @@ class NavigationManager implements INavigationManager {
 					'id' => 'core_users',
 					'order' => 6,
 					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Users'),
+					'name' => $l->t('Accounts'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
 			}
 		}
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
 			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
-			$apps = $this->appManager->getInstalledApps();
+			$apps = $this->appManager->getEnabledApps();
 			$this->customAppOrder = [];
 		}
 
@@ -424,5 +416,84 @@ class NavigationManager implements INavigationManager {
 
 	public function setUnreadCounter(string $id, int $unreadCounter): void {
 		$this->unreadCounters[$id] = $unreadCounter;
+	}
+
+	public function get(string $id): ?array {
+		$this->init();
+		foreach ($this->closureEntries as $c) {
+			$this->add($c());
+		}
+		$this->closureEntries = [];
+
+		return $this->entries[$id];
+	}
+
+	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
+		$this->init();
+		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
+		$defaultEntryIds = $this->getDefaultEntryIds(false);
+
+		$user ??= $this->userSession->getUser();
+
+		if ($user !== null) {
+			$userDefaultEntryIds = explode(',', $this->config->getUserValue($user->getUID(), 'core', 'defaultapp'));
+			$defaultEntryIds = array_filter(array_merge($userDefaultEntryIds, $defaultEntryIds));
+			if (empty($defaultEntryIds) && $withFallbacks) {
+				/* Fallback on user defined apporder */
+				$customOrders = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags: JSON_THROW_ON_ERROR);
+				if (!empty($customOrders)) {
+					// filter only entries with app key (when added using closures or NavigationManager::add the app is not guaranteed to be set)
+					$customOrders = array_filter($customOrders, static fn ($entry) => isset($entry['app']));
+					// sort apps by order
+					usort($customOrders, static fn ($a, $b) => $a['order'] - $b['order']);
+					// set default apps to sorted apps
+					$defaultEntryIds = array_map(static fn ($entry) => $entry['app'], $customOrders);
+				}
+			}
+		}
+
+		if (empty($defaultEntryIds) && $withFallbacks) {
+			$defaultEntryIds = ['dashboard','files'];
+		}
+
+		$entryIds = array_keys($this->entries);
+
+		// Find the first app that is enabled for the current user
+		foreach ($defaultEntryIds as $defaultEntryId) {
+			if (in_array($defaultEntryId, $entryIds, true)) {
+				return $defaultEntryId;
+			}
+		}
+
+		// Set fallback to always-enabled files app
+		return $withFallbacks ? 'files' : '';
+	}
+
+	public function getDefaultEntryIds(bool $withFallbacks = true): array {
+		$this->init();
+		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
+		$ids = [];
+		$entryIds = array_keys($this->entries);
+		foreach ($storedIds as $id) {
+			if (in_array($id, $entryIds, true)) {
+				$ids[] = $id;
+				break;
+			}
+		}
+		return array_filter($ids);
+	}
+
+	public function setDefaultEntryIds(array $ids): void {
+		$this->init();
+		$entryIds = array_keys($this->entries);
+
+		foreach ($ids as $id) {
+			if (!in_array($id, $entryIds, true)) {
+				$this->logger->debug('Cannot set unavailable entry as default entry', ['missing_entry' => $id]);
+				throw new InvalidArgumentException('Entry not available');
+			}
+		}
+
+		$this->config->setSystemValue('defaultapp', join(',', $ids));
 	}
 }

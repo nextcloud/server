@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV;
 
@@ -45,17 +25,12 @@ use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage {
-	private CalDavBackend $backend;
-	private Calendar $calendar;
-	/** @var array<string, mixed> */
-	private array $calendarInfo;
-
-	public function __construct(Calendar $calendar,
-		array $calendarInfo,
-		CalDavBackend $backend) {
-		$this->calendar = $calendar;
-		$this->calendarInfo = $calendarInfo;
-		$this->backend = $backend;
+	public function __construct(
+		private Calendar $calendar,
+		/** @var array<string, mixed> */
+		private array $calendarInfo,
+		private CalDavBackend $backend,
+	) {
 	}
 
 	/**
@@ -63,7 +38,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * @since 13.0.0
 	 */
 	public function getKey(): string {
-		return (string) $this->calendarInfo['id'];
+		return (string)$this->calendarInfo['id'];
 	}
 
 	/**
@@ -104,7 +79,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		/** @var VCalendar $vobj */
 		$vobj = Reader::read($timezoneProp);
 		$components = $vobj->getComponents();
-		if(empty($components)) {
+		if (empty($components)) {
 			return null;
 		}
 		/** @var VTimeZone $vtimezone */
@@ -116,7 +91,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
-	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
+	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param int|null $limit - limit number of search results
 	 * @param int|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
@@ -135,6 +110,10 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
+			if ($this->calendarInfo['principaluri'] !== $permission['principal']) {
+				continue;
+			}
+
 			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
@@ -153,10 +132,24 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public function isWritable(): bool {
+		return $this->calendar->canWrite();
+	}
+
+	/**
 	 * @since 26.0.0
 	 */
 	public function isDeleted(): bool {
 		return $this->calendar->isDeleted();
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isShared(): bool {
+		return $this->calendar->isShared();
 	}
 
 	/**
@@ -240,7 +233,10 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		$attendee = $vEvent->{'ATTENDEE'}->getValue();
 
 		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
-		if ($iTipMessage->method === 'REPLY') {
+		if ($iTipMessage->method === 'REQUEST') {
+			$iTipMessage->sender = $organizer;
+			$iTipMessage->recipient = $attendee;
+		} elseif ($iTipMessage->method === 'REPLY') {
 			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
 				$iTipMessage->recipient = $organizer;
 			} else {

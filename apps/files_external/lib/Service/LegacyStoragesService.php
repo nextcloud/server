@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author szaimen <szaimen@e.mail.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -57,7 +39,7 @@ abstract class LegacyStoragesService {
 		&$storageConfig,
 		$mountType,
 		$applicable,
-		$storageOptions
+		$storageOptions,
 	) {
 		$backend = $this->backendService->getBackend($storageOptions['backend']);
 		if (!$backend) {
@@ -82,13 +64,13 @@ abstract class LegacyStoragesService {
 			$storageOptions['priority'] = $backend->getPriority();
 		}
 		$storageConfig->setPriority($storageOptions['priority']);
-		if ($mountType === \OCA\Files_External\MountConfig::MOUNT_TYPE_USER) {
+		if ($mountType === MountConfig::MOUNT_TYPE_USER) {
 			$applicableUsers = $storageConfig->getApplicableUsers();
 			if ($applicable !== 'all') {
 				$applicableUsers[] = $applicable;
 				$storageConfig->setApplicableUsers($applicableUsers);
 			}
-		} elseif ($mountType === \OCA\Files_External\MountConfig::MOUNT_TYPE_GROUP) {
+		} elseif ($mountType === MountConfig::MOUNT_TYPE_GROUP) {
 			$applicableGroups = $storageConfig->getApplicableGroups();
 			$applicableGroups[] = $applicable;
 			$storageConfig->setApplicableGroups($applicableGroups);
@@ -143,13 +125,13 @@ abstract class LegacyStoragesService {
 					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
-						\OC::$server->get(LoggerInterface::class)->error('Could not parse mount point "' . $rootMountPath . '"', ['app' => 'files_external']);
+						Server::get(LoggerInterface::class)->error('Could not parse mount point "' . $rootMountPath . '"', ['app' => 'files_external']);
 						continue;
 					}
 					$relativeMountPath = rtrim($parts[2], '/');
 					// note: we cannot do this after the loop because the decrypted config
 					// options might be needed for the config hash
-					$storageOptions['options'] = \OCA\Files_External\MountConfig::decryptPasswords($storageOptions['options']);
+					$storageOptions['options'] = MountConfig::decryptPasswords($storageOptions['options']);
 					if (!isset($storageOptions['backend'])) {
 						$storageOptions['backend'] = $storageOptions['class']; // legacy compat
 					}
@@ -167,7 +149,7 @@ abstract class LegacyStoragesService {
 						// but at this point we don't know the max-id, so use
 						// first group it by config hash
 						$storageOptions['mountpoint'] = $rootMountPath;
-						$configId = \OCA\Files_External\MountConfig::makeConfigHash($storageOptions);
+						$configId = MountConfig::makeConfigHash($storageOptions);
 						if (isset($storagesWithConfigHash[$configId])) {
 							$currentStorage = $storagesWithConfigHash[$configId];
 						}
@@ -191,7 +173,7 @@ abstract class LegacyStoragesService {
 						}
 					} catch (\UnexpectedValueException $e) {
 						// don't die if a storage backend doesn't exist
-						\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
+						Server::get(LoggerInterface::class)->error('Could not load storage.', [
 							'app' => 'files_external',
 							'exception' => $e,
 						]);

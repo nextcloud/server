@@ -1,26 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Auth\Password;
 
@@ -40,12 +22,10 @@ use OCP\Security\ICredentialsManager;
 class UserProvided extends AuthMechanism implements IUserProvided {
 	public const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
-
+	public function __construct(
+		IL10N $l,
+		protected ICredentialsManager $credentialsManager,
+	) {
 		$this
 			->setIdentifier('password::userprovided')
 			->setVisibility(BackendService::VISIBILITY_ADMIN)
@@ -65,6 +45,11 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 	}
 
 	public function saveBackendOptions(IUser $user, $mountId, array $options) {
+		if ($options['password'] === DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+			$oldCredentials = $this->credentialsManager->retrieve($user->getUID(), $this->getCredentialsIdentifier($mountId));
+			$options['password'] = $oldCredentials['password'];
+		}
+
 		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($mountId), [
 			'user' => $options['user'], // explicitly copy the fields we want instead of just passing the entire $options array
 			'password' => $options['password'] // this way we prevent users from being able to modify any other field

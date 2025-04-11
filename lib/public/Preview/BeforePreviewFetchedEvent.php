@@ -1,36 +1,23 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-
 namespace OCP\Preview;
 
 use OCP\Files\Node;
 use OCP\IPreview;
 
 /**
+ * Emitted before a file preview is being fetched.
+ *
+ * It can be used to block preview rendering by throwing a ``OCP\Files\NotFoundException``
+ *
  * @since 25.0.1
+ * @since 28.0.0 the constructor arguments ``$width``, ``$height``, ``$crop`` and ``$mode`` are no longer nullable.
+ * @since 31.0.0 the constructor arguments ``$mimeType`` was added
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	/**
@@ -38,14 +25,15 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	 */
 	public function __construct(
 		private Node $node,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $width = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $height = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?bool $crop = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?string $mode = null,
+		private ?string $mimeType = null,
 	) {
 		parent::__construct();
 	}
@@ -84,5 +72,12 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	 */
 	public function getMode(): ?string {
 		return $this->mode;
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function getMimeType(): ?string {
+		return $this->mimeType;
 	}
 }

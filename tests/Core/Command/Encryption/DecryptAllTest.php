@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -34,13 +20,13 @@ class DecryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
 	protected $appManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
@@ -84,7 +70,7 @@ class DecryptAllTest extends TestCase {
 			->with('files_trashbin')->willReturn(true);
 	}
 
-	public function testMaintenanceAndTrashbin() {
+	public function testMaintenanceAndTrashbin(): void {
 		// on construct we enable single-user-mode and disable the trash bin
 		// on destruct we disable single-user-mode again and enable the trash bin
 		$this->config->expects($this->exactly(2))
@@ -122,7 +108,7 @@ class DecryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTestExecute
 	 */
-	public function testExecute($encryptionEnabled, $continue) {
+	public function testExecute($encryptionEnabled, $continue): void {
 		$instance = new DecryptAll(
 			$this->encryptionManager,
 			$this->appManager,
@@ -176,7 +162,7 @@ class DecryptAllTest extends TestCase {
 	}
 
 
-	public function testExecuteFailure() {
+	public function testExecuteFailure(): void {
 		$this->expectException(\Exception::class);
 
 		$instance = new DecryptAll(

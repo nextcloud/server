@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
 
@@ -38,13 +21,13 @@ class Azure implements IObjectStore {
 	private $blobClient = null;
 	/** @var string|null */
 	private $endpoint = null;
-	/** @var bool  */
+	/** @var bool */
 	private $autoCreate = false;
 
 	/**
 	 * @param array $parameters
 	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$this->containerName = $parameters['container'];
 		$this->accountName = $parameters['account_name'];
 		$this->accountKey = $parameters['account_key'];
@@ -62,7 +45,7 @@ class Azure implements IObjectStore {
 	private function getBlobClient() {
 		if (!$this->blobClient) {
 			$protocol = $this->endpoint ? substr($this->endpoint, 0, strpos($this->endpoint, ':')) : 'https';
-			$connectionString = "DefaultEndpointsProtocol=" . $protocol . ";AccountName=" . $this->accountName . ";AccountKey=" . $this->accountKey;
+			$connectionString = 'DefaultEndpointsProtocol=' . $protocol . ';AccountName=' . $this->accountName . ';AccountKey=' . $this->accountKey;
 			if ($this->endpoint) {
 				$connectionString .= ';BlobEndpoint=' . $this->endpoint;
 			}

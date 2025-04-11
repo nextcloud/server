@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\WebAuthn;
 
@@ -72,7 +53,7 @@ class Manager {
 		CredentialRepository $repository,
 		PublicKeyCredentialMapper $credentialMapper,
 		LoggerInterface $logger,
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->repository = $repository;
 		$this->credentialMapper = $credentialMapper;
@@ -107,8 +88,8 @@ class Manager {
 		];
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
-			null,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
 			null,
 			false,
 		);
@@ -170,7 +151,8 @@ class Manager {
 		}
 
 		// Persist the data
-		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
+		$userVerification = $response->attestationObject->authData->isUserVerified();
+		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name, $userVerification);
 	}
 
 	private function stripPort(string $serverHost): string {
@@ -179,7 +161,11 @@ class Manager {
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
 		// List of registered PublicKeyCredentialDescriptor classes associated to the user
-		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
+		$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED;
+		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) use (&$userVerificationRequirement) {
+			if ($entity->getUserVerification() !== true) {
+				$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED;
+			}
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
 				$credential->type,
@@ -192,7 +178,7 @@ class Manager {
 			random_bytes(32),                                                          // Challenge
 			$this->stripPort($serverHost),                                             // Relying Party ID
 			$registeredPublicKeyCredentialDescriptors,                                 // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			$userVerificationRequirement,
 			60000,                                                                     // Timeout
 		);
 	}
@@ -260,14 +246,6 @@ class Manager {
 	}
 
 	public function isWebAuthnAvailable(): bool {
-		if (!extension_loaded('bcmath')) {
-			return false;
-		}
-
-		if (!extension_loaded('gmp')) {
-			return false;
-		}
-
 		if (!$this->config->getSystemValueBool('auth.webauthn.enabled', true)) {
 			return false;
 		}

@@ -3,40 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Steffen Lindner <mail@steffen-lindner.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -62,6 +31,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\ServerVersion;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -84,11 +54,12 @@ class Updater extends BasicEmitter {
 	];
 
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private IConfig $config,
 		private IAppConfig $appConfig,
 		private Checker $checker,
 		private ?LoggerInterface $log,
-		private Installer $installer
+		private Installer $installer,
 	) {
 	}
 
@@ -113,14 +84,14 @@ class Updater extends BasicEmitter {
 		}
 
 		// Clear CAN_INSTALL file if not on git
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+		if ($this->serverVersion->getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL')) {
 			if (!unlink(\OC::$configDir . '/CAN_INSTALL')) {
 				$this->log->error('Could not cleanup CAN_INSTALL from your config folder. Please remove this file manually.');
 			}
 		}
 
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
-		$currentVersion = implode('.', \OCP\Util::getVersion());
+		$currentVersion = implode('.', $this->serverVersion->getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
 
@@ -131,13 +102,13 @@ class Updater extends BasicEmitter {
 			$this->log->error($exception->getMessage(), [
 				'exception' => $exception,
 			]);
-			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' .$exception->getHint()]);
+			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' . $exception->getHint()]);
 			$success = false;
 		} catch (\Exception $exception) {
 			$this->log->error($exception->getMessage(), [
 				'exception' => $exception,
 			]);
-			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' .$exception->getMessage()]);
+			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' . $exception->getMessage()]);
 			$success = false;
 		}
 
@@ -178,7 +149,7 @@ class Updater extends BasicEmitter {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
-		return (string) $vendor;
+		return (string)$vendor;
 	}
 
 	/**
@@ -239,9 +210,12 @@ class Updater extends BasicEmitter {
 		}
 
 		// create empty file in data dir, so we can later find
-		// out that this is indeed an ownCloud data directory
+		// out that this is indeed a Nextcloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents(
+			$this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ncdata',
+			"# Nextcloud data directory\n# Do not change this file",
+		);
 
 		// pre-upgrade repairs
 		$repair = \OCP\Server::get(Repair::class);
@@ -268,7 +242,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$this->upgradeAppStoreApps($appManager->getEnabledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
@@ -438,29 +412,29 @@ class Updater extends BasicEmitter {
 		$dispatcher->addListener(
 			MigratorExecuteSqlEvent::class,
 			function (MigratorExecuteSqlEvent $event) use ($log): void {
-				$log->info(get_class($event).': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
 			}
 		);
 
 		$repairListener = function (Event $event) use ($log): void {
 			if ($event instanceof RepairStartEvent) {
-				$log->info(get_class($event).': Starting ... ' . $event->getMaxStep() .  ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': Starting ... ' . $event->getMaxStep() . ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
 			} elseif ($event instanceof RepairAdvanceEvent) {
 				$desc = $event->getDescription();
 				if (empty($desc)) {
 					$desc = '';
 				}
-				$log->info(get_class($event).': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
 			} elseif ($event instanceof RepairFinishEvent) {
 				$log->info(get_class($event), ['app' => 'updater']);
 			} elseif ($event instanceof RepairStepEvent) {
-				$log->info(get_class($event).': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
+				$log->info(get_class($event) . ': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairInfoEvent) {
-				$log->info(get_class($event).': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->info(get_class($event) . ': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairWarningEvent) {
-				$log->warning(get_class($event).': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->warning(get_class($event) . ': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairErrorEvent) {
-				$log->error(get_class($event).': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->error(get_class($event) . ': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
 			}
 		};
 

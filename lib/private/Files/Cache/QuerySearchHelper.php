@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\Cache;
 
@@ -60,9 +39,7 @@ class QuerySearchHelper {
 
 	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
-			$this->connection,
-			$this->systemConfig,
-			$this->logger,
+			$this->connection->getQueryBuilder(),
 			$this->filesMetadataManager,
 		);
 	}
@@ -77,7 +54,7 @@ class QuerySearchHelper {
 		CacheQueryBuilder $query,
 		ISearchQuery $searchQuery,
 		array $caches,
-		?IMetadataQuery $metadataQuery = null
+		?IMetadataQuery $metadataQuery = null,
 	): void {
 		$storageFilters = array_values(array_map(function (ICache $cache) {
 			return $cache->getQueryFilterForStorage();
@@ -111,7 +88,7 @@ class QuerySearchHelper {
 
 		$this->applySearchConstraints($query, $searchQuery, $caches);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$tags = $result->fetchAll();
 		$result->closeCursor();
 		return $tags;
@@ -133,7 +110,6 @@ class QuerySearchHelper {
 		$query
 			->leftJoin('file', 'vcategory_to_object', 'tagmap', $query->expr()->eq('file.fileid', 'tagmap.objid'))
 			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
-				$query->expr()->eq('tagmap.type', 'tag.type'),
 				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
 				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
 				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
@@ -191,7 +167,7 @@ class QuerySearchHelper {
 
 		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$files = $result->fetchAll();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
@@ -218,7 +194,7 @@ class QuerySearchHelper {
 	protected function requireUser(ISearchQuery $searchQuery): IUser {
 		$user = $searchQuery->getUser();
 		if ($user === null) {
-			throw new \InvalidArgumentException("This search operation requires the user to be set in the query");
+			throw new \InvalidArgumentException('This search operation requires the user to be set in the query');
 		}
 		return $user;
 	}

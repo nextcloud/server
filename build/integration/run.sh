@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-
+#
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
+#
 OC_PATH=../../
 OCC=${OC_PATH}occ
 TAGS=""
@@ -18,6 +22,10 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC config:system:set auth.bruteforce.protection.enabled --value false --type bool
     # Allow local remote urls otherwise we can not share
     $OCC config:system:set allow_local_remote_servers --value true --type bool
+    # Allow self signed certificates
+    $OCC config:system:set sharing.federation.allowSelfSignedCertificates --value true --type bool
+	# Allow creating users with dummy passwords
+	$OCC app:disable password_policy
 else
     if [ "$SCENARIO_TO_RUN" != "setup_features/setup.feature" ]; then
         echo "Nextcloud instance needs to be installed" >&2
@@ -34,15 +42,25 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
+export PORT
 
+echo "" > "${NC_DATADIR}/nextcloud.log"
 echo "" > phpserver.log
 
-php -S localhost:$PORT -t ../.. &> phpserver.log &
+PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
 
 # Output filtered php server logs
 tail -f phpserver.log | grep --line-buffered -v -E ":[0-9]+ Accepted$" | grep --line-buffered -v -E ":[0-9]+ Closing$" &
+LOGPID=$!
+echo $LOGPID
+
+function cleanup() {
+    kill $PHPPID
+    kill $LOGPID
+}
+trap cleanup EXIT
 
 # The federated server is started and stopped by the tests themselves
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
@@ -68,8 +86,6 @@ fi
 
 vendor/bin/behat --strict --colors -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
-
-kill $PHPPID
 
 if [ "$INSTALLED" == "true" ]; then
 

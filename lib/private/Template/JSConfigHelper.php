@@ -2,42 +2,23 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Abijeet <abijeetpatro@gmail.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Files\FilenameValidator;
 use OC\Share\Share;
+use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\Files\FileInfo;
@@ -49,48 +30,34 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Server;
+use OCP\ServerVersion;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
 class JSConfigHelper {
-	protected IL10N $l;
-	protected Defaults $defaults;
-	protected IAppManager $appManager;
-	protected ISession $session;
-	protected ?IUser $currentUser;
-	protected IConfig $config;
-	protected IGroupManager $groupManager;
-	protected IniGetWrapper $iniWrapper;
-	protected IURLGenerator $urlGenerator;
-	protected CapabilitiesManager $capabilitiesManager;
-	protected IInitialStateService $initialStateService;
 
 	/** @var array user back-ends excluded from password verification */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
-	public function __construct(IL10N $l,
-		Defaults $defaults,
-		IAppManager $appManager,
-		ISession $session,
-		?IUser $currentUser,
-		IConfig $config,
-		IGroupManager $groupManager,
-		IniGetWrapper $iniWrapper,
-		IURLGenerator $urlGenerator,
-		CapabilitiesManager $capabilitiesManager,
-		IInitialStateService $initialStateService) {
-		$this->l = $l;
-		$this->defaults = $defaults;
-		$this->appManager = $appManager;
-		$this->session = $session;
-		$this->currentUser = $currentUser;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->iniWrapper = $iniWrapper;
-		$this->urlGenerator = $urlGenerator;
-		$this->capabilitiesManager = $capabilitiesManager;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		protected ServerVersion $serverVersion,
+		protected IL10N $l,
+		protected Defaults $defaults,
+		protected IAppManager $appManager,
+		protected ISession $session,
+		protected ?IUser $currentUser,
+		protected IConfig $config,
+		protected IGroupManager $groupManager,
+		protected IniGetWrapper $iniWrapper,
+		protected IURLGenerator $urlGenerator,
+		protected CapabilitiesManager $capabilitiesManager,
+		protected IInitialStateService $initialStateService,
+		protected IProvider $tokenProvider,
+		protected FilenameValidator $filenameValidator,
+	) {
 	}
 
 	public function getConfig(): string {
@@ -112,7 +79,7 @@ class JSConfigHelper {
 		$apps_paths = [];
 
 		if ($this->currentUser === null) {
-			$apps = $this->appManager->getInstalledApps();
+			$apps = $this->appManager->getEnabledApps();
 		} else {
 			$apps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
@@ -156,9 +123,13 @@ class JSConfigHelper {
 		}
 
 		if ($this->currentUser instanceof IUser) {
-			$lastConfirmTimestamp = $this->session->get('last-password-confirm');
-			if (!is_int($lastConfirmTimestamp)) {
-				$lastConfirmTimestamp = 0;
+			if ($this->canUserValidatePassword()) {
+				$lastConfirmTimestamp = $this->session->get('last-password-confirm');
+				if (!is_int($lastConfirmTimestamp)) {
+					$lastConfirmTimestamp = 0;
+				}
+			} else {
+				$lastConfirmTimestamp = PHP_INT_MAX;
 			}
 		} else {
 			$lastConfirmTimestamp = 0;
@@ -166,9 +137,16 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
+		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, null);
+		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+
 		$config = [
-			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
+			/** @deprecated 30.0.0 - use files capabilities instead */
+			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+
+			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
@@ -179,22 +157,24 @@ class JSConfigHelper {
 			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
-			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
+		$shareManager = Server::get(IShareManager::class);
+
 		$array = [
-			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"_oc_isadmin" => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			"oc_dataURL" => is_string($dataLocation) ? "\"" . $dataLocation . "\"" : 'false',
-			"_oc_webroot" => "\"" . \OC::$WEBROOT . "\"",
-			"_oc_appswebroots" => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
+			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
+			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
+			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-			"dayNames" => json_encode([
+			'dayNames' => json_encode([
 				$this->l->t('Sunday'),
 				$this->l->t('Monday'),
 				$this->l->t('Tuesday'),
@@ -203,7 +183,7 @@ class JSConfigHelper {
 				$this->l->t('Friday'),
 				$this->l->t('Saturday')
 			]),
-			"dayNamesShort" => json_encode([
+			'dayNamesShort' => json_encode([
 				$this->l->t('Sun.'),
 				$this->l->t('Mon.'),
 				$this->l->t('Tue.'),
@@ -212,7 +192,7 @@ class JSConfigHelper {
 				$this->l->t('Fri.'),
 				$this->l->t('Sat.')
 			]),
-			"dayNamesMin" => json_encode([
+			'dayNamesMin' => json_encode([
 				$this->l->t('Su'),
 				$this->l->t('Mo'),
 				$this->l->t('Tu'),
@@ -221,7 +201,7 @@ class JSConfigHelper {
 				$this->l->t('Fr'),
 				$this->l->t('Sa')
 			]),
-			"monthNames" => json_encode([
+			'monthNames' => json_encode([
 				$this->l->t('January'),
 				$this->l->t('February'),
 				$this->l->t('March'),
@@ -235,7 +215,7 @@ class JSConfigHelper {
 				$this->l->t('November'),
 				$this->l->t('December')
 			]),
-			"monthNamesShort" => json_encode([
+			'monthNamesShort' => json_encode([
 				$this->l->t('Jan.'),
 				$this->l->t('Feb.'),
 				$this->l->t('Mar.'),
@@ -249,20 +229,20 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($this->l->l('firstday', null)),
-			"_oc_config" => json_encode($config),
-			"oc_appconfig" => json_encode([
+			'firstDay' => json_encode($firstDay),
+			'_oc_config' => json_encode($config),
+			'oc_appconfig' => json_encode([
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
 					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => Util::isSharingDisabledForUser(),
+					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
 					'resharingAllowed' => Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => \OC::$server->get(IShareManager::class)->allowGroupSharing(),
+					'allowGroupSharing' => $shareManager->allowGroupSharing(),
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
@@ -271,7 +251,7 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
-			"_theme" => json_encode([
+			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'productName' => $this->defaults->getProductName(),
@@ -306,10 +286,21 @@ class JSConfigHelper {
 		$result = '';
 
 		// Echo it
-		foreach ($array as  $setting => $value) {
-			$result .= 'var '. $setting . '='. $value . ';' . PHP_EOL;
+		foreach ($array as $setting => $value) {
+			$result .= 'var ' . $setting . '=' . $value . ';' . PHP_EOL;
 		}
 
 		return $result;
+	}
+
+	protected function canUserValidatePassword(): bool {
+		try {
+			$token = $this->tokenProvider->getToken($this->session->getId());
+		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
+			// actually we do not know, so we fall back to this statement
+			return true;
+		}
+		$scope = $token->getScopeAsArray();
+		return !isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) || $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === false;
 	}
 }

@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2016 Joas Schilling <nickvergessen@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\L10N;
@@ -113,9 +112,9 @@ class FactoryTest extends TestCase {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects(self::once())
-				->method('languageExists')
-				->with('MyApp', 'de')
-				->willReturn(true);
+			->method('languageExists')
+			->with('MyApp', 'de')
+			->willReturn(true);
 
 		self::assertSame('de', $factory->findLanguage('MyApp'));
 	}
@@ -124,15 +123,15 @@ class FactoryTest extends TestCase {
 		$factory = $this->getFactory(['languageExists']);
 		$this->invokePrivate($factory, 'requestLanguage', ['de']);
 		$factory->expects($this->exactly(2))
-				->method('languageExists')
-				->withConsecutive(
-					['MyApp', 'de'],
-					['MyApp', 'jp'],
-				)
-				->willReturnOnConsecutiveCalls(
-					false,
-					true,
-				);
+			->method('languageExists')
+			->withConsecutive(
+				['MyApp', 'de'],
+				['MyApp', 'jp'],
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$this->config
 			->expects($this->exactly(1))
 			->method('getSystemValue')
@@ -151,10 +150,10 @@ class FactoryTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 
 		self::assertSame('jp', $factory->findLanguage('MyApp'));
 	}
@@ -179,17 +178,17 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 
 		self::assertSame('es', $factory->findLanguage('MyApp'));
 	}
@@ -214,17 +213,17 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 		$this->config
 			->expects(self::never())
 			->method('setUserValue');
@@ -252,21 +251,21 @@ class FactoryTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)
 			->getMock();
 		$user->expects(self::once())
-				->method('getUID')
-				->willReturn('MyUserUid');
+			->method('getUID')
+			->willReturn('MyUserUid');
 		$this->userSession
-				->expects(self::exactly(2))
-				->method('getUser')
-				->willReturn($user);
+			->expects(self::exactly(2))
+			->method('getUser')
+			->willReturn($user);
 		$this->config
-				->expects(self::once())
-				->method('getUserValue')
-				->with('MyUserUid', 'core', 'lang', null)
-				->willReturn('jp');
+			->expects(self::once())
+			->method('getUserValue')
+			->with('MyUserUid', 'core', 'lang', null)
+			->willReturn('jp');
 		$this->config
-				->expects(self::never())
-				->method('setUserValue')
-				->with('MyUserUid', 'core', 'lang', 'en');
+			->expects(self::never())
+			->method('setUserValue')
+			->with('MyUserUid', 'core', 'lang', 'en');
 
 
 		self::assertSame('en', $factory->findLanguage('MyApp'));
@@ -701,6 +700,53 @@ class FactoryTest extends TestCase {
 		self::assertSame($expected, $result);
 	}
 
+	public static function dataTestReduceToLanguages(): array {
+		return [
+			['en', ['en', 'de', 'fr', 'it', 'es'], ['en', 'fr', 'de'], ['en', 'fr', 'de']],
+			['en', ['en', 'de', 'fr', 'it', 'es'], ['en', 'de'], ['en', 'de']],
+			['en', ['en', 'de', 'fr', 'it', 'es'], [], ['de', 'en', 'es', 'fr', 'it']],
+		];
+	}
+
+	/**
+	 * test
+	 * - if available languages set can be reduced by configuration
+	 * - if available languages set is not reduced to an empty set if
+	 *   the reduce config is an empty set
+	 *
+	 * @dataProvider dataTestReduceToLanguages
+	 *
+	 * @param string $lang
+	 * @param array $availableLanguages
+	 * @param array $reducedLanguageSet
+	 * @param array $expected
+	 */
+	public function testReduceLanguagesByConfiguration(string $lang, array $availableLanguages, array $reducedLanguageSet, array $expected): void {
+		$factory = $this->getFactory(['findAvailableLanguages', 'languageExists']);
+		$factory->expects(self::any())
+			->method('languageExists')->willReturn(true);
+		$factory->expects(self::any())
+			->method('findAvailableLanguages')
+			->willReturnCallback(function ($app) use ($availableLanguages) {
+				return $availableLanguages;
+			});
+
+		$this->config
+			->method('getSystemValue')
+			->willReturnMap([
+				['force_language', false, false],
+				['default_language', false, $lang],
+				['reduce_to_languages', [], $reducedLanguageSet]
+			]);
+
+		$result = $this->invokePrivate($factory, 'getLanguages');
+		$commonLanguagesCodes = array_map(function ($lang) {
+			return $lang['code'];
+		}, $result['commonLanguages']);
+
+		self::assertEqualsCanonicalizing($expected, $commonLanguagesCodes);
+	}
+
 	public function languageIteratorRequestProvider():array {
 		return [
 			[ true, $this->createMock(IUser::class)],
@@ -728,5 +774,23 @@ class FactoryTest extends TestCase {
 
 		$iterator = $factory->getLanguageIterator($iUserMock);
 		self::assertInstanceOf(ILanguageIterator::class, $iterator);
+	}
+
+	public static function dataGetLanguageDirection(): array {
+		return [
+			['en', 'ltr'],
+			['de', 'ltr'],
+			['fa', 'rtl'],
+			['ar', 'rtl']
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetLanguageDirection
+	 */
+	public function testGetLanguageDirection(string $language, string $expectedDirection) {
+		$factory = $this->getFactory();
+
+		self::assertEquals($expectedDirection, $factory->getLanguageDirection($language));
 	}
 }

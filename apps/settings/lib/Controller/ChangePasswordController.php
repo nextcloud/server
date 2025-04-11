@@ -1,33 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Matthew Setter <matthew@matthewsetter.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // FIXME: disabled for now to be able to inject IGroupManager and also use
 // getSubAdmin()
@@ -37,48 +11,44 @@ namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
 use OC\User\Session;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Recovery;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\HintException;
-use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 
 class ChangePasswordController extends Controller {
-	private ?string $userId;
-	private IUserManager $userManager;
-	private IL10N $l;
-	private GroupManager $groupManager;
 	private Session $userSession;
-	private IAppManager $appManager;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		?string $userId,
-		IUserManager $userManager,
+		private ?string $userId,
+		private IUserManager $userManager,
 		IUserSession $userSession,
-		IGroupManager $groupManager,
-		IAppManager $appManager,
-		IL10N $l) {
+		private GroupManager $groupManager,
+		private IAppManager $appManager,
+		private IL10N $l,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->userId = $userId;
-		$this->userManager = $userManager;
 		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->appManager = $appManager;
-		$this->l = $l;
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'changePersonalPassword')]
 	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {
 		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
@@ -123,10 +93,8 @@ class ChangePasswordController extends Controller {
 		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function changeUserPassword(?string $username = null, ?string $password = null, ?string $recoveryPassword = null): JSONResponse {
 		if ($username === null) {
 			return new JSONResponse([
@@ -171,8 +139,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
-			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
+			$keyManager = Server::get(KeyManager::class);
+			$recovery = Server::get(Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;

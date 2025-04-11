@@ -3,36 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
@@ -58,21 +37,20 @@ class AutoCompleteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Autocomplete a query
 	 *
 	 * @param string $search Text to search for
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
-	 * @param int[] $shareTypes Types of shares to search for
+	 * @param list<int> $shareTypes Types of shares to search for
 	 * @param int $limit Maximum number of results to return
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreAutocompleteResult[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{}>
 	 *
 	 * 200: Autocomplete results returned
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/autocomplete/get', root: '/core')]
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
@@ -122,7 +100,7 @@ class AutoCompleteController extends OCSController {
 	}
 
 	/**
-	 * @return CoreAutocompleteResult[]
+	 * @return list<CoreAutocompleteResult>
 	 */
 	protected function prepareResultArray(array $results): array {
 		$output = [];
@@ -145,7 +123,7 @@ class AutoCompleteController extends OCSController {
 				$shareWithDisplayNameUnique = array_key_exists('shareWithDisplayNameUnique', $result) ? $result['shareWithDisplayNameUnique'] : null;
 
 				$output[] = [
-					'id' => (string) $result['value']['shareWith'],
+					'id' => (string)$result['value']['shareWith'],
 					'label' => $label,
 					'icon' => $icon ?? '',
 					'source' => $type,

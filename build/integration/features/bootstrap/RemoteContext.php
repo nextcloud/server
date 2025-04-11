@@ -1,28 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
+use OCP\Http\Client\IClientService;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -50,7 +32,7 @@ class RemoteContext implements Context {
 	}
 
 	protected function getApiClient() {
-		return new \OC\Remote\Api\OCS($this->remoteInstance, $this->credentails, \OC::$server->getHTTPClientService());
+		return new \OC\Remote\Api\OCS($this->remoteInstance, $this->credentails, \OC::$server->get(IClientService::class));
 	}
 
 	/**
@@ -59,14 +41,14 @@ class RemoteContext implements Context {
 	 * @param string $remoteServer "NON_EXISTING" or "REMOTE"
 	 */
 	public function selectRemoteInstance($remoteServer) {
-		if ($remoteServer == "REMOTE") {
+		if ($remoteServer == 'REMOTE') {
 			$baseUri = $this->remoteUrl;
 		} else {
 			$baseUri = 'nonexistingnextcloudserver.local';
 		}
 		$this->lastException = null;
 		try {
-			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->getMemCacheFactory()->createLocal(), \OC::$server->getHTTPClientService());
+			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->getMemCacheFactory()->createLocal(), \OC::$server->get(IClientService::class));
 			// trigger the status request
 			$this->remoteInstance->getProtocol();
 		} catch (\Exception $e) {

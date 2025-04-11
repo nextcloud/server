@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Phil Davis <phil.davis@inf.org>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -32,7 +11,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -62,7 +41,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/** @AfterScenario */
 	public function afterScenario() {
-		$davUrl = $this->baseUrl. '/remote.php/dav/calendars/admin/MyCalendar';
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/admin/MyCalendar';
 		try {
 			$this->client->delete(
 				$davUrl,
@@ -287,7 +266,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $name
 	 */
 	public function createsACalendarNamed($user, $name) {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		$this->response = $this->client->request(
@@ -310,7 +289,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $name
 	 */
 	public function publiclySharesTheCalendarNamed($user, $name) {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
+		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/' . $user . '/' . $name;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
 		$this->response = $this->client->request(

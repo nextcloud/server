@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div id="workflowengine">
 		<NcSettingsSection :name="t('workflowengine', 'Available flows')"
@@ -61,10 +65,10 @@
 <script>
 import Rule from './Rule.vue'
 import Operation from './Operation.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -136,9 +140,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	@use "./../styles/operation";
+
 	#workflowengine {
 		border-bottom: 1px solid var(--color-border);
 	}
+
 	.section {
 		max-width: 100vw;
 
@@ -147,6 +154,7 @@ export default {
 			margin-bottom: 0;
 		}
 	}
+
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
@@ -156,6 +164,7 @@ export default {
 			flex-basis: 250px;
 		}
 	}
+
 	.actions__more {
 		margin-bottom: 10px;
 	}
@@ -193,8 +202,6 @@ export default {
 		padding-top: 0;
 		padding-bottom: 0;
 	}
-
-	@import "./../styles/operation";
 
 	.actions__item.more {
 		background-color: var(--color-background-dark);

@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
@@ -115,7 +95,7 @@ class BackendTest extends TestCase {
 
 		$this->assertCount(4, $rows);
 
-		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
@@ -138,7 +118,7 @@ class BackendTest extends TestCase {
 		unset($rows[0]['id']);
 		unset($rows[1]['id']);
 
-		$this->assertEquals($rows[0], [
+		$expected1 = [
 			'calendar_id' => 1,
 			'object_id' => 1,
 			'uid' => 'asd',
@@ -154,8 +134,8 @@ class BackendTest extends TestCase {
 			'calendardata' => 'Calendar data 123',
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
-		]);
-		$this->assertEquals($rows[1], [
+		];
+		$expected2 = [
 			'calendar_id' => 1,
 			'object_id' => 1,
 			'uid' => 'asd',
@@ -171,7 +151,9 @@ class BackendTest extends TestCase {
 			'calendardata' => 'Calendar data 123',
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
-		]);
+		];
+
+		$this->assertEqualsCanonicalizing([$rows[0],$rows[1]], [$expected1,$expected2]);
 	}
 
 	public function testGetAllScheduledRemindersForEvent(): void {
@@ -260,7 +242,7 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int)$rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
@@ -272,7 +254,7 @@ class BackendTest extends TestCase {
 			->execute()
 			->fetch();
 
-		$this->assertEquals((int) $row['notification_date'], 123700);
+		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
 
 

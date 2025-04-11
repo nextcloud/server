@@ -1,33 +1,19 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\SystemTag;
 
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -54,9 +40,11 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
-			$this->serverContainer->getDatabaseConnection(),
-			$this->serverContainer->getGroupManager(),
+			$this->serverContainer->get(IDBConnection::class),
+			$this->serverContainer->get(IGroupManager::class),
 			$this->serverContainer->get(IEventDispatcher::class),
+			$this->serverContainer->get(IUserSession::class),
+			$this->serverContainer->get(IAppConfig::class),
 		);
 	}
 
@@ -68,7 +56,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
-			$this->serverContainer->getDatabaseConnection(),
+			$this->serverContainer->get(IDBConnection::class),
 			$this->getManager(),
 			$this->serverContainer->get(IEventDispatcher::class),
 		);

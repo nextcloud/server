@@ -1,39 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Brice Maron <brice@bmaron.net>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCP\App\IAppManager;
+use OCP\IRequest;
+use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -43,15 +20,12 @@ use Sabre\DAV\Server;
  * Dummy exception class to be use locally to identify certain conditions
  * Will not be logged to avoid DoS
  */
-class RemoteException extends Exception {
+class RemoteException extends \Exception {
 }
 
-/**
- * @param Exception|Error $e
- */
-function handleException($e) {
+function handleException(Exception|Error $e): void {
 	try {
-		$request = \OC::$server->getRequest();
+		$request = \OCP\Server::get(IRequest::class);
 		// in case the request content type is text/xml - we assume it's a WebDAV request
 		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
 		if ($isXmlContentType === 0) {
@@ -59,7 +33,7 @@ function handleException($e) {
 			$server = new Server();
 			if (!($e instanceof RemoteException)) {
 				// we shall not log on RemoteException
-				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OC::$server->get(LoggerInterface::class)));
+				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OCP\Server::get(LoggerInterface::class)));
 			}
 			$server->on('beforeMethod:*', function () use ($e) {
 				if ($e instanceof RemoteException) {
@@ -82,19 +56,19 @@ function handleException($e) {
 			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
-				OC_Template::printErrorPage($e->getMessage(), '', $e->getCode());
+				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
-				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				OC_Template::printExceptionErrorPage($e, $statusCode);
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
+				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
 			}
 		}
 	} catch (\Exception $e) {
-		OC_Template::printExceptionErrorPage($e, 500);
+		\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 	}
 }
 
 /**
- * @param $service
+ * @param string $service
  * @return string
  */
 function resolveService($service) {
@@ -152,23 +126,24 @@ try {
 
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(['authentication']);
-	OC_App::loadApps(['extended_authentication']);
-	OC_App::loadApps(['filesystem', 'logging']);
+	$appManager = \OCP\Server::get(IAppManager::class);
+	$appManager->loadApps(['authentication']);
+	$appManager->loadApps(['extended_authentication']);
+	$appManager->loadApps(['filesystem', 'logging']);
 
 	switch ($app) {
 		case 'core':
-			$file = OC::$SERVERROOT .'/'. $file;
+			$file = OC::$SERVERROOT . '/' . $file;
 			break;
 		default:
-			if (!\OC::$server->getAppManager()->isInstalled($app)) {
+			if (!$appManager->isEnabledForUser($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
-			OC_App::loadApp($app);
-			$file = OC_App::getAppPath($app) .'/'. $parts[1];
+			$appManager->loadApp($app);
+			$file = $appManager->getAppPath($app) . '/' . ($parts[1] ?? '');
 			break;
 	}
-	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
+	$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
 	handleException($ex);

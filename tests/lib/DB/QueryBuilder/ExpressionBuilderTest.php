@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\DB\QueryBuilder;
@@ -24,6 +10,7 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -46,15 +33,19 @@ class ExpressionBuilderTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection */
 	protected $internalConnection;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->internalConnection = \OC::$server->get(\OC\DB\Connection::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 
-		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder);
+		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder, $this->logger);
 
 		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->internalConnection);
 	}
@@ -81,7 +72,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testComparison($comparison, $input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testComparison($comparison, $input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -108,7 +99,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testEquals($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -126,7 +117,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testNotEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testNotEquals($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -144,7 +135,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testLowerThan($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testLowerThan($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -162,7 +153,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testLowerThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testLowerThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -180,7 +171,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testGreaterThan($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testGreaterThan($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -198,7 +189,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input2
 	 * @param bool $isInput2Literal
 	 */
-	public function testGreaterThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
+	public function testGreaterThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal): void {
 		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
 		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
@@ -208,14 +199,14 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	public function testIsNull() {
+	public function testIsNull(): void {
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->isNull('`test`'),
 			$this->expressionBuilder->isNull('test')
 		);
 	}
 
-	public function testIsNotNull() {
+	public function testIsNotNull(): void {
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->isNotNull('`test`'),
 			$this->expressionBuilder->isNotNull('test')
@@ -235,7 +226,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input
 	 * @param bool $isLiteral
 	 */
-	public function testLike($input, $isLiteral) {
+	public function testLike($input, $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
@@ -250,7 +241,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input
 	 * @param bool $isLiteral
 	 */
-	public function testNotLike($input, $isLiteral) {
+	public function testNotLike($input, $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
@@ -274,7 +265,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input
 	 * @param bool $isLiteral
 	 */
-	public function testIn($input, $isLiteral) {
+	public function testIn($input, $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
@@ -289,7 +280,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input
 	 * @param bool $isLiteral
 	 */
-	public function testNotIn($input, $isLiteral) {
+	public function testNotIn($input, $isLiteral): void {
 		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
@@ -343,7 +334,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param mixed $input
 	 * @param string|null $type
 	 */
-	public function testLiteral($input, $type) {
+	public function testLiteral($input, $type): void {
 		/** @var \OC\DB\QueryBuilder\Literal $actual */
 		$actual = $this->expressionBuilder->literal($input, $type);
 
@@ -389,7 +380,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $compareKeyToValue
 	 * @param int $expected
 	 */
-	public function testClobComparisons($function, $value, $type, $compareKeyToValue, $expected) {
+	public function testClobComparisons($function, $value, $type, $compareKeyToValue, $expected): void {
 		$appId = $this->getUniqueID('testing');
 		$this->createConfig($appId, 1, 4);
 		$this->createConfig($appId, 2, 5);
@@ -429,8 +420,8 @@ class ExpressionBuilderTest extends TestCase {
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string) $key),
-				'configvalue' => $query->createNamedParameter((string) $value),
+				'configkey' => $query->createNamedParameter((string)$key),
+				'configvalue' => $query->createNamedParameter((string)$value),
 			])
 			->execute();
 	}

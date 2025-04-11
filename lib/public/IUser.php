@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
 
@@ -70,13 +50,22 @@ interface IUser {
 	 * @return int
 	 * @since 8.0.0
 	 */
-	public function getLastLogin();
+	public function getLastLogin(): int;
 
 	/**
-	 * updates the timestamp of the most recent login of this user
+	 * Returns the timestamp of the user's first login, 0 if the user did never login, or -1 if the data is unknown (first login was on an older version)
+	 *
+	 * @since 31.0.0
+	 */
+	public function getFirstLogin(): int;
+
+	/**
+	 * Updates the timestamp of the most recent login of this user (and first login if needed)
+	 *
+	 * @return bool whether this is the first login
 	 * @since 8.0.0
 	 */
-	public function updateLastLoginTimestamp();
+	public function updateLastLoginTimestamp(): bool;
 
 	/**
 	 * Delete the user
@@ -95,6 +84,23 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function setPassword($password, $recoveryPassword = null);
+
+	/**
+	 * Get the password hash of the user
+	 *
+	 * @return ?string the password hash hashed by `\OCP\Security\IHasher::hash()`
+	 * @since 30.0.0
+	 */
+	public function getPasswordHash(): ?string;
+
+	/**
+	 * Set the password hash of the user
+	 *
+	 * @param string $passwordHash the password hash hashed by `\OCP\Security\IHasher::hash()`
+	 * @throws InvalidArgumentException when `$passwordHash` is not a valid hash
+	 * @since 30.0.0
+	 */
+	public function setPasswordHash(string $passwordHash): bool;
 
 	/**
 	 * get the users home folder to mount
@@ -120,7 +126,7 @@ interface IUser {
 	public function getBackend();
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * check if the backend allows the user to change their avatar on Personal page
 	 *
 	 * @return bool
 	 * @since 8.0.0
@@ -142,6 +148,13 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function canChangeDisplayName();
+
+	/**
+	 * Check if the backend supports changing email
+	 *
+	 * @since 32.0.0
+	 */
+	public function canChangeEmail(): bool;
 
 	/**
 	 * check if the user is enabled

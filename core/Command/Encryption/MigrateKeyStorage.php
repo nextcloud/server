@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\Encryption;
 
@@ -47,7 +30,7 @@ class MigrateKeyStorage extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('encryption:migrate-key-storage-format')
@@ -57,9 +40,9 @@ class MigrateKeyStorage extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$root = $this->util->getKeyStorageRoot();
 
-		$output->writeln("Updating key storage format");
+		$output->writeln('Updating key storage format');
 		$this->updateKeys($root, $output);
-		$output->writeln("Key storage format successfully updated");
+		$output->writeln('Key storage format successfully updated');
 
 		return 0;
 	}
@@ -67,15 +50,12 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * Move keys to new key storage root
 	 *
-	 * @param string $root
-	 * @param OutputInterface $output
-	 * @return bool
 	 * @throws \Exception
 	 */
 	protected function updateKeys(string $root, OutputInterface $output): bool {
-		$output->writeln("Start to update the keys:");
+		$output->writeln('Start to update the keys:');
 
-		$this->updateSystemKeys($root);
+		$this->updateSystemKeys($root, $output);
 		$this->updateUsersKeys($root, $output);
 		$this->config->deleteSystemValue('encryption.key_storage_migrated');
 		return true;
@@ -84,15 +64,15 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * Move system key folder
 	 */
-	protected function updateSystemKeys(string $root): void {
+	protected function updateSystemKeys(string $root, OutputInterface $output): void {
 		if (!$this->rootView->is_dir($root . '/files_encryption')) {
 			return;
 		}
 
-		$this->traverseKeys($root . '/files_encryption', null);
+		$this->traverseKeys($root . '/files_encryption', null, $output);
 	}
 
-	private function traverseKeys(string $folder, ?string $uid) {
+	private function traverseKeys(string $folder, ?string $uid, OutputInterface $output): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
@@ -107,6 +87,11 @@ class MigrateKeyStorage extends Command {
 				$path = $folder . '/' . $node['name'];
 
 				$content = $this->rootView->file_get_contents($path);
+
+				if ($content === false) {
+					$output->writeln("<error>Failed to open path $path</error>");
+					continue;
+				}
 
 				try {
 					$this->crypto->decrypt($content);
@@ -126,14 +111,14 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-	private function traverseFileKeys(string $folder) {
+	private function traverseFileKeys(string $folder, OutputInterface $output): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
 			if ($node['mimetype'] === 'httpd/unix-directory') {
-				$this->traverseFileKeys($folder . '/' . $node['name']);
+				$this->traverseFileKeys($folder . '/' . $node['name'], $output);
 			} else {
-				$endsWith = function ($haystack, $needle) {
+				$endsWith = function (string $haystack, string $needle): bool {
 					$length = strlen($needle);
 					if ($length === 0) {
 						return true;
@@ -149,6 +134,11 @@ class MigrateKeyStorage extends Command {
 					$path = $folder . '/' . $node['name'];
 
 					$content = $this->rootView->file_get_contents($path);
+
+					if ($content === false) {
+						$output->writeln("<error>Failed to open path $path</error>");
+						continue;
+					}
 
 					try {
 						$this->crypto->decrypt($content);
@@ -171,10 +161,8 @@ class MigrateKeyStorage extends Command {
 
 	/**
 	 * setup file system for the given user
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
@@ -182,11 +170,8 @@ class MigrateKeyStorage extends Command {
 
 	/**
 	 * iterate over each user and move the keys to the new storage
-	 *
-	 * @param string $root
-	 * @param OutputInterface $output
 	 */
-	protected function updateUsersKeys(string $root, OutputInterface $output) {
+	protected function updateUsersKeys(string $root, OutputInterface $output): void {
 		$progress = new ProgressBar($output);
 		$progress->start();
 
@@ -198,7 +183,7 @@ class MigrateKeyStorage extends Command {
 				foreach ($users as $user) {
 					$progress->advance();
 					$this->setupUserFS($user);
-					$this->updateUserKeys($root, $user);
+					$this->updateUserKeys($root, $user, $output);
 				}
 				$offset += $limit;
 			} while (count($users) >= $limit);
@@ -209,20 +194,18 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * move user encryption folder to new root folder
 	 *
-	 * @param string $root
-	 * @param string $user
 	 * @throws \Exception
 	 */
-	protected function updateUserKeys(string $root, string $user) {
+	protected function updateUserKeys(string $root, string $user, OutputInterface $output): void {
 		if ($this->userManager->userExists($user)) {
 			$source = $root . '/' . $user . '/files_encryption/OC_DEFAULT_MODULE';
 			if ($this->rootView->is_dir($source)) {
-				$this->traverseKeys($source, $user);
+				$this->traverseKeys($source, $user, $output);
 			}
 
 			$source = $root . '/' . $user . '/files_encryption/keys';
 			if ($this->rootView->is_dir($source)) {
-				$this->traverseFileKeys($source);
+				$this->traverseFileKeys($source, $output);
 			}
 		}
 	}

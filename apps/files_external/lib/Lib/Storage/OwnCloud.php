@@ -1,33 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
+use OC\Files\Storage\DAV;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use Sabre\DAV\Client;
 
@@ -38,20 +17,20 @@ use Sabre\DAV\Client;
  * http://%host/%context/remote.php/webdav/%root
  *
  */
-class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorage {
+class OwnCloud extends DAV implements IDisableEncryptionStorage {
 	public const OC_URL_SUFFIX = 'remote.php/webdav';
 
-	public function __construct($params) {
+	public function __construct(array $parameters) {
 		// extract context path from host if specified
 		// (owncloud install path on host)
-		$host = $params['host'];
+		$host = $parameters['host'];
 		// strip protocol
-		if (substr($host, 0, 8) === "https://") {
+		if (substr($host, 0, 8) === 'https://') {
 			$host = substr($host, 8);
-			$params['secure'] = true;
-		} elseif (substr($host, 0, 7) === "http://") {
+			$parameters['secure'] = true;
+		} elseif (substr($host, 0, 7) === 'http://') {
 			$host = substr($host, 7);
-			$params['secure'] = false;
+			$parameters['secure'] = false;
 		}
 		$contextPath = '';
 		$hostSlashPos = strpos($host, '/');
@@ -64,20 +43,20 @@ class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorag
 			$contextPath .= '/';
 		}
 
-		if (isset($params['root'])) {
-			$root = '/' . ltrim($params['root'], '/');
+		if (isset($parameters['root'])) {
+			$root = '/' . ltrim($parameters['root'], '/');
 		} else {
 			$root = '/';
 		}
 
-		$params['host'] = $host;
-		$params['root'] = $contextPath . self::OC_URL_SUFFIX . $root;
-		$params['authType'] = Client::AUTH_BASIC;
+		$parameters['host'] = $host;
+		$parameters['root'] = $contextPath . self::OC_URL_SUFFIX . $root;
+		$parameters['authType'] = Client::AUTH_BASIC;
 
-		parent::__construct($params);
+		parent::__construct($parameters);
 	}
 
-	public function needsPartFile() {
+	public function needsPartFile(): bool {
 		return false;
 	}
 }

@@ -40,15 +40,10 @@
     "Restricted" : "აკრძალული",
     "Invisible" : "უჩინარი",
     "No tags found" : "ტეგები ვერ მოიძებნა",
-    "Select tag …" : "ტეგის არჩევა …",
-    "Tagged files" : "დატაგული ფაილები",
-    "Select tags to filter by" : "ფილტრაციისთვის აირჩიეთ ტეგები",
-    "Please select tags to filter by" : "ფილტრაციისთვის გთხოვთ აირჩიოთ ტეგები",
-    "No files found for the selected tags" : "არჩეული ტეგების მიხედვით ფაილების პოვნა ვერ მოხერხდა",
-    "Create a new tag" : "ახალი ტეგის შექმნა",
-    "Name" : "სახელი",
+    "Cancel" : "გაუქმება",
     "No files in here" : "აქ ფაილები არაა",
     "No entries found in this folder" : "ამ დირექტორიაში შენატანების მოძებნა ვერ მოხერხდა",
+    "Name" : "სახელი",
     "Size" : "ზომა",
     "Modified" : "შეცვლილია"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"

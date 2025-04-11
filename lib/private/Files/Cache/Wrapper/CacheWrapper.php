@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Ari Selseng <ari@selseng.net>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache\Wrapper;
 
@@ -236,19 +214,19 @@ class CacheWrapper extends Cache {
 		return $this->getCache()->getStatus($file);
 	}
 
-	public function searchQuery(ISearchQuery $searchQuery) {
-		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
+	public function searchQuery(ISearchQuery $query) {
+		return current($this->querySearchHelper->searchInCaches($query, [$this]));
 	}
 
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
-	 * @param string|boolean $path
-	 * @param array $data (optional) meta data of the folder
+	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
-		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($path, $data, $isBackgroundScan);
+	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			$cache->correctFolderSize($path, $data, $isBackgroundScan);
 		}
 	}
 
@@ -260,8 +238,9 @@ class CacheWrapper extends Cache {
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($this->getCache() instanceof Cache) {
-			return $this->getCache()->calculateFolderSize($path, $entry);
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->calculateFolderSize($path, $entry);
 		} else {
 			return 0;
 		}

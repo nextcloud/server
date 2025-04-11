@@ -1,22 +1,7 @@
 <?php
 /**
- * @author Piotr Mrowczynski <piotr@owncloud.com>
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Share;
 
@@ -28,26 +13,26 @@ namespace OCP\Share;
  */
 interface IAttributes {
 	/**
-	 * Sets an attribute enabled/disabled. If the key did not exist before it will be created.
+	 * Sets an attribute. If the key did not exist before it will be created.
 	 *
 	 * @param string $scope scope
 	 * @param string $key key
-	 * @param bool $enabled enabled
+	 * @param bool|string|array|null $value value
 	 * @return IAttributes The modified object
 	 * @since 25.0.0
 	 */
-	public function setAttribute($scope, $key, $enabled);
+	public function setAttribute(string $scope, string $key, mixed $value): IAttributes;
 
 	/**
-	 * Returns if attribute is enabled/disabled for given scope id and key.
+	 * Returns the attribute for given scope id and key.
 	 * If attribute does not exist, returns null
 	 *
 	 * @param string $scope scope
 	 * @param string $key key
-	 * @return bool|null
+	 * @return bool|string|array|null
 	 * @since 25.0.0
 	 */
-	public function getAttribute($scope, $key);
+	public function getAttribute(string $scope, string $key): mixed;
 
 	/**
 	 * Formats the IAttributes object to array with the following format:
@@ -55,13 +40,14 @@ interface IAttributes {
 	 * 	0 => [
 	 * 			"scope" => <string>,
 	 * 			"key" => <string>,
-	 * 			"enabled" => <bool>
+	 * 			"value" => <bool|string|array|null>,
 	 * 		],
 	 * 	...
 	 * ]
 	 *
 	 * @return array formatted IAttributes
 	 * @since 25.0.0
+	 * @since 30.0.0, `enabled` was renamed to `value`
 	 */
-	public function toArray();
+	public function toArray(): array;
 }

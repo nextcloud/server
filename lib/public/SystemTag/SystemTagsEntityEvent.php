@@ -1,29 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\SystemTag;
 
@@ -56,9 +37,9 @@ class SystemTagsEntityEvent extends Event {
 	/**
 	 * @param string $name
 	 * @param \Closure $entityExistsFunction The closure should take one
-	 *                 argument, which is the id of the entity, that tags
-	 *                 should be handled for. The return should then be bool,
-	 *                 depending on whether tags are allowed (true) or not.
+	 *                                       argument, which is the id of the entity, that tags
+	 *                                       should be handled for. The return should then be bool,
+	 *                                       depending on whether tags are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */

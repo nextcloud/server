@@ -1,6 +1,29 @@
+# SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: cleanup-remote-storage
   Background:
     Given using api version "1"
+
+  Scenario: cleanup remote storage with no storage
+    Given Using server "LOCAL"
+    And user "user0" exists
+    Given Using server "REMOTE"
+    And user "user1" exists
+    # Rename file so it has a unique name in the target server (as the target
+    # server may have its own /textfile0.txt" file)
+    And User "user1" copies file "/textfile0.txt" to "/remote-share.txt"
+    And User "user1" from server "REMOTE" shares "/remote-share.txt" with user "user0" from server "LOCAL"
+    And As an "user1"
+    And Deleting last share
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Deleting last share
+    And Using server "LOCAL"
+    When invoking occ with "sharing:cleanup-remote-storage"
+    Then the command was successful
+    And the command output contains the text "0 remote storage(s) need(s) to be checked"
+    And the command output contains the text "0 remote share(s) exist"
+    And the command output contains the text "no storages deleted"
 
   Scenario: cleanup remote storage with active storages
     Given Using server "LOCAL"

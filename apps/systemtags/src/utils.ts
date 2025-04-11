@@ -1,23 +1,6 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import camelCase from 'camelcase'
@@ -25,6 +8,8 @@ import camelCase from 'camelcase'
 import type { DAVResultResponseProps } from 'webdav'
 
 import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+import type { Node } from '@nextcloud/files'
+import Vue from 'vue'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -62,12 +47,38 @@ export const parseIdFromLocation = (url: string): number => {
 }
 
 export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
-	const tag: any = { ...initialTag }
-	if (tag.name && !tag.displayName) {
-		return tag
+	if ('name' in initialTag && !('displayName' in initialTag)) {
+		return { ...initialTag }
 	}
+
+	const tag: Record<string, unknown> = { ...initialTag }
 	tag.name = tag.displayName
 	delete tag.displayName
 
-	return tag
+	return tag as unknown as ServerTag
+}
+
+export const getNodeSystemTags = function(node: Node): string[] {
+	const attribute = node.attributes?.['system-tags']?.['system-tag']
+	if (attribute === undefined) {
+		return []
+	}
+
+	// if there is only one tag it is a single string or prop object
+	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+	return [attribute]
+		.flat()
+		.map((tag: string|{ text: string }) => (
+			typeof tag === 'string'
+				// its a plain text prop (the tag name) without prop attributes
+				? tag
+				// its a prop object with attributes, the tag name is in the 'text' attribute
+				: tag.text
+		))
+}
+
+export const setNodeSystemTags = function(node: Node, tags: string[]): void {
+	Vue.set(node.attributes, 'system-tags', {
+		'system-tag': tags,
+	})
 }

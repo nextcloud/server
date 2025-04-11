@@ -16,6 +16,7 @@ return array(
     'OCA\\FilesReminders\\Db\\Reminder' => $baseDir . '/../lib/Db/Reminder.php',
     'OCA\\FilesReminders\\Db\\ReminderMapper' => $baseDir . '/../lib/Db/ReminderMapper.php',
     'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => $baseDir . '/../lib/Exception/NodeNotFoundException.php',
+    'OCA\\FilesReminders\\Exception\\ReminderNotFoundException' => $baseDir . '/../lib/Exception/ReminderNotFoundException.php',
     'OCA\\FilesReminders\\Exception\\UserNotFoundException' => $baseDir . '/../lib/Exception/UserNotFoundException.php',
     'OCA\\FilesReminders\\Listener\\LoadAdditionalScriptsListener' => $baseDir . '/../lib/Listener/LoadAdditionalScriptsListener.php',
     'OCA\\FilesReminders\\Listener\\NodeDeletedListener' => $baseDir . '/../lib/Listener/NodeDeletedListener.php',
@@ -25,4 +26,5 @@ return array(
     'OCA\\FilesReminders\\Model\\RichReminder' => $baseDir . '/../lib/Model/RichReminder.php',
     'OCA\\FilesReminders\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\FilesReminders\\Service\\ReminderService' => $baseDir . '/../lib/Service/ReminderService.php',
+    'OCA\\FilesReminders\\SetupChecks\\NeedNotificationsApp' => $baseDir . '/../lib/SetupChecks/NeedNotificationsApp.php',
 );

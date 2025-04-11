@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Hemanth Kumar Veeranki <hems.india1997@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Michael Göhler <somebody.here@gmx.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Setup;
 
@@ -63,7 +41,7 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query = 'select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
-		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
+		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix . 'users']);
 
 		$connection->close();
 		$connection = $this->connect();
@@ -81,7 +59,7 @@ class MySQL extends AbstractDatabase {
 	/**
 	 * @param \OC\DB\Connection $connection
 	 */
-	private function createDatabase($connection) {
+	private function createDatabase($connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
@@ -113,7 +91,7 @@ class MySQL extends AbstractDatabase {
 	 * @param IDBConnection $connection
 	 * @throws \OC\DatabaseSetupException
 	 */
-	private function createDBUser($connection) {
+	private function createDBUser($connection): void {
 		try {
 			$name = $this->dbUser;
 			$password = $this->dbPassword;
@@ -121,15 +99,15 @@ class MySQL extends AbstractDatabase {
 			// the anonymous user would take precedence when there is one.
 
 			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
 			} else {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [
@@ -141,7 +119,7 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param $username
+	 * @param string $username
 	 * @param IDBConnection $connection
 	 */
 	private function createSpecificUser($username, $connection): void {

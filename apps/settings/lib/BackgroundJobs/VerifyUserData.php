@@ -3,33 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Patrik Kernstock <info@pkern.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\BackgroundJobs;
 
@@ -45,7 +20,7 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class VerifyUserData extends Job {
-	/** @var  bool */
+	/** @var bool */
 	private bool $retainJob = true;
 
 	/** @var int max number of attempts to send the request */
@@ -145,9 +120,11 @@ class VerifyUserData extends Job {
 	}
 
 	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
-		if (empty($this->lookupServerUrl) ||
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
-			$this->config->getSystemValue('has_internet_connection', true) === false) {
+		// TODO: Consider to enable for non-global-scale setups by checking 'files_sharing', 'lookupServerUploadEnabled'
+		if (!$this->config->getSystemValueBool('gs.enabled', false)
+			|| empty($this->lookupServerUrl)
+			|| $this->config->getSystemValue('has_internet_connection', true) === false
+		) {
 			return true;
 		}
 

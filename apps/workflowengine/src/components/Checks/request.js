@@ -1,25 +1,9 @@
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { registerCustomElement } from '../../helpers/window.js'
 import RequestUserAgent from './RequestUserAgent.vue'
 import RequestTime from './RequestTime.vue'
 import RequestURL from './RequestURL.vue'
@@ -35,7 +19,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestURL,
+		element: registerCustomElement(RequestURL, 'oca-workflowengine-checks-request_url'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
@@ -44,7 +28,7 @@ const RequestChecks = [
 			{ operator: 'in', name: t('workflowengine', 'between') },
 			{ operator: '!in', name: t('workflowengine', 'not between') },
 		],
-		component: RequestTime,
+		element: registerCustomElement(RequestTime, 'oca-workflowengine-checks-request_time'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
@@ -55,7 +39,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestUserAgent,
+		element: registerCustomElement(RequestUserAgent, 'oca-workflowengine-checks-request_user_agent'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
@@ -64,7 +48,7 @@ const RequestChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') },
 		],
-		component: RequestUserGroup,
+		element: registerCustomElement(RequestUserGroup, 'oca-workflowengine-checks-request_user_group'),
 	},
 ]
 

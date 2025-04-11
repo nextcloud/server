@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jonas Meurer <jonas@freesources.org>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Entity;
 
@@ -53,50 +34,28 @@ use OCP\WorkflowEngine\IRuleMatcher;
 
 class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private const EVENT_NAMESPACE = '\OCP\Files::';
-
-	/** @var IL10N */
-	protected $l10n;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var IRootFolder */
-	protected $root;
 	/** @var string */
 	protected $eventName;
 	/** @var Event */
 	protected $event;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ISystemTagManager */
-	private $tagManager;
 	/** @var ?Node */
 	private $node;
 	/** @var ?IUser */
 	private $actingUser = null;
-	/** @var IUserManager */
-	private $userManager;
 	/** @var UserMountCache */
 	private $userMountCache;
-	/** @var IMountManager */
-	private $mountManager;
 
 	public function __construct(
-		IL10N $l10n,
-		IURLGenerator $urlGenerator,
-		IRootFolder $root,
-		IUserSession $userSession,
-		ISystemTagManager $tagManager,
-		IUserManager $userManager,
+		protected IL10N $l10n,
+		protected IURLGenerator $urlGenerator,
+		protected IRootFolder $root,
+		private IUserSession $userSession,
+		private ISystemTagManager $tagManager,
+		private IUserManager $userManager,
 		UserMountCache $userMountCache,
-		IMountManager $mountManager
+		private IMountManager $mountManager,
 	) {
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->root = $root;
-		$this->userSession = $userSession;
-		$this->tagManager = $tagManager;
-		$this->userManager = $userManager;
 		$this->userMountCache = $userMountCache;
-		$this->mountManager = $mountManager;
 	}
 
 	public function getName(): string {

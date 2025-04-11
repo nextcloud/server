@@ -1,21 +1,8 @@
+
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 (function( $ ) {
@@ -64,9 +51,6 @@
         });
 
         $inpServerUrl.on("change keyup", function (e) {
-
-            console.log("typing away");
-
             var url = $(this).val();
 
             // toggle add-button visibility based on input length
@@ -92,11 +76,14 @@
         OC.msg.startSaving('#ocFederationAddServer .msg');
 
         $.post(
-            OC.generateUrl('/apps/federation/trusted-servers'),
+            OC.getRootPath() + '/ocs/v2.php/apps/federation/trusted-servers',
             {
                 url: url
-            }
-        ).done(function (data) {
+            },
+            null,
+            'json'
+        ).done(function({ ocs }) {
+            var data = ocs.data;
             $("#serverUrl").attr('value', '');
             $("#listOfTrustedServers").prepend(
                 $('<li>')
@@ -108,13 +95,13 @@
             OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
         })
         .fail(function (jqXHR) {
-            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).message);
+            OC.msg.finishedError('#ocFederationAddServer .msg', JSON.parse(jqXHR.responseText).ocs.meta.message);
         });
     };
 
     function removeServer( id ) {
         $.ajax({
-            url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
+            url: OC.getRootPath() + '/ocs/v2.php/apps/federation/trusted-servers/' + id,
             type: 'DELETE',
             success: function(response) {
                 $("#ocFederationSettings").find("#" + id).remove();

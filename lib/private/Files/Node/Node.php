@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Node;
 
@@ -181,7 +158,7 @@ class Node implements INode {
 	public function getStorage() {
 		$storage = $this->getMountPoint()->getStorage();
 		if (!$storage) {
-			throw new \Exception("No storage for node");
+			throw new \Exception('No storage for node');
 		}
 		return $storage;
 	}
@@ -455,11 +432,14 @@ class Node implements INode {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
 		if (
-			$parent instanceof Folder and
-			$this->isValidPath($targetPath) and
-			(
-				$parent->isCreatable() ||
-				($parent->getInternalPath() === '' && $parent->getMountPoint() instanceof MoveableMount)
+			($parent instanceof Folder)
+			&& $this->isValidPath($targetPath)
+			&& (
+				$parent->isCreatable()
+				|| (
+					$parent->getInternalPath() === ''
+					&& ($parent->getMountPoint() instanceof MoveableMount)
+				)
 			)
 		) {
 			$nonExisting = $this->createNonExistingNode($targetPath);

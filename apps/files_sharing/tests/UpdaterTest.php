@@ -1,37 +1,21 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\FileInfo;
+use OC\Files\Filesystem;
+use OC\Files\View;
+use OCA\Files_Sharing\Helper;
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\Constants;
+use OCP\IConfig;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -44,7 +28,7 @@ class UpdaterTest extends TestCase {
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
-		\OCA\Files_Sharing\Helper::registerHooks();
+		Helper::registerHooks();
 	}
 
 	protected function setUp(): void {
@@ -74,27 +58,28 @@ class UpdaterTest extends TestCase {
 	 * points should be unshared before the folder gets deleted so
 	 * that the mount point doesn't end up at the trash bin
 	 */
-	public function testDeleteParentFolder() {
-		$status = \OC::$server->getAppManager()->isEnabledForUser('files_trashbin');
-		(new \OC_App())->enable('files_trashbin');
+	public function testDeleteParentFolder(): void {
+		$appManager = Server::get(IAppManager::class);
+		$status = $appManager->isEnabledForUser('files_trashbin');
+		$appManager->enableApp('files_trashbin');
 
 		// register trashbin hooks
 		$trashbinApp = new Application();
 		$trashbinApp->boot($this->createMock(IBootContext::class));
 
-		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);
+		$fileinfo = Filesystem::getFileInfo($this->folder);
+		$this->assertTrue($fileinfo instanceof FileInfo);
 
 		$this->share(
 			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		// check if user2 can see the shared folder
 		$this->assertTrue($view->file_exists($this->folder));
@@ -109,7 +94,7 @@ class UpdaterTest extends TestCase {
 
 		// share mount point should now be moved to the subfolder
 		$this->assertFalse($view->file_exists($this->folder));
-		$this->assertTrue($view->file_exists('localFolder/' .$this->folder));
+		$this->assertTrue($view->file_exists('localFolder/' . $this->folder));
 
 		$view->unlink('localFolder');
 
@@ -120,7 +105,7 @@ class UpdaterTest extends TestCase {
 		$this->assertCount(0, $foldersShared);
 
 		// trashbin should contain the local file but not the mount point
-		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
+		$rootView = new View('/' . self::TEST_FILES_SHARING_API_USER2);
 		$trashContent = \OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_FILES_SHARING_API_USER2);
 		$this->assertSame(1, count($trashContent));
 		$firstElement = reset($trashContent);
@@ -132,10 +117,10 @@ class UpdaterTest extends TestCase {
 		$rootView->deleteAll('files_trashin');
 
 		if ($status === false) {
-			\OC::$server->getAppManager()->disableApp('files_trashbin');
+			$appManager->disableApp('files_trashbin');
 		}
 
-		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
 	public function shareFolderProvider() {
@@ -152,19 +137,19 @@ class UpdaterTest extends TestCase {
 	 *
 	 * @param string $shareFolder share folder to use
 	 */
-	public function testShareFile($shareFolder) {
-		$config = \OC::$server->getConfig();
+	public function testShareFile($shareFolder): void {
+		$config = Server::get(IConfig::class);
 		$oldShareFolder = $config->getSystemValue('share_folder');
 		$config->setSystemValue('share_folder', $shareFolder);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$beforeShareRoot = \OC\Files\Filesystem::getFileInfo('');
+		$beforeShareRoot = Filesystem::getFileInfo('');
 		$etagBeforeShareRoot = $beforeShareRoot->getEtag();
 
-		\OC\Files\Filesystem::mkdir($shareFolder);
+		Filesystem::mkdir($shareFolder);
 
-		$beforeShareDir = \OC\Files\Filesystem::getFileInfo($shareFolder);
+		$beforeShareDir = Filesystem::getFileInfo($shareFolder);
 		$etagBeforeShareDir = $beforeShareDir->getEtag();
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -174,15 +159,15 @@ class UpdaterTest extends TestCase {
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$afterShareRoot = \OC\Files\Filesystem::getFileInfo('');
+		$afterShareRoot = Filesystem::getFileInfo('');
 		$etagAfterShareRoot = $afterShareRoot->getEtag();
 
-		$afterShareDir = \OC\Files\Filesystem::getFileInfo($shareFolder);
+		$afterShareDir = Filesystem::getFileInfo($shareFolder);
 		$etagAfterShareDir = $afterShareDir->getEtag();
 
 		$this->assertTrue(is_string($etagBeforeShareRoot));
@@ -202,37 +187,37 @@ class UpdaterTest extends TestCase {
 	/**
 	 * if a folder gets renamed all children mount points should be renamed too
 	 */
-	public function testRename() {
-		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
+	public function testRename(): void {
+		$fileinfo = Filesystem::getFileInfo($this->folder);
 
 		$share = $this->share(
 			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// make sure that the shared folder exists
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
+		$this->assertTrue(Filesystem::file_exists($this->folder));
 
-		\OC\Files\Filesystem::mkdir('oldTarget');
-		\OC\Files\Filesystem::mkdir('oldTarget/subfolder');
-		\OC\Files\Filesystem::mkdir('newTarget');
+		Filesystem::mkdir('oldTarget');
+		Filesystem::mkdir('oldTarget/subfolder');
+		Filesystem::mkdir('newTarget');
 
-		\OC\Files\Filesystem::rename($this->folder, 'oldTarget/subfolder/' . $this->folder);
-
-		// re-login to make sure that the new mount points are initialized
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		\OC\Files\Filesystem::rename('/oldTarget', '/newTarget/oldTarget');
+		Filesystem::rename($this->folder, 'oldTarget/subfolder/' . $this->folder);
 
 		// re-login to make sure that the new mount points are initialized
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('/newTarget/oldTarget/subfolder/' . $this->folder));
+		Filesystem::rename('/oldTarget', '/newTarget/oldTarget');
+
+		// re-login to make sure that the new mount points are initialized
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue(Filesystem::file_exists('/newTarget/oldTarget/subfolder/' . $this->folder));
 
 		// cleanup
 		$this->shareManager->deleteShare($share);
@@ -249,11 +234,11 @@ class UpdaterTest extends TestCase {
 	 * 	  |-subfolder2
 	 * 	    |-file2.txt --> shared with user3
 	 */
-	public function testMovedIntoShareChangeOwner() {
+	public function testMovedIntoShareChangeOwner(): void {
 		$this->markTestSkipped('Skipped because this is failing with S3 as primary as file id are change when moved.');
 
 		// user1 creates folder1
-		$viewUser1 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$viewUser1 = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$folder1 = 'folder1';
 		$viewUser1->mkdir($folder1);
 
@@ -263,11 +248,11 @@ class UpdaterTest extends TestCase {
 			$folder1,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_SHARE
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$viewUser2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$viewUser2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		// Create user2 files
 		$folder2 = 'folder2';
 		$viewUser2->mkdir($folder2);
@@ -286,7 +271,7 @@ class UpdaterTest extends TestCase {
 			$folder2,
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		// user2 shares folder2/file1 to user3
 		$file1Share = $this->share(
@@ -294,7 +279,7 @@ class UpdaterTest extends TestCase {
 			$file1,
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_SHARE
 		);
 		// user2 shares subfolder1 to user3
 		$subfolder1Share = $this->share(
@@ -302,7 +287,7 @@ class UpdaterTest extends TestCase {
 			$subfolder1,
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		// user2 shares subfolder2/file2.txt to user3
 		$file2Share = $this->share(
@@ -310,11 +295,11 @@ class UpdaterTest extends TestCase {
 			$file2,
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER3,
-			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE
+			Constants::PERMISSION_READ | Constants::PERMISSION_SHARE
 		);
 
 		// user2 moves folder2 into folder1
-		$viewUser2->rename($folder2, $folder1.'/'.$folder2);
+		$viewUser2->rename($folder2, $folder1 . '/' . $folder2);
 		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
 		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
 		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());
@@ -326,13 +311,13 @@ class UpdaterTest extends TestCase {
 		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $subfolder1Share->getShareOwner());
 		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $file2Share->getShareOwner());
 		// Expect permissions to be limited by the permissions of the destination share
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file1Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file2Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $file1Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $file2Share->getPermissions());
 
 		// user2 moves folder2 out of folder1
-		$viewUser2->rename($folder1.'/'.$folder2, $folder2);
+		$viewUser2->rename($folder1 . '/' . $folder2, $folder2);
 		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
 		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
 		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());
@@ -344,10 +329,10 @@ class UpdaterTest extends TestCase {
 		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $subfolder1Share->getShareOwner());
 		$this->assertEquals(self::TEST_FILES_SHARING_API_USER2, $file2Share->getShareOwner());
 		// Expect permissions to not change
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file1Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file2Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $folder2Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $file1Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $subfolder1Share->getPermissions());
+		$this->assertEquals(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, $file2Share->getPermissions());
 
 		// cleanup
 		$this->shareManager->deleteShare($folder1Share);

@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_external</id>
@@ -9,7 +14,7 @@ This application enables administrators to configure connections to external sto
 
 External storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation.
 	</description>
-	<version>1.22.0</version>
+	<version>1.24.0</version>
 	<licence>agpl</licence>
 	<author>Robin Appelman</author>
 	<author>Michael Gapczynski</author>
@@ -28,7 +33,7 @@ External storage can be configured using the GUI or at the command line. This se
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 
 	<background-jobs>

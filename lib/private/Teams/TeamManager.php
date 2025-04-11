@@ -1,23 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2024 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Teams;
@@ -52,6 +36,10 @@ class TeamManager implements ITeamManager {
 	}
 
 	public function getProviders(): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		if ($this->providers !== null) {
 			return $this->providers;
 		}
@@ -74,10 +62,14 @@ class TeamManager implements ITeamManager {
 			return $providers[$providerId];
 		}
 
-		throw new \RuntimeException('No provider found for id ' .$providerId);
+		throw new \RuntimeException('No provider found for id ' . $providerId);
 	}
 
 	public function getSharedWith(string $teamId, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		if ($this->getTeam($teamId, $userId) === null) {
 			return [];
 		}
@@ -88,10 +80,14 @@ class TeamManager implements ITeamManager {
 			array_push($resources, ...$provider->getSharedWith($teamId));
 		}
 
-		return $resources;
+		return array_values($resources);
 	}
 
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		$provider = $this->getProvider($providerId);
 		return array_values(array_filter(array_map(function ($teamId) use ($userId) {
 			$team = $this->getTeam($teamId, $userId);
@@ -108,6 +104,10 @@ class TeamManager implements ITeamManager {
 	}
 
 	private function getTeam(string $teamId, string $userId): ?Circle {
+		if (!$this->hasTeamSupport()) {
+			return null;
+		}
+
 		try {
 			$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 			$this->circlesManager->startSession($federatedUser);

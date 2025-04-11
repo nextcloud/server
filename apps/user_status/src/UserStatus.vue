@@ -1,58 +1,47 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<component :is="inline ? 'div' : 'li'">
-		<!-- User Status = Status modal toggle -->
-		<button v-if="!inline"
+	<Fragment>
+		<NcListItem v-if="!inline"
 			class="user-status-menu-item"
-			@click.stop="openModal">
-			<NcUserStatusIcon class="user-status-icon"
-				:status="statusType"
-				aria-hidden="true" />
-			{{ visibleMessage }}
-		</button>
-
-		<!-- Dashboard Status -->
-		<NcButton v-else
+			compact
+			:name="visibleMessage"
 			@click.stop="openModal">
 			<template #icon>
 				<NcUserStatusIcon class="user-status-icon"
 					:status="statusType"
 					aria-hidden="true" />
 			</template>
-			{{ visibleMessage }}
-		</NcButton>
+		</NcListItem>
 
+		<div v-else>
+			<!-- Dashboard Status -->
+			<NcButton @click.stop="openModal">
+				<template #icon>
+					<NcUserStatusIcon class="user-status-icon"
+						:status="statusType"
+						aria-hidden="true" />
+				</template>
+				{{ visibleMessage }}
+			</NcButton>
+		</div>
 		<!-- Status management modal -->
 		<SetStatusModal v-if="isModalOpen"
 			:inline="inline"
 			@close="closeModal" />
-	</component>
+	</Fragment>
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+import { Fragment } from 'vue-frag'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService.js'
@@ -62,7 +51,9 @@ export default {
 	name: 'UserStatus',
 
 	components: {
+		Fragment,
 		NcButton,
+		NcListItem,
 		NcUserStatusIcon,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
@@ -169,7 +160,7 @@ export default {
 			}
 		},
 		handleUserStatusUpdated(state) {
-			if (OC.getCurrentUser().uid === state.userId) {
+			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {
 					status: state.status,
 					icon: state.icon,
@@ -182,40 +173,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-status-menu-item {
-	// Ensure the maxcontrast color is set for the background
-	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
-	width: auto;
-	min-width: 44px;
-	height: 44px;
-	margin: 0;
-	border: 0;
-	border-radius: var(--border-radius-pill);
-	background-color: var(--color-main-background-blur);
-	font-size: inherit;
-	font-weight: normal;
-
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
-
-	&:active,
-	&:hover,
-	&:focus-visible {
-		background-color: var(--color-background-hover);
-	}
-	&:focus-visible {
-		box-shadow: 0 0 0 4px var(--color-main-background) !important;
-		outline: 2px solid var(--color-main-text) !important;
-	}
-}
-
 .user-status-icon {
-	width: 16px;
-	height: 16px;
-	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+	margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
 	opacity: 1 !important;
-	background-size: 16px;
+	background-size: 20px;
 	vertical-align: middle !important;
 }
 </style>

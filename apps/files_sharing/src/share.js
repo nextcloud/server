@@ -1,41 +1,13 @@
 /**
- * Copyright (c) 2014
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Michael Jobst <mjobst+github@tecratech.de>
- * @author Michael Jobst <mjobst@necls.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Samuel <faust64@gmail.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /* eslint-disable */
 import escapeHTML from 'escape-html'
 
-import { Type as ShareTypes } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import { getCapabilities } from '@nextcloud/capabilities'
 
 (function() {
@@ -183,25 +155,23 @@ import { getCapabilities } from '@nextcloud/capabilities'
 						var hasShares = false
 						_.each(shareTypesStr.split(',') || [], function(shareTypeStr) {
 							let shareType = parseInt(shareTypeStr, 10)
-							if (shareType === ShareTypes.SHARE_TYPE_LINK) {
+							if (shareType === ShareType.Link) {
 								hasLink = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_EMAIL) {
+							} else if (shareType === ShareType.Email) {
 								hasLink = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_USER) {
+							} else if (shareType === ShareType.User) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_GROUP) {
+							} else if (shareType === ShareType.Group) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE) {
+							} else if (shareType === ShareType.Remote) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_REMOTE_GROUP) {
+							} else if (shareType === ShareType.RemoteGroup) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_CIRCLE) {
+							} else if (shareType === ShareType.Team) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_ROOM) {
+							} else if (shareType === ShareType.Room) {
 								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_DECK) {
-								hasShares = true
-							} else if (shareType === ShareTypes.SHARE_TYPE_SCIENCEMESH) {
+							} else if (shareType === ShareType.Deck) {
 								hasShares = true
 							}
 						})
@@ -232,8 +202,8 @@ import { getCapabilities } from '@nextcloud/capabilities'
 				permissions: OC.PERMISSION_ALL,
 				iconClass: function(fileName, context) {
 					var shareType = parseInt(context.$file.data('share-types'), 10)
-					if (shareType === ShareTypes.SHARE_TYPE_EMAIL
-						|| shareType === ShareTypes.SHARE_TYPE_LINK) {
+					if (shareType === ShareType.Email
+						|| shareType === ShareType.Link) {
 						return 'icon-public'
 					}
 					return 'icon-shared'

@@ -3,31 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\Authentication\Token\IToken;
+use OCP\DB\Types;
 
 /**
  * @method void setId(int $id)
@@ -106,16 +89,16 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('passwordHash', 'string');
 		$this->addType('name', 'string');
 		$this->addType('token', 'string');
-		$this->addType('type', 'int');
-		$this->addType('remember', 'int');
-		$this->addType('lastActivity', 'int');
-		$this->addType('lastCheck', 'int');
+		$this->addType('type', Types::INTEGER);
+		$this->addType('remember', Types::INTEGER);
+		$this->addType('lastActivity', Types::INTEGER);
+		$this->addType('lastCheck', Types::INTEGER);
 		$this->addType('scope', 'string');
-		$this->addType('expires', 'int');
+		$this->addType('expires', Types::INTEGER);
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
-		$this->addType('version', 'int');
-		$this->addType('passwordInvalid', 'bool');
+		$this->addType('version', Types::INTEGER);
+		$this->addType('passwordInvalid', Types::BOOLEAN);
 	}
 
 	public function getId(): int {
@@ -181,7 +164,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem' => true
+				IToken::SCOPE_FILESYSTEM => true
 			];
 		}
 		return $scope;

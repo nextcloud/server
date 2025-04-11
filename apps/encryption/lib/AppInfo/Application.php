@@ -1,89 +1,98 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\AppInfo;
 
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\HookManager;
-use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
-use OCA\Encryption\Recovery;
+use OCA\Encryption\Listeners\UserEventsListener;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IUserSession;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
+use OCP\User\Events\UserLoggedOutEvent;
 use Psr\Log\LoggerInterface;
 
-class Application extends \OCP\AppFramework\App {
-	/**
-	 * @param array $urlParams
-	 */
-	public function __construct($urlParams = []) {
-		parent::__construct('encryption', $urlParams);
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'encryption';
+
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
+	}
+
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		\OCP\Util::addScript(self::APP_ID, 'encryption');
+
+		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
+			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
+				return;
+			}
+
+			if (!$encryptionManager->isReady()) {
+				return;
+			}
+
+			$context->injectFn($this->registerEncryptionModule(...));
+			$context->injectFn($this->registerEventListeners(...));
+			$context->injectFn($this->setUp(...));
+		});
 	}
 
 	public function setUp(IManager $encryptionManager) {
 		if ($encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
-			$setup = $this->getContainer()->query(Setup::class);
+			$setup = $this->getContainer()->get(Setup::class);
 			$setup->setupSystem();
 		}
 	}
 
-	/**
-	 * register hooks
-	 */
-	public function registerHooks(IConfig $config) {
-		if (!$config->getSystemValueBool('maintenance')) {
-			$container = $this->getContainer();
-			$server = $container->getServer();
-			// Register our hooks and fire them.
-			$hookManager = new HookManager();
-
-			$hookManager->registerHook([
-				new UserHooks($container->query(KeyManager::class),
-					$server->getUserManager(),
-					$server->get(LoggerInterface::class),
-					$container->query(Setup::class),
-					$server->getUserSession(),
-					$container->query(Util::class),
-					$container->query(Session::class),
-					$container->query(Crypt::class),
-					$container->query(Recovery::class))
-			]);
-
-			$hookManager->fireHooks();
-		} else {
-			// Logout user if we are in maintenance to force re-login
-			$this->getContainer()->getServer()->getUserSession()->logout();
+	public function registerEventListeners(IConfig $config, IEventDispatcher $eventDispatcher, IManager $encryptionManager): void {
+		if (!$encryptionManager->isEnabled()) {
+			return;
 		}
+
+		if ($config->getSystemValueBool('maintenance')) {
+			// Logout user if we are in maintenance to force re-login
+			$this->getContainer()->get(IUserSession::class)->logout();
+			return;
+		}
+
+		// No maintenance so register all events
+		$eventDispatcher->addServiceListener(UserCreatedEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(BeforePasswordUpdatedEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(PasswordUpdatedEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(BeforePasswordResetEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(PasswordResetEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedOutEvent::class, UserEventsListener::class);
 	}
 
 	public function registerEncryptionModule(IManager $encryptionManager) {
@@ -94,14 +103,14 @@ class Application extends \OCP\AppFramework\App {
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
 				return new Encryption(
-					$container->query(Crypt::class),
-					$container->query(KeyManager::class),
-					$container->query(Util::class),
-					$container->query(Session::class),
-					$container->query(EncryptAll::class),
-					$container->query(DecryptAll::class),
-					$container->getServer()->get(LoggerInterface::class),
-					$container->getServer()->getL10N($container->getAppName())
+					$container->get(Crypt::class),
+					$container->get(KeyManager::class),
+					$container->get(Util::class),
+					$container->get(Session::class),
+					$container->get(EncryptAll::class),
+					$container->get(DecryptAll::class),
+					$container->get(LoggerInterface::class),
+					$container->get(IL10N::class),
 				);
 			});
 	}

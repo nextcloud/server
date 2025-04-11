@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2015 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -38,7 +23,7 @@ class StreamResponseTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testOutputNotModified() {
+	public function testOutputNotModified(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -50,7 +35,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputOk() {
+	public function testOutputOk(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -64,7 +49,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputNotFound() {
+	public function testOutputNotFound(): void {
 		$path = __FILE__ . 'test';
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
@@ -79,7 +64,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$response->callback($this->output);
 	}
 
-	public function testOutputReadFileError() {
+	public function testOutputReadFileError(): void {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')

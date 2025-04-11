@@ -1,31 +1,19 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\View;
+use OCA\Files_Sharing\Helper;
+use OCP\IUserSession;
+use OCP\Server;
+
 abstract class PropagationTestCase extends TestCase {
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $rootView;
 	protected $fileIds = []; // [$user=>[$path=>$id]]
@@ -33,7 +21,7 @@ abstract class PropagationTestCase extends TestCase {
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
-		\OCA\Files_Sharing\Helper::registerHooks();
+		Helper::registerHooks();
 	}
 
 	protected function setUp(): void {
@@ -56,7 +44,7 @@ abstract class PropagationTestCase extends TestCase {
 	 * @param string $subPath
 	 */
 	protected function assertEtagsChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
+		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
 			$id = $this->fileIds[$user][$subPath];
@@ -73,7 +61,7 @@ abstract class PropagationTestCase extends TestCase {
 	 * @param string $subPath
 	 */
 	protected function assertEtagsNotChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
+		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
 			$id = $this->fileIds[$user][$subPath];

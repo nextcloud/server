@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\DependencyInjection;
 
@@ -37,6 +10,7 @@ use OC;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
+use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
@@ -50,6 +24,7 @@ use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Manager as UserManager;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
@@ -63,9 +38,9 @@ use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -73,6 +48,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -112,11 +88,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->server->registerAppContainer($appName, $this);
 
 		// aliases
-		/** @deprecated inject $appName */
+		/** @deprecated 26.0.0 inject $appName */
 		$this->registerAlias('AppName', 'appName');
-		/** @deprecated inject $webRoot*/
+		/** @deprecated 26.0.0 inject $webRoot*/
 		$this->registerAlias('WebRoot', 'webRoot');
-		/** @deprecated inject $userId */
+		/** @deprecated 26.0.0 inject $userId */
 		$this->registerAlias('UserId', 'userId');
 
 		/**
@@ -144,9 +120,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(PsrLoggerAdapter::class),
 				$c->get('AppName')
 			);
-		});
-		$this->registerService(ILogger::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->get('AppName'));
 		});
 
 		$this->registerService(IServerContainer::class, function () {
@@ -234,7 +207,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(IThrottler::class)
+					$c->get(IThrottler::class),
+					$c->get(LoggerInterface::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -243,7 +217,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 
-
+			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
@@ -253,19 +227,19 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->get(LoggerInterface::class),
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
-				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
-				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
+				$c->get(IGroupManager::class),
+				$c->get(ISubAdmin::class),
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
-				$server->get(IUserSession::class)
+				$server->get(IUserSession::class),
+				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\CSPMiddleware(
 					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
 					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -276,7 +250,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IControllerMethodReflector::class),
 					$c->get(ISession::class),
 					$c->get(IUserSession::class),
-					$c->get(ITimeFactory::class)
+					$c->get(ITimeFactory::class),
+					$c->get(\OC\Authentication\Token\IProvider::class),
+					$c->get(LoggerInterface::class),
+					$c->get(IRequest::class),
+					$c->get(UserManager::class),
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -297,20 +275,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(LoggerInterface::class)
 				)
 			);
-			$dispatcher->registerMiddleware(
-				new RateLimitingMiddleware(
-					$c->get(IRequest::class),
-					$c->get(IUserSession::class),
-					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\RateLimiting\Limiter::class),
-					$c->get(ISession::class)
-				)
-			);
+			$dispatcher->registerMiddleware($c->get(RateLimitingMiddleware::class));
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class),
+					$c->get(IConfig::class),
 					$c->get(IThrottler::class)
 				)
 			);
@@ -385,7 +355,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	/**
-	 * @deprecated use IUserSession->isLoggedIn()
+	 * @deprecated 12.0.0 use IUserSession->isLoggedIn()
 	 * @return boolean
 	 */
 	public function isLoggedIn() {
@@ -393,7 +363,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	/**
-	 * @deprecated use IGroupManager->isAdmin($userId)
+	 * @deprecated 12.0.0 use IGroupManager->isAdmin($userId)
 	 * @return boolean
 	 */
 	public function isAdminUser() {

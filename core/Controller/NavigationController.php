@@ -1,31 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
@@ -46,17 +30,16 @@ class NavigationController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the apps navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
-	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
 	 *
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/apps', root: '/core')]
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
@@ -74,17 +57,16 @@ class NavigationController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the settings navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
-	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
 	 *
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/settings', root: '/core')]
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');

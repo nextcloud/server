@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Profile;
@@ -83,6 +66,7 @@ class ProfileManager implements IProfileManager {
 		IAccountManager::PROPERTY_HEADLINE,
 		IAccountManager::PROPERTY_ORGANISATION,
 		IAccountManager::PROPERTY_ROLE,
+		IAccountManager::PROPERTY_PRONOUNS,
 	];
 
 	public function __construct(
@@ -110,7 +94,7 @@ class ProfileManager implements IProfileManager {
 		}
 
 		$account = $this->accountManager->getAccount($user);
-		return (bool) filter_var(
+		return (bool)filter_var(
 			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
 			FILTER_VALIDATE_BOOLEAN,
 			FILTER_NULL_ON_FAILURE,
@@ -239,7 +223,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
-	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
+	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, pronouns?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
 	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
@@ -258,6 +242,7 @@ class ProfileManager implements IProfileManager {
 				case IAccountManager::PROPERTY_HEADLINE:
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
+				case IAccountManager::PROPERTY_PRONOUNS:
 					$profileParameters[$property] =
 						$this->isProfileFieldVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
@@ -415,6 +400,10 @@ class ProfileManager implements IProfileManager {
 			IAccountManager::PROPERTY_ROLE => [
 				'appId' => self::CORE_APP_ID,
 				'displayId' => $this->l10nFactory->get('lib')->t('Role'),
+			],
+			IAccountManager::PROPERTY_PRONOUNS => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get('lib')->t('Pronouns'),
 			],
 		];
 

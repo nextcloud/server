@@ -3,30 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP\Activity;
 
@@ -139,7 +121,7 @@ interface IEvent {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $subject
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 11.0.0
@@ -154,7 +136,7 @@ interface IEvent {
 	public function getRichSubject(): string;
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters(): array;
@@ -205,7 +187,7 @@ interface IEvent {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $message
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
@@ -220,7 +202,7 @@ interface IEvent {
 	public function getRichMessage(): string;
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters(): array;
@@ -328,6 +310,10 @@ interface IEvent {
 	public function getLink(): string;
 
 	/**
+	 * Set the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @param string $icon
 	 * @return $this
 	 * @throws InvalidValueException if the icon is invalid
@@ -337,6 +323,10 @@ interface IEvent {
 	public function setIcon(string $icon): self;
 
 	/**
+	 * Get the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @return string
 	 * @since 11.0.0
 	 */

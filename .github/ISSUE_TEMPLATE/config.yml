@@ -1,5 +1,9 @@
-blank_issues_enabled: false
+# SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 contact_links:
+    - name: 🚨 Report a security or privacy issue
+      url: https://hackerone.com/nextcloud
+      about: Report security and privacy related issues privately to the Nextcloud team, so we can coordinate the fix and release without potentially exposing all Nextcloud servers and users in the meantime.
     - name: ❓ Community Support and Help
       url: https://help.nextcloud.com/
       about: Configuration, webserver/proxy or performance issues and other questions

@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -48,7 +47,7 @@ class SetupTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testGetSupportedDatabasesWithOneWorking() {
+	public function testGetSupportedDatabasesWithOneWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -71,7 +70,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function testGetSupportedDatabasesWithNoWorking() {
+	public function testGetSupportedDatabasesWithNoWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -91,7 +90,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame([], $result);
 	}
 
-	public function testGetSupportedDatabasesWithAllWorking() {
+	public function testGetSupportedDatabasesWithAllWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -117,7 +116,7 @@ class SetupTest extends \Test\TestCase {
 	}
 
 
-	public function testGetSupportedDatabaseException() {
+	public function testGetSupportedDatabaseException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Supported databases are not properly configured.');
 
@@ -133,7 +132,7 @@ class SetupTest extends \Test\TestCase {
 	 * @param $url
 	 * @param $expected
 	 */
-	public function testFindWebRootCli($url, $expected) {
+	public function testFindWebRootCli($url, $expected): void {
 		$cliState = \OC::$CLI;
 
 		$this->config

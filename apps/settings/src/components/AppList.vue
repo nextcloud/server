@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div id="app-content-inner">
@@ -157,9 +140,12 @@
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import AppItem from './AppList/AppItem.vue'
 import pLimit from 'p-limit'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import AppItem from './AppList/AppItem.vue'
+import AppManagement from '../mixins/AppManagement'
+import { useAppApiStore } from '../store/app-api-store'
+import { useAppsStore } from '../store/apps-store'
 
 export default {
 	name: 'AppList',
@@ -168,11 +154,23 @@ export default {
 		NcButton,
 	},
 
+	mixins: [AppManagement],
+
 	props: {
 		category: {
 			type: String,
 			required: true,
 		},
+	},
+
+	setup() {
+		const appApiStore = useAppApiStore()
+		const store = useAppsStore()
+
+		return {
+			appApiStore,
+			store,
+		}
 	},
 
 	data() {
@@ -185,7 +183,10 @@ export default {
 			return this.apps.filter(app => app.update).length
 		},
 		loading() {
-			return this.$store.getters.loading('list')
+			if (!this.$store.getters['appApiApps/isAppApiEnabled']) {
+				return this.$store.getters.loading('list')
+			}
+			return this.$store.getters.loading('list') || this.appApiStore.getLoading('list')
 		},
 		hasPendingUpdate() {
 			return this.apps.filter(app => app.update).length > 0
@@ -194,7 +195,9 @@ export default {
 			return this.hasPendingUpdate && this.useListView
 		},
 		apps() {
-			const apps = this.$store.getters.getAllApps
+			// Exclude ExApps from the list if AppAPI is disabled
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			const apps = [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
 					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name
@@ -247,7 +250,8 @@ export default {
 			if (this.search === '') {
 				return []
 			}
-			return this.$store.getters.getAllApps
+			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
+			return [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => {
 					if (app.name.toLowerCase().search(this.search.toLowerCase()) !== -1) {
 						return (!this.apps.find(_app => _app.id === app.id))
@@ -321,8 +325,9 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
-				)
+				.map((app) => limit(() => {
+					this.update(app.id)
+				}))
 		},
 	},
 }
@@ -343,14 +348,14 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	#app-list-update-all {
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 
 	&__toolbar {
 		height: $toolbar-height;
 		padding: $toolbar-padding;
 		// Leave room for app-navigation-toggle
-		padding-left: $toolbar-height;
+		padding-inline-start: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
 		position: sticky;
@@ -378,11 +383,13 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	&__bundle-heading {
 		display: flex;
 		align-items: center;
-		margin: 20px 10px 20px 0;
+		margin-block: 20px;
+		margin-inline: 0 10px;
 	}
 
 	&__bundle-header {
-		margin: 0 10px 0 50px;
+		margin-block: 0;
+		margin-inline: 50px 10px;
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 30px;

@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Archive;
 
@@ -50,7 +26,7 @@ class ZIP extends Archive {
 		$this->zip = new \ZipArchive();
 		if ($this->zip->open($source, \ZipArchive::CREATE)) {
 		} else {
-			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive '.$source, ['app' => 'files_archive']);
+			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive ' . $source, ['app' => 'files_archive']);
 		}
 	}
 
@@ -193,15 +169,15 @@ class ZIP extends Archive {
 	 * check if a file or folder exists in the archive
 	 */
 	public function fileExists(string $path): bool {
-		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path.'/') !== false);
+		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path . '/') !== false);
 	}
 
 	/**
 	 * remove a file or folder from the archive
 	 */
 	public function remove(string $path): bool {
-		if ($this->fileExists($path.'/')) {
-			return $this->zip->deleteName($path.'/');
+		if ($this->fileExists($path . '/')) {
+			return $this->zip->deleteName($path . '/');
 		} else {
 			return $this->zip->deleteName($path);
 		}

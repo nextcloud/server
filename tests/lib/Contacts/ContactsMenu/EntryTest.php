@@ -1,25 +1,8 @@
 <?php
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Contacts\ContactsMenu;
@@ -37,25 +20,25 @@ class EntryTest extends TestCase {
 		$this->entry = new Entry();
 	}
 
-	public function testSetId() {
+	public function testSetId(): void {
 		$this->entry->setId(123);
 		$this->addToAssertionCount(1);
 	}
 
-	public function testSetGetFullName() {
+	public function testSetGetFullName(): void {
 		$fn = 'Danette Chaille';
 		$this->assertEquals('', $this->entry->getFullName());
 		$this->entry->setFullName($fn);
 		$this->assertEquals($fn, $this->entry->getFullName());
 	}
 
-	public function testAddGetEMailAddresses() {
+	public function testAddGetEMailAddresses(): void {
 		$this->assertEmpty($this->entry->getEMailAddresses());
 		$this->entry->addEMailAddress('user@example.com');
 		$this->assertEquals(['user@example.com'], $this->entry->getEMailAddresses());
 	}
 
-	public function testAddAndSortAction() {
+	public function testAddAndSortAction(): void {
 		// Three actions, two with equal priority
 		$action1 = new LinkAction();
 		$action2 = new LinkAction();
@@ -79,7 +62,7 @@ class EntryTest extends TestCase {
 		$this->assertSame($action2, $sorted[2]);
 	}
 
-	public function testSetGetProperties() {
+	public function testSetGetProperties(): void {
 		$props = [
 			'prop1' => 123,
 			'prop2' => 'string',
@@ -92,7 +75,7 @@ class EntryTest extends TestCase {
 		$this->assertEquals('string', $this->entry->getProperty('prop2'));
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$expectedJson = [
 			'id' => '123',
 			'fullName' => 'Guadalupe Frisbey',

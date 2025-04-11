@@ -1,40 +1,22 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\SystemTag;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
  * Class MapperEvent
  *
  * @since 9.0.0
  */
-class MapperEvent extends Event {
+class MapperEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 9.0.0
 	 * @deprecated 22.0.0
@@ -102,5 +84,18 @@ class MapperEvent extends Event {
 	 */
 	public function getTags(): array {
 		return $this->tags;
+	}
+
+	/**
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function getWebhookSerializable(): array {
+		return [
+			'eventType' => $this->getEvent(),
+			'objectType' => $this->getObjectType(),
+			'objectId' => $this->getObjectId(),
+			'tagIds' => $this->getTags(),
+		];
 	}
 }

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: sharing
   Background:
     Given using api version "1"
@@ -228,6 +230,24 @@ Feature: sharing
       | displayname_owner | user0 |
       | url | AN_URL |
       | mimetype | httpd/unix-directory |
+
+  Scenario: Creating a new share with expiration date removed, when default expiration is set
+    Given user "user0" exists
+    And user "user1" exists
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+      | expireDate | |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration ||
 
   Scenario: Creating a new public share, updating its password and getting its info
     Given user "user0" exists

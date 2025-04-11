@@ -1,31 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
 use OCA\Comments\AppInfo\Application;
 use OCA\Comments\Notification\Notifier;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -38,16 +24,16 @@ use Test\TestCase;
 class ApplicationTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
-		\OC::$server->getUserManager()->createUser('dummy', '456');
-		\OC::$server->getUserSession()->setUser(\OC::$server->getUserManager()->get('dummy'));
+		Server::get(IUserManager::class)->createUser('dummy', '456');
+		Server::get(IUserSession::class)->setUser(Server::get(IUserManager::class)->get('dummy'));
 	}
 
 	protected function tearDown(): void {
-		\OC::$server->getUserManager()->get('dummy')->delete();
+		Server::get(IUserManager::class)->get('dummy')->delete();
 		parent::tearDown();
 	}
 
-	public function test() {
+	public function test(): void {
 		$app = new Application();
 		$c = $app->getContainer();
 

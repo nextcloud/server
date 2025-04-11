@@ -1,29 +1,12 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr class="files-list__row-head">
 		<th class="files-list__column files-list__row-checkbox"
 			@keyup.esc.exact="resetSelection">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch v-bind="selectAllBind" data-cy-files-list-selection-checkbox @update:checked="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -71,16 +54,21 @@
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types.ts'
+
 import { translate as t } from '@nextcloud/l10n'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import { defineComponent, type PropType } from 'vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { defineComponent } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { useFilesStore } from '../store/files.ts'
+import { useNavigation } from '../composables/useNavigation'
 import { useSelectionStore } from '../store/selection.ts'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
-import logger from '../logger.js'
-import type { Node } from '@nextcloud/files'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
@@ -116,17 +104,17 @@ export default defineComponent({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const { currentView } = useNavigation()
+
 		return {
 			filesStore,
 			selectionStore,
+
+			currentView,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		columns() {
 			// Hide columns if the list is too small
 			if (this.filesListWidth < 512) {
@@ -167,8 +155,23 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		// ctrl+a selects all
+		useHotKey('a', this.onToggleAll, {
+			ctrl: true,
+			stop: true,
+			prevent: true,
+		})
+
+		// Escape key cancels selection
+		useHotKey('Escape', this.resetSelection, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	methods: {
-		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+		ariaSortForMode(mode: string): 'ascending'|'descending'|null {
 			if (this.sortingMode === mode) {
 				return this.isAscSorting ? 'ascending' : 'descending'
 			}
@@ -184,9 +187,9 @@ export default defineComponent({
 			}
 		},
 
-		onToggleAll(selected) {
+		onToggleAll(selected = true) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.fileid).filter(Boolean) as number[]
+				const selection = this.nodes.map(node => node.source).filter(Boolean) as FileSource[]
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)
@@ -197,6 +200,9 @@ export default defineComponent({
 		},
 
 		resetSelection() {
+			if (this.isNoneSelected) {
+				return
+			}
 			this.selectionStore.reset()
 		},
 

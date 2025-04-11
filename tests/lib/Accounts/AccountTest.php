@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Accounts;
@@ -36,13 +19,13 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountTest extends TestCase {
-	public function testConstructor() {
+	public function testConstructor(): void {
 		$user = $this->createMock(IUser::class);
 		$account = new Account($user);
 		$this->assertEquals($user, $account->getUser());
 	}
 
-	public function testSetProperty() {
+	public function testSetProperty(): void {
 		$user = $this->createMock(IUser::class);
 		$property = new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, '');
 		$account = new Account($user);
@@ -50,7 +33,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals($property, $account->getProperty(IAccountManager::PROPERTY_WEBSITE));
 	}
 
-	public function testGetAndGetAllProperties() {
+	public function testGetAndGetAllProperties(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
@@ -70,7 +53,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals(array_values($properties), \iterator_to_array($account->getAllProperties()));
 	}
 
-	public function testSetAllPropertiesFromJson() {
+	public function testSetAllPropertiesFromJson(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_DISPLAYNAME => new AccountProperty(IAccountManager::PROPERTY_DISPLAYNAME, 'Steve', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED, ''),
@@ -95,7 +78,7 @@ class AccountTest extends TestCase {
 		$this->assertEquals($properties, $account->jsonSerialize());
 	}
 
-	public function testGetFilteredProperties() {
+	public function testGetFilteredProperties(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
@@ -141,7 +124,7 @@ class AccountTest extends TestCase {
 		);
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$user = $this->createMock(IUser::class);
 		$properties = [
 			IAccountManager::PROPERTY_WEBSITE => new AccountProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),

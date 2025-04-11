@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Kevin Niehage <kevin@niehage.name>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weiberg <sweiberg@suse.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Crypto;
 
@@ -108,7 +83,7 @@ class Crypt {
 	/**
 	 * create new private/public key-pair for user
 	 *
-	 * @return array|bool
+	 * @return array{publicKey: string, privateKey: string}|false
 	 */
 	public function createKeyPair() {
 		$res = $this->getOpenSSLPKey();
@@ -180,7 +155,7 @@ class Crypt {
 			$this->getCipher());
 
 		// Create a signature based on the key as well as the current version
-		$sig = $this->createSignature($encryptedContent, $passPhrase.'_'.$version.'_'.$position);
+		$sig = $this->createSignature($encryptedContent, $passPhrase . '_' . $version . '_' . $position);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -482,7 +457,7 @@ class Crypt {
 			if ($enforceSignature) {
 				throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
 			} else {
-				$this->logger->info("Signature check skipped", ['app' => 'encryption']);
+				$this->logger->info('Signature check skipped', ['app' => 'encryption']);
 			}
 		}
 	}
@@ -776,7 +751,7 @@ class Crypt {
 		$result = false;
 
 		// check if RC4 is used
-		if (strcasecmp($cipher_algo, "rc4") === 0) {
+		if (strcasecmp($cipher_algo, 'rc4') === 0) {
 			// decrypt the intermediate key with RSA
 			if (openssl_private_decrypt($encrypted_key, $intermediate, $private_key, OPENSSL_PKCS1_PADDING)) {
 				// decrypt the file key with the intermediate key
@@ -785,7 +760,7 @@ class Crypt {
 				$result = (strlen($output) === strlen($data));
 			}
 		} else {
-			throw new DecryptionFailedException('Unsupported cipher '.$cipher_algo);
+			throw new DecryptionFailedException('Unsupported cipher ' . $cipher_algo);
 		}
 
 		return $result;
@@ -801,7 +776,7 @@ class Crypt {
 		$result = false;
 
 		// check if RC4 is used
-		if (strcasecmp($cipher_algo, "rc4") === 0) {
+		if (strcasecmp($cipher_algo, 'rc4') === 0) {
 			// make sure that there is at least one public key to use
 			if (count($public_key) >= 1) {
 				// generate the intermediate key
@@ -832,7 +807,7 @@ class Crypt {
 				}
 			}
 		} else {
-			throw new EncryptionFailedException('Unsupported cipher '.$cipher_algo);
+			throw new EncryptionFailedException('Unsupported cipher ' . $cipher_algo);
 		}
 
 		return $result;

@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Info;
@@ -61,13 +46,12 @@ class FileUtils {
 
 		$mounts = $this->userMountCache->getMountsForFileId($id);
 		$result = [];
-		foreach ($mounts as $mount) {
-			if (isset($result[$mount->getUser()->getUID()])) {
-				continue;
-			}
-
-			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$result[$mount->getUser()->getUID()] = $userFolder->getById($id);
+		foreach ($mounts as $cachedMount) {
+			$mount = $this->rootFolder->getMount($cachedMount->getMountPoint());
+			$cache = $mount->getStorage()->getCache();
+			$cacheEntry = $cache->get($id);
+			$node = $this->rootFolder->getNodeFromCacheEntryAndMount($cacheEntry, $mount);
+			$result[$cachedMount->getUser()->getUID()][] = $node;
 		}
 
 		return $result;
@@ -85,7 +69,7 @@ class FileUtils {
 			if (!$mounts) {
 				return null;
 			}
-			$mount = $mounts[0];
+			$mount = reset($mounts);
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
 			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
@@ -99,18 +83,18 @@ class FileUtils {
 
 	public function formatPermissions(string $type, int $permissions): string {
 		if ($permissions == Constants::PERMISSION_ALL || ($type === 'file' && $permissions == (Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE))) {
-			return "full permissions";
+			return 'full permissions';
 		}
 
 		$perms = [];
-		$allPerms = [Constants::PERMISSION_READ => "read", Constants::PERMISSION_UPDATE => "update", Constants::PERMISSION_CREATE => "create", Constants::PERMISSION_DELETE => "delete", Constants::PERMISSION_SHARE => "share"];
+		$allPerms = [Constants::PERMISSION_READ => 'read', Constants::PERMISSION_UPDATE => 'update', Constants::PERMISSION_CREATE => 'create', Constants::PERMISSION_DELETE => 'delete', Constants::PERMISSION_SHARE => 'share'];
 		foreach ($allPerms as $perm => $name) {
 			if (($permissions & $perm) === $perm) {
 				$perms[] = $name;
 			}
 		}
 
-		return implode(", ", $perms);
+		return implode(', ', $perms);
 	}
 
 	/**
@@ -120,29 +104,29 @@ class FileUtils {
 	public function formatMountType(IMountPoint $mountPoint): string {
 		$storage = $mountPoint->getStorage();
 		if ($storage && $storage->instanceOfStorage(IHomeStorage::class)) {
-			return "home storage";
+			return 'home storage';
 		} elseif ($mountPoint instanceof SharedMount) {
 			$share = $mountPoint->getShare();
 			$shares = $mountPoint->getGroupedShares();
 			$sharedBy = array_map(function (IShare $share) {
 				$shareType = $this->formatShareType($share);
 				if ($shareType) {
-					return $share->getSharedBy() . " (via " . $shareType . " " . $share->getSharedWith() . ")";
+					return $share->getSharedBy() . ' (via ' . $shareType . ' ' . $share->getSharedWith() . ')';
 				} else {
 					return $share->getSharedBy();
 				}
 			}, $shares);
-			$description = "shared by " . implode(', ', $sharedBy);
+			$description = 'shared by ' . implode(', ', $sharedBy);
 			if ($share->getSharedBy() !== $share->getShareOwner()) {
-				$description .= " owned by " . $share->getShareOwner();
+				$description .= ' owned by ' . $share->getShareOwner();
 			}
 			return $description;
 		} elseif ($mountPoint instanceof GroupMountPoint) {
-			return "groupfolder " . $mountPoint->getFolderId();
+			return 'groupfolder ' . $mountPoint->getFolderId();
 		} elseif ($mountPoint instanceof ExternalMountPoint) {
-			return "external storage " . $mountPoint->getStorageConfig()->getId();
+			return 'external storage ' . $mountPoint->getStorageConfig()->getId();
 		} elseif ($mountPoint instanceof CircleMount) {
-			return "circle";
+			return 'circle';
 		}
 		return get_class($mountPoint);
 	}
@@ -150,17 +134,17 @@ class FileUtils {
 	public function formatShareType(IShare $share): ?string {
 		switch ($share->getShareType()) {
 			case IShare::TYPE_GROUP:
-				return "group";
+				return 'group';
 			case IShare::TYPE_CIRCLE:
-				return "circle";
+				return 'circle';
 			case IShare::TYPE_DECK:
-				return "deck";
+				return 'deck';
 			case IShare::TYPE_ROOM:
-				return "room";
+				return 'room';
 			case IShare::TYPE_USER:
 				return null;
 			default:
-				return "Unknown (" . $share->getShareType() . ")";
+				return 'Unknown (' . $share->getShareType() . ')';
 		}
 	}
 
@@ -212,7 +196,7 @@ class FileUtils {
 			$count += 1;
 
 			/** @var Node $child */
-			$output->writeln("$prefix- " . $child->getName() . ": <info>" . Util::humanFileSize($child->getSize()) . "</info>");
+			$output->writeln("$prefix- " . $child->getName() . ': <info>' . Util::humanFileSize($child->getSize()) . '</info>');
 			if ($child instanceof Folder) {
 				$recurseSizeLimits = $sizeLimits;
 				if (!$all) {
@@ -227,7 +211,7 @@ class FileUtils {
 					}
 					sort($recurseSizeLimits);
 				}
-				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . "  ", $recurseSizeLimits, $all);
+				$recurseCount = $this->outputLargeFilesTree($output, $child, $prefix . '  ', $recurseSizeLimits, $all);
 				$sizeLimits = array_slice($sizeLimits, $recurseCount);
 				$count += $recurseCount;
 			}

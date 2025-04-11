@@ -3,27 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\UserStatus\Tests\Integration\BackgroundJob;
+namespace OCA\UserStatus\Tests\Integration\Service;
 
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -58,17 +42,20 @@ class StatusServiceIntegrationTest extends TestCase {
 	}
 
 	public function testCustomStatusMessageTimestamp(): void {
+		$before = time();
 		$this->service->setCustomMessage(
 			'test123',
 			'🍕',
 			'Lunch',
 			null,
 		);
+		$after = time();
 
 		$status = $this->service->findByUserId('test123');
 
 		self::assertSame('Lunch', $status->getCustomMessage());
-		self::assertGreaterThanOrEqual(time(), $status->getStatusMessageTimestamp());
+		self::assertGreaterThanOrEqual($before, $status->getStatusMessageTimestamp());
+		self::assertLessThanOrEqual($after, $status->getStatusMessageTimestamp());
 	}
 
 	public function testOnlineStatusKeepsMessageTimestamp(): void {
@@ -111,15 +98,29 @@ class StatusServiceIntegrationTest extends TestCase {
 			'meeting',
 			true,
 		);
+
 		self::assertSame(
 			'meeting',
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
+		self::assertSame(
+			IUserStatus::ONLINE,
+			$this->service->findByUserId('_test123')->getStatus(),
+		);
 
-		$this->service->revertUserStatus(
+		$revertedStatus = $this->service->revertUserStatus(
 			'test123',
 			'meeting',
 		);
+
+		self::assertNotNull($revertedStatus, 'Status should have been reverted');
+
+		try {
+			$this->service->findByUserId('_test123');
+			$this->fail('Expected DoesNotExistException() to be thrown when finding backup status after reverting');
+		} catch (DoesNotExistException) {
+		}
+
 		self::assertSame(
 			IUserStatus::ONLINE,
 			$this->service->findByUserId('test123')->getStatus(),
@@ -170,32 +171,26 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		$this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::DND,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			true,
 		);
 		self::assertSame(
-			'meeting',
+			'availability',
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 
 		$nostatus = $this->service->setUserStatus(
 			'test123',
 			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
 
 		self::assertNull($nostatus);
 		self::assertSame(
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 	}
-
-	public function testCi(): void {
-		// TODO: remove if CI turns red
-		self::assertTrue(false);
-	}
-
 }

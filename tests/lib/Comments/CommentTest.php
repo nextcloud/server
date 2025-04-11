@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Comments;
 
 use OC\Comments\Comment;
@@ -10,7 +14,7 @@ class CommentTest extends TestCase {
 	/**
 	 * @throws \OCP\Comments\IllegalIDChangeException
 	 */
-	public function testSettersValidInput() {
+	public function testSettersValidInput(): void {
 		$comment = new Comment();
 
 		$id = 'comment23';
@@ -57,7 +61,7 @@ class CommentTest extends TestCase {
 	}
 
 
-	public function testSetIdIllegalInput() {
+	public function testSetIdIllegalInput(): void {
 		$this->expectException(\OCP\Comments\IllegalIDChangeException::class);
 
 		$comment = new Comment();
@@ -69,7 +73,7 @@ class CommentTest extends TestCase {
 	/**
 	 * @throws \OCP\Comments\IllegalIDChangeException
 	 */
-	public function testResetId() {
+	public function testResetId(): void {
 		$comment = new Comment();
 		$comment->setId('c23');
 		$comment->setId('');
@@ -92,7 +96,7 @@ class CommentTest extends TestCase {
 	/**
 	 * @dataProvider simpleSetterProvider
 	 */
-	public function testSimpleSetterInvalidInput($field, $input) {
+	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$comment = new Comment();
@@ -117,7 +121,7 @@ class CommentTest extends TestCase {
 	/**
 	 * @dataProvider roleSetterProvider
 	 */
-	public function testSetRoleInvalidInput($role, $type, $id) {
+	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$comment = new Comment();
@@ -126,7 +130,7 @@ class CommentTest extends TestCase {
 	}
 
 
-	public function testSetUberlongMessage() {
+	public function testSetUberlongMessage(): void {
 		$this->expectException(\OCP\Comments\MessageTooLongException::class);
 
 		$comment = new Comment();
@@ -190,6 +194,12 @@ class CommentTest extends TestCase {
 					['type' => 'federated_user', 'id' => 'cloudId@http://example.tld:8080/nextcloud'],
 					['type' => 'federated_group', 'id' => 'My Group ID 321'],
 					['type' => 'federated_team', 'id' => 'Former Cirle'],
+				],
+			],
+			[
+				'Emails are supported since 30.0.2 right? @"email/aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886"',
+				[
+					['type' => 'email', 'id' => 'aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886'],
 				],
 			],
 		];

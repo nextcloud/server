@@ -3,33 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Achim Königs <garfonso@tratschtante.de>
- * @author Christian Weiske <cweiske@cweiske.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Sven Strickroth <email@cs-ware.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Cédric Neukom <github@webguy.ch>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV;
 
@@ -56,28 +32,17 @@ class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
 	public const EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME = 'X-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR';
 
-	private GroupPrincipalBackend $principalBackend;
-	private CalDavBackend $calDavBackEnd;
-	private CardDavBackend $cardDavBackEnd;
-	private IConfig $config;
-	private IDBConnection $dbConnection;
-	private IL10N $l10n;
-
 	/**
 	 * BirthdayService constructor.
 	 */
-	public function __construct(CalDavBackend $calDavBackEnd,
-		CardDavBackend $cardDavBackEnd,
-		GroupPrincipalBackend $principalBackend,
-		IConfig $config,
-		IDBConnection $dbConnection,
-		IL10N $l10n) {
-		$this->calDavBackEnd = $calDavBackEnd;
-		$this->cardDavBackEnd = $cardDavBackEnd;
-		$this->principalBackend = $principalBackend;
-		$this->config = $config;
-		$this->dbConnection = $dbConnection;
-		$this->l10n = $l10n;
+	public function __construct(
+		private CalDavBackend $calDavBackEnd,
+		private CardDavBackend $cardDavBackEnd,
+		private GroupPrincipalBackend $principalBackend,
+		private IConfig $config,
+		private IDBConnection $dbConnection,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function onCardChanged(int $addressBookId,
@@ -111,7 +76,7 @@ class BirthdayService {
 				return;
 			}
 			foreach ($datesToSync as $type) {
-				$this->updateCalendar($cardUri, $cardData, $book, (int) $calendar['id'], $type, $reminderOffset);
+				$this->updateCalendar($cardUri, $cardData, $book, (int)$calendar['id'], $type, $reminderOffset);
 			}
 		}
 	}
@@ -132,7 +97,7 @@ class BirthdayService {
 
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach (['', '-death', '-anniversary'] as $tag) {
-				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
+				$objectUri = $book['uri'] . '-' . $cardUri . $tag . '.ics';
 				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		}
@@ -163,9 +128,9 @@ class BirthdayService {
 	 * @return VCalendar|null
 	 * @throws InvalidDataException
 	 */
-	public function buildDateFromContact(string  $cardData,
-		string  $dateField,
-		string  $postfix,
+	public function buildDateFromContact(string $cardData,
+		string $dateField,
+		string $postfix,
 		?string $reminderOffset):?VCalendar {
 		if (empty($cardData)) {
 			return null;
@@ -271,7 +236,7 @@ class BirthdayService {
 		$vEvent->{'X-NEXTCLOUD-BC-FIELD-TYPE'} = $dateField;
 		$vEvent->{'X-NEXTCLOUD-BC-UNKNOWN-YEAR'} = $dateParts['year'] === null ? '1' : '0';
 		if ($originalYear !== null) {
-			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string) $originalYear;
+			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string)$originalYear;
 		}
 		if ($reminderOffset) {
 			$alarm = $vCal->createComponent('VALARM');
@@ -288,7 +253,7 @@ class BirthdayService {
 	 * @param string $user
 	 */
 	public function resetForUser(string $user):void {
-		$principal = 'principals/users/'.$user;
+		$principal = 'principals/users/' . $user;
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		if (!$calendar) {
 			return; // The user's birthday calendar doesn't exist, no need to purge it
@@ -305,13 +270,13 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function syncUser(string $user):void {
-		$principal = 'principals/users/'.$user;
+		$principal = 'principals/users/' . $user;
 		$this->ensureCalendarExists($principal);
 		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
 		foreach ($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
 			foreach ($cards as $card) {
-				$this->onCardChanged((int) $book['id'], $card['uri'], $card['carddata']);
+				$this->onCardChanged((int)$book['id'], $card['uri'], $card['carddata']);
 			}
 		}
 	}

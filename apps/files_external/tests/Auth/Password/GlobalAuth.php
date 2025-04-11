@@ -1,30 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_external\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\Security\ICredentialsManager;
@@ -32,12 +15,12 @@ use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
 	/**
-	 * @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
+	 * @var IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $l10n;
 
 	/**
-	 * @var \OCP\Security\ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
+	 * @var ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $credentialsManager;
 
@@ -71,14 +54,14 @@ class GlobalAuthTest extends TestCase {
 			});
 		$storageConfig->expects($this->any())
 			->method('setBackendOption')
-			->willReturnCallback(function ($key, $value) use (&$config) {
+			->willReturnCallback(function ($key, $value) use (&$config): void {
 				$config[$key] = $value;
 			});
 
 		return $storageConfig;
 	}
 
-	public function testNoCredentials() {
+	public function testNoCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn(null);
@@ -89,7 +72,7 @@ class GlobalAuthTest extends TestCase {
 		$this->assertEquals([], $storage->getBackendOptions());
 	}
 
-	public function testSavedCredentials() {
+	public function testSavedCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn([
@@ -107,8 +90,8 @@ class GlobalAuthTest extends TestCase {
 	}
 
 
-	public function testNoCredentialsPersonal() {
-		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
+	public function testNoCredentialsPersonal(): void {
+		$this->expectException(InsufficientDataForMeaningfulAnswerException::class);
 
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');

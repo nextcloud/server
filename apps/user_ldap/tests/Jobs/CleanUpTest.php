@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests\Jobs;
 
@@ -60,7 +43,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * clean up job must not run when there are disabled configurations
 	 */
-	public function test_runNotAllowedByDisabledConfigurations() {
+	public function test_runNotAllowedByDisabledConfigurations(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
 			->willReturn(true);
@@ -76,7 +59,7 @@ class CleanUpTest extends TestCase {
 	 * clean up job must not run when LDAP Helper is broken i.e.
 	 * returning unexpected results
 	 */
-	public function test_runNotAllowedByBrokenHelper() {
+	public function test_runNotAllowedByBrokenHelper(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
 			->will($this->throwException(new Exception()));
@@ -91,7 +74,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * clean up job must not run when it is not enabled
 	 */
-	public function test_runNotAllowedBySysConfig() {
+	public function test_runNotAllowedBySysConfig(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
 			->willReturn(false);
@@ -107,7 +90,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * clean up job is allowed to run
 	 */
-	public function test_runIsAllowed() {
+	public function test_runIsAllowed(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
 			->willReturn(false);
@@ -123,7 +106,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * check whether offset will be reset when it needs to
 	 */
-	public function test_OffsetResetIsNecessary() {
+	public function test_OffsetResetIsNecessary(): void {
 		$result = $this->bgJob->isOffsetResetNecessary($this->bgJob->getChunkSize() - 1);
 		$this->assertSame(true, $result);
 	}
@@ -131,7 +114,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * make sure offset is not reset when it is not due
 	 */
-	public function test_OffsetResetIsNotNecessary() {
+	public function test_OffsetResetIsNotNecessary(): void {
 		$result = $this->bgJob->isOffsetResetNecessary($this->bgJob->getChunkSize());
 		$this->assertSame(false, $result);
 	}

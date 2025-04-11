@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\BackgroundJobs;
@@ -32,14 +15,19 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class GenerateMetadataJob extends TimedJob {
+	// Default file size limit for metadata generation (MBytes).
+	protected const DEFAULT_MAX_FILESIZE = 256;
+
 	public function __construct(
 		ITimeFactory $time,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IRootFolder $rootFolder,
 		private IUserManager $userManager,
 		private IFilesMetadataManager $filesMetadataManager,
@@ -48,13 +36,18 @@ class GenerateMetadataJob extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setTimeSensitivity(\OCP\BackgroundJob\IJob::TIME_INSENSITIVE);
-		$this->setInterval(24 * 3600);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		$this->setInterval(24 * 60 * 60);
 	}
 
 	protected function run(mixed $argument): void {
+		if ($this->appConfig->getValueBool('core', 'metadataGenerationDone', false)) {
+			return;
+		}
+
+		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
+
 		$users = $this->userManager->search('');
-		$lastHandledUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
 
 		// we'll only start timer once we have found a valid user to handle
 		// meaning NOW if we have not handled any user from a previous run
@@ -70,7 +63,7 @@ class GenerateMetadataJob extends TimedJob {
 				continue;
 			}
 
-			$this->config->setAppValue('core', 'metadataGenerationLastHandledUser', $userId);
+			$this->appConfig->setValueString('core', 'metadataGenerationLastHandledUser', $userId);
 			$this->scanFilesForUser($user->getUID());
 
 			// Stop if execution time is more than one hour.
@@ -79,8 +72,8 @@ class GenerateMetadataJob extends TimedJob {
 			}
 		}
 
-		$this->jobList->remove(GenerateMetadataJob::class);
-		$this->config->deleteAppValue('core', 'metadataGenerationLastHandledUser');
+		$this->appConfig->deleteKey('core', 'metadataGenerationLastHandledUser');
+		$this->appConfig->setValueBool('core', 'metadataGenerationDone', true);
 	}
 
 	private function scanFilesForUser(string $userId): void {
@@ -100,6 +93,15 @@ class GenerateMetadataJob extends TimedJob {
 				continue;
 			}
 
+			// Don't generate metadata for files bigger than configured metadata_max_filesize
+			// Files are loaded in memory so very big files can lead to an OOM on the server
+			$nodeSize = $node->getSize();
+			$nodeLimit = $this->config->getSystemValueInt('metadata_max_filesize', self::DEFAULT_MAX_FILESIZE);
+			if ($nodeSize > $nodeLimit * 1000000) {
+				$this->logger->debug('Skipping generating metadata for fileid ' . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
+				continue;
+			}
+
 			try {
 				$this->filesMetadataManager->getMetadata($node->getId(), false);
 			} catch (FilesMetadataNotFoundException) {
@@ -109,7 +111,7 @@ class GenerateMetadataJob extends TimedJob {
 						IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
 					);
 				} catch (\Throwable $ex) {
-					$this->logger->warning("Error while generating metadata for fileid " . $node->getId(), ['exception' => $ex]);
+					$this->logger->warning('Error while generating metadata for fileid ' . $node->getId(), ['exception' => $ex]);
 				}
 			}
 		}

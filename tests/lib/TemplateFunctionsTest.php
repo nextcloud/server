@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -26,53 +11,53 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		require_once \OC::$SERVERROOT . '/lib/private/legacy/OC_Template.php';
+		require_once \OC::$SERVERROOT . '/lib/private/Template/functions.php';
 	}
 
-	public function testPJavaScript() {
+	public function testPJavaScript(): void {
 		$this->expectOutputString('&lt;img onload=&quot;alert(1)&quot; /&gt;');
 		p('<img onload="alert(1)" />');
 	}
 
-	public function testPJavaScriptWithScriptTags() {
+	public function testPJavaScriptWithScriptTags(): void {
 		$this->expectOutputString('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;');
 		p("<script>alert('Hacked!');</script>");
 	}
 
-	public function testPNormalString() {
+	public function testPNormalString(): void {
 		$string = 'This is a good string without HTML.';
 		$this->expectOutputString($string);
 		p($string);
 	}
 
-	public function testPrintUnescaped() {
+	public function testPrintUnescaped(): void {
 		$htmlString = "<script>alert('xss');</script>";
 		$this->expectOutputString($htmlString);
 		print_unescaped($htmlString);
 	}
 
-	public function testPrintUnescapedNormalString() {
+	public function testPrintUnescapedNormalString(): void {
 		$string = 'This is a good string!';
 		$this->expectOutputString($string);
 		print_unescaped($string);
 	}
 
-	public function testEmitScriptTagWithContent() {
+	public function testEmitScriptTagWithContent(): void {
 		$this->expectOutputRegex('/<script nonce="[^"]+">\nalert\(\)\n<\/script>\n?/');
 		emit_script_tag('', 'alert()');
 	}
 
-	public function testEmitScriptTagWithSource() {
+	public function testEmitScriptTagWithSource(): void {
 		$this->expectOutputRegex('/<script nonce=".*" defer src="some.js"><\/script>/');
 		emit_script_tag('some.js');
 	}
 
-	public function testEmitScriptTagWithModuleSource() {
+	public function testEmitScriptTagWithModuleSource(): void {
 		$this->expectOutputRegex('/<script nonce=".*" defer src="some.mjs" type="module"><\/script>/');
 		emit_script_tag('some.mjs', '', 'module');
 	}
 
-	public function testEmitScriptLoadingTags() {
+	public function testEmitScriptLoadingTags(): void {
 		// Test mjs js and inline content
 		$pattern = '/src="some\.mjs"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js"[^>]*>.+\n'; // other.js as plain javascript
@@ -86,7 +71,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		]);
 	}
 
-	public function testEmitScriptLoadingTagsWithVersion() {
+	public function testEmitScriptLoadingTagsWithVersion(): void {
 		// Test mjs js and inline content
 		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
@@ -101,7 +86,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	// ---------------------------------------------------------------------------
 	// Test relative_modified_date with dates only
 	// ---------------------------------------------------------------------------
-	public function testRelativeDateToday() {
+	public function testRelativeDateToday(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -115,7 +100,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('today', $result);
 	}
 
-	public function testRelativeDateYesterday() {
+	public function testRelativeDateYesterday(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 24 * 3600;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -129,7 +114,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('yesterday', $result);
 	}
 
-	public function testRelativeDate2DaysAgo() {
+	public function testRelativeDate2DaysAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 48 * 3600;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -143,7 +128,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('2 days ago', $result);
 	}
 
-	public function testRelativeDateLastMonth() {
+	public function testRelativeDateLastMonth(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 31;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -156,7 +141,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('last month', $result);
 	}
 
-	public function testRelativeDateMonthsAgo() {
+	public function testRelativeDateMonthsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 65;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -169,7 +154,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('4 months ago', $result);
 	}
 
-	public function testRelativeDateLastYear() {
+	public function testRelativeDateLastYear(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -182,7 +167,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('last year', $result);
 	}
 
-	public function testRelativeDateYearsAgo() {
+	public function testRelativeDateYearsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
@@ -199,7 +184,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	// Test relative_modified_date with timestamps only (date + time value)
 	// ---------------------------------------------------------------------------
 
-	public function testRelativeTimeSecondsAgo() {
+	public function testRelativeTimeSecondsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 5;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -207,7 +192,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('seconds ago', $result);
 	}
 
-	public function testRelativeTimeMinutesAgo() {
+	public function testRelativeTimeMinutesAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 190;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -215,7 +200,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('3 minutes ago', $result);
 	}
 
-	public function testRelativeTimeHoursAgo() {
+	public function testRelativeTimeHoursAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 7500;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -223,7 +208,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('2 hours ago', $result);
 	}
 
-	public function testRelativeTime2DaysAgo() {
+	public function testRelativeTime2DaysAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 48 * 3600;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -237,7 +222,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('2 days ago', $result);
 	}
 
-	public function testRelativeTimeLastMonth() {
+	public function testRelativeTimeLastMonth(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 31;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -250,7 +235,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('last month', $result);
 	}
 
-	public function testRelativeTimeMonthsAgo() {
+	public function testRelativeTimeMonthsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 65;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -263,7 +248,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('4 months ago', $result);
 	}
 
-	public function testRelativeTimeLastYear() {
+	public function testRelativeTimeLastYear(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
@@ -276,7 +261,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		$this->assertEquals('last year', $result);
 	}
 
-	public function testRelativeTimeYearsAgo() {
+	public function testRelativeTimeYearsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);

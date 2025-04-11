@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Controller;
@@ -73,7 +56,7 @@ class JsControllerTest extends TestCase {
 		);
 	}
 
-	public function testNoCssFolderForApp() {
+	public function testNoCssFolderForApp(): void {
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willThrowException(new NotFoundException());
@@ -84,7 +67,7 @@ class JsControllerTest extends TestCase {
 	}
 
 
-	public function testNoCssFile() {
+	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
 			->with('myapp')
@@ -98,7 +81,7 @@ class JsControllerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
 
-	public function testGetFile() {
+	public function testGetFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('my name');
@@ -122,7 +105,7 @@ class JsControllerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetGzipFile() {
+	public function testGetGzipFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$gzipFile = $this->createMock(ISimpleFile::class);
 		$gzipFile->method('getName')->willReturn('my name');
@@ -151,7 +134,7 @@ class JsControllerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetGzipFileNotFound() {
+	public function testGetGzipFileNotFound(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('my name');

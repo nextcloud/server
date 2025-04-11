@@ -1,38 +1,19 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
-use OCA\Comments\EventHandler;
+use OCA\Comments\Listener\CommentsEventListener;
 use OCA\Comments\Notification\Listener as NotificationListener;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use Test\TestCase;
 
 class EventHandlerTest extends TestCase {
-	/** @var  EventHandler */
+	/** @var CommentsEventListener */
 	protected $eventHandler;
 
 	/** @var ActivityListener|\PHPUnit\Framework\MockObject\MockObject */
@@ -52,10 +33,10 @@ class EventHandlerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->eventHandler = new EventHandler($this->activityListener, $this->notificationListener);
+		$this->eventHandler = new CommentsEventListener($this->activityListener, $this->notificationListener);
 	}
 
-	public function testNotFiles() {
+	public function testNotFiles(): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())
@@ -88,7 +69,7 @@ class EventHandlerTest extends TestCase {
 	 * @dataProvider handledProvider
 	 * @param string $eventType
 	 */
-	public function testHandled($eventType) {
+	public function testHandled($eventType): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())

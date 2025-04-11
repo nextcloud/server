@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Migration;
 
@@ -33,23 +14,12 @@ use OCP\Migration\IRepairStep;
 
 class UUIDFixInsert implements IRepairStep {
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var UserMapping */
-	protected $userMapper;
-
-	/** @var GroupMapping */
-	protected $groupMapper;
-
-	/** @var IJobList */
-	protected $jobList;
-
-	public function __construct(IConfig $config, UserMapping $userMapper, GroupMapping $groupMapper, IJobList $jobList) {
-		$this->config = $config;
-		$this->userMapper = $userMapper;
-		$this->groupMapper = $groupMapper;
-		$this->jobList = $jobList;
+	public function __construct(
+		protected IConfig $config,
+		protected UserMapping $userMapper,
+		protected GroupMapping $groupMapper,
+		protected IJobList $jobList,
+	) {
 	}
 
 	/**

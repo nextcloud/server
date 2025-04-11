@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Core\Controller;
 
 use OC\Core\Controller\GuestAvatarController;
@@ -68,7 +71,7 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 	/**
 	 * Tests getAvatar returns the guest avatar.
 	 */
-	public function testGetAvatar() {
+	public function testGetAvatar(): void {
 		$this->avatarManager->expects($this->once())
 			->method('getGuestAvatar')
 			->with('Peter')

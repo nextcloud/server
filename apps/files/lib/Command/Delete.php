@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files\Command;
@@ -45,7 +30,7 @@ class Delete extends Command {
 		$this
 			->setName('files:delete')
 			->setDescription('Delete a file or folder')
-			->addArgument('file', InputArgument::REQUIRED, "File id or path")
+			->addArgument('file', InputArgument::REQUIRED, 'File id or path')
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");
 	}
 
@@ -74,30 +59,30 @@ class Delete extends Command {
 					return self::SUCCESS;
 				} else {
 					$node = $storage->getShare()->getNode();
-					$output->writeln("");
+					$output->writeln('');
 				}
 			}
 
 			$filesByUsers = $this->fileUtils->getFilesByUser($node);
 			if (count($filesByUsers) > 1) {
-				$output->writeln("Warning: the provided file is accessible by more than one user");
-				$output->writeln("  all of the following users will lose access to the file when deleted:");
-				$output->writeln("");
+				$output->writeln('Warning: the provided file is accessible by more than one user');
+				$output->writeln('  all of the following users will lose access to the file when deleted:');
+				$output->writeln('');
 				foreach ($filesByUsers as $user => $filesByUser) {
-					$output->writeln($user . ":");
-					foreach($filesByUser as $file) {
-						$output->writeln("  - " . $file->getPath());
+					$output->writeln($user . ':');
+					foreach ($filesByUser as $file) {
+						$output->writeln('  - ' . $file->getPath());
 					}
 				}
-				$output->writeln("");
+				$output->writeln('');
 			}
 
 			if ($node instanceof Folder) {
 				$maybeContents = " and all it's contents";
 			} else {
-				$maybeContents = "";
+				$maybeContents = '';
 			}
-			$question = new ConfirmationQuestion("Delete " . $node->getPath() . $maybeContents . "? [y/N] ", false);
+			$question = new ConfirmationQuestion('Delete ' . $node->getPath() . $maybeContents . '? [y/N] ', false);
 			$deleteConfirmed = $helper->ask($input, $output, $question);
 		}
 
@@ -105,7 +90,7 @@ class Delete extends Command {
 			if ($node->isDeletable()) {
 				$node->delete();
 			} else {
-				$output->writeln("<error>File cannot be deleted, insufficient permissions.</error>");
+				$output->writeln('<error>File cannot be deleted, insufficient permissions.</error>');
 			}
 		}
 

@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\DependencyInjection;
@@ -65,7 +48,7 @@ class DIIntergrationTests extends TestCase {
 		$this->container = new DIContainer('App1', [], $this->server);
 	}
 
-	public function testInjectFromServer() {
+	public function testInjectFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -81,7 +64,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testInjectDepFromServer() {
+	public function testInjectDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -97,7 +80,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testOverwriteDepFromServer() {
+	public function testOverwriteDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -117,7 +100,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
-	public function testIgnoreOverwriteInServerClass() {
+	public function testIgnoreOverwriteInServerClass(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});

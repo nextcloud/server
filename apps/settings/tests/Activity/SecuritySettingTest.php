@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
 
@@ -41,19 +23,19 @@ class SecuritySettingTest extends TestCase {
 		$this->setting = new SecuritySetting($this->l10n);
 	}
 
-	public function testCanChangeMail() {
+	public function testCanChangeMail(): void {
 		$this->assertFalse($this->setting->canChangeMail());
 	}
 
-	public function testCanChangeStream() {
+	public function testCanChangeStream(): void {
 		$this->assertFalse($this->setting->canChangeStream());
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertEquals('security', $this->setting->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
@@ -61,11 +43,11 @@ class SecuritySettingTest extends TestCase {
 		$this->assertEquals('Sicherheit', $this->setting->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(30, $this->setting->getPriority());
 	}
 
-	public function testIsDefaultEnabled() {
+	public function testIsDefaultEnabled(): void {
 		$this->assertTrue($this->setting->isDefaultEnabledMail());
 		$this->assertTrue($this->setting->isDefaultEnabledStream());
 	}

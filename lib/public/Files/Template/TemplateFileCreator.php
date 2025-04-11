@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Files\Template;
 
@@ -31,7 +13,7 @@ namespace OCP\Files\Template;
  */
 final class TemplateFileCreator implements \JsonSerializable {
 	protected $appId;
-	/** @var string[] $mimetypes */
+	/** @var list<string> $mimetypes */
 	protected $mimetypes = [];
 	protected $actionName;
 	protected $fileExtension;
@@ -52,7 +34,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	 * @since 21.0.0
 	 */
 	public function __construct(
-		string $appId, string $actionName, string $fileExtension
+		string $appId, string $actionName, string $fileExtension,
 	) {
 		$this->appId = $appId;
 		$this->actionName = $actionName;
@@ -139,7 +121,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 
 	/**
 	 * @since 21.0.0
-	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: string[], ratio: ?float, actionLabel: string}
+	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string}
 	 */
 	public function jsonSerialize(): array {
 		return [

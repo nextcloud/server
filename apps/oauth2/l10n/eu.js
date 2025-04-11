@@ -12,10 +12,12 @@ OC.L10N.register(
     "Redirection URI" : "Birbideraketaren URI",
     "Client Identifier" : "Bezeroaren Identifikadorea",
     "Secret key" : "Gako sekretua",
+    "Delete client" : "Ezabatu bezeroa",
+    "Make sure you store the secret key, it cannot be recovered." : "Ziurtatu gako sekretua gordetzen duzula, ezin da berreskuratu.",
     "Add client" : "Gehitu bezeroa",
     "Add" : "Gehitu",
-    "Delete" : "Ezabatu",
     "Show client secret" : "Erakutsi bezeroaren sekretua",
-    "Secret" : "Sekretua"
+    "Hide client secret" : "Ezkutatu bezeroaren sekretua",
+    "Delete" : "Ezabatu"
 },
 "nplurals=2; plural=(n != 1);");

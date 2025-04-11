@@ -1,46 +1,51 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Federation;
 
 use OC\Federation\CloudId;
+use OC\Federation\CloudIdManager;
+use OCP\Federation\ICloudIdManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class CloudIdTest extends TestCase {
-	public function dataGetDisplayCloudId() {
+	protected CloudIdManager&MockObject $cloudIdManager;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->cloudIdManager = $this->createMock(CloudIdManager::class);
+		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
+	}
+
+	public function dataGetDisplayCloudId(): array {
 		return [
-			['test@example.com', 'test@example.com'],
-			['test@http://example.com', 'test@example.com'],
-			['test@https://example.com', 'test@example.com'],
+			['test@example.com', 'test', 'example.com', 'test@example.com'],
+			['test@http://example.com', 'test', 'http://example.com', 'test@example.com'],
+			['test@https://example.com', 'test', 'https://example.com', 'test@example.com'],
+			['test@https://example.com', 'test', 'https://example.com', 'Beloved Amy@example.com', 'Beloved Amy'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGetDisplayCloudId
-	 *
-	 * @param string $id
-	 * @param string $display
 	 */
-	public function testGetDisplayCloudId($id, $display) {
-		$cloudId = new CloudId($id, '', '');
+	public function testGetDisplayCloudId(string $id, string $user, string $remote, string $display, ?string $addressbookName = null): void {
+		$this->cloudIdManager->expects($this->once())
+			->method('getDisplayNameFromContact')
+			->willReturn($addressbookName);
+
+		$cloudId = new CloudId($id, $user, $remote);
 		$this->assertEquals($display, $cloudId->getDisplayId());
 	}
 }

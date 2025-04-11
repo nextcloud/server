@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- *
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Admin;
 
@@ -41,6 +24,7 @@ use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
@@ -52,6 +36,8 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		private IManager $textProcessingManager,
 		private ContainerInterface $container,
 		private \OCP\TextToImage\IManager $text2imageManager,
+		private \OCP\TaskProcessing\IManager $taskProcessingManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -115,30 +101,78 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			];
 		}
 
+		$taskProcessingProviders = [];
+		/** @var array<class-string<ITaskType>, string|class-string<IProvider>> $taskProcessingSettings */
+		$taskProcessingSettings = [];
+		foreach ($this->taskProcessingManager->getProviders() as $provider) {
+			$taskProcessingProviders[] = [
+				'id' => $provider->getId(),
+				'name' => $provider->getName(),
+				'taskType' => $provider->getTaskTypeId(),
+			];
+			if (!isset($taskProcessingSettings[$provider->getTaskTypeId()])) {
+				$taskProcessingSettings[$provider->getTaskTypeId()] = $provider->getId();
+			}
+		}
+		$taskProcessingTaskTypes = [];
+		$taskProcessingTypeSettings = [];
+		foreach ($this->taskProcessingManager->getAvailableTaskTypes(true) as $taskTypeId => $taskTypeDefinition) {
+			$taskProcessingTaskTypes[] = [
+				'id' => $taskTypeId,
+				'name' => $taskTypeDefinition['name'],
+				'description' => $taskTypeDefinition['description'],
+			];
+			$taskProcessingTypeSettings[$taskTypeId] = true;
+		}
+
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
 		$this->initialState->provideInitialState('ai-text-processing-providers', $textProcessingProviders);
 		$this->initialState->provideInitialState('ai-text-processing-task-types', $textProcessingTaskTypes);
 		$this->initialState->provideInitialState('ai-text2image-providers', $text2imageProviders);
+		$this->initialState->provideInitialState('ai-task-processing-providers', $taskProcessingProviders);
+		$this->initialState->provideInitialState('ai-task-processing-task-types', $taskProcessingTaskTypes);
 
 		$settings = [
 			'ai.stt_provider' => count($sttProviders) > 0 ? $sttProviders[0]['class'] : null,
-			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.translation_provider_preferences' => $translationPreferences,
+			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
+			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
+			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
 			$json = $this->config->getAppValue('core', $key, '');
 			if ($json !== '') {
-				$value = json_decode($json, true);
-				switch($key) {
+				try {
+					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->logger->error('Failed to get settings. JSON Error in ' . $key, ['exception' => $e]);
+					if ($key === 'ai.taskprocessing_type_preferences') {
+						$value = [];
+						foreach ($taskProcessingTypeSettings as $taskTypeId => $taskTypeValue) {
+							$value[$taskTypeId] = false;
+						}
+						$settings[$key] = $value;
+					}
+					continue;
+				}
+				
+				switch ($key) {
+					case 'ai.taskprocessing_provider_preferences':
+					case 'ai.taskprocessing_type_preferences':
 					case 'ai.textprocessing_provider_preferences':
 						// fill $value with $defaultValue values
 						$value = array_merge($defaultValue, $value);
 						break;
 					case 'ai.translation_provider_preferences':
-						$value += array_diff($defaultValue, $value); // Add entries from $defaultValue that are not in $value to the end of $value
+						// Only show entries from $value (saved pref list) that are in $defaultValue (enabled providers)
+						// and add all providers that are enabled but not in the pref list
+						if (!is_array($defaultValue)) {
+							break;
+						}
+						$value = array_values(array_unique(array_merge(array_intersect($value, $defaultValue), $defaultValue), SORT_STRING));
 						break;
 					default:
 						break;
@@ -161,8 +195,8 @@ class ArtificialIntelligence implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

@@ -1,34 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author sualko <klaus@jsxc.org>
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Settings;
@@ -80,7 +53,7 @@ class Manager implements IManager {
 		IServerContainer $container,
 		AuthorizedGroupMapper $mapper,
 		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
+		ISubAdmin $subAdmin,
 	) {
 		$this->log = $log;
 		$this->l10nFactory = $l10nFactory;
@@ -287,9 +260,7 @@ class Manager implements IManager {
 
 		$sections = [];
 
-		$legacyForms = \OC_App::getForms('personal');
-		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
-			|| count($this->getPersonalSettings('additional')) > 1) {
+		if (count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
@@ -307,20 +278,6 @@ class Manager implements IManager {
 		ksort($sections);
 
 		return $sections;
-	}
-
-	/**
-	 * @param string[] $forms
-	 *
-	 * @return bool
-	 */
-	private function hasLegacyPersonalSettingsToRender(array $forms): bool {
-		foreach ($forms as $form) {
-			if (trim($form) !== '') {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Background;
@@ -59,7 +42,7 @@ class Job extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int) $input->getArgument('job-id');
+		$jobId = (int)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -107,11 +90,11 @@ class Job extends Command {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
-		$lastRun->setTimestamp((int) $row['last_run']);
+		$lastRun->setTimestamp((int)$row['last_run']);
 		$lastChecked = new \DateTime();
-		$lastChecked->setTimestamp((int) $row['last_checked']);
+		$lastChecked->setTimestamp((int)$row['last_checked']);
 		$reservedAt = new \DateTime();
-		$reservedAt->setTimestamp((int) $row['reserved_at']);
+		$reservedAt->setTimestamp((int)$row['reserved_at']);
 
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
@@ -127,7 +110,7 @@ class Job extends Command {
 
 		$output->writeln('');
 		$output->writeln('Last checked:         ' . $lastChecked->format(\DateTimeInterface::ATOM));
-		if ((int) $row['reserved_at'] === 0) {
+		if ((int)$row['reserved_at'] === 0) {
 			$output->writeln('Reserved at:          -');
 		} else {
 			$output->writeln('Reserved at:          <comment>' . $reservedAt->format(\DateTimeInterface::ATOM) . '</comment>');

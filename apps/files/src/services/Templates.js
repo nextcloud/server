@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2021 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { generateOcsUrl } from '@nextcloud/router'
@@ -34,12 +17,14 @@ export const getTemplates = async function() {
  * @param {string} filePath The new file destination path
  * @param {string} templatePath The template source path
  * @param {string} templateType The template type e.g 'user'
+ * @param {object} templateFields The template fields to fill in (if any)
  */
-export const createFromTemplate = async function(filePath, templatePath, templateType) {
+export const createFromTemplate = async function(filePath, templatePath, templateType, templateFields) {
 	const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
 		filePath,
 		templatePath,
 		templateType,
+		templateFields,
 	})
 	return response.data.ocs.data
 }

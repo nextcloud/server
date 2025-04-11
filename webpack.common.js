@@ -1,15 +1,23 @@
+/* eslint-disable n/no-extraneous-require */
 /* eslint-disable camelcase */
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const { VueLoaderPlugin } = require('vue-loader')
+const { readFileSync } = require('fs')
 const path = require('path')
+
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
 const modules = require('./webpack.modules.js')
-const { readFileSync } = require('fs')
 
-const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
+const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
+const isDev = process.env.NODE_ENV === 'development'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -42,7 +50,7 @@ const modulesToBuild = () => {
 	return formatOutputFromModules(modules)
 }
 
-module.exports = {
+const config = {
 	entry: modulesToBuild(),
 	output: {
 		// Step away from the src folder and extract to the js folder
@@ -161,18 +169,14 @@ module.exports = {
 
 	plugins: [
 		new VueLoaderPlugin(),
-		new NodePolyfillPlugin(),
+		new NodePolyfillPlugin({
+			additionalAliases: ['process'],
+		}),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
-
-			// Shim ICAL to prevent using the global object (window.ICAL).
-			// The library ical.js heavily depends on instanceof checks which will
-			// break if two separate versions of the library are used (e.g. bundled one
-			// and global one).
-			ICAL: 'ical.js',
 		}),
 
 		new WorkboxPlugin.GenerateSW({
@@ -247,3 +251,35 @@ module.exports = {
 		},
 	},
 }
+
+// Generate reuse license files if not in development mode
+if (!isDev) {
+	config.plugins.push(new WebpackSPDXPlugin({
+		override: {
+			select2: 'MIT',
+			'@nextcloud/axios': 'GPL-3.0-or-later',
+			'@nextcloud/vue': 'AGPL-3.0-or-later',
+			'nextcloud-vue-collections': 'AGPL-3.0-or-later',
+		},
+	}))
+
+	config.optimization.minimizer = [{
+		apply: (compiler) => {
+			// Lazy load the Terser plugin
+			const TerserPlugin = require('terser-webpack-plugin')
+			new TerserPlugin({
+				extractComments: false,
+				terserOptions: {
+					format: {
+						comments: false,
+					},
+					compress: {
+						passes: 2,
+					},
+				},
+		  }).apply(compiler)
+		},
+	}]
+}
+
+module.exports = config

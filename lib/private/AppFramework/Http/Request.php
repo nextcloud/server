@@ -1,47 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author b108@volgograd "b108@volgograd"
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Mitar <mitar.git@tnode.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Oliver Wegner <void1976@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Simon Leiner <simon@leiner.me>
- * @author Stanimir Bozhilov <stanimir@audriga.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\Http;
 
@@ -57,12 +20,12 @@ use Symfony\Component\HttpFoundation\IpUtils;
  * Class for accessing variables in the request.
  * This class provides an immutable object with request variables.
  *
- * @property mixed[] cookies
- * @property mixed[] env
- * @property mixed[] files
- * @property string method
- * @property mixed[] parameters
- * @property mixed[] server
+ * @property mixed[] $cookies
+ * @property mixed[] $env
+ * @property mixed[] $files
+ * @property string $method
+ * @property mixed[] $parameters
+ * @property mixed[] $server
  * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
@@ -75,6 +38,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_CHROME = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)( Ubuntu Chromium\/[0-9.]+|) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+( (Vivaldi|Brave|OPR)\/[0-9.]+|)$/';
 	// Safari User Agent from http://www.useragentstring.com/pages/Safari/
 	public const USER_AGENT_SAFARI = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ Safari\/[0-9.A-Z]+$/';
+	public const USER_AGENT_SAFARI_MOBILE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ (Mobile\/[0-9.A-Z]+) Safari\/[0-9.A-Z]+$/';
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
@@ -103,15 +67,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 *        - array 'urlParams' the parameters which were matched from the URL
-	 *        - array 'get' the $_GET array
-	 *        - array|string 'post' the $_POST array or JSON string
-	 *        - array 'files' the $_FILES array
-	 *        - array 'server' the $_SERVER array
-	 *        - array 'env' the $_ENV array
-	 *        - array 'cookies' the $_COOKIE array
-	 *        - string 'method' the request method (GET, POST etc)
-	 *        - string|false 'requesttoken' the requesttoken or false when not available
+	 *                    - array 'urlParams' the parameters which were matched from the URL
+	 *                    - array 'get' the $_GET array
+	 *                    - array|string 'post' the $_POST array or JSON string
+	 *                    - array 'files' the $_FILES array
+	 *                    - array 'server' the $_SERVER array
+	 *                    - array 'env' the $_ENV array
+	 *                    - array 'cookies' the $_COOKIE array
+	 *                    - string 'method' the request method (GET, POST etc)
+	 *                    - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param IRequestId $requestId
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
@@ -320,11 +284,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * In case of json requests the encoded json body is accessed
 	 *
 	 * @param string $key the key which you want to access in the URL Parameter
-	 *                     placeholder, $_POST or $_GET array.
-	 *                     The priority how they're returned is the following:
-	 *                     1. URL parameters
-	 *                     2. POST parameters
-	 *                     3. GET parameters
+	 *                    placeholder, $_POST or $_GET array.
+	 *                    The priority how they're returned is the following:
+	 *                    1. URL parameters
+	 *                    2. POST parameters
+	 *                    3. GET parameters
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 */
@@ -463,6 +427,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		if ($this->getHeader('OCS-APIRequest') !== '') {
+			return true;
+		}
+
 		if (isset($this->items['get']['requesttoken'])) {
 			$token = $this->items['get']['requesttoken'];
 		} elseif (isset($this->items['post']['requesttoken'])) {
@@ -516,7 +484,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$prefix = '__Host-';
 		}
 
-		return $prefix.$name;
+		return $prefix . $name;
 	}
 
 	/**
@@ -638,7 +606,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(): bool {
-		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
@@ -869,7 +837,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Returns the overwritehost setting from the config if set and
 	 * if the overwrite condition is met
 	 * @return string|null overwritehost value or null if not defined or the defined condition
-	 * isn't met
+	 *                     isn't met
 	 */
 	private function getOverwriteHost() {
 		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {

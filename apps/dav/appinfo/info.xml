@@ -1,11 +1,16 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>dav</id>
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.31.0</version>
+	<version>1.34.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -15,7 +20,7 @@
 	<category>integration</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="32" max-version="32"/>
 	</dependencies>
 
 	<background-jobs>
@@ -44,24 +49,32 @@
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>
 		</live-migration>
+		<install>
+			<step>OCA\DAV\Migration\CreateSystemAddressBookStep</step>
+		</install>
 	</repair-steps>
 
 	<commands>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
+		<command>OCA\DAV\Command\CreateSubscription</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
+		<command>OCA\DAV\Command\DeleteSubscription</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
-		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\ListSubscriptions</command>
+		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
-		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<settings>
 		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
+		<admin>OCA\DAV\Settings\ExampleContentSettings</admin>
 		<personal>OCA\DAV\Settings\AvailabilitySettings</personal>
 	</settings>
 

@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Comments\Activity;
 
@@ -48,7 +31,7 @@ class Listener {
 	public function commentEvent(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files'
 			|| $event->getEvent() !== CommentsEvent::EVENT_ADD
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// Comment not for file, not adding a comment or no activity-app enabled (save the energy)
 			return;
 		}
@@ -84,7 +67,7 @@ class Listener {
 		$activity->setApp('comments')
 			->setType('comments')
 			->setAuthor($actor)
-			->setObject($event->getComment()->getObjectType(), (int) $event->getComment()->getObjectId())
+			->setObject($event->getComment()->getObjectType(), (int)$event->getComment()->getObjectId())
 			->setMessage('add_comment_message', [
 				'commentId' => $event->getComment()->getId(),
 			]);
@@ -96,7 +79,7 @@ class Listener {
 
 			$activity->setSubject('add_comment_subject', [
 				'actor' => $actor,
-				'fileId' => (int) $event->getComment()->getObjectId(),
+				'fileId' => (int)$event->getComment()->getObjectId(),
 				'filePath' => trim($path, '/'),
 			]);
 			$this->activityManager->publish($activity);

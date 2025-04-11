@@ -1,29 +1,9 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\AppFramework\Http\Template;
-
-use OCP\Util;
 
 /**
  * Class SimpleMenuAction
@@ -86,6 +66,8 @@ class SimpleMenuAction implements IMenuAction {
 	}
 
 	/**
+	 * The icon CSS class to use.
+	 *
 	 * @return string
 	 * @since 14.0.0
 	 */
@@ -110,14 +92,28 @@ class SimpleMenuAction implements IMenuAction {
 	}
 
 	/**
+	 * Custom render function.
+	 * The returned HTML must be wrapped within a listitem (`<li>...</li>`).
+	 * * If an empty string is returned, the default design is used (based on the label and link specified).
 	 * @return string
 	 * @since 14.0.0
 	 */
 	public function render(): string {
-		$detailContent = ($this->detail !== '') ? '&nbsp;<span class="download-size">(' . Util::sanitizeHTML($this->detail) . ')</span>' : '';
-		return sprintf(
-			'<li id="%s"><a href="%s"><span class="icon %s"></span>%s %s</a></li>',
-			Util::sanitizeHTML($this->id), Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), $detailContent
-		);
+		return '';
+	}
+
+	/**
+	 * Return JSON data to let the frontend render the menu entry.
+	 * @return array{id: string, label: string, href: string, icon: string, details: string|null}
+	 * @since 31.0.0
+	 */
+	public function getData(): array {
+		return [
+			'id' => $this->id,
+			'label' => $this->label,
+			'href' => $this->link,
+			'icon' => $this->icon,
+			'details' => $this->detail,
+		];
 	}
 }

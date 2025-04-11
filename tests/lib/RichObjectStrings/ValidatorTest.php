@@ -1,32 +1,20 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\RichObjectStrings;
 
 use OC\RichObjectStrings\Validator;
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class ValidatorTest extends TestCase {
-	public function test() {
+	public function testValidate(): void {
 		$v = new Validator(new Definitions());
 		$v->validate('test', []);
 		$v->validate('test {string1} test {foo} test {bar}.', [
@@ -48,5 +36,70 @@ class ValidatorTest extends TestCase {
 			],
 		]);
 		$this->addToAssertionCount(2);
+
+		$this->expectException(InvalidObjectExeption::class);
+
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, value 123 for key key is not a string');
+		$v->validate('test {string1} test.', [
+			'string1' => [
+				'type' => 'user',
+				'id' => 'johndoe',
+				'name' => 'John Doe',
+				'key' => 123,
+			],
+		]);
+
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, key 456 is not a string');
+		$v->validate('test {string1} test.', [
+			'string1' => [
+				'type' => 'user',
+				'id' => 'johndoe',
+				'name' => 'John Doe',
+				456 => 'value',
+			],
+		]);
+	}
+
+	public static function dataValidateParameterKeys(): array {
+		return [
+			'not a string' => ['key' => 0, 'throws' => 'Parameter key is invalid'],
+			'@ is not allowed' => ['key' => 'user@0', 'throws' => 'Parameter key is invalid'],
+			'? is not allowed' => ['key' => 'user?0', 'throws' => 'Parameter key is invalid'],
+			'slash is not allowed' => ['key' => 'user/0', 'throws' => 'Parameter key is invalid'],
+			'backslash is not allowed' => ['key' => 'user\\0', 'throws' => 'Parameter key is invalid'],
+			'hash is not allowed' => ['key' => 'user#0', 'throws' => 'Parameter key is invalid'],
+			'space is not allowed' => ['key' => 'user 0', 'throws' => 'Parameter key is invalid'],
+			'has to start with letter, but is number' => ['key' => '0abc', 'throws' => 'Parameter key is invalid'],
+			'has to start with letter, but is dot' => ['key' => '.abc', 'throws' => 'Parameter key is invalid'],
+			'has to start with letter, but is slash' => ['key' => '-abc', 'throws' => 'Parameter key is invalid'],
+			'has to start with letter, but is underscore' => ['key' => '_abc', 'throws' => 'Parameter key is invalid'],
+			['key' => 'user-0', 'throws' => null],
+			['key' => 'user_0', 'throws' => null],
+			['key' => 'user.0', 'throws' => null],
+			['key' => 'a._-0', 'throws' => null],
+		];
+	}
+
+	/**
+	 * @dataProvider dataValidateParameterKeys
+	 */
+	public function testValidateParameterKeys(mixed $key, ?string $throws): void {
+
+		if ($throws !== null) {
+			$this->expectExceptionMessage($throws);
+		}
+
+		$v = new Validator(new Definitions());
+		$v->validate('{' . $key . '}', [
+			$key => [
+				'type' => 'highlight',
+				'id' => 'identifier',
+				'name' => 'Display name',
+			],
+		]);
+
+		if ($throws === null) {
+			$this->addToAssertionCount(1);
+		}
 	}
 }

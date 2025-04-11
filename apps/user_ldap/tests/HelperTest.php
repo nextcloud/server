@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Helper;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * @group DB
@@ -43,10 +25,10 @@ class HelperTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->helper = new Helper($this->config, \OC::$server->getDatabaseConnection());
+		$this->helper = new Helper($this->config, Server::get(IDBConnection::class));
 	}
 
-	public function testGetServerConfigurationPrefixes() {
+	public function testGetServerConfigurationPrefixes(): void {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('user_ldap'))
 			->willReturn([
@@ -60,7 +42,7 @@ class HelperTest extends \Test\TestCase {
 		$this->assertEquals(['', 's1'], $result);
 	}
 
-	public function testGetServerConfigurationPrefixesActive() {
+	public function testGetServerConfigurationPrefixesActive(): void {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('user_ldap'))
 			->willReturn([
@@ -85,7 +67,7 @@ class HelperTest extends \Test\TestCase {
 		$this->assertEquals(['s1'], $result);
 	}
 
-	public function testGetServerConfigurationHost() {
+	public function testGetServerConfigurationHost(): void {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('user_ldap'))
 			->willReturn([

@@ -1,44 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philipp Kapfer <philipp.kapfer@gmx.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External;
 
+use OC\Files\Storage\Common;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -46,7 +14,13 @@ use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
+use OCP\Util;
 use phpseclib\Crypt\AES;
 use Psr\Log\LoggerInterface;
 
@@ -64,33 +38,23 @@ class MountConfig {
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
 
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStorageService;
-	/** @var UserStoragesService */
-	private $userStorageService;
-	/** @var GlobalStoragesService */
-	private $globalStorageService;
-
 	public function __construct(
-		UserGlobalStoragesService $userGlobalStorageService,
-		UserStoragesService $userStorageService,
-		GlobalStoragesService $globalStorageService
+		private UserGlobalStoragesService $userGlobalStorageService,
+		private UserStoragesService $userStorageService,
+		private GlobalStoragesService $globalStorageService,
 	) {
-		$this->userGlobalStorageService = $userGlobalStorageService;
-		$this->userStorageService = $userStorageService;
-		$this->globalStorageService = $globalStorageService;
 	}
 
 	/**
 	 * @param mixed $input
 	 * @param string|null $userId
 	 * @return mixed
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @since 16.0.0
 	 */
 	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {
 		/** @var BackendService $backendService */
-		$backendService = \OC::$server->get(BackendService::class);
+		$backendService = Server::get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {
@@ -124,7 +88,7 @@ class MountConfig {
 		}
 		if (class_exists($class)) {
 			try {
-				/** @var \OC\Files\Storage\Common $storage */
+				/** @var Common $storage */
 				$storage = new $class($options);
 
 				try {
@@ -138,7 +102,7 @@ class MountConfig {
 					throw $e;
 				}
 			} catch (\Exception $exception) {
-				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
+				Server::get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -152,7 +116,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OCP\Util::getL10N('files_external');
+		$l = Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
@@ -180,7 +144,7 @@ class MountConfig {
 	/**
 	 * Returns a dependency missing message
 	 */
-	private static function getSingleDependencyMessage(\OCP\IL10N $l, string $module, string $backend): string {
+	private static function getSingleDependencyMessage(IL10N $l, string $module, string $backend): string {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);
@@ -230,7 +194,7 @@ class MountConfig {
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
-		$iv = \OC::$server->getSecureRandom()->generate(16);
+		$iv = Server::get(ISecureRandom::class)->generate(16);
 		$cipher->setIV($iv);
 		return base64_encode($iv . $cipher->encrypt($password));
 	}
@@ -257,7 +221,7 @@ class MountConfig {
 	 */
 	private static function getCipher() {
 		$cipher = new AES(AES::MODE_CBC);
-		$cipher->setKey(\OC::$server->getConfig()->getSystemValue('passwordsalt', null));
+		$cipher->setKey(Server::get(IConfig::class)->getSystemValue('passwordsalt', null));
 		return $cipher;
 	}
 

@@ -1,26 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @author Morris Jobke
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -40,13 +23,13 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testHeader() {
+	public function testHeader(): void {
 		$headers = $this->json->getHeaders();
 		$this->assertEquals('application/json; charset=utf-8', $headers['Content-Type']);
 	}
 
 
-	public function testSetData() {
+	public function testSetData(): void {
 		$params = ['hi', 'yo'];
 		$this->json->setData($params);
 
@@ -54,7 +37,7 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetRender() {
+	public function testSetRender(): void {
 		$params = ['test' => 'hi'];
 		$this->json->setData($params);
 
@@ -82,13 +65,13 @@ class JSONResponseTest extends \Test\TestCase {
 	 * @param array $input
 	 * @param string $expected
 	 */
-	public function testRender(array $input, $expected) {
+	public function testRender(array $input, $expected): void {
 		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());
 	}
 
 
-	public function testRenderWithNonUtf8Encoding() {
+	public function testRenderWithNonUtf8Encoding(): void {
 		$this->expectException(\JsonException::class);
 		$this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
 
@@ -97,7 +80,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->json->render();
 	}
 
-	public function testConstructorAllowsToSetData() {
+	public function testConstructorAllowsToSetData(): void {
 		$data = ['hi'];
 		$code = 300;
 		$response = new JSONResponse($data, $code);
@@ -107,7 +90,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($code, $response->getStatus());
 	}
 
-	public function testChainability() {
+	public function testChainability(): void {
 		$params = ['hi', 'yo'];
 		$this->json->setData($params)
 			->setStatus(Http::STATUS_NOT_FOUND);

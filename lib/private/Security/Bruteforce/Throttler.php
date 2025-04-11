@@ -3,37 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Riedel <joeried@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Security\Bruteforce;
 
 use OC\Security\Bruteforce\Backend\IBackend;
+use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\Normalizer\IpAddress;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -57,14 +33,13 @@ use Psr\Log\LoggerInterface;
 class Throttler implements IThrottler {
 	/** @var bool[] */
 	private array $hasAttemptsDeleted = [];
-	/** @var bool[] */
-	private array $ipIsWhitelisted = [];
 
 	public function __construct(
 		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private IBackend $backend,
+		private BruteforceAllowList $allowList,
 	) {
 	}
 
@@ -108,70 +83,7 @@ class Throttler implements IThrottler {
 	 * Check if the IP is whitelisted
 	 */
 	public function isBypassListed(string $ip): bool {
-		if (isset($this->ipIsWhitelisted[$ip])) {
-			return $this->ipIsWhitelisted[$ip];
-		}
-
-		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.enabled', true)) {
-			$this->ipIsWhitelisted[$ip] = true;
-			return true;
-		}
-
-		$keys = $this->config->getAppKeys('bruteForce');
-		$keys = array_filter($keys, function ($key) {
-			return str_starts_with($key, 'whitelist_');
-		});
-
-		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-			$type = 4;
-		} elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-			$type = 6;
-		} else {
-			$this->ipIsWhitelisted[$ip] = false;
-			return false;
-		}
-
-		$ip = inet_pton($ip);
-
-		foreach ($keys as $key) {
-			$cidr = $this->config->getAppValue('bruteForce', $key, null);
-
-			$cx = explode('/', $cidr);
-			$addr = $cx[0];
-			$mask = (int)$cx[1];
-
-			// Do not compare ipv4 to ipv6
-			if (($type === 4 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ||
-				($type === 6 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))) {
-				continue;
-			}
-
-			$addr = inet_pton($addr);
-
-			$valid = true;
-			for ($i = 0; $i < $mask; $i++) {
-				$part = ord($addr[(int)($i / 8)]);
-				$orig = ord($ip[(int)($i / 8)]);
-
-				$bitmask = 1 << (7 - ($i % 8));
-
-				$part = $part & $bitmask;
-				$orig = $orig & $bitmask;
-
-				if ($part !== $orig) {
-					$valid = false;
-					break;
-				}
-			}
-
-			if ($valid === true) {
-				$this->ipIsWhitelisted[$ip] = true;
-				return true;
-			}
-		}
-
-		$this->ipIsWhitelisted[$ip] = false;
-		return false;
+		return $this->allowList->isBypassListed($ip);
 	}
 
 	/**
@@ -201,7 +113,7 @@ class Throttler implements IThrottler {
 			return 0;
 		}
 
-		$maxAgeTimestamp = (int) ($this->timeFactory->getTime() - 3600 * $maxAgeHours);
+		$maxAgeTimestamp = (int)($this->timeFactory->getTime() - 3600 * $maxAgeHours);
 
 		return $this->backend->getAttempts(
 			$ipAddress->getSubnet(),
@@ -220,7 +132,7 @@ class Throttler implements IThrottler {
 		}
 
 		$firstDelay = 0.1;
-		if ($attempts > self::MAX_ATTEMPTS) {
+		if ($attempts > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
 			// Don't ever overflow. Just assume the maxDelay time:s
 			return self::MAX_DELAY_MS;
 		}
@@ -229,7 +141,7 @@ class Throttler implements IThrottler {
 		if ($delay > self::MAX_DELAY) {
 			return self::MAX_DELAY_MS;
 		}
-		return (int) \ceil($delay * 1000);
+		return (int)\ceil($delay * 1000);
 	}
 
 	/**
@@ -288,7 +200,7 @@ class Throttler implements IThrottler {
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
-		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
+		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
 			$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, ip: {ip}]', [
 				'action' => $action,
 				'ip' => $ip,

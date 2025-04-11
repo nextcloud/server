@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests\Controller;
 
@@ -45,33 +27,33 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController */
 	private $controller;
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManagerMock;
 
-	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSessionMock;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 	/** @var MockObject|IUser */
 	private $user;
 
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $ocSessionMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
 	protected function setUp(): void {
@@ -133,7 +115,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() if wrong new password was entered
 	 */
-	public function testUpdatePrivateKeyPasswordWrongNewPassword() {
+	public function testUpdatePrivateKeyPasswordWrongNewPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -158,7 +140,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() if wrong old password was entered
 	 */
-	public function testUpdatePrivateKeyPasswordWrongOldPassword() {
+	public function testUpdatePrivateKeyPasswordWrongOldPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -184,7 +166,7 @@ class SettingsControllerTest extends TestCase {
 	/**
 	 * test updatePrivateKeyPassword() with the correct old and new password
 	 */
-	public function testUpdatePrivateKeyPassword() {
+	public function testUpdatePrivateKeyPassword(): void {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -245,7 +227,7 @@ class SettingsControllerTest extends TestCase {
 			$data['message']);
 	}
 
-	public function testSetEncryptHomeStorage() {
+	public function testSetEncryptHomeStorage(): void {
 		$value = true;
 		$this->utilMock->expects($this->once())->method('setEncryptHomeStorage')->with($value);
 		$this->controller->setEncryptHomeStorage($value);

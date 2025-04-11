@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App\AppStore\Fetcher;
@@ -1871,7 +1856,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn('stable');
 	}
 
-	public function testGetWithFilter() {
+	public function testGetWithFilter(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -1954,7 +1939,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
-	public function testAppstoreDisabled() {
+	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -1981,7 +1966,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	}
 
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -2009,7 +1994,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	public function testSetVersion() {
+	public function testSetVersion(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -2093,7 +2078,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
-	public function testGetAppsAllowlist() {
+	public function testGetAppsAllowlist(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {

@@ -1,29 +1,12 @@
 <!--
-  - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<li class="sharing-entry">
 		<NcAvatar class="sharing-entry__avatar"
-			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
+			:is-no-user="share.type !== ShareType.User"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
 			:menu-position="'left'"
@@ -45,7 +28,9 @@
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
-		<NcButton class="sharing-entry__action"
+		<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
+		<NcButton v-if="share.canEdit"
+			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
 			type="tertiary"
@@ -58,11 +43,14 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import { ShareType } from '@nextcloud/sharing'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
+import ShareExpiryTime from './ShareExpiryTime.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
@@ -76,6 +64,7 @@ export default {
 		NcAvatar,
 		DotsHorizontalIcon,
 		NcSelect,
+		ShareExpiryTime,
 		SharingEntryQuickShareSelect,
 	},
 
@@ -84,16 +73,21 @@ export default {
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
+			if (this.share.type === ShareType.Group) {
 				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
+			} else if (this.share.type === ShareType.Room) {
 				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
+			} else if (this.share.type === ShareType.Remote) {
 				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
+			} else if (this.share.type === ShareType.RemoteGroup) {
 				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
+			} else if (this.share.type === ShareType.Guest) {
 				title += ` (${t('files_sharing', 'guest')})`
+			}
+			if (!this.isShareOwner && this.share.ownerDisplayName) {
+				title += ' ' + t('files_sharing', 'by {initiator}', {
+					initiator: this.share.ownerDisplayName,
+				})
 			}
 			return title
 		},
@@ -105,9 +99,9 @@ export default {
 					user: this.share.shareWithDisplayName,
 					owner: this.share.ownerDisplayName,
 				}
-				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
+				if (this.share.type === ShareType.Group) {
 					return t('files_sharing', 'Shared with the group {user} by {owner}', data)
-				} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
+				} else if (this.share.type === ShareType.Room) {
 					return t('files_sharing', 'Shared with the conversation {user} by {owner}', data)
 				}
 
@@ -120,7 +114,7 @@ export default {
 		 * @return {boolean}
 		 */
 		hasStatus() {
-			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {
+			if (this.share.type !== ShareType.User) {
 				return false
 			}
 
@@ -146,7 +140,7 @@ export default {
 	height: 44px;
 	&__summary {
 		padding: 8px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

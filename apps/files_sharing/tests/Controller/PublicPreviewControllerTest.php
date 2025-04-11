@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Tests\Controller;
 
@@ -38,6 +19,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,15 +27,12 @@ use Test\TestCase;
 
 class PublicPreviewControllerTest extends TestCase {
 
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
-	private $previewManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
+	private IPreview&MockObject $previewManager;
+	private IManager&MockObject $shareManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private IRequest&MockObject $request;
 
-	/** @var PublicPreviewController */
-	private $controller;
+	private PublicPreviewController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,6 +40,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->request = $this->createMock(IRequest::class);
 
 		$this->timeFactory->method('getTime')
 			->willReturn(1337);
@@ -69,35 +49,35 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$this->controller = new PublicPreviewController(
 			'files_sharing',
-			$this->createMock(IRequest::class),
+			$this->request,
 			$this->shareManager,
 			$this->createMock(ISession::class),
 			$this->previewManager
 		);
 	}
 
-	public function testInvalidToken() {
+	public function testInvalidToken(): void {
 		$res = $this->controller->getPreview('', 'file', 10, 10, '');
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview('token', 'file', 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview('token', 'file', 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidShare() {
+	public function testInvalidShare(): void {
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
 			->willThrowException(new ShareNotFound());
@@ -108,7 +88,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testShareNotAccessable() {
+	public function testShareNotAccessable(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -120,6 +100,108 @@ class PublicPreviewControllerTest extends TestCase {
 		$res = $this->controller->getPreview('token', 'file', 10, 10);
 		$expected = new DataResponse([], Http::STATUS_FORBIDDEN);
 
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testShareNoDownload() {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(false);
+		$share->method('getAttributes')
+			->willReturn($attributes);
+
+		$res = $this->controller->getPreview('token', 'file', 10, 10);
+		$expected = new DataResponse([], Http::STATUS_FORBIDDEN);
+
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testShareNoDownloadButPreviewHeader() {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(false);
+		$share->method('getAttributes')
+			->willReturn($attributes);
+
+		$this->request->method('getHeader')
+			->with('X-NC-Preview')
+			->willReturn('true');
+
+		$file = $this->createMock(File::class);
+		$share->method('getNode')
+			->willReturn($file);
+
+		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('name');
+		$preview->method('getMTime')->willReturn(42);
+		$this->previewManager->method('getPreview')
+			->with($this->equalTo($file), 10, 10, false)
+			->willReturn($preview);
+
+		$preview->method('getMimeType')
+			->willReturn('myMime');
+
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(15 * 60);
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testShareWithAttributes() {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn(true);
+		$share->method('getAttributes')
+			->willReturn($attributes);
+
+		$this->request->method('getHeader')
+			->with('X-NC-Preview')
+			->willReturn('true');
+
+		$file = $this->createMock(File::class);
+		$share->method('getNode')
+			->willReturn($file);
+
+		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('name');
+		$preview->method('getMTime')->willReturn(42);
+		$this->previewManager->method('getPreview')
+			->with($this->equalTo($file), 10, 10, false)
+			->willReturn($preview);
+
+		$preview->method('getMimeType')
+			->willReturn('myMime');
+
+		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
+		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
 	}
 
@@ -152,7 +234,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testPreviewFolderInvalidFile() {
+	public function testPreviewFolderInvalidFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -175,7 +257,7 @@ class PublicPreviewControllerTest extends TestCase {
 	}
 
 
-	public function testPreviewFolderValidFile() {
+	public function testPreviewFolderValidFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))

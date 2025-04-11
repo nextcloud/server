@@ -3,27 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security\CSP;
 
@@ -70,13 +52,13 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 		EmptyContentSecurityPolicy $originalPolicy,
 	): ContentSecurityPolicy {
 		foreach ((object)(array)$originalPolicy as $name => $value) {
-			$setter = 'set'.ucfirst($name);
+			$setter = 'set' . ucfirst($name);
 			if (\is_array($value)) {
-				$getter = 'get'.ucfirst($name);
+				$getter = 'get' . ucfirst($name);
 				$currentValues = \is_array($defaultPolicy->$getter()) ? $defaultPolicy->$getter() : [];
 				$defaultPolicy->$setter(array_values(array_unique(array_merge($currentValues, $value))));
 			} elseif (\is_bool($value)) {
-				$getter = 'is'.ucfirst($name);
+				$getter = 'is' . ucfirst($name);
 				$currentValue = $defaultPolicy->$getter();
 				// true wins over false
 				if ($value > $currentValue) {

@@ -1,35 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Carla Schroder <carla@owncloud.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sujith Haridasan <sujith.h@gmail.com>
- * @author Sujith H <sharidasan@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files\Command;
@@ -103,12 +78,12 @@ class TransferOwnership extends Command {
 		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 
 		if (!$sourceUserObject instanceof IUser) {
-			$output->writeln("<error>Unknown source user " . $input->getArgument('source-user') . "</error>");
+			$output->writeln('<error>Unknown source user ' . $input->getArgument('source-user') . '</error>');
 			return self::FAILURE;
 		}
 
 		if (!$destinationUserObject instanceof IUser) {
-			$output->writeln("<error>Unknown destination user " . $input->getArgument('destination-user') . "</error>");
+			$output->writeln('<error>Unknown destination user ' . $input->getArgument('destination-user') . '</error>');
 			return self::FAILURE;
 		}
 
@@ -130,7 +105,7 @@ class TransferOwnership extends Command {
 					}
 					break;
 				default:
-					$output->writeln("<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>");
+					$output->writeln('<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>');
 					return self::FAILURE;
 			}
 
@@ -144,7 +119,7 @@ class TransferOwnership extends Command {
 				$includeIncoming
 			);
 		} catch (TransferOwnershipException $e) {
-			$output->writeln("<error>" . $e->getMessage() . "</error>");
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return $e->getCode() !== 0 ? $e->getCode() : self::FAILURE;
 		}
 

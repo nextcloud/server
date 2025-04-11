@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
@@ -88,7 +71,7 @@ class CollaborationContext implements Context {
 		try {
 			$destination = '/users/admin/myaddressbook';
 			$data = '<x0:mkcol xmlns:x0="DAV:"><x0:set><x0:prop><x0:resourcetype><x0:collection/><x4:addressbook xmlns:x4="urn:ietf:params:xml:ns:carddav"/></x0:resourcetype><x0:displayname>myaddressbook</x0:displayname></x0:prop></x0:set></x0:mkcol>';
-			$this->response = $this->makeDavRequest($this->currentUser, "MKCOL", $destination, ['Content-Type' => 'application/xml'], $data, "addressbooks");
+			$this->response = $this->makeDavRequest($this->currentUser, 'MKCOL', $destination, ['Content-Type' => 'application/xml'], $data, 'addressbooks');
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -110,7 +93,7 @@ EMAIL;TYPE=HOME:user@example.com
 REV;VALUE=DATE-AND-OR-TIME:20211130T140111Z
 END:VCARD
 EOF;
-			$this->response = $this->makeDavRequest($this->currentUser, "PUT", $destination, [], $data, "addressbooks");
+			$this->response = $this->makeDavRequest($this->currentUser, 'PUT', $destination, [], $data, 'addressbooks');
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();

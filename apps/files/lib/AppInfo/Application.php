@@ -1,49 +1,27 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\AppInfo;
 
 use Closure;
-use OC\Search\Provider\File;
+use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
+use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
+use OCA\Files\Listener\NodeAddedToFavoriteListener;
+use OCA\Files\Listener\NodeRemovedFromFavoriteListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Notification\Notifier;
@@ -51,6 +29,7 @@ use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files\Settings\DeclarativeAdminSettings;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -58,22 +37,25 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files';
@@ -101,6 +83,9 @@ class Application extends App implements IBootstrap {
 				$server->getUserFolder(),
 				$c->get(UserConfig::class),
 				$c->get(ViewConfig::class),
+				$c->get(IL10N::class),
+				$c->get(IRootFolder::class),
+				$c->get(LoggerInterface::class),
 			);
 		});
 
@@ -116,7 +101,6 @@ class Application extends App implements IBootstrap {
 				$c->get(IActivityManager::class),
 				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
-				$c->get(IEventDispatcher::class),
 			);
 		});
 
@@ -124,7 +108,10 @@ class Application extends App implements IBootstrap {
 		 * Register capabilities
 		 */
 		$context->registerCapability(Capabilities::class);
+		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
+
+		$context->registerDeclarativeSettings(DeclarativeAdminSettings::class);
 
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
@@ -134,26 +121,23 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
-
+		$context->registerEventListener(NodeAddedToFavorite::class, NodeAddedToFavoriteListener::class);
+		$context->registerEventListener(NodeRemovedFromFavorite::class, NodeRemovedFromFavoriteListener::class);
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
+		$context->registerDashboardWidget(FavoriteWidget::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);
-		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
 		$this->registerHooks();
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
-	}
-
-	private function registerSearchProvider(ISearch $search): void {
-		$search->registerProvider(File::class, ['apps' => ['files']]);
 	}
 
 	private function registerTemplates(): void {

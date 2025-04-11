@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Authentication\TwoFactorAuth;
@@ -59,7 +42,7 @@ class RegistryTest extends TestCase {
 		$this->registry = new Registry($this->dao, $this->dispatcher);
 	}
 
-	public function testGetProviderStates() {
+	public function testGetProviderStates(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$state = [
@@ -72,7 +55,7 @@ class RegistryTest extends TestCase {
 		$this->assertEquals($state, $actual);
 	}
 
-	public function testEnableProvider() {
+	public function testEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
@@ -98,7 +81,7 @@ class RegistryTest extends TestCase {
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
-	public function testDisableProvider() {
+	public function testDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
@@ -125,7 +108,7 @@ class RegistryTest extends TestCase {
 		$this->registry->disableProviderFor($provider, $user);
 	}
 
-	public function testDeleteUserData() {
+	public function testDeleteUserData(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$this->dao->expects($this->once())
@@ -146,7 +129,7 @@ class RegistryTest extends TestCase {
 		$this->registry->deleteUserData($user);
 	}
 
-	public function testCleanUp() {
+	public function testCleanUp(): void {
 		$this->dao->expects($this->once())
 			->method('deleteAll')
 			->with('twofactor_u2f');

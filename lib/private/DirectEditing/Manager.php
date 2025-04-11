@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DirectEditing;
 
@@ -58,36 +38,21 @@ class Manager implements IManager {
 
 	/** @var IEditor[] */
 	private $editors = [];
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ISecureRandom */
-	private $random;
 	/** @var string|null */
 	private $userId;
-	/** @var IRootFolder */
-	private $rootFolder;
 	/** @var IL10N */
 	private $l10n;
-	/** @var EncryptionManager */
-	private $encryptionManager;
 
 	public function __construct(
-		ISecureRandom $random,
-		IDBConnection $connection,
-		IUserSession $userSession,
-		IRootFolder $rootFolder,
-		IFactory $l10nFactory,
-		EncryptionManager $encryptionManager
+		private ISecureRandom $random,
+		private IDBConnection $connection,
+		private IUserSession $userSession,
+		private IRootFolder $rootFolder,
+		private IFactory $l10nFactory,
+		private EncryptionManager $encryptionManager,
 	) {
-		$this->random = $random;
-		$this->connection = $connection;
-		$this->userSession = $userSession;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
-		$this->rootFolder = $rootFolder;
 		$this->l10n = $l10nFactory->get('lib');
-		$this->encryptionManager = $encryptionManager;
 	}
 
 	public function registerDirectEditor(IEditor $directEditor): void {
@@ -229,7 +194,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($tokenRow = $result->fetch(FetchMode::ASSOCIATIVE)) {
 			return new Token($this, $tokenRow);
 		}
@@ -240,7 +205,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->lt('timestamp', $query->createNamedParameter(time() - self::TOKEN_CLEANUP_TIME)));
-		return $query->execute();
+		return $query->executeStatement();
 	}
 
 	public function refreshToken(string $token): bool {
@@ -248,7 +213,7 @@ class Manager implements IManager {
 		$query->update(self::TABLE_TOKENS)
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -257,7 +222,7 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -267,7 +232,7 @@ class Manager implements IManager {
 			->set('accessed', $query->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
 			->set('timestamp', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 		return $result !== 0;
 	}
 
@@ -292,15 +257,14 @@ class Manager implements IManager {
 				'share_id' => $query->createNamedParameter($share !== null ? $share->getId(): null),
 				'timestamp' => $query->createNamedParameter(time())
 			]);
-		$query->execute();
+		$query->executeStatement();
 		return $token;
 	}
 
 	/**
-	 * @param $userId
-	 * @param $fileId
-	 * @param null $filePath
-	 * @return Node
+	 * @param string $userId
+	 * @param int $fileId
+	 * @param ?string $filePath
 	 * @throws NotFoundException
 	 */
 	public function getFileForToken($userId, $fileId, $filePath = null): Node {
@@ -324,7 +288,7 @@ class Manager implements IManager {
 			$moduleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 			$module = $this->encryptionManager->getEncryptionModule($moduleId);
 			/** @var \OCA\Encryption\Util $util */
-			$util = \OC::$server->get(\OCA\Encryption\Util::class);
+			$util = \OCP\Server::get(\OCA\Encryption\Util::class);
 			if ($module->isReadyForUser($this->userId) && $util->isMasterKeyEnabled()) {
 				return true;
 			}

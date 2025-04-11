@@ -1,31 +1,17 @@
 <?php
 /**
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Migration;
 
 use OC\BackgroundJob\JobList;
 use OC\Migration\BackgroundRepair;
-use OC\NeedsUpdateException;
 use OC\Repair;
 use OC\Repair\Events\RepairStepEvent;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
@@ -62,6 +48,7 @@ class BackgroundRepairTest extends TestCase {
 	private LoggerInterface $logger;
 	private IEventDispatcher $dispatcher;
 	private ITimeFactory $time;
+	private IAppManager $appManager;
 	private Repair $repair;
 
 	protected function setUp(): void {
@@ -77,29 +64,20 @@ class BackgroundRepairTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
 			->willReturn(999999);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->repair = new Repair($this->dispatcher, $this->logger);
 		$this->job = $this->getMockBuilder(BackgroundRepair::class)
-			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList])
+			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList, $this->appManager])
 			->setMethods(['loadApp'])
 			->getMock();
 	}
 
-	public function testNoArguments() {
+	public function testNoArguments(): void {
 		$this->jobList->expects($this->once())->method('remove');
 		$this->job->start($this->jobList);
 	}
 
-	public function testAppUpgrading() {
-		$this->jobList->expects($this->never())->method('remove');
-		$this->job->expects($this->once())->method('loadApp')->with('test')->willThrowException(new NeedsUpdateException());
-		$this->job->setArgument([
-			'app' => 'test',
-			'step' => 'j'
-		]);
-		$this->job->start($this->jobList);
-	}
-
-	public function testUnknownStep() {
+	public function testUnknownStep(): void {
 		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$this->jobList->expects($this->once())->method('remove');
@@ -112,11 +90,14 @@ class BackgroundRepairTest extends TestCase {
 		$this->job->start($this->jobList);
 	}
 
-	public function testWorkingStep() {
+	public function testWorkingStep(): void {
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->with($this->equalTo(new RepairStepEvent('A test repair step')));
 
 		$this->jobList->expects($this->once())->method('remove');
+		$this->appManager->expects(self::once())
+			->method('loadApp')
+			->with('test');
 
 		$this->job->setArgument([
 			'app' => 'test',

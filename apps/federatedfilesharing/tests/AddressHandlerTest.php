@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests;
 
@@ -31,6 +11,7 @@ use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -40,13 +21,13 @@ class AddressHandlerTest extends \Test\TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var  AddressHandler */
+	/** @var AddressHandler */
 	private $addressHandler;
 
-	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
 	/** @var CloudIdManager */
@@ -94,6 +75,11 @@ class AddressHandlerTest extends \Test\TestCase {
 				foreach ($protocols as $protocol) {
 					$baseUrl = $user . '@' . $protocol . $remote;
 
+					if ($protocol === '') {
+						// https:// protocol is expected in the final result
+						$protocol = 'https://';
+					}
+
 					$testCases[] = [$baseUrl, $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
@@ -111,7 +97,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
-	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->willReturn([]);
@@ -144,8 +130,8 @@ class AddressHandlerTest extends \Test\TestCase {
 	 *
 	 * @param string $id
 	 */
-	public function testSplitUserRemoteError($id) {
-		$this->expectException(\OCP\HintException::class);
+	public function testSplitUserRemoteError($id): void {
+		$this->expectException(HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}
@@ -159,7 +145,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $server2
 	 * @param bool $expected
 	 */
-	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected) {
+	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
 		);
@@ -191,7 +177,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	public function testRemoveProtocolFromUrl($url, $expectedResult) {
+	public function testRemoveProtocolFromUrl($url, $expectedResult): void {
 		$result = $this->addressHandler->removeProtocolFromUrl($url);
 		$this->assertSame($expectedResult, $result);
 	}
@@ -210,7 +196,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param bool $expectedResult
 	 */
-	public function testUrlContainProtocol($url, $expectedResult) {
+	public function testUrlContainProtocol($url, $expectedResult): void {
 		$result = $this->addressHandler->urlContainProtocol($url);
 		$this->assertSame($expectedResult, $result);
 	}

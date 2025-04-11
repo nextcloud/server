@@ -1,21 +1,23 @@
 <?php
 /**
- * Copyright (c) 2015 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Traits;
 
 use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\Server;
 
 class DummyUser extends User {
 	private string $uid;
 
 	public function __construct(string $uid) {
 		$this->uid = $uid;
+		parent::__construct($uid, null, Server::get(IEventDispatcher::class));
 	}
 
 	public function getUID(): string {

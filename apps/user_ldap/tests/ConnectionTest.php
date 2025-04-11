@@ -1,34 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jarkko Lehtoranta <devel@jlranta.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -40,10 +19,10 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var Connection */
 	protected $connection;
 
 	protected function setUp(): void {
@@ -61,7 +40,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturn(true);
 	}
 
-	public function testOriginalAgentUnchangedOnClone() {
+	public function testOriginalAgentUnchangedOnClone(): void {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
@@ -88,7 +67,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertSame($agentPawd, $agent['ldapAgentPassword']);
 	}
 
-	public function testUseBackupServer() {
+	public function testUseBackupServer(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -136,7 +115,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturnCallback(function () use (&$isThrown) {
 				if (!$isThrown) {
 					$isThrown = true;
-					throw new \OC\ServerNotAvailableException();
+					throw new ServerNotAvailableException();
 				}
 				return true;
 			});
@@ -147,7 +126,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testDontUseBackupServerOnFailedAuth() {
+	public function testDontUseBackupServerOnFailedAuth(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -194,7 +173,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testBindWithInvalidCredentials() {
+	public function testBindWithInvalidCredentials(): void {
 		// background: Bind with invalid credentials should return false
 		// and not throw a ServerNotAvailableException.
 
@@ -234,12 +213,12 @@ class ConnectionTest extends \Test\TestCase {
 
 		try {
 			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
 		}
 	}
 
-	public function testStartTlsNegotiationFailure() {
+	public function testStartTlsNegotiationFailure(): void {
 		// background: If Start TLS negotiation fails,
 		// a ServerNotAvailableException should be thrown.
 
@@ -282,7 +261,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('startTls')
 			->willReturn(false);
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 
 		$this->connection->init();

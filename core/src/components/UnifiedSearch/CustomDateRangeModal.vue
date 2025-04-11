@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcModal v-if="isModalOpen"
 		id="unified-search"
@@ -33,9 +37,9 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcModal from '@nextcloud/vue/components/NcModal'
 import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
 
 export default {

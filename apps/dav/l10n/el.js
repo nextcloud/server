@@ -58,7 +58,6 @@ OC.L10N.register(
     "Organizer:" : "Διοργανωτής:",
     "Attendees:" : "Συμμετέχοντες:",
     "Title:" : "Τίτλος:",
-    "Time:" : "Ώρα:",
     "Location:" : "Τοποθεσία:",
     "Link:" : "Σύνδεσμος:",
     "Accept" : "Αποδοχή",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
+    "Time:" : "Ώρα:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Εάν διαμορφώσετε τις ώρες εργασίας σας, οι άλλοι χρήστες θα βλέπουν πότε είστε εκτός γραφείου όταν κάνουν κράτηση για μια συνάντηση."
 },
 "nplurals=2; plural=(n != 1);");

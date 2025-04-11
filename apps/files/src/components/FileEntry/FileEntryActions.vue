@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<td class="files-list__row-actions"
 		data-cy-files-list-row-actions>
@@ -39,36 +22,42 @@
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
-			:open.sync="openedMenu"
-			@close="openedSubmenu = null">
+			:open="openedMenu"
+			@close="onMenuClose"
+			@closed="onMenuClosed">
 			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			<NcActionButton v-for="action, index in enabledMenuActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
+				class="files-list__row-action"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
-					[`files-list__row-action--menu`]: isMenu(action.id)
+					'files-list__row-action--inline': index < enabledInlineActions.length,
+					'files-list__row-action--menu': isValidMenu(action)
 				}"
-				:close-after-click="!isMenu(action.id)"
+				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
-				:is-menu="isMenu(action.id)"
+				:is-menu="isValidMenu(action)"
+				:aria-label="action.title?.([source], currentView)"
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
-					<NcLoadingIcon v-if="loading === action.id" :size="18" />
-					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+					<NcLoadingIcon v-if="isLoadingAction(action)" />
+					<NcIconSvgWrapper v-else
+						class="files-list__row-action-icon"
+						:svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
+				{{ actionDisplayName(action) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="onBackToMenuClick(openedSubmenu)">
+				<NcActionButton class="files-list__row-action-back" data-cy-files-list-row-action="menu-back" @click="onBackToMenuClick(openedSubmenu)">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
-					{{ actionDisplayName(openedSubmenu) }}
+					{{ t('files', 'Back') }}
 				</NcActionButton>
 				<NcActionSeparator />
 
@@ -82,7 +71,7 @@
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
-						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
 						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
@@ -94,24 +83,28 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
+import type { FileAction, Node } from '@nextcloud/files'
 
-import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { DefaultType, NodeStatus } from '@nextcloud/files'
+import { defineComponent, inject } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import Vue, { defineComponent } from 'vue'
-
 import CustomElementRender from '../CustomElementRender.vue'
-import logger from '../../logger.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
-// The registered actions list
-const actions = getFileActions()
+import { executeAction } from '../../utils/actionUtils.ts'
+import { useActiveStore } from '../../store/active.ts'
+import { useFileListWidth } from '../../composables/useFileListWidth.ts'
+import { useNavigation } from '../../composables/useNavigation'
+import { useRouteParameters } from '../../composables/useRouteParameters.ts'
+import actionsMixins from '../../mixins/actionsMixin.ts'
+import logger from '../../logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryActions',
@@ -126,15 +119,9 @@ export default defineComponent({
 		NcLoadingIcon,
 	},
 
+	mixins: [actionsMixins],
+
 	props: {
-		filesListWidth: {
-			type: Number,
-			required: true,
-		},
-		loading: {
-			type: String,
-			required: true,
-		},
 		opened: {
 			type: Boolean,
 			default: false,
@@ -149,33 +136,31 @@ export default defineComponent({
 		},
 	},
 
-	data() {
+	setup() {
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
+		const { directory: currentDir } = useRouteParameters()
+
+		const activeStore = useActiveStore()
+		const filesListWidth = useFileListWidth()
+		const enabledFileActions = inject<FileAction[]>('enabledFileActions', [])
 		return {
-			openedSubmenu: null as FileAction | null,
+			activeStore,
+			currentDir,
+			currentView,
+			enabledFileActions,
+			filesListWidth,
+			t,
 		}
 	},
 
 	computed: {
-		currentDir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
+		isActive() {
+			return this.activeStore?.activeNode?.source === this.source.source
 		},
-		currentView(): View {
-			return this.$navigation.active as View
-		},
+
 		isLoading() {
 			return this.source.status === NodeStatus.LOADING
-		},
-
-		// Sorted actions that are enabled for this node
-		enabledActions() {
-			if (this.source.attributes.failed) {
-				return []
-			}
-
-			return actions
-				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
-				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
 		// Enabled action that are displayed inline
@@ -183,7 +168,14 @@ export default defineComponent({
 			if (this.filesListWidth < 768 || this.gridMode) {
 				return []
 			}
-			return this.enabledActions.filter(action => action?.inline?.(this.source, this.currentView))
+			return this.enabledFileActions.filter(action => {
+				try {
+					return action?.inline?.(this.source, this.currentView)
+				} catch (error) {
+					logger.error('Error while checking if action is inline', { action, error })
+					return false
+				}
+			})
 		},
 
 		// Enabled action that are displayed inline with a custom render function
@@ -191,12 +183,7 @@ export default defineComponent({
 			if (this.gridMode) {
 				return []
 			}
-			return this.enabledActions.filter(action => typeof action.renderInline === 'function')
-		},
-
-		// Default actions
-		enabledDefaultActions() {
-			return this.enabledActions.filter(action => !!action?.default)
+			return this.enabledFileActions.filter(action => typeof action.renderInline === 'function')
 		},
 
 		// Actions shown in the menu
@@ -211,7 +198,7 @@ export default defineComponent({
 				// Showing inline first for the NcActions inline prop
 				...this.enabledInlineActions,
 				// Then the rest
-				...this.enabledActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
+				...this.enabledFileActions.filter(action => action.default !== DefaultType.HIDDEN && typeof action.renderInline !== 'function'),
 			].filter((value, index, self) => {
 				// Then we filter duplicates to prevent inline actions to be shown twice
 				return index === self.findIndex(action => action.id === value.id)
@@ -222,18 +209,6 @@ export default defineComponent({
 
 			// Filter actions that are not top-level AND have a valid parent
 			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
-		},
-
-		enabledSubmenuActions() {
-			return this.enabledActions
-				.filter(action => action.parent)
-				.reduce((arr, action) => {
-					if (!arr[action.parent]) {
-						arr[action.parent] = []
-					}
-					arr[action.parent].push(action)
-					return arr
-				}, {} as Record<string, FileAction>)
 		},
 
 		openedMenu: {
@@ -253,96 +228,91 @@ export default defineComponent({
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
 		},
+	},
 
-		mountType() {
-			return this.source._attributes['mount-type']
+	watch: {
+		// Close any submenu when the menu state changes
+		openedMenu() {
+			this.openedSubmenu = null
 		},
+	},
+
+	created() {
+		useHotKey('Escape', this.onKeyDown, {
+			stop: true,
+			prevent: true,
+		})
+
+		useHotKey('a', this.onKeyDown, {
+			stop: true,
+			prevent: true,
+		})
 	},
 
 	methods: {
 		actionDisplayName(action: FileAction) {
-			if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
-				// if an inline action is rendered in the menu for
-				// lack of space we use the title first if defined
-				const title = action.title([this.source], this.currentView)
-				if (title) return title
+			try {
+				if ((this.gridMode || (this.filesListWidth < 768 && action.inline)) && typeof action.title === 'function') {
+					// if an inline action is rendered in the menu for
+					// lack of space we use the title first if defined
+					const title = action.title([this.source], this.currentView)
+					if (title) return title
+				}
+				return action.displayName([this.source], this.currentView)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+				// Not ideal, but better than nothing
+				return action.id
 			}
-			return action.displayName([this.source], this.currentView)
 		},
 
-		async onActionClick(action, isSubmenu = false) {
-			// Skip click on loading
-			if (this.isLoading || this.loading !== '') {
-				return
+		isLoadingAction(action: FileAction) {
+			if (!this.isActive) {
+				return false
 			}
+			return this.activeStore?.activeAction?.id === action.id
+		},
 
+		async onActionClick(action) {
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
 				return
 			}
 
-			const displayName = action.displayName([this.source], this.currentView)
-			try {
-				// Set the loading marker
-				this.$emit('update:loading', action.id)
-				Vue.set(this.source, 'status', NodeStatus.LOADING)
+			// Make sure we set the node as active
+			this.activeStore.setActiveNode(this.source)
 
-				const success = await action.exec(this.source, this.currentView, this.currentDir)
-
-				// If the action returns null, we stay silent
-				if (success === null || success === undefined) {
-					return
-				}
-
-				if (success) {
-					showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
-					return
-				}
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} catch (e) {
-				logger.error('Error while executing action', { action, e })
-				showError(t('files', '"{displayName}" action failed', { displayName }))
-			} finally {
-				// Reset the loading marker
-				this.$emit('update:loading', '')
-				Vue.set(this.source, 'status', undefined)
-
-				// If that was a submenu, we just go back after the action
-				if (isSubmenu) {
-					this.openedSubmenu = null
-				}
-			}
+			// Execute the action
+			await executeAction(action)
 		},
-		execDefaultAction(event) {
-			if (this.enabledDefaultActions.length > 0) {
-				event.preventDefault()
-				event.stopPropagation()
-				// Execute the first default action if any
-				this.enabledDefaultActions[0].exec(this.source, this.currentView, this.currentDir)
+
+		onKeyDown(event: KeyboardEvent) {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			// ESC close the action menu if opened
+			if (event.key === 'Escape' && this.openedMenu) {
+				this.openedMenu = false
+			}
+
+			// a open the action menu
+			if (event.key === 'a' && !this.openedMenu) {
+				this.openedMenu = true
 			}
 		},
 
-		isMenu(id: string) {
-			return this.enabledSubmenuActions[id]?.length > 0
-		},
-
-		async onBackToMenuClick(action: FileAction) {
+		onMenuClose() {
+			// We reset the submenu state when the menu is closing
 			this.openedSubmenu = null
-			// Wait for first render
-			await this.$nextTick()
-
-			// Focus the previous menu action button
-			this.$nextTick(() => {
-				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`]?.[0]
-				if (menuAction) {
-					menuAction.$el.querySelector('button')?.focus()
-				}
-			})
 		},
 
-		t,
+		onMenuClosed() {
+			// We reset the actions menu state when the menu is finally closed
+			this.openedMenu = false
+		},
 	},
 })
 </script>
@@ -365,13 +335,19 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 }
 </style>
 
-<style lang="scss" scoped>
-:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
-	.button-vue__text {
-		color: var(--color-primary-element);
+<style scoped lang="scss">
+.files-list__row-action {
+	--max-icon-size: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
+
+	// inline icons can have clickable area size so they still fit into the row
+	&.files-list__row-action--inline {
+		--max-icon-size: var(--default-clickable-area);
 	}
-	.button-vue__icon {
-		color: var(--color-primary-element);
+
+	// Some icons exceed the default size so we need to enforce a max width and height
+	.files-list__row-action-icon :deep(svg) {
+		max-height: var(--max-icon-size) !important;
+		max-width: var(--max-icon-size) !important;
 	}
 }
 </style>

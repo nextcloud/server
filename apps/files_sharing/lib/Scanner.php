@@ -1,38 +1,21 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files_Sharing;
 
 use OC\Files\ObjectStore\ObjectStoreScanner;
+use OC\Files\Storage\Storage;
 
 /**
  * Scanner for SharedStorage
  */
 class Scanner extends \OC\Files\Cache\Scanner {
 	/**
-	 * @var \OCA\Files_Sharing\SharedStorage $storage
+	 * @var SharedStorage $storage
 	 */
 	protected $storage;
 
@@ -61,7 +44,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 			return $this->sourceScanner;
 		}
 		if ($this->storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
-			/** @var \OC\Files\Storage\Storage $storage */
+			/** @var Storage $storage */
 			[$storage] = $this->storage->resolvePath('');
 			$this->sourceScanner = $storage->getScanner();
 			return $this->sourceScanner;
@@ -74,7 +57,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		$sourceScanner = $this->getSourceScanner();
 		if ($sourceScanner instanceof ObjectStoreScanner) {
 			// ObjectStoreScanner doesn't scan
-			return [];
+			return null;
 		} else {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock);
 		}

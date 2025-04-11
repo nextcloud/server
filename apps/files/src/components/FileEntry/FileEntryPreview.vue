@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<span class="files-list__row-icon">
 		<template v-if="source.type === 'folder'">
@@ -31,16 +14,22 @@
 			</template>
 		</template>
 
-		<!-- Decorative image, should not be aria documented -->
-		<img v-else-if="previewUrl && backgroundFailed !== true"
-			ref="previewImg"
-			alt=""
-			class="files-list__row-icon-preview"
-			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
-			loading="lazy"
-			:src="previewUrl"
-			@error="onBackgroundError"
-			@load="backgroundFailed = false">
+		<!-- Decorative images, should not be aria documented -->
+		<span v-else-if="previewUrl" class="files-list__row-icon-preview-container">
+			<canvas v-if="hasBlurhash && (backgroundFailed === true || !backgroundLoaded)"
+				ref="canvas"
+				class="files-list__row-icon-blurhash"
+				aria-hidden="true" />
+			<img v-if="backgroundFailed !== true"
+				ref="previewImg"
+				alt=""
+				class="files-list__row-icon-preview"
+				:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+				loading="lazy"
+				:src="previewUrl"
+				@error="onBackgroundError"
+				@load="onBackgroundLoad">
+		</span>
 
 		<FileIcon v-else v-once />
 
@@ -60,11 +49,13 @@ import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
 import { Node, FileType } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
-import { Type as ShareType } from '@nextcloud/sharing'
+import { generateUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
+import { decode } from 'blurhash'
+import { defineComponent } from 'vue'
 
-import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -76,12 +67,14 @@ import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
-import { useUserConfigStore } from '../../store/userconfig.ts'
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
-import { isLivePhoto } from '../../services/LivePhotos'
 
-export default Vue.extend({
+import { isLivePhoto } from '../../services/LivePhotos'
+import { useUserConfigStore } from '../../store/userconfig.ts'
+import logger from '../../logger.ts'
+
+export default defineComponent({
 	name: 'FileEntryPreview',
 
 	components: {
@@ -115,21 +108,25 @@ export default Vue.extend({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const isPublic = isPublicShare()
+		const publicSharingToken = getSharingToken()
+
 		return {
 			userConfigStore,
+
+			isPublic,
+			publicSharingToken,
 		}
 	},
 
 	data() {
 		return {
 			backgroundFailed: undefined as boolean | undefined,
+			backgroundLoaded: false,
 		}
 	},
 
 	computed: {
-		fileid() {
-			return this.source?.fileid?.toString?.()
-		},
 		isFavorite(): boolean {
 			return this.source.attributes.favorite === 1
 		},
@@ -152,15 +149,25 @@ export default Vue.extend({
 
 			try {
 				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileId={fileid}', {
-						fileid: this.fileid,
-					})
+					|| (this.isPublic
+						? generateUrl('/apps/files_sharing/publicpreview/{token}?file={file}', {
+							token: this.publicSharingToken,
+							file: this.source.path,
+						})
+						: generateUrl('/core/preview?fileId={fileid}', {
+							fileid: String(this.source.fileid),
+						})
+					)
 				const url = new URL(window.location.origin + previewUrl)
 
 				// Request tiny previews
 				url.searchParams.set('x', this.gridMode ? '128' : '32')
 				url.searchParams.set('y', this.gridMode ? '128' : '32')
 				url.searchParams.set('mimeFallback', 'true')
+
+				// Etag to force refresh preview on change
+				const etag = this.source?.attributes?.etag || ''
+				url.searchParams.set('v', etag.slice(0, 6))
 
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
@@ -195,7 +202,7 @@ export default Vue.extend({
 
 			// Link and mail shared folders
 			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
-			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
+			if (shareTypes.some(type => type === ShareType.Link || type === ShareType.Email)) {
 				return LinkIcon
 			}
 
@@ -212,10 +219,22 @@ export default Vue.extend({
 				return AccountGroupIcon
 			case 'collective':
 				return CollectivesIcon
+			case 'shared':
+				return AccountPlusIcon
 			}
 
 			return null
 		},
+
+		hasBlurhash() {
+			return this.source.attributes['metadata-blurhash'] !== undefined
+		},
+	},
+
+	mounted() {
+		if (this.hasBlurhash && this.$refs.canvas) {
+			this.drawBlurhash()
+		}
 	},
 
 	methods: {
@@ -223,9 +242,16 @@ export default Vue.extend({
 		reset() {
 			// Reset background state to cancel any ongoing requests
 			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
-				this.$refs.previewImg.src = ''
+			this.backgroundLoaded = false
+			const previewImg = this.$refs.previewImg as HTMLImageElement | undefined
+			if (previewImg) {
+				previewImg.src = ''
 			}
+		},
+
+		onBackgroundLoad() {
+			this.backgroundFailed = false
+			this.backgroundLoaded = true
 		},
 
 		onBackgroundError(event) {
@@ -234,6 +260,26 @@ export default Vue.extend({
 				return
 			}
 			this.backgroundFailed = true
+			this.backgroundLoaded = false
+		},
+
+		drawBlurhash() {
+			const canvas = this.$refs.canvas as HTMLCanvasElement
+
+			const width = canvas.width
+			const height = canvas.height
+
+			const pixels = decode(this.source.attributes['metadata-blurhash'], width, height)
+
+			const ctx = canvas.getContext('2d')
+			if (ctx === null) {
+				logger.error('Cannot create context for blurhash canvas')
+				return
+			}
+
+			const imageData = ctx.createImageData(width, height)
+			imageData.data.set(pixels)
+			ctx.putImageData(imageData, 0, 0)
 		},
 
 		t,

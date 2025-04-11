@@ -1,30 +1,7 @@
 <?php
 /**
- * @copyright 2014 Lukas Reschke lukas@nextcloud.com
- * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Controller;
 
@@ -81,7 +58,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testSetMailSettings() {
+	public function testSetMailSettings(): void {
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValues')
 			->withConsecutive(
@@ -93,7 +70,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtphost' => 'mx.nextcloud.org',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
-					'mail_sendmailmode' => null,
+					'mail_sendmailmode' => 'smtp',
 				]],
 				[[
 					'mail_domain' => 'nextcloud.com',
@@ -105,7 +82,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpport' => '25',
 					'mail_smtpname' => null,
 					'mail_smtppassword' => null,
-					'mail_sendmailmode' => null,
+					'mail_sendmailmode' => 'smtp',
 				]]
 			);
 
@@ -118,7 +95,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'mx.nextcloud.org',
 			1,
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 
@@ -131,12 +108,12 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'mx.nextcloud.org',
 			0,
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testStoreCredentials() {
+	public function testStoreCredentials(): void {
 		$this->config
 			->expects($this->once())
 			->method('setSystemValues')
@@ -149,7 +126,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testSendTestMail() {
+	public function testSendTestMail(): void {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')

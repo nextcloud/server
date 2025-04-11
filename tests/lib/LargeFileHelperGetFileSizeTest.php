@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Andreas Fischer <bantu@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -59,7 +58,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeViaExec($filename, $fileSize) {
+	public function testGetFileSizeViaExec($filename, $fileSize): void {
 		if (escapeshellarg('strängé') !== '\'strängé\'') {
 			$this->markTestSkipped('Your escapeshell args removes accents');
 		}
@@ -77,7 +76,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	/**
 	 * @dataProvider dataFileNameProvider
 	 */
-	public function testGetFileSizeNative($filename, $fileSize) {
+	public function testGetFileSizeNative($filename, $fileSize): void {
 		$this->assertSame(
 			$fileSize,
 			$this->helper->getFileSizeNative($filename)

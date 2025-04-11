@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Maintenance\Mimetype;
@@ -60,7 +46,7 @@ class UpdateDBTest extends TestCase {
 		$this->command = new UpdateDB($this->detector, $this->loader);
 	}
 
-	public function testNoop() {
+	public function testNoop(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -88,7 +74,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testAddMimetype() {
+	public function testAddMimetype(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -129,7 +115,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testSkipComments() {
+	public function testSkipComments(): void {
 		$this->detector->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
@@ -141,7 +127,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testRepairFilecache() {
+	public function testRepairFilecache(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(true);

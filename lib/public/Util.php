@@ -1,57 +1,23 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Individual IT Services <info@individual-it.net>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jonas Meurer <jonas@freesources.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Pellaeon Lin <nfsmwlin@gmail.com>
- * @author Randolph Carter <RandolphCarter@fantasymail.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\Security\CSRF\CsrfTokenManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -69,9 +35,10 @@ class Util {
 	 * get the current installed version of Nextcloud
 	 * @return array
 	 * @since 4.0.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getVersion
 	 */
 	public static function getVersion() {
-		return \OC_Util::getVersion();
+		return Server::get(ServerVersion::class)->getVersion();
 	}
 
 	/**
@@ -80,7 +47,7 @@ class Util {
 	public static function hasExtendedSupport(): bool {
 		try {
 			/** @var \OCP\Support\Subscription\IRegistry */
-			$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
+			$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
@@ -100,9 +67,10 @@ class Util {
 	 * Get current update channel
 	 * @return string
 	 * @since 8.1.0
+	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
 	public static function getChannel() {
-		return \OC_Util::getChannel();
+		return \OCP\Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
@@ -110,19 +78,16 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->get(IManager::class);
+			self::$shareManager = Server::get(IManager::class);
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
-		if ($user !== null) {
-			$user = $user->getUID();
-		}
+		$user = Server::get(\OCP\IUserSession::class)->getUser();
 
-		return self::$shareManager->sharingDisabledForUser($user);
+		return self::$shareManager->sharingDisabledForUser($user?->getUID());
 	}
 
 	/**
@@ -134,13 +99,15 @@ class Util {
 	}
 
 	/**
-	 * add a css file
-	 * @param string $application
-	 * @param string $file
+	 * Add a css file
+	 *
+	 * @param string $application application id
+	 * @param ?string $file filename
+	 * @param bool $prepend prepend the style to the beginning of the list
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null) {
-		\OC_Util::addStyle($application, $file);
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
+		\OC_Util::addStyle($application, $file, $prepend);
 	}
 
 	/**
@@ -242,7 +209,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -275,7 +242,7 @@ class Util {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
@@ -336,15 +303,15 @@ class Util {
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
-		$defaultEmailAddress = $user_part.'@'.$host_name;
+		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$mailer = \OC::$server->getMailer();
+		$mailer = \OC::$server->get(IMailer::class);
 		if ($mailer->validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
-		return $user_part.'@localhost.localdomain';
+		return $user_part . '@localhost.localdomain';
 	}
 
 	/**
@@ -416,7 +383,7 @@ class Util {
 
 	/**
 	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple OC_Template elements which invoke `callRegister`. If the value
+	 * multiple Template elements which invoke `callRegister`. If the value
 	 * would not be cached these unit-tests would fail.
 	 * @var string
 	 */
@@ -425,10 +392,11 @@ class Util {
 	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
+	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+			self::$token = \OC::$server->get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}
@@ -440,7 +408,7 @@ class Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
 	public static function sanitizeHTML($value) {
@@ -522,44 +490,11 @@ class Util {
 	}
 
 	/**
-	 * Get a list of characters forbidden in file names
-	 * @return string[]
-	 * @since 29.0.0
-	 */
-	public static function getForbiddenFileNameChars(): array {
-		// Get always forbidden characters
-		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-		if ($invalidChars === false) {
-			$invalidChars = [];
-		}
-
-		// Get admin defined invalid characters
-		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
-		if (!is_array($additionalChars)) {
-			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
-			$additionalChars = [];
-		}
-		return array_merge($invalidChars, $additionalChars);
-	}
-
-	/**
-	 * Returns whether the given file name is valid
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
-	 * @since 7.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
-	}
-
-	/**
 	 * Compare two strings to provide a natural sort
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
 	public static function naturalSortCompare($a, $b) {
@@ -634,7 +569,7 @@ class Util {
 		if (!function_exists($functionName)) {
 			return false;
 		}
-		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$ini = Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
 		if (in_array($functionName, $disabled)) {

@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\Template;
 
@@ -37,9 +18,11 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
@@ -80,7 +63,7 @@ class TemplateManager implements ITemplateManager {
 		IPreview $previewManager,
 		IConfig $config,
 		IFactory $l10nFactory,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->serverContainer = $serverContainer;
 		$this->eventDispatcher = $eventDispatcher;
@@ -119,6 +102,7 @@ class TemplateManager implements ITemplateManager {
 		if (!empty($this->types)) {
 			return $this->types;
 		}
+		$this->eventDispatcher->dispatchTyped(new RegisterTemplateCreatorEvent($this));
 		foreach ($this->registeredTypes as $registeredType) {
 			$this->types[] = $registeredType();
 		}
@@ -134,20 +118,21 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	public function listTemplates(): array {
-		return array_map(function (TemplateFileCreator $entry) {
+		return array_values(array_map(function (TemplateFileCreator $entry) {
 			return array_merge($entry->jsonSerialize(), [
 				'templates' => $this->getTemplateFiles($entry)
 			]);
-		}, $this->listCreators());
+		}, $this->listCreators()));
 	}
 
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
+	 * @param array $templateFields
 	 * @return array
 	 * @throws GenericFileException
 	 */
-	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user'): array {
+	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
 			$userFolder->get($filePath);
@@ -159,11 +144,9 @@ class TemplateManager implements ITemplateManager {
 				throw new GenericFileException($this->l10n->t('Invalid path'));
 			}
 			$folder = $userFolder->get(dirname($filePath));
-			$targetFile = $folder->newFile(basename($filePath));
 			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
-				$template->copy($targetFile->getPath());
 			} else {
 				$matchingProvider = array_filter($this->getRegisteredProviders(), function (ICustomTemplateProvider $provider) use ($templateType) {
 					return $templateType === get_class($provider);
@@ -171,10 +154,12 @@ class TemplateManager implements ITemplateManager {
 				$provider = array_shift($matchingProvider);
 				if ($provider) {
 					$template = $provider->getCustomTemplate($templateId);
-					$template->copy($targetFile->getPath());
 				}
 			}
-			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile));
+
+			$targetFile = $folder->newFile(basename($filePath), ($template instanceof File ? $template->fopen('rb') : null));
+
+			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile, $templateFields));
 			return $this->formatFile($userFolder->get($filePath));
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -188,13 +173,19 @@ class TemplateManager implements ITemplateManager {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OC\User\NoUserException
 	 */
-	private function getTemplateFolder(): Node {
+	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {
-			return $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+			$path = $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+			if ($path instanceof Folder) {
+				return $path;
+			}
 		}
 		throw new NotFoundException();
 	}
 
+	/**
+	 * @return list<Template>
+	 */
 	private function getTemplateFiles(TemplateFileCreator $type): array {
 		$templates = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
@@ -220,6 +211,8 @@ class TemplateManager implements ITemplateManager {
 				$templates[] = $template;
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates));
 
 		return $templates;
 	}

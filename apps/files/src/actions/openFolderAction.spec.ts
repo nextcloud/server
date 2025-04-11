@@ -1,26 +1,9 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { expect } from '@jest/globals'
 import { File, Folder, Node, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
 
 import { action } from './openFolderAction'
 
@@ -41,7 +24,7 @@ describe('Open folder action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-folder')
 		expect(action.displayName([folder], view)).toBe('Open folder FooBar')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-100)
 	})
@@ -117,7 +100,8 @@ describe('Open folder action enabled tests', () => {
 
 describe('Open folder action execute tests', () => {
 	test('Open folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({
@@ -131,11 +115,12 @@ describe('Open folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/FooBar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/FooBar' })
 	})
 
 	test('Open folder fails without node', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const exec = await action.exec(null as unknown as Node, view, '/')
@@ -144,7 +129,8 @@ describe('Open folder action execute tests', () => {
 	})
 
 	test('Open folder fails without Folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({

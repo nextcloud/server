@@ -30,6 +30,7 @@
     "%s (restricted)" : "%s (restringido)",
     "%s (invisible)" : "%s (invisible) ",
     "<strong>System tags</strong> for a file have been modified" : "Las <strong>etiquetas</strong> para un archivo han sido modificadas",
+    "Files" : "Archivo",
     "Tags" : "Etiquetas",
     "Collaborative tags" : "Etiquetas colaborativas",
     "Create" : "Crear",
@@ -40,14 +41,9 @@
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",
     "No tags found" : "No se encontraron etiquetas",
-    "Select tag …" : "Seleccionar etiqueta ...",
-    "Tagged files" : "Archivos etiquetados",
-    "Select tags to filter by" : "Seleccione las etiquetas para el filtro",
-    "Please select tags to filter by" : "Favor de seleccionar etiquetas para el filtro",
-    "No files found for the selected tags" : "No se encontraron archivos para las etiquetas seleccionadas",
-    "Name" : "Nombre",
     "No files in here" : "No hay archivos aquí",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
+    "Name" : "Nombre",
     "Size" : "Tamaño",
     "Modified" : "Modificado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

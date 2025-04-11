@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Remote;
@@ -39,7 +24,7 @@ class InstanceTest extends TestCase {
 		$this->cache = new ArrayCache();
 	}
 
-	public function testBasicStatus() {
+	public function testBasicStatus(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
@@ -49,7 +34,7 @@ class InstanceTest extends TestCase {
 		$this->assertEquals('https://example.com', $instance->getFullUrl());
 	}
 
-	public function testHttpFallback() {
+	public function testHttpFallback(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', new \Exception());
 		$this->expectGetRequest('http://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
@@ -58,7 +43,7 @@ class InstanceTest extends TestCase {
 		$this->assertEquals('http://example.com', $instance->getFullUrl());
 	}
 
-	public function testRerequestHttps() {
+	public function testRerequestHttps(): void {
 		$instance = new Instance('example.com', $this->cache, $this->getClientService());
 		$this->expectGetRequest('https://example.com/status.php', '{"installed":true,"maintenance":false,"needsDbUpgrade":false,"version":"13.0.0.5","versionstring":"13.0.0 alpha","edition":"","productname":"Nextcloud"}');
 
@@ -73,7 +58,7 @@ class InstanceTest extends TestCase {
 	}
 
 	
-	public function testPreventDowngradeAttach() {
+	public function testPreventDowngradeAttach(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('refusing to connect to remote instance(example.com) over http that was previously accessible over https');
 

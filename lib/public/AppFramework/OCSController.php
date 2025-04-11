@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Donquixote <marjunebatac@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework;
 
@@ -64,13 +44,13 @@ abstract class OCSController extends ApiController {
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
 	 * @param string $corsMethods comma separated string of HTTP verbs which
-	 * should be allowed for websites or webapps when calling your API, defaults to
-	 * 'PUT, POST, GET, DELETE, PATCH'
+	 *                            should be allowed for websites or webapps when calling your API, defaults to
+	 *                            'PUT, POST, GET, DELETE, PATCH'
 	 * @param string $corsAllowedHeaders comma separated string of HTTP headers
-	 * which should be allowed for websites or webapps when calling your API,
-	 * defaults to 'Authorization, Content-Type, Accept'
+	 *                                   which should be allowed for websites or webapps when calling your API,
+	 *                                   defaults to 'Authorization, Content-Type, Accept'
 	 * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
-	 * request should be cached, defaults to 1728000 seconds
+	 *                        request should be cached, defaults to 1728000 seconds
 	 * @since 8.1.0
 	 */
 	public function __construct($appName,
@@ -101,7 +81,7 @@ abstract class OCSController extends ApiController {
 	 * Since the OCS endpoints default to XML we need to find out the format
 	 * again
 	 * @param mixed $response the value that was returned from a controller and
-	 * is not a Response instance
+	 *                        is not a Response instance
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws \DomainException if format does not match a registered formatter
 	 * @return Response

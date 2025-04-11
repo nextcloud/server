@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests;
 
@@ -36,7 +17,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		return new UserPluginManager();
 	}
 
-	public function testImplementsActions() {
+	public function testImplementsActions(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -63,7 +44,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$this->assertTrue($pluginManager->implementsActions(Backend::PROVIDE_AVATAR));
 	}
 
-	public function testCreateUser() {
+	public function testCreateUser(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -86,7 +67,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateUserNotRegistered() {
+	public function testCreateUserNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements createUser in this LDAP Backend.');
 
@@ -94,7 +75,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createUser('foo', 'bar');
 	}
 
-	public function testSetPassword() {
+	public function testSetPassword(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -117,7 +98,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testSetPasswordNotRegistered() {
+	public function testSetPasswordNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements setPassword in this LDAP Backend.');
 
@@ -125,7 +106,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setPassword('foo', 'bar');
 	}
 
-	public function testGetHome() {
+	public function testGetHome(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -147,7 +128,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetHomeNotRegistered() {
+	public function testGetHomeNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements getHome in this LDAP Backend.');
 
@@ -155,7 +136,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getHome('foo');
 	}
 
-	public function testGetDisplayName() {
+	public function testGetDisplayName(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -177,7 +158,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetDisplayNameNotRegistered() {
+	public function testGetDisplayNameNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements getDisplayName in this LDAP Backend.');
 
@@ -185,7 +166,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getDisplayName('foo');
 	}
 
-	public function testSetDisplayName() {
+	public function testSetDisplayName(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -208,7 +189,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testSetDisplayNameNotRegistered() {
+	public function testSetDisplayNameNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements setDisplayName in this LDAP Backend.');
 
@@ -216,7 +197,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setDisplayName('foo', 'bar');
 	}
 
-	public function testCanChangeAvatar() {
+	public function testCanChangeAvatar(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -238,7 +219,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCanChangeAvatarNotRegistered() {
+	public function testCanChangeAvatarNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements canChangeAvatar in this LDAP Backend.');
 
@@ -246,7 +227,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->canChangeAvatar('foo');
 	}
 
-	public function testCountUsers() {
+	public function testCountUsers(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -265,7 +246,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCountUsersNotRegistered() {
+	public function testCountUsersNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements countUsers in this LDAP Backend.');
 
@@ -273,7 +254,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsers();
 	}
 
-	public function testDeleteUser() {
+	public function testDeleteUser(): void {
 		$pluginManager = $this->getUserPluginManager();
 
 		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPUserPluginDummy')
@@ -301,7 +282,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testDeleteUserNotRegistered() {
+	public function testDeleteUserNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements deleteUser in this LDAP Backend.');
 

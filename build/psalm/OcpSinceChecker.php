@@ -1,26 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2023 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @author 2023 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassLike;
 use Psalm\CodeLocation;
@@ -33,17 +17,23 @@ use Psalm\Plugin\EventHandler\Event\AfterClassLikeVisitEvent;
 
 class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitInterface {
 	public static function afterClassLikeVisit(AfterClassLikeVisitEvent $event): void {
-		$stmt = $event->getStmt();
+		$classLike = $event->getStmt();
 		$statementsSource = $event->getStatementsSource();
 
-		self::checkClassComment($stmt, $statementsSource);
+		self::checkClassComment($classLike, $statementsSource);
 
-		foreach ($stmt->getMethods() as $method) {
-			self::checkMethodOrConstantComment($method, $statementsSource, 'method');
-		}
+		foreach ($classLike->stmts as $stmt) {
+			if ($stmt instanceof ClassConst) {
+				self::checkStatementComment($stmt, $statementsSource, 'constant');
+			}
 
-		foreach ($stmt->getConstants() as $constant) {
-			self::checkMethodOrConstantComment($constant, $statementsSource, 'constant');
+			if ($stmt instanceof ClassMethod) {
+				self::checkStatementComment($stmt, $statementsSource, 'method');
+			}
+
+			if ($stmt instanceof EnumCase) {
+				self::checkStatementComment($stmt, $statementsSource, 'enum');
+			}
 		}
 	}
 
@@ -91,7 +81,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		}
 	}
 
-	private static function checkMethodOrConstantComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
+	private static function checkStatementComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
 		$docblock = $stmt->getDocComment();
 
 		if ($docblock === null) {

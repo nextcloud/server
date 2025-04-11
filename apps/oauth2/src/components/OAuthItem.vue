@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @author Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr>
 		<td>{{ name }}</td>
@@ -27,11 +10,12 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton type="tertiary-no-background"
+				<NcButton v-if="clientSecret !== ''"
+					type="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
-						<EyeOutline :size="20"/>
+						<EyeOutline :size="20" />
 					</template>
 				</NcButton>
 			</div>
@@ -53,7 +37,7 @@
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'OAuthItem',
@@ -89,9 +73,9 @@ export default {
 		toggleAriaLabel() {
 			if (!this.renderSecret) {
 				return t('oauth2', 'Show client secret')
-			} 
+			}
 			return t('oauth2', 'Hide client secret')
-		}
+		},
 	},
 	methods: {
 		toggleSecret() {
@@ -106,13 +90,16 @@ export default {
 		display: flex;
 		align-items: center;
 	}
+
 	.action-secret code {
 		padding-top: 5px;
 	}
+
 	td code {
 		display: inline-block;
 		vertical-align: middle;
 	}
+
 	table.inline td {
 		border: none;
 		padding: 5px;
@@ -121,6 +108,6 @@ export default {
 	.action-column {
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 0;
+		padding-inline-end: 0;
 	}
 </style>

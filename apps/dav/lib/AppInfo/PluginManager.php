@@ -3,28 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\AppInfo;
 
@@ -45,16 +26,6 @@ use function is_array;
  * to the Sabre server.
  */
 class PluginManager {
-
-	/**
-	 * @var ServerContainer
-	 */
-	private $container;
-
-	/**
-	 * @var IAppManager
-	 */
-	private $appManager;
 
 	/**
 	 * App plugins
@@ -93,9 +64,10 @@ class PluginManager {
 	 * @param ServerContainer $container server container for resolving plugin classes
 	 * @param IAppManager $appManager app manager to loading apps and their info
 	 */
-	public function __construct(ServerContainer $container, IAppManager $appManager) {
-		$this->container = $container;
-		$this->appManager = $appManager;
+	public function __construct(
+		private ServerContainer $container,
+		private IAppManager $appManager,
+	) {
 	}
 
 	/**
@@ -147,7 +119,7 @@ class PluginManager {
 
 		$this->calendarPlugins[] = $this->container->get(AppCalendarPlugin::class);
 
-		foreach ($this->appManager->getInstalledApps() as $app) {
+		foreach ($this->appManager->getEnabledApps() as $app) {
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['types']) || !in_array('dav', $info['types'], true)) {

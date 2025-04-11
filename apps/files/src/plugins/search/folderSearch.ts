@@ -1,31 +1,14 @@
 /**
- * @copyright Copyright (c) 2024 Fon E. Noel NFEBE <opensource@nfebe.com>
- *
- * @author Fon E. Noel NFEBE <opensource@nfebe.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { Node } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
-import { getFilePickerBuilder } from '@nextcloud/dialogs';
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { imagePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../../logger'
-import '@nextcloud/dialogs/style.css'
 
 /**
  * Initialize the unified search plugin.
@@ -33,36 +16,43 @@ import '@nextcloud/dialogs/style.css'
 function init() {
 	const OCA = window.OCA
 	if (!OCA.UnifiedSearch) {
-		return;
+		return
 	}
 
-	logger.info('Initializing unified search plugin: folder search from files app');
+	logger.info('Initializing unified search plugin: folder search from files app')
 	OCA.UnifiedSearch.registerFilterAction({
-		id: 'files',
+		id: 'in-folder',
 		appId: 'files',
+		searchFrom: 'files',
 		label: t('files', 'In folder'),
 		icon: imagePath('files', 'app.svg'),
-		callback: () => {
-			const filepicker = getFilePickerBuilder('Pick plain text files')
-				.addMimeTypeFilter('httpd/unix-directory')
-				.allowDirectories(true)
-				.addButton({
-					label: 'Pick',
-					callback: (nodes: Node[]) => {
-						logger.info('Folder picked', { folder: nodes[0] })
-						const folder = nodes[0]
-						emit('nextcloud:unified-search:add-filter', {
-							id: 'files',
-							payload: folder,
-							filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
-							filterParams: { path: folder.path },
-						})
-					},
-				})
-				.build()
-			filepicker.pick()
+		callback: (showFilePicker: boolean = true) => {
+			if (showFilePicker) {
+				const filepicker = getFilePickerBuilder('Pick plain text files')
+					.addMimeTypeFilter('httpd/unix-directory')
+					.allowDirectories(true)
+					.addButton({
+						label: 'Pick',
+						callback: (nodes: Node[]) => {
+							logger.info('Folder picked', { folder: nodes[0] })
+							const folder = nodes[0]
+							emit('nextcloud:unified-search:add-filter', {
+								id: 'in-folder',
+								appId: 'files',
+								searchFrom: 'files',
+								payload: folder,
+								filterUpdateText: t('files', 'Search in folder: {folder}', { folder: folder.basename }),
+								filterParams: { path: folder.path },
+							})
+						},
+					})
+					.build()
+				filepicker.pick()
+			} else {
+				logger.debug('Folder search callback was handled without showing the file picker, it might already be open')
+			}
 		},
 	})
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', init)

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: webdav-related
 	Background:
 		Given using api version "1"
@@ -35,6 +37,43 @@ Feature: webdav-related
 		When User "user0" moves file "/welcome.txt" to "/textfile0.txt"
 		Then the HTTP status code should be "204"
 		And Downloaded content when downloading file "/textfile0.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Moving and overwriting it's parent
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		And user "user0" created a folder "/test"
+		And user "user0" created a folder "/test/test"
+		When User "user0" moves file "/test/test" to "/test"
+		Then the HTTP status code should be "403"
+
+	Scenario: Moving a file from shared folder to root folder
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" created a folder "/testshare"
+		And User "user0" copies file "/welcome.txt" to "/testshare/welcome.txt"
+		And as "user0" creating a share with
+			| path | testshare |
+			| shareType | 0 |
+			| shareWith | user1 |
+		When User "user1" moves file "/testshare/welcome.txt" to "/movedwelcome.txt"
+		Then As an "user1"
+		And Downloaded content when downloading file "/movedwelcome.txt" with range "bytes=0-6" should be "Welcome"
+
+	Scenario: Moving a file from root folder to shared folder
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" created a folder "/testshare"
+		And as "user0" creating a share with
+			| path | testshare |
+			| shareType | 0 |
+			| shareWith | user1 |
+		When User "user1" moves file "/welcome.txt" to "/testshare/movedwelcome.txt"
+		Then As an "user1"
+		And Downloaded content when downloading file "/testshare/movedwelcome.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Moving a file to a folder with no permissions
 		Given using old dav path
@@ -276,33 +315,6 @@ Feature: webdav-related
 		Given Logging in using web as "admin"
 		When Sending a "PROPFIND" to "/remote.php/webdav/welcome.txt" with requesttoken
 		Then the HTTP status code should be "207"
-
-	Scenario: Upload chunked file asc
-		Given user "user0" exists
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
-
-	Scenario: Upload chunked file desc
-		Given user "user0" exists
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
-
-	Scenario: Upload chunked file random
-		Given user "user0" exists
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
 	Scenario: A file that is not shared does not have a share-types property
 		Given user "user0" exists
@@ -694,7 +706,7 @@ Feature: webdav-related
 		And user "user0" uploads new chunk v2 file "2" to id "chunking-random"
 		And user "user0" uploads new chunk v2 file "4" to id "chunking-random"
 		And user "user0" moves new chunk v2 file with id "chunking-random"
-    Then the upload should fail on object storage
+		Then the upload should fail on object storage
 
 	@s3-multipart
 	Scenario: Upload chunked file with special characters with new chunking v2

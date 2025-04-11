@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation;
 
@@ -51,36 +31,19 @@ class TrustedServers {
 	/** remote server revoked access */
 	public const STATUS_ACCESS_REVOKED = 4;
 
-	private DbHandler $dbHandler;
-	private IClientService $httpClientService;
-	private LoggerInterface $logger;
-	private IJobList $jobList;
-	private ISecureRandom $secureRandom;
-	private IConfig $config;
-	private IEventDispatcher $dispatcher;
-	private ITimeFactory $timeFactory;
-
 	/** @var list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>|null */
 	private ?array $trustedServersCache = null;
 
 	public function __construct(
-		DbHandler $dbHandler,
-		IClientService $httpClientService,
-		LoggerInterface $logger,
-		IJobList $jobList,
-		ISecureRandom $secureRandom,
-		IConfig $config,
-		IEventDispatcher $dispatcher,
-		ITimeFactory $timeFactory
+		private DbHandler $dbHandler,
+		private IClientService $httpClientService,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
+		private ISecureRandom $secureRandom,
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private ITimeFactory $timeFactory,
 	) {
-		$this->dbHandler = $dbHandler;
-		$this->httpClientService = $httpClientService;
-		$this->logger = $logger;
-		$this->jobList = $jobList;
-		$this->secureRandom = $secureRandom;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -133,13 +96,32 @@ class TrustedServers {
 	 * Get all trusted servers
 	 *
 	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	public function getServers() {
+	public function getServers(): ?array {
 		if ($this->trustedServersCache === null) {
 			$this->trustedServersCache = $this->dbHandler->getAllServer();
 		}
 		return $this->trustedServersCache;
+	}
+
+	/**
+	 * Get a trusted server
+	 *
+	 * @return array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}
+	 * @throws Exception
+	 */
+	public function getServer(int $id): ?array {
+		if ($this->trustedServersCache === null) {
+			$this->trustedServersCache = $this->dbHandler->getAllServer();
+		}
+
+		$server = array_filter($this->trustedServersCache, fn ($server) => $server['id'] === $id);
+		if (empty($server)) {
+			throw new \Exception('No server found with ID: ' . $id);
+		}
+
+		return $server[0];
 	}
 
 	/**
@@ -175,6 +157,7 @@ class TrustedServers {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {

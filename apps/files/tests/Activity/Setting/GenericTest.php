@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Tests\Activity\Setting;
 
 use OCA\Files\Activity\Settings\FavoriteAction;
 use OCA\Files\Activity\Settings\FileChanged;
 use OCP\Activity\ISetting;
+use OCP\Server;
 use Test\TestCase;
 
 class GenericTest extends TestCase {
@@ -42,8 +24,8 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testImplementsInterface($settingClass) {
-		$setting = \OC::$server->query($settingClass);
+	public function testImplementsInterface($settingClass): void {
+		$setting = Server::get($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
 
@@ -51,9 +33,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetIdentifier($settingClass) {
+	public function testGetIdentifier($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsString($setting->getIdentifier());
 	}
 
@@ -61,9 +43,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetName($settingClass) {
+	public function testGetName($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsString($setting->getName());
 	}
 
@@ -71,9 +53,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetPriority($settingClass) {
+	public function testGetPriority($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$priority = $setting->getPriority();
 		$this->assertIsInt($setting->getPriority());
 		$this->assertGreaterThanOrEqual(0, $priority);
@@ -84,9 +66,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeStream($settingClass) {
+	public function testCanChangeStream($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
 	}
 
@@ -94,9 +76,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledStream($settingClass) {
+	public function testIsDefaultEnabledStream($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
 	}
 
@@ -104,9 +86,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeMail($settingClass) {
+	public function testCanChangeMail($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
 	}
 
@@ -114,9 +96,9 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledMail($settingClass) {
+	public function testIsDefaultEnabledMail($settingClass): void {
 		/** @var ISetting $setting */
-		$setting = \OC::$server->query($settingClass);
+		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());
 	}
 }

@@ -1,53 +1,29 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OCP\IUserSession;
+use OCP\Server;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Auth implements BackendInterface {
 	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
-	 * @var string
-	 */
-	private $password;
-
-	/**
 	 * Auth constructor.
 	 *
 	 * @param string $user
 	 * @param string $password
 	 */
-	public function __construct($user, $password) {
-		$this->user = $user;
-		$this->password = $password;
+	public function __construct(
+		private $user,
+		private $password,
+	) {
 	}
 
 	/**
@@ -79,7 +55,7 @@ class Auth implements BackendInterface {
 	 * @return array
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response) {
-		$userSession = \OC::$server->getUserSession();
+		$userSession = Server::get(IUserSession::class);
 		$result = $userSession->login($this->user, $this->password);
 		if ($result) {
 			//we need to pass the user name, which may differ from login name
@@ -89,7 +65,7 @@ class Auth implements BackendInterface {
 			\OC::$server->getUserFolder($user);
 			return [true, "principals/$user"];
 		}
-		return [false, "login failed"];
+		return [false, 'login failed'];
 	}
 
 	/**

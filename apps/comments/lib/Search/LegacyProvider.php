@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Search;
 
@@ -31,7 +14,9 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Search\Provider;
+use OCP\Server;
 use function count;
 
 class LegacyProvider extends Provider {
@@ -43,8 +28,8 @@ class LegacyProvider extends Provider {
 	 * @since 7.0.0
 	 */
 	public function search($query): array {
-		$cm = \OC::$server->get(ICommentsManager::class);
-		$us = \OC::$server->getUserSession();
+		$cm = Server::get(ICommentsManager::class);
+		$us = Server::get(IUserSession::class);
 
 		$user = $us->getUser();
 		if (!$user instanceof IUser) {
@@ -102,7 +87,7 @@ class LegacyProvider extends Provider {
 	 * @throws NotFoundException
 	 */
 	protected function getFileForComment(Folder $userFolder, IComment $comment): Node {
-		$nodes = $userFolder->getById((int) $comment->getObjectId());
+		$nodes = $userFolder->getById((int)$comment->getObjectId());
 		if (empty($nodes)) {
 			throw new NotFoundException('File not found');
 		}

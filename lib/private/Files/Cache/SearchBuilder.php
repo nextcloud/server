@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Files\Cache;
@@ -33,6 +12,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 
 /**
@@ -85,7 +65,7 @@ class SearchBuilder {
 		'owner' => 'string',
 	];
 
-	/** @var array<string, int> */
+	/** @var array<string, int|string> */
 	protected static $paramTypeMap = [
 		'string' => IQueryBuilder::PARAM_STR,
 		'integer' => IQueryBuilder::PARAM_INT,
@@ -101,13 +81,10 @@ class SearchBuilder {
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
-	/** @var IMimeTypeLoader */
-	private $mimetypeLoader;
-
 	public function __construct(
-		IMimeTypeLoader $mimetypeLoader
+		private IMimeTypeLoader $mimetypeLoader,
+		private IFilesMetadataManager $filesMetadataManager,
 	) {
-		$this->mimetypeLoader = $mimetypeLoader;
 	}
 
 	/**
@@ -131,7 +108,7 @@ class SearchBuilder {
 	public function searchOperatorArrayToDBExprArray(
 		IQueryBuilder $builder,
 		array $operators,
-		?IMetadataQuery $metadataQuery = null
+		?IMetadataQuery $metadataQuery = null,
 	) {
 		return array_filter(array_map(function ($operator) use ($builder, $metadataQuery) {
 			return $this->searchOperatorToDBExpr($builder, $operator, $metadataQuery);
@@ -141,7 +118,7 @@ class SearchBuilder {
 	public function searchOperatorToDBExpr(
 		IQueryBuilder $builder,
 		ISearchOperator $operator,
-		?IMetadataQuery $metadataQuery = null
+		?IMetadataQuery $metadataQuery = null,
 	) {
 		$expr = $builder->expr();
 
@@ -177,7 +154,7 @@ class SearchBuilder {
 		IQueryBuilder $builder,
 		ISearchComparison $comparison,
 		array $operatorMap,
-		?IMetadataQuery $metadataQuery = null
+		?IMetadataQuery $metadataQuery = null,
 	) {
 		if ($comparison->getExtra()) {
 			[$field, $value, $type, $paramType] = $this->getExtraOperatorField($comparison, $metadataQuery);
@@ -306,12 +283,19 @@ class SearchBuilder {
 
 
 	private function getExtraOperatorField(ISearchComparison $operator, IMetadataQuery $metadataQuery): array {
-		$paramType = self::$fieldTypes[$operator->getField()];
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
 
-		switch($operator->getExtra()) {
+		$knownMetadata = $this->filesMetadataManager->getKnownMetadata();
+		$isIndex = $knownMetadata->isIndex($field);
+		$paramType = $knownMetadata->getType($field) === 'int' ? 'integer' : 'string';
+
+		if (!$isIndex) {
+			throw new \InvalidArgumentException('Cannot search non indexed metadata key');
+		}
+
+		switch ($operator->getExtra()) {
 			case IMetadataQuery::EXTRA:
 				$metadataQuery->joinIndex($field); // join index table if not joined yet
 				$field = $metadataQuery->getMetadataValueField($field);

@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests\User;
 
@@ -29,6 +9,7 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Share\IManager;
 
 /**
@@ -57,8 +38,8 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
-		$this->config = \OC::$server->getConfig();
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->config = Server::get(IConfig::class);
+		$this->db = Server::get(IDBConnection::class);
 
 		// ensure a clean database
 		$this->config->deleteAppFromAllUsers('user_ldap');
@@ -74,7 +55,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testMarkAndFetchUser() {
+	public function testMarkAndFetchUser(): void {
 		$uids = [
 			'cef3775c-71d2-48eb-8984-39a4051b0b95',
 			'8c4bbb40-33ed-42d0-9b14-85b0ab76c1cc',
@@ -102,7 +83,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		$this->assertEmpty($uids);
 	}
 
-	public function testUnmarkUser() {
+	public function testUnmarkUser(): void {
 		$uids = [
 			'22a162c7-a9ee-487c-9f33-0563795583fb',
 			'1fb4e0da-4a75-47f3-8fa7-becc7e35c9c5',

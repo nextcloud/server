@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # Set environment variable DEBUG to print config file
-#
-# @author Thomas Müller
-# @copyright 2015 Thomas Müller <deepdiver@owncloud.com>
 #
 
 # retrieve current folder to place the config in the parent folder

@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\TwoFactorBackupCodes\Tests\Db;
 
@@ -32,6 +12,7 @@ use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -58,8 +39,8 @@ class BackupCodeMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
-		$this->mapper = \OC::$server->query(BackupCodeMapper::class);
+		$this->db = Server::get(IDBConnection::class);
+		$this->mapper = Server::get(BackupCodeMapper::class);
 
 		$this->resetDB();
 	}
@@ -70,7 +51,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->resetDB();
 	}
 
-	public function testGetBackupCodes() {
+	public function testGetBackupCodes(): void {
 		$code1 = new BackupCode();
 		$code1->setUserId($this->testUID);
 		$code1->setCode('1|$2y$10$Fyo.DkMtkaHapVvRVbQBeeIdi5x/6nmPnxiBzD0GDKa08NMus5xze');
@@ -96,7 +77,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->assertInstanceOf(BackupCode::class, $dbCodes[1]);
 	}
 
-	public function testDeleteCodes() {
+	public function testDeleteCodes(): void {
 		$code = new BackupCode();
 		$code->setUserId($this->testUID);
 		$code->setCode('1|$2y$10$CagG8pEhZL.xDirtCCP/KuuWtnsAasgq60zY9rU46dBK4w8yW0Z/y');
@@ -115,7 +96,7 @@ class BackupCodeMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getBackupCodes($user));
 	}
 
-	public function testInsertArgonEncryptedCodes() {
+	public function testInsertArgonEncryptedCodes(): void {
 		$code = new BackupCode();
 		$code->setUserId($this->testUID);
 		$code->setCode('2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY');

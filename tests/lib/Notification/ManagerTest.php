@@ -2,23 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Notification;
@@ -32,6 +18,7 @@ use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,8 +29,8 @@ class ManagerTest extends TestCase {
 	/** @var IManager */
 	protected $manager;
 
-	/** @var IValidator|MockObject */
-	protected $validator;
+	protected IValidator&MockObject $validator;
+	protected IRichTextFormatter&MockObject $richTextFormatter;
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var ICacheFactory|MockObject */
@@ -63,6 +50,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->validator = $this->createMock(IValidator::class);
+		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
@@ -78,7 +66,15 @@ class ManagerTest extends TestCase {
 		$this->coordinator->method('getRegistrationContext')
 			->willReturn($this->registrationContext);
 
-		$this->manager = new Manager($this->validator, $this->userManager, $this->cacheFactory, $this->subscriptionRegistry, $this->logger, $this->coordinator);
+		$this->manager = new Manager(
+			$this->validator,
+			$this->userManager,
+			$this->cacheFactory,
+			$this->subscriptionRegistry,
+			$this->logger,
+			$this->coordinator,
+			$this->richTextFormatter,
+		);
 	}
 
 	public function testRegisterApp(): void {
@@ -155,6 +151,7 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -186,6 +183,7 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -210,6 +208,7 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -235,6 +234,7 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
 			->setMethods(['getApps'])
 			->getMock();

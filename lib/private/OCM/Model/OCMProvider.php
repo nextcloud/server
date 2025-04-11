@@ -3,29 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\OCM\Model;
 
+use NCU\Security\Signature\Model\Signatory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
@@ -42,7 +26,7 @@ class OCMProvider implements IOCMProvider {
 	private string $endPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
-
+	private ?Signatory $signatory = null;
 	private bool $emittedEvent = false;
 
 	public function __construct(
@@ -169,6 +153,14 @@ class OCMProvider implements IOCMProvider {
 		throw new OCMArgumentException('resource not found');
 	}
 
+	public function setSignatory(Signatory $signatory): void {
+		$this->signatory = $signatory;
+	}
+
+	public function getSignatory(): ?Signatory {
+		return $this->signatory;
+	}
+
 	/**
 	 * import data from an array
 	 *
@@ -180,8 +172,9 @@ class OCMProvider implements IOCMProvider {
 	 */
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
-			 ->setApiVersion((string)($data['apiVersion'] ?? ''))
-			 ->setEndPoint($data['endPoint'] ?? '');
+			// Fall back to old apiVersion for Nextcloud 30 compatibility
+			->setApiVersion((string)($data['version'] ?? $data['apiVersion'] ?? ''))
+			->setEndPoint($data['endPoint'] ?? '');
 
 		$resources = [];
 		foreach (($data['resourceTypes'] ?? []) as $resourceData) {
@@ -189,6 +182,16 @@ class OCMProvider implements IOCMProvider {
 			$resources[] = $resource->import($resourceData);
 		}
 		$this->setResourceTypes($resources);
+
+		if (isset($data['publicKey'])) {
+			// import details about the remote request signing public key, if available
+			$signatory = new Signatory();
+			$signatory->setKeyId($data['publicKey']['keyId'] ?? '');
+			$signatory->setPublicKey($data['publicKey']['publicKeyPem'] ?? '');
+			if ($signatory->getKeyId() !== '' && $signatory->getPublicKey() !== '') {
+				$this->setSignatory($signatory);
+			}
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -205,18 +208,22 @@ class OCMProvider implements IOCMProvider {
 		return ($this->getApiVersion() !== '' && $this->getEndPoint() !== '');
 	}
 
-
 	/**
 	 * @return array{
-	 *     enabled: bool,
-	 *     apiVersion: string,
-	 *     endPoint: string,
-	 *     resourceTypes: array{
-	 *              name: string,
-	 *              shareTypes: string[],
-	 *              protocols: array<string, string>
-	 *            }[]
-	 *   }
+	 *      enabled: bool,
+	 *      apiVersion: '1.0-proposal1',
+	 *      endPoint: string,
+	 *      publicKey?: array{
+	 *          keyId: string,
+	 *          publicKeyPem: string
+	 *      },
+	 *      resourceTypes: list<array{
+	 *          name: string,
+	 *          shareTypes: list<string>,
+	 *          protocols: array<string, string>
+	 *      }>,
+	 *      version: string
+	 *  }
 	 */
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
@@ -226,8 +233,10 @@ class OCMProvider implements IOCMProvider {
 
 		return [
 			'enabled' => $this->isEnabled(),
-			'apiVersion' => $this->getApiVersion(),
+			'apiVersion' => '1.0-proposal1', // deprecated, but keep it to stay compatible with old version
+			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
+			'publicKey' => $this->getSignatory()?->jsonSerialize(),
 			'resourceTypes' => $resourceTypes
 		];
 	}

@@ -2,32 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\DAV\Sharing;
 
@@ -50,7 +27,8 @@ abstract class Backend {
 
 	private ICache $shareCache;
 
-	public function __construct(private IUserManager $userManager,
+	public function __construct(
+		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private Principal $principalBackend,
 		private ICacheFactory $cacheFactory,
@@ -81,7 +59,7 @@ abstract class Backend {
 			}
 
 			// Don't add share for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
@@ -106,7 +84,7 @@ abstract class Backend {
 			}
 
 			// Don't add unshare for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
@@ -115,7 +93,7 @@ abstract class Backend {
 
 			// Check if a user has a groupshare that they're trying to free themselves from
 			// If so we need to add a self::ACCESS_UNSHARED row
-			if(!str_contains($principal, 'group')
+			if (!str_contains($principal, 'group')
 				&& $this->service->hasGroupShare($oldShares)
 			) {
 				$this->service->unshare($shareable->getResourceId(), $principal);
@@ -153,15 +131,15 @@ abstract class Backend {
 
 		$rows = $this->service->getShares($resourceId);
 		$shares = [];
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => (int) $row['access'] === Backend::ACCESS_READ,
+				'readOnly' => (int)$row['access'] === Backend::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles'))
 			];
 		}
 		$this->shareCache->set((string)$resourceId, $shares);
@@ -178,14 +156,14 @@ abstract class Backend {
 
 		$rows = $this->service->getSharesForIds($resourceIds);
 		$sharesByResource = array_fill_keys($resourceIds, []);
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$resourceId = (int)$row['resourceid'];
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
+				'readOnly' => (int)$row['access'] === self::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
 				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
 			];

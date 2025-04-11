@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Share20;
@@ -141,7 +125,7 @@ class ShareByMailProviderTest extends TestCase {
 
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
 		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
 	}
 
@@ -195,7 +179,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('token', $qb->expr()->literal($token));
 		}
 		if ($expiration) {
-			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
+			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATETIME_MUTABLE));
 		}
 		if ($parent) {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
@@ -205,7 +189,7 @@ class ShareByMailProviderTest extends TestCase {
 		return $qb->getLastInsertId();
 	}
 
-	public function testGetSharesByWithResharesAndNoNode() {
+	public function testGetSharesByWithResharesAndNoNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',
@@ -252,7 +236,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertEquals('external.one@domain.tld', $actual[0]->getSharedWith());
 	}
 
-	public function testGetSharesByWithResharesAndNode() {
+	public function testGetSharesByWithResharesAndNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',

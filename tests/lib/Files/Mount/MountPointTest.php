@@ -1,22 +1,19 @@
 <?php
 /**
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Mount;
 
 use OC\Files\Storage\StorageFactory;
-use OCP\Files\Storage;
-
-class DummyStorage {
-}
+use OC\Lockdown\Filesystem\NullStorage;
+use OCP\Files\Storage\IStorage;
 
 class MountPointTest extends \Test\TestCase {
-	public function testGetStorage() {
-		$storage = $this->createMock(Storage::class);
+	public function testGetStorage(): void {
+		$storage = $this->createMock(IStorage::class);
 		$storage->expects($this->once())
 			->method('getId')
 			->willReturn(123);
@@ -28,7 +25,7 @@ class MountPointTest extends \Test\TestCase {
 
 		$mountPoint = new \OC\Files\Mount\MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			NullStorage::class,
 			'/mountpoint',
 			null,
 			$loader
@@ -42,7 +39,7 @@ class MountPointTest extends \Test\TestCase {
 		$this->assertEquals('/another/', $mountPoint->getMountPoint());
 	}
 
-	public function testInvalidStorage() {
+	public function testInvalidStorage(): void {
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
@@ -55,7 +52,7 @@ class MountPointTest extends \Test\TestCase {
 
 		$mountPoint = new \OC\Files\Mount\MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			NullStorage::class,
 			'/mountpoint',
 			null,
 			$loader

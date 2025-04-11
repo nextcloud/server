@@ -2,24 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2024, Maxence Lange <maxence@artificial-owl.com
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\AppFramework\Services;
@@ -51,9 +35,9 @@ class AppConfigTest extends TestCase {
 	public function testGetAppKeys(): void {
 		$expected = ['key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7', 'test8'];
 		$this->appConfigCore->expects($this->once())
-							->method('getKeys')
-							->with(self::TEST_APPID)
-							->willReturn($expected);
+			->method('getKeys')
+			->with(self::TEST_APPID)
+			->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->getAppKeys());
 	}
 
@@ -81,9 +65,9 @@ class AppConfigTest extends TestCase {
 	public function testHasAppKey(bool $lazy, bool $expected): void {
 		$key = 'key';
 		$this->appConfigCore->expects($this->once())
-							->method('hasKey')
-							->with(self::TEST_APPID, $key, $lazy)
-							->willReturn($expected);
+			->method('hasKey')
+			->with(self::TEST_APPID, $key, $lazy)
+			->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->hasAppKey($key, $lazy));
 	}
 
@@ -111,9 +95,9 @@ class AppConfigTest extends TestCase {
 	public function testIsSensitive(bool $lazy, bool $expected): void {
 		$key = 'key';
 		$this->appConfigCore->expects($this->once())
-							->method('isSensitive')
-							->with(self::TEST_APPID, $key, $lazy)
-							->willReturn($expected);
+			->method('isSensitive')
+			->with(self::TEST_APPID, $key, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->isSensitive($key, $lazy));
 	}
@@ -127,9 +111,9 @@ class AppConfigTest extends TestCase {
 	public function testIsSensitiveException(bool $lazy, bool $expected): void {
 		$key = 'unknown-key';
 		$this->appConfigCore->expects($this->once())
-							->method('isSensitive')
-							->with(self::TEST_APPID, $key, $lazy)
-							->willThrowException(new AppConfigUnknownKeyException());
+			->method('isSensitive')
+			->with(self::TEST_APPID, $key, $lazy)
+			->willThrowException(new AppConfigUnknownKeyException());
 
 		$this->expectException(AppConfigUnknownKeyException::class);
 		$this->appConfig->isSensitive($key, $lazy);
@@ -155,9 +139,9 @@ class AppConfigTest extends TestCase {
 	public function testIsLazy(bool $expected): void {
 		$key = 'key';
 		$this->appConfigCore->expects($this->once())
-							->method('isLazy')
-							->with(self::TEST_APPID, $key)
-							->willReturn($expected);
+			->method('isLazy')
+			->with(self::TEST_APPID, $key)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->isLazy($key));
 	}
@@ -165,9 +149,9 @@ class AppConfigTest extends TestCase {
 	public function testIsLazyException(): void {
 		$key = 'unknown-key';
 		$this->appConfigCore->expects($this->once())
-							->method('isLazy')
-							->with(self::TEST_APPID, $key)
-							->willThrowException(new AppConfigUnknownKeyException());
+			->method('isLazy')
+			->with(self::TEST_APPID, $key)
+			->willThrowException(new AppConfigUnknownKeyException());
 
 		$this->expectException(AppConfigUnknownKeyException::class);
 		$this->appConfig->isLazy($key);
@@ -202,9 +186,9 @@ class AppConfigTest extends TestCase {
 		];
 
 		$this->appConfigCore->expects($this->once())
-							->method('getAllValues')
-							->with(self::TEST_APPID, $key, $filtered)
-							->willReturn($expected);
+			->method('getAllValues')
+			->with(self::TEST_APPID, $key, $filtered)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAllAppValues($key, $filtered));
 	}
@@ -213,8 +197,8 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 'value';
 		$this->appConfigCore->expects($this->once())
-							->method('setValueMixed')
-							->with(self::TEST_APPID, $key, $value);
+			->method('setValueMixed')
+			->with(self::TEST_APPID, $key, $value);
 
 		$this->appConfig->setAppValue($key, $value);
 	}
@@ -255,9 +239,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 'valueString';
 		$this->appConfigCore->expects($this->once())
-							->method('setValueString')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willReturn($expected);
+			->method('setValueString')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->setAppValueString($key, $value, $lazy, $sensitive));
 	}
@@ -272,9 +256,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 'valueString';
 		$this->appConfigCore->expects($this->once())
-							->method('setValueString')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('setValueString')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->setAppValueString($key, $value, $lazy, $sensitive);
@@ -291,9 +275,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 42;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueInt')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willReturn($expected);
+			->method('setValueInt')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->setAppValueInt($key, $value, $lazy, $sensitive));
 	}
@@ -308,9 +292,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 42;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueInt')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('setValueInt')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->setAppValueInt($key, $value, $lazy, $sensitive);
@@ -327,9 +311,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 3.14;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueFloat')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willReturn($expected);
+			->method('setValueFloat')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->setAppValueFloat($key, $value, $lazy, $sensitive));
 	}
@@ -344,9 +328,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = 3.14;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueFloat')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('setValueFloat')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->setAppValueFloat($key, $value, $lazy, $sensitive);
@@ -376,9 +360,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = true;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueBool')
-							->with(self::TEST_APPID, $key, $value, $lazy)
-							->willReturn($expected);
+			->method('setValueBool')
+			->with(self::TEST_APPID, $key, $value, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->setAppValueBool($key, $value, $lazy));
 	}
@@ -392,9 +376,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = true;
 		$this->appConfigCore->expects($this->once())
-							->method('setValueBool')
-							->with(self::TEST_APPID, $key, $value, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('setValueBool')
+			->with(self::TEST_APPID, $key, $value, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->setAppValueBool($key, $value, $lazy);
@@ -411,9 +395,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = ['item' => true];
 		$this->appConfigCore->expects($this->once())
-							->method('setValueArray')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willReturn($expected);
+			->method('setValueArray')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->setAppValueArray($key, $value, $lazy, $sensitive));
 	}
@@ -428,9 +412,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$value = ['item' => true];
 		$this->appConfigCore->expects($this->once())
-							->method('setValueArray')
-							->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('setValueArray')
+			->with(self::TEST_APPID, $key, $value, $lazy, $sensitive)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->setAppValueArray($key, $value, $lazy, $sensitive);
@@ -441,9 +425,9 @@ class AppConfigTest extends TestCase {
 		$value = 'value';
 		$default = 'default';
 		$this->appConfigCore->expects($this->once())
-							->method('getValueMixed')
-							->with(self::TEST_APPID, $key, $default)
-							->willReturn($value);
+			->method('getValueMixed')
+			->with(self::TEST_APPID, $key, $default)
+			->willReturn($value);
 
 		$this->assertSame($value, $this->appConfig->getAppValue($key, $default));
 	}
@@ -452,9 +436,9 @@ class AppConfigTest extends TestCase {
 		$key = 'key';
 		$default = 'default';
 		$this->appConfigCore->expects($this->once())
-							->method('getValueMixed')
-							->with(self::TEST_APPID, $key, $default)
-							->willReturn($default);
+			->method('getValueMixed')
+			->with(self::TEST_APPID, $key, $default)
+			->willReturn($default);
 
 		$this->assertSame($default, $this->appConfig->getAppValue($key, $default));
 	}
@@ -495,9 +479,9 @@ class AppConfigTest extends TestCase {
 
 		$expected = ($exist) ? $value : $default;
 		$this->appConfigCore->expects($this->once())
-							->method('getValueString')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willReturn($expected);
+			->method('getValueString')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAppValueString($key, $default, $lazy));
 	}
@@ -512,9 +496,9 @@ class AppConfigTest extends TestCase {
 		$default = 'default';
 
 		$this->appConfigCore->expects($this->once())
-							->method('getValueString')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('getValueString')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->getAppValueString($key, $default, $lazy);
@@ -533,9 +517,9 @@ class AppConfigTest extends TestCase {
 
 		$expected = ($exist) ? $value : $default;
 		$this->appConfigCore->expects($this->once())
-							->method('getValueInt')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willReturn($expected);
+			->method('getValueInt')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAppValueInt($key, $default, $lazy));
 	}
@@ -550,9 +534,9 @@ class AppConfigTest extends TestCase {
 		$default = 17;
 
 		$this->appConfigCore->expects($this->once())
-							->method('getValueInt')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('getValueInt')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->getAppValueInt($key, $default, $lazy);
@@ -571,9 +555,9 @@ class AppConfigTest extends TestCase {
 
 		$expected = ($exist) ? $value : $default;
 		$this->appConfigCore->expects($this->once())
-							->method('getValueFloat')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willReturn($expected);
+			->method('getValueFloat')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAppValueFloat($key, $default, $lazy));
 	}
@@ -588,9 +572,9 @@ class AppConfigTest extends TestCase {
 		$default = 17.04;
 
 		$this->appConfigCore->expects($this->once())
-							->method('getValueFloat')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('getValueFloat')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->getAppValueFloat($key, $default, $lazy);
@@ -609,9 +593,9 @@ class AppConfigTest extends TestCase {
 
 		$expected = ($exist) ? $value : $default; // yes, it can be simplified
 		$this->appConfigCore->expects($this->once())
-							->method('getValueBool')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willReturn($expected);
+			->method('getValueBool')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAppValueBool($key, $default, $lazy));
 	}
@@ -626,9 +610,9 @@ class AppConfigTest extends TestCase {
 		$default = false;
 
 		$this->appConfigCore->expects($this->once())
-							->method('getValueBool')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('getValueBool')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->getAppValueBool($key, $default, $lazy);
@@ -647,9 +631,9 @@ class AppConfigTest extends TestCase {
 
 		$expected = ($exist) ? $value : $default;
 		$this->appConfigCore->expects($this->once())
-							->method('getValueArray')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willReturn($expected);
+			->method('getValueArray')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willReturn($expected);
 
 		$this->assertSame($expected, $this->appConfig->getAppValueArray($key, $default, $lazy));
 	}
@@ -664,9 +648,9 @@ class AppConfigTest extends TestCase {
 		$default = [];
 
 		$this->appConfigCore->expects($this->once())
-							->method('getValueArray')
-							->with(self::TEST_APPID, $key, $default, $lazy)
-							->willThrowException(new AppConfigTypeConflictException());
+			->method('getValueArray')
+			->with(self::TEST_APPID, $key, $default, $lazy)
+			->willThrowException(new AppConfigTypeConflictException());
 
 		$this->expectException(AppConfigTypeConflictException::class);
 		$this->appConfig->getAppValueArray($key, $default, $lazy);
@@ -675,16 +659,16 @@ class AppConfigTest extends TestCase {
 	public function testDeleteAppValue(): void {
 		$key = 'key';
 		$this->appConfigCore->expects($this->once())
-							->method('deleteKey')
-							->with(self::TEST_APPID, $key);
+			->method('deleteKey')
+			->with(self::TEST_APPID, $key);
 
 		$this->appConfig->deleteAppValue($key);
 	}
 
 	public function testDeleteAppValues(): void {
 		$this->appConfigCore->expects($this->once())
-							->method('deleteApp')
-							->with(self::TEST_APPID);
+			->method('deleteApp')
+			->with(self::TEST_APPID);
 
 		$this->appConfig->deleteAppValues();
 	}

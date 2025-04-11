@@ -1,31 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\Constants;
+use OCP\ITempManager;
+use OCP\Server;
 use OCP\Share\IShare;
 use Test\Traits\UserTrait;
 
@@ -41,13 +25,13 @@ class SizePropagationTest extends TestCase {
 
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
 		$this->loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
 
-	public function testSizePropagationWhenOwnerChangesFile() {
+	public function testSizePropagationWhenOwnerChangesFile(): void {
 		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
 		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
@@ -59,7 +43,7 @@ class SizePropagationTest extends TestCase {
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
@@ -82,7 +66,7 @@ class SizePropagationTest extends TestCase {
 		$this->assertEquals($ownerRootInfo->getSize() + 3, $newOwnerRootInfo->getSize());
 	}
 
-	public function testSizePropagationWhenRecipientChangesFile() {
+	public function testSizePropagationWhenRecipientChangesFile(): void {
 		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
 		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
@@ -94,7 +78,7 @@ class SizePropagationTest extends TestCase {
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 

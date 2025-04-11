@@ -1,47 +1,20 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
+use OC\Share\Share;
 use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
@@ -49,9 +22,11 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Constants;
+use OCP\GlobalScale\IConfig as GlobalScaleIConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use function array_slice;
@@ -94,19 +69,10 @@ class ShareesAPIController extends OCSController {
 
 	protected $reachedEndFor = [];
 
-	/**
-	 * @param string $UserId
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
-	 * @param IManager $shareManager
-	 * @param ISearch $collaboratorSearch
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		protected string $userId,
+		protected ?string $userId,
 		protected IConfig $config,
 		protected IURLGenerator $urlGenerator,
 		protected IManager $shareManager,
@@ -116,21 +82,20 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Search for sharees
 	 *
 	 * @param string $search Text to search for
 	 * @param string|null $itemType Limit to specific item types
 	 * @param int $page Page offset for searching
 	 * @param int $perPage Limit amount of search results per page
-	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @param int|list<int>|null $shareType Limit to specific share types
 	 * @param bool $lookup If a global lookup should be performed too
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesSearchResult, array{Link?: string}>
 	 * @throws OCSBadRequestException Invalid search parameters
 	 *
 	 * 200: Sharees search result returned
 	 */
+	#[NoAdminRequired]
 	public function search(string $search = '', ?string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
@@ -193,7 +158,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -204,22 +169,18 @@ class ShareesAPIController extends OCSController {
 		if ($shareType !== null && is_array($shareType)) {
 			$shareTypes = array_intersect($shareTypes, $shareType);
 		} elseif (is_numeric($shareType)) {
-			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
+			$shareTypes = array_intersect($shareTypes, [(int)$shareType]);
 		}
 		sort($shareTypes);
 
 		$this->limit = $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		// In global scale mode we always search the loogup server
-		if ($this->config->getSystemValueBool('gs.enabled', false)) {
-			$lookup = true;
-			$this->result['lookupEnabled'] = true;
-		} else {
-			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		}
+		// In global scale mode we always search the lookup server
+		$this->result['lookupEnabled'] = Server::get(GlobalScaleIConfig::class)->isGlobalScaleEnabled();
+		// TODO: Reconsider using lookup server for non-global-scale federation
 
-		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $this->result['lookupEnabled'], $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
@@ -287,7 +248,7 @@ class ShareesAPIController extends OCSController {
 			$sharees = $this->getAllShareesByType($user, $shareType);
 			$shareTypeResults = [];
 			foreach ($sharees as [$sharee, $displayname]) {
-				if (!isset($this->searchResultTypeMap[$shareType])) {
+				if (!isset($this->searchResultTypeMap[$shareType]) || trim($sharee) === '') {
 					continue;
 				}
 
@@ -326,16 +287,15 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Find recommended sharees
 	 *
 	 * @param string $itemType Limit to specific item types
-	 * @param int|int[]|null $shareType Limit to specific share types
+	 * @param int|list<int>|null $shareType Limit to specific share types
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesRecommendedResult, array{}>
 	 *
 	 * 200: Recommended sharees returned
 	 */
+	#[NoAdminRequired]
 	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [
 			IShare::TYPE_USER,
@@ -367,7 +327,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -375,7 +335,7 @@ class ShareesAPIController extends OCSController {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
 		} elseif (is_numeric($shareType)) {
-			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
+			$shareTypes = array_intersect($shareTypes, [(int)$shareType]);
 			sort($shareTypes);
 		}
 
@@ -393,7 +353,7 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteSharingAllowed(string $itemType): bool {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = \OC\Share\Share::getBackend($itemType);
+			$backend = Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;
@@ -403,7 +363,7 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = \OC\Share\Share::getBackend($itemType);
+			$backend = Share::getBackend($itemType);
 			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE_GROUP);
 		} catch (\Exception $e) {
 			return false;

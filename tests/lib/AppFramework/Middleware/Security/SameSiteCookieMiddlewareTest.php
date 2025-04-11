@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware\Security;
@@ -50,7 +33,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector);
 	}
 
-	public function testBeforeControllerNoIndex() {
+	public function testBeforeControllerNoIndex(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/ocs/v2.php');
 
@@ -58,7 +41,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexHasAnnotation() {
+	public function testBeforeControllerIndexHasAnnotation(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
@@ -70,7 +53,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexNoAnnotationPassingCheck() {
+	public function testBeforeControllerIndexNoAnnotationPassingCheck(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
@@ -85,7 +68,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexNoAnnotationFailingCheck() {
+	public function testBeforeControllerIndexNoAnnotationFailingCheck(): void {
 		$this->expectException(LaxSameSiteCookieFailedException::class);
 
 		$this->request->method('getScriptName')
@@ -101,7 +84,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
 	}
 
-	public function testAfterExceptionNoLaxCookie() {
+	public function testAfterExceptionNoLaxCookie(): void {
 		$ex = new SecurityException();
 
 		try {
@@ -112,7 +95,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		}
 	}
 
-	public function testAfterExceptionLaxCookie() {
+	public function testAfterExceptionLaxCookie(): void {
 		$ex = new LaxSameSiteCookieFailedException();
 
 		$this->request->method('getRequestUri')

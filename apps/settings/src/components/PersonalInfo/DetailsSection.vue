@@ -1,23 +1,6 @@
 <!--
-	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -37,6 +20,7 @@
 			<div class="details__quota">
 				<CircleSlice :size="20" />
 				<div class="details__quota-info">
+					<!-- eslint-disable-next-line vue/no-v-html -->
 					<p class="details__quota-text" v-html="quotaText" />
 					<NcProgressBar size="medium"
 						:value="usageRelative"
@@ -49,8 +33,9 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
+import { t } from '@nextcloud/l10n'
 
+import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import Account from 'vue-material-design-icons/Account.vue'
 import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
 
@@ -81,12 +66,14 @@ export default {
 	computed: {
 		quotaText() {
 			if (quota === SPACE_UNLIMITED) {
-				return t('settings', 'You are using <strong>{usage}</strong>', { usage })
+				return t('settings', 'You are using {s}{usage}{/s}', { usage, s: '<strong>', '/s': '</strong>' }, undefined, { escape: false })
 			}
 			return t(
 				'settings',
-				'You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)',
-				{ usage, totalSpace, usageRelative },
+				'You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})',
+				{ usage, totalSpace, usageRelative, s: '<strong>', '/s': '</strong>' },
+				undefined,
+				{ escape: false },
 			)
 		},
 	},
@@ -97,7 +84,8 @@ export default {
 .details {
 	display: flex;
 	flex-direction: column;
-	margin: 10px 32px 10px 0;
+	margin-block: 10px;
+	margin-inline: 0 32px;
 	gap: 16px 0;
 	color: var(--color-text-maxcontrast);
 

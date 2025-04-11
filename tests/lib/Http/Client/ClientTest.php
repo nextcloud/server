@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Http\Client;
@@ -131,6 +130,13 @@ class ClientTest extends \Test\TestCase {
 		], self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
+	public function testPreventLocalAddressThrowOnInvalidUri(): void {
+		$this->expectException(LocalServerException::class);
+		$this->expectExceptionMessage('Could not detect any host');
+
+		self::invokePrivate($this->client, 'preventLocalAddress', ['!@#$', []]);
+	}
+
 	public function dataPreventLocalAddress():array {
 		return [
 			['https://localhost/foo.bar'],
@@ -147,7 +153,6 @@ class ClientTest extends \Test\TestCase {
 			['https://10.0.0.1'],
 			['https://another-host.local'],
 			['https://service.localhost'],
-			['!@#$', true], // test invalid url
 			['https://normal.host.com'],
 			['https://com.one-.nextcloud-one.com'],
 		];
@@ -487,7 +492,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],
@@ -546,7 +551,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],
@@ -606,7 +611,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],

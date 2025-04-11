@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clement Wong <git@clement.hk>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework\Http;
 
@@ -42,7 +18,7 @@ use Psr\Log\LoggerInterface;
  *
  * It handles headers, HTTP status code, last modified and ETag.
  * @since 6.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
  */
 class Response {
@@ -120,7 +96,7 @@ class Response {
 			/** @var ITimeFactory $time */
 			$time = \OCP\Server::get(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
-			$expires->add(new \DateInterval('PT'.$cacheSeconds.'S'));
+			$expires->add(new \DateInterval('PT' . $cacheSeconds . 'S'));
 			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC2822));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -135,8 +111,8 @@ class Response {
 	 * @param string $name The name of the cookie
 	 * @param string $value The value of the cookie
 	 * @param \DateTime|null $expireDate Date on that the cookie should expire, if set
-	 * 									to null cookie will be considered as session
-	 * 									cookie.
+	 *                                   to null cookie will be considered as session
+	 *                                   cookie.
 	 * @param string $sameSite The samesite value of the cookie. Defaults to Lax. Other possibilities are Strict or None
 	 * @return $this
 	 * @since 8.0.0
@@ -313,7 +289,7 @@ class Response {
 	/**
 	 * Get the currently used Content-Security-Policy
 	 * @return EmptyContentSecurityPolicy|null Used Content-Security-Policy or null if
-	 *                                    none specified.
+	 *                                         none specified.
 	 * @since 8.1.0
 	 */
 	public function getContentSecurityPolicy() {

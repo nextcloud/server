@@ -6,11 +6,9 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Configuración inválida: La vinculación anónima no está permitida. ",
     "Valid configuration, connection established!" : "¡Configuración válida, conexión establecida!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Configuración válida, pero la vinculación falló. Por favor verifica la configuración del servidor y las credenciales.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor verifica las bitácoras para más detalles.",
     "No action specified" : "No se ha especificado alguna acción",
     "No configuration specified" : "No se ha especificado una configuración",
     "No data specified" : "No se han especificado datos",
-    " Could not set configuration %s" : "No fue posible establecer la configuración %s",
     "Action does not exist" : "La acción no existe",
     "Renewing …" : "Renovando ...",
     "Very weak password" : "Contraseña muy debil",
@@ -50,7 +48,6 @@ OC.L10N.register(
     "An unspecified error occurred. Please check log and settings." : "Se presentó un error inesperado. Por fvor verifica la bitácora y las configuraciones.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "El filtro de la búsqueda es inválido, posiblemente debido a temas de sintaxis como un número diferente de corchetes abiertos y cerrados. Por favor verifícalo. ",
     "Please provide a login name to test against" : "Favor de proporcionar un nombre de usuario contra el cual probar",
-    "Password change rejected. Hint: " : "Cambio de contraseña rechazado. Pista: ",
     "Please login with the new password" : "Por favor inicia sesion con la nueva contraseña",
     "Your password will expire tomorrow." : "Tu contraseña expirará mañana.",
     "Your password will expire today." : "Tu contraseña expirará el día de hoy. ",
@@ -173,6 +170,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapeo del Usuario al Usuario LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nombres de usuarios son usados para almacenar y asignar metadatos. Para poder identificar y reconocer usuarios con precisión, cada usuario LDAP tendrá un nombre de usuario interno. Esto requiere una correspondencia de nombre de usuario a usuario LDAP. El nombre de usuario creado tiene una correspondencia al UUID del usuario LDAP. Adicionalmente, también se manda a cache el DN para reducir las interacciones con LDAP, pero no se usa para identificación. Si el DN cambia, los cambios serán encontrados. El nombre de usuario interno se usa intensivamente. Limpiar las correspondencias dejará restos en muhcos logares. ¡Limpiar las correspondencias no es sensitivo a la configuración, afecta a todas las configuraciones LDAP! Nunca limpies las correspondencias en un ambiente de producción, solo hazlo en los ambientes de pruebas o experimentación.",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Usuarios a los Usuarios-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Configuración inválida. Por favor verifica las bitácoras para más detalles."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -1,26 +1,9 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { expect } from '@jest/globals'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
+import { File, Permission, View, FileAction, Folder } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
 
 import { action } from './sidebarAction'
 import logger from '../logger'
@@ -35,7 +18,7 @@ describe('Open sidebar action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
 		expect(action.displayName([], view)).toBe('Open details')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
@@ -124,9 +107,12 @@ describe('Open sidebar action enabled tests', () => {
 
 describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
-		const openMock = jest.fn()
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
-		const goToRouteMock = jest.fn()
+		const openMock = vi.fn()
+		const defaultTabMock = vi.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -140,18 +126,49 @@ describe('Open sidebar action exec tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(defaultTabMock).toBeCalledWith('sharing')
 		expect(goToRouteMock).toBeCalledWith(
 			null,
-			{ view: view.id, fileid: 1 },
-			{ dir: '/' },
+			{ view: view.id, fileid: '1' },
+			{ dir: '/', opendetails: 'true' },
+			true,
+		)
+	})
+
+	test('Open sidebar for folder', async () => {
+		const openMock = vi.fn()
+		const defaultTabMock = vi.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
+		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
+
+		const file = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar',
+			owner: 'admin',
+			mime: 'httpd/unix-directory',
+		})
+
+		const exec = await action.exec(file, view, '/')
+		// Silent action
+		expect(exec).toBe(null)
+		expect(openMock).toBeCalledWith('/foobar')
+		expect(defaultTabMock).toBeCalledWith('sharing')
+		expect(goToRouteMock).toBeCalledWith(
+			null,
+			{ view: view.id, fileid: '1' },
+			{ dir: '/', opendetails: 'true' },
 			true,
 		)
 	})
 
 	test('Open sidebar fails', async () => {
-		const openMock = jest.fn(() => { throw new Error('Mock error') })
-		window.OCA = { Files: { Sidebar: { open: openMock } } }
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
+		const openMock = vi.fn(() => { throw new Error('Mock error') })
+		const defaultTabMock = vi.fn()
+		window.OCA = { Files: { Sidebar: { open: openMock, setActiveTab: defaultTabMock } } }
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
 
 		const file = new File({
 			id: 1,

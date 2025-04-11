@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security;
@@ -44,7 +43,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testGetLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testGetLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -53,7 +52,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testMediumLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -62,18 +61,18 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testUninitializedGenerate($length, $expectedLength) {
+	public function testUninitializedGenerate($length, $expectedLength): void {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
 	/**
 	 * @dataProvider charCombinations
 	 */
-	public function testScheme($charName, $chars) {
+	public function testScheme($charName, $chars): void {
 		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
 		$randomString = $generator->generate(100, $scheme);
-		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);
+		$matchesRegex = preg_match('/^' . $chars . '+$/', $randomString);
 		$this->assertSame(1, $matchesRegex);
 	}
 
@@ -87,7 +86,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider invalidLengths
 	 */
-	public function testInvalidLengths($length) {
+	public function testInvalidLengths($length): void {
 		$this->expectException(\LengthException::class);
 		$generator = $this->rng;
 		$generator->generate($length);

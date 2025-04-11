@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
@@ -56,13 +35,13 @@ class ReminderServiceTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|MockObject*/
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
 
 	/** @var CalDavBackend|MockObject */
 	private $caldavBackend;
 
-	/** @var ITimeFactory|MockObject  */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
 	/** @var IConfig|MockObject */
@@ -448,7 +427,7 @@ EOD;
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
-	public function testOnCalendarObjectCreateAllDayWithoutTimezone(): void {
+	public function testOnCalendarObjectCreateAllDayWithNullTimezone(): void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_ALL_DAY,
 			'id' => '42',
@@ -464,6 +443,33 @@ EOD;
 			->with(1337)
 			->willReturn([
 				'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => null,
+			]);
+
+		// One hour before midnight relative to the server's time
+		$expectedReminderTimstamp = (new DateTime('2023-02-03T23:00:00'))->getTimestamp();
+		$this->backend->expects(self::once())
+			->method('insertReminder')
+			->with(1337, 42, self::anything(), false, 1675468800, false, self::anything(), self::anything(), 'EMAIL', true, $expectedReminderTimstamp, false);
+
+		$this->reminderService->onCalendarObjectCreate($objectData);
+	}
+
+	public function testOnCalendarObjectCreateAllDayWithBlankTimezone(): void {
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA_ALL_DAY,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+		$this->timeFactory->expects($this->once())
+			->method('getDateTime')
+			->with()
+			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2023-02-03T13:28:00+00:00'));
+		$this->caldavBackend->expects(self::once())
+			->method('getCalendarById')
+			->with(1337)
+			->willReturn([
+				'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => '',
 			]);
 
 		// One hour before midnight relative to the server's time

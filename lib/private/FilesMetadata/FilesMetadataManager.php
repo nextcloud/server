@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2023 Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\FilesMetadata;
@@ -92,13 +75,16 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function refreshMetadata(
 		Node $node,
 		int $process = self::PROCESS_LIVE,
-		string $namedEvent = ''
+		string $namedEvent = '',
 	): IFilesMetadata {
+		$storageId = $node->getStorage()->getCache()->getNumericStorageId();
 		try {
+			/** @var FilesMetadata $metadata */
 			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
 		} catch (FilesMetadataNotFoundException) {
 			$metadata = new FilesMetadata($node->getId());
 		}
+		$metadata->setStorageId($storageId);
 
 		// if $process is LIVE, we enforce LIVE
 		// if $process is NAMED, we go NAMED
@@ -121,7 +107,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 				return $this->refreshMetadata($node, self::PROCESS_BACKGROUND);
 			}
 
-			$this->jobList->add(UpdateSingleMetadata::class, [$node->getOwner()->getUID(), $node->getId()]);
+			$this->jobList->add(UpdateSingleMetadata::class, [$node->getOwner()?->getUID(), $node->getId()]);
 		}
 
 		return $metadata;
@@ -241,7 +227,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function getMetadataQuery(
 		IQueryBuilder $qb,
 		string $fileTableAlias,
-		string $fileIdField
+		string $fileIdField,
 	): IMetadataQuery {
 		return new MetadataQuery($qb, $this, $fileTableAlias, $fileIdField);
 	}
@@ -290,7 +276,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		string $key,
 		string $type,
 		bool $indexed = false,
-		int $editPermission = IMetadataValueWrapper::EDIT_FORBIDDEN
+		int $editPermission = IMetadataValueWrapper::EDIT_FORBIDDEN,
 	): void {
 		$current = $this->getKnownMetadata();
 		try {

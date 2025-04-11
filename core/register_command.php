@@ -3,54 +3,10 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christian Kampka <christian@kampka.net>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Denis Mosolov <denismosolov@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
- * @author Johannes Riedel <joeried@users.noreply.github.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author michag86 <micha_g@arcor.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Patrik Kernstock <info@pkern.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Ruben Homs <ruben@homs.codes>
- * @author Sean Molenaar <sean@seanmolenaar.eu>
- * @author sualko <klaus@jsxc.org>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use OC\Core\Command;
 use OCP\IConfig;
 use OCP\Server;
@@ -82,12 +38,11 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\State::class));
 
-	$application->add(Server::get(Command\Background\Cron::class));
-	$application->add(Server::get(Command\Background\WebCron::class));
-	$application->add(Server::get(Command\Background\Ajax::class));
+	$application->add(Server::get(Command\Background\Mode::class));
 	$application->add(Server::get(Command\Background\Job::class));
 	$application->add(Server::get(Command\Background\ListCommand::class));
 	$application->add(Server::get(Command\Background\Delete::class));
+	$application->add(Server::get(Command\Background\JobWorker::class));
 
 	$application->add(Server::get(Command\Broadcast\Test::class));
 
@@ -109,7 +64,11 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Db\AddMissingColumns::class));
 	$application->add(Server::get(Command\Db\AddMissingIndices::class));
 	$application->add(Server::get(Command\Db\AddMissingPrimaryKeys::class));
+	$application->add(Server::get(Command\Db\ExpectedSchema::class));
+	$application->add(Server::get(Command\Db\ExportSchema::class));
 
+	$application->add(Server::get(Command\Db\Migrations\GenerateMetadataCommand::class));
+	$application->add(Server::get(Command\Db\Migrations\PreviewCommand::class));
 	if ($config->getSystemValueBool('debug', false)) {
 		$application->add(Server::get(Command\Db\Migrations\StatusCommand::class));
 		$application->add(Server::get(Command\Db\Migrations\MigrateCommand::class));
@@ -143,6 +102,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Maintenance\Repair::class));
 	$application->add(Server::get(Command\Maintenance\RepairShareOwnership::class));
 
+	$application->add(Server::get(Command\Preview\Cleanup::class));
 	$application->add(Server::get(Command\Preview\Generate::class));
 	$application->add(Server::get(Command\Preview\Repair::class));
 	$application->add(Server::get(Command\Preview\ResetRenderedTexts::class));
@@ -163,6 +123,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\User\AuthTokens\ListCommand::class));
 	$application->add(Server::get(Command\User\AuthTokens\Delete::class));
 	$application->add(Server::get(Command\User\Keys\Verify::class));
+	$application->add(Server::get(Command\User\Welcome::class));
 
 	$application->add(Server::get(Command\Group\Add::class));
 	$application->add(Server::get(Command\Group\Delete::class));
@@ -177,12 +138,20 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SystemTag\Edit::class));
 
 	$application->add(Server::get(Command\Security\ListCertificates::class));
+	$application->add(Server::get(Command\Security\ExportCertificates::class));
 	$application->add(Server::get(Command\Security\ImportCertificate::class));
 	$application->add(Server::get(Command\Security\RemoveCertificate::class));
 	$application->add(Server::get(Command\Security\BruteforceAttempts::class));
 	$application->add(Server::get(Command\Security\BruteforceResetAttempts::class));
 	$application->add(Server::get(Command\SetupChecks::class));
 	$application->add(Server::get(Command\FilesMetadata\Get::class));
+
+	$application->add(Server::get(Command\TaskProcessing\GetCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\EnabledCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
+
+	$application->add(Server::get(Command\Memcache\RedisCommand::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

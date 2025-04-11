@@ -1,50 +1,40 @@
 <?php
+
+use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
+use OCA\User_LDAP\LDAP;
+use OCP\ISession;
+use OCP\Server;
+use OCP\Util;
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OCP\Util::getL10N('user_ldap');
+$l = Util::getL10N('user_ldap');
 
-$ldapWrapper = new OCA\User_LDAP\LDAP();
+$ldapWrapper = new LDAP();
 $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $_POST['ldap_serverconfig_chooser']);
 
 
 try {
-	$configurationOk = true;
+	$configurationError = '';
 	$conf = $connection->getConfiguration();
 	if ($conf['ldap_configuration_active'] === '0') {
 		//needs to be true, otherwise it will also fail with an irritating message
 		$conf['ldap_configuration_active'] = '1';
-		$configurationOk = $connection->setConfiguration($conf);
 	}
-	if ($configurationOk) {
+	try {
+		$connection->setConfiguration($conf, throw: true);
+	} catch (ConfigurationIssueException $e) {
+		$configurationError = $e->getHint();
+	}
+	if ($configurationError === '') {
 		//Configuration is okay
 		/*
 		 * Closing the session since it won't be used from this point on. There might be a potential
@@ -52,7 +42,7 @@ try {
 		 * contact the LDAP backup server the first time when it should, but there shouldn't be any
 		 * problem with that other than the extra connection.
 		 */
-		\OC::$server->getSession()->close();
+		Server::get(ISession::class)->close();
 		if ($connection->bind()) {
 			/*
 			 * This shiny if block is an ugly hack to find out whether anonymous
@@ -79,7 +69,7 @@ try {
 		}
 	} else {
 		\OC_JSON::error(['message'
-		=> $l->t('Invalid configuration. Please have a look at the logs for further details.')]);
+		=> $l->t('Invalid configuration: %s', $configurationError)]);
 	}
 } catch (\Exception $e) {
 	\OC_JSON::error(['message' => $e->getMessage()]);

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 module.exports = {
 	globals: {
 		__webpack_nonce__: true,
@@ -31,5 +35,17 @@ module.exports = {
 		jsdoc: {
 			mode: 'typescript',
 		},
+		'import/resolver': {
+			typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
+		},
 	},
+	overrides: [
+		// Allow any in tests
+		{
+			files: ['**/*.spec.ts'],
+			rules: {
+				'@typescript-eslint/no-explicit-any': 'warn',
+			},
+		},
+	],
 }

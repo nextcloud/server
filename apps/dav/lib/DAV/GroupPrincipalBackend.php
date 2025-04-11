@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2018, Georg Ehrke
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\DAV;
 
@@ -42,32 +20,17 @@ use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 class GroupPrincipalBackend implements BackendInterface {
 	public const PRINCIPAL_PREFIX = 'principals/groups';
 
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IShareManager */
-	private $shareManager;
-	/** @var IConfig */
-	private $config;
-
 	/**
-	 * @param IGroupManager $IGroupManager
+	 * @param IGroupManager $groupManager
 	 * @param IUserSession $userSession
 	 * @param IShareManager $shareManager
 	 */
 	public function __construct(
-		IGroupManager $IGroupManager,
-		IUserSession $userSession,
-		IShareManager $shareManager,
-		IConfig $config
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private IShareManager $shareManager,
+		private IConfig $config,
 	) {
-		$this->groupManager = $IGroupManager;
-		$this->userSession = $userSession;
-		$this->shareManager = $shareManager;
-		$this->config = $config;
 	}
 
 	/**

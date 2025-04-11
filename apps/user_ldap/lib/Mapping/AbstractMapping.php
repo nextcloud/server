@@ -1,35 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Aaron Wood <aaronjwood@gmail.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author blizzz <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,11 +21,6 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractMapping {
 	/**
-	 * @var \OCP\IDBConnection $dbc
-	 */
-	protected $dbc;
-
-	/**
 	 * returns the DB table name which holds the mappings
 	 *
 	 * @return string
@@ -51,10 +28,11 @@ abstract class AbstractMapping {
 	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
-	 * @param \OCP\IDBConnection $dbc
+	 * @param IDBConnection $dbc
 	 */
-	public function __construct(\OCP\IDBConnection $dbc) {
-		$this->dbc = $dbc;
+	public function __construct(
+		protected IDBConnection $dbc,
+	) {
 	}
 
 	/** @var array caches Names (value) by DN (key) */
@@ -235,7 +213,7 @@ abstract class AbstractMapping {
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
-		$maxSlices = $this->dbc->getDatabasePlatform() instanceof SqlitePlatform ? 9 : $totalDBParamLimit / $sliceSize;
+		$maxSlices = $this->dbc->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE ? 9 : $totalDBParamLimit / $sliceSize;
 		$results = [];
 
 		$slice = 1;
@@ -278,7 +256,7 @@ abstract class AbstractMapping {
 	 *
 	 * @return string[]
 	 */
-	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
+	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -352,7 +330,7 @@ abstract class AbstractMapping {
 	 */
 	public function map($fdn, $name, $uuid) {
 		if (mb_strlen($fdn) > 4000) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Cannot map, because the DN exceeds 4000 characters: {dn}',
 				[
 					'app' => 'user_ldap',
@@ -425,7 +403,7 @@ abstract class AbstractMapping {
 	 * @param callable $preCallback
 	 * @param callable $postCallback
 	 * @return bool true on success, false when at least one row was not
-	 * deleted
+	 *              deleted
 	 */
 	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();
@@ -453,7 +431,7 @@ abstract class AbstractMapping {
 		$query = $this->dbc->getQueryBuilder();
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName());
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;
@@ -464,7 +442,7 @@ abstract class AbstractMapping {
 		$query->select($query->func()->count('ldap_dn_hash'))
 			->from($this->getTableName())
 			->where($query->expr()->like('directory_uuid', $query->createNamedParameter('invalidated_%')));
-		$res = $query->execute();
+		$res = $query->executeQuery();
 		$count = $res->fetchOne();
 		$res->closeCursor();
 		return (int)$count;

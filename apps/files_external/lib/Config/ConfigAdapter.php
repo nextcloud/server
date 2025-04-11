@@ -1,47 +1,32 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Config;
 
+use OC\Files\Cache\Storage;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Storage;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\Storage\IConstructableStorage;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -55,23 +40,31 @@ class ConfigAdapter implements IMountProvider {
 	}
 
 	/**
+	 * @param class-string $class
+	 * @return class-string<IObjectStore>
+	 * @throws \InvalidArgumentException
+	 * @psalm-taint-escape callable
+	 */
+	private function validateObjectStoreClassString(string $class): string {
+		if (!\is_subclass_of($class, IObjectStore::class)) {
+			throw new \InvalidArgumentException('Invalid object store');
+		}
+		return $class;
+	}
+
+	/**
 	 * Process storage ready for mounting
 	 *
-	 * @param StorageConfig $storage
-	 * @param IUser $user
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
-	private function prepareStorageConfig(StorageConfig &$storage, IUser $user) {
+	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, \OCA\Files_External\MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
+			$storage->setBackendOption($option, MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');
 		if ($objectStore) {
-			$objectClass = $objectStore['class'];
-			if (!is_subclass_of($objectClass, '\OCP\Files\ObjectStore\IObjectStore')) {
-				throw new \InvalidArgumentException('Invalid object store');
-			}
+			$objectClass = $this->validateObjectStoreClassString($objectStore['class']);
 			$storage->setBackendOption('objectstore', new $objectClass($objectStore));
 		}
 
@@ -83,10 +76,12 @@ class ConfigAdapter implements IMountProvider {
 	 * Construct the storage implementation
 	 *
 	 * @param StorageConfig $storageConfig
-	 * @return Storage
 	 */
-	private function constructStorage(StorageConfig $storageConfig) {
+	private function constructStorage(StorageConfig $storageConfig): IStorage {
 		$class = $storageConfig->getBackend()->getStorageClass();
+		if (!is_a($class, IConstructableStorage::class, true)) {
+			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+		}
 		$storage = new $class($storageConfig->getBackendOptions());
 
 		// auth mechanism should fire first
@@ -99,9 +94,7 @@ class ConfigAdapter implements IMountProvider {
 	/**
 	 * Get all mountpoints applicable for the user
 	 *
-	 * @param \OCP\IUser $user
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$this->userStoragesService->setUser($user);
@@ -120,11 +113,11 @@ class ConfigAdapter implements IMountProvider {
 		}, $storageConfigs);
 
 
-		\OC\Files\Cache\Storage::getGlobalCache()->loadForStorageIds(array_map(function (Storage\IStorage $storage) {
+		Storage::getGlobalCache()->loadForStorageIds(array_map(function (IStorage $storage) {
 			return $storage->getId();
 		}, $storages));
 
-		$availableStorages = array_map(function (Storage\IStorage $storage, StorageConfig $storageConfig) {
+		$availableStorages = array_map(function (IStorage $storage, StorageConfig $storageConfig): IStorage {
 			try {
 				$availability = $storage->getAvailability();
 				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
@@ -139,7 +132,7 @@ class ConfigAdapter implements IMountProvider {
 			return $storage;
 		}, $storages, $storageConfigs);
 
-		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
+		$mounts = array_map(function (StorageConfig $storageConfig, IStorage $storage) use ($user, $loader) {
 			$storage->setOwner($user->getUID());
 			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 				return new PersonalMount(

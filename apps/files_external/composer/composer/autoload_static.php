@@ -111,6 +111,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Storage\\SMB' => __DIR__ . '/..' . '/../lib/Lib/Storage/SMB.php',
         'OCA\\Files_External\\Lib\\Storage\\StreamWrapper' => __DIR__ . '/..' . '/../lib/Lib/Storage/StreamWrapper.php',
         'OCA\\Files_External\\Lib\\Storage\\Swift' => __DIR__ . '/..' . '/../lib/Lib/Storage/Swift.php',
+        'OCA\\Files_External\\Lib\\Storage\\SystemBridge' => __DIR__ . '/..' . '/../lib/Lib/Storage/SystemBridge.php',
         'OCA\\Files_External\\Lib\\VisibilityTrait' => __DIR__ . '/..' . '/../lib/Lib/VisibilityTrait.php',
         'OCA\\Files_External\\Listener\\GroupDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/GroupDeletedListener.php',
         'OCA\\Files_External\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',

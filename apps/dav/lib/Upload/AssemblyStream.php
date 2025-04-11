@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Goetz <markus@woboq.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Upload;
 
@@ -96,6 +75,10 @@ class AssemblyStream implements \Icewind\Streams\File {
 			$offset = $this->size + $offset;
 		}
 
+		if ($offset === $this->pos) {
+			return true;
+		}
+
 		if ($offset > $this->size) {
 			return false;
 		}
@@ -116,7 +99,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 		$stream = $this->getStream($this->nodes[$nodeIndex]);
 		$nodeOffset = $offset - $nodeStart;
-		if (fseek($stream, $nodeOffset) === -1) {
+		if ($nodeOffset > 0 && fseek($stream, $nodeOffset) === -1) {
 			return false;
 		}
 		$this->currentNode = $nodeIndex;
@@ -147,9 +130,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 			}
 		}
 
-		do {
+		$collectedData = '';
+		// read data until we either got all the data requested or there is no more stream left
+		while ($count > 0 && !is_null($this->currentStream)) {
 			$data = fread($this->currentStream, $count);
 			$read = strlen($data);
+
+			$count -= $read;
+			$collectedData .= $data;
 			$this->currentNodeRead += $read;
 
 			if (feof($this->currentStream)) {
@@ -166,14 +154,11 @@ class AssemblyStream implements \Icewind\Streams\File {
 					$this->currentStream = null;
 				}
 			}
-			// if no data read, try again with the next node because
-			// returning empty data can make the caller think there is no more
-			// data left to read
-		} while ($read === 0 && !is_null($this->currentStream));
+		}
 
 		// update position
-		$this->pos += $read;
-		return $data;
+		$this->pos += strlen($collectedData);
+		return $collectedData;
 	}
 
 	/**

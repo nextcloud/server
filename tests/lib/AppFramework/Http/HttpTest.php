@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -41,19 +26,19 @@ class HttpTest extends \Test\TestCase {
 	}
 
 
-	public function testProtocol() {
+	public function testProtocol(): void {
 		$header = $this->http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);
 		$this->assertEquals('HTTP/1.1 307 Temporary Redirect', $header);
 	}
 
 
-	public function testProtocol10() {
+	public function testProtocol10(): void {
 		$this->http = new Http($this->server, 'HTTP/1.0');
 		$header = $this->http->getStatusHeader(Http::STATUS_OK);
 		$this->assertEquals('HTTP/1.0 200 OK', $header);
 	}
 
-	public function testTempRedirectBecomesFoundInHttp10() {
+	public function testTempRedirectBecomesFoundInHttp10(): void {
 		$http = new Http([], 'HTTP/1.0');
 
 		$header = $http->getStatusHeader(Http::STATUS_TEMPORARY_REDIRECT);

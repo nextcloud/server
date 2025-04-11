@@ -1,23 +1,7 @@
 <?php
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /**
@@ -33,25 +17,25 @@ use OC\Authentication\TwoFactorAuth\EnforcementState;
 use Test\TestCase;
 
 class EnforcementStateTest extends TestCase {
-	public function testIsEnforced() {
+	public function testIsEnforced(): void {
 		$state = new EnforcementState(true);
 
 		$this->assertTrue($state->isEnforced());
 	}
 
-	public function testGetEnforcedGroups() {
+	public function testGetEnforcedGroups(): void {
 		$state = new EnforcementState(true, ['twofactorers']);
 
 		$this->assertEquals(['twofactorers'], $state->getEnforcedGroups());
 	}
 
-	public function testGetExcludedGroups() {
+	public function testGetExcludedGroups(): void {
 		$state = new EnforcementState(true, [], ['yoloers']);
 
 		$this->assertEquals(['yoloers'], $state->getExcludedGroups());
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$state = new EnforcementState(true, ['twofactorers'], ['yoloers']);
 		$expected = [
 			'enforced' => true,

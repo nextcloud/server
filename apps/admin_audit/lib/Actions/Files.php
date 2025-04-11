@@ -1,31 +1,24 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\AdminAudit\Actions;
+
+use OC\Files\Node\NonExistingFile;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Files logs the actions to files
@@ -33,137 +26,169 @@ namespace OCA\AdminAudit\Actions;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
+
+	private array $renamedNodes = [];
+
 	/**
 	 * Logs file read actions
-	 *
-	 * @param array $params
 	 */
-	public function read(array $params): void {
+	public function read(BeforeNodeReadEvent $event): void {
+		try {
+			$node = $event->getNode();
+			$params = [
+				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file read: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
 		$this->log(
-			'File accessed: "%s"',
+			'File with id "%s" accessed: "%s"',
 			$params,
-			[
-				'path',
-			]
+			array_keys($params)
 		);
 	}
 
 	/**
 	 * Logs rename actions of files
-	 *
-	 * @param array $params
 	 */
-	public function rename(array $params): void {
-		$this->log(
-			'File renamed: "%s" to "%s"',
-			$params,
-			[
-				'oldpath',
-				'newpath',
-			]
-		);
+	public function beforeRename(BeforeNodeRenamedEvent $event): void {
+		try {
+			$source = $event->getSource();
+			$this->renamedNodes[$source->getId()] = $source;
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
 	}
 
 	/**
-	 * Logs creation of files
-	 *
-	 * @param array $params
+	 * Logs rename actions of files
 	 */
-	public function create(array $params): void {
-		if ($params['path'] === '/' || $params['path'] === '' || $params['path'] === null) {
+	public function afterRename(NodeRenamedEvent $event): void {
+		try {
+			$target = $event->getTarget();
+			$originalSource = $this->renamedNodes[$target->getId()];
+			$params = [
+				'newid' => $target->getId(),
+				'oldpath' => $originalSource->getPath(),
+				'newpath' => $target->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
 			return;
 		}
 
 		$this->log(
-			'File created: "%s"',
+			'File renamed with id "%s" from "%s" to "%s"',
 			$params,
-			[
-				'path',
-			]
+			array_keys($params)
+		);
+	}
+
+
+	/**
+	 * Logs creation of files
+	 */
+	public function create(NodeCreatedEvent $event): void {
+		try {
+			$params = [
+				'id' => $event->getNode()->getId(),
+				'path' => $event->getNode()->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file create: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		if ($params['path'] === '/' || $params['path'] === '') {
+			return;
+		}
+		$this->log(
+			'File with id "%s" created: "%s"',
+			$params,
+			array_keys($params)
 		);
 	}
 
 	/**
 	 * Logs copying of files
-	 *
-	 * @param array $params
 	 */
-	public function copy(array $params): void {
+	public function copy(NodeCopiedEvent $event): void {
+		try {
+			$params = [
+				'oldid' => $event->getSource()->getId(),
+				'newid' => $event->getTarget()->getId(),
+				'oldpath' => $event->getSource()->getPath(),
+				'newpath' => $event->getTarget()->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file copy: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
 		$this->log(
-			'File copied: "%s" to "%s"',
+			'File id copied from: "%s" to "%s", path from "%s" to "%s"',
 			$params,
-			[
-				'oldpath',
-				'newpath',
-			]
+			array_keys($params)
 		);
 	}
 
 	/**
 	 * Logs writing of files
-	 *
-	 * @param array $params
 	 */
-	public function write(array $params): void {
-		if ($params['path'] === '/' || $params['path'] === '' || $params['path'] === null) {
+	public function write(NodeWrittenEvent $event): void {
+		$node = $event->getNode();
+		try {
+			$params = [
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file write: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		if ($params['path'] === '/' || $params['path'] === '') {
 			return;
 		}
 
 		$this->log(
-			'File written to: "%s"',
+			'File with id "%s" written to: "%s"',
 			$params,
-			[
-				'path',
-			]
-		);
-	}
-
-	/**
-	 * Logs update of files
-	 *
-	 * @param array $params
-	 */
-	public function update(array $params): void {
-		$this->log(
-			'File updated: "%s"',
-			$params,
-			[
-				'path',
-			]
+			array_keys($params)
 		);
 	}
 
 	/**
 	 * Logs deletions of files
-	 *
-	 * @param array $params
 	 */
-	public function delete(array $params): void {
+	public function delete(BeforeNodeDeletedEvent $event): void {
+		try {
+			$params = [
+				'id' => $event->getNode()->getId(),
+				'path' => $event->getNode()->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file delete: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
 		$this->log(
-			'File deleted: "%s"',
+			'File with id "%s" deleted: "%s"',
 			$params,
-			[
-				'path',
-			]
-		);
-	}
-
-	/**
-	 * Logs preview access to a file
-	 *
-	 * @param array $params
-	 */
-	public function preview(array $params): void {
-		$this->log(
-			'Preview accessed: "%s" (width: "%s", height: "%s" crop: "%s", mode: "%s")',
-			$params,
-			[
-				'path',
-				'width',
-				'height',
-				'crop',
-				'mode'
-			]
+			array_keys($params)
 		);
 	}
 }

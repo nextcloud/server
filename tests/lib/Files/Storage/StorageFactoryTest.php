@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2015 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Storage;
@@ -11,22 +10,22 @@ namespace Test\Files\Storage;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage as IStorage;
+use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
 class DummyWrapper extends Wrapper {
 	public $data;
 
-	public function __construct($arguments) {
-		parent::__construct($arguments);
-		if (isset($arguments['data'])) {
-			$this->data = $arguments['data'];
+	public function __construct(array $parameters) {
+		parent::__construct($parameters);
+		if (isset($parameters['data'])) {
+			$this->data = $parameters['data'];
 		}
 	}
 }
 
 class StorageFactoryTest extends TestCase {
-	public function testSimpleWrapper() {
+	public function testSimpleWrapper(): void {
 		$instance = new \OC\Files\Storage\StorageFactory();
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
 		$instance->addStorageWrapper('dummy', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
@@ -39,7 +38,7 @@ class StorageFactoryTest extends TestCase {
 		$this->assertInstanceOf('\Test\Files\Storage\DummyWrapper', $wrapped);
 	}
 
-	public function testRemoveWrapper() {
+	public function testRemoveWrapper(): void {
 		$instance = new \OC\Files\Storage\StorageFactory();
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
 		$instance->addStorageWrapper('dummy', function ($mountPoint, IStorage $storage) {
@@ -50,7 +49,7 @@ class StorageFactoryTest extends TestCase {
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $wrapped);
 	}
 
-	public function testWrapperPriority() {
+	public function testWrapperPriority(): void {
 		$instance = new \OC\Files\Storage\StorageFactory();
 		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo', [[]], $instance);
 		$instance->addStorageWrapper('dummy1', function ($mountPoint, IStorage $storage) {

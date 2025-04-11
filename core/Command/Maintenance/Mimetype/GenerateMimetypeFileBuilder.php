@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Xheni Myrtaj <xheni@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Xheni Myrtaj <myrtajxheni@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\Maintenance\Mimetype;
 
@@ -31,17 +12,21 @@ class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
 	 *
-	 * @param array $aliases
+	 * @param array<string,string> $aliases
 	 * @return string
 	 */
 	public function generateFile(array $aliases): string {
 		// Remove comments
 		$aliases = array_filter($aliases, static function ($key) {
+			// Single digit extensions will be treated as integers
+			// Let's make sure they are strings
+			// https://github.com/nextcloud/server/issues/42902
+			$key = (string)$key;
 			return !($key === '' || $key[0] === '_');
 		}, ARRAY_FILTER_USE_KEY);
 
 		// Fetch all files
-		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');
+		$dir = new \DirectoryIterator(\OC::$SERVERROOT . '/core/img/filetypes');
 
 		$files = [];
 		foreach ($dir as $fileInfo) {
@@ -57,7 +42,7 @@ class GenerateMimetypeFileBuilder {
 
 		// Fetch all themes!
 		$themes = [];
-		$dirs = new \DirectoryIterator(\OC::$SERVERROOT.'/themes/');
+		$dirs = new \DirectoryIterator(\OC::$SERVERROOT . '/themes/');
 		foreach ($dirs as $dir) {
 			//Valid theme dir
 			if ($dir->isFile() || $dir->isDot()) {

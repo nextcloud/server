@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Native;
@@ -131,7 +130,7 @@ abstract class NativeStream implements File {
 	 */
 	public function stream_stat() {
 		try {
-			return $this->state->stat($this->url);
+			return $this->state->fstat($this->handle, $this->url);
 		} catch (Exception $e) {
 			return false;
 		}

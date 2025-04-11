@@ -1,31 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author lynn-stephenson <lynn.stephenson@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security;
 
@@ -99,9 +78,9 @@ class Crypto implements ICrypto {
 
 		$ciphertext = bin2hex($encrypted);
 		$iv = bin2hex($iv);
-		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
+		$hmac = bin2hex($this->calculateHMAC($ciphertext . $iv, substr($keyMaterial, 32)));
 
-		return $ciphertext.'|'.$iv.'|'.$hmac.'|3';
+		return $ciphertext . '|' . $iv . '|' . $hmac . '|3';
 	}
 
 	/**
@@ -135,6 +114,25 @@ class Crypto implements ICrypto {
 			throw new Exception('Authenticated ciphertext could not be decoded.');
 		}
 
+		/*
+		 * Rearrange arguments for legacy ownCloud migrations
+		 *
+		 * The original scheme consistent of three parts. Nextcloud added a
+		 * fourth at the end as "2" or later "3", ownCloud added "v2" at the
+		 * beginning.
+		 */
+		$originalParts = $parts;
+		$isOwnCloudV2Migration = $partCount === 4 && $originalParts[0] === 'v2';
+		if ($isOwnCloudV2Migration) {
+			$parts = [
+				$parts[1],
+				$parts[2],
+				$parts[3],
+				'2'
+			];
+		}
+
+		// Convert hex-encoded values to binary
 		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
 		$hmac = $this->hex2bin($parts[2]);
@@ -145,7 +143,7 @@ class Crypto implements ICrypto {
 				$iv = $this->hex2bin($iv);
 			}
 
-			if ($version === '3') {
+			if ($version === '3' || $isOwnCloudV2Migration) {
 				$keyMaterial = hash_hkdf('sha512', $password);
 				$encryptionKey = substr($keyMaterial, 0, 32);
 				$hmacKey = substr($keyMaterial, 32);
@@ -154,8 +152,15 @@ class Crypto implements ICrypto {
 		$this->cipher->setPassword($encryptionKey);
 		$this->cipher->setIV($iv);
 
-		if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-			throw new Exception('HMAC does not match.');
+		if ($isOwnCloudV2Migration) {
+			// ownCloud uses the binary IV for HMAC calculation
+			if (!hash_equals($this->calculateHMAC($parts[0] . $iv, $hmacKey), $hmac)) {
+				throw new Exception('HMAC does not match.');
+			}
+		} else {
+			if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
+				throw new Exception('HMAC does not match.');
+			}
 		}
 
 		$result = $this->cipher->decrypt($ciphertext);

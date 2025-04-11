@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Test\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\QueryOptimizer\FlattenNestedBool;
@@ -21,14 +24,14 @@ class FlattenNestedBoolTest extends TestCase {
 		$this->simplifier = new FlattenSingleArgumentBinaryOperation();
 	}
 
-	public function testOrs() {
+	public function testOrs(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);

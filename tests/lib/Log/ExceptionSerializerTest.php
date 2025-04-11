@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace lib\Log;
@@ -59,7 +42,7 @@ class ExceptionSerializerTest extends TestCase {
 	 * exception was passed to the logger. The token was replaced, the original
 	 * variable overwritten.
 	 */
-	public function testSerializer() {
+	public function testSerializer(): void {
 		try {
 			$secret = ['Secret'];
 			$this->emit([&$secret]);
@@ -70,7 +53,7 @@ class ExceptionSerializerTest extends TestCase {
 		}
 	}
 
-	public function testSerializerWithRegisteredMethods() {
+	public function testSerializerWithRegisteredMethods(): void {
 		$this->serializer->enlistSensitiveMethods(self::class, ['customMagicAuthThing']);
 		try {
 			$this->customMagicAuthThing('u57474', 'Secret');

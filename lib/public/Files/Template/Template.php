@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Files\Template;
 
@@ -41,6 +24,8 @@ final class Template implements \JsonSerializable {
 	private $hasPreview = false;
 	/** @var string|null */
 	private $previewUrl = null;
+	/** @var list<Field> */
+	private $fields = [];
 
 	/**
 	 * @since 21.0.0
@@ -66,6 +51,37 @@ final class Template implements \JsonSerializable {
 	}
 
 	/**
+	 * @param list<Field> $fields
+	 * @since 30.0.0
+	 */
+	public function setFields(array $fields): void {
+		$this->fields = $fields;
+	}
+
+	/**
+	 * @return array{
+	 *     templateType: string,
+	 *     templateId: string,
+	 *     basename: string,
+	 *     etag: string,
+	 *     fileid: int,
+	 *     filename: string,
+	 *     lastmod: int,
+	 *     mime: string,
+	 *     size: int|float,
+	 *     type: string,
+	 *     hasPreview: bool,
+	 *     previewUrl: ?string,
+	 *     fields: list<array{
+	 *         index: string,
+	 *         type: string,
+	 *         alias: ?string,
+	 *         tag: ?string,
+	 *         id: ?int,
+	 *     	   content?: string,
+	 *         checked?: bool,
+	 *     }>,
+	 * }
 	 * @since 21.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -81,7 +97,8 @@ final class Template implements \JsonSerializable {
 			'size' => $this->file->getSize(),
 			'type' => $this->file->getType(),
 			'hasPreview' => $this->hasPreview,
-			'previewUrl' => $this->previewUrl
+			'previewUrl' => $this->previewUrl,
+			'fields' => array_map(static fn (Field $field) => $field->jsonSerialize(), $this->fields),
 		];
 	}
 }

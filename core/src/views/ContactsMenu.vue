@@ -1,23 +1,6 @@
 <!--
-  - @copyright 2023 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -26,18 +9,18 @@
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
-			<Contacts :size="20" />
+			<Contacts class="contactsmenu__trigger-icon" :size="20" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField :value.sync="searchTerm"
-					trailing-button-icon="close"
+				<NcTextField id="contactsmenu__menu__search"
 					ref="contactsMenuInput"
+					:value.sync="searchTerm"
+					trailing-button-icon="close"
 					:label="t('core', 'Search contacts')"
 					:trailing-button-label="t('core','Reset search')"
 					:show-trailing-button="searchTerm !== ''"
 					:placeholder="t('core', 'Search contacts …')"
-					id="contactsmenu__menu__search"
 					class="contactsmenu__menu__search"
 					@input="onInputDebounced"
 					@trailing-button-click="onReset" />
@@ -85,16 +68,16 @@ import debounce from 'debounce'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import { translate as t } from '@nextcloud/l10n'
 
 import Contact from '../components/ContactsMenu/Contact.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'ContactsMenu',
@@ -188,6 +171,10 @@ export default {
 .contactsmenu {
 	overflow-y: hidden;
 
+	&__trigger-icon {
+		color: var(--color-background-plain-text) !important;
+	}
+
 	&__menu {
 		display: flex;
 		flex-direction: column;
@@ -198,7 +185,7 @@ export default {
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 		}
 
 		&__input-wrapper {
@@ -230,6 +217,10 @@ export default {
 				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
 			}
 		}
+	}
+
+	:deep(.empty-content) {
+		margin: 0 !important;
 	}
 }
 </style>

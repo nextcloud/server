@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author essys <essys@users.noreply.github.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Encryption\Command;
 
@@ -36,40 +18,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanLegacyFormat extends Command {
-	/** @var Util */
-	protected $util;
+	private View $rootView;
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var View */
-	private $rootView;
-
-	/**
-	 * @param Util $util
-	 * @param IConfig $config
-	 * @param QuestionHelper $questionHelper
-	 */
-	public function __construct(Util $util,
-		IConfig $config,
-		QuestionHelper $questionHelper,
-		IUserManager $userManager) {
+	public function __construct(
+		protected Util $util,
+		protected IConfig $config,
+		protected QuestionHelper $questionHelper,
+		private IUserManager $userManager,
+	) {
 		parent::__construct();
 
-		$this->util = $util;
-		$this->config = $config;
-		$this->questionHelper = $questionHelper;
-		$this->userManager = $userManager;
 		$this->rootView = new View();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('encryption:scan:legacy-format')
 			->setDescription('Scan the files for the legacy format');
@@ -96,10 +58,10 @@ class ScanLegacyFormat extends Command {
 
 		if ($result) {
 			$output->writeln('All scanned files are properly encrypted. You can disable the legacy compatibility mode.');
-			return 0;
+			return self::SUCCESS;
 		}
 
-		return 1;
+		return self::FAILURE;
 	}
 
 	private function scanFolder(OutputInterface $output, string $folder): bool {
@@ -130,10 +92,8 @@ class ScanLegacyFormat extends Command {
 
 	/**
 	 * setup user file system
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}

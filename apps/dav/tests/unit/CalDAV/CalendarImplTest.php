@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
@@ -39,9 +19,6 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
-/**
- * @group DB
- */
 class CalendarImplTest extends \Test\TestCase {
 	/** @var CalendarImpl */
 	private $calendarImpl;
@@ -63,7 +40,8 @@ class CalendarImplTest extends \Test\TestCase {
 			'id' => 'fancy_id_123',
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
-			'uri' => '/this/is/a/uri'
+			'uri' => '/this/is/a/uri',
+			'principaluri' => 'principal/users/foobar'
 		];
 		$this->backend = $this->createMock(CalDavBackend::class);
 
@@ -99,7 +77,10 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}read']
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(1, $this->calendarImpl->getPermissions());
@@ -110,7 +91,9 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}write']
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/other'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(6, $this->calendarImpl->getPermissions());
@@ -121,8 +104,9 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}read'],
-				['privilege' => '{DAV:}write']
+				['privilege' => '{DAV:}write', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}read', 'principal' => 'principal/users/foobar'],
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/other'],
 			]);
 
 		$this->assertEquals(7, $this->calendarImpl->getPermissions());
@@ -133,7 +117,7 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getACL')
 			->with()
 			->willReturn([
-				['privilege' => '{DAV:}all']
+				['privilege' => '{DAV:}all', 'principal' => 'principal/users/foobar'],
 			]);
 
 		$this->assertEquals(31, $this->calendarImpl->getPermissions());
@@ -161,13 +145,13 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with($this->calendar->getPrincipalURI());
 
-		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin*/
+		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
 		/** @var Plugin|MockObject $schedulingPlugin */
 		$schedulingPlugin = $this->createMock(Plugin::class);
 		$iTipMessage = $this->getITipMessage($message);
-		$iTipMessage->recipient = "mailto:lewis@stardew-tent-living.com";
+		$iTipMessage->recipient = 'mailto:lewis@stardew-tent-living.com';
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())

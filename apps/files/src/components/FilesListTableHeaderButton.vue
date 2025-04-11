@@ -1,25 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcButton :class="['files-list__column-sort-button', {
 			'files-list__column-sort-button--active': sortingMode === mode,
@@ -27,6 +9,7 @@
 		}]"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
+		:title="name"
 		@click="toggleSortBy(mode)">
 		<template #icon>
 			<MenuUp v-if="sortingMode !== mode || isAscSorting" class="files-list__column-sort-button-icon" />
@@ -42,7 +25,7 @@ import { defineComponent } from 'vue'
 
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import filesSortingMixin from '../mixins/filesSorting.ts'
 
@@ -79,7 +62,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .files-list__column-sort-button {
 	// Compensate for cells margin
-	margin: 0 calc(var(--cell-margin) * -1);
+	margin: 0 calc(var(--button-padding, var(--cell-margin)) * -1);
 	min-width: calc(100% - 3 * var(--cell-margin))!important;
 
 	&-text {

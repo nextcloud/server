@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\SystemTag;
 
@@ -34,16 +19,20 @@ use Sabre\Xml\Writer;
  */
 class SystemTagList implements Element {
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+	private array $canAssignTagMap = [];
 
-	/** @var ISystemTag[] */
-	private array $tags;
-	private ISystemTagManager $tagManager;
-	private IUser $user;
-
-	public function __construct(array $tags, ISystemTagManager $tagManager, IUser $user) {
+	/**
+	 * @param ISystemTag[] $tags
+	 */
+	public function __construct(
+		private array $tags,
+		ISystemTagManager $tagManager,
+		?IUser $user,
+	) {
 		$this->tags = $tags;
-		$this->tagManager = $tagManager;
-		$this->user = $user;
+		foreach ($this->tags as $tag) {
+			$this->canAssignTagMap[$tag->getId()] = $tagManager->canUserAssignTag($tag, $user);
+		}
 	}
 
 	/**
@@ -61,10 +50,11 @@ class SystemTagList implements Element {
 		foreach ($this->tags as $tag) {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}system-tag');
 			$writer->writeAttributes([
-				SystemTagPlugin::CANASSIGN_PROPERTYNAME => $this->tagManager->canUserAssignTag($tag, $this->user) ? 'true' : 'false',
+				SystemTagPlugin::CANASSIGN_PROPERTYNAME => $this->canAssignTagMap[$tag->getId()] ? 'true' : 'false',
 				SystemTagPlugin::ID_PROPERTYNAME => $tag->getId(),
 				SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
 				SystemTagPlugin::USERVISIBLE_PROPERTYNAME => $tag->isUserVisible() ? 'true' : 'false',
+				SystemTagPlugin::COLOR_PROPERTYNAME => $tag->getColor() ?? '',
 			]);
 			$writer->write($tag->getName());
 			$writer->endElement();

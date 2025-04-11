@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Exception;
@@ -13,7 +12,7 @@ class InvalidRequestException extends Exception {
 	 */
 	protected $path;
 
-	public function __construct(string $path = "", int $code = 0, \Throwable $previous = null) {
+	public function __construct(string $path = "", int $code = 0, ?\Throwable $previous = null) {
 		$class = get_class($this);
 		$parts = explode('\\', $class);
 		$baseName = array_pop($parts);

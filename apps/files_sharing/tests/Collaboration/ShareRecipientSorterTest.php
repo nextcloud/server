@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Tests\Collaboration;
 
@@ -34,13 +15,13 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareRecipientSorterTest extends TestCase {
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareManager;
-	/** @var  IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var  ShareRecipientSorter */
+	/** @var ShareRecipientSorter */
 	protected $sorter;
 
 	protected function setUp(): void {
@@ -57,7 +38,7 @@ class ShareRecipientSorterTest extends TestCase {
 	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
@@ -98,7 +79,7 @@ class ShareRecipientSorterTest extends TestCase {
 		$this->assertEquals($data['expected'], $workArray);
 	}
 
-	public function testSortNoNodes() {
+	public function testSortNoNodes(): void {
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
@@ -128,7 +109,7 @@ class ShareRecipientSorterTest extends TestCase {
 			]
 		];
 		$workArray = $originalArray;
-		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => 404]);
+		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => '404']);
 
 		$this->assertEquals($originalArray, $workArray);
 	}
@@ -137,7 +118,7 @@ class ShareRecipientSorterTest extends TestCase {
 		return [[
 			[
 				#0 – sort properly and otherwise keep existing order
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => ['celia', 'darius', 'faruk', 'gail'], 'bots' => ['r2-d2']],
 				'input' => [
 					'users' =>
@@ -174,7 +155,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#1 – no recipients
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => false],
 				'input' => [
 					'users' =>
@@ -211,7 +192,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#2 – unsupported item  type
-				'context' => ['itemType' => 'announcements', 'itemId' => 42],
+				'context' => ['itemType' => 'announcements', 'itemId' => '42'],
 				'accessList' => null, // not needed
 				'input' => [
 					'users' =>
@@ -248,7 +229,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#3 – no nothing
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => [],
 				'input' => [],
 				'expected' => [],

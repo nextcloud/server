@@ -1,23 +1,8 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
-* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014 ownCloud Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 describe('Core base tests', function() {
 	var debounceStub
@@ -374,7 +359,7 @@ describe('Core base tests', function() {
 		// to make sure they run.
 		var cit = window.isPhantom?xit:it;
 
-		// must provide the same results as \OC_Util::naturalSortCompare
+		// must provide the same results as \OCP\Util::naturalSortCompare
 		it('sorts alphabetically', function() {
 			var a = [
 				'def',
@@ -780,6 +765,7 @@ describe('Core base tests', function() {
 			OC.currentUser = 'dummy';
 			clock = sinon.useFakeTimers();
 			reloadStub = sinon.stub(OC, 'reload');
+			document.head.dataset.user = 'dummy'
 			notificationStub = sinon.stub(OC.Notification, 'show');
 			// unstub the error processing method
 			ajaxErrorStub = OC._processAjaxError;
@@ -793,47 +779,6 @@ describe('Core base tests', function() {
 			clock.restore();
 		});
 
-		it('reloads current page in case of auth error', function() {
-			var dataProvider = [
-				[200, false],
-				[400, false],
-				[0, false],
-				[401, true],
-				[302, true],
-				[303, true],
-				[307, true]
-			];
-
-			for (var i = 0; i < dataProvider.length; i++) {
-				var xhr = { status: dataProvider[i][0] };
-				var expectedCall = dataProvider[i][1];
-
-				reloadStub.reset();
-				OC._reloadCalled = false;
-
-				$(document).trigger(new $.Event('ajaxError'), xhr);
-
-				// trigger timers
-				clock.tick(waitTimeMs);
-
-				if (expectedCall) {
-					expect(reloadStub.calledOnce).toEqual(true);
-				} else {
-					expect(reloadStub.notCalled).toEqual(true);
-				}
-			}
-		});
-		it('reload only called once in case of auth error', function() {
-			var xhr = { status: 401 };
-
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-
-			// trigger timers
-			clock.tick(waitTimeMs);
-
-			expect(reloadStub.calledOnce).toEqual(true);
-		});
 		it('does not reload the page if the user was navigating away', function() {
 			var xhr = { status: 0 };
 			OC._userIsNavigatingAway = true;
@@ -844,16 +789,7 @@ describe('Core base tests', function() {
 			clock.tick(waitTimeMs);
 			expect(reloadStub.notCalled).toEqual(true);
 		});
-		it('displays notification', function() {
-			var xhr = { status: 401 };
 
-			notificationUpdateStub = sinon.stub(OC.Notification, 'showUpdate');
-
-			$(document).trigger(new $.Event('ajaxError'), xhr);
-
-			clock.tick(waitTimeMs);
-			expect(notificationUpdateStub.notCalled).toEqual(false);
-		});
 		it('shows a temporary notification if the connection is lost', function() {
 			var xhr = { status: 0 };
 			spyOn(OC, '_ajaxConnectionLostHandler');

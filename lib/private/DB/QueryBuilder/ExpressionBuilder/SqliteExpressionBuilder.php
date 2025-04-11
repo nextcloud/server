@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
@@ -47,7 +29,11 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	 * @return array|IQueryFunction|string
 	 */
 	protected function prepareColumn($column, $type) {
-		if ($type === IQueryBuilder::PARAM_DATE && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
+		if ($type !== null
+			&& !is_array($column)
+			&& !($column instanceof IParameter)
+			&& !($column instanceof ILiteral)
+			&& (str_starts_with($type, 'date') || str_starts_with($type, 'time'))) {
 			return $this->castColumn($column, $type);
 		}
 
@@ -62,9 +48,21 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	 * @return IQueryFunction
 	 */
 	public function castColumn($column, $type): IQueryFunction {
-		if ($type === IQueryBuilder::PARAM_DATE) {
-			$column = $this->helper->quoteColumnName($column);
-			return new QueryFunction('DATETIME(' . $column . ')');
+		switch ($type) {
+			case IQueryBuilder::PARAM_DATE_MUTABLE:
+			case IQueryBuilder::PARAM_DATE_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('DATE(' . $column . ')');
+			case IQueryBuilder::PARAM_DATETIME_MUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_IMMUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('DATETIME(' . $column . ')');
+			case IQueryBuilder::PARAM_TIME_MUTABLE:
+			case IQueryBuilder::PARAM_TIME_IMMUTABLE:
+				$column = $this->helper->quoteColumnName($column);
+				return new QueryFunction('TIME(' . $column . ')');
 		}
 
 		return parent::castColumn($column, $type);

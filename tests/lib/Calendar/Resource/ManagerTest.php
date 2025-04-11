@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Calendar\Resource;
@@ -30,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Resource\Manager;
+use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\Calendar\Resource\IBackend;
 use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,6 +26,9 @@ class ManagerTest extends TestCase {
 	/** @var IServerContainer|MockObject */
 	private $server;
 
+	/** @var ResourcesRoomsUpdater|MockObject */
+	private $resourcesRoomsUpdater;
+
 	/** @var Manager */
 	private $manager;
 
@@ -50,9 +37,12 @@ class ManagerTest extends TestCase {
 
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->server = $this->createMock(IServerContainer::class);
+		$this->resourcesRoomsUpdater = $this->createMock(ResourcesRoomsUpdater::class);
+
 		$this->manager = new Manager(
 			$this->coordinator,
 			$this->server,
+			$this->resourcesRoomsUpdater,
 		);
 	}
 
@@ -142,5 +132,12 @@ class ManagerTest extends TestCase {
 		$this->manager->clear();
 
 		self::assertEquals([], $this->manager->getBackends());
+	}
+
+	public function testUpdate(): void {
+		$this->resourcesRoomsUpdater->expects(self::once())
+			->method('updateResources');
+
+		$this->manager->update();
 	}
 }

@@ -1,3 +1,8 @@
+/*!
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 @use 'variables';
 
 @media only screen and (max-width: variables.$breakpoint-mobile) {
@@ -32,7 +37,8 @@ table td.filename .nametext {
 
 /* some padding for better clickability */
 .files-fileList a.action img {
-	padding: 0 6px 0 12px;
+	padding-block: 0;
+	padding-inline: 12px 6px;
 }
 /* hide text of the actions on mobile */
 .files-fileList a.action:not(.menuitem) span {
@@ -48,7 +54,7 @@ table td.filename .nametext {
 }
 
 #header .menutoggle {
-    padding-right: 14px;
+    padding-inline-end: 14px;
     background-position: center;
 }
 .note {

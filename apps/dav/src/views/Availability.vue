@@ -1,10 +1,16 @@
+<!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div>
-		<NcSettingsSection :name="$t('dav', 'Availability')"
+		<NcSettingsSection id="availability"
+			:name="$t('dav', 'Availability')"
 			:description="$t('dav', 'If you configure your working hours, other people will see when you are out of office when they book a meeting.')">
 			<AvailabilityForm />
 		</NcSettingsSection>
 		<NcSettingsSection v-if="!hideAbsenceSettings"
+			id="absence"
 			:name="$t('dav', 'Absence')"
 			:description="$t('dav', 'Configure your next absence period.')">
 			<AbsenceForm />
@@ -13,7 +19,7 @@
 </template>
 
 <script>
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AbsenceForm from '../components/AbsenceForm.vue'
 import AvailabilityForm from '../components/AvailabilityForm.vue'
 import { loadState } from '@nextcloud/initial-state'

@@ -1,46 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Alex Weirig <alex.weirig@technolink.lu>
- * @author alexweirig <alex.weirig@technolink.lu>
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Andreas Pflug <dev@admin4.org>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clement Wong <git@clement.hk>
- * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobias Perschon <tobias@perschon.at>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author Xuanwo <xuanwo@yunify.com>
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -68,24 +31,19 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
-	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
-	protected Access $access;
 
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
 	 */
 	protected string $ldapGroupMemberAssocAttr;
-	private IConfig $config;
-	private IUserManager $ncUserManager;
 
 	public function __construct(
-		Access $access,
-		GroupPluginManager $groupPluginManager,
-		IConfig $config,
-		IUserManager $ncUserManager
+		protected Access $access,
+		protected GroupPluginManager $groupPluginManager,
+		private IConfig $config,
+		private IUserManager $ncUserManager,
 	) {
-		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
 		if (!empty($filter) && !empty($gAssoc)) {
@@ -95,11 +53,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->cachedGroupMembers = new CappedMemoryCache();
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
-		$this->groupPluginManager = $groupPluginManager;
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
-		$this->config = $config;
-		$this->ncUserManager = $ncUserManager;
 	}
 
 	/**
@@ -491,7 +446,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		?int $limit = -1,
-		?int $offset = 0
+		?int $offset = 0,
 	): array {
 		try {
 			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
@@ -615,7 +570,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		?int $limit = -1,
-		?int $offset = 0
+		?int $offset = 0,
 	): array {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
@@ -640,7 +595,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		int $limit = -1,
-		int $offset = 0
+		int $offset = 0,
 	): int {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
@@ -683,6 +638,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return false;
 	}
 
+	/**
+	 * @param string $uid
+	 * @return list<string>
+	 */
 	protected function getCachedGroupsForUserId(string $uid): array {
 		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
 		return json_decode($groupStr, true) ?? [];
@@ -695,7 +654,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * This function includes groups based on dynamic group membership.
 	 *
 	 * @param string $uid Name of the user
-	 * @return string[] Group names
+	 * @return list<string> Group names
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
@@ -1219,7 +1178,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				continue;
 			}
 			$name = $item[$this->access->connection->ldapGroupDisplayName][0] ?? null;
-			$gid = $this->access->dn2groupname($dn, $name);
+			$gid = $this->access->dn2groupname($dn, $name, false);
 			if (!$gid) {
 				continue;
 			}
@@ -1295,7 +1254,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
 				// Delete group in nextcloud internal db
 				$this->access->getGroupMapper()->unmap($gid);
-				$this->access->connection->writeToCache("groupExists" . $gid, false);
+				$this->access->connection->writeToCache('groupExists' . $gid, false);
 			}
 			return $ret;
 		}
@@ -1303,17 +1262,17 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		// Getting dn, if false the group is not mapped
 		$dn = $this->access->groupname2dn($gid);
 		if (!$dn) {
-			throw new Exception('Could not delete unknown group '.$gid.' in LDAP backend.');
+			throw new Exception('Could not delete unknown group ' . $gid . ' in LDAP backend.');
 		}
 
 		if (!$this->groupExists($gid)) {
 			// The group does not exist in the LDAP, remove the mapping
 			$this->access->getGroupMapper()->unmap($gid);
-			$this->access->connection->writeToCache("groupExists" . $gid, false);
+			$this->access->connection->writeToCache('groupExists' . $gid, false);
 			return true;
 		}
 
-		throw new Exception('Could not delete existing group '.$gid.' in LDAP backend.');
+		throw new Exception('Could not delete existing group ' . $gid . ' in LDAP backend.');
 	}
 
 	/**

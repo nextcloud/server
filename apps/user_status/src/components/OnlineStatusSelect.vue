@@ -1,24 +1,7 @@
 <!--
- - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- -
- - @author John Molakvoæ <skjnldsv@protonmail.com>
- -
- - @license GNU AGPL version 3 or any later version
- -
- - This program is free software: you can redistribute it and/or modify
- - it under the terms of the GNU Affero General Public License as
- - published by the Free Software Foundation, either version 3 of the
- - License, or (at your option) any later version.
- -
- - This program is distributed in the hope that it will be useful,
- - but WITHOUT ANY WARRANTY; without even the implied warranty of
- - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- - GNU Affero General Public License for more details.
- -
- - You should have received a copy of the GNU Affero General Public License
- - along with this program. If not, see <http://www.gnu.org/licenses/>.
- -
- -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="user-status-online-select">
 		<input :id="id"
@@ -37,7 +20,7 @@
 </template>
 
 <script>
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 
 export default {
 	name: 'OnlineStatusSelect',
@@ -90,7 +73,7 @@ $label-padding: 8px;
 		display: block;
 		margin: $label-padding;
 		padding: $label-padding;
-		padding-left: $icon-size + $label-padding * 2;
+		padding-inline-start: $icon-size + $label-padding * 2;
 		border: 2px solid var(--color-main-background);
 		border-radius: var(--border-radius-large);
 		background-color: var(--color-background-hover);
@@ -105,7 +88,7 @@ $label-padding: 8px;
 		span {
 			position: absolute;
 			top: calc(50% - 10px);
-			left: 10px;
+			inset-inline-start: 10px;
 			display: block;
 			width: $icon-size;
 			height: $icon-size;

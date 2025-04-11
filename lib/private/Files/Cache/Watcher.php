@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
@@ -51,6 +32,9 @@ class Watcher implements IWatcher {
 	 * @var Scanner $scanner ;
 	 */
 	protected $scanner;
+
+	/** @var callable[] */
+	protected $onUpdate = [];
 
 	/**
 	 * @param \OC\Files\Storage\Storage $storage
@@ -119,6 +103,9 @@ class Watcher implements IWatcher {
 		if ($this->cache instanceof Cache) {
 			$this->cache->correctFolderSize($path);
 		}
+		foreach ($this->onUpdate as $callback) {
+			$callback($path);
+		}
 	}
 
 	/**
@@ -131,7 +118,7 @@ class Watcher implements IWatcher {
 	public function needsUpdate($path, $cachedData) {
 		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
-			return $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
+			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
 		}
 		return false;
 	}
@@ -148,5 +135,12 @@ class Watcher implements IWatcher {
 				$this->cache->remove($entry['path']);
 			}
 		}
+	}
+
+	/**
+	 * register a callback to be called whenever the watcher triggers and update
+	 */
+	public function onUpdate(callable $callback): void {
+		$this->onUpdate[] = $callback;
 	}
 }

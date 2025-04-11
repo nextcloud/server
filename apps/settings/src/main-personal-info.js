@@ -1,49 +1,35 @@
 /**
- * @copyright 2021, Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
 import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
+import BiographySection from './components/PersonalInfo/BiographySection.vue'
+import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
 import DetailsSection from './components/PersonalInfo/DetailsSection.vue'
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
-import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
-import LocationSection from './components/PersonalInfo/LocationSection.vue'
-import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
-import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
 import FediverseSection from './components/PersonalInfo/FediverseSection.vue'
+import FirstDayOfWeekSection from './components/PersonalInfo/FirstDayOfWeekSection.vue'
+import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection.vue'
 import LocaleSection from './components/PersonalInfo/LocaleSection/LocaleSection.vue'
-import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
+import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import OrganisationSection from './components/PersonalInfo/OrganisationSection.vue'
-import RoleSection from './components/PersonalInfo/RoleSection.vue'
-import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
-import BiographySection from './components/PersonalInfo/BiographySection.vue'
+import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
+import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
+import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
+import RoleSection from './components/PersonalInfo/RoleSection.vue'
+import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
+import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
@@ -54,16 +40,19 @@ Vue.mixin({
 })
 
 const AvatarView = Vue.extend(AvatarSection)
+const BirthdayView = Vue.extend(BirthdaySection)
 const DetailsView = Vue.extend(DetailsSection)
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
-const PhoneView = Vue.extend(PhoneSection)
-const LocationView = Vue.extend(LocationSection)
-const WebsiteView = Vue.extend(WebsiteSection)
-const TwitterView = Vue.extend(TwitterSection)
 const FediverseView = Vue.extend(FediverseSection)
+const FirstDayOfWeekView = Vue.extend(FirstDayOfWeekSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
+const LocationView = Vue.extend(LocationSection)
+const PhoneView = Vue.extend(PhoneSection)
+const PronounsView = Vue.extend(PronounsSection)
+const TwitterView = Vue.extend(TwitterSection)
+const WebsiteView = Vue.extend(WebsiteSection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -76,6 +65,9 @@ new TwitterView().$mount('#vue-twitter-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
+new FirstDayOfWeekView().$mount('#vue-fdow-section')
+new BirthdayView().$mount('#vue-birthday-section')
+new PronounsView().$mount('#vue-pronouns-section')
 
 if (profileEnabledGlobally) {
 	const ProfileView = Vue.extend(ProfileSection)

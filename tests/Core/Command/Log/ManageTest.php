@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Log;
@@ -50,7 +36,7 @@ class ManageTest extends TestCase {
 		$this->command = new Manage($config);
 	}
 
-	public function testChangeBackend() {
+	public function testChangeBackend(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['backend', 'syslog']
@@ -62,7 +48,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeLevel() {
+	public function testChangeLevel(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['level', 'debug']
@@ -74,7 +60,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeTimezone() {
+	public function testChangeTimezone(): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['timezone', 'UTC']
@@ -87,21 +73,21 @@ class ManageTest extends TestCase {
 	}
 
 
-	public function testValidateBackend() {
+	public function testValidateBackend(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
 
 
-	public function testValidateTimezone() {
+	public function testValidateTimezone(): void {
 		$this->expectException(\Exception::class);
 
 		// this might need to be changed when humanity colonises Mars
 		self::invokePrivate($this->command, 'validateTimezone', ['Mars/OlympusMons']);
 	}
 
-	public function convertLevelStringProvider() {
+	public static function dataConvertLevelString(): array {
 		return [
 			['dEbug', 0],
 			['inFO', 1],
@@ -114,22 +100,22 @@ class ManageTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider convertLevelStringProvider
+	 * @dataProvider dataConvertLevelString
 	 */
-	public function testConvertLevelString($levelString, $expectedInt) {
+	public function testConvertLevelString(string $levelString, int $expectedInt): void {
 		$this->assertEquals($expectedInt,
 			self::invokePrivate($this->command, 'convertLevelString', [$levelString])
 		);
 	}
 
 
-	public function testConvertLevelStringInvalid() {
+	public function testConvertLevelStringInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'convertLevelString', ['abc']);
 	}
 
-	public function convertLevelNumberProvider() {
+	public static function dataConvertLevelNumber(): array {
 		return [
 			[0, 'Debug'],
 			[1, 'Info'],
@@ -140,41 +126,41 @@ class ManageTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider convertLevelNumberProvider
+	 * @dataProvider dataConvertLevelNumber
 	 */
-	public function testConvertLevelNumber($levelNum, $expectedString) {
+	public function testConvertLevelNumber(int $levelNum, string $expectedString): void {
 		$this->assertEquals($expectedString,
 			self::invokePrivate($this->command, 'convertLevelNumber', [$levelNum])
 		);
 	}
 
 
-	public function testConvertLevelNumberInvalid() {
+	public function testConvertLevelNumberInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'convertLevelNumber', [11]);
 	}
 
-	public function testGetConfiguration() {
+	public function testGetConfiguration(): void {
 		$this->config->expects($this->exactly(3))
 			->method('getSystemValue')
-			->withConsecutive(
-				['log_type', 'file'],
-				['loglevel', 2],
-				['logtimezone', 'UTC'],
-			)->willReturnOnConsecutiveCalls(
-				'log_type_value',
-				0,
-				'logtimezone_value'
-			);
+			->willReturnMap([
+				['log_type', 'file', 'log_type_value'],
+				['loglevel', 2, 0],
+				['logtimezone', 'UTC', 'logtimezone_value'],
+			]);
 
+		$calls = [
+			['Enabled logging backend: log_type_value'],
+			['Log level: Debug (0)'],
+			['Log timezone: logtimezone_value'],
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Enabled logging backend: log_type_value'],
-				['Log level: Debug (0)'],
-				['Log timezone: logtimezone_value'],
-			);
+			->willReturnCallback(function (string $message) use (&$calls): void {
+				$call = array_shift($calls);
+				$this->assertStringContainsString($call[0], $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

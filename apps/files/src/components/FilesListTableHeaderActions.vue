@@ -1,35 +1,30 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<div class="files-list__column files-list__row-actions-batch">
+	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
+			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
-			:inline="inlineActions"
-			:menu-name="inlineActions <= 1 ? t('files', 'Actions') : null"
-			:open.sync="openedMenu">
-			<NcActionButton v-for="action in enabledActions"
+			:inline="enabledInlineActions.length"
+			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : null"
+			:open.sync="openedMenu"
+			@close="openedSubmenu = null">
+			<!-- Default actions list-->
+			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
-				:class="'files-list__row-actions-batch-' + action.id"
+				:ref="`action-batch-${action.id}`"
+				:class="{
+					[`files-list__row-actions-batch-${action.id}`]: true,
+					[`files-list__row-actions-batch--menu`]: isValidMenu(action)
+				}"
+				:close-after-click="!isValidMenu(action)"
+				:data-cy-files-list-selection-action="action.id"
+				:is-menu="isValidMenu(action)"
+				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+				:title="action.title?.(nodes, currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -37,26 +32,62 @@
 				</template>
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
+
+			<!-- Submenu actions list-->
+			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
+				<!-- Back to top-level button -->
+				<NcActionButton class="files-list__row-actions-batch-back" data-cy-files-list-selection-action="menu-back" @click="onBackToMenuClick(openedSubmenu)">
+					<template #icon>
+						<ArrowLeftIcon />
+					</template>
+					{{ t('files', 'Back') }}
+				</NcActionButton>
+				<NcActionSeparator />
+
+				<!-- Submenu actions -->
+				<NcActionButton v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+					:key="action.id"
+					:class="`files-list__row-actions-batch-${action.id}`"
+					class="files-list__row-actions-batch--submenu"
+					close-after-click
+					:data-cy-files-list-selection-action="action.id"
+					:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+					:title="action.title?.(nodes, currentView)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					</template>
+					{{ action.displayName(nodes, currentView) }}
+				</NcActionButton>
+			</template>
 		</NcActions>
 	</div>
 </template>
 
 <script lang="ts">
-import { Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
+import type { FileAction, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types'
+
+import { getFileActions, NodeStatus, DefaultType } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue, { defineComponent, type PropType } from 'vue'
+import { defineComponent } from 'vue'
 
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
-import type { FileId } from '../types'
+import actionsMixins from '../mixins/actionsMixin.ts'
+import logger from '../logger.ts'
 
 // The registered actions list
 const actions = getFileActions()
@@ -65,15 +96,14 @@ export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
+		ArrowLeftIcon,
 		NcActions,
 		NcActionButton,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
 
-	mixins: [
-		filesListWidthMixin,
-	],
+	mixins: [actionsMixins],
 
 	props: {
 		currentView: {
@@ -81,7 +111,7 @@ export default defineComponent({
 			required: true,
 		},
 		selectedNodes: {
-			type: Array as PropType<FileId[]>,
+			type: Array as PropType<FileSource[]>,
 			default: () => ([]),
 		},
 	},
@@ -90,7 +120,13 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const fileListWidth = useFileListWidth()
+		const { directory } = useRouteParameters()
+
 		return {
+			directory,
+			fileListWidth,
+
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
@@ -104,20 +140,81 @@ export default defineComponent({
 	},
 
 	computed: {
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
-		enabledActions() {
+		enabledFileActions(): FileAction[] {
 			return actions
-				.filter(action => action.execBatch)
+				// We don't handle renderInline actions in this component
+				.filter(action => !action.renderInline)
+				// We don't handle actions that are not visible
+				.filter(action => action.default !== DefaultType.HIDDEN)
 				.filter(action => !action.enabled || action.enabled(this.nodes, this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
+		/**
+		 * Return the list of enabled actions that are
+		 * allowed to be rendered inlined.
+		 * This means that they are not within a menu, nor
+		 * being the parent of submenu actions.
+		 */
+		enabledInlineActions(): FileAction[] {
+			return this.enabledFileActions
+				// Remove all actions that are not top-level actions
+				.filter(action => action.parent === undefined)
+				// Remove all actions that are not batch actions
+				.filter(action => action.execBatch !== undefined)
+				// Remove all top-menu entries
+				.filter(action => !this.isValidMenu(action))
+				// Return a maximum actions to fit the screen
+				.slice(0, this.inlineActions)
+		},
+
+		/**
+		 * Return the rest of enabled actions that are not
+		 * rendered inlined.
+		 */
+		enabledMenuActions(): FileAction[] {
+			// If we're in a submenu, only render the inline
+			// actions before the filtered submenu
+			if (this.openedSubmenu) {
+				return this.enabledInlineActions
+			}
+
+			// We filter duplicates to prevent inline actions to be shown twice
+			const actions = this.enabledFileActions.filter((value, index, self) => {
+				return index === self.findIndex(action => action.id === value.id)
+			})
+
+			// Generate list of all top-level actions ids
+			const childrenActionsIds = actions.filter(action => action.parent).map(action => action.parent) as string[]
+
+			const menuActions = actions
+				.filter(action => {
+					// If the action is not a batch action, we need
+					// to make sure it's a top-level parent entry
+					// and that we have some children actions bound to it
+					if (!action.execBatch) {
+						return childrenActionsIds.includes(action.id)
+					}
+
+					// Rendering second-level actions is done in the template
+					// when openedSubmenu is set.
+					if (action.parent) {
+						return false
+					}
+
+					return true
+				})
+				.filter(action => !this.enabledInlineActions.includes(action))
+
+			// Make sure we render the inline actions first
+			// and then the rest of the actions.
+			// We do NOT want nested actions to be rendered inlined
+			return [...this.enabledInlineActions, ...menuActions]
+		},
+
 		nodes() {
 			return this.selectedNodes
-				.map(fileid => this.getNode(fileid))
+				.map(source => this.getNode(source))
 				.filter(Boolean) as Node[]
 		},
 
@@ -135,13 +232,13 @@ export default defineComponent({
 		},
 
 		inlineActions() {
-			if (this.filesListWidth < 512) {
+			if (this.fileListWidth < 512) {
 				return 0
 			}
-			if (this.filesListWidth < 768) {
+			if (this.fileListWidth < 768) {
 				return 1
 			}
-			if (this.filesListWidth < 1024) {
+			if (this.fileListWidth < 1024) {
 				return 2
 			}
 			return 3
@@ -152,25 +249,36 @@ export default defineComponent({
 		/**
 		 * Get a cached note from the store
 		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
+		 * @param source The source of the node to get
 		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
+		getNode(source: string): Node|undefined {
+			return this.filesStore.getNode(source)
 		},
 
 		async onActionClick(action) {
-			const displayName = action.displayName(this.nodes, this.currentView)
-			const selectionIds = this.selectedNodes
+			// If the action is a submenu, we open it
+			if (this.enabledSubmenuActions[action.id]) {
+				this.openedSubmenu = action
+				return
+			}
+
+			let displayName = action.id
+			try {
+				displayName = action.displayName(this.nodes, this.currentView)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+
+			const selectionSources = this.selectedNodes
 			try {
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', NodeStatus.LOADING)
+					this.$set(node, 'status', NodeStatus.LOADING)
 				})
 
 				// Dispatch action execution
-				const results = await action.execBatch(this.nodes, this.currentView, this.dir)
+				const results = await action.execBatch(this.nodes, this.currentView, this.directory)
 
 				// Check if all actions returned null
 				if (!results.some(result => result !== null)) {
@@ -182,9 +290,9 @@ export default defineComponent({
 				// Handle potential failures
 				if (results.some(result => result === false)) {
 					// Remove the failed ids from the selection
-					const failedIds = selectionIds
-						.filter((fileid, index) => results[index] === false)
-					this.selectionStore.set(failedIds)
+					const failedSources = selectionSources
+						.filter((source, index) => results[index] === false)
+					this.selectionStore.set(failedSources)
 
 					if (results.some(result => result === null)) {
 						// If some actions returned null, we assume that the dev
@@ -192,7 +300,7 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
+					showError(this.t('files', '"{displayName}" failed on some elements', { displayName }))
 					return
 				}
 
@@ -206,7 +314,7 @@ export default defineComponent({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', undefined)
+					this.$set(node, 'status', undefined)
 				})
 			}
 		},

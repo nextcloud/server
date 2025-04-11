@@ -1,30 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Repair;
 
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -34,19 +18,10 @@ use OCP\Migration\IRepairStep;
 class RepairInvalidShares implements IRepairStep {
 	public const CHUNK_SIZE = 200;
 
-	/** @var \OCP\IConfig */
-	protected $config;
-
-	/** @var \OCP\IDBConnection */
-	protected $connection;
-
-	/**
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IDBConnection $connection
-	 */
-	public function __construct($config, $connection) {
-		$this->connection = $connection;
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+		protected IDBConnection $connection,
+	) {
 	}
 
 	public function getName() {
@@ -67,7 +42,7 @@ class RepairInvalidShares implements IRepairStep {
 			->where($builder->expr()->eq('item_type', $builder->expr()->literal('file')))
 			->andWhere($builder->expr()->neq('permissions', $permsFunc));
 
-		$updatedEntries = $builder->execute();
+		$updatedEntries = $builder->executeStatement();
 		if ($updatedEntries > 0) {
 			$out->info('Fixed file share permissions for ' . $updatedEntries . ' shares');
 		}
@@ -83,7 +58,7 @@ class RepairInvalidShares implements IRepairStep {
 		$query->select('s1.parent')
 			->from('share', 's1')
 			->where($query->expr()->isNotNull('s1.parent'))
-				->andWhere($query->expr()->isNull('s2.id'))
+			->andWhere($query->expr()->isNull('s2.id'))
 			->leftJoin('s1', 'share', 's2', $query->expr()->eq('s1.parent', 's2.id'))
 			->groupBy('s1.parent')
 			->setMaxResults(self::CHUNK_SIZE);
@@ -95,11 +70,11 @@ class RepairInvalidShares implements IRepairStep {
 		$deletedInLastChunk = self::CHUNK_SIZE;
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
 			$deletedInLastChunk = 0;
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('parent', (int) $row['parent'])
-					->execute();
+				$deletedEntries += $deleteQuery->setParameter('parent', (int)$row['parent'])
+					->executeStatement();
 			}
 			$result->closeCursor();
 		}

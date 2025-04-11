@@ -3,35 +3,16 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, ownCloud GmbH
- * @copyright Copyright (c) 2018, Sebastian Steinmetz (me@sebastiansteinmetz.ch)
- *
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
- * @author Sebastian Steinmetz <me@sebastiansteinmetz.ch>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2018 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,14 +25,14 @@ class HEIC extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getMimeType(): string {
-		return '/image\/hei(f|c)/';
+		return '/image\/(x-)?hei(f|c)/';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function isAvailable(FileInfo $file): bool {
-		return in_array('HEIC', \Imagick::queryFormats("HEI*"));
+		return in_array('HEIC', \Imagick::queryFormats('HEI*'));
 	}
 
 	/**
@@ -64,8 +45,8 @@ class HEIC extends ProviderV2 {
 
 		$tmpPath = $this->getLocalFile($file);
 		if ($tmpPath === false) {
-			\OC::$server->get(LoggerInterface::class)->error(
-				'Failed to get thumbnail for: ' . $file->getPath(),
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
 				['app' => 'core']
 			);
 			return null;
@@ -90,7 +71,7 @@ class HEIC extends ProviderV2 {
 
 		//new bitmap image object
 		$image = new \OCP\Image();
-		$image->loadFromData((string) $bp);
+		$image->loadFromData((string)$bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}
@@ -108,9 +89,19 @@ class HEIC extends ProviderV2 {
 	 * @param int $maxY
 	 *
 	 * @return \Imagick
+	 *
+	 * @throws \Exception
 	 */
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new \Imagick();
+
+		// Some HEIC files just contain (or at least are identified as) other formats
+		// like JPEG. We just need to check if the image is safe to process.
+		$bp->pingImage($tmpPath . '[0]');
+		$mimeType = $bp->getImageMimeType();
+		if (!preg_match('/^image\/(x-)?(png|jpeg|gif|bmp|tiff|webp|hei(f|c)|avif)$/', $mimeType)) {
+			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
+		}
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');

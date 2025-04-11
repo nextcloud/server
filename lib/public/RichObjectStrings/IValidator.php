@@ -1,39 +1,61 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\RichObjectStrings;
 
 /**
  * Class Validator
  *
+ * @psalm-type RichObjectParameter = array{
+ *     type: string,
+ *     id: string,
+ *     name: string,
+ *     server?: string,
+ *     link?: string,
+ *     'call-type'?: 'one2one'|'group'|'public',
+ *     'icon-url'?: string,
+ *     'message-id'?: string,
+ *     boardname?: string,
+ *     stackname?: string,
+ *     size?: string,
+ *     path?: string,
+ *     mimetype?: string,
+ *     'preview-available'?: 'yes'|'no',
+ *     mtime?: string,
+ *     latitude?: string,
+ *     longitude?: string,
+ *     description?: string,
+ *     thumb?: string,
+ *     website?: string,
+ *     visibility?: '0'|'1',
+ *     assignable?: '0'|'1',
+ *     conversation?: string,
+ *     etag?: string,
+ *     permissions?: string,
+ *     width?: string,
+ *     height?: string,
+ *     blurhash?: string,
+ * }
+ *
  * @since 11.0.0
  */
 interface IValidator {
 	/**
+	 * Only alphanumeric, dash, underscore and dot are allowed, starting with a character
+	 * @since 31.0.0
+	 */
+	public const PLACEHOLDER_REGEX = '[A-Za-z][A-Za-z0-9\-_.]+';
+
+	/**
 	 * @param string $subject
-	 * @param array[] $parameters
+	 * @param array<non-empty-string, RichObjectParameter> $parameters
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
-	public function validate($subject, array $parameters);
+	public function validate(string $subject, array $parameters): void;
 }

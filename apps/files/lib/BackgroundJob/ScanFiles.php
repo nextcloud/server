@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files\BackgroundJob;
@@ -40,29 +24,19 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Files\BackgroundJob
  */
 class ScanFiles extends TimedJob {
-	private IConfig $config;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-	private IDBConnection $connection;
-
 	/** Amount of users that should get scanned per execution */
 	public const USERS_PER_SESSION = 500;
 
 	public function __construct(
-		IConfig $config,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		IDBConnection $connection,
-		ITimeFactory $time
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		private IDBConnection $connection,
+		ITimeFactory $time,
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes
 		$this->setInterval(60 * 10);
-
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
-		$this->connection = $connection;
 	}
 
 	protected function runScanner(string $user): void {
@@ -86,15 +60,61 @@ class ScanFiles extends TimedJob {
 	 * @return string|false
 	 */
 	private function getUserToScan() {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('user_id')
-			->from('filecache', 'f')
-			->innerJoin('f', 'mounts', 'm', $query->expr()->eq('storage_id', 'storage'))
-			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
-			->setMaxResults(1);
+		if ($this->connection->getShardDefinition('filecache')) {
+			// for sharded filecache, the "LIMIT" from the normal query doesn't work
 
-		return $query->executeQuery()->fetchOne();
+			// first we try it with a "LEFT JOIN" on mounts, this is fast, but might return a storage that isn't mounted.
+			// we also ask for up to 10 results from different storages to increase the odds of finding a result that is mounted
+			$query = $this->connection->getQueryBuilder();
+			$query->select('m.user_id')
+				->from('filecache', 'f')
+				->leftJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
+				->where($query->expr()->lt('f.size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+				->setMaxResults(10)
+				->groupBy('f.storage')
+				->runAcrossAllShards();
+
+			$result = $query->executeQuery();
+			while ($res = $result->fetch()) {
+				if ($res['user_id']) {
+					return $res['user_id'];
+				}
+			}
+
+			// as a fallback, we try a slower approach where we find all mounted storages first
+			// this is essentially doing the inner join manually
+			$storages = $this->getAllMountedStorages();
+
+			$query = $this->connection->getQueryBuilder();
+			$query->select('m.user_id')
+				->from('filecache', 'f')
+				->leftJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
+				->where($query->expr()->lt('f.size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->in('f.storage', $query->createNamedParameter($storages, IQueryBuilder::PARAM_INT_ARRAY)))
+				->setMaxResults(1)
+				->runAcrossAllShards();
+			return $query->executeQuery()->fetchOne();
+		} else {
+			$query = $this->connection->getQueryBuilder();
+			$query->select('m.user_id')
+				->from('filecache', 'f')
+				->innerJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
+				->where($query->expr()->lt('f.size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+				->setMaxResults(1)
+				->runAcrossAllShards();
+
+			return $query->executeQuery()->fetchOne();
+		}
+	}
+
+	private function getAllMountedStorages(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->selectDistinct('storage_id')
+			->from('mounts');
+		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	/**

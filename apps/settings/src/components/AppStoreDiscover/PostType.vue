@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @author Ferdinand Thiessen <opensource@fthiessen.de>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<article :id="domId"
 		ref="container"
@@ -82,7 +65,7 @@ import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
 
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppLink from './AppLink.vue'
 
 export default defineComponent({
@@ -269,15 +252,15 @@ export default defineComponent({
 	}
 
 	&__play-icon {
+		position: absolute;
+		top: -46px; // half of the icon height
+		inset-inline-end: -46px; // half of the icon width
+
 		&-wrapper {
 			position: relative;
 			top: -50%;
-			left: -50%;
+			inset-inline-start: -50%;
 		}
-
-		position: absolute;
-		top: -46px; // half of the icon height
-		right: -46px; // half of the icon width
 	}
 }
 

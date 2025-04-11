@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Performance testing
 on:
   pull_request:
@@ -20,17 +22,23 @@ jobs:
     name: performance-${{ matrix.php-versions }}
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run performance tests on forks'
+          exit 1
+
       - name: Checkout server before PR
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -60,9 +68,9 @@ jobs:
 
       - name: Apply PR
         run: |
-          git remote add pr ${{ github.event.pull_request.head.repo.clone_url }}
-          git fetch pr ${{ github.event.pull_request.head.ref }}
-          git checkout -b pr/${{ github.event.pull_request.head.ref }}
+          git remote add pr '${{ github.event.pull_request.head.repo.clone_url }}'
+          git fetch pr '${{ github.event.pull_request.head.ref }}'
+          git checkout -b 'pr/${{ github.event.pull_request.head.ref }}'
           git submodule update
 
           ./occ upgrade
@@ -83,7 +91,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: profiles
           path: |

@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\IntegrityCheck\Helpers;
@@ -33,11 +19,7 @@ class EnvironmentHelperTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function testGetServerRoot() {
+	public function testGetServerRoot(): void {
 		$this->assertSame(\OC::$SERVERROOT, $this->environmentHelper->getServerRoot());
-	}
-
-	public function testGetChannel() {
-		$this->assertSame(\OC_Util::getChannel(), $this->environmentHelper->getChannel());
 	}
 }

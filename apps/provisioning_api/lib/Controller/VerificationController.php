@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Provisioning_API\Controller;
@@ -31,6 +13,9 @@ use InvalidArgumentException;
 use OC\Security\Crypto;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
@@ -43,43 +28,28 @@ use OCP\Security\VerificationToken\IVerificationToken;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class VerificationController extends Controller {
 
-	/** @var IVerificationToken */
-	private $verificationToken;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IAccountManager */
-	private $accountManager;
 	/** @var Crypto */
 	private $crypto;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IVerificationToken $verificationToken,
-		IUserManager $userManager,
-		IL10N $l10n,
-		IUserSession $userSession,
-		IAccountManager $accountManager,
-		Crypto $crypto
+		private IVerificationToken $verificationToken,
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private IUserSession $userSession,
+		private IAccountManager $accountManager,
+		Crypto $crypto,
 	) {
 		parent::__construct($appName, $request);
-		$this->verificationToken = $verificationToken;
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
 		$this->crypto = $crypto;
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
 		if ($this->userSession->getUser()->getUID() !== $userId) {
 			// not a public page, hence getUser() must return an IUser
@@ -96,10 +66,10 @@ class VerificationController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @BruteForceProtection(action=emailVerification)
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'emailVerification')]
 	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {
 		$throttle = false;
 		try {

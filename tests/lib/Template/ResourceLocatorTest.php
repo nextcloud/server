@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Template;
@@ -38,7 +37,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 			'', true, true, true, []);
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$locator = $this->getResourceLocator('theme');
 		$locator->expects($this->once())
 			->method('doFind')
@@ -50,7 +49,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->find(['foo']);
 	}
 
-	public function testFindNotFound() {
+	public function testFindNotFound(): void {
 		$systemConfig = $this->createMock(SystemConfig::class);
 		$systemConfig->method('getValue')
 			->with('theme', '')
@@ -73,7 +72,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->find(['foo']);
 	}
 
-	public function testAppendIfExist() {
+	public function testAppendIfExist(): void {
 		$locator = $this->getResourceLocator('theme');
 		/** @var \OC\Template\ResourceLocator $locator */
 		$method = new \ReflectionMethod($locator, 'appendIfExist');

@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App\AppStore\Bundles;
@@ -47,7 +32,7 @@ class BundleFetcherTest extends TestCase {
 		);
 	}
 
-	public function testGetBundles() {
+	public function testGetBundles(): void {
 		$expected = [
 			new EnterpriseBundle($this->l10n),
 			new HubBundle($this->l10n),
@@ -59,13 +44,13 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
 
-	public function testGetBundleByIdentifier() {
+	public function testGetBundleByIdentifier(): void {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
 
 
-	public function testGetBundleByIdentifierWithException() {
+	public function testGetBundleByIdentifierWithException(): void {
 		$this->expectException(\BadMethodCallException::class);
 		$this->expectExceptionMessage('Bundle with specified identifier does not exist');
 

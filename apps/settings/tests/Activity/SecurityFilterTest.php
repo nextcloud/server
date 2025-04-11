@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
 
@@ -49,15 +31,15 @@ class SecurityFilterTest extends TestCase {
 		$this->filter = new SecurityFilter($this->urlGenerator, $this->l10n);
 	}
 
-	public function testAllowedApps() {
+	public function testAllowedApps(): void {
 		$this->assertEquals([], $this->filter->allowedApps());
 	}
 
-	public function testFilterTypes() {
+	public function testFilterTypes(): void {
 		$this->assertEquals(['security'], $this->filter->filterTypes(['comments', 'security']));
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/password.svg')
@@ -69,11 +51,11 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('abs/path/to/icon.svg', $this->filter->getIcon());
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertEquals('security', $this->filter->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
@@ -81,7 +63,7 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('translated', $this->filter->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(30, $this->filter->getPriority());
 	}
 }

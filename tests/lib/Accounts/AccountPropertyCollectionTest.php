@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace lib\Accounts;
@@ -57,7 +40,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		return $mock;
 	}
 
-	public function testSetAndGetProperties() {
+	public function testSetAndGetProperties(): void {
 		$propsBefore = $this->collection->getProperties();
 		$this->assertIsArray($propsBefore);
 		$this->assertEmpty($propsBefore);
@@ -74,7 +57,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertCount(count($props), $propsAfter);
 	}
 
-	public function testSetPropertiesMixedInvalid() {
+	public function testSetPropertiesMixedInvalid(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock('sneaky_property'),
@@ -85,7 +68,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->collection->setProperties($props);
 	}
 
-	public function testAddProperty() {
+	public function testAddProperty(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -101,7 +84,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertNotFalse(array_search($additionalProperty, $propsAfter, true));
 	}
 
-	public function testAddPropertyInvalid() {
+	public function testAddPropertyInvalid(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -123,7 +106,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		}
 	}
 
-	public function testRemoveProperty() {
+	public function testRemoveProperty(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -142,7 +125,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertFalse(array_search($additionalProperty, $propsAfter, true));
 	}
 
-	public function testRemovePropertyNotFound() {
+	public function testRemovePropertyNotFound(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -159,7 +142,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertCount(count($propsBefore), $propsAfter);
 	}
 
-	public function testRemovePropertyByValue() {
+	public function testRemovePropertyByValue(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$additionalProperty->expects($this->any())
 			->method('getValue')
@@ -186,7 +169,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertFalse(array_search($additionalPropertyTwo, $propsAfter, true));
 	}
 
-	public function testRemovePropertyByValueNotFound() {
+	public function testRemovePropertyByValueNotFound(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$additionalProperty->expects($this->any())
 			->method('getValue')

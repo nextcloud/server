@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcDialog dialog-classes="legacy-prompt__dialog"
 		:buttons="buttons"
@@ -24,9 +28,9 @@
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 
 export default defineComponent({
 	name: 'LegacyDialogPrompt',

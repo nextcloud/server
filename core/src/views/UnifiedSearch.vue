@@ -1,27 +1,11 @@
- <!--
-  - @copyright Copyright (c) 2020 Fon E. Noel NFEBE <fenn25.fn@gmail.com>
-  -
-  - @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="header-menu unified-search-menu">
-		<NcButton class="header-menu__trigger"
+		<NcButton v-show="!showLocalSearch"
+			class="header-menu__trigger"
 			:aria-label="t('core', 'Unified search')"
 			type="tertiary-no-background"
 			@click="toggleUnifiedSearch">
@@ -29,39 +13,164 @@
 				<Magnify class="header-menu__trigger-icon" :size="20" />
 			</template>
 		</NcButton>
-		<UnifiedSearchModal :is-visible="showUnifiedSearch" @update:isVisible="handleModalVisibilityChange" />
+		<UnifiedSearchLocalSearchBar v-if="supportsLocalSearch"
+			:open.sync="showLocalSearch"
+			:query.sync="queryText"
+			@global-search="openModal" />
+		<UnifiedSearchModal :local-search="supportsLocalSearch"
+			:query.sync="queryText"
+			:open.sync="showUnifiedSearch" />
 	</div>
 </template>
 
-<script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
-import UnifiedSearchModal from './UnifiedSearchModal.vue'
+<script lang="ts">
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate } from '@nextcloud/l10n'
+import { useBrowserLocation } from '@vueuse/core'
+import { defineComponent } from 'vue'
 
-export default {
+import NcButton from '@nextcloud/vue/components/NcButton'
+import Magnify from 'vue-material-design-icons/Magnify.vue'
+import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
+import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
+
+import debounce from 'debounce'
+import logger from '../logger'
+
+export default defineComponent({
 	name: 'UnifiedSearch',
+
 	components: {
 		NcButton,
 		Magnify,
 		UnifiedSearchModal,
+		UnifiedSearchLocalSearchBar,
 	},
-	data() {
+
+	setup() {
+		const currentLocation = useBrowserLocation()
+
 		return {
-			showUnifiedSearch: false,
+			currentLocation,
+			t: translate,
 		}
 	},
+
+	data() {
+		return {
+			/** The current search query */
+			queryText: '',
+			/** Open state of the modal */
+			showUnifiedSearch: false,
+			/** Open state of the local search bar */
+			showLocalSearch: false,
+		}
+	},
+
+	computed: {
+		/**
+		 * Debounce emitting the search query by 250ms
+		 */
+		debouncedQueryUpdate() {
+			return debounce(this.emitUpdatedQuery, 250)
+		},
+
+		/**
+		 * Current page (app) supports local in-app search
+		 */
+		supportsLocalSearch() {
+			// TODO: Make this an API
+			const providerPaths = ['/settings/users', '/apps/deck', '/settings/apps']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
+		},
+	},
+
+	watch: {
+		/**
+		 * Emit the updated query as eventbus events
+		 * (This is debounced)
+		 */
+		queryText() {
+			this.debouncedQueryUpdate()
+		},
+	},
+
 	mounted() {
-		console.debug('Unified search initialized!')
+		// register keyboard listener for search shortcut
+		if (window.OCP.Accessibility.disableKeyboardShortcuts() === false) {
+			window.addEventListener('keydown', this.onKeyDown)
+		}
+
+		// Allow external reset of the search / close local search
+		subscribe('nextcloud:unified-search:reset', () => {
+			this.showLocalSearch = false
+			this.queryText = ''
+		})
+
+		// Deprecated events to be removed
+		subscribe('nextcloud:unified-search:reset', () => {
+			emit('nextcloud:unified-search.reset', { query: '' })
+		})
+		subscribe('nextcloud:unified-search:search', ({ query }) => {
+			emit('nextcloud:unified-search.search', { query })
+		})
+
+		// all done
+		logger.debug('Unified search initialized!')
 	},
+
+	beforeDestroy() {
+		// keep in mind to remove the event listener
+		window.removeEventListener('keydown', this.onKeyDown)
+	},
+
 	methods: {
-		toggleUnifiedSearch() {
-			this.showUnifiedSearch = !this.showUnifiedSearch
+		/**
+		 * Handle the key down event to open search on `ctrl + F`
+		 * @param event The keyboard event
+		 */
+		onKeyDown(event: KeyboardEvent) {
+			if (event.ctrlKey && event.code === 'KeyF') {
+				// only handle search if not already open - in this case the browser native search should be used
+				if (!this.showLocalSearch && !this.showUnifiedSearch) {
+					event.preventDefault()
+				}
+				this.toggleUnifiedSearch()
+			}
 		},
-		handleModalVisibilityChange(newVisibilityVal) {
-			this.showUnifiedSearch = newVisibilityVal
+
+		/**
+		 * Toggle the local search if available - otherwise open the unified search modal
+		 */
+		toggleUnifiedSearch() {
+			if (this.supportsLocalSearch) {
+				this.showLocalSearch = !this.showLocalSearch
+			} else {
+				this.showUnifiedSearch = !this.showUnifiedSearch
+				this.showLocalSearch = false
+			}
+		},
+
+		/**
+		 * Open the unified search modal
+		 */
+		openModal() {
+			this.showUnifiedSearch = true
+			this.showLocalSearch = false
+		},
+
+		/**
+		 * Emit the updated search query as eventbus events
+		 */
+		emitUpdatedQuery() {
+			if (this.queryText === '') {
+				emit('nextcloud:unified-search:reset')
+			} else {
+				emit('nextcloud:unified-search:search', { query: this.queryText })
+			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -88,7 +197,7 @@ export default {
 
 			&-icon {
 				// ensure the icon has the correct color
-				color: var(--color-primary-text) !important;
+				color: var(--color-background-plain-text) !important;
 			}
 		}
 	}

@@ -1,46 +1,23 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MailTest extends TestCase {
-	/** @var Mail */
-	private $admin;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
+
+	private Mail $admin;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -53,7 +30,22 @@ class MailTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public static function dataGetForm(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/** @dataProvider dataGetForm */
+	public function testGetForm(bool $sendmail) {
+		$finder = $this->createMock(IBinaryFinder::class);
+		$finder->expects(self::once())
+			->method('findBinaryPath')
+			->with('sendmail')
+			->willReturn($sendmail ? '/usr/bin/sendmail': false);
+		$this->overwriteService(IBinaryFinder::class, $finder);
+
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
@@ -74,7 +66,7 @@ class MailTest extends TestCase {
 			'settings',
 			'settings/admin/additional-mail',
 			[
-				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
+				'sendmail_is_available' => $sendmail,
 				'mail_domain' => 'mx.nextcloud.com',
 				'mail_from_address' => 'no-reply@nextcloud.com',
 				'mail_smtpmode' => 'smtp',
@@ -92,11 +84,11 @@ class MailTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('server', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

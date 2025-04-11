@@ -1,3 +1,11 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
 name: Cypress
 
 on: pull_request
@@ -9,6 +17,7 @@ concurrency:
 env:
   # Adjust APP_NAME if your repository name is different
   APP_NAME: ${{ github.event.repository.name }}
+
   # Server requires head_ref instead of base_ref, as we want to test the PR branch
   BRANCH: ${{ github.head_ref || github.ref_name }}
 
@@ -20,18 +29,26 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     env:
+      # We'll install cypress in the cypress job
+      CYPRESS_INSTALL_BINARY: 0
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run cypress on forks'
+          exit 1
+
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           # We need to checkout submodules for 3rdparty
           submodules: true
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v2
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: "composer.json"
 
@@ -40,19 +57,19 @@ jobs:
         run: composer install --no-dev
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
           fallbackNode: "^20"
-          fallbackNpm: "^9"
+          fallbackNpm: "^10"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Install node dependencies & build app
         run: |
@@ -63,7 +80,7 @@ jobs:
         run: npm run cypress:version
 
       - name: Save context
-        uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache/save@v4
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -77,32 +94,37 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ["component", 0, 1, 2, 3, 4, 5]
+        containers: ["component", '0', '1', '2', '3', '4', '5', '6', '7']
         # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
-        # Always aling this number with the total of e2e runners (max. index + 1)
-        total-containers: [6]
+        # Always align this number with the total of e2e runners (max. index + 1)
+        total-containers: [8]
 
     name: runner ${{ matrix.containers }}
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
-        run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
+
+      - name: Install cypress
+        run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a # v6.6.1
+        uses: cypress-io/github-action@108b8684ae52e735ff7891524cbffbcd4be5b19f # v6.7.16
         with:
+          # We already installed the dependencies in the init job
+          install: false
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
@@ -120,19 +142,21 @@ jobs:
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
-      - name: Upload snapshots
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+      - name: Upload snapshots and videos
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
-          name: snapshots_${{ matrix.containers }}
-          path: cypress/snapshots
+          name: snapshots_videos_${{ matrix.containers }}
+          path: |
+            cypress/snapshots
+            cypress/videos
 
       - name: Extract NC logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
+        run: docker logs nextcloud-cypress-tests_${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
@@ -140,10 +164,10 @@ jobs:
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
+        run: docker exec nextcloud-cypress-tests_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}

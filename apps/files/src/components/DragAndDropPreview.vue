@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="files-list-drag-image">
 		<span class="files-list-drag-image__icon">
@@ -79,7 +62,7 @@ export default Vue.extend({
 		summary(): string {
 			if (this.isSingleNode) {
 				const node = this.nodes[0]
-				return node.attributes?.displayName || node.basename
+				return node.attributes?.displayname || node.basename
 			}
 
 			return getSummaryFor(this.nodes)
@@ -115,7 +98,7 @@ $stack-shift: 6px;
 .files-list-drag-image {
 	position: absolute;
 	top: -9999px;
-	left: -9999px;
+	inset-inline-start: -9999px;
 	display: flex;
 	overflow: hidden;
 	align-items: center;
@@ -136,7 +119,7 @@ $stack-shift: 6px;
 
 	&__icon {
 		overflow: visible;
-		margin-right: 12px;
+		margin-inline-end: 12px;
 
 		img {
 			max-width: 100%;
@@ -157,7 +140,7 @@ $stack-shift: 6px;
 			// Stack effect if more than one element
 			.files-list__row-icon + .files-list__row-icon {
 				margin-top: $stack-shift;
-				margin-left: $stack-shift - $size;
+				margin-inline-start: $stack-shift - $size;
 				& + .files-list__row-icon {
 					margin-top: $stack-shift * 2;
 				}

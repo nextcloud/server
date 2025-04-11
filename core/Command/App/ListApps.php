@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Adam Blakey <adam@blakey.family>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\App;
 
@@ -35,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
 	public function __construct(
-		protected IAppManager $manager,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
@@ -77,16 +56,16 @@ class ListApps extends Base {
 		$showEnabledApps = $input->getOption('enabled') || !$input->getOption('disabled');
 		$showDisabledApps = $input->getOption('disabled') || !$input->getOption('enabled');
 
-		$apps = \OC_App::getAllApps();
+		$apps = $this->appManager->getAllAppsInAppsFolders();
 		$enabledApps = $disabledApps = [];
-		$versions = \OC_App::getAppVersions();
+		$versions = $this->appManager->getAppInstalledVersions();
 
 		//sort enabled apps above disabled apps
 		foreach ($apps as $app) {
-			if ($shippedFilter !== null && $this->manager->isShipped($app) !== $shippedFilter) {
+			if ($shippedFilter !== null && $this->appManager->isShipped($app) !== $shippedFilter) {
 				continue;
 			}
-			if ($this->manager->isInstalled($app)) {
+			if ($this->appManager->isEnabledForAnyone($app)) {
 				$enabledApps[] = $app;
 			} else {
 				$disabledApps[] = $app;
@@ -109,7 +88,7 @@ class ListApps extends Base {
 
 			sort($disabledApps);
 			foreach ($disabledApps as $app) {
-				$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
+				$apps['disabled'][$app] = $this->appManager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 			}
 		}
 

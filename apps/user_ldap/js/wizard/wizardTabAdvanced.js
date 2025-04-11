@@ -1,8 +1,7 @@
-
 /**
- * Copyright (c) 2015, Arthur Schiwon <blizzz@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 OCA = OCA || {};
@@ -166,6 +165,10 @@ OCA = OCA || {};
 				ldap_attr_biography: {
 					$element: $('#ldap_attr_biography'),
 					setMethod: 'setBiographyAttribute'
+				},
+				ldap_attr_birthdate: {
+					$element: $('#ldap_attr_birthdate'),
+					setMethod: 'setBirthdateAttribute'
 				},
 			};
 			this.setManagedItems(items);
@@ -496,6 +499,15 @@ OCA = OCA || {};
 		 */
 		setBiographyAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile birthday
+		 *
+		 * @param {string} attribute
+		 */
+		setBirthdateAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_birthdate.$element, attribute);
 		},
 
 		/**

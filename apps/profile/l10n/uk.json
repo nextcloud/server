@@ -1,0 +1,14 @@
+{ "translations": {
+    "Profile" : "Профіль",
+    "This application provides the profile" : "Цей застосунок створює профіль",
+    "Provides a customisable user profile interface." : "Надає інтерфейс профілю користувача, який можна налаштувати",
+    "You have not added any info yet" : "Ви ще не додали жодної інформації",
+    "{user} has not added any info yet" : "{user} ще не додав жодної інформації",
+    "Error opening the user status modal, try hard refreshing the page" : "Помилка відкриття режиму статусу користувача. Спробуйте оновити сторінку",
+    "Edit Profile" : "Редагувати профіль",
+    "The headline and about sections will show up here" : "Тут відображатимуться заголовок і розділи про",
+    "Profile not found" : "Профіль не знайдено",
+    "The profile does not exist." : "Профіль не існує.",
+    "Back to %s" : "Назад до %s"
+},"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
+}

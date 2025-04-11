@@ -1,44 +1,22 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2020-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
-abstract class StreamWrapper extends \OC\Files\Storage\Common {
+use OC\Files\Storage\Common;
 
-	/**
-	 * @param string $path
-	 * @return string|null
-	 */
-	abstract public function constructUrl($path);
+abstract class StreamWrapper extends Common {
 
-	public function mkdir($path) {
+	abstract public function constructUrl(string $path): ?string;
+
+	public function mkdir(string $path): bool {
 		return mkdir($this->constructUrl($path));
 	}
 
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		if ($this->is_dir($path) && $this->isDeletable($path)) {
 			$dh = $this->opendir($path);
 			if (!is_resource($dh)) {
@@ -60,19 +38,19 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function opendir($path) {
+	public function opendir(string $path) {
 		return opendir($this->constructUrl($path));
 	}
 
-	public function filetype($path) {
+	public function filetype(string $path): string|false {
 		return @filetype($this->constructUrl($path));
 	}
 
-	public function file_exists($path) {
+	public function file_exists(string $path): bool {
 		return file_exists($this->constructUrl($path));
 	}
 
-	public function unlink($path) {
+	public function unlink(string $path): bool {
 		$url = $this->constructUrl($path);
 		$success = unlink($url);
 		// normally unlink() is supposed to do this implicitly,
@@ -81,11 +59,11 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 		return $success;
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		return fopen($this->constructUrl($path), $mode);
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): bool {
 		if ($this->file_exists($path)) {
 			if (is_null($mtime)) {
 				$fh = $this->fopen($path, 'a');
@@ -102,26 +80,19 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param string $target
-	 */
-	public function getFile($path, $target) {
+	public function getFile(string $path, string $target): bool {
 		return copy($this->constructUrl($path), $target);
 	}
 
-	/**
-	 * @param string $target
-	 */
-	public function uploadFile($path, $target) {
+	public function uploadFile(string $path, string $target): bool {
 		return copy($path, $this->constructUrl($target));
 	}
 
-	public function rename($source, $target) {
+	public function rename(string $source, string $target): bool {
 		return rename($this->constructUrl($source), $this->constructUrl($target));
 	}
 
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		return stat($this->constructUrl($path));
 	}
 }

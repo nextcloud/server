@@ -1,25 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- *
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Testing;
+
+use OC\User\Database;
+use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Alternative home user backend.
@@ -33,7 +21,7 @@ namespace OCA\Testing;
  *			],
  *	]
  */
-class AlternativeHomeUserBackend extends \OC\User\Database {
+class AlternativeHomeUserBackend extends Database {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -48,7 +36,7 @@ class AlternativeHomeUserBackend extends \OC\User\Database {
 			if ($uid !== 'admin') {
 				$uid = md5($uid);
 			}
-			return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return Server::get(IConfig::class)->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;

@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage;
 
@@ -35,47 +14,47 @@ class CommonTest extends \OC\Files\Storage\Common {
 	 */
 	private $storage;
 
-	public function __construct($params) {
-		$this->storage = new \OC\Files\Storage\Local($params);
+	public function __construct(array $parameters) {
+		$this->storage = new \OC\Files\Storage\Local($parameters);
 	}
 
-	public function getId() {
-		return 'test::'.$this->storage->getId();
+	public function getId(): string {
+		return 'test::' . $this->storage->getId();
 	}
-	public function mkdir($path) {
+	public function mkdir(string $path): bool {
 		return $this->storage->mkdir($path);
 	}
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		return $this->storage->rmdir($path);
 	}
-	public function opendir($path) {
+	public function opendir(string $path) {
 		return $this->storage->opendir($path);
 	}
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		return $this->storage->stat($path);
 	}
-	public function filetype($path) {
+	public function filetype(string $path): string|false {
 		return @$this->storage->filetype($path);
 	}
-	public function isReadable($path) {
+	public function isReadable(string $path): bool {
 		return $this->storage->isReadable($path);
 	}
-	public function isUpdatable($path) {
+	public function isUpdatable(string $path): bool {
 		return $this->storage->isUpdatable($path);
 	}
-	public function file_exists($path) {
+	public function file_exists(string $path): bool {
 		return $this->storage->file_exists($path);
 	}
-	public function unlink($path) {
+	public function unlink(string $path): bool {
 		return $this->storage->unlink($path);
 	}
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		return $this->storage->fopen($path, $mode);
 	}
-	public function free_space($path) {
+	public function free_space(string $path): int|float|false {
 		return $this->storage->free_space($path);
 	}
-	public function touch($path, $mtime = null) {
+	public function touch(string $path, ?int $mtime = null): bool {
 		return $this->storage->touch($path, $mtime);
 	}
 }

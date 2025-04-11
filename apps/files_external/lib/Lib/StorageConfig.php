@@ -1,33 +1,12 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib;
 
+use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -103,14 +82,14 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * List of users who have access to this storage
 	 *
-	 * @var string[]
+	 * @var list<string>
 	 */
 	private $applicableUsers = [];
 
 	/**
 	 * List of groups that have access to this storage
 	 *
-	 * @var string[]
+	 * @var list<string>
 	 */
 	private $applicableGroups = [];
 
@@ -174,7 +153,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param string $mountPoint path
 	 */
 	public function setMountPoint($mountPoint) {
-		$this->mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
+		$this->mountPoint = Filesystem::normalizePath($mountPoint);
 	}
 
 	/**
@@ -225,7 +204,7 @@ class StorageConfig implements \JsonSerializable {
 			foreach ($backendOptions as $key => $value) {
 				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
-						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
+						case DefinitionParameter::VALUE_BOOLEAN:
 							$value = (bool)$value;
 							break;
 					}
@@ -277,7 +256,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the users for which to mount this storage
 	 *
-	 * @return string[] applicable users
+	 * @return list<string> applicable users
 	 */
 	public function getApplicableUsers() {
 		return $this->applicableUsers;
@@ -286,7 +265,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param string[]|null $applicableUsers applicable users
+	 * @param list<string>|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -298,7 +277,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the groups for which to mount this storage
 	 *
-	 * @return string[] applicable groups
+	 * @return list<string> applicable groups
 	 */
 	public function getApplicableGroups() {
 		return $this->applicableGroups;
@@ -307,7 +286,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param string[]|null $applicableGroups applicable groups
+	 * @param list<string>|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {

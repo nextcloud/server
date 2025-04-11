@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace Tests\Core\Command\User\AuthTokens;
 
@@ -54,11 +37,13 @@ class DeleteTest extends TestCase {
 		$this->command = new Delete($tokenProvider);
 	}
 
-	public function testDeleteTokenById() {
+	public function testDeleteTokenById(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', 42);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -73,11 +58,13 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testDeleteTokenByIdRequiresTokenId() {
+	public function testDeleteTokenByIdRequiresTokenId(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -92,11 +79,13 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::FAILURE, $result);
 	}
 
-	public function testDeleteTokensLastUsedBefore() {
+	public function testDeleteTokensLastUsedBefore(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -111,11 +100,13 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testLastUsedBeforeAcceptsIso8601Expanded() {
+	public function testLastUsedBeforeAcceptsIso8601Expanded(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -130,11 +121,13 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testLastUsedBeforeAcceptsYmd() {
+	public function testLastUsedBeforeAcceptsYmd(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', null);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')
@@ -149,11 +142,13 @@ class DeleteTest extends TestCase {
 		$this->assertSame(Command::SUCCESS, $result);
 	}
 
-	public function testIdAndLastUsedBeforeAreMutuallyExclusive() {
+	public function testIdAndLastUsedBeforeAreMutuallyExclusive(): void {
 		$this->consoleInput->expects($this->exactly(2))
 			->method('getArgument')
-			->withConsecutive(['uid'], ['id'])
-			->willReturnOnConsecutiveCalls('user', 42);
+			->willReturnMap([
+				['uid', 'user'],
+				['id', '42']
+			]);
 
 		$this->consoleInput->expects($this->once())
 			->method('getOption')

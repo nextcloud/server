@@ -1,45 +1,24 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin;
 
 use OC\Files\FileInfo;
+use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
 
 class Helper {
 	/**
 	 * Retrieves the contents of a trash bin directory.
 	 *
 	 * @param string $dir path to the directory inside the trashbin
-	 * or empty to retrieve the root of the trashbin
+	 *                    or empty to retrieve the root of the trashbin
 	 * @param string $user
 	 * @param string $sortAttribute attribute to sort on or empty to disable sorting
 	 * @param bool $sortDescending true for descending sort, false otherwise
@@ -49,7 +28,7 @@ class Helper {
 		$result = [];
 		$timestamp = null;
 
-		$view = new \OC\Files\View('/' . $user . '/files_trashbin/files');
+		$view = new View('/' . $user . '/files_trashbin/files');
 
 		if (ltrim($dir, '/') !== '' && !$view->is_dir($dir)) {
 			throw new \Exception('Directory does not exists');
@@ -60,7 +39,7 @@ class Helper {
 		$absoluteDir = $view->getAbsolutePath($dir);
 		$internalPath = $mount->getInternalPath($absoluteDir);
 
-		$extraData = \OCA\Files_Trashbin\Trashbin::getExtraData($user);
+		$extraData = Trashbin::getExtraData($user);
 		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
@@ -86,7 +65,7 @@ class Helper {
 			$i = [
 				'name' => $name,
 				'mtime' => $timestamp,
-				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($name),
+				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : Server::get(IMimeTypeDetector::class)->detectPath($name),
 				'type' => $type,
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),
@@ -122,7 +101,7 @@ class Helper {
 			$entry = \OCA\Files\Helper::formatFileInfo($i);
 			$entry['id'] = $i->getId();
 			$entry['etag'] = $entry['mtime']; // add fake etag, it is only needed to identify the preview image
-			$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
+			$entry['permissions'] = Constants::PERMISSION_READ;
 			$files[] = $entry;
 		}
 		return $files;

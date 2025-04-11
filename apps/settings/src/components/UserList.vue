@@ -1,33 +1,16 @@
 <!--
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<Fragment>
-		<NewUserModal v-if="showConfig.showNewUserForm"
+		<NewUserDialog v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
 			@reset="resetForm"
-			@close="closeModal" />
+			@closing="closeDialog" />
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
@@ -51,8 +34,6 @@
 				users,
 				settings,
 				hasObfuscated,
-				groups,
-				subAdminsGroups,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -83,12 +64,12 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 
 import Vue from 'vue'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import VirtualList from './Users/VirtualList.vue'
-import NewUserModal from './Users/NewUserModal.vue'
+import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
@@ -119,7 +100,7 @@ export default {
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		NewUserModal,
+		NewUserDialog,
 		UserListFooter,
 		UserListHeader,
 		VirtualList,
@@ -186,23 +167,12 @@ export default {
 			if (this.selectedGroup === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
 			}
-			if (!this.settings.isAdmin) {
-				// we don't want subadmins to edit themselves
-				return this.users.filter(user => user.enabled !== false)
-			}
 			return this.users.filter(user => user.enabled !== false)
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
-			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getSubadminGroups
+			return this.$store.getters.getSortedGroups
+				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 		},
 
 		quotaOptions() {
@@ -313,6 +283,13 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
+					})
+				} else if (this.selectedGroup === '__nc_internal_recent') {
+					await this.$store.dispatch('getRecentUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
+						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
@@ -331,7 +308,7 @@ export default {
 			this.isInitialLoad = false
 		},
 
-		closeModal() {
+		closeDialog() {
 			this.$store.commit('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,
@@ -371,7 +348,16 @@ export default {
 		},
 
 		setNewUserDefaultGroup(value) {
-			if (value && value.length > 0) {
+			// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
+			if (!value && !this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
+				// if there are multiple groups we do not know which to add,
+				// so we cannot make the managers life easier by preselecting it.
+				if (this.groups.length === 1) {
+					value = this.groups[0].id
+				}
+			}
+
+			if (value) {
 				// setting new account default group to the current selected one
 				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
@@ -403,7 +389,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './Users/shared/styles.scss';
+@use './Users/shared/styles' as *;
 
 .empty {
 	:deep {

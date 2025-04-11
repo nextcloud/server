@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\User;
@@ -51,9 +36,12 @@ class LazyUser implements IUser {
 				$this->user = $this->userManager->get($this->uid);
 			}
 		}
-		/** @var IUser */
-		$user = $this->user;
-		return $user;
+
+		if ($this->user === null) {
+			throw new NoUserException('User not found in backend');
+		}
+
+		return $this->user;
 	}
 
 	public function getUID() {
@@ -72,11 +60,15 @@ class LazyUser implements IUser {
 		return $this->getUser()->setDisplayName($displayName);
 	}
 
-	public function getLastLogin() {
+	public function getLastLogin(): int {
 		return $this->getUser()->getLastLogin();
 	}
 
-	public function updateLastLoginTimestamp() {
+	public function getFirstLogin(): int {
+		return $this->getUser()->getFirstLogin();
+	}
+
+	public function updateLastLoginTimestamp(): bool {
 		return $this->getUser()->updateLastLoginTimestamp();
 	}
 
@@ -86,6 +78,14 @@ class LazyUser implements IUser {
 
 	public function setPassword($password, $recoveryPassword = null) {
 		return $this->getUser()->setPassword($password, $recoveryPassword);
+	}
+
+	public function getPasswordHash(): ?string {
+		return $this->getUser()->getPasswordHash();
+	}
+
+	public function setPasswordHash(string $passwordHash): bool {
+		return $this->getUser()->setPasswordHash($passwordHash);
 	}
 
 	public function getHome() {
@@ -110,6 +110,10 @@ class LazyUser implements IUser {
 
 	public function canChangeDisplayName() {
 		return $this->getUser()->canChangeDisplayName();
+	}
+
+	public function canChangeEmail(): bool {
+		return $this->getUser()->canChangeEmail();
 	}
 
 	public function isEnabled() {

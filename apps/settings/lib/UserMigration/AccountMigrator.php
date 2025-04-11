@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2022 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\UserMigration;
@@ -35,6 +18,7 @@ use OCA\Settings\AppInfo\Application;
 use OCP\Accounts\IAccountManager;
 use OCP\IAvatarManager;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IUser;
 use OCP\UserMigration\IExportDestination;
 use OCP\UserMigration\IImportSource;
@@ -49,15 +33,9 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TAccountsHelper;
 
-	private IAccountManager $accountManager;
-
-	private IAvatarManager $avatarManager;
-
 	private ProfileManager $profileManager;
 
 	private ProfileConfigMapper $configMapper;
-
-	private IL10N $l10n;
 
 	private const PATH_ROOT = Application::APP_ID . '/';
 
@@ -68,17 +46,14 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	private const PATH_CONFIG_FILE = AccountMigrator::PATH_ROOT . 'config.json';
 
 	public function __construct(
-		IAccountManager $accountManager,
-		IAvatarManager $avatarManager,
+		private IAccountManager $accountManager,
+		private IAvatarManager $avatarManager,
 		ProfileManager $profileManager,
 		ProfileConfigMapper $configMapper,
-		IL10N $l10n
+		private IL10N $l10n,
 	) {
-		$this->accountManager = $accountManager;
-		$this->avatarManager = $avatarManager;
 		$this->profileManager = $profileManager;
 		$this->configMapper = $configMapper;
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -173,7 +148,7 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 
 			$output->writeln('Importing avatar from ' . $importPath . '…');
 			$stream = $importSource->getFileAsStream($importPath);
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFileHandle($stream);
 
 			try {

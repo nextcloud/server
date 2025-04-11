@@ -1,27 +1,10 @@
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
+import { registerCustomElement } from '../../helpers/window.js'
 import FileMimeType from './FileMimeType.vue'
 import FileSystemTag from './FileSystemTag.vue'
 
@@ -52,7 +35,7 @@ const FileChecks = [
 		class: 'OCA\\WorkflowEngine\\Check\\FileMimeType',
 		name: t('workflowengine', 'File MIME type'),
 		operators: stringOrRegexOperators,
-		component: FileMimeType,
+		element: registerCustomElement(FileMimeType, 'oca-workflowengine-checks-file_mime_type'),
 	},
 
 	{
@@ -98,7 +81,7 @@ const FileChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is tagged with') },
 			{ operator: '!is', name: t('workflowengine', 'is not tagged with') },
 		],
-		component: FileSystemTag,
+		element: registerCustomElement(FileSystemTag, 'oca-workflowengine-file_system_tag'),
 	},
 ]
 

@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Settings\Tests\AppInfo;
@@ -81,7 +64,7 @@ class ManagerTest extends TestCase {
 		);
 	}
 
-	public function testGetAdminSections() {
+	public function testGetAdminSections(): void {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
@@ -94,7 +77,7 @@ class ManagerTest extends TestCase {
 		], $this->manager->getAdminSections());
 	}
 
-	public function testGetPersonalSections() {
+	public function testGetPersonalSections(): void {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
@@ -107,11 +90,11 @@ class ManagerTest extends TestCase {
 		], $this->manager->getPersonalSections());
 	}
 
-	public function testGetAdminSectionsEmptySection() {
+	public function testGetAdminSectionsEmptySection(): void {
 		$this->assertEquals([], $this->manager->getAdminSections());
 	}
 
-	public function testGetPersonalSectionsEmptySection() {
+	public function testGetPersonalSectionsEmptySection(): void {
 		$this->l10nFactory
 			->expects($this->once())
 			->method('get')
@@ -125,7 +108,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([], $this->manager->getPersonalSections());
 	}
 
-	public function testGetAdminSettings() {
+	public function testGetAdminSettings(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -143,7 +126,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testGetAdminSettingsAsSubAdmin() {
+	public function testGetAdminSettingsAsSubAdmin(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -159,7 +142,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals([], $settings);
 	}
 
-	public function testGetSubAdminSettingsAsSubAdmin() {
+	public function testGetSubAdminSettingsAsSubAdmin(): void {
 		$section = $this->createMock(ISubAdminSettings::class);
 		$section->method('getPriority')
 			->willReturn(13);
@@ -178,7 +161,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testGetPersonalSettings() {
+	public function testGetPersonalSettings(): void {
 		$section = $this->createMock(ISettings::class);
 		$section->method('getPriority')
 			->willReturn(16);
@@ -212,7 +195,7 @@ class ManagerTest extends TestCase {
 		], $settings);
 	}
 
-	public function testSameSectionAsPersonalAndAdmin() {
+	public function testSameSectionAsPersonalAndAdmin(): void {
 		$this->l10nFactory
 			->expects($this->once())
 			->method('get')

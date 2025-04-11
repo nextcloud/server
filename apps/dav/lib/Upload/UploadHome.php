@@ -1,45 +1,30 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Upload;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
-	/** @var array */
-	private $principalInfo;
-	/** @var CleanupService */
-	private $cleanupService;
+	private ?Folder $uploadFolder = null;
 
-	public function __construct(array $principalInfo, CleanupService $cleanupService) {
-		$this->principalInfo = $principalInfo;
-		$this->cleanupService = $cleanupService;
+	public function __construct(
+		private readonly array $principalInfo,
+		private readonly CleanupService $cleanupService,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserSession $userSession,
+	) {
 	}
 
 	public function createFile($name, $data = null) {
@@ -84,28 +69,33 @@ class UploadHome implements ICollection {
 		return $this->impl()->getLastModified();
 	}
 
-	/**
-	 * @return Directory
-	 */
-	private function impl() {
-		$view = $this->getView();
-		$rootInfo = $view->getFileInfo('');
-		return new Directory($view, $rootInfo);
+	private function getUploadFolder(): Folder {
+		if ($this->uploadFolder === null) {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
+			$path = '/' . $user->getUID() . '/uploads';
+			try {
+				$folder = $this->rootFolder->get($path);
+				if (!$folder instanceof Folder) {
+					throw new \Exception('Upload folder is a file');
+				}
+				$this->uploadFolder = $folder;
+			} catch (NotFoundException $e) {
+				$this->uploadFolder = $this->rootFolder->newFolder($path);
+			}
+		}
+		return $this->uploadFolder;
 	}
 
-	private function getView() {
-		$rootView = new View();
-		$user = \OC::$server->getUserSession()->getUser();
-		Filesystem::initMountPoints($user->getUID());
-		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
-			$rootView->mkdir('/' . $user->getUID() . '/uploads');
-		}
-		return new View('/' . $user->getUID() . '/uploads');
+	private function impl(): Directory {
+		$folder = $this->getUploadFolder();
+		$view = new View($folder->getPath());
+		return new Directory($view, $folder);
 	}
 
 	private function getStorage() {
-		$view = $this->getView();
-		$storage = $view->getFileInfo('')->getStorage();
-		return $storage;
+		return $this->getUploadFolder()->getStorage();
 	}
 }

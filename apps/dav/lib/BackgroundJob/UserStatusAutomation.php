@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\BackgroundJob;
@@ -43,14 +28,16 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\RRuleIterator;
 
 class UserStatusAutomation extends TimedJob {
-	public function __construct(private ITimeFactory $timeFactory,
+	public function __construct(
+		private ITimeFactory $timeFactory,
 		private IDBConnection $connection,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
 		private IManager $manager,
 		private IConfig $config,
 		private IAvailabilityCoordinator $coordinator,
-		private IUserManager $userManager) {
+		private IUserManager $userManager,
+	) {
 		parent::__construct($timeFactory);
 
 		// Interval 0 might look weird, but the last_checked is always moved
@@ -70,14 +57,14 @@ class UserStatusAutomation extends TimedJob {
 
 		$userId = $argument['userId'];
 		$user = $this->userManager->get($userId);
-		if($user === null) {
+		if ($user === null) {
 			return;
 		}
 
 		$ooo = $this->coordinator->getCurrentOutOfOfficeData($user);
 
 		$continue = $this->processOutOfOfficeData($user, $ooo);
-		if($continue === false) {
+		if ($continue === false) {
 			return;
 		}
 
@@ -211,20 +198,18 @@ class UserStatusAutomation extends TimedJob {
 			return;
 		}
 
-		if(!$hasDndForOfficeHours) {
+		if (!$hasDndForOfficeHours) {
 			// Office hours are not set to DND, so there is nothing to do.
 			return;
 		}
 
-		$this->logger->debug('User is currently NOT available, reverting call status if applicable and then setting DND');
-		// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
-		$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
+		$this->logger->debug('User is currently NOT available, reverting call and meeting status if applicable and then setting DND');
 		$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
 		$this->logger->debug('User status automation ran');
 	}
 
 	private function processOutOfOfficeData(IUser $user, ?IOutOfOfficeData $ooo): bool {
-		if(empty($ooo)) {
+		if (empty($ooo)) {
 			// Reset the user status if the absence doesn't exist
 			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
 			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
@@ -232,12 +217,12 @@ class UserStatusAutomation extends TimedJob {
 			return true;
 		}
 
-		if(!$this->coordinator->isInEffect($ooo)) {
+		if (!$this->coordinator->isInEffect($ooo)) {
 			// Reset the user status if the absence is (no longer) in effect
 			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
 			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 
-			if($ooo->getStartDate() > $this->time->getTime()) {
+			if ($ooo->getStartDate() > $this->time->getTime()) {
 				// Set the next run to take place at the start of the ooo period if it is in the future
 				// This might be overwritten if there is an availability setting, but we can't determine
 				// if this is the case here
@@ -247,10 +232,8 @@ class UserStatusAutomation extends TimedJob {
 		}
 
 		$this->logger->debug('User is currently in an OOO period, reverting other automated status and setting OOO DND status');
-		// Revert both a possible 'CALL - away' and 'office hours - DND' status
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_CALL, IUserStatus::DND);
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
 		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
+
 		// Run at the end of an ooo period to return to availability / regular user status
 		// If it's overwritten by a custom status in the meantime, there's nothing we can do about it
 		$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getEndDate());

@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Exception;
@@ -13,7 +12,7 @@ use Throwable;
  * @psalm-consistent-constructor
  */
 class Exception extends \Exception {
-	public function __construct(string $message = "", int $code = 0, Throwable $previous = null) {
+	public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null) {
 		parent::__construct($message, $code, $previous);
 	}
 

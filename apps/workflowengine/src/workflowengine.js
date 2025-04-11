@@ -1,24 +1,6 @@
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Vue from 'vue'
@@ -33,12 +15,20 @@ import ShippedChecks from './components/Checks/index.js'
  * @typedef {object} CheckPlugin
  * @property {string} class - The PHP class name of the check
  * @property {Comparison[]} operators - A list of possible comparison operations running on the check
- * @property {Vue} component - A vue component to handle the rendering of options
+ * @property {Vue} component - Deprecated: **Use `element` instead**
+ *
+ *  A vue component to handle the rendering of options.
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
- *  event once the data has changed
+ *  event once the data has changed.
+ *
+ *  Will be removed in 03/2028.
  * @property {Function} placeholder - Return a placeholder of no custom component is used
  * @property {Function} validate - validate a check if no custom component is used
+ * @property {string} [element] - A web component id as used in window.customElements.define()`.
+ *  It is expected that the ID is prefixed with the app namespace, e.g. oca-myapp-flow_do_this_operation
+ *  It has to emit the `update:model-value` event when a value was changed.
+ *  The `model-value` property will be set initially with the rule operation value.
  */
 
 /**
@@ -48,10 +38,18 @@ import ShippedChecks from './components/Checks/index.js'
  * @property {string} id - The PHP class name of the check
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
- * @property {Vue} component - A vue component to handle the rendering of options
+ * @property {object} [options] - Deprecated: **Use `element` instead**
+ *
+ *  A vue component to handle the rendering of options.
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
- *  event once the data has changed
+ *  event once the data has changed.
+ *
+ *  Will be removed in 03/2028.
+ * @property {string} [element] - A web component id as used in window.customElements.define()`.
+ *  It is expected that the ID is prefixed with the app namespace, e.g. oca-myapp-flow_do_this_operation
+ *  It has to emit the `update:model-value` event when a value was changed.
+ *  The `model-value` property will be set initially with the rule operation value.
  */
 
 /**

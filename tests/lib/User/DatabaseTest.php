@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\User;
@@ -39,6 +24,9 @@ class DatabaseTest extends Backend {
 	private $users;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
+
+	/** @var \OC\User\Database */
+	protected $backend;
 
 	public function getUser() {
 		$user = parent::getUser();
@@ -64,7 +52,7 @@ class DatabaseTest extends Backend {
 		parent::tearDown();
 	}
 
-	public function testVerifyPasswordEvent() {
+	public function testVerifyPasswordEvent(): void {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
@@ -82,7 +70,7 @@ class DatabaseTest extends Backend {
 	}
 
 
-	public function testVerifyPasswordEventFail() {
+	public function testVerifyPasswordEventFail(): void {
 		$this->expectException(\OCP\HintException::class);
 		$this->expectExceptionMessage('password change failed');
 
@@ -103,14 +91,14 @@ class DatabaseTest extends Backend {
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 
-	public function testCreateUserInvalidatesCache() {
+	public function testCreateUserInvalidatesCache(): void {
 		$user1 = $this->getUniqueID('test_');
 		$this->assertFalse($this->backend->userExists($user1));
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
-	public function testDeleteUserInvalidatesCache() {
+	public function testDeleteUserInvalidatesCache(): void {
 		$user1 = $this->getUniqueID('test_');
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
@@ -120,7 +108,7 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		parent::testSearch();
 
 		$user1 = $this->getUser();
@@ -153,5 +141,15 @@ class DatabaseTest extends Backend {
 
 		$result = $this->backend->getDisplayNames('@nextcloud.COM');
 		$this->assertCount(2, $result);
+	}
+
+	public function testUserCount(): void {
+		$base = $this->backend->countUsers() ?: 0;
+		$users = $this->backend->getUsers();
+		self::assertEquals($base, count($users));
+
+		$user = $this->getUser();
+		$this->backend->createUser($user, $user);
+		self::assertEquals($base + 1, $this->backend->countUsers());
 	}
 }

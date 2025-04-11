@@ -1,17 +1,22 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <psalm
 	errorLevel="4"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config"
-    errorBaseline="build/psalm-baseline.xml"
-	findUnusedBaselineEntry="false"
+	xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
+	errorBaseline="build/psalm-baseline.xml"
+	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 	phpVersion="8.1"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
@@ -25,11 +30,13 @@
 		<directory name="apps/federation"/>
 		<directory name="apps/files"/>
 		<directory name="apps/files_external"/>
+		<directory name="apps/files_reminders"/>
 		<directory name="apps/files_sharing"/>
 		<directory name="apps/files_trashbin"/>
 		<directory name="apps/files_versions"/>
 		<directory name="apps/lookup_server_connector"/>
 		<directory name="apps/oauth2"/>
+		<directory name="apps/profile"/>
 		<directory name="apps/provisioning_api"/>
 		<directory name="apps/settings"/>
 		<directory name="apps/sharebymail"/>
@@ -41,6 +48,7 @@
 		<directory name="apps/user_ldap"/>
 		<directory name="apps/user_status"/>
 		<directory name="apps/weather_status"/>
+		<directory name="apps/webhook_listeners"/>
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
@@ -145,5 +153,12 @@
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
+		<AmbiguousConstantInheritance>
+			<errorLevel type="suppress">
+				<!-- false positive: https://github.com/vimeo/psalm/issues/7818 -->
+				<referencedConstant name="OC\Memcache\Redis::DEFAULT_TTL" />
+				<referencedConstant name="OC\Memcache\LoggerWrapperCache::DEFAULT_TTL" />
+			</errorLevel>
+		</AmbiguousConstantInheritance>
 	</issueHandlers>
 </psalm>

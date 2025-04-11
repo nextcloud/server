@@ -1,31 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Elijah Martin-Merrill <elijah@nyp-itsours.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Scott Dutton <scott@exussum.co.uk>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Preview;
 
@@ -65,7 +41,7 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;
@@ -104,6 +80,7 @@ class Generator {
 			$height,
 			$crop,
 			$mode,
+			$mimeType,
 		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
@@ -195,7 +172,7 @@ class Generator {
 					$previewFiles[] = $preview;
 				}
 			} catch (\InvalidArgumentException $e) {
-				throw new NotFoundException("", 0, $e);
+				throw new NotFoundException('', 0, $e);
 			}
 
 			if ($preview->getSize() === 0) {
@@ -296,13 +273,13 @@ class Generator {
 
 		$hardwareConcurrency = self::getHardwareConcurrency();
 		switch ($type) {
-			case "preview_concurrency_all":
+			case 'preview_concurrency_all':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
-				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
+				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
 				$cached[$type] = max($concurrency_all, $concurrency_new);
 				break;
-			case "preview_concurrency_new":
+			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
 				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;

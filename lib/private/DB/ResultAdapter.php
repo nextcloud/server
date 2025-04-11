@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DB;
 
@@ -47,14 +30,21 @@ class ResultAdapter implements IResult {
 	}
 
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
-		return $this->inner->fetch($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->inner->fetchAssociative(),
+			PDO::FETCH_NUM => $this->inner->fetchNumeric(),
+			PDO::FETCH_COLUMN => $this->inner->fetchOne(),
+			default => throw new \Exception('Fetch mode needs to be assoc, num or column.'),
+		};
 	}
 
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
-		if ($fetchMode !== PDO::FETCH_ASSOC && $fetchMode !== PDO::FETCH_NUM && $fetchMode !== PDO::FETCH_COLUMN) {
-			throw new \Exception('Fetch mode needs to be assoc, num or column.');
-		}
-		return $this->inner->fetchAll($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->inner->fetchAllAssociative(),
+			PDO::FETCH_NUM => $this->inner->fetchAllNumeric(),
+			PDO::FETCH_COLUMN => $this->inner->fetchFirstColumn(),
+			default => throw new \Exception('Fetch mode needs to be assoc, num or column.'),
+		};
 	}
 
 	public function fetchColumn($columnIndex = 0) {

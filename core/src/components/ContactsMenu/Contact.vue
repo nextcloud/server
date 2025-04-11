@@ -1,23 +1,7 @@
 <!--
-  - @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<li class="contact">
@@ -39,7 +23,7 @@
 			:inline="contact.topAction ? 1 : 0">
 			<template v-for="(action, idx) in actions">
 				<NcActionLink v-if="action.hyperlink !== '#'"
-					:key="idx"
+					:key="`${idx}-link`"
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
@@ -47,30 +31,46 @@
 					</template>
 					{{ action.title }}
 				</NcActionLink>
-				<NcActionText v-else :key="idx" class="other-actions">
+				<NcActionText v-else :key="`${idx}-text`" class="other-actions">
 					<template #icon>
 						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionText>
 			</template>
+			<NcActionButton v-for="action in jsActions"
+				:key="action.id"
+				:close-after-click="true"
+				class="other-actions"
+				@click="action.callback(contact)">
+				<template #icon>
+					<NcIconSvgWrapper class="contact__action__icon-svg"
+						:svg="action.iconSvg(contact)" />
+				</template>
+				{{ action.displayName(contact) }}
+			</NcActionButton>
 		</NcActions>
 	</li>
 </template>
 
 <script>
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
 
 export default {
 	name: 'Contact',
 	components: {
 		NcActionLink,
 		NcActionText,
+		NcActionButton,
 		NcActions,
 		NcAvatar,
+		NcIconSvgWrapper,
 	},
 	props: {
 		contact: {
@@ -85,6 +85,9 @@ export default {
 			}
 			return this.contact.actions
 		},
+		jsActions() {
+			return getEnabledContactsMenuActions(this.contact)
+		},
 		preloadedUserStatus() {
 			if (this.contact.status) {
 				return {
@@ -94,7 +97,7 @@ export default {
 				}
 			}
 			return undefined
-		}
+		},
 	},
 }
 </script>
@@ -104,7 +107,8 @@ export default {
 	display: flex;
 	position: relative;
 	align-items: center;
-	padding: 3px 3px 3px 10px;
+	padding: 3px;
+	padding-inline-start: 10px;
 
 	&__action {
 		&__icon {
@@ -113,9 +117,10 @@ export default {
 			padding: 12px;
 			filter: var(--background-invert-if-dark);
 		}
-	}
 
-	&__avatar-wrapper {
+		&__icon-svg {
+			padding: 5px;
+		}
 	}
 
 	&__avatar {
@@ -124,8 +129,8 @@ export default {
 
 	&__body {
 		flex-grow: 1;
-		padding-left: 10px;
-		margin-left: 10px;
+		padding-inline-start: 10px;
+		margin-inline-start: 10px;
 		min-width: 0;
 
 		div {
@@ -178,11 +183,11 @@ export default {
 	/* actions menu */
 	.menu {
 		top: 47px;
-		margin-right: 13px;
+		margin-inline-end: 13px;
 	}
 
 	.popovermenu::after {
-		right: 2px;
+		inset-inline-end: 2px;
 	}
 }
 </style>

@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
@@ -34,20 +13,21 @@ use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\StorageNotAvailableException;
 use Test\Traits\UserTrait;
 
-class TestViewDirectory extends \OC\Files\View {
-	private $updatables;
-	private $deletables;
-	private $canRename;
-
-	public function __construct($updatables, $deletables, $canRename = true) {
-		$this->updatables = $updatables;
-		$this->deletables = $deletables;
-		$this->canRename = $canRename;
+class TestViewDirectory extends View {
+	public function __construct(
+		private $updatables,
+		private $deletables,
+		private $canRename = true,
+	) {
 	}
 
 	public function isUpdatable($path) {
@@ -62,7 +42,7 @@ class TestViewDirectory extends \OC\Files\View {
 		return $this->deletables[$path];
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($path1, $path2, array $options = []) {
 		return $this->canRename;
 	}
 
@@ -78,9 +58,9 @@ class TestViewDirectory extends \OC\Files\View {
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
-	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
-	/** @var \OC\Files\FileInfo | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var FileInfo|\PHPUnit\Framework\MockObject\MockObject */
 	private $info;
 
 	protected function setUp(): void {
@@ -93,9 +73,9 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->method('getType')
 			->willReturn(Node::TYPE_FOLDER);
 		$this->info->method('getName')
-			->willReturn("folder");
+			->willReturn('folder');
 		$this->info->method('getPath')
-			->willReturn("/admin/files/folder");
+			->willReturn('/admin/files/folder');
 		$this->info->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);
 	}
@@ -127,7 +107,7 @@ class DirectoryTest extends \Test\TestCase {
 
 
 	public function testDeleteForbidden(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
+		$this->expectException(Forbidden::class);
 
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -271,7 +251,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
-			->willThrowException(new \OCP\Files\StorageNotAvailableException());
+			->willThrowException(new StorageNotAvailableException());
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -279,11 +259,11 @@ class DirectoryTest extends \Test\TestCase {
 
 
 	public function testGetChildThrowInvalidPath(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+		$this->expectException(InvalidPath::class);
 
 		$this->view->expects($this->once())
 			->method('verifyPath')
-			->willThrowException(new \OCP\Files\InvalidPathException());
+			->willThrowException(new InvalidPathException());
 		$this->view->expects($this->never())
 			->method('getFileInfo');
 
@@ -304,8 +284,9 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->willReturnMap([
-				'\OCA\Files_Sharing\SharedStorage' => false,
-				'\OC\Files\Storage\Wrapper\Quota' => false,
+				['\OCA\Files_Sharing\SharedStorage', false],
+				['\OC\Files\Storage\Wrapper\Quota', false],
+				[\OCA\Files_Sharing\External\Storage::class, false],
 			]);
 
 		$storage->expects($this->once())
@@ -335,6 +316,10 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getRelativePath')
 			->willReturn('/foo');
 
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
+
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
 
@@ -357,6 +342,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturnMap([
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
+				[\OCA\Files_Sharing\External\Storage::class, false],
 			]);
 
 		$storage->expects($this->once())
@@ -378,6 +364,10 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->once())
 			->method('getMountPoint')
 			->willReturn($mountPoint);
+
+		$this->info->expects($this->once())
+			->method('getInternalPath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
@@ -411,14 +401,14 @@ class DirectoryTest extends \Test\TestCase {
 	 * @dataProvider moveFailedInvalidCharsProvider
 	 */
 	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+		$this->expectException(InvalidPath::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
 	public function moveFailedInvalidCharsProvider() {
 		return [
-			['a/b', 'a/*', ['a' => true, 'a/b' => true, 'a/c*' => false], []],
+			['a/valid', "a/i\nvalid", ['a' => true, 'a/valid' => true, 'a/c*' => false], []],
 		];
 	}
 
@@ -484,7 +474,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
-			->setMethods(['childExists'])
+			->onlyMethods(['childExists'])
 			->setConstructorArgs([$view, $targetInfo])
 			->getMock();
 		$targetNode->expects($this->once())->method('childExists')

@@ -1,23 +1,6 @@
 <!--
-	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -44,7 +27,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 export default {
 	name: 'ProfilePreviewCard',
@@ -121,7 +104,7 @@ export default {
 		box-shadow: 0 0 3px var(--color-box-shadow);
 
 		& *,
-		&::v-deep * {
+		&:deep(*) {
 			cursor: default;
 		}
 	}
@@ -130,7 +113,7 @@ export default {
 		// Override Avatar component position to fix positioning on rerender
 		position: absolute !important;
 		top: 40px;
-		left: 18px;
+		inset-inline-start: 18px;
 		z-index: 1;
 
 		&:not(.avatardiv--unknown) {
@@ -145,7 +128,7 @@ export default {
 
 		span {
 			position: absolute;
-			left: 78px;
+			inset-inline-start: 78px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			overflow-wrap: anywhere;
@@ -168,7 +151,8 @@ export default {
 			color: var(--color-primary-element-text);
 			font-size: 18px;
 			font-weight: bold;
-			margin: 0 4px 8px 0;
+			margin-block: 0 8px;
+			margin-inline: 0 4px;
 		}
 	}
 
@@ -180,7 +164,8 @@ export default {
 			color: var(--color-text-maxcontrast);
 			font-size: 14px;
 			font-weight: normal;
-			margin: 4px 4px 0 0;
+			margin-block: 4px 0;
+			margin-inline: 0 4px;
 			line-height: 1.3;
 		}
 	}

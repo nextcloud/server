@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test;
@@ -43,7 +29,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test no capabilities
 	 */
-	public function testNoCapabilities() {
+	public function testNoCapabilities(): void {
 		$res = $this->manager->getCapabilities();
 		$this->assertEmpty($res);
 	}
@@ -51,7 +37,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a valid capabilitie
 	 */
-	public function testValidCapability() {
+	public function testValidCapability(): void {
 		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
@@ -63,7 +49,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a public capabilitie
 	 */
-	public function testPublicCapability() {
+	public function testPublicCapability(): void {
 		$this->manager->registerCapability(function () {
 			return new PublicSimpleCapability1();
 		});
@@ -81,7 +67,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test that we need something that implents ICapability
 	 */
-	public function testNoICapability() {
+	public function testNoICapability(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('The given Capability (Test\\NoCapability) does not implement the ICapability interface');
 
@@ -96,7 +82,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a bunch of merged Capabilities
 	 */
-	public function testMergedCapabilities() {
+	public function testMergedCapabilities(): void {
 		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
@@ -122,7 +108,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test deep identical capabilities
 	 */
-	public function testDeepIdenticalCapabilities() {
+	public function testDeepIdenticalCapabilities(): void {
 		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
@@ -142,7 +128,7 @@ class CapabilitiesManagerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidCapability() {
+	public function testInvalidCapability(): void {
 		$this->manager->registerCapability(function () {
 			throw new QueryException();
 		});

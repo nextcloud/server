@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Andrey Borysenko <andrey.borysenko@nextcloud.com>
- *
- * @author Andrey Borysenko <andrey.borysenko@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCP\Settings;
@@ -49,8 +32,9 @@ final class DeclarativeSettingsTypes {
 	/**
 	 * IDeclarativeSettingsForm storage_type which is determines where and how the config value is stored
 	 *
-	 *
-	 * For `external` storage_type the app implementing \OCP\Settings\SetDeclarativeSettingsValueEvent and \OCP\Settings\GetDeclarativeSettingsValueEvent events is responsible for storing and retrieving the config value.
+	 * For `external` storage_type the app needs to either implement event listeners for \OCP\Settings\SetDeclarativeSettingsValueEvent
+	 * and \OCP\Settings\GetDeclarativeSettingsValueEvent or the IDeclarativeSettingsForm also needs to implement
+	 * IDeclarativeSettingsFormWithHandlers for storing and retrieving the config value.
 	 *
 	 * @since 29.0.0
 	 */
@@ -60,7 +44,6 @@ final class DeclarativeSettingsTypes {
 	 * IDeclarativeSettingsForm storage_type which is determines where and how the config value is stored
 	 *
 	 * For `internal` storage_type the config value is stored in default `appconfig` and `preferences` tables.
-	 * For `external` storage_type the app implementing \OCP\Settings\SetDeclarativeSettingsValueEvent and \OCP\Settings\GetDeclarativeSettingsValueEvent events is responsible for storing and retrieving the config value.
 	 *
 	 * @since 29.0.0
 	 */

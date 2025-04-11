@@ -3,23 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Security\CSP;
@@ -42,12 +28,12 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->contentSecurityPolicyManager = new ContentSecurityPolicyManager($this->dispatcher);
 	}
 
-	public function testAddDefaultPolicy() {
+	public function testAddDefaultPolicy(): void {
 		$this->contentSecurityPolicyManager->addDefaultPolicy(new \OCP\AppFramework\Http\ContentSecurityPolicy());
 		$this->addToAssertionCount(1);
 	}
 
-	public function testGetDefaultPolicyWithPolicies() {
+	public function testGetDefaultPolicyWithPolicies(): void {
 		$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$policy->addAllowedFontDomain('mydomain.com');
 		$policy->addAllowedImageDomain('anotherdomain.de');
@@ -78,7 +64,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());
 	}
 
-	public function testGetDefaultPolicyWithPoliciesViaEvent() {
+	public function testGetDefaultPolicyWithPoliciesViaEvent(): void {
 		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function (AddContentSecurityPolicyEvent $e) {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('mydomain.com');

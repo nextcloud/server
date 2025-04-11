@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 /* eslint-disable quote-props */
 /* eslint-disable n/no-unpublished-import */
 import path from 'path'
@@ -175,6 +179,10 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
 		color: 'grey',
 	},
+	'file-text': {
+		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
+		color: 'black',
+	},
 }
 
 // use this to define aliases to existing icons
@@ -229,7 +237,7 @@ const colorSvg = function(svg = '', color = '000') {
 	}
 
 	// add fill (fill is not present on black elements)
-	const fillRe = /<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/gmi
+	const fillRe = /<((circle|rect|path)((?!fill=)[a-z0-9 =".\-#():;,])+)\/>/gmi
 	svg = svg.replace(fillRe, '<$1 fill="#' + color + '"/>')
 
 	// replace any fill or stroke colors

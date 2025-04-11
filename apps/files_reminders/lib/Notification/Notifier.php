@@ -3,30 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\FilesReminders\Notification;
 
-use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
@@ -36,6 +18,7 @@ use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 	public function __construct(
@@ -54,14 +37,13 @@ class Notifier implements INotifier {
 	}
 
 	/**
-	 * @throws InvalidArgumentException
-	 * @throws AlreadyProcessedException
+	 * @throws UnknownNotificationException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
 
 		if ($notification->getApp() !== Application::APP_ID) {
-			throw new InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		switch ($notification->getSubject()) {
@@ -70,8 +52,8 @@ class Notifier implements INotifier {
 				$fileId = $params['fileId'];
 
 				$node = $this->root->getUserFolder($notification->getUser())->getFirstNodeById($fileId);
-				if (!$node) {
-					throw new InvalidArgumentException();
+				if ($node === null) {
+					throw new AlreadyProcessedException();
 				}
 
 				$path = rtrim($node->getPath(), '/');
@@ -94,7 +76,7 @@ class Notifier implements INotifier {
 						[
 							'name' => [
 								'type' => 'highlight',
-								'id' => $node->getId(),
+								'id' => (string)$node->getId(),
 								'name' => $node->getName(),
 							],
 						],
@@ -109,8 +91,7 @@ class Notifier implements INotifier {
 				$this->addActionButton($notification, $label);
 				break;
 			default:
-				throw new InvalidArgumentException();
-				break;
+				throw new UnknownNotificationException();
 		}
 
 		return $notification;

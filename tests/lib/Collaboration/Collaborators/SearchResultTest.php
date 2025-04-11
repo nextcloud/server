@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Joas Schilling
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Collaboration\Collaborators;
@@ -31,9 +14,9 @@ use OCP\IContainer;
 use Test\TestCase;
 
 class SearchResultTest extends TestCase {
-	/** @var  IContainer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
-	/** @var  ISearch */
+	/** @var ISearch */
 	protected $search;
 
 	protected function setUp(): void {
@@ -58,7 +41,7 @@ class SearchResultTest extends TestCase {
 	 * @param array $toAdd
 	 * @param array $expected
 	 */
-	public function testAddResultSet(array $toAdd, array $expected) {
+	public function testAddResultSet(array $toAdd, array $expected): void {
 		$result = new SearchResult();
 
 		foreach ($toAdd as $type => $results) {
@@ -89,7 +72,7 @@ class SearchResultTest extends TestCase {
 	 * @param string $id
 	 * @param bool $expected
 	 */
-	public function testHasResult(array $toAdd, $type, $id, $expected) {
+	public function testHasResult(array $toAdd, $type, $id, $expected): void {
 		$result = new SearchResult();
 
 		foreach ($toAdd as $addType => $results) {

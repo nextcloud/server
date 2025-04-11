@@ -1,27 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
 
 use OCP\App\IAppManager;
+use OCP\Server;
 
 /**
  * Class InfoXmlTest
@@ -30,6 +16,13 @@ use OCP\App\IAppManager;
  * @package Test
  */
 class InfoXmlTest extends TestCase {
+	private IAppManager $appManager;
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->appManager = Server::get(IAppManager::class);
+	}
+
 	public function dataApps() {
 		return [
 			['admin_audit'],
@@ -59,9 +52,9 @@ class InfoXmlTest extends TestCase {
 	 *
 	 * @param string $app
 	 */
-	public function testClasses($app) {
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
-		$appPath = \OC_App::getAppPath($app);
+	public function testClasses($app): void {
+		$appInfo = $this->appManager->getAppInfo($app);
+		$appPath = $this->appManager->getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
@@ -132,7 +125,7 @@ class InfoXmlTest extends TestCase {
 
 		if (isset($appInfo['commands'])) {
 			foreach ($appInfo['commands'] as $command) {
-				$this->assertTrue(class_exists($command), 'Asserting command "'. $command . '"exists');
+				$this->assertTrue(class_exists($command), 'Asserting command "' . $command . '"exists');
 				$this->assertInstanceOf($command, \OC::$server->query($command));
 			}
 		}

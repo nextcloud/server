@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\BackgroundJob;
 
@@ -38,10 +21,10 @@ use Test\TestCase;
 
 class RememberBackupCodesJobTest extends TestCase {
 
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -76,7 +59,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		);
 	}
 
-	public function testInvalidUID() {
+	public function testInvalidUID(): void {
 		$this->userManager->method('get')
 			->with('invalidUID')
 			->willReturn(null);
@@ -95,7 +78,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'invalidUID']]);
 	}
 
-	public function testBackupCodesGenerated() {
+	public function testBackupCodesGenerated(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -125,7 +108,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNoActiveProvider() {
+	public function testNoActiveProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -153,7 +136,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNotificationSend() {
+	public function testNotificationSend(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -193,7 +176,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNotificationNotSendForDisabledUser() {
+	public function testNotificationNotSendForDisabledUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');

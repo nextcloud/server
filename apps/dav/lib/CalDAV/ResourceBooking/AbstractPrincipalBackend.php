@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\ResourceBooking;
 
@@ -45,17 +25,6 @@ use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	private LoggerInterface $logger;
-
 	/** @var ProxyMapper */
 	private $proxyMapper;
 
@@ -71,27 +40,21 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/** @var string */
 	private $dbForeignKeyName;
 
-	/** @var string */
-	private $cuType;
-
-	public function __construct(IDBConnection $dbConnection,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		LoggerInterface $logger,
+	public function __construct(
+		private IDBConnection $db,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
 		ProxyMapper $proxyMapper,
 		string $principalPrefix,
 		string $dbPrefix,
-		string $cuType) {
-		$this->db = $dbConnection;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
+		private string $cuType,
+	) {
 		$this->proxyMapper = $proxyMapper;
 		$this->principalPrefix = $principalPrefix;
 		$this->dbTableName = 'calendar_' . $dbPrefix . 's';
 		$this->dbMetaDataTableName = $this->dbTableName . '_md';
 		$this->dbForeignKeyName = $dbPrefix . '_id';
-		$this->cuType = $cuType;
 	}
 
 	use PrincipalProxyTrait;
@@ -406,7 +369,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		try {
 			$stmt = $query->executeQuery();
 		} catch (Exception $e) {
-			$this->logger->error("Could not search resources: " . $e->getMessage(), ['exception' => $e]);
+			$this->logger->error('Could not search resources: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
 		$rows = [];

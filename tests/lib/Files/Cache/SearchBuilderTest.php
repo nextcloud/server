@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -30,6 +15,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use Test\TestCase;
 
 /**
@@ -39,8 +25,11 @@ class SearchBuilderTest extends TestCase {
 	/** @var IQueryBuilder */
 	private $builder;
 
-	/** @var IMimeTypeLoader|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMimeTypeLoader&\PHPUnit\Framework\MockObject\MockObject */
 	private $mimetypeLoader;
+
+	/** @var IFilesMetadataManager&\PHPUnit\Framework\MockObject\MockObject */
+	private $filesMetadataManager;
 
 	/** @var SearchBuilder */
 	private $searchBuilder;
@@ -52,6 +41,7 @@ class SearchBuilderTest extends TestCase {
 		parent::setUp();
 		$this->builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
+		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
 
 		$this->mimetypeLoader->expects($this->any())
 			->method('getId')
@@ -75,7 +65,7 @@ class SearchBuilderTest extends TestCase {
 				[6, 'image']
 			]);
 
-		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader);
+		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader, $this->filesMetadataManager);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])
@@ -190,7 +180,7 @@ class SearchBuilderTest extends TestCase {
 	 * @param ISearchOperator $operator
 	 * @param array $fileIds
 	 */
-	public function testComparison(ISearchOperator $operator, array $fileIds) {
+	public function testComparison(ISearchOperator $operator, array $fileIds): void {
 		$fileId = [];
 		$fileId[] = $this->addCacheEntry([
 			'path' => 'foobar',

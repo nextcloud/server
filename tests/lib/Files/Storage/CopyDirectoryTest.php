@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Files\Storage;
@@ -24,11 +10,11 @@ namespace Test\Files\Storage;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
-	public function copy($path1, $path2) {
-		if ($this->is_dir($path1)) {
+	public function copy(string $source, string $target): bool {
+		if ($this->is_dir($source)) {
 			return false;
 		}
-		return copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+		return copy($this->getSourcePath($source), $this->getSourcePath($target));
 	}
 }
 

@@ -1,29 +1,7 @@
 <?php
 /**
- * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\AppFramework\OCS;
 
@@ -33,10 +11,10 @@ use OCP\AppFramework\Http\Response;
 
 /**
  * @psalm-import-type DataResponseType from DataResponse
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 abstract class BaseResponse extends Response {
 	/** @var array */
@@ -121,7 +99,7 @@ abstract class BaseResponse extends Response {
 		];
 
 		if ($this->format === 'json') {
-			return json_encode($response, JSON_HEX_TAG);
+			return $this->toJson($response);
 		}
 
 		$writer = new \XMLWriter();
@@ -131,6 +109,14 @@ abstract class BaseResponse extends Response {
 		$this->toXML($response, $writer);
 		$writer->endDocument();
 		return $writer->outputMemory(true);
+	}
+
+	/**
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
+	 */
+	protected function toJson(array $array): string {
+		return \json_encode($array, \JSON_HEX_TAG);
 	}
 
 	protected function toXML(array $array, \XMLWriter $writer): void {
@@ -155,7 +141,9 @@ abstract class BaseResponse extends Response {
 				$v = [];
 			}
 
-			if (\is_array($v)) {
+			if ($k === '$comment') {
+				$writer->writeComment($v);
+			} elseif (\is_array($v)) {
 				$writer->startElement($k);
 				$this->toXML($v, $writer);
 				$writer->endElement();
@@ -163,8 +151,10 @@ abstract class BaseResponse extends Response {
 				$writer->startElement($k);
 				$this->toXML($v->jsonSerialize(), $writer);
 				$writer->endElement();
+			} elseif ($v === null) {
+				$writer->writeElement($k);
 			} else {
-				$writer->writeElement($k, $v);
+				$writer->writeElement($k, (string)$v);
 			}
 		}
 	}

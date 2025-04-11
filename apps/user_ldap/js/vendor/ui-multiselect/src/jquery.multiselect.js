@@ -17,7 +17,9 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
-*/
+ * SPDX-FileCopyrightText: 2012 Eric Hynds
+ * SPDX-License-Identifier: MIT
+ */
 (function($, undefined){
 
 var multiselectID = 0;
@@ -571,7 +573,7 @@ $.widget("ech.multiselect", {
 		} else {
 			menu.css({
 				top: pos.top + button.outerHeight(),
-				left: pos.left
+				'inset-inline-start': pos.left
 			});
 		}
 

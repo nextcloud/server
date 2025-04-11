@@ -2,26 +2,9 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Settings;
@@ -37,19 +20,14 @@ use OCP\User\IAvailabilityCoordinator;
 use Psr\Log\LoggerInterface;
 
 class AvailabilitySettings implements ISettings {
-	protected IConfig $config;
-	protected IInitialState $initialState;
-	protected ?string $userId;
-
-	public function __construct(IConfig $config,
-		IInitialState $initialState,
-		?string $userId,
+	public function __construct(
+		protected IConfig $config,
+		protected IInitialState $initialState,
+		protected ?string $userId,
 		private LoggerInterface $logger,
 		private IAvailabilityCoordinator $coordinator,
-		private AbsenceMapper $absenceMapper) {
-		$this->config = $config;
-		$this->initialState = $initialState;
-		$this->userId = $userId;
+		private AbsenceMapper $absenceMapper,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {

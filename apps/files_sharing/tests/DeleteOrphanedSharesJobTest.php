@@ -1,32 +1,19 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
+use OC\SystemConfig;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\App\IAppManager;
+use OCP\Constants;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -48,7 +35,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private $job;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	private $connection;
 
@@ -63,43 +50,43 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	private $user2;
 
 	public static function setUpBeforeClass(): void {
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 		$appManager->disableApp('files_trashbin');
 
 		// just in case...
-		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
 	public static function tearDownAfterClass(): void {
 		if (self::$trashBinStatus) {
-			\OC::$server->getAppManager()->enableApp('files_trashbin');
+			Server::get(IAppManager::class)->enableApp('files_trashbin');
 		}
 	}
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->createUser($this->user1, 'pass');
 		$userManager->createUser($this->user2, 'pass');
 
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
-		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);
+		$this->job = Server::get(DeleteOrphanedSharesJob::class);
 	}
 
 	protected function tearDown(): void {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
 			$user1->delete();
@@ -127,19 +114,19 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned shares
 	 */
-	public function testClearShares() {
+	public function testClearShares(): void {
 		$this->loginAsUser($this->user1);
 
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 		$testSubFolder = $testFolder->newFolder('sub');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testSubFolder)
 			->setShareType(IShare::TYPE_USER)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedWith($this->user2)
 			->setSharedBy($this->user1);
 

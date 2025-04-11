@@ -1,38 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author duritong <peter.meier+github@immerda.ch>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Log;
 
@@ -84,7 +55,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 			@chmod($this->logFile, $this->logFileMode);
 		}
 		if ($handle) {
-			fwrite($handle, $entry."\n");
+			fwrite($handle, $entry . "\n");
 			fclose($handle);
 		} else {
 			// Fall back to error_log
@@ -102,7 +73,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 * get entries from the log in reverse chronological order
 	 */
 	public function getEntries(int $limit = 50, int $offset = 0): array {
-		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
+		$minLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		$entries = [];
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {
@@ -120,7 +91,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 						// Add the first character if at the start of the file,
 						// because it doesn't hit the else in the loop
 						if ($pos == 0) {
-							$line = $ch.$line;
+							$line = $ch . $line;
 						}
 						$entry = json_decode($line);
 						// Add the line as an entry if it is passed the offset and is equal or above the log level
@@ -134,7 +105,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 						$line = '';
 					}
 				} else {
-					$line = $ch.$line;
+					$line = $ch . $line;
 				}
 				$pos--;
 			}

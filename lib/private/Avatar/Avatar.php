@@ -3,36 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergey Shliakhov <husband.sergey@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Avatar;
 
@@ -115,8 +88,8 @@ abstract class Avatar implements IAvatar {
 		$userDisplayName = $this->getDisplayName();
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
-		$fill = sprintf("%02x%02x%02x", $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
-		$fgFill = sprintf("%02x%02x%02x", $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
+		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
+		$fgFill = sprintf('%02x%02x%02x', $fgRGB->red(), $fgRGB->green(), $fgRGB->blue());
 		$text = $this->getAvatarText();
 		$toReplace = ['{size}', '{fill}', '{fgFill}', '{letter}'];
 		return str_replace($toReplace, [$size, $fill, $fgFill, $text], $this->svgTemplate);
@@ -131,7 +104,7 @@ abstract class Avatar implements IAvatar {
 		}
 		$formats = Imagick::queryFormats();
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
-		if (in_array("RSVG", $formats, true)) {
+		if (in_array('RSVG', $formats, true)) {
 			return null;
 		}
 		try {
@@ -210,7 +183,7 @@ abstract class Avatar implements IAvatar {
 		string $text,
 		string $font,
 		int $size,
-		int $angle = 0
+		int $angle = 0,
 	): array {
 		// Image width & height
 		$xi = imagesx($image);

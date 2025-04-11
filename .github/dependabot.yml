@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 version: 2
 updates:
 # Linting and coding style
@@ -57,6 +59,20 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
 
+# phpunit
+- package-ecosystem: composer
+  directory: "/vendor-bin/phpunit"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:40"
+    timezone: Europe/Madrid
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
 # Main master npm
 - package-ecosystem: npm
   directory: "/"
@@ -65,7 +81,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -98,8 +114,6 @@ updates:
     - "3. to review"
     - "feature: dependencies"
 
-
-# Main stableXX npm
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -107,16 +121,16 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable27
+  open-pull-requests-limit: 20
+  target-branch: stable29
   labels:
     - "3. to review"
     - "feature: dependencies"
   reviewers:
     - "nextcloud/server-dependabot"
   ignore:
-    # ignore all GitHub linguist patch updates
     - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
 
@@ -127,21 +141,41 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable28
+  open-pull-requests-limit: 20
+  target-branch: stable30
   labels:
     - "3. to review"
     - "feature: dependencies"
   reviewers:
     - "nextcloud/server-dependabot"
   ignore:
-    # ignore all GitHub linguist patch updates
     - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
 
 - package-ecosystem: npm
   directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 20
+  target-branch: stable31
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
+- package-ecosystem: composer
+  directory: "/build/integration"
   schedule:
     interval: weekly
     day: saturday
@@ -157,10 +191,7 @@ updates:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
 
-  # Testing StableXX composer
 - package-ecosystem: composer
   directory: "/build/integration"
   schedule:
@@ -168,7 +199,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable27
+  target-branch: stable30
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -186,25 +217,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable28
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable29
+  target-branch: stable31
   labels:
     - "3. to review"
     - "feature: dependencies"

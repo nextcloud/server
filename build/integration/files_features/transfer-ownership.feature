@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: transfer-ownership
 
 	Scenario: transferring ownership of a file
@@ -39,7 +42,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
@@ -345,7 +348,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
@@ -511,7 +514,7 @@ Feature: transfer-ownership
 		And user "user2" accepts last share
 		When transferring ownership of path "test" from "user0" to "user1"
 		Then the command failed with exit code 1
-		And the command output contains the text "Could not transfer files."
+		And the command error output contains the text "Moving a storage (user0/files/test) into another storage (user1) is not allowed"
 
 	Scenario: transferring ownership does not transfer received shares
 		Given user "user0" exists

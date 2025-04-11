@@ -1,33 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Storage\Storage;
+use OC\Files\View;
+use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -37,19 +19,19 @@ use OCP\Share\IShare;
  */
 class WatcherTest extends TestCase {
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $ownerStorage;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	private $ownerCache;
 
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $sharedStorage;
 
-	/** @var \OC\Files\Cache\Cache */
+	/** @var Cache */
 	private $sharedCache;
 
-	/** @var \OCP\Share\IShare */
+	/** @var IShare */
 	private $_share;
 
 	protected function setUp(): void {
@@ -72,7 +54,7 @@ class WatcherTest extends TestCase {
 			'container/shareddir',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		$this->_share->setStatus(IShare::STATUS_ACCEPTED);
@@ -82,7 +64,7 @@ class WatcherTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// retrieve the shared storage
-		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
+		$secondView = new View('/' . self::TEST_FILES_SHARING_API_USER2);
 		[$this->sharedStorage, $internalPath] = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
@@ -109,7 +91,7 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	public function testFolderSizePropagationToOwnerStorage() {
+	public function testFolderSizePropagationToOwnerStorage(): void {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -139,7 +121,7 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	public function testSubFolderSizePropagationToOwnerStorage() {
+	public function testSubFolderSizePropagationToOwnerStorage(): void {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir/subdir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

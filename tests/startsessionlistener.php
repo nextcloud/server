@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Thomas Müller <deepdiver@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 use OC\Session\Memory;
@@ -20,7 +19,7 @@ class StartSessionListener implements TestListener {
 	public function endTest(Test $test, float $time): void {
 		// reopen the session - only allowed for memory session
 		if (\OC::$server->getSession() instanceof Memory) {
-			/** @var $session Memory */
+			/** @var Memory $session */
 			$session = \OC::$server->getSession();
 			$session->reopen();
 		}

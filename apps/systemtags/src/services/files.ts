@@ -1,32 +1,17 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { ServerTagWithId, Tag, TagWithId } from '../types.js'
 
-import { davClient } from './davClient.js'
+import { t } from '@nextcloud/l10n'
+
 import { createTag, fetchTagsPayload } from './api.js'
+import { davClient } from './davClient.js'
 import { formatTag, parseTags } from '../utils.js'
-import { logger } from '../logger.js'
+import logger from '../logger.ts'
 
 export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => {
 	const path = '/systemtags-relations/files/' + fileId
@@ -44,7 +29,11 @@ export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => 
 }
 
 /**
- * @return created tag id
+ * Create a tag and apply it to a given file (by id).
+ * This returns the id of the newly created tag.
+ *
+ * @param tag The tag to create
+ * @param fileId Id of the file to tag
  */
 export const createTagForFile = async (tag: Tag, fileId: number): Promise<number> => {
 	const tagToCreate = formatTag(tag)

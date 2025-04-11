@@ -1,22 +1,6 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 export interface IAppstoreCategory {
@@ -57,14 +41,77 @@ export interface IAppstoreApp {
 	preview?: string
 	screenshot?: string
 
+	app_api: boolean
 	active: boolean
 	internal: boolean
-	removeable: boolean
+	removable: boolean
 	installed: boolean
 	canInstall: boolean
-	canUninstall: boolean
+	canUnInstall: boolean
 	isCompatible: boolean
+	needsDownload: boolean
+	update?: string
 
 	appstoreData: Record<string, never>
 	releases?: IAppstoreAppRelease[]
+}
+
+export interface IComputeDevice {
+	id: string,
+	label: string,
+}
+
+export interface IDeployConfig {
+	computeDevice: IComputeDevice,
+	net: string,
+	nextcloud_url: string,
+}
+
+export interface IDeployDaemon {
+	accepts_deploy_id: string,
+	deploy_config: IDeployConfig,
+	display_name: string,
+	host: string,
+	id: number,
+	name: string,
+	protocol: string,
+}
+
+export interface IExAppStatus {
+	action: string
+	deploy: number
+	deploy_start_time: number
+	error: string
+	init: number
+	init_start_time: number
+	type: string
+}
+
+export interface IDeployEnv {
+	envName: string
+	displayName: string
+	description: string
+	default?: string
+}
+
+export interface IDeployMount {
+	hostPath: string
+	containerPath: string
+	readOnly: boolean
+}
+
+export interface IDeployOptions {
+	environment_variables: IDeployEnv[]
+	mounts: IDeployMount[]
+}
+
+export interface IAppstoreExAppRelease extends IAppstoreAppRelease {
+	environmentVariables?: IDeployEnv[]
+}
+
+export interface IAppstoreExApp extends IAppstoreApp {
+	daemon: IDeployDaemon | null | undefined
+	status: IExAppStatus | Record<string, never>
+	error: string
+	releases: IAppstoreExAppRelease[]
 }

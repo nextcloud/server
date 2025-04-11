@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @author Ari Selseng <ari@selseng.net>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_External\Command;
 
@@ -116,7 +95,7 @@ class Notify extends StorageAuthBase {
 			$this->selfTest($storage, $notifyHandler, $output);
 		}
 
-		$notifyHandler->listen(function (IChange $change) use ($mount, $output, $dryRun) {
+		$notifyHandler->listen(function (IChange $change) use ($mount, $output, $dryRun): void {
 			$this->logUpdate($change, $output);
 			if ($change instanceof IRenameChange) {
 				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath(), $output, $dryRun);
@@ -157,7 +136,7 @@ class Notify extends StorageAuthBase {
 		$storageIds = array_values(array_unique($storageIds));
 
 		if ($dryRun) {
-			$output->writeln("  dry-run: skipping database write");
+			$output->writeln('  dry-run: skipping database write');
 		} else {
 			$result = $this->updateParent($storageIds, $parent);
 			if ($result === 0) {
@@ -189,7 +168,7 @@ class Notify extends StorageAuthBase {
 	}
 
 	private function getStorageIds(int $mountId, string $path): array {
-		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($path), '/'));
+		$pathHash = md5(trim(\OC_Util::normalizeUnicode($path), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->select('storage_id', 'user_id')
@@ -202,7 +181,7 @@ class Notify extends StorageAuthBase {
 	}
 
 	private function updateParent(array $storageIds, string $parent): int {
-		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($parent), '/'));
+		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->update('filecache')
@@ -236,7 +215,7 @@ class Notify extends StorageAuthBase {
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output): void {
 		usleep(100 * 1000); //give time for the notify to start
 		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
-			$output->writeln("Failed to create test file for self-test");
+			$output->writeln('Failed to create test file for self-test');
 			return;
 		}
 		$storage->mkdir('/.nc_test_folder');

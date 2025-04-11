@@ -1,0 +1,112 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: Litmus integration tests
+on:
+  pull_request:
+
+concurrency:
+  group: integration-litmus-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/*.php'
+              - '**/lib/**'
+              - '**/tests/**'
+              - '**/vendor-bin/**'
+              - 'build/integration/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+
+  integration-litmus:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
+
+    strategy:
+      # do not stop on another job's failure
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1']
+        endpoint: ['webdav', 'dav']
+
+    name: Litmus WebDAV ${{ matrix.endpoint }}
+
+    steps:
+        - name: Checkout server
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          with:
+            submodules: true
+
+        - name: Set up php ${{ matrix.php-versions }}
+          uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+          with:
+            php-version: ${{ matrix.php-versions }}
+            # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+            extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+            coverage: 'none'
+            ini-file: development
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Set up Nextcloud
+          run: |
+            mkdir data
+            ./occ maintenance:install \
+              --verbose \
+              --database=sqlite \
+              --database-name=nextcloud \
+              --database-user=root \
+              --database-pass=rootpassword \
+              --admin-user admin \
+              --admin-pass admin
+            ./occ config:system:set trusted_domains 2 --value=host.docker.internal:8080
+
+        - name: Run Nextcloud
+          run: |
+            php -S 0.0.0.0:8080 &
+
+        - name: Run Litmus test
+          run: |
+            docker run \
+            --rm \
+            --add-host=host.docker.internal:host-gateway \
+            ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest \
+            bash -c '\
+              cd /tmp/litmus/litmus-0.13;
+              make URL=http://host.docker.internal:8080/remote.php/${{ matrix.endpoint }}${{ matrix.endpoint == 'dav' && '/files/admin' || ''}} CREDS="admin admin" TESTS="basic copymove props largefile" check;
+              status=$?;
+              cat debug.log;
+              exit $status;'
+
+        - name: Print Nextcloud logs
+          if: always()
+          run: cat data/nextcloud.log
+
+  integration-litmus-summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, integration-litmus]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.integration-litmus.result != 'success' }}; then exit 1; fi

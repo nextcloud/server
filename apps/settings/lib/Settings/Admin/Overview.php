@@ -1,45 +1,22 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ServerVersion;
 use OCP\Settings\IDelegatedSettings;
 
 class Overview implements IDelegatedSettings {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IL10N $l*/
-	private $l;
-
-	public function __construct(IConfig $config, IL10N $l) {
-		$this->config = $config;
-		$this->l = $l;
+	public function __construct(
+		private ServerVersion $serverVersion,
+		private IConfig $config,
+		private IL10N $l,
+	) {
 	}
 
 	/**
@@ -48,6 +25,7 @@ class Overview implements IDelegatedSettings {
 	public function getForm() {
 		$parameters = [
 			'checkForWorkingWellKnownSetup' => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
+			'version' => $this->serverVersion->getHumanVersion(),
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/overview', $parameters, '');
@@ -62,8 +40,8 @@ class Overview implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */
@@ -72,7 +50,7 @@ class Overview implements IDelegatedSettings {
 	}
 
 	public function getName(): ?string {
-		return $this->l->t('Security & setup warnings');
+		return $this->l->t('Security & setup checks');
 	}
 
 	public function getAuthorizedAppConfig(): array {

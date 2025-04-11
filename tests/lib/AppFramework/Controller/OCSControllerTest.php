@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2015 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Controller;
@@ -35,7 +20,7 @@ class ChildOCSController extends OCSController {
 
 
 class OCSControllerTest extends \Test\TestCase {
-	public function testCors() {
+	public function testCors(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -60,7 +45,7 @@ class OCSControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testXML() {
+	public function testXML(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -89,7 +74,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSON() {
+	public function testJSON(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -106,7 +91,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testXMLV2() {
+	public function testXMLV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -133,7 +118,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSONV2() {
+	public function testJSONV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),

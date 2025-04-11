@@ -1,35 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Samuel <faust64@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Share20;
 
@@ -46,8 +20,12 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IServerContainer;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
+use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -60,15 +38,13 @@ use Psr\Log\LoggerInterface;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-	/** @var IServerContainer */
-	private $serverContainer;
 	/** @var DefaultShareProvider */
 	private $defaultProvider = null;
 	/** @var FederatedShareProvider */
 	private $federatedProvider = null;
-	/** @var  ShareByMailProvider */
+	/** @var ShareByMailProvider */
 	private $shareByMailProvider;
-	/** @var  \OCA\Circles\ShareByCircleProvider */
+	/** @var \OCA\Circles\ShareByCircleProvider */
 	private $shareByCircleProvider = null;
 	/** @var bool */
 	private $circlesAreNotAvailable = false;
@@ -84,8 +60,9 @@ class ProviderFactory implements IProviderFactory {
 	 *
 	 * @param IServerContainer $serverContainer
 	 */
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	public function registerProvider(string $shareProviderClass): void {
@@ -104,11 +81,13 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getMailer(),
-				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getL10NFactory(),
+				$this->serverContainer->get(IMailer::class),
+				$this->serverContainer->get(Defaults::class),
+				$this->serverContainer->get(IFactory::class),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->query(ITimeFactory::class),
+				$this->serverContainer->get(ITimeFactory::class),
+				$this->serverContainer->get(LoggerInterface::class),
+				$this->serverContainer->get(IManager::class),
 			);
 		}
 
@@ -141,16 +120,16 @@ class ProviderFactory implements IProviderFactory {
 			);
 			$notifications = new Notifications(
 				$addressHandler,
-				$this->serverContainer->getHTTPClientService(),
-				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->get(IClientService::class),
+				$this->serverContainer->get(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->get(ICloudFederationFactory::class),
-				$this->serverContainer->query(IEventDispatcher::class),
+				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(LoggerInterface::class),
 			);
 			$tokenHandler = new TokenHandler(
-				$this->serverContainer->getSecureRandom()
+				$this->serverContainer->get(ISecureRandom::class)
 			);
 
 			$this->federatedProvider = new FederatedShareProvider(
@@ -192,16 +171,16 @@ class ProviderFactory implements IProviderFactory {
 			$this->shareByMailProvider = new ShareByMailProvider(
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->getSecureRandom(),
+				$this->serverContainer->get(ISecureRandom::class),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
-				$this->serverContainer->query(Defaults::class),
+				$this->serverContainer->get(Defaults::class),
 				$this->serverContainer->get(IHasher::class),
 				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(IManager::class)
@@ -234,11 +213,11 @@ class ProviderFactory implements IProviderFactory {
 		if ($this->shareByCircleProvider === null) {
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
 				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->getSecureRandom(),
+				$this->serverContainer->get(ISecureRandom::class),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('circles'),
-				$this->serverContainer->getLogger(),
+				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->getURLGenerator()
 			);
 		}
