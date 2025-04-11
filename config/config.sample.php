@@ -2519,9 +2519,9 @@ $CONFIG = [
 /**
  * Enable the bulk upload feature.
  *
- * Defaults to ``true``
+ * Defaults to ``false``
  */
-'bulkupload.enabled' => true,
+'bulkupload.enabled' => false,
 
 /**
  * Enables fetching open graph metadata from remote urls
