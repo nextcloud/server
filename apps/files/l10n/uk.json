@@ -137,7 +137,7 @@
     "Ownership transfer request sent" : "Запит на передавання прав власника надіслано",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможливо передати права власності на файл або каталог, якими ви не володієте",
     "Transfer ownership of a file or folder" : "Передавання прав власника на файл або каталог",
-    "Choose file or folder to transfer" : "Виберіть файл або каталог, права на який ви бажаєте передати",
+    "Choose file or folder to transfer" : "Виберіть цільовий файл або каталог",
     "Change" : "Змінити",
     "New owner" : "Новий власник",
     "Keep {old}" : "Зберегти {old}",
@@ -452,7 +452,7 @@
     "Favor" : "Додати зірочку",
     "Not favored" : "Без зірочки",
     "Submitting fields…" : "Поля для надсилання...",
-    "Filter filenames…" : "Відфільтрувати за ім'ям файлу ...",
+    "Filter filenames…" : "Вибрати файли за ім'ям ...",
     "{count} files could not be converted" : "Неможливо конвертувати {count} файлів",
     "{count} files successfully converted" : "Успішно конвертовано {count} файлів"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"

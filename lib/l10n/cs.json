@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "Umístění už je této skupině nasdíleno",
     "Link sharing is not allowed" : "Sdílení odkazů není povoleno",
     "Public upload is not allowed" : "Veřejné nahrávání není povoleno",
+    "You cannot share a folder that contains other shares" : "Není možné nasdílet složku, která obsahuje další sdílení",
     "Sharing is disabled" : "Sdílení je vypnuto",
     "Sharing is disabled for you" : "Máte zakázáno sdílet",
     "Cannot share with the share owner" : "Nelze sdílet zpět vlastníkovi sdílení",
