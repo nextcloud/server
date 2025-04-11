@@ -180,8 +180,12 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		// Set body data-theme
-		$themesService = \OCP\Server::get(\OCA\Theming\Service\ThemesService::class);
-		$this->assign('enabledThemes', $themesService->getEnabledThemes());
+		try {
+			$themesService = \OCP\Server::get(\OCA\Theming\Service\ThemesService::class);
+		} catch (\OCP\AppFramework\QueryException) {
+			$themesService = null;
+		}
+		$this->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
 
 		// Send the language, locale, and direction to our layouts
 		$lang = \OC::$server->get(IFactory::class)->findLanguage();
