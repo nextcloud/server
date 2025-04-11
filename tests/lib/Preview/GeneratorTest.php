@@ -19,6 +19,7 @@ use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
+use Psr\Log\LoggerInterface;
 
 class GeneratorTest extends \Test\TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -39,6 +40,8 @@ class GeneratorTest extends \Test\TestCase {
 	/** @var Generator */
 	private $generator;
 
+	private LoggerInterface|\PHPUnit\Framework\MockObject\MockObject $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -47,13 +50,15 @@ class GeneratorTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->generator = new Generator(
 			$this->config,
 			$this->previewManager,
 			$this->appData,
 			$this->helper,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->logger,
 		);
 	}
 
