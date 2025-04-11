@@ -131,7 +131,7 @@ OC.L10N.register(
     "Places" : "場所",
     "Date" : "日付",
     "Search people" : "人物を検索",
-    "People" : "人間",
+    "People" : "ユーザー",
     "Filter in current view" : "現在のビューでフィルタ",
     "Results" : "結果",
     "Load more results" : "次の結果を読み込む",

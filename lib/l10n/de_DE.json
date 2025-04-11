@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "Der Pfad ist bereits mit dieser Gruppe geteilt",
     "Link sharing is not allowed" : "Freigabe via Link ist nicht erlaubt",
     "Public upload is not allowed" : "Öffentliches Hochladen ist nicht erlaubt",
+    "You cannot share a folder that contains other shares" : "Ein Ordner, der andere Freigaben enthält, kann nicht geteilt werden",
     "Sharing is disabled" : "Teilen ist deaktiviert",
     "Sharing is disabled for you" : "Teilen ist für Sie deaktiviert",
     "Cannot share with the share owner" : "Teilen mit dem Freigabeeigentümer nicht möglich",

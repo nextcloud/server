@@ -19,6 +19,7 @@ OC.L10N.register(
     "Initial version restored" : "Ensimmäinen versio palautettu",
     "Version restored" : "Versio palautettu",
     "Could not restore version" : "Versiota ei voitu palauttaa",
-    "Could not delete version" : "Versiota ei voitu poistaa"
+    "Could not delete version" : "Versiota ei voitu poistaa",
+    "File versions" : "Tiedoston versiot"
 },
 "nplurals=2; plural=(n != 1);");

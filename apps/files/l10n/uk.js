@@ -139,7 +139,7 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Запит на передавання прав власника надіслано",
     "Cannot transfer ownership of a file or folder you do not own" : "Неможливо передати права власності на файл або каталог, якими ви не володієте",
     "Transfer ownership of a file or folder" : "Передавання прав власника на файл або каталог",
-    "Choose file or folder to transfer" : "Виберіть файл або каталог, права на який ви бажаєте передати",
+    "Choose file or folder to transfer" : "Виберіть цільовий файл або каталог",
     "Change" : "Змінити",
     "New owner" : "Новий власник",
     "Keep {old}" : "Зберегти {old}",
@@ -454,7 +454,7 @@ OC.L10N.register(
     "Favor" : "Додати зірочку",
     "Not favored" : "Без зірочки",
     "Submitting fields…" : "Поля для надсилання...",
-    "Filter filenames…" : "Відфільтрувати за ім'ям файлу ...",
+    "Filter filenames…" : "Вибрати файли за ім'ям ...",
     "{count} files could not be converted" : "Неможливо конвертувати {count} файлів",
     "{count} files successfully converted" : "Успішно конвертовано {count} файлів"
 },
