@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,34 +21,20 @@ use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
+use Psr\Log\LoggerInterface;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
-	/** @var IPreview */
-	private $previewManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IAppData */
-	private $appData;
-	/** @var GeneratorHelper */
-	private $helper;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
 	public function __construct(
-		IConfig $config,
-		IPreview $previewManager,
-		IAppData $appData,
-		GeneratorHelper $helper,
-		IEventDispatcher $eventDispatcher,
+		private IConfig $config,
+		private IPreview $previewManager,
+		private IAppData $appData,
+		private GeneratorHelper $helper,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
-		$this->config = $config;
-		$this->previewManager = $previewManager;
-		$this->appData = $appData;
-		$this->helper = $helper;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -83,6 +70,16 @@ class Generator {
 			$mimeType,
 		));
 
+		$this->logger->debug('Requesting preview for {path} with width={width}, height={height}, crop={crop}, mode={mode}, mimeType={mimeType}', [
+			'path' => $file->getPath(),
+			'width' => $width,
+			'height' => $height,
+			'crop' => $crop,
+			'mode' => $mode,
+			'mimeType' => $mimeType,
+		]);
+		
+
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType);
 	}
@@ -100,6 +97,7 @@ class Generator {
 	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
 		//Make sure that we can read the file
 		if (!$file->isReadable()) {
+			$this->logger->warning('Cannot read file: {path}, skipping preview generation.', ['path' => $file->getPath()]);
 			throw new NotFoundException('Cannot read file');
 		}
 
@@ -121,6 +119,7 @@ class Generator {
 		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
+			$this->logger->error("Max preview generated for file {$file->getPath()} has size 0, deleting and throwing exception.");
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
@@ -167,6 +166,7 @@ class Generator {
 						$maxPreviewImage = $this->helper->getImage($maxPreview);
 					}
 
+					$this->logger->warning('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 					// New file, augment our array
 					$previewFiles[] = $preview;
@@ -335,6 +335,11 @@ class Generator {
 				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
 				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
 				try {
+					$this->logger->debug('Calling preview provider for {mimeType} with width={width}, height={height}', [
+						'mimeType' => $mimeType,
+						'width' => $width,
+						'height' => $height,
+					]);
 					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
 				} finally {
 					self::unguardWithSemaphore($sem);
@@ -558,6 +563,7 @@ class Generator {
 		$path = $this->generatePath($width, $height, $crop, false, $mimeType, $prefix);
 		foreach ($files as $file) {
 			if ($file->getName() === $path) {
+				$this->logger->debug('Found cached preview: {path}', ['path' => $path]);
 				return $file;
 			}
 		}
