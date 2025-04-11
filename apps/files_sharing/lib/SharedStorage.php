@@ -555,4 +555,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->init();
 		return parent::getUnjailedPath($path);
 	}
+
+	public function getDirectDownload(string $path): array|false {
+		// disable direct download for shares
+		return [];
+	}
 }
