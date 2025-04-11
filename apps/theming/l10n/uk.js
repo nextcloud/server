@@ -63,7 +63,7 @@ OC.L10N.register(
     "Upload new header logo" : "Завантажити новий логотип заголовка",
     "Favicon" : "Значок сайту",
     "Upload new favicon" : "Завантажити новий значок",
-    "User settings" : "Користувацькі налаштування",
+    "User settings" : "Налаштування користувача",
     "Disable user theming" : "Вимкнути можливість користувачів змінювати оформлення",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Тут ви можете встановити оформлення однаковим для всіх користувачів.",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Оформлення дозволяє легко налаштувати зовнішній вигляд вашого сервера та підтримуваних клієнтів. Це будуть бачити всі користувачі.",

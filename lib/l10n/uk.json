@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "Шлях вже надано у спільний доступ для цієї групи",
     "Link sharing is not allowed" : "Спільний доступ через посилання не дозволено",
     "Public upload is not allowed" : "Публічні завантаження не дозволено",
+    "You cannot share a folder that contains other shares" : "Неможливо надати у спільний доступ каталог, який вже містить інші спільні ресурси",
     "Sharing is disabled" : "Спільний доступ вимкнено",
     "Sharing is disabled for you" : "Ви не маєте права надавати у доступ файли або каталоги",
     "Cannot share with the share owner" : "Неможливо надавати у доступ власникові спільного ресурсу",

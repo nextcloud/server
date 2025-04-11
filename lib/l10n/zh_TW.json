@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "路徑已與此群組分享",
     "Link sharing is not allowed" : "不允許連結分享",
     "Public upload is not allowed" : "不允許公開上傳",
+    "You cannot share a folder that contains other shares" : "您無法分享包含其他分享的資料夾",
     "Sharing is disabled" : "已停用分享",
     "Sharing is disabled for you" : "您已停用分享",
     "Cannot share with the share owner" : "無法與分享擁有者分享",

@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "O caminho já está compartilhado com este grupo",
     "Link sharing is not allowed" : "O compartilhamento de link não é permitido",
     "Public upload is not allowed" : "O upload público não é permitido",
+    "You cannot share a folder that contains other shares" : "Você não pode compartilhar uma pasta que contém outros compartilhamentos",
     "Sharing is disabled" : "O compartilhamento está desativado",
     "Sharing is disabled for you" : "O compartilhamento está desativado para você",
     "Cannot share with the share owner" : "Não é possível compartilhar com o proprietário do compartilhamento",
