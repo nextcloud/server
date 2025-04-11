@@ -2256,7 +2256,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testPathCreateChecksContainsSharedMount() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Path contains files shared with you');
+		$this->expectExceptionMessage('You cannot share a folder that contains other shares');
 
 		$path = $this->createMock(Folder::class);
 		$path->method('getPath')->willReturn('path');
