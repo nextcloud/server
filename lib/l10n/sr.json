@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "Путања се већ дели са овом групом",
     "Link sharing is not allowed" : "Није дозвољено дељење линком",
     "Public upload is not allowed" : "Није дозвољено јавно отпремање",
+    "You cannot share a folder that contains other shares" : "Не можете да делите фолдер који садржи друга дељења",
     "Sharing is disabled" : "Дељење је искључено",
     "Sharing is disabled for you" : "Дељење је за вас искључено",
     "Cannot share with the share owner" : "Не може да се дели са власником дељења",
