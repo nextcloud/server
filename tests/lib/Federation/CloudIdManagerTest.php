@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,11 +13,15 @@ use OC\Federation\CloudIdManager;
 use OC\Memcache\ArrayCache;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class CloudIdManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
@@ -36,7 +43,7 @@ class CloudIdManagerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cacheFactory->method('createLocal')
+		$this->cacheFactory->method('createDistributed')
 			->willReturn(new ArrayCache(''));
 
 		$this->cloudIdManager = new CloudIdManager(
@@ -46,6 +53,35 @@ class CloudIdManagerTest extends TestCase {
 			$this->cacheFactory,
 			$this->createMock(IEventDispatcher::class)
 		);
+		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
+	}
+
+	public function dataGetDisplayNameFromContact(): array {
+		return [
+			['test1@example.tld', 'test', 'test'],
+			['test2@example.tld', null, null],
+			['test3@example.tld', 'test3@example', 'test3@example'],
+			['test4@example.tld', 'test4@example.tld', null],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetDisplayNameFromContact
+	 */
+	public function testGetDisplayNameFromContact(string $cloudId, ?string $displayName, ?string $expected): void {
+		$returnedContact = [
+			'CLOUD' => [$cloudId],
+			'FN' => $expected,
+		];
+		if ($displayName === null) {
+			unset($returnedContact['FN']);
+		}
+		$this->contactsManager->method('search')
+			->with($cloudId, ['CLOUD'])
+			->willReturn([$returnedContact]);
+
+		$this->assertEquals($expected, $this->cloudIdManager->getDisplayNameFromContact($cloudId));
+		$this->assertEquals($expected, $this->cloudIdManager->getDisplayNameFromContact($cloudId));
 	}
 
 	public function cloudIdProvider(): array {
@@ -70,7 +106,7 @@ class CloudIdManagerTest extends TestCase {
 			->willReturn([
 				[
 					'CLOUD' => [$cleanId],
-					'FN' => 'Ample Ex',
+					'FN' => $displayName,
 				]
 			]);
 
@@ -92,9 +128,6 @@ class CloudIdManagerTest extends TestCase {
 
 	/**
 	 * @dataProvider invalidCloudIdProvider
-	 *
-	 * @param string $cloudId
-	 *
 	 */
 	public function testInvalidCloudId(string $cloudId): void {
 		$this->expectException(\InvalidArgumentException::class);
