@@ -311,6 +311,9 @@ class Connection extends LDAPUtility {
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
 		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
+		// TODO: make jitter configurable (or disable)?
+		$ttlJitter = 0.1;
+		$ttl = random_int($ttl * (1 - $ttlJitter), $ttl * (1 + $ttlJitter));
 		$this->cache->set($key, $value, $ttl);
 	}
 
