@@ -228,7 +228,6 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
@@ -391,23 +390,6 @@ export default {
 			}
 			return null
 		},
-		/**
-		 * Is the current share password protected ?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtected: {
-			get() {
-				return this.config.enforcePasswordForPublicLink
-					|| !!this.share.password
-			},
-			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
-				Vue.set(this.share, 'newPassword', this.share.password)
-			},
-		},
-
 		passwordExpirationTime() {
 			if (this.share.passwordExpirationTime === null) {
 				return null
