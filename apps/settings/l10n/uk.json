@@ -497,7 +497,7 @@
     "Delete email" : "Вилучити",
     "This address is not confirmed" : "Це непідтверджена адреса",
     "Unset as primary email" : "Скасувати як основну електронну адресу",
-    "Set as primary email" : "Зробити основною ел. адресою",
+    "Set as primary email" : "Зробити основною",
     "Additional email address {index}" : "Додаткова електронна адреса {index}",
     "Unable to delete primary email address" : "Не вдалося вилучити основну електронну адресу",
     "Unable to update primary email address" : "Не вдалося оновити основну електронну адресу",

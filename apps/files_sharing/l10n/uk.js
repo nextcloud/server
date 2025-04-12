@@ -23,7 +23,7 @@ OC.L10N.register(
     "{actor} removed public link" : "{actor} вилучив(-ла) публічне посилання",
     "Public link of {actor} expired" : "Термін дії публічного посилання {actor} вичерпано",
     "You shared {file} as public link" : "Ви поділилися {file} за допомогою публічного посилання",
-    "You removed public link for {file}" : "Ви вилучили публічне посилання для файла {file}",
+    "You removed public link for {file}" : "Ви вилучили публічне посилання для {file}",
     "Public link expired for {file}" : "Термін дії посилання сплив для файла {file}",
     "{actor} shared {file} as public link" : "{actor} надав(-ла) доступ до файлу {file} через публічне посилання",
     "{actor} removed public link for {file}" : "{actor} вилучив(-ла) публічне посилання для {file}",

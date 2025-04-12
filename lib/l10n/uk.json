@@ -361,7 +361,6 @@
     "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
     "Cannot download file" : "Неможливо звантажити файл",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\".",
-    "Path contains files shared with you" : "Шлях містить файли, якими поділилися з вами"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\"."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

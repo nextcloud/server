@@ -390,7 +390,6 @@
     "Click the button below to open it." : "ئۇنى ئېچىش ئۈچۈن تۆۋەندىكى كۇنۇپكىنى بېسىڭ.",
     "File is currently busy, please try again later" : "ھۆججەت ھازىر ئالدىراش ، كېيىن قايتا سىناڭ",
     "Cannot download file" : "ھۆججەتنى چۈشۈرگىلى بولمايدۇ",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "سانلىق مەلۇمات مۇندەرىجىسىنىڭ يىلتىزىدا \".ocdata\" دەپ ئاتىلىدىغان ھۆججەتنىڭ بارلىقىغا كاپالەتلىك قىلىڭ.",
-    "Path contains files shared with you" : "يول سىز بىلەن ئورتاقلاشقان ھۆججەتلەرنى ئۆز ئىچىگە ئالىدۇ"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "سانلىق مەلۇمات مۇندەرىجىسىنىڭ يىلتىزىدا \".ocdata\" دەپ ئاتىلىدىغان ھۆججەتنىڭ بارلىقىغا كاپالەتلىك قىلىڭ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
