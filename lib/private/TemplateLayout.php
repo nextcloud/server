@@ -198,8 +198,13 @@ class TemplateLayout {
 		$page->assign('direction', $direction);
 
 		// Set body data-theme
-		$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
-		$page->assign('enabledThemes', $themesService->getEnabledThemes());
+		try {
+			$themesService = Server::get(\OCA\Theming\Service\ThemesService::class);
+		} catch (\OCP\AppFramework\QueryException) {
+			$themesService = null;
+		}
+
+		$page->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
 
 		if ($this->config->getSystemValueBool('installed', false)) {
 			if (empty(self::$versionHash)) {
