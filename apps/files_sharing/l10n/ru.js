@@ -303,6 +303,8 @@ OC.L10N.register(
     "Expires {relativetime}" : "Истекает {relativetime}",
     "this share just expired." : "срок действия этого общего ресурса только что истёк.",
     "Shared with you by {owner}" : "{owner} предоставил(а) Вам доступ",
+    "Internal shares" : "Внутренние ссылки",
+    "External shares" : "Внешние ссылки",
     "Email, federated cloud id" : "Электронная почта, идентификатор федеративного облака",
     "Additional shares" : "Дополнительные ссылки",
     "Link to a file" : "Ссылка на файл",

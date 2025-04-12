@@ -7,6 +7,8 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Помилка налаштування OAuth2",
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
+    "You are not logged in" : "Ви не авторизувалися",
+    "Permission denied" : "Доступ заборонено",
     "Forbidden to manage local mounts" : "Заборонено керувати місцевими кріпленнями",
     "Storage with ID \"%d\" not found" : "Сховище з ідентифікатором \"%d\" не знайдено",
     "Invalid backend or authentication mechanism class" : "Недійсний бекенд серверу або клас методу авторизації",

@@ -452,7 +452,6 @@
     "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
     "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
     "Cannot download file" : "No es pot baixar el fitxer",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades.",
-    "Path contains files shared with you" : "El camí conté fitxers compartits amb tu"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

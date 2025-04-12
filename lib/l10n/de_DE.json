@@ -455,7 +455,6 @@
     "Click the button below to open it." : "Klicken Sie zum Öffnen auf die untere Schaltfläche.",
     "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte später erneut versuchen.",
     "Cannot download file" : "Datei kann nicht heruntergeladen werden",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stellen Sie sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des Datenverzeichnisses existiert.",
-    "Path contains files shared with you" : "Der Pfad enthält für Sie freigegebene Dateien"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stellen Sie sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des Datenverzeichnisses existiert."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
