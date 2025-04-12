@@ -131,7 +131,7 @@
     "@nextcloud/stylelint-config": "^3.0.1",
     "@nextcloud/typings": "^1.9.1",
     "@nextcloud/webpack-vue-config": "^6.2.0",
-    "@pinia/testing": "^0.1.7",
+    "@pinia/testing": "^1.0.1",
     "@simplewebauthn/types": "^12.0.0",
     "@testing-library/cypress": "^10.0.3",
     "@testing-library/jest-dom": "^6.6.3",
