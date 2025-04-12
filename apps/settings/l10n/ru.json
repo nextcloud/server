@@ -683,7 +683,7 @@
     "Set default language" : "Выбрать язык по умолчанию",
     "Add new account" : "Создать учётную запись",
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} учётная запись…","{userCount} учётных записи…","{userCount} учётных записей…","{userCount} учётных записи…"],
-    "_{userCount} account_::_{userCount} accounts_" : ["{userCount} учётная запись","{userCount} учётныt записи","{userCount} учётных записей","{userCount} учётные записи"],
+    "_{userCount} account_::_{userCount} accounts_" : ["{userCount} учётная запись","{userCount} учётные записи","{userCount} учётных записей","{userCount} учётные записи"],
     "Total rows summary" : "Количество строк в общем",
     "Scroll to load more rows" : "Прокрутите, чтобы загрузить больше строк",
     "Password or insufficient permissions message" : "Сообщение о пароле или недостаточных разрешениях",

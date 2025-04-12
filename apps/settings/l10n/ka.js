@@ -434,6 +434,7 @@ OC.L10N.register(
     "Scroll to load more rows" : "Scroll to load more rows",
     "Password or insufficient permissions message" : "Password or insufficient permissions message",
     "Avatar" : "Avatar",
+    "Account name" : "ექაუნთის სახელი",
     "Group admin for" : "Group admin for",
     "Storage location" : "Storage location",
     "Last login" : "Last login",

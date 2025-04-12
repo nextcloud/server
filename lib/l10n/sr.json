@@ -455,7 +455,6 @@
     "Click the button below to open it." : "Кликните дугме испод да га отворите.",
     "File is currently busy, please try again later" : "Фајл је тренутно заузет, покушајте поново касније",
     "Cannot download file" : "Фајл не може да се преузме",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима.",
-    "Path contains files shared with you" : "Путања садржи фајлове који су подељени са вама"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

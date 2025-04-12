@@ -431,7 +431,6 @@
     "Click the button below to open it." : "Klicka på knappen nedan för att öppna det.",
     "File is currently busy, please try again later" : "Filen är för tillfället upptagen, försök igen senare",
     "Cannot download file" : "Kan inte ladda ner fil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data.",
-    "Path contains files shared with you" : "Sökvägen innehåller filer som delas med dig"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

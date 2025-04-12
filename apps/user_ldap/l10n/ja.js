@@ -61,6 +61,7 @@ OC.L10N.register(
     "No LDAP base DN was given" : "LDAPベースDNが指定されていません",
     "User base DN is not a subnode of global base DN" : "ユーザーベースDNはグローバルベースDNのサブノードではありません",
     "Group base DN is not a subnode of global base DN" : "グループベースDNがグローバルベースDNのサブノードではありません",
+    "Login filter does not contain %s placeholder." : "ログインフィルタに%sプレースホルダが含まれていません。",
     "Please login with the new password" : "新しいパスワードでログインしてください",
     "LDAP User backend" : "LDAPユーザーバックエンド",
     "Your password will expire tomorrow." : "パスワードが明日期限切れになります。",
