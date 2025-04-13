@@ -105,6 +105,8 @@ OC.L10N.register(
     "Cannot copy, please copy the link manually" : "Ei saa kopeerida, palun kopeeri link käsitsi",
     "Link copied" : "Link kopeeritud",
     "Internal link" : "Sisemine link",
+    "Share link ({label})" : "Jagamise link ({label})",
+    "Share link ({index})" : "Jagamise link ({index})",
     "Create public link" : "Loo avalik link",
     "Password protection (enforced)" : "Paroolikaitse (jõustatud)",
     "Password protection" : "Password protection",
