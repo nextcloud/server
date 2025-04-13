@@ -199,6 +199,7 @@
     "Path is already shared with this group" : "Sökvägen delas redan med den här gruppen",
     "Link sharing is not allowed" : "Länkdelning är inte tillåtet",
     "Public upload is not allowed" : "Offentlig uppladdning är inte tillåten",
+    "You cannot share a folder that contains other shares" : "Du kan inte dela en mapp som innehåller andra delningar",
     "Sharing is disabled" : "Delning är inaktiverat",
     "Sharing is disabled for you" : "Delning är inaktiverat för dig",
     "Cannot share with the share owner" : "Kan inte dela med ägaren",
