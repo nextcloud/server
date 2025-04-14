@@ -41,7 +41,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->items[$id]) || class_exists($id);
+		return isset($this->items[$id]) || isset($this->aliases[$id]) || class_exists($id);
 	}
 
 	/**
