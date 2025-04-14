@@ -403,7 +403,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.17.21
 	- license: MIT
 - marked
-	- version: 15.0.7
+	- version: 15.0.8
 	- license: MIT
 - md5
 	- version: 2.3.0
