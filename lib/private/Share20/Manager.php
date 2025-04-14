@@ -600,7 +600,7 @@ class Manager implements IManager {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
-					throw new \InvalidArgumentException('Path contains files shared with you');
+					throw new \InvalidArgumentException('You cannot share a folder that contains other shares');
 				}
 			}
 		}
