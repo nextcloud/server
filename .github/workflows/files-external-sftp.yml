@@ -85,7 +85,8 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
           apps/files_external/tests/Storage/SFTP_KeyTest.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml --log-junit junit.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
@@ -95,7 +96,6 @@ jobs:
           flags: phpunit-files-external-sftp
 
       - name: Upload test results
-        if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/test-results-action@v1.1.0
         with:
           flags: phpunit-files-external-sftp

@@ -101,7 +101,7 @@ jobs:
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml --log-junit junit.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
@@ -111,7 +111,6 @@ jobs:
           flags: phpunit-sqlite
 
       - name: Upload test results
-        if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/test-results-action@v1.1.0
         with:
           flags: phpunit-sqlite
