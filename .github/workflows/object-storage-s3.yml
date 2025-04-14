@@ -107,13 +107,19 @@ jobs:
           OBJECT_STORE: s3
           OBJECT_STORE_KEY: nextcloud
           OBJECT_STORE_SECRET: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
-        run: composer run test -- --group PRIMARY-s3 ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: composer run test -- --group PRIMARY-s3 ${{ matrix.coverage && ' --coverage-clover ./clover.xml --log-junit junit.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-s3
+
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-s3
 
       - name: S3 logs

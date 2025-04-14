@@ -155,13 +155,19 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
-        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml --log-junit junit.xml' || '' }}
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.db.xml
+          flags: phpunit-mysql
+
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-mysql
 
       - name: Print logs

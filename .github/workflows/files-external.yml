@@ -75,13 +75,19 @@ jobs:
 
       - name: PHPUnit
         run: composer run test:files_external -- \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          ${{ matrix.coverage && ' --coverage-clover ./clover.xml --log-junit junit.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-generic
+
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-files-external-generic
 
   files-external-summary:

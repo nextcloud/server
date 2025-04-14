@@ -97,13 +97,19 @@ jobs:
         env:
           OBJECT_STORE: swift
           OBJECT_STORE_SECRET: veryfast
-        run: composer run test -- --group PRIMARY-swift ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: composer run test -- --group PRIMARY-swift ${{ matrix.coverage && ' --coverage-clover ./clover.xml --log-junit junit.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-swift
+
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-swift
 
       - name: Swift logs
