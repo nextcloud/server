@@ -9,6 +9,7 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
+use OC\Authentication\Token\Invalidator;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
@@ -75,6 +76,8 @@ class UsersControllerTest extends TestCase {
 	/** @var RemoteWipe|MockObject */
 	private $remoteWipe;
 	/** @var KnownUserService|MockObject */
+	private $invalidator;
+	/** @var KnownUserService|MockObject */
 	private $knownUserService;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
@@ -98,6 +101,7 @@ class UsersControllerTest extends TestCase {
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
+		$this->invalidator = $this->createMock(Invalidator::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
@@ -124,6 +128,7 @@ class UsersControllerTest extends TestCase {
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->invalidator,
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
@@ -519,6 +524,7 @@ class UsersControllerTest extends TestCase {
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->invalidator,
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
@@ -3169,6 +3175,33 @@ class UsersControllerTest extends TestCase {
 		$this->api->removeFromGroup('TargetUser', '');
 	}
 
+	public function testInvalidateUserTokensSuccess(): void {
+		$currentUser = $this->createMock(IUser::class);
+		$targetUser = $this->createMock(IUser::class);
+
+		$this->userSession->method('getUser')->willReturn($currentUser);
+		$currentUser->method('getUID')->willReturn('currentUserId');
+		$targetUser->method('getUID')->willReturn('targetUserId');
+
+		$this->userManager->method('get')->with('targetUserId')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->with('currentUserId')->willReturn(true);
+
+		$this->invalidator->expects($this->once())->method('invalidateAllUserTokens')->with('targetUserId');
+
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with('Invalidating all tokens for user targetUserId by user currentUserId', [
+				'app' => 'ocs_api',
+				'accountId' => 'targetUserId',
+			]);
+
+		$response = $this->api->invalidateUserTokens('targetUserId');
+
+		$this->assertInstanceOf(DataResponse::class, $response);
+		$this->assertEquals([], $response->getData());
+	}
 
 	public function testRemoveFromGroupWithEmptyTargetGroup(): void {
 		$this->expectException(OCSException::class);
@@ -3822,6 +3855,7 @@ class UsersControllerTest extends TestCase {
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->invalidator,
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
@@ -3913,6 +3947,7 @@ class UsersControllerTest extends TestCase {
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->invalidator,
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,

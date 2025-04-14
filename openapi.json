@@ -25861,6 +25861,75 @@
                 }
             }
         },
+        "/ocs/v2.php/cloud/users/{userId}/sessions": {
+            "delete": {
+                "operationId": "provisioning_api-users-invalidate-user-tokens",
+                "summary": "Invalidate all tokens of a user",
+                "description": "This API endpoint is not used by the Nextcloud web interface or mobile apps. It is specifically intended for external systems that manage user passwords independently and need a way to invalidate existing Nextcloud session tokens after a password change.",
+                "tags": [
+                    "provisioning_api/users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invalidated all user tokens successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/cloud/users/{userId}/enable": {
             "put": {
                 "operationId": "provisioning_api-users-enable-user",

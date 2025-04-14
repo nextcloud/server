@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
+use OC\Authentication\Token\Invalidator;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Group;
 use OC\KnownUser\KnownUserService;
@@ -76,6 +77,7 @@ class UsersController extends AUserDataOCSController {
 		private NewUserMailHelper $newUserMailHelper,
 		private ISecureRandom $secureRandom,
 		private RemoteWipe $remoteWipe,
+		private Invalidator $invalidator,
 		private KnownUserService $knownUserService,
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
@@ -1262,6 +1264,52 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		$this->remoteWipe->markAllTokensForWipe($targetUser);
+
+		return new DataResponse();
+	}
+
+	/**
+	 * Invalidate all tokens of a user
+	 *
+	 * This API endpoint is not used by the Nextcloud web interface or mobile apps.
+	 * It is specifically intended for external systems that manage user passwords independently
+	 * and need a way to invalidate existing Nextcloud session tokens after a password change.
+	 *
+	 * @param string $userId ID of the user
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Invalidated all user tokens successfully
+	 */
+	#[NoAdminRequired]
+	public function invalidateUserTokens(string $userId): DataResponse {
+		/** @var IUser $currentLoggedInUser */
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+
+		if ($targetUser === null) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			throw new OCSException('', 101);
+		}
+
+		// If not permitted
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		$this->logger->info('Invalidating all tokens for user ' . $userId . ' by user ' . $currentLoggedInUser->getUID(), [
+			'app' => 'ocs_api',
+			'accountId' => $userId,
+		]);
+
+		$this->invalidator->invalidateAllUserTokens($targetUser->getUID());
 
 		return new DataResponse();
 	}
