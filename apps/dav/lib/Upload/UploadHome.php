@@ -25,13 +25,19 @@ class UploadHome implements ICollection {
 		private readonly CleanupService $cleanupService,
 		private readonly IRootFolder $rootFolder,
 		private readonly IUserSession $userSession,
+		private readonly \OCP\Share\IManager $shareManager,
 	) {
-		$user = $this->userSession->getUser();
-		if (!$user) {
-			throw new Forbidden('Not logged in');
-		}
+		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
+		if ($prefix === 'principals/shares') {
+			$this->uid = $this->shareManager->getShareByToken($name)->getShareOwner();
+		} else {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
 
-		$this->uid = $user->getUID();
+			$this->uid = $user->getUID();
+		}
 	}
 
 	public function createFile($name, $data = null) {
