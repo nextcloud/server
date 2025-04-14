@@ -17,6 +17,13 @@ export function isDownloadable(node: Node): boolean {
 		return false
 	}
 
+	// check hide-download property of shares
+	if (node.attributes['hide-download'] === true
+		|| node.attributes['hide-download'] === 'true'
+	) {
+		return false
+	}
+
 	// If the mount type is a share, ensure it got download permissions.
 	if (node.attributes['share-attributes']) {
 		const shareAttributes = JSON.parse(node.attributes['share-attributes'] || '[]') as Array<ShareAttribute>
