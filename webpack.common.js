@@ -226,11 +226,10 @@ const config = {
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
 		}),
-        codecovWebpackPlugin({
-            enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-            bundleName: 'nextcloud',
-            uploadToken: process.env.CODECOV_TOKEN
-        })
+		codecovWebpackPlugin({
+			enableBundleAnalysis: !isDev,
+			bundleName: 'nextcloud',
+		}),
 	],
 	externals: {
 		OC: 'OC',
