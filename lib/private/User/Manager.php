@@ -54,7 +54,7 @@ use Psr\Log\LoggerInterface;
  */
 class Manager extends PublicEmitter implements IUserManager {
 	/**
-	 * @var \OCP\UserInterface[] $backends
+	 * @var UserInterface[] $backends
 	 */
 	private array $backends = [];
 
@@ -82,37 +82,24 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\UserInterface[]
+	 * @return UserInterface[]
 	 */
-	public function getBackends() {
+	public function getBackends(): array {
 		return $this->backends;
 	}
 
-	/**
-	 * register a user backend
-	 *
-	 * @param \OCP\UserInterface $backend
-	 */
-	public function registerBackend($backend) {
+	public function registerBackend(UserInterface $backend): void {
 		$this->backends[] = $backend;
 	}
 
-	/**
-	 * remove a user backend
-	 *
-	 * @param \OCP\UserInterface $backend
-	 */
-	public function removeBackend($backend) {
+	public function removeBackend(UserInterface $backend): void {
 		$this->cachedUsers = [];
 		if (($i = array_search($backend, $this->backends)) !== false) {
 			unset($this->backends[$i]);
 		}
 	}
 
-	/**
-	 * remove all user backends
-	 */
-	public function clearBackends() {
+	public function clearBackends(): void {
 		$this->cachedUsers = [];
 		$this->backends = [];
 	}

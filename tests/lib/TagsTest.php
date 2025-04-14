@@ -10,7 +10,9 @@ namespace Test;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,10 +35,10 @@ class TagsTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC_User::clearBackends();
-		\OC_User::useBackend('dummy');
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 		$userId = $this->getUniqueID('user_');
-		\OC::$server->getUserManager()->createUser($userId, 'pass');
+		Server::get(IUserManager::class)->createUser($userId, 'pass');
 		\OC_User::setUserId($userId);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')

@@ -741,7 +741,7 @@ class OC {
 			self::$server->getSession()->set('user_id', '');
 		}
 
-		OC_User::useBackend(new \OC\User\Database());
+		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
 		// Subscribe to the hook

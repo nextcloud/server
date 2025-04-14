@@ -58,8 +58,8 @@ class TrashbinTest extends \Test\TestCase {
 		self::$trashBinStatus = $appManager->isEnabledForUser('files_trashbin');
 
 		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
