@@ -11,10 +11,10 @@ const enterGuestName = (name: string) => {
 	cy.findByRole('dialog', { name: /Upload files to/ })
 		.should('be.visible')
 		.within(() => {
-			cy.findByRole('textbox', { name: 'Nickname' })
+			cy.findByRole('textbox', { name: 'Name' })
 				.should('be.visible')
 
-			cy.findByRole('textbox', { name: 'Nickname' })
+			cy.findByRole('textbox', { name: 'Name' })
 				.type(`{selectall}${name}`)
 
 			cy.findByRole('button', { name: 'Submit name' })
