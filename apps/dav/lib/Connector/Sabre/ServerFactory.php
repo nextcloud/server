@@ -8,8 +8,10 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
@@ -28,12 +30,14 @@ use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\SabrePluginEvent;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
+use Sabre\DAV\SimpleCollection;
 
 class ServerFactory {
 
@@ -54,13 +58,22 @@ class ServerFactory {
 	/**
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 */
-	public function createServer(string $baseUri,
+	public function createServer(
+		bool $isPublicShare,
+		string $baseUri,
 		string $requestUri,
 		Plugin $authPlugin,
-		callable $viewCallBack): Server {
+		callable $viewCallBack,
+	): Server {
 		// Fire up server
-		$objectTree = new ObjectTree();
-		$server = new Server($objectTree);
+		if ($isPublicShare) {
+			$rootCollection = new SimpleCollection('root');
+			$tree = new CachingTree($rootCollection);
+		} else {
+			$rootCollection = null;
+			$tree = new ObjectTree();
+		}
+		$server = new Server($tree);
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
 		$server->setBaseUri($baseUri);
@@ -81,7 +94,7 @@ class ServerFactory {
 		$server->addPlugin(new RequestIdHeaderPlugin($this->request));
 
 		$server->addPlugin(new ZipFolderPlugin(
-			$objectTree,
+			$tree,
 			$this->logger,
 			$this->eventDispatcher,
 		));
@@ -101,7 +114,7 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack): void {
+		$server->on('beforeMethod:*', function () use ($server, $tree, $viewCallBack, $isPublicShare, $rootCollection): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -115,15 +128,39 @@ class ServerFactory {
 
 			// Create Nextcloud Dir
 			if ($rootInfo->getType() === 'dir') {
-				$root = new Directory($view, $rootInfo, $objectTree);
+				$root = new Directory($view, $rootInfo, $tree);
 			} else {
 				$root = new File($view, $rootInfo);
 			}
-			$objectTree->init($root, $view, $this->mountManager);
+
+			if ($isPublicShare) {
+				$userPrincipalBackend = new Principal(
+					\OCP\Server::get(IUserManager::class),
+					\OCP\Server::get(IGroupManager::class),
+					\OCP\Server::get(IAccountManager::class),
+					\OCP\Server::get(\OCP\Share\IManager::class),
+					\OCP\Server::get(IUserSession::class),
+					\OCP\Server::get(IAppManager::class),
+					\OCP\Server::get(ProxyMapper::class),
+					\OCP\Server::get(KnownUserService::class),
+					\OCP\Server::get(IConfig::class),
+					\OC::$server->getL10NFactory(),
+				);
+
+				// Mount the share collection at /public.php/dav/shares/<share token>
+				$rootCollection->addChild(new \OCA\DAV\Files\Sharing\RootCollection(
+					$root,
+					$userPrincipalBackend,
+					'principals/shares',
+				));
+			} else {
+				/** @var ObjectTree $tree */
+				$tree->init($root, $view, $this->mountManager);
+			}
 
 			$server->addPlugin(
 				new FilesPlugin(
-					$objectTree,
+					$tree,
 					$this->config,
 					$this->request,
 					$this->previewManager,
@@ -143,16 +180,16 @@ class ServerFactory {
 			));
 
 			if ($this->userSession->isLoggedIn()) {
-				$server->addPlugin(new TagsPlugin($objectTree, $this->tagManager, $this->eventDispatcher, $this->userSession));
+				$server->addPlugin(new TagsPlugin($tree, $this->tagManager, $this->eventDispatcher, $this->userSession));
 				$server->addPlugin(new SharesPlugin(
-					$objectTree,
+					$tree,
 					$this->userSession,
 					$userFolder,
 					\OCP\Server::get(\OCP\Share\IManager::class)
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(
-					$objectTree,
+					$tree,
 					$view,
 					\OCP\Server::get(ISystemTagManager::class),
 					\OCP\Server::get(ISystemTagObjectMapper::class),
@@ -167,7 +204,7 @@ class ServerFactory {
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new CustomPropertiesBackend(
 							$server,
-							$objectTree,
+							$tree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
 							\OCP\Server::get(DefaultCalendarValidator::class),

@@ -68,7 +68,7 @@ $authPlugin->addBackend($bearerAuthPlugin);
 
 $requestUri = Server::get(IRequest::class)->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
+$server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user
 	return Filesystem::getView();
 });

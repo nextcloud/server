@@ -297,6 +297,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Files\\RootCollection' => __DIR__ . '/..' . '/../lib/Files/RootCollection.php',
         'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/FilesDropPlugin.php',
         'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
+        'OCA\\DAV\\Files\\Sharing\\RootCollection' => __DIR__ . '/..' . '/../lib/Files/Sharing/RootCollection.php',
         'OCA\\DAV\\Listener\\ActivityUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/ActivityUpdaterListener.php',
         'OCA\\DAV\\Listener\\AddMissingIndicesListener' => __DIR__ . '/..' . '/../lib/Listener/AddMissingIndicesListener.php',
         'OCA\\DAV\\Listener\\AddressbookListener' => __DIR__ . '/..' . '/../lib/Listener/AddressbookListener.php',

@@ -720,15 +720,15 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
 		// we get the node for the given $filePath here because in case of afterCreateFile $node is the parent folder
-		if (!$this->server->tree->nodeExists($filePath)) {
-			return;
-		}
-		$node = $this->server->tree->getNodeForPath($filePath);
-		if ($node instanceof Node) {
-			$fileId = $node->getFileId();
-			if (!is_null($fileId)) {
-				$this->server->httpResponse->setHeader('OC-FileId', $fileId);
+		try {
+			$node = $this->server->tree->getNodeForPath($filePath);
+			if ($node instanceof Node) {
+				$fileId = $node->getFileId();
+				if (!is_null($fileId)) {
+					$this->server->httpResponse->setHeader('OC-FileId', $fileId);
+				}
 			}
+		} catch (NotFound) {
 		}
 	}
 }
