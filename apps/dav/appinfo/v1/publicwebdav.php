@@ -68,7 +68,7 @@ $requestUri = Server::get(IRequest::class)->getRequestUri();
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
 	/** @var FederatedShareProvider $shareProvider */
 	$federatedShareProvider = Server::get(FederatedShareProvider::class);
