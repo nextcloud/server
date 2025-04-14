@@ -111,6 +111,7 @@ jobs:
           flags: phpunit-azure
 
       - name: Upload test results
+        if: always()
         uses: codecov/test-results-action@v1.1.0
         with:
           flags: phpunit-azure
