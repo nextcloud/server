@@ -400,6 +400,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return false;
 	}
 
+	public function offsetSet($offset, $value): void {
+		if ($offset === 'AppName' || $offset === 'appName') {
+			$this->appName = $value;
+		}
+		$this->items[$offset] = $value;
+	}
+
 	public function query(string $name, bool $autoload = true) {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
