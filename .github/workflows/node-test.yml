@@ -103,6 +103,10 @@ jobs:
         with:
           files: ./coverage/lcov.info
 
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/test-results-action@v1.1.0
+
   jsunit:
     runs-on: ubuntu-latest
     needs: [versions, changes]
