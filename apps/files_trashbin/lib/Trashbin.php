@@ -869,7 +869,13 @@ class Trashbin {
 			foreach ($files as $file) {
 				if ($availableSpace < 0 && $expiration->isExpired($file['mtime'], true)) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
-					\OC::$server->get(LoggerInterface::class)->info('remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', ['app' => 'files_trashbin']);
+					Server::get(LoggerInterface::class)->info(
+						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
+						[
+							'app' => 'files_trashbin',
+							'user' => $user,
+						]
+					);
 					$availableSpace += $tmp;
 					$size += $tmp;
 				} else {
@@ -900,16 +906,20 @@ class Trashbin {
 					$size += self::delete($filename, $user, $timestamp);
 					$count++;
 				} catch (\OCP\Files\NotPermittedException $e) {
-					\OC::$server->get(LoggerInterface::class)->warning('Removing "' . $filename . '" from trashbin failed.',
+					Server::get(LoggerInterface::class)->warning('Removing "' . $filename . '" from trashbin failed for user "{user}"',
 						[
 							'exception' => $e,
 							'app' => 'files_trashbin',
+							'user' => $user,
 						]
 					);
 				}
-				\OC::$server->get(LoggerInterface::class)->info(
-					'Remove "' . $filename . '" from trashbin because it exceeds max retention obligation term.',
-					['app' => 'files_trashbin']
+				Server::get(LoggerInterface::class)->info(
+					'Remove "' . $filename . '" from trashbin for user "{user}" because it exceeds max retention obligation term.',
+					[
+						'app' => 'files_trashbin',
+						'user' => $user,
+					],
 				);
 			} else {
 				break;
