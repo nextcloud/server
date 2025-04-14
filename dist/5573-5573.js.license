@@ -63,13 +63,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.24.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios
 	- version: 1.8.4

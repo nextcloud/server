@@ -70,13 +70,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.6.3
 	- license: MIT
 - @vueuse/components
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios
 	- version: 1.8.4
