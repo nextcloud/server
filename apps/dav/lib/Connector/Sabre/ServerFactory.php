@@ -15,6 +15,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Upload\CleanupService;
 use OCA\Theming\ThemingDefaults;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -22,6 +23,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -152,6 +154,16 @@ class ServerFactory {
 					$root,
 					$userPrincipalBackend,
 					'principals/shares',
+				));
+
+				// Mount the upload collection at /public.php/dav/uploads/<share token>
+				$rootCollection->addChild(new \OCA\DAV\Upload\RootCollection(
+					$userPrincipalBackend,
+					'principals/shares',
+					\OCP\Server::get(CleanupService::class),
+					\OCP\Server::get(IRootFolder::class),
+					\OCP\Server::get(IUserSession::class),
+					\OCP\Server::get(\OCP\Share\IManager::class),
 				));
 			} else {
 				/** @var ObjectTree $tree */
