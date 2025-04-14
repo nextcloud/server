@@ -126,7 +126,10 @@ class CloudIdManager implements ICloudIdManager {
 			$user = substr($id, 0, $lastValidAtPos);
 			$remote = substr($id, $lastValidAtPos + 1);
 
-			$this->userManager->validateUserId($user);
+			// We accept slightly more chars when working with federationId than with a local userId.
+			// We remove those eventual chars from the UserId before using
+			// the IUserManager API to confirm its format.
+			$this->userManager->validateUserId(str_replace('=', '-', $user));
 
 			if (!empty($user) && !empty($remote)) {
 				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
