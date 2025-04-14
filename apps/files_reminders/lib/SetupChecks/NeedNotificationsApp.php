@@ -31,9 +31,9 @@ class NeedNotificationsApp implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if ($this->appManager->isEnabledForAnyone('notifications')) {
-			return SetupResult::success($this->l10n->t('This files_reminder can work properly.'));
+			return SetupResult::success($this->l10n->t('The "files_reminders" app can work properly.'));
 		} else {
-			return SetupResult::warning($this->l10n->t('The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder.'));
+			return SetupResult::warning($this->l10n->t('The "files_reminders" app needs the notification app to work properly. You should either enable notifications or disable files_reminder.'));
 		}
 	}
 }
