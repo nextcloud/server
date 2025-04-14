@@ -76,7 +76,7 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- \
           --log-junit junit.xml \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}

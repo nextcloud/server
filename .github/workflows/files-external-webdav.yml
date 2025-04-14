@@ -88,7 +88,7 @@ jobs:
         run: composer run test:files_external -- --verbose \
           apps/files_external/tests/Storage/WebdavTest.php \
           --log-junit junit.xml \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
