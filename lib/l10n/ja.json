@@ -327,7 +327,6 @@
     "The audio to transcribe" : "文字起こしする音声",
     "Transcription" : "書き起こし",
     "The transcribed text" : "書き起こされたテキスト",
-    "ContextAgent" : "ContextAgent",
     "Chat with an agent" : "エージェントとチャット",
     "Chat message" : "チャットメッセージ",
     "A chat message to send to the agent." : "エージェントに送信するチャットメッセージ。",

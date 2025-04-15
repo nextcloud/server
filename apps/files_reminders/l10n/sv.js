@@ -6,8 +6,6 @@ OC.L10N.register(
     "View file" : "Visa fil",
     "View folder" : "Visa mapp",
     "Files reminder" : "Filpåminnelse",
-    "This files_reminder can work properly." : "Den här filpåminnelsen kan fungera korrekt.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Appen files_reminder behöver notification appen för att fungera korrekt. Du bör antingen aktivera aviseringar eller inaktivera files_reminder.",
     "Set file reminders" : "Ställ in filpåminnelser",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Filpåminnelser**\n\nStäll in påminnelser för filer.\n\nObs: För att använda appen `Filpåminnelser` måste du se till att appen `Aviseringar` är installerad och aktiverad. Appen `Aviseringar` tillhandahåller de nödvändiga API:erna för att appen `File reminders` ska fungera korrekt.",
     "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\"",
@@ -30,6 +28,8 @@ OC.L10N.register(
     "This weekend" : "Denna helgen",
     "Set reminder for this weekend" : "Ställ in påminnelse för denna helg",
     "Next week" : "Nästa vecka",
-    "Set reminder for next week" : "Ställ in påminnelse för nästa vecka"
+    "Set reminder for next week" : "Ställ in påminnelse för nästa vecka",
+    "This files_reminder can work properly." : "Den här filpåminnelsen kan fungera korrekt.",
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Appen files_reminder behöver notification appen för att fungera korrekt. Du bör antingen aktivera aviseringar eller inaktivera files_reminder."
 },
 "nplurals=2; plural=(n != 1);");
