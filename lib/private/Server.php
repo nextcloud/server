@@ -25,10 +25,11 @@ use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
 use OC\Blurhash\Listener\GenerateBlurhashMetadata;
 use OC\Collaboration\Collaborators\GroupPlugin;
-use OC\Collaboration\Collaborators\MailPlugin;
+use OC\Collaboration\Collaborators\MailByMailPlugin;
 use OC\Collaboration\Collaborators\RemoteGroupPlugin;
 use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\UserPlugin;
+use OC\Collaboration\Collaborators\UserByMailPlugin;
 use OC\Collaboration\Reference\ReferenceManager;
 use OC\Command\CronBus;
 use OC\Comments\ManagerFactory as CommentsManagerFactory;
@@ -1134,8 +1135,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserByMailPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailPlugin::class]);
+			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailByMailPlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
 			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE_GROUP', 'class' => RemoteGroupPlugin::class]);
 
