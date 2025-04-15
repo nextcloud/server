@@ -326,7 +326,6 @@
     "The audio to transcribe" : "要轉錄的音頻",
     "Transcription" : "轉錄",
     "The transcribed text" : "已轉錄的文字",
-    "ContextAgent" : "ContextAgent",
     "Chat with an agent" : "與 agent 聊天",
     "Chat message" : "聊天訊息",
     "A chat message to send to the agent." : "要發送給 agent 的聊天消息。",

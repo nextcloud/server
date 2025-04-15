@@ -326,7 +326,6 @@
     "The audio to transcribe" : "El audio a transcribir",
     "Transcription" : "Transcripción",
     "The transcribed text" : "El texto transcrito",
-    "ContextAgent" : "ContextAgent",
     "Chat with an agent" : "Chatea con un agente",
     "Chat message" : "Mensaje de chat",
     "A chat message to send to the agent." : "Un mensaje de chat a escribir al agente",
