@@ -114,7 +114,7 @@ class Notify extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
+		$mount = $this->globalService->getStorage((int)$input->getArgument('mount_id'));
 		if (is_null($mount)) {
 			$output->writeln('<error>Mount not found</error>');
 			return self::FAILURE;
