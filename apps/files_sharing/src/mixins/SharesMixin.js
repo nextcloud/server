@@ -33,6 +33,7 @@ import { fetchNode } from '../services/WebdavClient.ts'
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
+import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
 import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
@@ -176,6 +177,26 @@ export default {
 				return this.config.defaultInternalExpirationDate
 			}
 			return null
+		},
+		/**
+		 * Is the current share password protected ?
+		 *
+		 * @return {boolean}
+		 */
+		isPasswordProtected: {
+			get() {
+				return this.config.enforcePasswordForPublicLink
+							|| !!this.share.password
+			},
+			async set(enabled) {
+				if (enabled) {
+					this.share.password = await GeneratePassword()
+					this.$set(this.share, 'newPassword', this.share.password)
+				} else {
+					this.share.password = ''
+					this.$delete(this.share, 'newPassword')
+				}
+			},
 		},
 	},
 
