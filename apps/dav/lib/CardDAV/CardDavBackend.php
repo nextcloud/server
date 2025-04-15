@@ -33,6 +33,18 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
+/**
+ * @psalm-type AddressbookInfo = array{
+ *      id: int,
+ *      uri: string,
+ *      principaluri: string,
+ *      '{http://calendarserver.org/ns/}getctag': string,
+ *      '{http://sabredav.org/ns}sync-token': int,
+ *      '{urn:ietf:params:xml:ns:carddav}addressbook-description': string,
+ *      '{DAV:}displayname': string,
+ *      '{http://nextcloud.com/ns}owner-displayname': string,
+ *  }
+ */
 class CardDavBackend implements BackendInterface, SyncSupport {
 	use TTransactional;
 	public const PERSONAL_ADDRESSBOOK_URI = 'contacts';
@@ -220,7 +232,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * @param int $addressBookId
+	 * @psalm-return AddressbookInfo|null
+	 * @return array|null
 	 */
 	public function getAddressBookById(int $addressBookId): ?array {
 		$query = $this->db->getQueryBuilder();

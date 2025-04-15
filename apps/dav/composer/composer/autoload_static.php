@@ -174,6 +174,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Command\\DeleteCalendar' => __DIR__ . '/..' . '/../lib/Command/DeleteCalendar.php',
         'OCA\\DAV\\Command\\DeleteSubscription' => __DIR__ . '/..' . '/../lib/Command/DeleteSubscription.php',
         'OCA\\DAV\\Command\\FixCalendarSyncCommand' => __DIR__ . '/..' . '/../lib/Command/FixCalendarSyncCommand.php',
+        'OCA\\DAV\\Command\\ListAddressbookShares' => __DIR__ . '/..' . '/../lib/Command/ListAddressbookShares.php',
         'OCA\\DAV\\Command\\ListAddressbooks' => __DIR__ . '/..' . '/../lib/Command/ListAddressbooks.php',
         'OCA\\DAV\\Command\\ListCalendars' => __DIR__ . '/..' . '/../lib/Command/ListCalendars.php',
         'OCA\\DAV\\Command\\ListSubscriptions' => __DIR__ . '/..' . '/../lib/Command/ListSubscriptions.php',

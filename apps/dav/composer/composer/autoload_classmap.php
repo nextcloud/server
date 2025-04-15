@@ -159,6 +159,7 @@ return array(
     'OCA\\DAV\\Command\\DeleteCalendar' => $baseDir . '/../lib/Command/DeleteCalendar.php',
     'OCA\\DAV\\Command\\DeleteSubscription' => $baseDir . '/../lib/Command/DeleteSubscription.php',
     'OCA\\DAV\\Command\\FixCalendarSyncCommand' => $baseDir . '/../lib/Command/FixCalendarSyncCommand.php',
+    'OCA\\DAV\\Command\\ListAddressbookShares' => $baseDir . '/../lib/Command/ListAddressbookShares.php',
     'OCA\\DAV\\Command\\ListAddressbooks' => $baseDir . '/../lib/Command/ListAddressbooks.php',
     'OCA\\DAV\\Command\\ListCalendars' => $baseDir . '/../lib/Command/ListCalendars.php',
     'OCA\\DAV\\Command\\ListSubscriptions' => $baseDir . '/../lib/Command/ListSubscriptions.php',
