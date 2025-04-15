@@ -4,8 +4,6 @@
     "View file" : "Zobrazit soubor",
     "View folder" : "Zobrazit složku",
     "Files reminder" : "Připomínka souboru",
-    "This files_reminder can work properly." : "Tento files_reminder může fungovat správně.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikace files_reminder potřebuje, aby aplikace notifikace správně fungovala. Buď byste měli zapnout notifikace, nebo vypnout files_reminder.",
     "Set file reminders" : "Nastavit připomínky souborů",
     "Set reminder for \"{fileName}\"" : "Nastavit připomínku pro „{fileName}",
     "Set reminder at custom date & time" : "Nastavit připomínku na uživatelsky určené datum a čas",
@@ -27,6 +25,8 @@
     "This weekend" : "Tento víkend",
     "Set reminder for this weekend" : "Nastavit připomínku na tento víkend",
     "Next week" : "Příští týden",
-    "Set reminder for next week" : "Nastavit připomínku pro příští týden"
+    "Set reminder for next week" : "Nastavit připomínku pro příští týden",
+    "This files_reminder can work properly." : "Tento files_reminder může fungovat správně.",
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikace files_reminder potřebuje, aby aplikace notifikace správně fungovala. Buď byste měli zapnout notifikace, nebo vypnout files_reminder."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

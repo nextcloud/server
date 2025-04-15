@@ -324,7 +324,6 @@
     "The audio to transcribe" : "Lyden der skal transskriberes",
     "Transcription" : "Transskription",
     "The transcribed text" : "Den transskriberede tekst",
-    "ContextAgent" : "ContextAgent",
     "Chat with an agent" : "Chat med en agent",
     "Chat message" : "Chatbeskeder",
     "A chat message to send to the agent." : "En chatbesked til agenten.",

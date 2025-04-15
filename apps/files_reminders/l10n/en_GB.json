@@ -4,8 +4,6 @@
     "View file" : "View file",
     "View folder" : "View folder",
     "Files reminder" : "Files reminder",
-    "This files_reminder can work properly." : "This files_reminder can work properly.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
     "Set file reminders" : "Set file reminders",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
     "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\"",
@@ -28,6 +26,8 @@
     "This weekend" : "This weekend",
     "Set reminder for this weekend" : "Set reminder for this weekend",
     "Next week" : "Next week",
-    "Set reminder for next week" : "Set reminder for next week"
+    "Set reminder for next week" : "Set reminder for next week",
+    "This files_reminder can work properly." : "This files_reminder can work properly.",
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
