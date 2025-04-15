@@ -41,7 +41,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->items[$id]) || isset($this->aliases[$id]) || class_exists($id);
+		return array_key_exists($id, $this->items) || array_key_exists($id, $this->aliases) || class_exists($id);
 	}
 
 	/**
@@ -129,7 +129,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$name = $this->sanitizeName($name);
 		$name = $this->resolveAlias($name);
 
-		if (isset($this->items[$name])) {
+		if (array_key_exists($name, $this->items)) {
 			$item = $this->items[$name];
 			if ($item instanceof ServiceFactory) {
 				return $item->get();
@@ -145,7 +145,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			return $object;
 		}
 
-		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
+		throw new QueryNotFoundException('Could not resolve ' . $name . '!' . get_class($this));
 	}
 
 	/**
@@ -189,6 +189,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		if ($alias === $target) {
 			throw new QueryNotFoundException('Can\'t alias to self');
 		}
+		unset($this->items[$alias]);
 		$this->aliases[$alias] = $target;
 	}
 
@@ -204,7 +205,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
 	public function offsetExists($id): bool {
-		return isset($this->items[$id]) || isset($this->aliases[$id]);
+		return array_key_exists($id, $this->items) || array_key_exists($id, $this->aliases);
 	}
 
 	/**
@@ -235,7 +236,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * Check if we already have a resolved instance of $name
 	 */
 	public function isResolved($name): bool {
-		if (!isset($this->items[$name])) {
+		if (!array_key_exists($name, $this->items)) {
 			return false;
 		}
 		$item = $this->items[$name];
@@ -247,7 +248,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	protected function resolveAlias(string $name): string {
-		while (isset($this->aliases[$name])) {
+		while (array_key_exists($name, $this->aliases)) {
 			$name = $this->aliases[$name];
 		}
 		return $name;
