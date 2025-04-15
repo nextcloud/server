@@ -127,7 +127,7 @@ class ServerContainer extends SimpleContainer {
 
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
-		if (!isset($this->items[$name]) && ($appContainer = $this->getAppContainerForService($name)) !== null) {
+		if (!array_key_exists($name, $this->items) && !array_key_exists($name, $this->aliases) && ($appContainer = $this->getAppContainerForService($name)) !== null) {
 			try {
 				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
