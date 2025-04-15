@@ -313,7 +313,6 @@
     "The audio to transcribe" : "Transkribatzeko audioa",
     "Transcription" : "Transkripzioa",
     "The transcribed text" : "Transkribatutako testua",
-    "ContextAgent" : "ContextAgent",
     "Chat with an agent" : "Txateatu agente batekin",
     "Chat message" : "Txat mezua",
     "A chat message to send to the agent." : "Agenteari bidaltzeko txat mezu bat.",
