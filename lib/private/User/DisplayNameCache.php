@@ -24,6 +24,8 @@ use OCP\User\Events\UserDeletedEvent;
  * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
+	/** @see \OC\Config\UserConfig::USER_MAX_LENGTH */
+	public const MAX_USERID_LENGTH = 64;
 	private array $cache = [];
 	private ICache $memCache;
 	private IUserManager $userManager;
@@ -37,6 +39,11 @@ class DisplayNameCache implements IEventListener {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];
 		}
+
+		if (strlen($userId) > self::MAX_USERID_LENGTH) {
+			return null;
+		}
+
 		$displayName = $this->memCache->get($userId);
 		if ($displayName) {
 			$this->cache[$userId] = $displayName;

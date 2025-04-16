@@ -79,6 +79,20 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($manager->userExists('foo'));
 	}
 
+	public function testUserExistsTooLong(): void {
+		/** @var \Test\Util\User\Dummy|MockObject $backend */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->never())
+			->method('userExists')
+			->with($this->equalTo('foo'))
+			->willReturn(true);
+
+		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$this->assertFalse($manager->userExists('foo' . str_repeat('a', 62)));
+	}
+
 	public function testUserExistsSingleBackendNotExists(): void {
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
@@ -230,6 +244,20 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(null, $manager->get('foo'));
 	}
 
+	public function testGetTooLong(): void {
+		/** @var \Test\Util\User\Dummy|MockObject $backend */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->never())
+			->method('userExists')
+			->with($this->equalTo('foo'))
+			->willReturn(false);
+
+		$manager = new \OC\User\Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$this->assertEquals(null, $manager->get('foo' . str_repeat('a', 62)));
+	}
+
 	public function testGetOneBackendDoNotTranslateLoginNames(): void {
 		/**
 		 * @var \Test\Util\User\Dummy | \PHPUnit\Framework\MockObject\MockObject $backend
@@ -333,6 +361,7 @@ class ManagerTest extends TestCase {
 			['..', 'foo', 'Username must not consist of dots only'],
 			['.test', '', 'A valid password must be provided'],
 			['test', '', 'A valid password must be provided'],
+			['test' . str_repeat('a', 61), '', 'Login is too long'],
 		];
 	}
 
