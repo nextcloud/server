@@ -183,6 +183,11 @@ class Application extends App {
 				'properties_pathonly_index',
 				['propertypath']
 			);
+			$event->addMissingIndex(
+				'properties',
+				'properties_name_path_user',
+				['propertyname', 'propertypath', 'userid']
+			);
 
 
 			$event->addMissingIndex(
