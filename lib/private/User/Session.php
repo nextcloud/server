@@ -546,10 +546,13 @@ class Session implements IUserSession, Emitter {
 				if (!empty($allowedAgents)) {
 					$clientUserAgent = $request->server['HTTP_USER_AGENT'];
 
-					foreach ($allowedAgents as $allowedAgent) {
-						if (preg_match($allowedAgent, $clientUserAgent) !== 1) {
-							throw new UserAgentForbidden('Client not allowed');
-						}
+					$isAllowed = array_reduce($allowedAgents, function ($carry, $allowedAgent) use ($clientUserAgent) {
+						return $carry || preg_match($allowedAgent, $clientUserAgent) === 1;
+					}, false);
+
+					if (!$isAllowed) {
+						// The client is not allowed, so we throw an exception
+						throw new UserAgentForbidden();
 					}
 				}
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
