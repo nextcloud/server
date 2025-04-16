@@ -34,7 +34,7 @@ OC.L10N.register(
     "Add new flow" : "Pievienot jaunu plūsmu",
     "Save" : "Saglabāt",
     "Cancel" : "Atcelt",
-    "Delete" : "Dzēst",
+    "Delete" : "Izdzēst",
     "Available flows" : "Pieejamās plūsmas",
     "No flows installed" : "Nav uzstādītu plūsmu",
     "More flows" : "Vairāk plūsmu",

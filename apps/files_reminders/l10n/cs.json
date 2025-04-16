@@ -4,6 +4,8 @@
     "View file" : "Zobrazit soubor",
     "View folder" : "Zobrazit složku",
     "Files reminder" : "Připomínka souboru",
+    "The \"files_reminders\" app can work properly." : "Aplikace „files_reminder“ může fungovat správně.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikace „files_reminder“ potřebuje, aby aplikace notifikace správně fungovala. Buď byste měli zapnout notifikace, nebo vypnout files_reminder.",
     "Set file reminders" : "Nastavit připomínky souborů",
     "Set reminder for \"{fileName}\"" : "Nastavit připomínku pro „{fileName}",
     "Set reminder at custom date & time" : "Nastavit připomínku na uživatelsky určené datum a čas",
