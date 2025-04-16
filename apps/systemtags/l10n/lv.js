@@ -48,7 +48,7 @@ OC.L10N.register(
     "Failed to update tag" : "Birku neizdevās atjaunināt",
     "Create" : "Izveidot",
     "Update" : "Atjaunināt",
-    "Delete" : "Dzēst",
+    "Delete" : "Izdzēst",
     "Reset" : "Atiestatīt",
     "Loading …" : "Ielādē…",
     "Cancel" : "Atcelt",

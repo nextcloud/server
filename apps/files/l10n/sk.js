@@ -331,6 +331,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 súbor a {folderCount} priečinok","1 súbor a {folderCount} priečinky","1 súbor a {folderCount} priečinky","1 súbor a {folderCount} priečinky"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} súbor a 1 priečinok","{fileCount} súborov a 1 priečinok","{fileCount} súborov a 1 priečinok","{fileCount} súborov a 1 priečinok"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} súborov a {folderCount} priečinkov",
+    "_(%n hidden)_::_ (%n hidden)_" : ["(%n skrytý)","(%n skryté)","(%n skrytých)"," (%n skrytých)"],
     "Filename must not be empty." : "Názov súboru nesmie byť prázdny.",
     "\"{char}\" is not allowed inside a filename." : "Znak \"{char}\" nie je povolený v názve súboru.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" je rezervované slovo a nie je možné ho použiť v názvoch súborov.",

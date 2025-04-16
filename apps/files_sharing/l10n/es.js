@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "File shares" : "Archivos compartidos",
-    "Downloaded via public link" : "Descargado vía enlace público",
+    "Downloaded via public link" : "Descargado a través de enlace público",
     "Downloaded by {email}" : "Descargado por {email}",
     "{file} downloaded via public link" : "{file} descargado vía enlace público",
     "{email} downloaded {file}" : "{email} descargó {file}",
