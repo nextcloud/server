@@ -88,7 +88,7 @@ export const action = new FileAction({
 		}
 
 		// We can only download dav files and folders.
-		if (nodes.some(node => !node.isDavRessource)) {
+		if (nodes.some(node => !node.isDavResource)) {
 			return false
 		}
 
