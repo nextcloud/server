@@ -53,6 +53,9 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Manager extends PublicEmitter implements IUserManager {
+	/** @see \OC\Config\UserConfig::USER_MAX_LENGTH */
+	public const MAX_USERID_LENGTH = 64;
+
 	/**
 	 * @var UserInterface[] $backends
 	 */
@@ -118,6 +121,10 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
+		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+			return null;
+		}
+
 		$cachedBackend = $this->cache->get(sha1($uid));
 		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
 			// Cache has the info of the user backend already, so ask that one directly
@@ -177,6 +184,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool
 	 */
 	public function userExists($uid) {
+		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+			return false;
+		}
+
 		$user = $this->get($uid);
 		return ($user !== null);
 	}
@@ -692,14 +703,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function validateUserId(string $uid, bool $checkDataDirectory = false): void {
 		$l = Server::get(IFactory::class)->get('lib');
 
-		// Check the name for bad characters
+		// Check the ID for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
 			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an Login:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 
-		// No empty username
+		// No empty user ID
 		if (trim($uid) === '') {
 			throw new \InvalidArgumentException($l->t('A valid Login must be provided'));
 		}
@@ -709,9 +720,14 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \InvalidArgumentException($l->t('Login contains whitespace at the beginning or at the end'));
 		}
 
-		// Username only consists of 1 or 2 dots (directory traversal)
+		// User ID only consists of 1 or 2 dots (directory traversal)
 		if ($uid === '.' || $uid === '..') {
 			throw new \InvalidArgumentException($l->t('Login must not consist of dots only'));
+		}
+
+		// User ID is too long
+		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+			throw new \InvalidArgumentException($l->t('Login is too long'));
 		}
 
 		if (!$this->verifyUid($uid, $checkDataDirectory)) {
