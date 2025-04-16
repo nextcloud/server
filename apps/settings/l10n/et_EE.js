@@ -98,6 +98,7 @@ OC.L10N.register(
     "User's email account" : "Kasutaja e-postikonto",
     "System email account" : "Süsteemi e-posti konto",
     "Security & setup checks" : "Turva- ja paigalduse kontrollid",
+    "Background jobs" : "Taustal toimivad haldustoimingud",
     "Unlimited" : "Piiramatult",
     "Verifying" : "Kontrollin",
     "Allowed admin IP ranges" : "Süsteemihalduseks lubatud IP-aadresside filtreerimine",
