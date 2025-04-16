@@ -8,7 +8,7 @@ OC.L10N.register(
     "Edit" : "Labot",
     "Open sidebar" : "Atvērt sānjoslu",
     "Download" : "Lejupielādēt",
-    "Delete" : "Dzēst",
+    "Delete" : "Izdzēst",
     "View" : "Skats",
     "Name" : "Vārds",
     "Save" : "Saglabāt",
