@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "Kontonavn",
     "Server side authentication failed!" : "Server side godkendelse mislykkedes!",
     "Please contact your administrator." : "Kontakt venligst din administrator.",
+    "Session error" : "Sessionsfejl",
+    "It appears your session token has expired, please refresh the page and try again." : "Det ser ud til, at dit sessionstoken er udløbet. Opdater venligst siden og prøv igen.",
     "An internal error occurred." : "Der opstod en intern fejl.",
     "Please try again or contact your administrator." : "Kontakt venligst din administrator.",
     "Password" : "Adgangskode",
