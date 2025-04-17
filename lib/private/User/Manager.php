@@ -53,9 +53,6 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Manager extends PublicEmitter implements IUserManager {
-	/** @see \OC\Config\UserConfig::USER_MAX_LENGTH */
-	public const MAX_USERID_LENGTH = 64;
-
 	/**
 	 * @var UserInterface[] $backends
 	 */
@@ -121,7 +118,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return null;
 		}
 
@@ -184,7 +181,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool
 	 */
 	public function userExists($uid) {
-		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return false;
 		}
 
@@ -726,7 +723,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		// User ID is too long
-		if (strlen($uid) > self::MAX_USERID_LENGTH) {
+		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			throw new \InvalidArgumentException($l->t('Login is too long'));
 		}
 

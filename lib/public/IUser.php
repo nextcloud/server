@@ -16,6 +16,11 @@ use InvalidArgumentException;
  */
 interface IUser {
 	/**
+	 * @since 32.0.0
+	 */
+	public const MAX_USERID_LENGTH = 64;
+
+	/**
 	 * get the user id
 	 *
 	 * @return string
