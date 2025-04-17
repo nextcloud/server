@@ -1324,11 +1324,6 @@
       <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->bootedApps]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
       <code><![CDATA[getName]]></code>

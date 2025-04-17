@@ -8,7 +8,6 @@ namespace OC\App;
 
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\ServerNotAvailableException;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -251,7 +250,7 @@ class AppManager implements IAppManager {
 			}
 		}
 
-		// prevent app.php from printing output
+		// prevent app loading from printing output
 		ob_start();
 		foreach ($apps as $app) {
 			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
@@ -452,43 +451,13 @@ class AppManager implements IAppManager {
 		// in case someone calls loadApp() directly
 		\OC_App::registerAutoloading($app, $appPath);
 
-		/** @var Coordinator $coordinator */
-		$coordinator = \OC::$server->get(Coordinator::class);
-		$isBootable = $coordinator->isBootable($app);
-
-		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
-
-		if ($isBootable && $hasAppPhpFile) {
-			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
+		if (is_file($appPath . '/appinfo/app.php')) {
+			$this->logger->error('/appinfo/app.php is not supported anymore, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
 				'app' => $app,
 			]);
-		} elseif ($hasAppPhpFile) {
-			$eventLogger->start("bootstrap:load_app:$app:app.php", "Load legacy app.php app $app");
-			$this->logger->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
-				'app' => $app,
-			]);
-			try {
-				self::requireAppFile($appPath);
-			} catch (\Throwable $ex) {
-				if ($ex instanceof ServerNotAvailableException) {
-					throw $ex;
-				}
-				if (!$this->isShipped($app) && !$this->isType($app, ['authentication'])) {
-					$this->logger->error("App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(), [
-						'exception' => $ex,
-					]);
-
-					// Only disable apps which are not shipped and that are not authentication apps
-					$this->disableApp($app, true);
-				} else {
-					$this->logger->error("App $app threw an error during app.php load: " . $ex->getMessage(), [
-						'exception' => $ex,
-					]);
-				}
-			}
-			$eventLogger->end("bootstrap:load_app:$app:app.php");
 		}
 
+		$coordinator = \OCP\Server::get(Coordinator::class);
 		$coordinator->bootApp($app);
 
 		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
@@ -560,6 +529,7 @@ class AppManager implements IAppManager {
 
 		$eventLogger->end("bootstrap:load_app:$app");
 	}
+
 	/**
 	 * Check if an app is loaded
 	 * @param string $app app id
@@ -567,17 +537,6 @@ class AppManager implements IAppManager {
 	 */
 	public function isAppLoaded(string $app): bool {
 		return isset($this->loadedApps[$app]);
-	}
-
-	/**
-	 * Load app.php from the given app
-	 *
-	 * @param string $app app name
-	 * @throws \Error
-	 */
-	private static function requireAppFile(string $app): void {
-		// encapsulated here to avoid variable scope conflicts
-		require_once $app . '/appinfo/app.php';
 	}
 
 	/**
