@@ -36,6 +36,7 @@ OC.L10N.register(
     "Cancel" : "Annuller",
     "Delete" : "Slet",
     "Browse the App Store" : "Gennemse App Store",
+    "Show less" : "Vis mindre",
     "matches" : "er lig med",
     "does not match" : "er ikke lig med",
     "is" : "er",
