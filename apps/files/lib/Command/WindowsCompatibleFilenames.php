@@ -46,6 +46,6 @@ class WindowsCompatibleFilenames extends Base {
 		} else {
 			$output->writeln('Windows compatible filenames are ' . ($this->service->hasFilesWindowsSupport() ? 'enforced' : 'disabled'));
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }
