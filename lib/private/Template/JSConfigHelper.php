@@ -67,7 +67,7 @@ class JSConfigHelper {
 
 			$backend = $this->currentUser->getBackend();
 			if ($backend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid);
+				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid) && $this->canUserValidatePassword();
 			} elseif (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
 				$userBackendAllowsPasswordConfirmation = false;
 			}
