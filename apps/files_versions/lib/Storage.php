@@ -902,7 +902,7 @@ class Storage {
 				foreach ($result['by_file'] as $versions) {
 					[$toDeleteNew, $size] = self::getExpireList($time, $versions, $availableSpace <= 0);
 					$logger->error('DEBUG 72738::to delete ', [$toDeleteNew]);
-					$logger->error('DEBUG 72738::size ',[$size]);
+					$logger->error('DEBUG 72738::size ', [$size]);
 					$toDelete = array_merge($toDelete, $toDeleteNew);
 					$sizeOfDeletedVersions += $size;
 					$logger->error('DEBUG 72738::version size ', [$sizeOfDeletedVersions]);
