@@ -146,8 +146,12 @@ class NewUserMailHelperTest extends TestCase {
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -175,7 +179,7 @@ class NewUserMailHelperTest extends TestCase {
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -260,13 +264,13 @@ class NewUserMailHelperTest extends TestCase {
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
 												</td>
 											</tr>
 										</table>
@@ -382,8 +386,12 @@ EOF;
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -411,7 +419,7 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -496,13 +504,13 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
@@ -622,8 +630,12 @@ EOF;
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -651,7 +663,7 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -721,13 +733,13 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
