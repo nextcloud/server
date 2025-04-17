@@ -11,6 +11,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -37,6 +38,11 @@ class DisplayNameCache implements IEventListener {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];
 		}
+
+		if (strlen($userId) > IUser::MAX_USERID_LENGTH) {
+			return null;
+		}
+
 		$displayName = $this->memCache->get($userId);
 		if ($displayName) {
 			$this->cache[$userId] = $displayName;
