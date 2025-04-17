@@ -860,24 +860,30 @@ class Storage {
 			// calculate available space for version history
 			// subtract size of files and current versions size from quota
 			if ($quota >= 0) {
+				$logger->error('DEBUG 72738::quota greater than 0 '.$quota);
 				if ($softQuota) {
 					$root = \OC::$server->get(IRootFolder::class);
 					$userFolder = $root->getUserFolder($uid);
 					if (is_null($userFolder)) {
 						$availableSpace = 0;
+						$logger->error('DEBUG 72738::available space is ', [$availableSpace]);
 					} else {
 						$free = $quota - $userFolder->getSize(false); // remaining free space for user
+						$logger->error('DEBUG 72738::free space is ', [$free]);
 						if ($free > 0) {
 							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
 						} else {
 							$availableSpace = $free - $versionsSize;
 						}
+						$logger->error('DEBUG 72738::available space is not null ', [$availableSpace]);
 					}
 				} else {
 					$availableSpace = $quota;
+					$logger->error('DEBUG 72738::available space is quota ', [$availableSpace]);
 				}
 			} else {
 				$availableSpace = PHP_INT_MAX;
+				$logger->error('DEBUG 72738::available space is PHP INT MAX ', [$availableSpace]);
 			}
 
 			$allVersions = Storage::getVersions($uid, $filename);
@@ -895,8 +901,11 @@ class Storage {
 
 				foreach ($result['by_file'] as $versions) {
 					[$toDeleteNew, $size] = self::getExpireList($time, $versions, $availableSpace <= 0);
+					$logger->error('DEBUG 72738::to delete ', [$toDeleteNew]);
+					$logger->error('DEBUG 72738::size ',[$size]);
 					$toDelete = array_merge($toDelete, $toDeleteNew);
 					$sizeOfDeletedVersions += $size;
+					$logger->error('DEBUG 72738::version size ', [$sizeOfDeletedVersions]);
 				}
 				$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 				$versionsSize = $versionsSize - $sizeOfDeletedVersions;
