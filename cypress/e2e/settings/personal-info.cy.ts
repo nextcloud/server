@@ -109,7 +109,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 
 	before(() => {
 		// make sure the fediverse check does not do http requests
-		cy.runOccCommand('config:system:set has_internet_connection --value false')
+		cy.runOccCommand('config:system:set has_internet_connection --type bool --value false')
 		// ensure we can set locale and language
 		cy.runOccCommand('config:system:delete force_language')
 		cy.runOccCommand('config:system:delete force_locale')
@@ -352,6 +352,23 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 		cy.wait('@submitSetting')
 		cy.reload()
 		inputForLabel('Phone number').should('have.value', '')
+	})
+
+	it('Can reset social media property', () => {
+		cy.contains('label', 'Fediverse').scrollIntoView()
+		inputForLabel('Fediverse').type('{selectAll}@nextcloud@mastodon.social')
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', 'nextcloud@mastodon.social')
+
+		inputForLabel('Fediverse').clear()
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', '')
 	})
 
 	it('Can set Website and change its visibility', () => {
