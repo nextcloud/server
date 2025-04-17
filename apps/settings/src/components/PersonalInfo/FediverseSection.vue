@@ -19,7 +19,7 @@ import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 import AccountPropertySection from './shared/AccountPropertySection.vue'
 
-const { fediverse } = loadState<AccountProperties>('settings', 'personalInfoParameters', {})
+const { fediverse } = loadState<AccountProperties>('settings', 'personalInfoParameters')
 
 const value = ref({ ...fediverse })
 const readable = NAME_READABLE_ENUM[fediverse.name]
@@ -29,11 +29,18 @@ const readable = NAME_READABLE_ENUM[fediverse.name]
  * @param text The potential fediverse handle
  */
 function onValidate(text: string): boolean {
+	// allow to clear the value
+	if (text === '') {
+		return true
+	}
+
+	// check its in valid format
 	const result = text.match(/^@?([^@/]+)@([^@/]+)$/)
 	if (result === null) {
 		return false
 	}
 
+	// check its a valid URL
 	try {
 		return URL.parse(`https://${result[2]}/`) !== null
 	} catch {

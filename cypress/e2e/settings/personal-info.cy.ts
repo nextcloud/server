@@ -370,6 +370,23 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 		inputForLabel('Phone number').should('have.value', '')
 	})
 
+	it('Can reset social media property', () => {
+		cy.contains('label', 'Fediverse').scrollIntoView()
+		inputForLabel('Fediverse').type('{selectAll}@nextcloud@mastodon.social')
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', '@nextcloud@mastodon.social')
+
+		inputForLabel('Fediverse').clear()
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', '')
+	})
+
 	it('Can set Website and change its visibility', () => {
 		cy.contains('label', 'Website').scrollIntoView()
 		// Check invalid input
