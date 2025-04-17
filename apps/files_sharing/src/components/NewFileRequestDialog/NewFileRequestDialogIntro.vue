@@ -80,8 +80,8 @@ import { t } from '@nextcloud/l10n'
 import IconFolder from 'vue-material-design-icons/Folder.vue'
 import IconInfo from 'vue-material-design-icons/Information.vue'
 import IconLock from 'vue-material-design-icons/Lock.vue'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'NewFileRequestDialogIntro',

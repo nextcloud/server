@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Weather status",
     "Weather status in your dashboard" : "Weather status in your dashboard",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app.",
-    "Detect location" : "Detect location",
-    "Set custom address" : "Set custom address",
-    "Favorites" : "Favourites",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} clear sky later today",
     "{temperature} {unit} clear sky" : "{temperature} {unit} clear sky",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} cloudy later today",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
     "There was an error using personal address." : "There was an error using personal address.",
-    "Unknown weather code" : "Unknown weather code"
+    "Unknown weather code" : "Unknown weather code",
+    "Detect location" : "Detect location",
+    "Set custom address" : "Set custom address",
+    "Favorites" : "Favourites"
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,33 +5,27 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
+use OCP\IConfig;
 use OCP\IImage;
+use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
-	/**
-	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
-	 * @var string
-	 */
-	public static $avconvBinary;
+	private IConfig $config;
 
-	/**
-	 * @deprecated 23.0.0 pass option to \OCP\Preview\ProviderV2
-	 * @var string
-	 */
-	public static $ffmpegBinary;
+	private ?string $binary = null;
 
-	/** @var string */
-	private $binary;
+	public function __construct(array $options = []) {
+		parent::__construct($options);
+		$this->config = Server::get(IConfig::class);
+	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -40,14 +34,9 @@ class Movie extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function isAvailable(FileInfo $file): bool {
-		// TODO: remove when avconv is dropped
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
 				$this->binary = $this->options['movieBinary'];
-			} elseif (is_string(self::$avconvBinary)) {
-				$this->binary = self::$avconvBinary;
-			} elseif (is_string(self::$ffmpegBinary)) {
-				$this->binary = self::$ffmpegBinary;
 			}
 		}
 		return is_string($this->binary);
@@ -84,14 +73,11 @@ class Movie extends ProviderV2 {
 				return null;
 			}
 
-			$result = null;
-			if (is_string($absPath)) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+			if ($result === null) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
 				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-					if ($result === null) {
-						$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
-					}
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
 				}
 			}
 
@@ -105,8 +91,42 @@ class Movie extends ProviderV2 {
 		return $result;
 	}
 
+	private function useHdr(string $absPath): bool {
+		// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
+		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
+		// run ffprobe on the video file to get value of "color_transfer"
+		$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
+			'-show_entries', 'stream=color_transfer',
+			'-of', 'default=noprint_wrappers=1:nokey=1',
+			$absPath];
+		$test_hdr_proc = proc_open($test_hdr_cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $test_hdr_pipes);
+		if ($test_hdr_proc === false) {
+			return false;
+		}
+		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+		proc_close($test_hdr_proc);
+		// search build options for libzimg (provides zscale filter)
+		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
+		// Only values of "smpte2084" and "arib-std-b67" indicate an HDR video.
+		// Only return true if video is detected as HDR and libzimg is installed.
+		if (($test_hdr_stdout === 'smpte2084' || $test_hdr_stdout === 'arib-std-b67') && $ffmpeg_libzimg_installed !== false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
-		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
+		$tmpPath = Server::get(ITempManager::class)->getTemporaryFile();
+
+		if ($tmpPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $absPath,
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
@@ -116,10 +136,21 @@ class Movie extends ProviderV2 {
 				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
 				$tmpPath];
 		} elseif ($binaryType === 'ffmpeg') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-f', 'mjpeg', '-vframes', '1',
-				$tmpPath];
+			if ($this->useHdr($absPath)) {
+				// Force colorspace to '2020_ncl' because some videos are
+				// tagged incorrectly as 'reserved' resulting in fail if not forced.
+				$cmd = [$this->binary, '-y', '-ss', (string)$second,
+					'-i', $absPath,
+					'-f', 'mjpeg', '-vframes', '1',
+					'-vf', 'zscale=min=2020_ncl:t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p',
+					$tmpPath];
+			} else {
+				// always default to generating preview using non-HDR command
+				$cmd = [$this->binary, '-y', '-ss', (string)$second,
+					'-i', $absPath,
+					'-f', 'mjpeg', '-vframes', '1',
+					$tmpPath];
+			}
 		} else {
 			// Not supported
 			unlink($tmpPath);
@@ -148,7 +179,7 @@ class Movie extends ProviderV2 {
 		}
 
 		if ($second === 0) {
-			$logger = \OC::$server->get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->info('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
 		}
 

@@ -169,7 +169,7 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+					<NcCheckboxRadioSwitch v-else
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -183,6 +183,10 @@
 							:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
 							:value.sync="share.note" />
 					</template>
+					<NcCheckboxRadioSwitch v-if="isPublicShare && isFolder"
+						:checked.sync="showInGridView">
+						{{ t('files_sharing', 'Show files in grid view') }}
+					</NcCheckboxRadioSwitch>
 					<ExternalShareAction v-for="action in externalLinkActions"
 						:id="action.id"
 						ref="externalLinkActions"
@@ -247,6 +251,7 @@
 				</NcButton>
 				<NcButton type="primary"
 					data-cy-files-sharing-share-editor-action="save"
+					:disabled="creating"
 					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
@@ -265,14 +270,14 @@ import { ShareType } from '@nextcloud/sharing'
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
@@ -439,28 +444,29 @@ export default {
 				this.updateAtomicPermissions({ isReshareChecked: checked })
 			},
 		},
+
+		/**
+		 * Change the default view for public shares from "list" to "grid"
+		 */
+		showInGridView: {
+			get() {
+				return this.getShareAttribute('config', 'grid_view', false)
+			},
+			/** @param {boolean} value If the default view should be changed to "grid" */
+			set(value) {
+				this.setShareAttribute('config', 'grid_view', value)
+			},
+		},
+
 		/**
 		 * Can the sharee download files or only view them ?
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes?.find(attr => attr.key === 'download')?.value ?? true
+				return this.getShareAttribute('permissions', 'download', true)
 			},
 			set(checked) {
-				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes?.find(attr => attr.key === 'download')
-				if (downloadAttr) {
-					downloadAttr.value = checked
-				} else {
-					if (this.share.attributes === null) {
-						this.$set(this.share, 'attributes', [])
-					}
-					this.share.attributes.push({
-						scope: 'permissions',
-						key: 'download',
-						value: checked,
-					})
-				}
+				this.setShareAttribute('permissions', 'download', checked)
 			},
 		},
 		/**
@@ -488,26 +494,6 @@ export default {
 				this.share.expireDate = enabled
 					? this.formatDateToString(this.defaultExpiryDate)
 					: ''
-			},
-		},
-		/**
-		 * Is the current share password protected ?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtected: {
-			get() {
-				return this.config.enforcePasswordForPublicLink
-					|| !!this.share.password
-			},
-			async set(enabled) {
-				if (enabled) {
-					this.share.password = await GeneratePassword(true)
-					this.$set(this.share, 'newPassword', this.share.password)
-				} else {
-					this.share.password = ''
-					this.$delete(this.share, 'newPassword')
-				}
 			},
 		},
 		/**
@@ -738,7 +724,7 @@ export default {
 		},
 		errorPasswordLabel() {
 			if (this.passwordError) {
-				return t('files_sharing', "Password field can't be empty")
+				return t('files_sharing', 'Password field cannot be empty')
 			}
 			return undefined
 		},
@@ -783,6 +769,42 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Set a share attribute on the current share
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {boolean} value The value
+		 */
+		setShareAttribute(scope, key, value) {
+			if (!this.share.attributes) {
+				this.$set(this.share, 'attributes', [])
+			}
+
+			const attribute = this.share.attributes
+				.find((attr) => attr.scope === scope || attr.key === key)
+
+			if (attribute) {
+				attribute.value = value
+			} else {
+				this.share.attributes.push({
+					scope,
+					key,
+					value,
+				})
+			}
+		},
+
+		/**
+		 * Get the value of a share attribute
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {undefined|boolean} fallback The fallback to return if not found
+		 */
+		getShareAttribute(scope, key, fallback = undefined) {
+			const attribute = this.share.attributes?.find((attr) => attr.scope === scope && attr.key === key)
+			return attribute?.value ?? fallback
+		},
+
 		async generateNewToken() {
 			if (this.loadingToken) {
 				return
@@ -831,8 +853,9 @@ export default {
 		async initializeAttributes() {
 
 			if (this.isNewShare) {
-				if (this.isPasswordEnforced && this.isPublicShare) {
+				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
+					this.$set(this.share, 'password', this.share.newPassword)
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
@@ -962,12 +985,35 @@ export default {
 					incomingShare.password = this.share.password
 				}
 
-				this.creating = true
-				const share = await this.addShare(incomingShare)
-				this.creating = false
+				let share
+				try {
+					this.creating = true
+					share = await this.addShare(incomingShare)
+				} catch (error) {
+					this.creating = false
+					// Error is already handled by ShareRequests mixin
+					return
+				}
+
+				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
+				this.share._share.id = share.id
+				await this.queueUpdate(...permissionsAndAttributes)
+				// Also a ugly hack to update the updated permissions
+				for (const prop of permissionsAndAttributes) {
+					if (prop in share && prop in this.share) {
+						try {
+							share[prop] = this.share[prop]
+						} catch {
+							share._share[prop] = this.share[prop]
+						}
+					}
+				}
+
 				this.share = share
+				this.creating = false
 				this.$emit('add:share', this.share)
 			} else {
+				// Let's update after creation as some attrs are only available after creation
 				this.$emit('update:share', this.share)
 				emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)

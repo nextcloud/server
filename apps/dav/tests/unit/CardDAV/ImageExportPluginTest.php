@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
+use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use Sabre\CardDAV\Card;
@@ -171,7 +172,7 @@ class ImageExportPluginTest extends TestCase {
 				->willThrowException(new NotFoundException());
 			$this->response->expects($this->once())
 				->method('setStatus')
-				->with(\OCP\AppFramework\Http::STATUS_NO_CONTENT);
+				->with(Http::STATUS_NO_CONTENT);
 		}
 
 		$result = $this->plugin->httpGet($this->request, $this->response);

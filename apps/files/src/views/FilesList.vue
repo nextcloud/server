@@ -71,7 +71,7 @@
 		</div>
 
 		<!-- Drag and drop notice -->
-		<DragAndDropNotice v-if="!loading && canUpload" :current-folder="currentFolder" />
+		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :current-folder="currentFolder" />
 
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
@@ -80,7 +80,15 @@
 			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
-		<template v-else-if="!loading && isEmptyDir">
+		<template v-else-if="!loading && isEmptyDir && currentFolder && currentView">
+			<div class="files-list__before">
+				<!-- Headers -->
+				<FilesListHeader v-for="header in headers"
+					:key="header.id"
+					:current-folder="currentFolder"
+					:current-view="currentView"
+					:header="header" />
+			</div>
 			<!-- Empty due to error -->
 			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
 				<template #action>
@@ -130,7 +138,8 @@
 			ref="filesListVirtual"
 			:current-folder="currentFolder"
 			:current-view="currentView"
-			:nodes="dirContentsSorted" />
+			:nodes="dirContentsSorted"
+			:summary="summary" />
 	</NcAppContent>
 </template>
 
@@ -153,37 +162,41 @@ import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
+import { useNavigation } from '../composables/useNavigation.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import FilesListHeader from '../components/FilesListHeader.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
-import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import { humanizeWebDAVError } from '../utils/davUtils.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -193,6 +206,7 @@ export default defineComponent({
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
+		FilesListHeader,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,
@@ -241,6 +255,7 @@ export default defineComponent({
 			directory,
 			fileId,
 			fileListWidth,
+			headers: useFileListHeaders(),
 			t,
 
 			filesStore,
@@ -432,10 +447,6 @@ export default defineComponent({
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
 
-		filtersChanged() {
-			return this.filtersStore.filtersChanged
-		},
-
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
 		},
@@ -459,6 +470,14 @@ export default defineComponent({
 				})
 				.toSorted((a, b) => a.order - b.order)
 			return enabledActions
+		},
+
+		/**
+		 * Using the filtered content if filters are active
+		 */
+		summary() {
+			const hidden = this.dirContents.length - this.dirContentsFiltered.length
+			return getSummaryFor(this.dirContentsFiltered, hidden)
 		},
 	},
 
@@ -516,23 +535,29 @@ export default defineComponent({
 			// Also refresh the filtered content
 			this.filterDirContent()
 		},
-
-		filtersChanged() {
-			if (this.filtersChanged) {
-				this.filterDirContent()
-				this.filtersStore.filtersChanged = false
-			}
-		},
 	},
 
-	mounted() {
-		this.fetchContent()
-
+	async mounted() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
 		subscribe('files:config:updated', this.fetchContent)
+
+		// filter content if filter were changed
+		subscribe('files:filters:changed', this.filterDirContent)
+
+		// Finally, fetch the current directory contents
+		await this.fetchContent()
+		if (this.fileId) {
+			// If we have a fileId, let's check if the file exists
+			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			// If the file isn't in the current directory nor if
+			// the current directory is the file, we show an error
+			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+				showError(t('files', 'The file could not be found'))
+			}
+		}
 	},
 
 	unmounted() {
@@ -810,6 +835,13 @@ export default defineComponent({
 			min-width: fit-content !important;
 			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
+	}
+
+	&__before {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 2);
+		margin-inline: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding));
 	}
 
 	&__empty-view-wrapper {

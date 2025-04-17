@@ -4,12 +4,12 @@
     "Invalid configuration: Anonymous binding is not allowed." : "تكوين غير صالح: الربط المجهول Anonymous binding غير مسموح به.",
     "Valid configuration, connection established!" : "تكوين صالح، تمّ تأسيس الاتصال!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "تكوين صالح، لكن فشل الربط binding. يرجى التحقّق من إعدادات الخادم وأذونات الدخول credentials.",
-    "Invalid configuration. Please have a look at the logs for further details." : "تكوين غير صحيح. يرجى الرجوع إلى سجلات الأنشطة لمزيد من التفاصيل.",
+    "Invalid configuration: %s" : "تهيئة غير صحيحة: %s",
     "No action specified" : "لم يتم تحديد أيّ إجراءٍ",
     "No configuration specified" : "لم يتم تحديد أيّ إعداداتٍ",
     "No data specified" : "لم يتم تحديد أيّ بياناتٍ",
     "Invalid data specified" : "البيانات المحددة غير صالحة",
-    " Could not set configuration %s" : "تعذّر تعيين الإعداد %s",
+    "Could not set configuration %1$s to %2$s" : "يتعذّر تعيين الإعداد %1$s لـ %2$s",
     "Action does not exist" : "الإجراء غير موجود",
     "Renewing …" : "التجديد جارٍ …",
     "Very weak password" : "كلمة المرور ضعيفة جدا",
@@ -52,7 +52,13 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "العنصر النائب placeholder ـ \"%u مُعرّف\". سيتم استبداله باسم دخول عند الاستعلام من LDAP/AD.",
     "Please provide a login name to test against" : "يرجى تقديم اسم تسجيل الدخول لاختباره",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "تم تعطيل مربع المجموعة؛ لأن خادم LDAP/AD لا يدعم خاصّيّة \"عضوٌ في\" memberOf.",
-    "Password change rejected. Hint: " : "تمّ رفض تغيير كلمة المرور. إرشادُ:",
+    "Password change rejected. Hint: %s" : "تمّ رفض تغيير كلمة المرور. إرشاد: %s",
+    "Mandatory field \"%s\" left empty" : "الحقل الإلزامي \"%s\" تُرِك فارغاً",
+    "A password is given, but not an LDAP agent" : "تمّ إعطاء كلمة المرور لكن لم يتم إعطاء وكيل LDAP",
+    "No password is given for the user agent" : "لم يتم إعطاء كلمة المرور لوكيل المُستخدِم",
+    "No LDAP base DN was given" : "لم يتم إعطاء اسم الدليل الأساسي base DN لقائمة المستخدِمين LADP",
+    "User base DN is not a subnode of global base DN" : "الدليل الأساسي للمستخدِم  User base DN ليس متفرعاً عن الدليل الأساسي العمومي Global base DN",
+    "Group base DN is not a subnode of global base DN" : "الدليل الأساسي للمجموعة Group base DN ليس متفرعاً عن الدليل الأساسي العمومي Global base DN",
     "Please login with the new password" : "الرجاء تسجيل الدخول باستخدام كلمة المرور الجديدة",
     "LDAP User backend" : "خلفية المستخدمين User backend من LDAP ",
     "Your password will expire tomorrow." : "كلمة مرورك تنتهي صلاحيتها غداً.",
@@ -224,6 +230,7 @@
     "Username-LDAP User Mapping" : "الربط بين اسم المستخدم في LDAP و المستخدم",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "تُستخدم أسماء المستخدمين لتخزين وتخصيص البيانات التعريف الوصفية. من أجل تحديد المستخدمين والتعرف عليهم بدقة، سيكون لكل مستخدم على خادم LDAP اسم مستخدم داخلي. يتطلب هذا ربطاً mapping بين اسم المستخدم و مستخدم خادم LDAP. يتم تعيين اسم المستخدم الذي تم إنشاؤه إلى المعرف الفريد الشامل \"UUID\" لمستخدم LDAP. بالإضافة إلى ذلك، يتم تخزين الاسم المميز DN مؤقتًا أيضًا لتقليل تفاعل LDAP، ولكنه لا يستخدم لتحديد الهوية. وعند تغير الاسم المميز يتم العثور على التغييرات. ويتم استخدام اسم المستخدم الداخلي في كل مكان. إلغاء الربط سيكون له آثار متبقية في كل مكان. إلغاء الربط يؤثر على جميع تكوينات LDAP! لا تقم مطلقًا بإلغاء الربط في بيئة الإنتاج. فقط في مرحلة الاختبار أو المرحلة التجريبية.",
     "Clear Username-LDAP User Mapping" : "إلغاء الربط بين اسم المستخدم في LDAP و المستخدم",
-    "Clear Groupname-LDAP Group Mapping" : "إلغاء الربط بين اسم المجموعة في LDAP و المجموعة"
+    "Clear Groupname-LDAP Group Mapping" : "إلغاء الربط بين اسم المجموعة في LDAP و المجموعة",
+    "Invalid configuration. Please have a look at the logs for further details." : "تكوين غير صحيح. يرجى الرجوع إلى سجلات الأنشطة لمزيد من التفاصيل."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

@@ -65,6 +65,15 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "redirect_uri",
+                        "in": "query",
+                        "description": "URI to redirect to after the flow (is only used for legacy ownCloud clients)",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
                     }
                 ],
                 "responses": {

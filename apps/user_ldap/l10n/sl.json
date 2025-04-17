@@ -4,12 +4,10 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Neveljavne nastavitve: brezimne vezi niso dovoljene.",
     "Valid configuration, connection established!" : "Veljavne nastavitve: povezava je vzpostavljena!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Veljavne nastavitve, a je povezava vseeno spodletela: preverite nastavitve strežnika in poverila.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Neveljavne nastavitve: za več podrobnosti si oglejte dnevniške zapise.",
     "No action specified" : "Ni določenega dejanja",
     "No configuration specified" : "Ni določenih nastavitev",
     "No data specified" : "Ni navedenih podatkov",
     "Invalid data specified" : "Določeni so neveljavni podatki",
-    " Could not set configuration %s" : "Ni mogoče uveljaviti nastavitev %s",
     "Action does not exist" : "Dejanje ne obstaja",
     "Renewing …" : "Poteka ponastavljanje ...",
     "Very weak password" : "Zelo šibko geslo",
@@ -52,7 +50,6 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Manjka vsebnik »ID %u«. Zamenjan bo z uporabniškim imenom pri poizvedbah LDAP / AD.",
     "Please provide a login name to test against" : "Vpisati je treba uporabniško ime za preizkus",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Skupina je onemogočena, ker na strežniku LDAP / AD ni omogočena podpora atributu memberOf.",
-    "Password change rejected. Hint: " : "Spreminjanje gesla je zavrnjeno. Namig: ",
     "Please login with the new password" : "Prijavite se z novim geslom",
     "LDAP User backend" : "Uporabniška povezava LDAP",
     "Your password will expire tomorrow." : "Vaše geslo bo jutri poteklo.",
@@ -192,6 +189,7 @@
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Uporabniška imena se uporabljajo za shranjevanje in dodeljevanje metapodatkov. Za natančno določevanje uporabnikov je vsakemu uporabniku LDAP preslikano tudi notranje uporabniško ime in sicer na UUID uporabnika LDAP. Poleg tega se enoznačno ime DN shrani tudi v predpomnilnik, da se zmanjša število poslanih zahtevkov na strežnik, a se to ne uporablja za določevanje. Če se enoznačno ime spremeni, bodo usrezno usklajene tudi spremembe. Notranje uporabniško ime se sicer uporablja na več mestih, zato je pričakovati, da ostanejo pri čiščenju preslikav nepovezani podatki. To brisanje ne vpliva upošteva ravni nastavitev, ampak deluje na vse nastavitve LDAP! Preslikav ni nikoli piporočljivo počistiti v produkcijskem okolju, je pa to mogoče v preizkusnem. ",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
+    "Invalid configuration. Please have a look at the logs for further details." : "Neveljavne nastavitve: za več podrobnosti si oglejte dnevniške zapise."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

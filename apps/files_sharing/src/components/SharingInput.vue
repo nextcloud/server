@@ -5,13 +5,13 @@
 
 <template>
 	<div class="sharing-search">
-		<label class="hidden-visually" for="sharing-search-input">
+		<label class="hidden-visually" :for="shareInputId">
 			{{ isExternal ? t('files_sharing', 'Enter external recipients')
 				: t('files_sharing', 'Search for internal recipients') }}
 		</label>
 		<NcSelect ref="select"
 			v-model="value"
-			input-id="sharing-search-input"
+			:input-id="shareInputId"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
@@ -36,7 +36,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'
@@ -85,6 +85,12 @@ export default {
 			type: String,
 			default: '',
 		},
+	},
+
+	setup() {
+		return {
+			shareInputId: `share-input-${Math.random().toString(36).slice(2, 7)}`,
+		}
 	},
 
 	data() {

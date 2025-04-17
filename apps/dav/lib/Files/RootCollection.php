@@ -8,6 +8,8 @@
 namespace OCA\DAV\Files;
 
 use OCP\Files\FileInfo;
+use OCP\IUserSession;
+use OCP\Server;
 use Sabre\DAV\INode;
 use Sabre\DAV\SimpleCollection;
 use Sabre\DAVACL\AbstractPrincipalCollection;
@@ -26,7 +28,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
 		[,$name] = \Sabre\Uri\split($principalInfo['uri']);
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			// a user is only allowed to see their own home contents, so in case another collection
 			// is accessed, we return a simple empty collection for now

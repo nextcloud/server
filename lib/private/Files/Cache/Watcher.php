@@ -33,6 +33,9 @@ class Watcher implements IWatcher {
 	 */
 	protected $scanner;
 
+	/** @var callable[] */
+	protected $onUpdate = [];
+
 	/**
 	 * @param \OC\Files\Storage\Storage $storage
 	 */
@@ -100,6 +103,9 @@ class Watcher implements IWatcher {
 		if ($this->cache instanceof Cache) {
 			$this->cache->correctFolderSize($path);
 		}
+		foreach ($this->onUpdate as $callback) {
+			$callback($path);
+		}
 	}
 
 	/**
@@ -112,7 +118,7 @@ class Watcher implements IWatcher {
 	public function needsUpdate($path, $cachedData) {
 		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
-			return $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
+			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
 		}
 		return false;
 	}
@@ -129,5 +135,12 @@ class Watcher implements IWatcher {
 				$this->cache->remove($entry['path']);
 			}
 		}
+	}
+
+	/**
+	 * register a callback to be called whenever the watcher triggers and update
+	 */
+	public function onUpdate(callable $callback): void {
+		$this->onUpdate[] = $callback;
 	}
 }

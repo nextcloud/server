@@ -543,12 +543,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/dav/lib/HookManager.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->usersToDelete]]></code>
-      <code><![CDATA[$this->usersToDelete]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
       <code><![CDATA[$arguments]]></code>
@@ -849,6 +843,12 @@
       <code><![CDATA[test]]></code>
     </TooManyArguments>
   </file>
+  <file src="apps/files_reminders/lib/Model/RichReminder.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[public function __construct(]]></code>
+      <code><![CDATA[public function __construct(]]></code>
+    </ConstructorSignatureMismatch>
+  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <RedundantCast>
       <code><![CDATA[(int)$code]]></code>
@@ -988,11 +988,6 @@
     <RedundantCondition>
       <code><![CDATA[$storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')]]></code>
     </RedundantCondition>
-  </file>
-  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
-    <InvalidArgument>
-      <code><![CDATA[$this->retries + 1]]></code>
-    </InvalidArgument>
   </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>
@@ -1750,9 +1745,6 @@
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument>
-      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
-    </InvalidScalarArgument>
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
@@ -2005,11 +1997,6 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
-    <InvalidArgument>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_C]]></code>
-      <code><![CDATA[\Normalizer::FORM_D]]></code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->namesCache]]></code>
       <code><![CDATA[$this->namesCache]]></code>
@@ -2055,11 +2042,6 @@
     <RedundantCondition>
       <code><![CDATA[!$isDefaultTemplates]]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Files/Type/Detection.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$mimetype]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>
@@ -2241,6 +2223,11 @@
       <code><![CDATA[mixed]]></code>
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/Notification/Manager.php">
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Notifications\App]]></code>
+    </UndefinedClass>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
@@ -2531,12 +2518,6 @@
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/TempManager.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>
       <code><![CDATA[$style]]></code>
@@ -2621,20 +2602,10 @@
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/legacy/OC_Template.php">
-    <InvalidReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass>
       <code><![CDATA[\Test\Util\User\Dummy]]></code>
     </UndefinedClass>
-  </file>
-  <file src="lib/private/legacy/OC_Util.php">
-    <InvalidReturnType>
-      <code><![CDATA[void]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties>

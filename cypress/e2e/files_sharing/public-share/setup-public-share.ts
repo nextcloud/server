@@ -79,9 +79,13 @@ function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
 	cy.get('input[data-cy-files-sharing-expiration-date-input]')
 		.invoke('val')
 		.then((val) => {
+			// eslint-disable-next-line no-unused-expressions
+			expect(val).to.not.be.undefined
+
+			const inputDate = new Date(typeof val === 'number' ? val : String(val))
 			const expectedDate = new Date()
 			expectedDate.setDate(expectedDate.getDate() + 2)
-			expect(new Date(val).toDateString()).to.eq(expectedDate.toDateString())
+			expect(inputDate.toDateString()).to.eq(expectedDate.toDateString())
 		})
 
 }
@@ -118,15 +122,24 @@ export function createShare(context: ShareContext, shareName: string, options: S
 }
 
 /**
- * Adjust share permissions to be editable
+ * open link share details for specific index
+ *
+ * @param index
  */
-function adjustSharePermission(): void {
+export function openLinkShareDetails(index: number) {
 	cy.findByRole('list', { name: 'Link shares' })
 		.findAllByRole('listitem')
-		.first()
+		.eq(index)
 		.findByRole('button', { name: /Actions/i })
 		.click()
 	cy.findByRole('menuitem', { name: /Customize link/i }).click()
+}
+
+/**
+ * Adjust share permissions to be editable
+ */
+function adjustSharePermission(): void {
+	openLinkShareDetails(0)
 
 	cy.get('[data-cy-files-sharing-share-permissions-bundle]').should('be.visible')
 	cy.get('[data-cy-files-sharing-share-permissions-bundle="upload-edit"]').click()

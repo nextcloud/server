@@ -27,7 +27,7 @@
 
 		<template #before>
 			<!-- Headers -->
-			<FilesListHeader v-for="header in sortedHeaders"
+			<FilesListHeader v-for="header in headers"
 				:key="header.id"
 				:current-folder="currentFolder"
 				:current-view="currentView"
@@ -62,16 +62,16 @@ import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { Location } from 'vue-router'
 
-import { defineComponent } from 'vue'
-import { getFileListHeaders, Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
+import { Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { getSummaryFor } from '../utils/fileUtils'
 import { useActiveStore } from '../store/active.ts'
+import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.js'
@@ -84,8 +84,8 @@ import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import logger from '../logger.ts'
 import VirtualList from './VirtualList.vue'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -112,6 +112,10 @@ export default defineComponent({
 			type: Array as PropType<NcNode[]>,
 			required: true,
 		},
+		summary: {
+			type: String,
+			required: true,
+		},
 	},
 
 	setup() {
@@ -125,6 +129,7 @@ export default defineComponent({
 		return {
 			fileId,
 			fileListWidth,
+			headers: useFileListHeaders(),
 			openDetails,
 			openFile,
 
@@ -140,7 +145,6 @@ export default defineComponent({
 		return {
 			FileEntry,
 			FileEntryGrid,
-			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			openFileId: null as number|null,
 		}
@@ -149,10 +153,6 @@ export default defineComponent({
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		summary() {
-			return getSummaryFor(this.nodes)
 		},
 
 		isMtimeAvailable() {
@@ -170,14 +170,6 @@ export default defineComponent({
 			return this.nodes.some(node => node.size !== undefined)
 		},
 
-		sortedHeaders() {
-			if (!this.currentFolder || !this.currentView) {
-				return []
-			}
-
-			return [...this.headers].sort((a, b) => a.order - b.order)
-		},
-
 		cantUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) === 0
 		},
@@ -189,7 +181,7 @@ export default defineComponent({
 		caption() {
 			const defaultCaption = t('files', 'List of files and folders.')
 			const viewCaption = this.currentView.caption || defaultCaption
-			const cantUploadCaption = this.cantUpload ? t('files', 'You don’t have permission to upload or create files here.') : null
+			const cantUploadCaption = this.cantUpload ? t('files', 'You do not have permission to upload or create files here.') : null
 			const quotaExceededCaption = this.isQuotaExceeded ? t('files', 'You have used your space quota and cannot upload files anymore.') : null
 			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
 			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
@@ -220,23 +212,25 @@ export default defineComponent({
 		},
 
 		openFile: {
-			async handler(openFile) {
+			handler(openFile) {
 				if (!openFile || !this.fileId) {
 					return
 				}
 
-				await this.handleOpenFile(this.fileId)
+				this.handleOpenFile(this.fileId)
 			},
 			immediate: true,
 		},
 
 		openDetails: {
-			handler() {
+			handler(openDetails) {
 				// wait for scrolling and updating the actions to settle
 				this.$nextTick(() => {
-					if (this.fileId && this.openDetails) {
-						this.openSidebarForFile(this.fileId)
+					if (!openDetails || !this.fileId) {
+						return
 					}
+
+					this.openSidebarForFile(this.fileId)
 				})
 			},
 			immediate: true,
@@ -276,7 +270,9 @@ export default defineComponent({
 			if (node && sidebarAction?.enabled?.([node], this.currentView)) {
 				logger.debug('Opening sidebar on file ' + node.path, { node })
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
+				return
 			}
+			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
@@ -867,8 +863,8 @@ export default defineComponent({
 .files-list--grid tbody.files-list__tbody {
 	--item-padding: 16px;
 	--icon-preview-size: 166px;
-	--name-height: 32px;
-	--mtime-height: 16px;
+	--name-height: var(--default-clickable-area);
+	--mtime-height: calc(var(--font-size-small) + var(--default-grid-baseline));
 	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
 	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
@@ -950,7 +946,7 @@ export default defineComponent({
 	.files-list__row-mtime {
 		width: var(--icon-preview-size);
 		height: var(--mtime-height);
-		font-size: calc(var(--default-font-size) - 4px);
+		font-size: var(--font-size-small);
 	}
 
 	.files-list__row-actions {
@@ -959,6 +955,23 @@ export default defineComponent({
 		inset-block-end: calc(var(--mtime-height) / 2);
 		width: var(--clickable-area);
 		height: var(--clickable-area);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	// there is no mtime
+	.files-list--grid tbody.files-list__tbody {
+		--mtime-height: 0px;
+
+		// so we move the action to the name
+		.files-list__row-actions {
+			inset-block-end: var(--item-padding);
+		}
+
+		// and we need to keep space on the name for the actions
+		.files-list__row-name-text {
+			padding-inline-end: var(--clickable-area) !important;
+		}
 	}
 }
 </style>

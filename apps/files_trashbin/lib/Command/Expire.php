@@ -9,6 +9,8 @@ namespace OCA\Files_Trashbin\Command;
 use OC\Command\FileAccess;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Command\ICommand;
+use OCP\IUserManager;
+use OCP\Server;
 
 class Expire implements ICommand {
 	use FileAccess;
@@ -22,7 +24,7 @@ class Expire implements ICommand {
 	}
 
 	public function handle() {
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		if (!$userManager->userExists($this->user)) {
 			// User has been deleted already
 			return;

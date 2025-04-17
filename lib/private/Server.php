@@ -286,6 +286,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
+		$this->registerAlias(\OCP\Template\ITemplateManager::class, \OC\Template\TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
@@ -606,10 +607,10 @@ class Server extends ServerContainer implements IServerContainer {
 
 			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion) {
+				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
 					if (!$logQuery) {
 						try {
-							$v = \OC_App::getAppVersions();
+							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions();
 						} catch (\Doctrine\DBAL\Exception $e) {
 							// Database service probably unavailable
 							// Probably related to https://github.com/nextcloud/server/issues/37424
@@ -837,8 +838,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$busClass = $c->get(\OCP\IConfig::class)->getSystemValueString('commandbus');
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
-				if ($c->get(IAppManager::class)->isInstalled($app)) {
-					\OC_App::loadApp($app);
+				if ($c->get(IAppManager::class)->isEnabledForUser($app)) {
+					$c->get(IAppManager::class)->loadApp($app);
 					return $c->get($class);
 				} else {
 					throw new ServiceUnavailableException("The app providing the command bus ($app) is not enabled");
@@ -866,15 +867,15 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerDeprecatedAlias('IntegrityCodeChecker', Checker::class);
 		$this->registerService(Checker::class, function (ContainerInterface $c) {
-			// IConfig and IAppManager requires a working database. This code
-			// might however be called when ownCloud is not yet setup.
+			// IConfig requires a working database. This code
+			// might however be called when Nextcloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
 				$appConfig = $c->get(\OCP\IAppConfig::class);
 			} else {
-				$config = $appConfig = $appManager = null;
+				$config = null;
+				$appConfig = null;
 			}
-			$appManager = $c->get(IAppManager::class);
 
 			return new Checker(
 				$c->get(ServerVersion::class),
@@ -884,7 +885,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$config,
 				$appConfig,
 				$c->get(ICacheFactory::class),
-				$appManager,
+				$c->get(IAppManager::class),
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
@@ -1046,7 +1047,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isEnabledForAnyone('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
@@ -1109,7 +1110,6 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 
 			return new CryptoWrapper(
-				$c->get(\OCP\IConfig::class),
 				$c->get(ICrypto::class),
 				$c->get(ISecureRandom::class),
 				$request

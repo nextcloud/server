@@ -9,12 +9,14 @@ namespace OCA\Files_External\Tests\Service;
 use OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
-
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Test\Traits\UserTrait;
 
 /**
@@ -39,7 +41,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$this->userId = $this->getUniqueID('user_');
 		$this->createUser($this->userId, $this->userId);
-		$this->user = \OC::$server->getUserManager()->get($this->userId);
+		$this->user = Server::get(IUserManager::class)->get($this->userId);
 
 		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);

@@ -36,8 +36,8 @@ import { useElementSize } from '@vueuse/core'
 import { defineComponent, ref } from 'vue'
 
 import AppMenuEntry from './AppMenuEntry.vue'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import logger from '../logger'
 
 export default defineComponent({

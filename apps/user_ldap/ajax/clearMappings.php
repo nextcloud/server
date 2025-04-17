@@ -8,6 +8,8 @@
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Server;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
@@ -28,15 +30,17 @@ try {
 		$result = $mapping->clearCb(
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
-				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+				Server::get(IUserManager::class)->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
 			function (string $uid) use ($dispatcher): void {
 				$dispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
-				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+				Server::get(IUserManager::class)->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
 	} elseif ($subject === 'group') {
-		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
+		$mapping = new GroupMapping(Server::get(IDBConnection::class));
 		$result = $mapping->clear();
 	}
 

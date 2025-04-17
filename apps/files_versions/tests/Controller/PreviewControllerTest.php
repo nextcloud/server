@@ -3,13 +3,13 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Tests\Controller;
 
 use OCA\Files_Versions\Controller\PreviewController;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -20,6 +20,8 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Preview\IMimeIconProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PreviewControllerTest extends TestCase {
@@ -45,6 +47,8 @@ class PreviewControllerTest extends TestCase {
 	/** @var IVersionManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $versionManager;
 
+	private IMimeIconProvider&MockObject $mimeIconProvider;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -60,6 +64,7 @@ class PreviewControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->versionManager = $this->createMock(IVersionManager::class);
+		$this->mimeIconProvider = $this->createMock(IMimeIconProvider::class);
 
 		$this->controller = new PreviewController(
 			'files_versions',
@@ -67,7 +72,8 @@ class PreviewControllerTest extends TestCase {
 			$this->rootFolder,
 			$this->userSession,
 			$this->versionManager,
-			$this->previewManager
+			$this->previewManager,
+			$this->mimeIconProvider,
 		);
 	}
 
@@ -131,9 +137,10 @@ class PreviewControllerTest extends TestCase {
 			->willReturn('previewMime');
 
 		$res = $this->controller->getPreview('file', 10, 10, '42');
-		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'previewMime']);
 
-		$this->assertEquals($expected, $res);
+		$this->assertEquals('previewMime', $res->getHeaders()['Content-Type']);
+		$this->assertEquals(Http::STATUS_OK, $res->getStatus());
+		$this->assertEquals($preview, $this->invokePrivate($res, 'file'));
 	}
 
 	public function testVersionNotFound(): void {

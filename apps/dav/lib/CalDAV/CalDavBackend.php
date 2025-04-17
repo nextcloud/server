@@ -19,12 +19,6 @@ use OCA\DAV\Events\CachedCalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
-use OCA\DAV\Events\CalendarObjectDeletedEvent;
-use OCA\DAV\Events\CalendarObjectMovedEvent;
-use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectRestoredEvent;
-use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarPublishedEvent;
 use OCA\DAV\Events\CalendarRestoredEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
@@ -34,6 +28,12 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectDeletedEvent;
+use OCP\Calendar\Events\CalendarObjectMovedEvent;
+use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent;
+use OCP\Calendar\Events\CalendarObjectRestoredEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -713,6 +713,43 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarsubscriptions')
 			->where($query->expr()->eq('id', $query->createNamedParameter($subscriptionId)))
 			->orderBy('calendarorder', 'asc');
+		$stmt = $query->executeQuery();
+
+		$row = $stmt->fetch();
+		$stmt->closeCursor();
+		if ($row === false) {
+			return null;
+		}
+
+		$row['principaluri'] = (string)$row['principaluri'];
+		$subscription = [
+			'id' => $row['id'],
+			'uri' => $row['uri'],
+			'principaluri' => $row['principaluri'],
+			'source' => $row['source'],
+			'lastmodified' => $row['lastmodified'],
+			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
+		];
+
+		return $this->rowToSubscription($row, $subscription);
+	}
+
+	public function getSubscriptionByUri(string $principal, string $uri): ?array {
+		$fields = array_column($this->subscriptionPropertyMap, 0);
+		$fields[] = 'id';
+		$fields[] = 'uri';
+		$fields[] = 'source';
+		$fields[] = 'synctoken';
+		$fields[] = 'principaluri';
+		$fields[] = 'lastmodified';
+
+		$query = $this->db->getQueryBuilder();
+		$query->select($fields)
+			->from('calendarsubscriptions')
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
+			->setMaxResults(1);
 		$stmt = $query->executeQuery();
 
 		$row = $stmt->fetch();

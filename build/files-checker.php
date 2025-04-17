@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,7 +27,6 @@ $expectedFiles = [
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
 	'.reuse',
-	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
 	'.user.ini',
@@ -67,6 +68,7 @@ $expectedFiles = [
 	'occ',
 	'ocs',
 	'ocs-provider',
+	'openapi.json',
 	'package-lock.json',
 	'package.json',
 	'psalm-ncu.xml',

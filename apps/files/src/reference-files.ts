@@ -4,9 +4,9 @@
  */
 
 import Vue from 'vue'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 
-import { registerWidget, registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Components/NcRichText.js'
+import { registerWidget, registerCustomPickerElement, NcCustomPickerRenderResult } from '@nextcloud/vue/components/NcRichText'
 
 import FileWidget from './views/ReferenceFileWidget.vue'
 import FileReferencePickerElement from './views/FileReferencePickerElement.vue'

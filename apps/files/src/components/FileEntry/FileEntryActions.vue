@@ -22,15 +22,18 @@
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
-			:open.sync="openedMenu"
-			@close="openedSubmenu = null">
+			:open="openedMenu"
+			@close="onMenuClose"
+			@closed="onMenuClosed">
 			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			<NcActionButton v-for="action, index in enabledMenuActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
+				class="files-list__row-action"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
-					[`files-list__row-action--menu`]: isValidMenu(action)
+					'files-list__row-action--inline': index < enabledInlineActions.length,
+					'files-list__row-action--menu': isValidMenu(action)
 				}"
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
@@ -39,10 +42,12 @@
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
-					<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
-					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+					<NcLoadingIcon v-if="isLoadingAction(action)" />
+					<NcIconSvgWrapper v-else
+						class="files-list__row-action-icon"
+						:svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
+				{{ actionDisplayName(action) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
@@ -82,16 +87,16 @@ import type { FileAction, Node } from '@nextcloud/files'
 
 import { DefaultType, NodeStatus } from '@nextcloud/files'
 import { defineComponent, inject } from 'vue'
-import { translate as t } from '@nextcloud/l10n'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import { executeAction } from '../../utils/actionUtils.ts'
 import { useActiveStore } from '../../store/active.ts'
@@ -223,14 +228,10 @@ export default defineComponent({
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
 		},
-
-		mountType() {
-			return this.source.attributes['mount-type']
-		},
 	},
 
 	watch: {
-		// Close any submenu when the menu is closed
+		// Close any submenu when the menu state changes
 		openedMenu() {
 			this.openedSubmenu = null
 		},
@@ -302,6 +303,16 @@ export default defineComponent({
 				this.openedMenu = true
 			}
 		},
+
+		onMenuClose() {
+			// We reset the submenu state when the menu is closing
+			this.openedSubmenu = null
+		},
+
+		onMenuClosed() {
+			// We reset the actions menu state when the menu is finally closed
+			this.openedMenu = false
+		},
 	},
 })
 </script>
@@ -324,13 +335,19 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 }
 </style>
 
-<style lang="scss" scoped>
-:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
-	.button-vue__text {
-		color: var(--color-primary-element);
+<style scoped lang="scss">
+.files-list__row-action {
+	--max-icon-size: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
+
+	// inline icons can have clickable area size so they still fit into the row
+	&.files-list__row-action--inline {
+		--max-icon-size: var(--default-clickable-area);
 	}
-	.button-vue__icon {
-		color: var(--color-primary-element);
+
+	// Some icons exceed the default size so we need to enforce a max width and height
+	.files-list__row-action-icon :deep(svg) {
+		max-height: var(--max-icon-size) !important;
+		max-width: var(--max-icon-size) !important;
 	}
 }
 </style>

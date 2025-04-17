@@ -21,7 +21,11 @@ export default defineConfig({
 			provider: 'v8',
 			reporter: ['lcov', 'text'],
 		},
-		setupFiles: ['__tests__/mock-window.js', '__tests__/setup-testing-library.js'],
+		setupFiles: [
+			'__tests__/mock-window.js',
+			'__tests__/setup-testing-library.js',
+		],
+		globalSetup: '__tests__/setup-global.js',
 		server: {
 			deps: {
 				inline: [/@nextcloud\//],

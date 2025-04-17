@@ -14,8 +14,10 @@ use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
@@ -53,7 +55,7 @@ class UserStatusAutomationTest extends TestCase {
 		if (empty($methods)) {
 			return new UserStatusAutomation(
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,
@@ -66,7 +68,7 @@ class UserStatusAutomationTest extends TestCase {
 		return $this->getMockBuilder(UserStatusAutomation::class)
 			->setConstructorArgs([
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,

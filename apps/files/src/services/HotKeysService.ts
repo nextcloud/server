@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { dirname } from 'path'
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
 
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'

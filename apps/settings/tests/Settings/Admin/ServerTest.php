@@ -46,7 +46,7 @@ class ServerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -84,6 +84,10 @@ class ServerTest extends TestCase {
 		$this->appConfig
 			->expects($this->any())
 			->method('getValueString')
+			->willReturnCallback(fn ($a, $b, $default) => $default);
+		$this->appConfig
+			->expects($this->any())
+			->method('getValueBool')
 			->willReturnCallback(fn ($a, $b, $default) => $default);
 		$this->profileManager
 			->expects($this->exactly(2))

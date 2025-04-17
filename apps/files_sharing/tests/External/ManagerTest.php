@@ -19,9 +19,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\NotFoundException;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -29,6 +31,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
+use OCP\Server;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -105,7 +108,7 @@ class ManagerTest extends TestCase {
 
 		$this->manager = $this->createManagerForUser($this->uid);
 
-		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
+		$this->testMountProvider = new MountProvider(Server::get(IDBConnection::class), function () {
 			return $this->manager;
 		}, new CloudIdManager(
 			$this->contactsManager,
@@ -134,7 +137,7 @@ class ManagerTest extends TestCase {
 
 	protected function tearDown(): void {
 		// clear the share external table to avoid side effects
-		$query = \OC::$server->getDatabaseConnection()->prepare('DELETE FROM `*PREFIX*share_external`');
+		$query = Server::get(IDBConnection::class)->prepare('DELETE FROM `*PREFIX*share_external`');
 		$result = $query->execute();
 		$result->closeCursor();
 
@@ -152,12 +155,12 @@ class ManagerTest extends TestCase {
 		return $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
-					\OC::$server->getDatabaseConnection(),
+					Server::get(IDBConnection::class),
 					$this->mountManager,
 					new StorageFactory(),
 					$this->clientService,
-					\OC::$server->getNotificationManager(),
-					\OC::$server->query(IDiscoveryService::class),
+					Server::get(\OCP\Notification\IManager::class),
+					Server::get(IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,
@@ -252,12 +255,18 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$newClientCalls = [];
+		$this->clientService
+			->method('newClient')
+			->willReturnCallback(function () use (&$newClientCalls): IClient {
+				if (!empty($newClientCalls)) {
+					return array_shift($newClientCalls);
+				}
+				return $this->createMock(IClient::class);
+			});
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -309,11 +318,8 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -365,16 +371,10 @@ class ManagerTest extends TestCase {
 			// no http requests here
 			$this->manager->removeGroupShares('group1');
 		} else {
-			$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->exactly(2))
-				->method('newClient')
-				->willReturnOnConsecutiveCalls(
-					$client1,
-					$client2,
-				);
+			$client1 = $this->createMock(IClient::class);
+			$client2 = $this->createMock(IClient::class);
+			$newClientCalls[] = $client1;
+			$newClientCalls[] = $client2;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([

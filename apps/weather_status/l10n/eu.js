@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Eguraldiaren egoera",
     "Weather status in your dashboard" : "Eguraldiaren egoera zure panelean",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Eguraldiaren egoera panelaren aplikazioan integratuta.\n    Kokaleku geografikoa automatikoki zehaztu edo eskuz definitu daiteke. 6 orduko iragarpena bistaratzen da.\n    Egoera hau Egutegia aplikazioa bezalako beste leku batzuetan ere txertatu daiteke.",
-    "Detect location" : "Detektatu kokalekua",
-    "Set custom address" : "Konfiguratu helbide pertsonalizatua",
-    "Favorites" : "Gogokoak",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} oskarbi egongo da geroago",
     "{temperature} {unit} clear sky" : "{temperature} {unit} oskarbi",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} hodeitsu egongo da geroago",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Errore bat gertatu da kokalekua ezartzean.",
     "There was an error saving the mode." : "Errore bat gertatu da modua gordetzean.",
     "There was an error using personal address." : "Errore bat gertatu da helbide pertsonala erabiltzean.",
-    "Unknown weather code" : "Eguraldi kode ezezaguna"
+    "Unknown weather code" : "Eguraldi kode ezezaguna",
+    "Detect location" : "Detektatu kokalekua",
+    "Set custom address" : "Konfiguratu helbide pertsonalizatua",
+    "Favorites" : "Gogokoak"
 },
 "nplurals=2; plural=(n != 1);");

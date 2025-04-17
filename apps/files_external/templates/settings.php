@@ -107,7 +107,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 </div>
 
 <?php
-	$canCreateNewLocalStorage = \OC::$server->getConfig()->getSystemValue('files_external_allow_create_new_local', true);
+	$canCreateNewLocalStorage = \OCP\Server::get(\OCP\IConfig::class)->getSystemValue('files_external_allow_create_new_local', true);
 ?>
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" data-can-create-local="<?php echo $canCreateNewLocalStorage?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
@@ -168,7 +168,7 @@ uasort($sortedBackends, function ($a, $b) {
 								continue;
 							} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
-						<?php endforeach; ?>
+<?php endforeach; ?>
 					</select>
 				</td>
 				<td class="authentication" data-mechanisms='<?php p(json_encode($_['authMechanisms'])); ?>'></td>

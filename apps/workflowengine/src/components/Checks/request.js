@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { registerCustomElement } from '../../helpers/window.js'
 import RequestUserAgent from './RequestUserAgent.vue'
 import RequestTime from './RequestTime.vue'
 import RequestURL from './RequestURL.vue'
@@ -18,7 +19,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestURL,
+		element: registerCustomElement(RequestURL, 'oca-workflowengine-checks-request_url'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
@@ -27,7 +28,7 @@ const RequestChecks = [
 			{ operator: 'in', name: t('workflowengine', 'between') },
 			{ operator: '!in', name: t('workflowengine', 'not between') },
 		],
-		component: RequestTime,
+		element: registerCustomElement(RequestTime, 'oca-workflowengine-checks-request_time'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestUserAgent',
@@ -38,7 +39,7 @@ const RequestChecks = [
 			{ operator: 'matches', name: t('workflowengine', 'matches') },
 			{ operator: '!matches', name: t('workflowengine', 'does not match') },
 		],
-		component: RequestUserAgent,
+		element: registerCustomElement(RequestUserAgent, 'oca-workflowengine-checks-request_user_agent'),
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
@@ -47,7 +48,7 @@ const RequestChecks = [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') },
 		],
-		component: RequestUserGroup,
+		element: registerCustomElement(RequestUserGroup, 'oca-workflowengine-checks-request_user_group'),
 	},
 ]
 

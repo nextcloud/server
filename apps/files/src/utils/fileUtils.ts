@@ -21,25 +21,31 @@ export const extractFilePaths = function(path) {
 /**
  * Generate a translated summary of an array of nodes
  * @param {Node[]} nodes the nodes to summarize
+ * @param {number} hidden the number of hidden nodes
  * @return {string}
  */
-export const getSummaryFor = (nodes: Node[]): string => {
+export const getSummaryFor = (nodes: Node[], hidden = 0): string => {
 	const fileCount = nodes.filter(node => node.type === FileType.File).length
 	const folderCount = nodes.filter(node => node.type === FileType.Folder).length
 
+	let summary = ''
+
 	if (fileCount === 0) {
-		return n('files', '{folderCount} folder', '{folderCount} folders', folderCount, { folderCount })
+		summary = n('files', '{folderCount} folder', '{folderCount} folders', folderCount, { folderCount })
 	} else if (folderCount === 0) {
-		return n('files', '{fileCount} file', '{fileCount} files', fileCount, { fileCount })
+		summary = n('files', '{fileCount} file', '{fileCount} files', fileCount, { fileCount })
+	} else if (fileCount === 1) {
+		summary = n('files', '1 file and {folderCount} folder', '1 file and {folderCount} folders', folderCount, { folderCount })
+	} else if (folderCount === 1) {
+		summary = n('files', '{fileCount} file and 1 folder', '{fileCount} files and 1 folder', fileCount, { fileCount })
+	} else {
+		summary = t('files', '{fileCount} files and {folderCount} folders', { fileCount, folderCount })
 	}
 
-	if (fileCount === 1) {
-		return n('files', '1 file and {folderCount} folder', '1 file and {folderCount} folders', folderCount, { folderCount })
+	if (hidden > 0) {
+		// TRANSLATORS: This is a summary of files and folders, where {hiddenFilesAndFolders} is the number of hidden files and folders
+		summary += ' ' + n('files', '(%n hidden)', ' (%n hidden)', hidden)
 	}
 
-	if (folderCount === 1) {
-		return n('files', '{fileCount} file and 1 folder', '{fileCount} files and 1 folder', fileCount, { fileCount })
-	}
-
-	return t('files', '{fileCount} files and {folderCount} folders', { fileCount, folderCount })
+	return summary
 }

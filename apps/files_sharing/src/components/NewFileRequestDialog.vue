@@ -130,10 +130,10 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { n, t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconNext from 'vue-material-design-icons/ArrowRight.vue'
@@ -296,8 +296,8 @@ export default defineComponent({
 					path: this.destination,
 					note: this.note,
 
-					password: this.password || undefined,
-					expireDate: expireDate || undefined,
+					password: this.password || '',
+					expireDate: expireDate || '',
 
 					// Empty string
 					shareWith: '',

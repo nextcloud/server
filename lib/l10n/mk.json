@@ -112,7 +112,6 @@
     "You cannot use dots in the database name %s" : "Не можеш да користиш точки во името на базата %s",
     "You need to enter details of an existing account." : "Потребно е да внесете детали од постоечката сметка.",
     "Oracle connection could not be established" : "Oracle врската неможе да се воспостави",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не е поддржана и %s нема да работи соодветно на оваа платформа. Користењето е на ваш ризик! ",
     "For the best results, please consider using a GNU/Linux server instead." : "За најдобри резултати, размислете за користење на сервер со GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Највероватно оваа истанца %s е стартувана на 32-битна PHP средина и open_basedir е конфигурано во php.ini. Ова ќе прави проблеми со датотеки поголеми од 4 GB.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Отстранете го параметарот open_basedir од php.ini или преминете на 64-битна PHP средина.",

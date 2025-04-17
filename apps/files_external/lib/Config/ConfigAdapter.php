@@ -40,6 +40,19 @@ class ConfigAdapter implements IMountProvider {
 	}
 
 	/**
+	 * @param class-string $class
+	 * @return class-string<IObjectStore>
+	 * @throws \InvalidArgumentException
+	 * @psalm-taint-escape callable
+	 */
+	private function validateObjectStoreClassString(string $class): string {
+		if (!\is_subclass_of($class, IObjectStore::class)) {
+			throw new \InvalidArgumentException('Invalid object store');
+		}
+		return $class;
+	}
+
+	/**
 	 * Process storage ready for mounting
 	 *
 	 * @throws QueryException
@@ -51,10 +64,7 @@ class ConfigAdapter implements IMountProvider {
 
 		$objectStore = $storage->getBackendOption('objectstore');
 		if ($objectStore) {
-			$objectClass = $objectStore['class'];
-			if (!is_subclass_of($objectClass, IObjectStore::class)) {
-				throw new \InvalidArgumentException('Invalid object store');
-			}
+			$objectClass = $this->validateObjectStoreClassString($objectStore['class']);
 			$storage->setBackendOption('objectstore', new $objectClass($objectStore));
 		}
 

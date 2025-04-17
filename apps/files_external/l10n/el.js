@@ -79,7 +79,7 @@ OC.L10N.register(
     "External storage" : "Εξωτερικός αποθηκευτικός χώρος",
     "External storage support" : "Υποστήριξη εξωτερικού αποθηκευτικού χώρου",
     "Adds basic external storage support" : "Προσθέτει βασική υποστήριξη εξωτερικού αποθηκευτικού χώρου",
-    "Submit" : "Υποβολή",
+    "Confirm" : "Επιβεβαίωση",
     "Open in Files" : "Άνοιγμα στα Αρχεία",
     "External mount error" : "Σφάλμα εξωτερικής προσάρτησης",
     "Storage type" : "Τύπος αποθηκευτικού χώρου",

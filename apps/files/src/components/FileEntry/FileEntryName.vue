@@ -23,7 +23,6 @@
 	<component :is="linkTo.is"
 		v-else
 		ref="basename"
-		:aria-hidden="isRenaming"
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
 		v-bind="linkTo.params">
@@ -45,7 +44,7 @@ import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent, inject } from 'vue'
 
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { useNavigation } from '../../composables/useNavigation'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
@@ -117,11 +116,11 @@ export default defineComponent({
 			return this.isRenaming && this.filesListWidth < 512
 		},
 		newName: {
-			get() {
-				return this.renamingStore.newName
+			get(): string {
+				return this.renamingStore.newNodeName
 			},
-			set(newName) {
-				this.renamingStore.newName = newName
+			set(newName: string) {
+				this.renamingStore.newNodeName = newName
 			},
 		},
 
@@ -249,7 +248,9 @@ export default defineComponent({
 			try {
 				const status = await this.renamingStore.rename()
 				if (status) {
-					showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
+					showSuccess(
+						t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName: this.source.basename }),
+					)
 					this.$nextTick(() => {
 						const nameContainer = this.$refs.basename as HTMLElement | undefined
 						nameContainer?.focus()

@@ -87,7 +87,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'validateTimezone', ['Mars/OlympusMons']);
 	}
 
-	public function convertLevelStringProvider() {
+	public static function dataConvertLevelString(): array {
 		return [
 			['dEbug', 0],
 			['inFO', 1],
@@ -100,9 +100,9 @@ class ManageTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider convertLevelStringProvider
+	 * @dataProvider dataConvertLevelString
 	 */
-	public function testConvertLevelString($levelString, $expectedInt): void {
+	public function testConvertLevelString(string $levelString, int $expectedInt): void {
 		$this->assertEquals($expectedInt,
 			self::invokePrivate($this->command, 'convertLevelString', [$levelString])
 		);
@@ -115,7 +115,7 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'convertLevelString', ['abc']);
 	}
 
-	public function convertLevelNumberProvider() {
+	public static function dataConvertLevelNumber(): array {
 		return [
 			[0, 'Debug'],
 			[1, 'Info'],
@@ -126,9 +126,9 @@ class ManageTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider convertLevelNumberProvider
+	 * @dataProvider dataConvertLevelNumber
 	 */
-	public function testConvertLevelNumber($levelNum, $expectedString): void {
+	public function testConvertLevelNumber(int $levelNum, string $expectedString): void {
 		$this->assertEquals($expectedString,
 			self::invokePrivate($this->command, 'convertLevelNumber', [$levelNum])
 		);
@@ -144,23 +144,23 @@ class ManageTest extends TestCase {
 	public function testGetConfiguration(): void {
 		$this->config->expects($this->exactly(3))
 			->method('getSystemValue')
-			->withConsecutive(
-				['log_type', 'file'],
-				['loglevel', 2],
-				['logtimezone', 'UTC'],
-			)->willReturnOnConsecutiveCalls(
-				'log_type_value',
-				0,
-				'logtimezone_value'
-			);
+			->willReturnMap([
+				['log_type', 'file', 'log_type_value'],
+				['loglevel', 2, 0],
+				['logtimezone', 'UTC', 'logtimezone_value'],
+			]);
 
+		$calls = [
+			['Enabled logging backend: log_type_value'],
+			['Log level: Debug (0)'],
+			['Log timezone: logtimezone_value'],
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Enabled logging backend: log_type_value'],
-				['Log level: Debug (0)'],
-				['Log timezone: logtimezone_value'],
-			);
+			->willReturnCallback(function (string $message) use (&$calls): void {
+				$call = array_shift($calls);
+				$this->assertStringContainsString($call[0], $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

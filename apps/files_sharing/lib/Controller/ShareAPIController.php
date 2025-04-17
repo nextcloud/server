@@ -52,6 +52,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
 use OCP\Server;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
@@ -328,7 +329,7 @@ class ShareAPIController extends OCSController {
 	private function getDisplayNameFromAddressBook(string $query, string $property): string {
 		// FIXME: If we inject the contacts manager it gets initialized before any address books are registered
 		try {
-			$result = \OC::$server->getContactsManager()->search($query, [$property], [
+			$result = Server::get(\OCP\Contacts\IManager::class)->search($query, [$property], [
 				'limit' => 1,
 				'enumeration' => false,
 				'strict_search' => true,
@@ -408,7 +409,7 @@ class ShareAPIController extends OCSController {
 	private function retrieveFederatedDisplayName(array $userIds, bool $cacheOnly = false): array {
 		// check if gss is enabled and available
 		if (count($userIds) === 0
-			|| !$this->appManager->isInstalled('globalsiteselector')
+			|| !$this->appManager->isEnabledForAnyone('globalsiteselector')
 			|| !class_exists('\OCA\GlobalSiteSelector\Service\SlaveService')) {
 			return [];
 		}
@@ -471,7 +472,7 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($include_tags) {
-					$share = Helper::populateTags([$share], \OCP\Server::get(ITagManager::class));
+					$share = Helper::populateTags([$share], Server::get(ITagManager::class));
 				} else {
 					$share = [$share];
 				}
@@ -557,6 +558,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share created
 	 */
 	#[NoAdminRequired]
+	#[UserRateLimit(limit: 20, period: 600)]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -754,7 +756,7 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
-			if (!\OCP\Server::get(IAppManager::class)->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
+			if (!Server::get(IAppManager::class)->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Team if the app is not enabled'));
 			}
 
@@ -800,6 +802,9 @@ class ShareAPIController extends OCSController {
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
+		} catch (GenericShareException|\InvalidArgumentException $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSForbiddenException('Failed to create share.', $e);
@@ -842,7 +847,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($includeTags) {
-			$formatted = Helper::populateTags($formatted, \OCP\Server::get(ITagManager::class));
+			$formatted = Helper::populateTags($formatted, Server::get(ITagManager::class));
 		}
 
 		return $formatted;
@@ -1096,7 +1101,7 @@ class ShareAPIController extends OCSController {
 
 		if ($includeTags) {
 			$formatted =
-				Helper::populateTags($formatted, \OCP\Server::get(ITagManager::class));
+				Helper::populateTags($formatted, Server::get(ITagManager::class));
 		}
 
 		return $formatted;
@@ -1288,16 +1293,11 @@ class ShareAPIController extends OCSController {
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 
 			// Update hide download state
-			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
 				$share->setHideDownload(true);
-				$attributes->setAttribute('permissions', 'download', false);
 			} elseif ($hideDownload === 'false') {
 				$share->setHideDownload(false);
-				$attributes->setAttribute('permissions', 'download', true);
 			}
-			$share->setAttributes($attributes);
-
 
 			// If either manual permissions are specified or publicUpload
 			// then we need to also update the permissions of the share
@@ -1971,7 +1971,7 @@ class ShareAPIController extends OCSController {
 			return true;
 		}
 
-		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OCP\Server::get(IAppManager::class)->isEnabledForUser('circles')
+		if ($share->getShareType() === IShare::TYPE_CIRCLE && Server::get(IAppManager::class)->isEnabledForUser('circles')
 			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
 			$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
@@ -2146,7 +2146,7 @@ class ShareAPIController extends OCSController {
 	 * 200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]
-	#[UserRateLimit(limit: 5, period: 120)]
+	#[UserRateLimit(limit: 10, period: 600)]
 	public function sendShareEmail(string $id, $password = ''): DataResponse {
 		try {
 			$share = $this->getShareById($id);

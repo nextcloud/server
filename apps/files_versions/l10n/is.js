@@ -3,6 +3,9 @@ OC.L10N.register(
     {
     "Versions" : "Útgáfur",
     "This application automatically maintains older versions of files that are changed." : "Þetta forrit viðheldur sjálfvirkt eldri útgáfum skráa sem er breytt.",
+    "Current version" : "Fyrirliggjandi útgáfa",
+    "Initial version" : "Upprunaleg útgáfa",
+    "You" : "Þú",
     "Actions for version from {versionHumanExplicitDate}" : "Aðgerðir fyrir útgáfu frá {versionHumanExplicitDate}",
     "Name this version" : "Settu heiti á þessa útgáfu",
     "Edit version name" : "Breyta heiti útgáfunnar",
@@ -10,18 +13,15 @@ OC.L10N.register(
     "Restore version" : "Endurheimta útgáfu",
     "Download version" : "Sækja útgáfu",
     "Delete version" : "Eyða útgáfu",
-    "Current version" : "Fyrirliggjandi útgáfa",
-    "Initial version" : "Upprunaleg útgáfa",
-    "Version name" : "Heiti útgáfu",
-    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Nefndar útgáfur eru varanlegar og er undanþegnar við sjálfvirkar tiltektir þegar geymslukvóti fyllist.",
     "Cancel" : "Hætta við",
     "Remove version name" : "Fjarlægja heiti útgáfu",
     "Save version name" : "Vista heiti útgáfu",
+    "Version name" : "Heiti útgáfu",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Nefndar útgáfur eru varanlegar og er undanþegnar við sjálfvirkar tiltektir þegar geymslukvóti fyllist.",
     "Initial version restored" : "Upprunaleg útgáfa endurheimt",
     "Version restored" : "Útgáfa endurheimt",
     "Could not restore version" : "Gat ekki endurheimt útgáfu",
     "Could not set version label" : "Gat ekki sett merkingu á útgáfu",
-    "Could not delete version" : "Gat ekki eytt útgáfu",
-    "${version.label} restored" : "${version.label} endurheimt"
+    "Could not delete version" : "Gat ekki eytt útgáfu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -5,9 +5,6 @@
     "Error" : "Galat",
     "Weather status" : "Status cuaca",
     "Weather status in your dashboard" : "Status cuaca di dasbor Anda",
-    "Detect location" : "Deteksi lokasi",
-    "Set custom address" : "Tetapkan alamat kustom",
-    "Favorites" : "Disukai",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} langit cerah nanti pada hari ini",
     "{temperature} {unit} clear sky" : "{temperature} {unit} langit cerah",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} berawan nanti pada hari ini",
@@ -42,6 +39,9 @@
     "There was an error setting the location address." : "Ada kesalahan menetapkan alamat lokasi.",
     "There was an error setting the location." : "Ada kesalahan menetapkan lokasi.",
     "There was an error saving the mode." : "Ada kesalahan menyimpan mode.",
-    "There was an error using personal address." : "Ada kesalahan menggunakan alamat pribadi."
+    "There was an error using personal address." : "Ada kesalahan menggunakan alamat pribadi.",
+    "Detect location" : "Deteksi lokasi",
+    "Set custom address" : "Tetapkan alamat kustom",
+    "Favorites" : "Disukai"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

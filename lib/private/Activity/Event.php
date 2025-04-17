@@ -34,7 +34,7 @@ class Event implements IEvent {
 	protected $subjectParsed = '';
 	/** @var string */
 	protected $subjectRich = '';
-	/** @var array */
+	/** @var array<string, array<string, string>> */
 	protected $subjectRichParameters = [];
 	/** @var string */
 	protected $message = '';
@@ -44,7 +44,7 @@ class Event implements IEvent {
 	protected $messageParsed = '';
 	/** @var string */
 	protected $messageRich = '';
-	/** @var array */
+	/** @var array<string, array<string, string>> */
 	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';

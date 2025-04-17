@@ -451,6 +451,16 @@ $CONFIG = [
 'ratelimit.protection.enabled' => true,
 
 /**
+ * Size of subnet used to normalize IPv6
+ *
+ * For Brute Force Protection and Rate Limiting, IPv6 are truncated using subnet size.
+ * It defaults to /56 but you can set it between /32 and /64
+ *
+ * Defaults to ``56``
+ */
+'security.ipv6_normalized_subnet_size' => 56,
+
+/**
  * By default, WebAuthn is available, but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
@@ -2176,7 +2186,7 @@ $CONFIG = [
  * this server instance. All connections made from later clients will be denied
  * by the server.
  *
- * Defaults to 99.99.99
+ * Defaults to ``99.99.99``
  */
 'maximum.supported.desktop.version' => '99.99.99',
 

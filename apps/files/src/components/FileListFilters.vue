@@ -32,8 +32,8 @@ import { t } from '@nextcloud/l10n'
 import { computed, ref, watchEffect } from 'vue'
 import { useFiltersStore } from '../store/filters.ts'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcChip from '@nextcloud/vue/components/NcChip'
 
 const filterStore = useFiltersStore()
 const visualFilters = computed(() => filterStore.filtersWithUI)

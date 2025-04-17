@@ -29,11 +29,9 @@
 </template>
 
 <script>
-import {
-	NcDashboardWidget,
-	NcEmptyContent,
-	NcButton,
-} from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDashboardWidget from '@nextcloud/vue/components/NcDashboardWidget'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ApiDashboardWidgetItem from './ApiDashboardWidgetItem.vue'
 

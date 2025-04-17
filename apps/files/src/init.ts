@@ -6,7 +6,7 @@ import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@n
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
-import { action as editLocallyAction } from './actions/editLocallyAction'
+import { action as editLocallyAction } from './actions/openLocallyAction.ts'
 import { action as favoriteAction } from './actions/favoriteAction'
 import { action as moveOrCopyAction } from './actions/moveOrCopyAction'
 import { action as openFolderAction } from './actions/openFolderAction'

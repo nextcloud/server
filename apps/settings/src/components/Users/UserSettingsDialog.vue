@@ -43,6 +43,9 @@
 			</NcNoteCard>
 			<fieldset>
 				<legend>{{ t('settings', 'Group list sorting') }}</legend>
+				<NcNoteCard class="dialog__note"
+					type="info"
+					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
 				<NcCheckboxRadioSwitch type="radio"
 					:checked.sync="groupSorting"
 					data-test="sortGroupsByMemberCount"
@@ -93,11 +96,11 @@ import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 
 import axios from '@nextcloud/axios'
-import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
-import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import { GroupSorting } from '../../constants/GroupManagement.ts'
 import { unlimitedQuota } from '../../utils/userUtils.ts'
@@ -322,6 +325,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.dialog {
+	&__note {
+		font-weight: normal;
+	}
+}
+
 fieldset {
 	font-weight: bold;
 }

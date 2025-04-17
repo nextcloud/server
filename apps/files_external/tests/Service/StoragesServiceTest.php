@@ -10,9 +10,9 @@ use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
-
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
+
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
@@ -25,8 +25,10 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Security\ICrypto;
 use OCP\Server;
 use OCP\Util;
 
@@ -87,9 +89,9 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
+		$this->dbConfig = new CleaningDBConfig(Server::get(IDBConnection::class), Server::get(ICrypto::class));
 		self::$hookCalls = [];
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
@@ -301,7 +303,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storageCache = new Storage($rustyStorageId, true, Server::get(IDBConnection::class));
 
 		/** @var IUserMountCache $mountCache */
-		$mountCache = \OC::$server->get(IUserMountCache::class);
+		$mountCache = Server::get(IUserMountCache::class);
 		$mountCache->clear();
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -340,7 +342,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertTrue($caught);
 
 		// storage id was removed from oc_storages
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$storageCheckQuery = $qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->expr()->literal($numericId)));

@@ -4,11 +4,9 @@
     "Invalid configuration: Anonymous binding is not allowed." : "არასწორი კონფიგურაცია: ანონიმური კავშირები არაა დაშვებული.",
     "Valid configuration, connection established!" : "სწორი კონფიგურაცია, კავშირი დამყარებულია!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "სწორი კონფიგურაცია, თუმცა მიბმა ვერ მოხერხდა. გთხოვთ შეამოწმოთ სერვერის კონფიგურაცია და უფლებამოსილებები.",
-    "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს.",
     "No action specified" : "ქმედება არ იყო სპეციფირებული",
     "No configuration specified" : "კონფიგურაცია არ იყო სპეციფირებული",
     "No data specified" : "მონაცემები არ იყო სპეციფირებული",
-    " Could not set configuration %s" : "კონფიგურაციის %s დაყენება ვერ მოხერხდა",
     "Action does not exist" : "ქმედება არ არსებობს",
     "Renewing …" : "განხილვა …",
     "Very weak password" : "ძალიან სუსტი პაროლი",
@@ -47,7 +45,6 @@
     "An unspecified error occurred. Please check log and settings." : "გამოჩნდა არასპეციფირებული შეცდომა. გთხოვთ შეამოწმოთ ლოგი და პარამეტრები.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "ძიების ფილტრი არასწორია, ეს შესაძლოა გამოეწვიათ ისეთ სინტაქსის პრობლემებს, როგორებიცაა გახსნილი და დახურული ფრჩხილების არაჯერადი რაოდენობა. გთხოვთ გადახედოთ.",
     "Please provide a login name to test against" : "ტესტისთვის გთხოვთ მიუთითოთ ლოგინის სახელი",
-    "Password change rejected. Hint: " : "პაროლის ცვლილება უარყოფილ იქნა. მითითება:",
     "Please login with the new password" : "გთხოვთ გაიაროთ ავტორიზაცია ახალი პაროლით",
     "Your password will expire tomorrow." : "თქვენი პაროლი გაუქმდება ხვალ.",
     "Your password will expire today." : "თქვენი პაროლი გაუქმდება დღეს.",
@@ -169,6 +166,7 @@
     "UUID Attribute for Groups:" : "UUID ატრიბუტი ჯგუფებისთვის:",
     "Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმები",
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
-    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება"
+    "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
+    "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

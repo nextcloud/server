@@ -151,7 +151,7 @@ interface IOCMProvider extends JsonSerializable {
 	 *     enabled: bool,
 	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     publicKey: array{
+	 *     publicKey?: array{
 	 *         keyId: string,
 	 *         publicKeyPem: string
 	 *	   },

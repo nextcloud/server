@@ -16,8 +16,8 @@ OC.L10N.register(
     "Make sure you store the secret key, it cannot be recovered." : "Make sure you store the secret key, it cannot be recovered.",
     "Add client" : "Add client",
     "Add" : "Add",
-    "Delete" : "Delete",
     "Show client secret" : "Show client secret",
-    "Hide client secret" : "Hide client secret"
+    "Hide client secret" : "Hide client secret",
+    "Delete" : "Delete"
 },
 "nplurals=2; plural=(n != 1);");

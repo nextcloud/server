@@ -10,6 +10,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\Server;
 
 /**
@@ -33,7 +34,7 @@ abstract class Proxy {
 		private ILDAPWrapper $ldap,
 		private AccessFactory $accessFactory,
 	) {
-		$memcache = \OC::$server->getMemCacheFactory();
+		$memcache = Server::get(ICacheFactory::class);
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}

@@ -23,8 +23,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
 
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 const folder = ref<Folder>()
 const note = computed<string>(() => folder.value?.attributes.note ?? '')

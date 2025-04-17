@@ -11,8 +11,10 @@ use OCA\Provisioning_API\Controller\AppsController;
 use OCA\Provisioning_API\Tests\TestCase;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSException;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Server;
 
 /**
  * Class AppsTest
@@ -32,9 +34,9 @@ class AppsControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appManager = \OC::$server->getAppManager();
-		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userSession = \OC::$server->getUserSession();
+		$this->appManager = Server::get(IAppManager::class);
+		$this->groupManager = Server::get(IGroupManager::class);
+		$this->userSession = Server::get(IUserSession::class);
 
 		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()

@@ -118,6 +118,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\JavaScriptModules' => __DIR__ . '/..' . '/../lib/SetupChecks/JavaScriptModules.php',
         'OCA\\Settings\\SetupChecks\\JavaScriptSourceMaps' => __DIR__ . '/..' . '/../lib/SetupChecks/JavaScriptSourceMaps.php',
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
+        'OCA\\Settings\\SetupChecks\\LoggingLevel' => __DIR__ . '/..' . '/../lib/SetupChecks/LoggingLevel.php',
         'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => __DIR__ . '/..' . '/../lib/SetupChecks/MaintenanceWindowStart.php',
         'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => __DIR__ . '/..' . '/../lib/SetupChecks/MemcacheConfigured.php',
         'OCA\\Settings\\SetupChecks\\MimeTypeMigrationAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/MimeTypeMigrationAvailable.php',

@@ -16,6 +16,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -94,7 +95,7 @@ class SFTP extends Common {
 
 		$this->knownMTimes = new CappedMemoryCache();
 
-		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -327,7 +328,7 @@ class SFTP extends Common {
 					$context = stream_context_create(['sftp' => ['session' => $connection]]);
 					$fh = fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 					if ($fh) {
-						$fh = CallbackWrapper::wrap($fh, null, null, function () use ($path) {
+						$fh = CallbackWrapper::wrap($fh, null, null, function () use ($path): void {
 							$this->knownMTimes->set($path, time());
 						});
 					}

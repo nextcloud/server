@@ -12,6 +12,7 @@ use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -38,8 +39,8 @@ class BackupCodeMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
-		$this->mapper = \OC::$server->query(BackupCodeMapper::class);
+		$this->db = Server::get(IDBConnection::class);
+		$this->mapper = Server::get(BackupCodeMapper::class);
 
 		$this->resetDB();
 	}

@@ -5,9 +5,6 @@
     "Error" : "Error",
     "Weather status" : "Estado del clima",
     "Weather status in your dashboard" : "Estado del clima en tu tablero",
-    "Detect location" : "Detectar ubicación",
-    "Set custom address" : "Establecer dirección personalizada",
-    "Favorites" : "Favoritos",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} cielo despejado más tarde hoy",
     "{temperature} {unit} clear sky" : "{temperature} {unit} cielo despejado",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} nublado más tarde hoy",
@@ -42,6 +39,9 @@
     "There was an error setting the location address." : "Hubo un error al establecer la dirección de ubicación.",
     "There was an error setting the location." : "Hubo un error al establecer la ubicación.",
     "There was an error saving the mode." : "Hubo un error al guardar el modo.",
-    "There was an error using personal address." : "Hubo un error al usar la dirección personal."
+    "There was an error using personal address." : "Hubo un error al usar la dirección personal.",
+    "Detect location" : "Detectar ubicación",
+    "Set custom address" : "Establecer dirección personalizada",
+    "Favorites" : "Favoritos"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

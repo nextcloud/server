@@ -6,10 +6,13 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\SystemConfig;
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -37,26 +40,26 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->createUser($this->user1, 'longrandompassword');
 		$userManager->createUser($this->user2, 'longrandompassword');
 
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
-		$this->job = new ExpireSharesJob(\OC::$server->get(ITimeFactory::class), \OC::$server->get(IManager::class), $this->connection);
+		$this->job = new ExpireSharesJob(Server::get(ITimeFactory::class), Server::get(IManager::class), $this->connection);
 	}
 
 	protected function tearDown(): void {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
 			$user1->delete();
@@ -115,7 +118,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
@@ -172,7 +175,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)

@@ -53,10 +53,10 @@ import { getRootUrl } from '@nextcloud/router'
 import { defineComponent, type PropType } from 'vue'
 
 import QR from '@chenfengyuan/vue-qrcode'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import logger from '../logger'
 

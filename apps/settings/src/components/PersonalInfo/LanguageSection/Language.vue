@@ -29,7 +29,7 @@ import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/Person
 import { validateLanguage } from '../../../utils/validate.js'
 import { handleError } from '../../../utils/handlers.ts'
 
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 export default {
 	name: 'Language',

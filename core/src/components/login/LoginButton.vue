@@ -20,7 +20,7 @@
 <script>
 import { translate as t } from '@nextcloud/l10n'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
 export default {

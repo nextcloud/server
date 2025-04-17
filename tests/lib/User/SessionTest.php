@@ -34,6 +34,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function array_diff;
@@ -609,6 +610,45 @@ class SessionTest extends \Test\TestCase {
 		$loginResult = $this->userSession->tryTokenLogin($request);
 
 		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginNotAnAppPassword(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn('abcde12345');
+		$this->session->expects(self::once())
+			->method('getId')
+			->willReturn('abcde12345');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('johnny');
+		$dbToken->setLoginName('johnny');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setRemember(IToken::REMEMBER);
+		$this->tokenProvider->expects(self::any())
+			->method('getToken')
+			->with('abcde12345')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value) {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('johnny')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertTrue($loginResult);
 	}
 
 	public function testRememberLoginValidToken(): void {

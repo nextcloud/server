@@ -85,7 +85,7 @@ OC.L10N.register(
     "External storage" : "حافظه خارجی",
     "External storage support" : "پشتیبانی از ذخیره سازی خارجی",
     "Adds basic external storage support" : "پشتیبانی اصلی حافظه خارجی را اضافه می کند",
-    "Submit" : "ارسال",
+    "Confirm" : "تأیید",
     "Unable to update this external storage config. {statusMessage}" : "Unable to update this external storage config. {statusMessage}",
     "New configuration successfully saved" : "New configuration successfully saved",
     "Enter missing credentials" : "Enter missing credentials",

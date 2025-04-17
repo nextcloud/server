@@ -88,7 +88,7 @@ class Application {
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					$this->appManager->loadApps();
-					foreach ($this->appManager->getInstalledApps() as $app) {
+					foreach ($this->appManager->getEnabledApps() as $app) {
 						try {
 							$appPath = $this->appManager->getAppPath($app);
 						} catch (AppPathNotFoundException) {

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\Owncloud;
 
 use OC\Authentication\Token\IProvider as ITokenProvider;
@@ -13,27 +15,23 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 
 class MigrateOauthTables implements IRepairStep {
-	/** @var Connection */
-	protected $db;
 
-	/**
-	 * @param Connection $db
-	 */
 	public function __construct(
-		Connection $db,
+		protected Connection $db,
 		private AccessTokenMapper $accessTokenMapper,
 		private ITokenProvider $tokenProvider,
 		private ISecureRandom $random,
 		private ITimeFactory $timeFactory,
 		private ICrypto $crypto,
+		private IConfig $config,
 	) {
-		$this->db = $db;
 	}
 
 	/**
@@ -173,7 +171,12 @@ class MigrateOauthTables implements IRepairStep {
 			$schema = new SchemaWrapper($this->db);
 		}
 
-		$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		if ($enableOcClients) {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc://');
+		} else {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		}
 		// delete the access tokens
 		$qbDeleteAccessTokens = $this->db->getQueryBuilder();
 
@@ -182,10 +185,12 @@ class MigrateOauthTables implements IRepairStep {
 			->from('oauth2_clients')
 			->where(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbSelectClientId->orWhere(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 
 		$qbDeleteAccessTokens->delete('oauth2_access_tokens')
 			->where(
@@ -198,10 +203,12 @@ class MigrateOauthTables implements IRepairStep {
 		$qbDeleteClients->delete('oauth2_clients')
 			->where(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbDeleteClients->orWhere(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 		$qbDeleteClients->executeStatement();
 
 		// Migrate legacy refresh tokens from oc
@@ -225,7 +232,7 @@ class MigrateOauthTables implements IRepairStep {
 					$row['user_id'],
 					$row['user_id'],
 					null,
-					"oc_migrated_client${clientId}_t{$now}_i$index",
+					"oc_migrated_client{$clientId}_t{$now}_i$index",
 					IToken::PERMANENT_TOKEN,
 					IToken::DO_NOT_REMEMBER,
 				);

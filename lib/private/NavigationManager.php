@@ -110,9 +110,10 @@ class NavigationManager implements INavigationManager {
 	}
 
 	private function updateDefaultEntries() {
+		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 		foreach ($this->entries as $id => $entry) {
 			if ($entry['type'] === 'link') {
-				$this->entries[$id]['default'] = $id === $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
+				$this->entries[$id]['default'] = $id === $defaultEntryId;
 			}
 		}
 	}
@@ -328,7 +329,7 @@ class NavigationManager implements INavigationManager {
 			$apps = $this->appManager->getEnabledAppsForUser($user);
 			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
-			$apps = $this->appManager->getInstalledApps();
+			$apps = $this->appManager->getEnabledApps();
 			$this->customAppOrder = [];
 		}
 

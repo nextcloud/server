@@ -25,6 +25,7 @@ use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\Traits\MountProviderTrait;
@@ -80,7 +81,7 @@ class StorageTest extends \Test\TestCase {
 		$trashbinApp->boot($this->createMock(IBootContext::class));
 
 		$this->user = $this->getUniqueId('user');
-		\OC::$server->getUserManager()->createUser($this->user, $this->user);
+		Server::get(IUserManager::class)->createUser($this->user, $this->user);
 
 		// this will setup the FS
 		$this->loginAsUser($this->user);
@@ -100,7 +101,7 @@ class StorageTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		$this->logout();
-		$user = \OC::$server->getUserManager()->get($this->user);
+		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -316,17 +317,17 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 
 		$recipientUser = $this->getUniqueId('recipient_');
-		\OC::$server->getUserManager()->createUser($recipientUser, $recipientUser);
+		Server::get(IUserManager::class)->createUser($recipientUser, $recipientUser);
 
 		$node = \OC::$server->getUserFolder($this->user)->get('share');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, $recipientUser);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, $recipientUser);
 
 		$this->loginAsUser($recipientUser);
 
@@ -368,17 +369,17 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 
 		$recipientUser = $this->getUniqueId('recipient_');
-		\OC::$server->getUserManager()->createUser($recipientUser, $recipientUser);
+		Server::get(IUserManager::class)->createUser($recipientUser, $recipientUser);
 
 		$node = \OC::$server->getUserFolder($this->user)->get('share');
-		$share = \OC::$server->getShareManager()->newShare();
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
 			->setPermissions(Constants::PERMISSION_ALL);
-		$share = \OC::$server->getShareManager()->createShare($share);
-		\OC::$server->getShareManager()->acceptShare($share, $recipientUser);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, $recipientUser);
 
 		$this->loginAsUser($recipientUser);
 
@@ -649,7 +650,7 @@ class StorageTest extends \Test\TestCase {
 		$timeFactory->method('getTime')
 			->willReturn(1000);
 
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = Server::get(ILockingProvider::class);
 
 		$this->overwriteService(ITimeFactory::class, $timeFactory);
 

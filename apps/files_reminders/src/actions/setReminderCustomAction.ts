@@ -18,8 +18,17 @@ export const action = new FileAction({
 	title: () => t('files_reminders', 'Set reminder at custom date & time'),
 	iconSvgInline: () => CalendarClockSvg,
 
-	enabled: (_nodes: Node[], view: View) => {
-		return view.id !== 'trashbin'
+	enabled: (nodes: Node[], view: View) => {
+		if (view.id === 'trashbin') {
+			return false
+		}
+		// Only allow on a single node
+		if (nodes.length !== 1) {
+			return false
+		}
+		const node = nodes.at(0)!
+		const dueDate = node.attributes['reminder-due-date']
+		return dueDate !== undefined
 	},
 
 	parent: SET_REMINDER_MENU_ID,

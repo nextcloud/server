@@ -25,6 +25,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -74,7 +75,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
 			->disableOriginalConstructor()
 			->getMock();
@@ -121,7 +122,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->logger,
 		);
 
-		$this->shareManager = \OC::$server->getShareManager();
+		$this->shareManager = Server::get(\OCP\Share\IManager::class);
 	}
 
 	protected function tearDown(): void {
@@ -824,7 +825,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
 		$this->config->expects($this->any())->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'yes')
+			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn($isEnabled);
 
 		$this->assertSame($expected,
@@ -835,10 +836,13 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerQueriesEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', true],
 			[true, 'no', true],
+			// TODO: reenable if we use the lookup server for non-global scale
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'no', false],
+			[false, 'yes', false],
 		];
 	}
 
@@ -852,7 +856,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
 		$this->config->expects($this->any())->method('getAppValue')
-			->with('files_sharing', 'lookupServerUploadEnabled', 'yes')
+			->with('files_sharing', 'lookupServerUploadEnabled', 'no')
 			->willReturn($isEnabled);
 
 		$this->assertSame($expected,
@@ -862,16 +866,19 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	public function dataTestIsLookupServerUploadEnabled() {
 		return [
-			[false, 'yes', true],
-			[false, 'no', false],
 			[true, 'yes', false],
 			[true, 'no', false],
+			// TODO: reenable if we use the lookup server again
+			// [false, 'yes', true],
+			// [false, 'no', false],
+			[false, 'yes', false],
+			[false, 'no', false],
 		];
 	}
 
 	public function testGetSharesInFolder(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 		$u2 = $userManager->createUser('testFed2', md5(time()));
@@ -924,8 +931,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetAccessList(): void {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$u1 = $userManager->createUser('testFed', md5(time()));
 

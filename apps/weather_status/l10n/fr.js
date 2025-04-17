@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Statut météo",
     "Weather status in your dashboard" : "Statut météo sur votre tableau de bord",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Conditions météo intégrées à l’app Tableau de bord.\nLa position géographique peut être déterminée automatiquement ou définie manuellement. Une prévision à 6 heures est ensuite affichée.\nLa météo peut également être intégrée à d’autres emplacements comme l’app Calendrier.",
-    "Detect location" : "Détecter la position",
-    "Set custom address" : "Définir une adresse personnalisée",
-    "Favorites" : "Favoris",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} Ciel dégagé dans la journée",
     "{temperature} {unit} clear sky" : "{temperature} {unit} Ciel dégagé",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} Nuageux dans la journée",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Une erreur s'est produite lors de la définition de l'emplacement.",
     "There was an error saving the mode." : "Une erreur s'est produite lors de l'enregistrement du mode.",
     "There was an error using personal address." : "Une erreur s'est produite lors de l'utilisation de l'adresse personnelle.",
-    "Unknown weather code" : "Code météo inconnu"
+    "Unknown weather code" : "Code météo inconnu",
+    "Detect location" : "Détecter la position",
+    "Set custom address" : "Définir une adresse personnalisée",
+    "Favorites" : "Favoris"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

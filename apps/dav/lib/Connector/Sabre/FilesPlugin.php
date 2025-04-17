@@ -10,10 +10,12 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
@@ -63,6 +65,7 @@ class FilesPlugin extends ServerPlugin {
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
+	public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = '{http://nextcloud.org/ns}hide-download';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
@@ -390,6 +393,19 @@ class FilesPlugin extends ServerPlugin {
 				);
 			});
 
+			$propFind->handle(self::SHARE_HIDE_DOWNLOAD_PROPERTYNAME, function () use ($node) {
+				$storage = $node->getNode()->getStorage();
+				if ($storage->instanceOfStorage(ISharedStorage::class)) {
+					/** @var ISharedStorage $storage */
+					return match($storage->getShare()->getHideDownload()) {
+						true => 'true',
+						false => 'false',
+					};
+				} else {
+					return null;
+				}
+			});
+
 			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function () {
 				return $this->config->getSystemValue('data-fingerprint', '');
 			});
@@ -424,7 +440,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::IS_FEDERATED_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()
-					instanceof \OCA\Files_Sharing\External\Mount;
+					instanceof SharingExternalMount;
 			});
 		}
 
@@ -598,6 +614,12 @@ class FilesPlugin extends ServerPlugin {
 						throw new FilesMetadataException('you do not have enough rights to update \'' . $metadataKey . '\' on this node');
 					}
 
+					if ($value === null) {
+						$metadata->unset($metadataKey);
+						$filesMetadataManager->saveMetadata($metadata);
+						return true;
+					}
+
 					// If the metadata is unknown, it defaults to string.
 					try {
 						$type = $knownMetadata->getType($metadataKey);
@@ -670,8 +692,6 @@ class FilesPlugin extends ServerPlugin {
 
 		return IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION;
 	}
-
-
 
 	/**
 	 * @param string $filePath

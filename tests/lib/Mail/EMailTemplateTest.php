@@ -47,7 +47,7 @@ class EMailTemplateTest extends TestCase {
 
 	public function testEMailTemplateCustomFooter(): void {
 		$this->defaults
-			->expects($this->any())
+			->expects($this->atLeastOnce())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 		$this->defaults
@@ -59,8 +59,8 @@ class EMailTemplateTest extends TestCase {
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
@@ -88,7 +88,7 @@ class EMailTemplateTest extends TestCase {
 
 	public function testEMailTemplateDefaultFooter(): void {
 		$this->defaults
-			->expects($this->any())
+			->expects($this->atLeastOnce())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 		$this->defaults
@@ -104,8 +104,8 @@ class EMailTemplateTest extends TestCase {
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
@@ -131,7 +131,7 @@ class EMailTemplateTest extends TestCase {
 
 	public function testEMailTemplateSingleButton(): void {
 		$this->defaults
-			->expects($this->any())
+			->expects($this->atLeastOnce())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 		$this->defaults
@@ -147,8 +147,8 @@ class EMailTemplateTest extends TestCase {
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())
@@ -176,7 +176,7 @@ class EMailTemplateTest extends TestCase {
 
 	public function testEMailTemplateAlternativePlainTexts(): void {
 		$this->defaults
-			->expects($this->any())
+			->expects($this->atLeastOnce())
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 		$this->defaults
@@ -192,8 +192,8 @@ class EMailTemplateTest extends TestCase {
 			->method('getLogo')
 			->willReturn('/img/logo-mail-header.png');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 		$this->urlGenerator
 			->expects($this->once())

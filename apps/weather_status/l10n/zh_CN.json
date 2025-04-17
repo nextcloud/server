@@ -6,9 +6,6 @@
     "Weather status" : "天气状况",
     "Weather status in your dashboard" : "仪表盘中的天气状况",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "天气状态集成在仪表盘应用中。\n    地理位置可以自动确定或手动定义，然后显示 6 小时预报。\n    此状态也可以集成到其他地方，如日历应用。",
-    "Detect location" : "检测地点",
-    "Set custom address" : "自定义地址",
-    "Favorites" : "收藏",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} 今日晚些时候晴朗",
     "{temperature} {unit} clear sky" : "{temperature} {unit} 晴朗",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} 今日晚些时候多云",
@@ -56,6 +53,9 @@
     "There was an error setting the location." : "设置位置时出错。",
     "There was an error saving the mode." : "保存模式时出错。",
     "There was an error using personal address." : "使用个人地址出错。",
-    "Unknown weather code" : "未知天气代码"
+    "Unknown weather code" : "未知天气代码",
+    "Detect location" : "检测地点",
+    "Set custom address" : "自定义地址",
+    "Favorites" : "收藏"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

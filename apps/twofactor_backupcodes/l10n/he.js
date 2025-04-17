@@ -8,11 +8,11 @@ OC.L10N.register(
     "Backup code" : "קוד גיבוי",
     "Use backup code" : "שימוש בקוד גיבוי",
     "Two factor backup codes" : "קודים לגיבוי אימות דו־שלבי",
+    "An error occurred while generating your backup codes" : "אירעה שגיאה ביצירת הקודים שלך לגיבוי",
     "Save backup codes" : "שמירת קודים לגיבוי",
     "Print backup codes" : "הדפסת קודים לגיבוי",
     "Regenerate backup codes" : "יצירת קודים לגיבוי",
     "If you regenerate backup codes, you automatically invalidate old codes." : "ייצור של קודים חדשים לגיבוי יבטל את תוקף הקודים הישנים.",
-    "An error occurred while generating your backup codes" : "אירעה שגיאה ביצירת הקודים שלך לגיבוי",
     "{name} backup codes" : "{name} קודים לגיבוי",
     "Submit" : "שליחה"
 },

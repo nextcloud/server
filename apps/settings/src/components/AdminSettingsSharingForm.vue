@@ -210,20 +210,18 @@
 </template>
 
 <script lang="ts">
-import {
-	NcCheckboxRadioSwitch,
-	NcSettingsSelectGroup,
-	NcNoteCard,
-	NcTextArea,
-	NcTextField,
-} from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { snakeCase } from 'lodash'
 import { defineComponent } from 'vue'
 import debounce from 'debounce'
 
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGroup'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import SelectSharingPermissions from './SelectSharingPermissions.vue'
 
 interface IShareSettings {

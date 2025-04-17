@@ -44,9 +44,9 @@ import { computed, defineComponent, ref } from 'vue'
 import axios from '@nextcloud/axios'
 import AppOrderSelector from './AppOrderSelector.vue'
 import IconUndo from 'vue-material-design-icons/Undo.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 /** The app order user setting */
 type IAppOrder = Record<string, { order: number, app?: string }>

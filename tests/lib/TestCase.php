@@ -549,8 +549,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param array $vars
 	 */
 	protected function assertTemplate($expectedHtml, $template, $vars = []) {
-		require_once __DIR__ . '/../../lib/private/legacy/template/functions.php';
-
 		$requestToken = 12345;
 		/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$theme = $this->getMockBuilder('\OCP\Defaults')

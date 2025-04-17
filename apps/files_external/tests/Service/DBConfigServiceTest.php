@@ -8,6 +8,8 @@ namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -28,8 +30,8 @@ class DBConfigServiceTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->dbConfig = new DBConfigService($this->connection, \OC::$server->getCrypto());
+		$this->connection = Server::get(IDBConnection::class);
+		$this->dbConfig = new DBConfigService($this->connection, Server::get(ICrypto::class));
 	}
 
 	protected function tearDown(): void {

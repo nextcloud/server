@@ -13,7 +13,7 @@
 		</div>
 		<div class="notCreatable notPublic hidden">
 			<div class="icon-alert-outline"></div>
-			<?php p($l->t('You do not have permission to upload or create files here'))?>
+			<?php p($l->t('You do not have permission to upload or create files here.'))?>
 		</div>
 	<?php /* Note: the template attributes are here only for the public page. These are normally loaded
 			 through ajax instead (updateStorageStatistics).

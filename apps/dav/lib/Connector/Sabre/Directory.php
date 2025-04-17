@@ -18,6 +18,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
@@ -111,11 +112,11 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 
 			// only allow 1 process to upload a file at once but still allow reading the file while writing the part file
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
-			$this->fileView->lockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+			$this->fileView->lockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 
 			$result = $node->put($data);
 
-			$this->fileView->unlockFile($path . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+			$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
 			return $result;
 		} catch (StorageNotAvailableException $e) {
@@ -220,7 +221,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 			if (!$this->info->isReadable()) {
 				// return 403 instead of 404 because a 404 would make
 				// the caller believe that the collection itself does not exist
-				if (Server::get(IAppManager::class)->isInstalled('files_accesscontrol')) {
+				if (Server::get(IAppManager::class)->isEnabledForAnyone('files_accesscontrol')) {
 					throw new Forbidden('No read permissions. This might be caused by files_accesscontrol, check your configured rules');
 				} else {
 					throw new Forbidden('No read permissions');
@@ -232,8 +233,8 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		}
 
 		$nodes = [];
-		$request = \OC::$server->get(IRequest::class);
-		$l10nFactory = \OC::$server->get(IFactory::class);
+		$request = Server::get(IRequest::class);
+		$l10nFactory = Server::get(IFactory::class);
 		$l10n = $l10nFactory->get(Application::APP_ID);
 		foreach ($folderContent as $info) {
 			$node = $this->getChild($info->getName(), $info, $request, $l10n);
@@ -286,7 +287,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 	}
 
 	private function getLogger(): LoggerInterface {
-		return \OC::$server->get(LoggerInterface::class);
+		return Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -380,7 +381,7 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		$sourcePath = $sourceNode->getPath();
 
 		$isMovableMount = false;
-		$sourceMount = \OC::$server->getMountManager()->find($this->fileView->getAbsolutePath($sourcePath));
+		$sourceMount = Server::get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
 		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
 		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
 			$isMovableMount = true;

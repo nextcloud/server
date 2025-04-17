@@ -42,8 +42,8 @@ import type { View } from '@nextcloud/files'
 import { defineComponent } from 'vue'
 import { Fragment } from 'vue-frag'
 
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 import { useNavigation } from '../composables/useNavigation.js'
 import { useViewConfigStore } from '../store/viewConfig.js'

@@ -78,19 +78,16 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->get(IManager::class);
+			self::$shareManager = Server::get(IManager::class);
 		}
 
-		$user = \OC::$server->getUserSession()->getUser();
-		if ($user !== null) {
-			$user = $user->getUID();
-		}
+		$user = Server::get(\OCP\IUserSession::class)->getUser();
 
-		return self::$shareManager->sharingDisabledForUser($user);
+		return self::$shareManager->sharingDisabledForUser($user?->getUID());
 	}
 
 	/**
@@ -102,13 +99,15 @@ class Util {
 	}
 
 	/**
-	 * add a css file
-	 * @param string $application
-	 * @param string $file
+	 * Add a css file
+	 *
+	 * @param string $application application id
+	 * @param ?string $file filename
+	 * @param bool $prepend prepend the style to the beginning of the list
 	 * @since 4.0.0
 	 */
-	public static function addStyle($application, $file = null) {
-		\OC_Util::addStyle($application, $file);
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
+		\OC_Util::addStyle($application, $file, $prepend);
 	}
 
 	/**
@@ -384,7 +383,7 @@ class Util {
 
 	/**
 	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple OC_Template elements which invoke `callRegister`. If the value
+	 * multiple Template elements which invoke `callRegister`. If the value
 	 * would not be cached these unit-tests would fail.
 	 * @var string
 	 */
@@ -393,6 +392,7 @@ class Util {
 	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
+	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
@@ -408,7 +408,7 @@ class Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
 	public static function sanitizeHTML($value) {

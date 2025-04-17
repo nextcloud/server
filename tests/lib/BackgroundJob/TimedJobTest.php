@@ -8,20 +8,6 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\TimedJob;
-
-class TestTimedJobNew extends TimedJob {
-	public bool $ran = false;
-
-	public function __construct(ITimeFactory $timeFactory) {
-		parent::__construct($timeFactory);
-		$this->setInterval(10);
-	}
-
-	public function run($argument) {
-		$this->ran = true;
-	}
-}
 
 class TimedJobTest extends \Test\TestCase {
 	private DummyJobList $jobList;

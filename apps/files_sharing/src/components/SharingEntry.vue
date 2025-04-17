@@ -28,6 +28,7 @@
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
+		<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
 		<NcButton v-if="share.canEdit"
 			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
@@ -44,11 +45,12 @@
 <script>
 import { ShareType } from '@nextcloud/sharing'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
+import ShareExpiryTime from './ShareExpiryTime.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
@@ -62,6 +64,7 @@ export default {
 		NcAvatar,
 		DotsHorizontalIcon,
 		NcSelect,
+		ShareExpiryTime,
 		SharingEntryQuickShareSelect,
 	},
 

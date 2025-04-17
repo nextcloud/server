@@ -81,7 +81,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  open-pull-requests-limit: 10
+  open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -121,6 +121,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  open-pull-requests-limit: 20
   target-branch: stable29
   labels:
     - "3. to review"
@@ -140,6 +141,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  open-pull-requests-limit: 20
   target-branch: stable30
   labels:
     - "3. to review"
@@ -159,6 +161,7 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  open-pull-requests-limit: 20
   target-branch: stable31
   labels:
     - "3. to review"

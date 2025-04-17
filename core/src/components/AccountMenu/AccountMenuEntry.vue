@@ -27,8 +27,8 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 const versionHash = loadState('core', 'versionHash', '')
 

@@ -133,8 +133,13 @@ export default defineComponent({
 			return this.source.status === NodeStatus.FAILED
 		},
 
-		canDrag() {
+		canDrag(): boolean {
 			if (this.isRenaming) {
+				return false
+			}
+
+			// Ignore if the node is not available
+			if (this.isFailedSource) {
 				return false
 			}
 
@@ -150,8 +155,13 @@ export default defineComponent({
 			return canDrag(this.source)
 		},
 
-		canDrop() {
+		canDrop(): boolean {
 			if (this.source.type !== FileType.Folder) {
+				return false
+			}
+
+			// Ignore if the node is not available
+			if (this.isFailedSource) {
 				return false
 			}
 
@@ -168,7 +178,16 @@ export default defineComponent({
 				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
+				// If the menu is opened on another file entry, we ignore closed events
+				if (opened === false && this.actionsMenuStore.opened !== this.uniqueId.toString()) {
+					return
+				}
+
+				// If opened, we specify the current file id
+				// else we set it to null to close the menu
+				this.actionsMenuStore.opened = opened
+					? this.uniqueId.toString()
+					: null
 			},
 		},
 
@@ -235,21 +254,16 @@ export default defineComponent({
 		},
 
 		openedMenu() {
-			if (this.openedMenu === false) {
-				// TODO: This timeout can be removed once `close` event only triggers after the transition
-				// ref: https://github.com/nextcloud-libraries/nextcloud-vue/pull/6065
-				window.setTimeout(() => {
-					if (this.openedMenu) {
-						// was reopened while the animation run
-						return
-					}
-					// Reset any right menu position potentially set
-					const root = document.getElementById('app-content-vue')
-					if (root !== null) {
-						root.style.removeProperty('--mouse-pos-x')
-						root.style.removeProperty('--mouse-pos-y')
-					}
-				}, 300)
+			// Checking if the menu is really closed and not
+			// just a change in the open state to another file entry.
+			if (this.actionsMenuStore.opened === null) {
+				// Reset any right menu position potentially set
+				logger.debug('All actions menu closed, resetting right menu position...')
+				const root = this.$el?.closest('main.app-content') as HTMLElement
+				if (root !== null) {
+					root.style.removeProperty('--mouse-pos-x')
+					root.style.removeProperty('--mouse-pos-y')
+				}
 			}
 		},
 	},
@@ -274,6 +288,11 @@ export default defineComponent({
 				return
 			}
 
+			// Ignore right click if the node is not available
+			if (this.isFailedSource) {
+				return
+			}
+
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
@@ -282,6 +301,7 @@ export default defineComponent({
 				const contentRect = root.getBoundingClientRect()
 				// Using Math.min/max to prevent the menu from going out of the AppContent
 				// 200 = max width of the menu
+				logger.debug('Setting actions menu position...')
 				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
 				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 			} else {
@@ -308,6 +328,11 @@ export default defineComponent({
 
 			// Ignore right click (button & 2) and any auxiliary button expect mouse-wheel (button & 4)
 			if (Boolean(event.button & 2) || event.button > 4) {
+				return
+			}
+
+			// Ignore if the node is not available
+			if (this.isFailedSource) {
 				return
 			}
 

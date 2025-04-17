@@ -4,6 +4,7 @@ use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Wizard;
+use OCP\Server;
 use OCP\Util;
 
 /**
@@ -36,7 +37,7 @@ $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = (string)true;
 $con->setIgnoreValidation(true);
 
-$factory = \OC::$server->get(AccessFactory::class);
+$factory = Server::get(AccessFactory::class);
 $access = $factory->get($con);
 
 $wizard = new Wizard($configuration, $ldapWrapper, $access);
@@ -104,8 +105,7 @@ switch ($action) {
 		$setParameters = [];
 		$configuration->setConfiguration($cfg, $setParameters);
 		if (!in_array($key, $setParameters)) {
-			\OC_JSON::error(['message' => $l->t($key .
-				' Could not set configuration %s', $setParameters[0])]);
+			\OC_JSON::error(['message' => $l->t('Could not set configuration %1$s to %2$s', [$key, $setParameters[0]])]);
 			exit;
 		}
 		$configuration->saveConfiguration();

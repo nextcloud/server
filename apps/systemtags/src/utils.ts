@@ -59,13 +59,22 @@ export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
 }
 
 export const getNodeSystemTags = function(node: Node): string[] {
-	const tags = node.attributes?.['system-tags']?.['system-tag'] as string|string[]|undefined
-
-	if (tags === undefined) {
+	const attribute = node.attributes?.['system-tags']?.['system-tag']
+	if (attribute === undefined) {
 		return []
 	}
 
-	return [tags].flat()
+	// if there is only one tag it is a single string or prop object
+	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+	return [attribute]
+		.flat()
+		.map((tag: string|{ text: string }) => (
+			typeof tag === 'string'
+				// its a plain text prop (the tag name) without prop attributes
+				? tag
+				// its a prop object with attributes, the tag name is in the 'text' attribute
+				: tag.text
+		))
 }
 
 export const setNodeSystemTags = function(node: Node, tags: string[]): void {

@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "現在の天気",
     "Weather status in your dashboard" : "ダッシュボードにおける天気の表示",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "天気ウィジットはダッシュボードアプリに統合されています。\n    地理的な位置は、自動的に決定することも、手動で定義することもできます。 そして6時間の予報が表示されます\n    このステータスは、カレンダーアプリのような他の場所にも統合できます。",
-    "Detect location" : "地域を検出",
-    "Set custom address" : "地域を入力",
-    "Favorites" : "お気に入り",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} 今日遅く快晴",
     "{temperature} {unit} clear sky" : "{temperature} {unit} 快晴",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} 今日遅く曇り",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "地域設定時にエラーが発生しました",
     "There was an error saving the mode." : "モードの保存時にエラーが発生しました",
     "There was an error using personal address." : "個人の住所使用時にエラーが発生しました",
-    "Unknown weather code" : "不明な気象コード"
+    "Unknown weather code" : "不明な気象コード",
+    "Detect location" : "地域を検出",
+    "Set custom address" : "地域を入力",
+    "Favorites" : "お気に入り"
 },
 "nplurals=1; plural=0;");

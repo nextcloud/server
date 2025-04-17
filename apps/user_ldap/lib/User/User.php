@@ -18,6 +18,7 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
@@ -769,10 +770,10 @@ class User {
 				if (!empty($pwdGraceAuthNLimit)
 					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
-					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
 				}
 				exit();
@@ -780,7 +781,7 @@ class User {
 			//handle pwdReset attribute
 			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change their password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();
 			}

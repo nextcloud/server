@@ -10,6 +10,8 @@ use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
 
 class Helper {
 	/**
@@ -63,7 +65,7 @@ class Helper {
 			$i = [
 				'name' => $name,
 				'mtime' => $timestamp,
-				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($name),
+				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : Server::get(IMimeTypeDetector::class)->detectPath($name),
 				'type' => $type,
 				'directory' => ($dir === '/') ? '' : $dir,
 				'size' => $entry->getSize(),

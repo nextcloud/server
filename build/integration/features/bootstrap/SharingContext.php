@@ -17,6 +17,7 @@ class SharingContext implements Context, SnippetAcceptingContext {
 	use Trashbin;
 	use AppConfiguration;
 	use CommandLine;
+	use Activity;
 
 	protected function resetAppConfigs() {
 		$this->deleteServerConfig('core', 'shareapi_default_permissions');

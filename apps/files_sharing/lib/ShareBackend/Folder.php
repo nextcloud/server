@@ -6,6 +6,8 @@
  */
 namespace OCA\Files_Sharing\ShareBackend;
 
+use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Share_Backend_Collection;
 
 class Folder extends File implements Share_Backend_Collection {
@@ -13,7 +15,7 @@ class Folder extends File implements Share_Backend_Collection {
 		$children = [];
 		$parents = [$itemSource];
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->select('id')
 			->from('mimetypes')
 			->where(
@@ -29,7 +31,7 @@ class Folder extends File implements Share_Backend_Collection {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 
 			$parents = array_map(function ($parent) use ($qb) {
 				return $qb->createNamedParameter($parent);

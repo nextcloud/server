@@ -28,6 +28,8 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 		IRootFolder $rootFolder,
 	) {
 		$children = [
+			// Only files are supported at the moment
+			// Also see SystemTagPlugin::OBJECTIDS_PROPERTYNAME supported types
 			new SystemTagsObjectTypeCollection(
 				'files',
 				$tagManager,

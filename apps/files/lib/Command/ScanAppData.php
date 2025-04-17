@@ -18,6 +18,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -70,8 +71,8 @@ class ScanAppData extends Base {
 		$scanner = new Scanner(
 			null,
 			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class)
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class)
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -213,7 +214,7 @@ class ScanAppData extends Base {
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
 		/** @var Connection $connection */
-		$connection = \OC::$server->get(Connection::class);
+		$connection = Server::get(Connection::class);
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {

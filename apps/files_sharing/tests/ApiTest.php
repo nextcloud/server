@@ -19,12 +19,17 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Server;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
@@ -52,8 +57,8 @@ class ApiTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_expire_after_n_days', '7');
 
 		Filesystem::getLoader()->removeStorageWrapper('sharing_mask');
 
@@ -112,10 +117,10 @@ class ApiTest extends TestCase {
 			self::APP_NAME,
 			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->shareManager,
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getRootFolder(),
-			\OC::$server->getURLGenerator(),
+			Server::get(IGroupManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IRootFolder::class),
+			Server::get(IURLGenerator::class),
 			$l,
 			$config,
 			$appManager,
@@ -212,7 +217,7 @@ class ApiTest extends TestCase {
 		$this->assertTrue(is_string($data['token']));
 
 		// check for correct link
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$this->shareManager->getShareById('ocinternal:' . $data['id']);
@@ -243,7 +248,7 @@ class ApiTest extends TestCase {
 		$this->assertTrue(is_string($data['token']));
 
 		// check for correct link
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$this->shareManager->getShareById('ocinternal:' . $data['id']);
@@ -255,7 +260,7 @@ class ApiTest extends TestCase {
 
 	public function testEnforceLinkPassword(): void {
 		$password = md5(time());
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -310,7 +315,7 @@ class ApiTest extends TestCase {
 	public function testSharePermissions(): void {
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, Constants::PERMISSION_ALL, IShare::TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -325,8 +330,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// exclude groups, but not the group the user belongs to. Sharing should still work
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'yes');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups', 'yes');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, Constants::PERMISSION_ALL, IShare::TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
@@ -341,15 +346,15 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups_list', 'admin,group');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->createShare($this->filename, Constants::PERMISSION_ALL, IShare::TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
 
 		// cleanup
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
-		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups_list', '');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups', 'no');
+		Server::get(IConfig::class)->setAppValue('core', 'shareapi_exclude_groups_list', '');
 
 		$this->addToAssertionCount(1);
 	}
@@ -431,7 +436,7 @@ class ApiTest extends TestCase {
 		$id = $data['id'];
 
 		// check for correct link
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		// check for link in getall shares
@@ -694,7 +699,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$node2 = \OC::$server->getRootFolder()->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get($this->subfolder);
+		$node2 = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get($this->subfolder);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
@@ -1039,7 +1044,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		// enforce expire date, by default 7 days after the file was shared
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
@@ -1310,7 +1315,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals(substr($date, 0, 10), substr($data['expiration'], 0, 10));
 
 		// check for correct link
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
@@ -1324,7 +1329,7 @@ class ApiTest extends TestCase {
 	 * @group RoutingWeirdness
 	 */
 	public function testCreatePublicLinkExpireDateValid(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		// enforce expire date, by default 7 days after the file was shared
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
@@ -1342,7 +1347,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
 
 		// check for correct link
-		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
+		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
@@ -1356,7 +1361,7 @@ class ApiTest extends TestCase {
 	}
 
 	public function testCreatePublicLinkExpireDateInvalidFuture(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		// enforce expire date, by default 7 days after the file was shared
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
@@ -1381,7 +1386,7 @@ class ApiTest extends TestCase {
 	}
 
 	public function XtestCreatePublicLinkExpireDateInvalidPast() {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		$date = new \DateTime();
 		$date->sub(new \DateInterval('P8D'));

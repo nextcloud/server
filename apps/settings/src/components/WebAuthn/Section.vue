@@ -37,7 +37,7 @@
 <script>
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import sortBy from 'lodash/fp/sortBy.js'
 
 import AddDevice from './AddDevice.vue'

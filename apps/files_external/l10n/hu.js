@@ -87,7 +87,7 @@ OC.L10N.register(
     "External storage" : "Külső tároló",
     "External storage support" : "Külső tároló támogatás",
     "Adds basic external storage support" : "Külső tároló támogatás hozzáadása",
-    "Submit" : "Beküldés",
+    "Confirm" : "Megerősítés",
     "Unable to update this external storage config. {statusMessage}" : "A külső tároló beállításainak frissítése nem sikerült. {statusMessage}",
     "New configuration successfully saved" : "Az új konfiguráció sikeresen elmentve",
     "Enter missing credentials" : "Adja meg a hiányzó hitelesítési adatokat",

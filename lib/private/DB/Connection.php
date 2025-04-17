@@ -160,7 +160,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->_config->setSQLLogger($debugStack);
 		}
 
-		/** @var array<string, array{shards: array[], mapper: ?string}> $shardConfig */
+		/** @var array<string, array{shards: array[], mapper: ?string, from_primary_key: ?int, from_shard_key: ?int}> $shardConfig */
 		$shardConfig = $this->params['sharding'] ?? [];
 		$shardNames = array_keys($shardConfig);
 		$this->shards = array_map(function (array $config, string $name) {
@@ -180,7 +180,9 @@ class Connection extends PrimaryReadReplicaConnection {
 				self::SHARD_PRESETS[$name]['shard_key'],
 				$shardMapper,
 				self::SHARD_PRESETS[$name]['companion_tables'],
-				$config['shards']
+				$config['shards'],
+				$config['from_primary_key'] ?? 0,
+				$config['from_shard_key'] ?? 0,
 			);
 		}, $shardConfig, $shardNames);
 		$this->shards = array_combine($shardNames, $this->shards);
@@ -199,8 +201,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($this->isShardingEnabled) {
 			foreach ($this->shards as $shardDefinition) {
 				foreach ($shardDefinition->getAllShards() as $shard) {
-					/** @var ConnectionAdapter $connection */
-					$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+					if ($shard !== ShardDefinition::MIGRATION_SHARD) {
+						/** @var ConnectionAdapter $connection */
+						$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+					}
 				}
 			}
 		}
@@ -218,14 +222,14 @@ class Connection extends PrimaryReadReplicaConnection {
 				return parent::connect();
 			}
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
-
 			// Only trigger the event logger for the initial connect call
 			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
+
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			return $status;
 		} catch (Exception $e) {
@@ -692,6 +696,19 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
+	}
+
+	/**
+	 * Truncate a table data if it exists
+	 *
+	 * @param string $table table name without the prefix
+	 * @param bool $cascade whether to truncate cascading
+	 *
+	 * @throws Exception
+	 */
+	public function truncateTable(string $table, bool $cascade) {
+		$this->executeStatement($this->getDatabasePlatform()
+			->getTruncateTableSQL($this->tablePrefix . trim($table), $cascade));
 	}
 
 	/**

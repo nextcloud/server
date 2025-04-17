@@ -4,11 +4,9 @@
     "Invalid configuration: Anonymous binding is not allowed." : "תצורה שגויה: איגוד אלמוני אסור.",
     "Valid configuration, connection established!" : "התצורה תקפה, התבצע חיבור!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "התצורה תקפה, אך האיגוד נכשל. נא לבדוק את הגדרות השרת ואת פרטי הגישה.",
-    "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים.",
     "No action specified" : "לא צויינה פעולה",
     "No configuration specified" : "לא הוגדרה תצורה",
     "No data specified" : "לא הוגדר מידע",
-    " Could not set configuration %s" : " לא ניתן היה לקבוע הגדרות %s",
     "Action does not exist" : "פעולה לא קיימת",
     "Renewing …" : "מתבצע חידוש…",
     "Very weak password" : "ססמה חלשה מאוד",
@@ -46,7 +44,6 @@
     "An unspecified error occurred. Please check log and settings." : "אירעה שגיאה בלתי מוגדרת. נא לבדוק את יומן הרישום וההגדרות.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "סינון החיפוש אינו חוקי. ככל הנראה בשל שיאה תחבירית כגון מספר לא שווה של פתח-סוגריים וסגור-סוגריים. יש לתקן.",
     "Please provide a login name to test against" : "יש לספק שם משתמש לבדיקה מולו",
-    "Password change rejected. Hint: " : "שינוי הססמה נדחה. רמז:",
     "Please login with the new password" : "נא להיכנס עם הססמה החדשה",
     "Your password will expire tomorrow." : "הססמה שלך תפוג מחר.",
     "Your password will expire today." : "הססמה שלך תפוג היום.",
@@ -156,6 +153,7 @@
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
+    "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים."
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

@@ -131,15 +131,6 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$context->registerService('isSubAdmin', function () {
-			$userObject = \OC::$server->getUserSession()->getUser();
-			$isSubAdmin = false;
-			if ($userObject !== null) {
-				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
-			}
-			return $isSubAdmin;
-		});
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);

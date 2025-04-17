@@ -597,7 +597,11 @@ class Manager implements IManager {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
-					throw new \InvalidArgumentException($this->l->t('Path contains files shared with you'));
+					// Using a flat sharing model ensures the file owner can always see who has access.
+					// Allowing parent folder sharing would require tracking inherited access, which adds complexity
+					// and hurts performance/scalability.
+					// So we forbid sharing a parent folder of a share you received.
+					throw new \InvalidArgumentException($this->l->t('You cannot share a folder that contains other shares'));
 				}
 			}
 		}
@@ -1065,7 +1069,12 @@ class Manager implements IManager {
 
 		foreach ($userIds as $userId) {
 			foreach ($shareTypes as $shareType) {
-				$provider = $this->factory->getProviderForType($shareType);
+				try {
+					$provider = $this->factory->getProviderForType($shareType);
+				} catch (ProviderException $e) {
+					continue;
+				}
+
 				if ($node instanceof Folder) {
 					/* We need to get all shares by this user to get subshares */
 					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
@@ -1540,8 +1549,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function groupDeleted($gid) {
-		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
-		$provider->groupDeleted($gid);
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP] as $type) {
+			try {
+				$provider = $this->factory->getProviderForType($type);
+			} catch (ProviderException $e) {
+				continue;
+			}
+			$provider->groupDeleted($gid);
+		}
 
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		if ($excludedGroups === '') {
@@ -1561,8 +1576,14 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
-		$provider->userDeletedFromGroup($uid, $gid);
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP] as $type) {
+			try {
+				$provider = $this->factory->getProviderForType($type);
+			} catch (ProviderException $e) {
+				continue;
+			}
+			$provider->userDeletedFromGroup($uid, $gid);
+		}
 	}
 
 	/**
@@ -1953,14 +1974,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Copied from \OC_Util::isSharingDisabledForUser
-	 *
-	 * TODO: Deprecate function from OC_Util
-	 *
-	 * @param string $userId
-	 * @return bool
+	 * Check if sharing is disabled for the current user
 	 */
-	public function sharingDisabledForUser($userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 

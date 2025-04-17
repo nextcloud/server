@@ -76,10 +76,10 @@ import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
@@ -300,7 +300,7 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
+					showError(this.t('files', '"{displayName}" failed on some elements', { displayName }))
 					return
 				}
 

@@ -8,6 +8,7 @@ namespace OCA\Provisioning_API;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
+use OCP\Server;
 
 class Capabilities implements ICapability {
 
@@ -36,7 +37,7 @@ class Capabilities implements ICapability {
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		if ($federatedFileSharingEnabled) {
 			/** @var FederatedShareProvider $shareProvider */
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$shareProvider = Server::get(FederatedShareProvider::class);
 			$publishedScopeEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 

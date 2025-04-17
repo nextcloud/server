@@ -19,6 +19,12 @@ class UserConfig {
 			'allowed' => [true, false],
 		],
 		[
+			// Whether to show the "confirm file extension change" warning
+			'key' => 'show_dialog_file_extension',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
 			// Whether to show the hidden files or not in the files list
 			'key' => 'show_hidden',
 			'default' => false,
