@@ -63,7 +63,7 @@ class SanitizeFilenames extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->charReplacement = $input->getOption('char-replacement');
-		if (!is_string($this->charReplacement) || $this->charReplacement === '' || mb_strlen($this->charReplacement) > 1) {
+		if ($this->charReplacement === '' || mb_strlen($this->charReplacement) > 1) {
 			$output->writeln('<error>No character replacement given</error>');
 			return 1;
 		}
