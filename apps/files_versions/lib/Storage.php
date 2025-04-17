@@ -860,7 +860,7 @@ class Storage {
 			// calculate available space for version history
 			// subtract size of files and current versions size from quota
 			if ($quota >= 0) {
-				$logger->error('DEBUG 72738::quota greater than 0 '.$quota);
+				$logger->error('DEBUG 72738::quota greater than 0 ' . $quota);
 				if ($softQuota) {
 					$root = \OC::$server->get(IRootFolder::class);
 					$userFolder = $root->getUserFolder($uid);
