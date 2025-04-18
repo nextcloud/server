@@ -398,6 +398,12 @@ class OC {
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
 
+		// set the cookie domain to the Nextcloud domain
+		$cookie_domain = self::$config->getValue('cookie_domain', '');
+		if ($cookie_domain) {
+			ini_set('session.cookie_domain', $cookie_domain);
+		}
+
 		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
 
