@@ -18,6 +18,7 @@
     "%sbit or higher PHP required." : "Nepieciešams %sbit vai jaunāks PHP.",
     "The command line tool %s could not be found" : "Komandrindas rīku %s nevarēja atrast",
     "The library %s is not available." : "Bibliotēka %s nav pieejama.",
+    "The following platforms are supported: %s" : "Tiek atbalstītas šīs platformas: %s",
     "Server version %s or higher is required." : "Ir nepieciešama servera versija %s vai jaunāka.",
     "Server version %s or lower is required." : "Ir nepieciešama servera versija %s vai vecāka.",
     "Authentication" : "Autentifikācija",
