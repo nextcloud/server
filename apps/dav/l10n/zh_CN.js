@@ -289,7 +289,7 @@ OC.L10N.register(
     "Weekdays" : "工作日",
     "Pick a start time for {dayName}" : "选择 {dayName} 的开始时间",
     "Pick a end time for {dayName}" : "选择 {dayName} 的结束时间",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "不在工作时间内时，自动将用户状态设置为“请勿打扰”并静音所有通知。",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "不在工作时间内时，自动将用户状态设置为“勿扰”并静音所有通知。",
     "Availability" : "工作时间",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "如果你配置了工作时间，其他人在预订会议时会看到你何时不在办公室。",
     "Absence" : "离开",
