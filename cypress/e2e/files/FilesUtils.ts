@@ -181,8 +181,7 @@ export const renameFile = (fileName: string, newFileName: string) => {
 	// intercept the move so we can wait for it
 	cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
-	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').clear()
-	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').type(`${newFileName}{enter}`)
+	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').type(`{selectAll}${newFileName}{enter}`)
 
 	cy.wait('@moveFile')
 }
