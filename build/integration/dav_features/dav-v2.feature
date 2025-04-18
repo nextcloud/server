@@ -117,6 +117,15 @@ Feature: dav-v2
 		When User "user0" uploads file "data/textfile.txt" to "/long-filename-with-250-characters-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.txt"
 		Then the HTTP status code should be "201"
 
+	Scenario: Uploading a file with a too long filename
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" has a quota of "10 MB"
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/long-filename-with-256-characters-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.txt"
+		Then the HTTP status code should be "400"
+
 	Scenario: Create a search query on image
 		Given using new dav path
 		And As an "admin"
