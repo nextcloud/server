@@ -382,14 +382,9 @@ class File extends Node implements IFile {
 			$filename = basename($path);
 			// length in bytes NOT characters
 			$filenameLength = strlen($filename);
-			// check if filename (with transfer id and part extension) overflows the filesystem limit of 255 BYTES
-			// 255 - strlen('.ocTransferId') - strlen('.part') - strlen((string)getrandmax())
-			if ($filenameLength >= 225) {
-				// hash does not need to be secure but fast and semi unique
-				$filename = hash('xxh128', $filename);
-				return substr($path, 0, strlen($path) - $filenameLength) . $filename;
-			}
-			return $path;
+			// hash does not need to be secure but fast and semi unique
+			$filename = hash('xxh128', $filename);
+			return substr($path, 0, strlen($path) - $filenameLength) . $filename;
 		} else {
 			// will place the .part file in the users root directory
 			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
