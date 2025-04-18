@@ -40,6 +40,7 @@ class LoginFailedListener implements IEventListener {
 		$this->dispatcher->dispatchTyped(new AnyLoginFailedEvent($event->getLoginName(), $event->getPassword()));
 
 		$uid = $event->getLoginName();
+		\OC_Hook::emit('OC_User', 'login_failed', ['run' => true, 'uid' => $uid]);
 		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
