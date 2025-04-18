@@ -54,8 +54,12 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				if (!empty($dateModification)) {
+				if ($dateModification === 'null') {
+					$fd['expireDate'] = null;
+				} elseif (!empty($dateModification)) {
 					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				} else {
+					$fd['expireDate'] = '';
 				}
 			}
 			$options['form_params'] = $fd;
