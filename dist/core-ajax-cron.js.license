@@ -32,7 +32,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - webpack
-	- version: 5.94.0
+	- version: 5.99.5
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
