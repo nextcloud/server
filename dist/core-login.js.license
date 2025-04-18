@@ -18,6 +18,7 @@ SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Matthew Miller <matthew@millerti.me>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
@@ -92,6 +93,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.25.1
 	- license: AGPL-3.0-or-later
+- @simplewebauthn/browser
+	- version: 13.1.0
+	- license: MIT
 - @vueuse/core
 	- version: 11.3.0
 	- license: MIT
