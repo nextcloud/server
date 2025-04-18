@@ -523,7 +523,7 @@ EOF;
 		$this->ensureBodyListClosed();
 
 		$color = $this->themingDefaults->getDefaultColorPrimary();
-		$textColor = $this->themingDefaults->getTextColorPrimary();
+		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
 
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
 		$this->plainBody .= PHP_EOL . $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
@@ -554,7 +554,7 @@ EOF;
 		}
 
 		$color = $this->themingDefaults->getDefaultColorPrimary();
-		$textColor = $this->themingDefaults->getTextColorPrimary();
+		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
 		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, $text]);
 
 		if ($plainText !== false) {
