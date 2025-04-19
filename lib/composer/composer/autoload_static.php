@@ -221,6 +221,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderForUserUnregistered' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderForUserUnregistered.php',
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderUserDeleted' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderUserDeleted.php',
         'OCP\\AutoloadNotAllowedException' => __DIR__ . '/../../..' . '/lib/public/AutoloadNotAllowedException.php',
+        'OCP\\BackgroundJob\\Events\\BeforeJobExecutedEvent' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/Events/BeforeJobExecutedEvent.php',
+        'OCP\\BackgroundJob\\Events\\JobExecutedEvent' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/Events/JobExecutedEvent.php',
         'OCP\\BackgroundJob\\IJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJob.php',
         'OCP\\BackgroundJob\\IJobList' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJobList.php',
         'OCP\\BackgroundJob\\IParallelAwareJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IParallelAwareJob.php',

@@ -11,7 +11,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCP\App\IAppManager;
+use OCP\BackgroundJob\Events\BeforeJobExecutedEvent;
+use OCP\BackgroundJob\Events\JobExecutedEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ISession;
@@ -72,6 +75,7 @@ Options:
 	$logger = Server::get(LoggerInterface::class);
 	$appConfig = Server::get(IAppConfig::class);
 	$tempManager = Server::get(ITempManager::class);
+	$eventDispatcher = Server::get(IEventDispatcher::class);
 
 	$tempManager->cleanOld();
 
@@ -166,8 +170,10 @@ Options:
 				echo 'Starting job ' . $jobDetails . PHP_EOL;
 			}
 
+			$eventDispatcher->dispatchTyped(new BeforeJobExecutedEvent($job));
 			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 			$job->execute($jobList);
+			$eventDispatcher->dispatchTyped(new JobExecutedEvent($job));
 
 			$timeAfter = time();
 			$memoryAfter = memory_get_usage();

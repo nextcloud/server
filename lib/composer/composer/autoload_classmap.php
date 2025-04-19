@@ -180,6 +180,8 @@ return array(
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderForUserUnregistered' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderForUserUnregistered.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderUserDeleted' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderUserDeleted.php',
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
+    'OCP\\BackgroundJob\\Events\\BeforeJobExecutedEvent' => $baseDir . '/lib/public/BackgroundJob/Events/BeforeJobExecutedEvent.php',
+    'OCP\\BackgroundJob\\Events\\JobExecutedEvent' => $baseDir . '/lib/public/BackgroundJob/Events/JobExecutedEvent.php',
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
     'OCP\\BackgroundJob\\IJobList' => $baseDir . '/lib/public/BackgroundJob/IJobList.php',
     'OCP\\BackgroundJob\\IParallelAwareJob' => $baseDir . '/lib/public/BackgroundJob/IParallelAwareJob.php',
