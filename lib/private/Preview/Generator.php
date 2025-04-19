@@ -598,6 +598,8 @@ class Generator {
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/avif':
+				return 'avif';
 			case 'image/webp':
 				return 'webp';
 			case 'image/gif':
