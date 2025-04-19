@@ -198,7 +198,7 @@ class Hooks {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->useTemplate($template);
-			$this->mailer->send($message);
+			//$this->mailer->send($message);
 		}
 	}
 }
