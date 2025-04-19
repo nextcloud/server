@@ -68,7 +68,7 @@ OC.L10N.register(
     "Your password will expire today." : "Dit kodeord udløber i dag.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Din adgangskode udløber inden for %n dag.","Din adgangskode udløber inden for %n dage."],
     "LDAP/AD integration" : "LDAP / AD integration",
-    "LDAP Connection" : "LDAP- forbindelse",
+    "LDAP Connection" : "LDAP forbindelse",
     "_Binding failed for this LDAP configuration: %s_::_Binding failed for %n LDAP configurations: %s_" : ["Binding mislykkedes for denne LDAP- konfiguration:% s","Binding mislykkedes for %n LDAP- konfigurationer: %s"],
     "_Searching failed for this LDAP configuration: %s_::_Searching failed for %n LDAP configurations: %s_" : ["Søgning mislykkedes for denne LDAP- konfiguration:% s","Søgning mislykkedes for %n LDAP- konfigurationer: %s"],
     "_There is an inactive LDAP configuration: %s_::_There are %n inactive LDAP configurations: %s_" : ["Der er en inaktiv LDAP- konfiguration:% s","Der er %n inaktive LDAP- konfigurationer: %s"],
