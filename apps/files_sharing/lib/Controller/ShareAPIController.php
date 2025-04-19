@@ -915,6 +915,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $subfiles Only get all shares in a folder
 	 * @param string $path Get shares for a specific path
 	 * @param string $include_tags Include tags in the share
+	 * @param list<int> $types List of share types to return
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingShare>, array{}>
 	 * @throws OCSNotFoundException The folder was not found or is inaccessible
@@ -928,6 +929,7 @@ class ShareAPIController extends OCSController {
 		string $subfiles = 'false',
 		string $path = '',
 		string $include_tags = 'false',
+		array $types = [],
 	): DataResponse {
 		$node = null;
 		if ($path !== '') {
@@ -944,13 +946,37 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
+		$types = array_map('intval', $types);
+		$validTypesFiltered = array_filter($types, function ($type) {
+			return match ($type) {
+				IShare::TYPE_USER,
+				IShare::TYPE_GROUP,
+				IShare::TYPE_LINK,
+				IShare::TYPE_EMAIL,
+				IShare::TYPE_REMOTE,
+				IShare::TYPE_REMOTE_GROUP,
+				IShare::TYPE_CIRCLE,
+				IShare::TYPE_ROOM,
+				IShare::TYPE_DECK,
+				IShare::TYPE_SCIENCEMESH => true,
+				default => false,
+			};
+		});
+
+		if (count($types) !== count($validTypesFiltered)) {
+			throw new OCSBadRequestException(
+				$this->l->t('Cannot filter by unknown share types')
+			);
+		}
+
 		$shares = $this->getFormattedShares(
 			$this->userId,
 			$node,
 			($shared_with_me === 'true'),
 			($reshares === 'true'),
 			($subfiles === 'true'),
-			($include_tags === 'true')
+			($include_tags === 'true'),
+			$types
 		);
 
 		return new DataResponse($shares);
@@ -1041,6 +1067,7 @@ class ShareAPIController extends OCSController {
 		bool $reShares = false,
 		bool $subFiles = false,
 		bool $includeTags = false,
+		array $types = [],
 	): array {
 		if ($sharedWithMe) {
 			return $this->getSharedWithMe($node, $includeTags);
@@ -1050,7 +1077,7 @@ class ShareAPIController extends OCSController {
 			return $this->getSharesInDir($node);
 		}
 
-		$shares = $this->getSharesFromNode($viewer, $node, $reShares);
+		$shares = $this->getSharesFromNode($viewer, $node, $reShares, $types);
 
 		$known = $formatted = $miniFormatted = [];
 		$resharingRight = false;
@@ -1067,6 +1094,11 @@ class ShareAPIController extends OCSController {
 
 			if (in_array($share->getId(), $known)
 				|| ($share->getSharedWith() === $this->userId && $share->getShareType() === IShare::TYPE_USER)) {
+				continue;
+			}
+
+			// Filter out share types not requested in non-empty $types array
+			if (!empty($types) && !in_array($share->getShareType(), $types)) {
 				continue;
 			}
 
@@ -1855,7 +1887,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @return IShare[]
 	 */
-	private function getSharesFromNode(string $viewer, $node, bool $reShares): array {
+	private function getSharesFromNode(string $viewer, $node, bool $reShares, array $limitToProviders = []): array {
 		$providers = [
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
@@ -1867,6 +1899,10 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_SCIENCEMESH
 		];
 
+		if (count($limitToProviders) > 0) {
+			$providers = $limitToProviders;
+		}
+		
 		// Should we assume that the (currentUser) viewer is the owner of the node !?
 		$shares = [];
 		foreach ($providers as $provider) {
