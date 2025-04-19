@@ -25,6 +25,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -86,6 +87,10 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 * @var \PHPUnit\Framework\MockObject\MockObject|IEventDispatcher
 	 */
 	protected IEventDispatcher $eventDispatcher;
+	/**
+	 * @var \PHPUnit\Framework\MockObject\MockObject|IAppConfig
+	 */
+	protected IAppConfig $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -100,6 +105,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		// prepare BackendService mock
 		$this->backendService =

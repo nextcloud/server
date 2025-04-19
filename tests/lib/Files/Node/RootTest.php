@@ -14,6 +14,7 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -39,6 +40,8 @@ class RootTest extends \Test\TestCase {
 	private $eventDispatcher;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,6 +61,7 @@ class RootTest extends \Test\TestCase {
 			->willReturnCallback(function () {
 				return new ArrayCache();
 			});
+		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
 
 	/**
@@ -92,6 +96,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$view->expects($this->once())
@@ -125,6 +130,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$view->expects($this->once())
@@ -150,6 +156,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$root->get('/../foo');
@@ -169,6 +176,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 
 		$root->get('/bar/foo');
@@ -184,6 +192,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 		$user = $this->createMock(IUser::class);
 		$user
@@ -226,6 +235,7 @@ class RootTest extends \Test\TestCase {
 			$this->userManager,
 			$this->eventDispatcher,
 			$this->cacheFactory,
+			$this->appConfig,
 		);
 		$this->userManager
 			->expects($this->once())

@@ -17,7 +17,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 class GlobalStoragesServiceTest extends StoragesServiceTest {
 	protected function setUp(): void {
 		parent::setUp();
-		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
+		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher, $this->appConfig);
 	}
 
 	protected function tearDown(): void {
