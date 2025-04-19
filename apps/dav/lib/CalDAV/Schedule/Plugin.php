@@ -260,7 +260,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$aclPlugin = $this->server->getPlugin('acl');
 		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
 		$calendarUserType = $this->getCalendarUserTypeForPrincipal($principalUri);
-		if (strcasecmp($calendarUserType, 'ROOM') !== 0 && strcasecmp($calendarUserType, 'RESOURCE') !== 0) {
+		if (strcasecmp($calendarUserType, 'ROOM') === 0 || strcasecmp($calendarUserType, 'RESOURCE') === 0) {
 			$this->logger->debug('Calendar user type is room or resource, not processing further');
 			return;
 		}
