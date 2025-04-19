@@ -284,7 +284,10 @@ class AppConfig implements IAppConfig {
 	): string {
 		try {
 			$lazy = ($lazy === null) ? $this->isLazy($app, $key) : $lazy;
-		} catch (AppConfigUnknownKeyException $e) {
+		} catch (AppConfigUnknownKeyException) {
+			$lazy = false;
+			$type = self::VALUE_MIXED;
+			$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default);
 			return $default;
 		}
 
