@@ -271,6 +271,7 @@
     "A valid Login must be provided" : "Ein gültiger Anmeldename muss eingegeben werden.",
     "Login contains whitespace at the beginning or at the end" : "Anmeldename enthält Leerzeichen am Anfang oder am Ende",
     "Login must not consist of dots only" : "Der Anmeldename darf nicht nur aus Punkten bestehen",
+    "Login is too long" : "Die Anmeldung dauert zu lange",
     "Login is invalid because files already exist for this user" : "Der Anmeldename ist ungültig, da bereits Dateien von diesem Konto existieren",
     "Account disabled" : "Konto deaktiviert",
     "Login canceled by app" : "Anmeldung durch die App abgebrochen",
