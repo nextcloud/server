@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\InvalidPathException;
@@ -19,12 +20,14 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<BeforePreviewFetchedEvent>
+ * @template-implements IEventListener<BeforePreviewFetchedEvent|VersionRestoredEvent>
  */
 class FileEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
 		if ($event instanceof BeforePreviewFetchedEvent) {
 			$this->beforePreviewFetched($event);
+		} elseif ($event instanceof VersionRestoredEvent) {
+			$this->versionRestored($event);
 		}
 	}
 
@@ -53,5 +56,19 @@ class FileEventListener extends Action implements IEventListener {
 			);
 			return;
 		}
+	}
+
+	/**
+	 * Logs when a version is restored
+	 */
+	private function versionRestored(VersionRestoredEvent $event): void {
+		$version = $event->getVersion();
+		$this->log('Version "%s" of "%s" was restored.',
+			[
+				'version' => $version->getRevisionId(),
+				'path' => $version->getVersionPath()
+			],
+			['version', 'path']
+		);
 	}
 }
