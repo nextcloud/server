@@ -275,6 +275,8 @@ OC.L10N.register(
     "Expires {relativetime}" : "Vervalt {relativetime}",
     "this share just expired." : "deze share is net verlopen.",
     "Shared with you by {owner}" : "Met je gedeeld door {owner}",
+    "Internal shares" : "Interne schijven",
+    "External shares" : "Externe schijven",
     "Link to a file" : "Link naar een bestand",
     "_Accept share_::_Accept shares_" : ["Accepteer share","Accepteer shares"],
     "Open in Files" : "Open in Bestanden",
