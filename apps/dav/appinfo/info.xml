@@ -70,6 +70,8 @@
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
+		<command>OCA\DAV\Command\ImportCalendar</command>
+		<command>OCA\DAV\Command\ExportCalendar</command>
 	</commands>
 
 	<settings>

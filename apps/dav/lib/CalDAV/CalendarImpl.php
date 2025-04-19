@@ -8,9 +8,18 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Exception;
+use Generator;
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCP\Calendar\CalendarExportOptions;
+use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
+use OCP\Calendar\ICalendarExport;
+use OCP\Calendar\ICalendarImport;
+use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Constants;
@@ -20,11 +29,14 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Node;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
+use Sabre\VObject\UUIDUtil;
+
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarImport, ICalendarExport {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -257,4 +269,150 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
 	}
+	
+	/**
+	 * Export objects
+	 *
+	 * @since 32.0.0
+	 *
+	 * @return Generator<mixed, \Sabre\VObject\Component\VCalendar, mixed, mixed>
+	 */
+	public function export(?CalendarExportOptions $options = null): Generator {
+		foreach (
+			$this->backend->exportCalendar(
+				$this->calendarInfo['id'],
+				$this->backend::CALENDAR_TYPE_CALENDAR,
+				$options
+			) as $event
+		) {
+			$vObject = Reader::read($event['calendardata']);
+			if ($vObject instanceof VCalendar) {
+				yield $vObject;
+			}
+		}
+	}
+
+	/**
+	 * Import objects
+	 *
+	 * @since 32.0.0
+	 *
+	 * @param CalendarImportOptions $options
+	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
+	 *
+	 * @return array<string,array<string,string|array<string>>>
+	 */
+	public function import(CalendarImportOptions $options, callable $generator): array {
+		$calendarId = $this->getKey();
+		$outcome = [];
+		foreach ($generator($options) as $vObject) {
+			$components = $vObject->getBaseComponents();
+			// determine if the object has no base component types
+			if (count($components) === 0) {
+				$errorMessage = 'One or more objects discovered with no base component types';
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+				}
+				$outcome['nbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				continue;
+			}
+			// determine if the object has more than one base component type
+			// object can have multiple base components with the same uid
+			// but we need to make sure they are of the same type
+			if (count($components) > 1) {
+				$type = $components[0]->name;
+				foreach ($components as $entry) {
+					if ($type !== $entry->name) {
+						$errorMessage = 'One or more objects discovered with multiple base component types';
+						if ($options->getErrors() === $options::ERROR_FAIL) {
+							throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+						}
+						$outcome['mbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+						continue 2;
+					}
+				}
+			}
+			// determine if the object has a uid
+			if (!isset($components[0]->UID)) {
+				$errorMessage = 'One or more objects discovered without a UID';
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+				}
+				$outcome['noid'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				continue;
+			}
+			$uid = $components[0]->UID->getValue();
+			// validate object
+			if ($options->getValidate() !== $options::VALIDATE_NONE) {
+				$issues = $this->validateComponent($vObject, true, 3);
+				if ($options->getValidate() === $options::VALIDATE_SKIP && $issues !== []) {
+					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
+					continue;
+				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
+					throw new InvalidArgumentException('Error importing calendar data: UID <' . $uid . '> - ' . $issues[0]);
+				}
+			}
+			// create or update object in the data store
+			$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
+			$objectData = $vObject->serialize();
+			try {
+				if ($objectId === null) {
+					$objectId = UUIDUtil::getUUID();
+					$this->backend->createCalendarObject(
+						$calendarId,
+						$objectId,
+						$objectData
+					);
+					$outcome[$uid] = ['outcome' => 'created'];
+				} elseif ($objectId !== null) {
+					[$cid, $oid] = explode('/', $objectId);
+					if ($options->getSupersede()) {
+						$this->backend->updateCalendarObject(
+							$calendarId,
+							$oid,
+							$objectData
+						);
+						$outcome[$uid] = ['outcome' => 'updated'];
+					} else {
+						$outcome[$uid] = ['outcome' => 'exists'];
+					}
+				}
+			} catch (Exception $e) {
+				$errorMessage = $e->getMessage();
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new Exception('Error importing calendar data: UID <' . $uid . '> - ' . $errorMessage, 0, $e);
+				}
+				$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+			}
+		}
+
+		return $outcome;
+	}
+
+	/**
+	 * Validate a component
+	 *
+	 * @param VCalendar $vObject
+	 * @param bool $repair attempt to repair the component
+	 * @param int $level minimum level of issues to return
+	 * @return list<mixed>
+	 */
+	private function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
+		// validate component(S)
+		$issues = $vObject->validate(Node::PROFILE_CALDAV);
+		// attempt to repair
+		if ($repair && count($issues) > 0) {
+			$issues = $vObject->validate(Node::REPAIR);
+		}
+		// filter out messages based on level
+		$result = [];
+		foreach ($issues as $key => $issue) {
+			if (isset($issue['level']) && $issue['level'] >= $level) {
+				$result[] = $issue['message'];
+			}
+		}
+		
+		return $result;
+	}
+
 }
