@@ -137,7 +137,7 @@ abstract class RequestTestCase extends TestCase {
 		$authBackend = new Auth($user, $password);
 		$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
-		$server = $this->serverFactory->createServer('/', 'dummy', $authPlugin, function () use ($view) {
+		$server = $this->serverFactory->createServer(false, '/', 'dummy', $authPlugin, function () use ($view) {
 			return $view;
 		});
 		$server->addPlugin($exceptionPlugin);
