@@ -32,7 +32,6 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class ThemingController
@@ -45,7 +44,7 @@ class ThemingController extends Controller {
 	public const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		private IConfig $config,
 		private IAppConfig $appConfig,
@@ -402,10 +401,7 @@ class ThemingController extends Controller {
 			$css = ":root { $variables } " . $customCss;
 		} else {
 			// If not set, we'll rely on the body class
-			$compiler = new Compiler();
-			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
-			$css = $compiledCss->getCss();
-			;
+			$css = "[data-theme-$themeId] { $variables $customCss }";
 		}
 
 		try {
