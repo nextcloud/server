@@ -21,8 +21,10 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
-use OCP\IServerContainer;
 use OCP\Preview\IProviderV2;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+
 use function array_key_exists;
 
 class PreviewManager implements IPreview {
@@ -47,7 +49,7 @@ class PreviewManager implements IPreview {
 	 * @psalm-var array<string, null>
 	 */
 	private array $loadedBootstrapProviders = [];
-	private IServerContainer $container;
+	private ContainerInterface $container;
 	private IBinaryFinder $binaryFinder;
 	private IMagickSupport $imagickSupport;
 	private bool $enablePreviews;
@@ -60,7 +62,7 @@ class PreviewManager implements IPreview {
 		GeneratorHelper $helper,
 		?string $userId,
 		Coordinator $bootstrapCoordinator,
-		IServerContainer $container,
+		ContainerInterface $container,
 		IBinaryFinder $binaryFinder,
 		IMagickSupport $imagickSupport,
 	) {
@@ -136,7 +138,8 @@ class PreviewManager implements IPreview {
 					$this->rootFolder,
 					$this->config
 				),
-				$this->eventDispatcher
+				$this->eventDispatcher,
+				$this->container->get(LoggerInterface::class),
 			);
 		}
 		return $this->generator;
