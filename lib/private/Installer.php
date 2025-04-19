@@ -18,6 +18,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC_App;
 use OC_Helper;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
@@ -176,10 +177,28 @@ class Installer {
 	 */
 	public function downloadApp(string $appId, bool $allowUnstable = false): void {
 		$appId = strtolower($appId);
+		$appManager = \OCP\Server::get(IAppManager::class);
 
 		$apps = $this->appFetcher->get($allowUnstable);
 		foreach ($apps as $app) {
 			if ($app['id'] === $appId) {
+				try {
+					$appPath = $appManager->getAppPath($appId);
+				} catch (AppPathNotFoundException) {
+					$appPath = OC_App::getInstallPath() . '/' . $appId;
+				}
+
+				$appsRootWritable = false;
+				$appRootPath = dirname($appPath);
+				foreach (\OC::$APPSROOTS as $appsRoot) {
+					if ($appsRoot['path'] === $appRootPath) {
+						$appsRootWritable = $appsRoot['writable'] ?? false;
+					}
+				}
+				if (!$appsRootWritable) {
+					throw new \Exception(sprintf('App %s can not be updated because the app root is not writable.', $appId));
+				}
+
 				// Load the certificate
 				$certificate = new X509();
 				$rootCrt = file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt');
@@ -322,15 +341,14 @@ class Installer {
 						);
 					}
 
-					$baseDir = OC_App::getInstallPath() . '/' . $appId;
 					// Remove old app with the ID if existent
-					OC_Helper::rmdirr($baseDir);
+					OC_Helper::rmdirr($appPath);
 					// Move to app folder
-					if (@mkdir($baseDir)) {
+					if (@mkdir($appPath)) {
 						$extractDir .= '/' . $folders[0];
-						OC_Helper::copyr($extractDir, $baseDir);
+						OC_Helper::copyr($extractDir, $appPath);
 					}
-					OC_Helper::copyr($extractDir, $baseDir);
+					OC_Helper::copyr($extractDir, $appPath);
 					OC_Helper::rmdirr($extractDir);
 					return;
 				}
@@ -446,11 +464,26 @@ class Installer {
 	 */
 	public function removeApp(string $appId): bool {
 		if ($this->isDownloaded($appId)) {
-			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
+			$appManager = \OCP\Server::get(IAppManager::class);
+
+			if ($appManager->isShipped($appId)) {
 				return false;
 			}
-			$appDir = OC_App::getInstallPath() . '/' . $appId;
-			OC_Helper::rmdirr($appDir);
+
+			$appPath = $appManager->getAppPath($appId);
+
+			$appsRootWritable = false;
+			$appRootPath = dirname($appPath);
+			foreach (\OC::$APPSROOTS as $appsRoot) {
+				if ($appsRoot['path'] === $appRootPath) {
+					$appsRootWritable = $appsRoot['writable'] ?? false;
+				}
+			}
+			if (!$appsRootWritable) {
+				return false;
+			}
+
+			OC_Helper::rmdirr($appPath);
 			return true;
 		} else {
 			$this->logger->error('can\'t remove app ' . $appId . '. It is not installed.');

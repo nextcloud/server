@@ -44,9 +44,10 @@ export interface IAppstoreApp {
 	app_api: boolean
 	active: boolean
 	internal: boolean
-	removable: boolean
 	installed: boolean
+	canDownload: boolean
 	canInstall: boolean
+	canUpdate: boolean
 	canUnInstall: boolean
 	isCompatible: boolean
 	needsDownload: boolean
