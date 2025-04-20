@@ -6,6 +6,8 @@ OC.L10N.register(
     "View file" : "Féach ar chomhad",
     "View folder" : "Féach ar fhillteán",
     "Files reminder" : "Meabhrúchán comhaid",
+    "The \"files_reminders\" app can work properly." : "Is féidir leis an \"files_reminders\" app oibriú i gceart.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Ní mór don app \"files_reminders\" an app fógra a bheith ag obair i gceart. Ba cheart duit fógraí a chumasú nó comhaid_reminder a dhíchumasú.",
     "Set file reminders" : "Socraigh meabhrúcháin comhaid",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Meabhrúcháin comhaid**\n\nSocraigh meabhrúcháin comhaid.\n\nTabhair faoi deara: chun an aip `Meabhrúcháin Comhad` a úsáid, cinntigh go bhfuil an aip `Fógraí` suiteáilte agus cumasaithe. Soláthraíonn an aip `Fógraí` na APInna riachtanacha chun go n-oibreoidh an aip `Meabhrúcháin Comhad` i gceart.",
     "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\"",
