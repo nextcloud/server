@@ -219,6 +219,7 @@ OC.L10N.register(
     "Resources" : "Ressursid",
     "Documentation" : "Dokumentatsioon",
     "Report a bug" : "Teata veast",
+    "Ask questions or discuss" : "Küsi nõu või aruta",
     "Changelog" : "Muudatuste logi",
     "Google Chrome for Android" : "Google Chrome for Android",
     "This session" : "See sessioon",
