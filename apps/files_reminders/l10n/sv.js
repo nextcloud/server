@@ -6,6 +6,8 @@ OC.L10N.register(
     "View file" : "Visa fil",
     "View folder" : "Visa mapp",
     "Files reminder" : "Filpåminnelse",
+    "The \"files_reminders\" app can work properly." : "\"files_reminders\" appen kan fungera korrekt.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Appen \"files_reminders\" behöver notification appen för att fungera korrekt. Du bör antingen aktivera aviseringar eller inaktivera files_reminder.",
     "Set file reminders" : "Ställ in filpåminnelser",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Filpåminnelser**\n\nStäll in påminnelser för filer.\n\nObs: För att använda appen `Filpåminnelser` måste du se till att appen `Aviseringar` är installerad och aktiverad. Appen `Aviseringar` tillhandahåller de nödvändiga API:erna för att appen `File reminders` ska fungera korrekt.",
     "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\"",
