@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "behat/behat",
-            "version": "v3.20.0",
+            "version": "v3.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "edb265a32329d514e3a5ec44924646e0e02d95ee"
+                "reference": "4b6a6cd83202619d22bea6f27a2e8b91d9a3ba8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/edb265a32329d514e3a5ec44924646e0e02d95ee",
-                "reference": "edb265a32329d514e3a5ec44924646e0e02d95ee",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/4b6a6cd83202619d22bea6f27a2e8b91d9a3ba8c",
+                "reference": "4b6a6cd83202619d22bea6f27a2e8b91d9a3ba8c",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "composer-runtime-api": "^2.2",
                 "composer/xdebug-handler": "^3.0",
                 "ext-mbstring": "*",
-                "nikic/php-parser": "^5.0",
+                "nikic/php-parser": "^5.2",
                 "php": "8.1.* || 8.2.* || 8.3.* || 8.4.* ",
                 "psr/container": "^1.0 || ^2.0",
                 "symfony/config": "^5.4 || ^6.4 || ^7.0",
@@ -96,9 +96,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Behat/Behat/issues",
-                "source": "https://github.com/Behat/Behat/tree/v3.20.0"
+                "source": "https://github.com/Behat/Behat/tree/v3.21.0"
             },
-            "time": "2025-04-02T14:51:45+00:00"
+            "time": "2025-04-21T07:26:35+00:00"
         },
         {
             "name": "behat/gherkin",
