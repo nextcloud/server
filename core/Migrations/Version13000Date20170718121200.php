@@ -178,7 +178,8 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('name', 'string', [
 				'notnull' => false,
-				'length' => 250,
+				// changed from 250 to 255 in Nextcloud 32 to align with operating systems (Version32000Date20250422135900)
+				'length' => 255,
 			]);
 			$table->addColumn('mimetype', Types::BIGINT, [
 				'notnull' => true,

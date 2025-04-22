@@ -180,9 +180,9 @@ class FilenameValidator implements IFilenameValidator {
 			throw new InvalidDirectoryException($this->l10n->t('Dot files are not allowed'));
 		}
 
-		// 255 characters is the limit on common file systems (ext/xfs)
-		// oc_filecache has a 250 char length limit for the filename
-		if (isset($filename[250])) {
+		// 255 characters is the limit on common file systems (ext/xfs) and in general on Linux.
+		// this is also the limit of oc_filecache for the filename
+		if (isset($filename[255])) {
 			throw new FileNameTooLongException();
 		}
 
