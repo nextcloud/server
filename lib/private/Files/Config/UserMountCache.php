@@ -15,9 +15,12 @@ use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,9 +30,8 @@ class UserMountCache implements IUserMountCache {
 
 	/**
 	 * Cached mount info.
-	 * @var CappedMemoryCache<ICachedMountInfo[]>
 	 **/
-	private CappedMemoryCache $mountsForUsers;
+	private ICache $mountsForUsers;
 	/**
 	 * fileid => internal path mapping for cached mount info.
 	 * @var CappedMemoryCache<string>
@@ -46,10 +48,11 @@ class UserMountCache implements IUserMountCache {
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
 		private IEventLogger $eventLogger,
+		private ICacheFactory $cacheFactory,
 	) {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->internalPathCache = new CappedMemoryCache();
-		$this->mountsForUsers = new CappedMemoryCache();
+		$this->mountsForUsers = $this->cacheFactory->createLocal('user-mounts');
 	}
 
 	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
@@ -96,29 +99,30 @@ class UserMountCache implements IUserMountCache {
 		if ($addedMounts || $removedMounts || $changedMounts) {
 			$this->connection->beginTransaction();
 			$userUID = $user->getUID();
+
 			try {
 				foreach ($addedMounts as $mount) {
 					$this->logger->debug("Adding mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->addToCache($mount);
-					/** @psalm-suppress InvalidArgument */
-					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+					$cachedMounts[$mount->getKey()] = $mount;
 				}
 				foreach ($removedMounts as $mount) {
 					$this->logger->debug("Removing mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->removeFromCache($mount);
-					unset($this->mountsForUsers[$userUID][$mount->getKey()]);
+					unset($cachedMounts[$mount->getKey()]);
 				}
 				foreach ($changedMounts as $mount) {
 					$this->logger->debug("Updating mount '{$mount->getKey()}' for user '$userUID'", ['app' => 'files', 'mount_provider' => $mount->getMountProvider()]);
 					$this->updateCachedMount($mount);
-					/** @psalm-suppress InvalidArgument */
-					$this->mountsForUsers[$userUID][$mount->getKey()] = $mount;
+					$cachedMounts[$mount->getKey()] = $mount;
 				}
 				$this->connection->commit();
 			} catch (\Throwable $e) {
 				$this->connection->rollBack();
 				throw $e;
 			}
+
+			$this->mountsForUsers->set($userUID, array_map(fn (ICachedMountInfo $cachedMountInfo) => $this->mountInfoToDbRow($cachedMountInfo), $cachedMounts), 60);
 		}
 		$this->eventLogger->end('fs:setup:user:register');
 	}
@@ -220,15 +224,50 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	/**
+	 * Converts the cached mount info into an array to be parsed by @see UserMountCache::dbRowToMountInfo
+	 *
+	 * The 'path' is intentionally omitted to keep the laziness, so any attempt at calling @see UserMountCache::dbRowToMountInfo must pass the $pathCallback parameter.
+	 */
+	private function mountInfoToDbRow(ICachedMountInfo $cachedMountInfo): array {
+		return [
+			'user_id' => $cachedMountInfo->getUser()->getUID(),
+			'mount_id' => $cachedMountInfo->getMountId(),
+			'storage_id' => $cachedMountInfo->getStorageId(),
+			'root_id' => $cachedMountInfo->getRootId(),
+			'mount_point' => $cachedMountInfo->getMountPoint(),
+			'mount_provider_class' => $cachedMountInfo->getMountProvider(),
+		];
+	}
+
+	/**
 	 * @param IUser $user
-	 * @return ICachedMountInfo[]
+	 * @return array<string, ICachedMountInfo>
 	 */
 	public function getMountsForUser(IUser $user) {
 		$userUID = $user->getUID();
 		if (!$this->userManager->userExists($userUID)) {
 			return [];
 		}
-		if (!isset($this->mountsForUsers[$userUID])) {
+
+		$rawMounts = $this->mountsForUsers->get($userUID);
+		$mounts = null;
+		if ($rawMounts !== null) {
+			$mounts = [];
+			foreach ($rawMounts as $serializedMount) {
+				try {
+					$mount = $this->dbRowToMountInfo($serializedMount, [$this, 'getInternalPathForMountInfo']);
+					$mounts[$mount->getKey()] = $mount;
+				} catch (\Exception) {
+					// Discard all cached mounts if we fail to parse any of the cached mounts.
+					$mounts = null;
+					break;
+				}
+			}
+		}
+
+		if ($mounts === null) {
+			$mounts = [];
+
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'mount_provider_class')
 				->from('mounts', 'm')
@@ -238,17 +277,15 @@ class UserMountCache implements IUserMountCache {
 			$rows = $result->fetchAll();
 			$result->closeCursor();
 
-			/** @var array<string, ICachedMountInfo> $mounts */
-			$mounts = [];
 			foreach ($rows as $row) {
 				$mount = $this->dbRowToMountInfo($row, [$this, 'getInternalPathForMountInfo']);
-				if ($mount !== null) {
-					$mounts[$mount->getKey()] = $mount;
-				}
+				$mounts[$mount->getKey()] = $mount;
 			}
-			$this->mountsForUsers[$userUID] = $mounts;
+
+			$this->mountsForUsers->set($userUID, array_map(fn (ICachedMountInfo $cachedMountInfo) => $this->mountInfoToDbRow($cachedMountInfo), $mounts), 60);
 		}
-		return $this->mountsForUsers[$userUID];
+
+		return $mounts;
 	}
 
 	public function getInternalPathForMountInfo(CachedMountInfo $info): string {
@@ -447,7 +484,7 @@ class UserMountCache implements IUserMountCache {
 
 	public function clear(): void {
 		$this->cacheInfoCache = new CappedMemoryCache();
-		$this->mountsForUsers = new CappedMemoryCache();
+		$this->mountsForUsers = $this->cacheFactory->createLocal('user-mounts');
 	}
 
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
