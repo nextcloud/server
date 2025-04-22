@@ -127,8 +127,9 @@ class File extends Node implements IFile {
 		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
+			$transferId = \rand();
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
@@ -230,42 +231,36 @@ class File extends Node implements IFile {
 				fclose($target);
 			}
 
-			if ($result === false) {
-				$expected = -1;
-				$lengthHeader = $this->request->getHeader('content-length');
-				if ($lengthHeader) {
-					$expected = (int)$lengthHeader;
-				}
-				if ($expected !== 0) {
-					throw new Exception(
-						$this->l10n->t(
-							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $count),
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-							],
-						)
-					);
-				}
+			$lengthHeader = $this->request->getHeader('content-length');
+			$expected = $lengthHeader !== '' ? (int)$lengthHeader : -1;
+			if ($result === false && $expected >= 0) {
+				throw new Exception(
+					$this->l10n->t(
+						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $count),
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+						],
+					)
+				);
 			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			$lengthHeader = $this->request->getHeader('content-length');
-			if ($lengthHeader && $this->request->getMethod() === 'PUT') {
-				$expected = (int)$lengthHeader;
-				if ($count !== $expected) {
-					throw new BadRequest(
-						$this->l10n->t(
-							'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-								$this->l10n->n('%n byte', '%n bytes', $count),
-							],
-						)
-					);
-				}
+			if ($expected >= 0
+				&& $expected !== $count
+				&& $this->request->getMethod() === 'PUT'
+			) {
+				throw new BadRequest(
+					$this->l10n->t(
+						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+							$this->l10n->n('%n byte', '%n bytes', $count),
+						],
+					)
+				);
 			}
 		} catch (\Exception $e) {
 			if ($e instanceof LockedException) {
@@ -381,9 +376,14 @@ class File extends Node implements IFile {
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = \OC::$server->getConfig()->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
-			return $path;
+			$filename = basename($path);
+			// hash does not need to be secure but fast and semi unique
+			$hashedFilename = hash('xxh128', $filename);
+			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
-			return md5($path); // will place it in the root of the view with a unique name
+			// will place the .part file in the users root directory
+			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			return hash('xxh128', $path);
 		}
 	}
 
