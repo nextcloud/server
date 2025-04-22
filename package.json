@@ -142,7 +142,7 @@
     "@vue/tsconfig": "^0.5.1",
     "@vue/vue2-jest": "^29.2.6",
     "babel-jest": "^29.6.4",
-    "babel-loader": "^9.1.0",
+    "babel-loader": "^9.2.1",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "babel-plugin-module-resolver": "^5.0.2",
     "colord": "^2.9.3",
