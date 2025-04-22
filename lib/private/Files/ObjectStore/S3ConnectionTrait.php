@@ -106,6 +106,10 @@ trait S3ConnectionTrait {
 				'connect_timeout' => 5
 			],
 			'use_aws_shared_config_files' => false,
+			'retries' => [
+				'mode' => 'standard',
+				'max_attempts' => 5,
+			],
 		];
 
 		if ($this->params['s3-accelerate']) {
