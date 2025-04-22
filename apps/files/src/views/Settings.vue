@@ -24,6 +24,11 @@
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_mime_column"
+				:checked="userConfig.show_mime_column"
+				@update:checked="setConfig('show_mime_column', $event)">
+				{{ t('files', 'Show file type column') }}
+			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
 				:checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
