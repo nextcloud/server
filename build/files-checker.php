@@ -88,7 +88,7 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
-	'vitest.config.ts',
+	'vitest.config.mts',
 	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',
