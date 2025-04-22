@@ -252,7 +252,7 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function getInternalPathForMountInfo(CachedMountInfo $info): string {
-		$cached = $this->internalPathCache->get($info->getRootId());
+		$cached = $this->internalPathCache->get((string)$info->getRootId());
 		if ($cached !== null) {
 			return $cached;
 		}
@@ -260,7 +260,9 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->select('path')
 			->from('filecache')
 			->where($builder->expr()->eq('fileid', $builder->createNamedParameter($info->getRootId())));
-		return $query->executeQuery()->fetchOne() ?: '';
+		$path = $query->executeQuery()->fetchOne() ?: '';
+		$this->internalPathCache->set((string)$info->getRootId(), $path);
+		return $path;
 	}
 
 	/**
