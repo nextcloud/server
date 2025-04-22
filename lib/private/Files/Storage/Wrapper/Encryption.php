@@ -8,7 +8,6 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
-use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
@@ -49,7 +48,6 @@ class Encryption extends Wrapper {
 		private IFile $fileHelper,
 		private ?string $uid,
 		private IStorage $keyStorage,
-		private Update $update,
 		private Manager $mountManager,
 		private ArrayCache $arrayCache,
 	) {
@@ -64,7 +62,8 @@ class Encryption extends Wrapper {
 
 		$info = $this->getCache()->get($path);
 		if ($info === false) {
-			return false;
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->storage->filesize($path);
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
@@ -318,7 +317,7 @@ class Encryption extends Wrapper {
 					if (!empty($encryptionModuleId)) {
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = true;
-					} elseif (empty($encryptionModuleId) && $info['encrypted'] === true) {
+					} elseif ($info !== false && $info['encrypted'] === true) {
 						// we come from a old installation. No header and/or no module defined
 						// but the file is encrypted. In this case we need to use the
 						// OC_DEFAULT_MODULE to read the file
@@ -526,10 +525,21 @@ class Encryption extends Wrapper {
 
 		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
 		if ($result) {
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$result = $sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$result = $sourceStorage->unlink($sourceInternalPath);
+			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				/** @var ObjectStoreStorage $sourceStorage */
+				$sourceStorage->setPreserveCacheOnDelete(true);
+			}
+			try {
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$result = $sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$result = $sourceStorage->unlink($sourceInternalPath);
+				}
+			} finally {
+				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+					/** @var ObjectStoreStorage $sourceStorage */
+					$sourceStorage->setPreserveCacheOnDelete(false);
+				}
 			}
 		}
 		return $result;
@@ -654,7 +664,7 @@ class Encryption extends Wrapper {
 			if (is_resource($dh)) {
 				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename);
+						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime, $isRename);
 					}
 				}
 			}

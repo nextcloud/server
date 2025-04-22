@@ -41,7 +41,6 @@ use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
-use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
@@ -167,13 +166,6 @@ class Application extends App implements IBootstrap {
 
 	private function fileHooks(IAuditLogger $logger, IEventDispatcher $eventDispatcher): void {
 		$fileActions = new Files($logger);
-
-		$eventDispatcher->addListener(
-			BeforeNodeRenamedEvent::class,
-			function (BeforeNodeRenamedEvent $event) use ($fileActions): void {
-				$fileActions->beforeRename($event);
-			}
-		);
 
 		$eventDispatcher->addListener(
 			NodeRenamedEvent::class,
