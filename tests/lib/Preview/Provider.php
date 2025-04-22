@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,33 +10,25 @@ namespace Test\Preview;
 
 use OC\Files\Node\File;
 use OCP\Files\IRootFolder;
+use OCP\IUserManager;
 
 abstract class Provider extends \Test\TestCase {
-	/** @var string */
-	protected $imgPath;
-	/** @var int */
-	protected $width;
-	/** @var int */
-	protected $height;
-	/** @var \OC\Preview\Provider */
+	protected string $imgPath;
+	protected int $width;
+	protected int $height;
+	/** @var \OC\Preview\Provider|mixed $provider */
 	protected $provider;
-	/** @var int */
-	protected $maxWidth = 1024;
-	/** @var int */
-	protected $maxHeight = 1024;
-	/** @var bool */
-	protected $scalingUp = false;
-	/** @var int */
-	protected $userId;
-	/** @var \OC\Files\View */
-	protected $rootView;
-	/** @var \OC\Files\Storage\Storage */
-	protected $storage;
+	protected int $maxWidth = 1024;
+	protected int $maxHeight = 1024;
+	protected bool $scalingUp = false;
+	protected string $userId;
+	protected \OC\Files\View $rootView;
+	protected \OC\Files\Storage\Storage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = \OCP\Server::get(IUserManager::class);
 		$userManager->clearBackends();
 		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);

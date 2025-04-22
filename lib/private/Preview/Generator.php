@@ -119,7 +119,7 @@ class Generator {
 		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
-			$this->logger->error("Max preview generated for file {$file->getPath()} has size 0, deleting and throwing exception.");
+			$this->logger->error('Max preview generated for file {path} has size 0, deleting and throwing exception.', ['path' => $file->getPath()]);
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
