@@ -296,8 +296,8 @@ export default defineComponent({
 					path: this.destination,
 					note: this.note,
 
-					password: this.password || undefined,
-					expireDate: expireDate || undefined,
+					password: this.password || '',
+					expireDate: expireDate || '',
 
 					// Empty string
 					shareWith: '',
