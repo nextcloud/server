@@ -280,6 +280,9 @@ This file is generated from multiple sources. Included packages:
 - punycode
 	- version: 1.4.1
 	- license: MIT
+- qs
+	- version: 6.14.0
+	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
 	- license: MIT
@@ -334,9 +337,6 @@ This file is generated from multiple sources. Included packages:
 - url-parse
 	- version: 1.5.10
 	- license: MIT
-- qs
-	- version: 6.13.0
-	- license: BSD-3-Clause
 - url
 	- version: 0.11.4
 	- license: MIT
