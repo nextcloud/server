@@ -461,7 +461,7 @@ export default defineComponent({
 			logger.debug('Dropped', { event, folder, selection, fileTree })
 
 			// Check whether we're uploading files
-			if (fileTree.contents.length > 0) {
+			if (selection.length === 0 && fileTree.contents.length > 0) {
 				await onDropExternalFiles(fileTree, folder, contents.contents)
 				return
 			}
