@@ -182,6 +182,7 @@ OC.L10N.register(
     "No favorites yet" : "Sem favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e pastas que marcou como favoritos serão mostrados aqui",
     "All files" : "Todos os ficheiros",
+    "Personal files" : "Ficheiros pessoais",
     "Recent" : "Recentes",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Select all" : "Selecionar todos",
