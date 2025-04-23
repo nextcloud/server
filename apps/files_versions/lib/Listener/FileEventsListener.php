@@ -196,8 +196,8 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			$writeHookInfo['versionCreated'] &&
-			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
+			$writeHookInfo['versionCreated']
+			&& $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// If both versions have the same mtime, it means the latest version file simply got overrode,
@@ -217,6 +217,15 @@ class FileEventsListener implements IEventListener {
 							'mimetype' => $this->mimeTypeLoader->getId($node->getMimetype()),
 						],
 					);
+				}
+			} catch (DoesNotExistException $e) {
+				// This happens if the versions app was not enabled while the file was created or updated the last time.
+				// meaning there is no such revision and we need to create this file.
+				if ($writeHookInfo['versionCreated']) {
+					$this->created($node);
+				} else {
+					// Normally this should not happen so we re-throw the exception to not hide any potential issues.
+					throw $e;
 				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
