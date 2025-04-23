@@ -15,10 +15,11 @@ use OC\Files\View;
 use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
+use OCA\Files_External\Config\ConfigAdapter;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
-use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
@@ -70,6 +71,7 @@ class OwnershipTransferService {
 		bool $move = false,
 		bool $firstLogin = false,
 		bool $transferIncomingShares = false,
+		bool $includeExternalStorage = false,
 	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
@@ -149,7 +151,8 @@ class OwnershipTransferService {
 			$sourcePath,
 			$finalTarget,
 			$view,
-			$output
+			$output,
+			$includeExternalStorage,
 		);
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
@@ -215,11 +218,14 @@ class OwnershipTransferService {
 	 *
 	 * @throws TransferOwnershipException
 	 */
-	protected function analyse(string $sourceUid,
+	protected function analyse(
+		string $sourceUid,
 		string $destinationUid,
 		string $sourcePath,
 		View $view,
-		OutputInterface $output): void {
+		OutputInterface $output,
+		bool $includeExternalStorage = false,
+	): void {
 		$output->writeln('Validating quota');
 		$sourceFileInfo = $view->getFileInfo($sourcePath, false);
 		if ($sourceFileInfo === false) {
@@ -247,17 +253,22 @@ class OwnershipTransferService {
 				$encryptedFiles[] = $sourceFileInfo;
 			} else {
 				$this->walkFiles($view, $sourcePath,
-					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles) {
+					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles, $includeExternalStorage) {
 						if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+							$mount = $fileInfo->getMountPoint();
 							// only analyze into folders from main storage,
-							if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+							if (
+								$mount->getMountProvider() instanceof IHomeMountProvider ||
+								($includeExternalStorage && $mount->getMountProvider() instanceof ConfigAdapter)
+							) {
+								if ($fileInfo->isEncrypted()) {
+									/* Encrypted folder means e2ee encrypted, we cannot transfer it */
+									$encryptedFiles[] = $fileInfo;
+								}
+								return true;
+							} else {
 								return false;
 							}
-							if ($fileInfo->isEncrypted()) {
-								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
-								$encryptedFiles[] = $fileInfo;
-							}
-							return true;
 						}
 						$progress->advance();
 						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
@@ -399,11 +410,14 @@ class OwnershipTransferService {
 	/**
 	 * @throws TransferOwnershipException
 	 */
-	protected function transferFiles(string $sourceUid,
+	protected function transferFiles(
+		string $sourceUid,
 		string $sourcePath,
 		string $finalTarget,
 		View $view,
-		OutputInterface $output): void {
+		OutputInterface $output,
+		bool $includeExternalStorage,
+	): void {
 		$output->writeln("Transferring files to $finalTarget ...");
 
 		// This change will help user to transfer the folder specified using --path option.
@@ -415,6 +429,30 @@ class OwnershipTransferService {
 		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
 			throw new TransferOwnershipException('Could not transfer files.', 1);
 		}
+
+		if ($includeExternalStorage) {
+			$nestedMounts = $this->mountManager->findIn($sourcePath);
+			foreach ($nestedMounts as $mount) {
+				$relativePath = substr(trim($mount->getMountPoint(), '/'), strlen($sourcePath));
+				if ($mount->getMountProvider() === ConfigAdapter::class) {
+					if ($view->copy($mount->getMountPoint(), $finalTarget . $relativePath)) {
+						// just doing `rmdir` on the mountpoint would cause it to try and unmount the storage
+						// we need to empty the contents instead
+						$content = $view->getDirectoryContent($mount->getMountPoint());
+						foreach ($content as $item) {
+							if ($item->getType() === FileInfo::TYPE_FOLDER) {
+								$view->rmdir($item->getPath());
+							} else {
+								$view->unlink($item->getPath());
+							}
+						}
+					} else {
+						$output->writeln("<warning>Could not copy {$mount->getMountPoint()}</warning>");
+					}
+				}
+			}
+		}
+
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$sourceUid/files");
