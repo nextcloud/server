@@ -1,7 +1,7 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
 	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./core/**/*.vue", "./*.d.ts"],
-	"exclude": ["./**/*.cy.ts"],
+	"exclude": ["./**/*.cy.ts", "./apps/viewer", "./apps/text"],
 	"compilerOptions": {
 		"types": ["node", "vue", "vue-router"],
 		"outDir": "./dist/",

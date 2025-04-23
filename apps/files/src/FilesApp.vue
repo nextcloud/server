@@ -5,7 +5,7 @@
 <template>
 	<NcContent app-name="files">
 		<Navigation v-if="!isPublic" />
-		<FilesList :is-public="isPublic" />
+		<FilesListView :is-public="isPublic" />
 	</NcContent>
 </template>
 
@@ -16,14 +16,14 @@ import { defineComponent } from 'vue'
 import NcContent from '@nextcloud/vue/components/NcContent'
 
 import Navigation from './views/Navigation.vue'
-import FilesList from './views/FilesList.vue'
+import FilesListView from './views/FilesListView.vue'
 
 export default defineComponent({
 	name: 'FilesApp',
 
 	components: {
 		NcContent,
-		FilesList,
+		FilesListView,
 		Navigation,
 	},
 

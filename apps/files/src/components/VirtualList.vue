@@ -3,64 +3,45 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<div class="files-list"
-		:class="{ 'files-list--grid': gridMode }"
-		data-cy-files-list
-		@scroll.passive="onScroll">
+	<table class="files-list__table">
+		<!-- Accessibility table caption for screen readers -->
+		<caption v-if="caption" class="hidden-visually">
+			{{ caption }}
+		</caption>
+
 		<!-- Header -->
-		<div ref="before" class="files-list__before">
-			<slot name="before" />
-		</div>
+		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
+			<slot name="header" />
+		</thead>
 
-		<div ref="filters" class="files-list__filters">
-			<slot name="filters" />
-		</div>
+		<!-- Body -->
+		<tbody :style="tbodyStyle"
+			class="files-list__tbody"
+			data-cy-files-list-tbody>
+			<component :is="dataComponent"
+				v-for="({key, item}, i) in renderedItems"
+				:key="key"
+				:source="item"
+				:index="i"
+				v-bind="extraProps" />
+		</tbody>
 
-		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
-			<slot name="header-overlay" />
-		</div>
-
-		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
-			<!-- Accessibility table caption for screen readers -->
-			<caption v-if="caption" class="hidden-visually">
-				{{ caption }}
-			</caption>
-
-			<!-- Header -->
-			<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
-				<slot name="header" />
-			</thead>
-
-			<!-- Body -->
-			<tbody :style="tbodyStyle"
-				class="files-list__tbody"
-				data-cy-files-list-tbody>
-				<component :is="dataComponent"
-					v-for="({key, item}, i) in renderedItems"
-					:key="key"
-					:source="item"
-					:index="i"
-					v-bind="extraProps" />
-			</tbody>
-
-			<!-- Footer -->
-			<tfoot ref="footer"
-				class="files-list__tfoot"
-				data-cy-files-list-tfoot>
-				<slot name="footer" />
-			</tfoot>
-		</table>
-	</div>
+		<!-- Footer -->
+		<tfoot ref="footer"
+			class="files-list__tfoot"
+			data-cy-files-list-tfoot>
+			<slot name="footer" />
+		</tfoot>
+	</table>
 </template>
 
 <script lang="ts">
-import type { File, Folder, Node } from '@nextcloud/files'
+import type { INode, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { defineComponent } from 'vue'
-import debounce from 'debounce'
-
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import debounce from 'debounce'
 import logger from '../logger.ts'
 
 interface RecycledPoolItem {
@@ -68,13 +49,29 @@ interface RecycledPoolItem {
 	item: Node,
 }
 
-type DataSource = File | Folder
+type DataSource = INode
 type DataSourceKey = keyof DataSource
 
 export default defineComponent({
 	name: 'VirtualList',
 
 	props: {
+		/**
+		 * Visually hidden caption for the table accessibility
+		 */
+		 caption: {
+			type: String,
+			default: '',
+		},
+
+		/**
+		 * Number of columns to render per row.
+		 */
+		columnCount: {
+			type: Number,
+			required: true,
+		},
+
 		dataComponent: {
 			type: [Object, Function],
 			required: true,
@@ -91,20 +88,20 @@ export default defineComponent({
 			type: Object as PropType<Record<string, unknown>>,
 			default: () => ({}),
 		},
-		scrollToIndex: {
+
+		itemHeight: {
+			type: Number,
+			required: true,
+		},
+
+		paddingTop: {
 			type: Number,
 			default: 0,
 		},
-		gridMode: {
-			type: Boolean,
-			default: false,
-		},
-		/**
-		 * Visually hidden caption for the table accessibility
-		 */
-		caption: {
-			type: String,
-			default: '',
+
+		scrollToIndex: {
+			type: Number,
+			default: 0,
 		},
 	},
 
@@ -113,13 +110,16 @@ export default defineComponent({
 
 		return {
 			fileListWidth,
+
+			// non reactive instance properties
+			onScrollHandle: undefined as number | undefined,
+			recycledPool: {} as Record<string, DataSource[DataSourceKey]>,
 		}
 	},
 
 	data() {
 		return {
 			index: this.scrollToIndex,
-			beforeHeight: 0,
 			footerHeight: 0,
 			headerHeight: 0,
 			tableHeight: 0,
@@ -135,24 +135,7 @@ export default defineComponent({
 
 		// Items to render before and after the visible area
 		bufferItems() {
-			if (this.gridMode) {
-				// 1 row before and after in grid mode
-				return this.columnCount
-			}
-			// 3 rows before and after
-			return 3
-		},
-
-		itemHeight() {
-			// Align with css in FilesListVirtual
-			// 166px + 32px (name) + 16px (mtime) + 16px (padding top and bottom)
-			return this.gridMode ? (166 + 32 + 16 + 16 + 16) : 55
-		},
-
-		// Grid mode only
-		itemWidth() {
-			// 166px + 16px x 2 (padding left and right)
-			return 166 + 16 + 16
+			return Math.min(1, Math.round(200 / this.itemHeight))
 		},
 
 		/**
@@ -171,17 +154,6 @@ export default defineComponent({
 		},
 
 		/**
-		 * Number of columns.
-		 * 1 for list view otherwise depending on the file list width.
-		 */
-		columnCount(): number {
-			if (!this.gridMode) {
-				return 1
-			}
-			return Math.floor(this.fileListWidth / this.itemWidth)
-		},
-
-		/**
 		 * Index of the first item to be rendered
 		 * The index can be any file, not just the first one
 		 * But the start index is the first item to be rendered,
@@ -197,12 +169,7 @@ export default defineComponent({
 		 * For list view this is the same as `rowCount`, for grid view this is `rowCount` * `columnCount`
 		 */
 		shownItems() {
-			// If in grid mode, we need to multiply the number of rows by the number of columns
-			if (this.gridMode) {
-				return this.rowCount * this.columnCount
-			}
-
-			return this.rowCount
+			return this.rowCount * this.columnCount
 		},
 
 		renderedItems(): RecycledPoolItem[] {
@@ -212,23 +179,23 @@ export default defineComponent({
 
 			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
 
-			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
-			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
-			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+			const oldItems = items.filter(item => Object.values(this.recycledPool).includes(item[this.dataKey]))
+			const oldItemsKeys = oldItems.map(item => item[this.dataKey])
+			const unusedKeys = Object.keys(this.recycledPool).filter(key => !oldItemsKeys.includes(this.recycledPool[key]))
 
 			return items.map(item => {
-				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
+				const index = Object.values(this.recycledPool).indexOf(item[this.dataKey])
 				// If defined, let's keep the key
 				if (index !== -1) {
 					return {
-						key: Object.keys(this.$_recycledPool)[index],
+						key: Object.keys(this.recycledPool)[index],
 						item,
 					}
 				}
 
 				// Get and consume reusable key or generate a new one
 				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
-				this.$_recycledPool[key] = item[this.dataKey]
+				this.recycledPool[key] = item[this.dataKey]
 				return { key, item }
 			})
 		},
@@ -277,16 +244,12 @@ export default defineComponent({
 	},
 
 	mounted() {
-		this.$_recycledPool = {} as Record<string, DataSource[DataSourceKey]>
-
 		this.resizeObserver = new ResizeObserver(debounce(() => {
 			this.updateHeightVariables()
 			logger.debug('VirtualList: resizeObserver updated')
 			this.onScroll()
 		}, 100))
 		this.resizeObserver.observe(this.$el)
-		this.resizeObserver.observe(this.$refs.before as HTMLElement)
-		this.resizeObserver.observe(this.$refs.filters as HTMLElement)
 		this.resizeObserver.observe(this.$refs.footer as HTMLElement)
 
 		this.$nextTick(() => {
@@ -360,14 +323,14 @@ export default defineComponent({
 			this.$nextTick(() => {
 				this.$el.scrollTop = scrollTop
 				logger.debug(`VirtualList: scrolling to index ${index}`, {
-					clampedIndex, scrollTop, columnCount: this.columnCount, total: this.totalRowCount, visibleRows: this.visibleRows, beforeHeight: this.beforeHeight,
+					clampedIndex, scrollTop, columnCount: this.columnCount, total: this.totalRowCount, visibleRows: this.visibleRows,
 				})
 			})
 		},
 
 		onScroll() {
-			this._onScrollHandle ??= requestAnimationFrame(() => {
-				this._onScrollHandle = null
+			this.onScrollHandle ??= requestAnimationFrame(() => {
+				this.onScrollHandle = undefined
 
 				const index = this.scrollPosToIndex(this.$el.scrollTop)
 				if (index === this.index) {
@@ -383,7 +346,7 @@ export default defineComponent({
 		// Convert scroll position to index
 		// It should be the opposite of `indexToScrollPos`
 		scrollPosToIndex(scrollPos: number): number {
-			const topScroll = scrollPos - this.beforeHeight
+			const topScroll = scrollPos - this.paddingTop - this.headerHeight
 			// Max 0 to prevent negative index
 			return Math.max(0, Math.floor(topScroll / this.itemHeight)) * this.columnCount
 		},
@@ -391,7 +354,7 @@ export default defineComponent({
 		// Convert index to scroll position
 		// It should be the opposite of `scrollPosToIndex`
 		indexToScrollPos(index: number): number {
-			return Math.floor(index / this.columnCount) * this.itemHeight + this.beforeHeight
+			return Math.floor(index / this.columnCount) * this.itemHeight + this.paddingTop + this.headerHeight
 		},
 
 		/**
@@ -400,13 +363,10 @@ export default defineComponent({
 		 */
 		updateHeightVariables(): void {
 			this.tableHeight = this.$el?.clientHeight ?? 0
-			this.beforeHeight = (this.$refs.before as HTMLElement)?.clientHeight ?? 0
 			this.footerHeight = (this.$refs.footer as HTMLElement)?.clientHeight ?? 0
 
 			// Get the header height which consists of table header and filters
-			const theadHeight = (this.$refs.thead as HTMLElement)?.clientHeight ?? 0
-			const filterHeight = (this.$refs.filters as HTMLElement)?.clientHeight ?? 0
-			this.headerHeight = theadHeight + filterHeight
+			this.headerHeight = (this.$refs.thead as HTMLElement)?.clientHeight ?? 0
 		},
 	},
 })

@@ -17,8 +17,7 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === ShareType.Link" />
-							<AccountPlusIcon v-else :size="20" />
+							<NcIconSvgWrapper :path="shareButtonType === ShareType.Link ? mdiLink : mdiAccountPlus" />
 						</template>
 					</NcButton>
 
@@ -64,8 +63,7 @@
 				type="tertiary"
 				@click="toggleGridView">
 				<template #icon>
-					<ListViewIcon v-if="userConfig.grid_view" />
-					<ViewGridIcon v-else />
+					<NcIconSvgWrapper :path="userConfig.grid_view ? mdiFormatListBulletedSquare : mdiViewGrid" />
 				</template>
 			</NcButton>
 		</div>
@@ -100,7 +98,7 @@
 					</NcButton>
 				</template>
 				<template #icon>
-					<IconAlertCircleOutline />
+					<NcIconSvgWrapper :path="mdiAlertCircleCheckOutline" />
 				</template>
 			</NcEmptyContent>
 			<!-- Custom empty view -->
@@ -134,12 +132,15 @@
 		</template>
 
 		<!-- File list -->
-		<FilesListVirtual v-else
-			ref="filesListVirtual"
-			:current-folder="currentFolder"
-			:current-view="currentView"
-			:nodes="dirContentsSorted"
-			:summary="summary" />
+		<template v-else>
+			<FilesList ref="filesListVirtual"
+				:current-folder="currentFolder"
+				:nodes="dirContentsFiltered"
+				:summary="summary">
+				<FilesListSearchResults v-if="searchQuery !== ''"
+					:query="searchQuery" />
+			</FilesList>
+		</template>
 	</NcAppContent>
 </template>
 
@@ -151,15 +152,16 @@ import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
+import { mdiAccountPlus, mdiAlertCircleCheckOutline, mdiFormatListBulletedSquare, mdiLink, mdiViewGrid } from '@mdi/js'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize } from 'path'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
-import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -170,13 +172,6 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
-import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-import IconReload from 'vue-material-design-icons/Reload.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
-import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
-
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
@@ -185,31 +180,35 @@ import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
-import { usePathsStore } from '../store/paths.ts'
+import { useSearchQuery } from '../composables/useFilenameFilter.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
+
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FilesListHeader from '../components/FilesListHeader.vue'
-import FilesListVirtual from '../components/FilesListVirtual.vue'
+import FilesListSearchResults from '../components/FilesListSearchResults.vue'
+import FilesList from '../components/FilesList.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
 export default defineComponent({
-	name: 'FilesList',
+	name: 'FilesListView',
 
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
+		FilesList,
 		FilesListHeader,
-		FilesListVirtual,
-		LinkIcon,
-		ListViewIcon,
+		FilesListSearchResults,
+		UploadPicker,
+
 		NcAppContent,
 		NcActions,
 		NcActionButton,
@@ -217,11 +216,6 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		AccountPlusIcon,
-		UploadPicker,
-		ViewGridIcon,
-		IconAlertCircleOutline,
-		IconReload,
 	},
 
 	mixins: [
@@ -246,6 +240,7 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+		const searchQuery = useSearchQuery()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
@@ -256,6 +251,7 @@ export default defineComponent({
 			fileId,
 			fileListWidth,
 			headers: useFileListHeaders(),
+			searchQuery,
 			t,
 
 			filesStore,
@@ -270,6 +266,13 @@ export default defineComponent({
 			enableGridView,
 			forbiddenCharacters,
 			ShareType,
+
+			// icons
+			mdiAccountPlus,
+			mdiAlertCircleCheckOutline,
+			mdiFormatListBulletedSquare,
+			mdiLink,
+			mdiViewGrid,
 		}
 	},
 
@@ -351,21 +354,7 @@ export default defineComponent({
 				return []
 			}
 
-			const customColumn = (this.currentView?.columns || [])
-				.find(column => column.id === this.sortingMode)
-
-			// Custom column must provide their own sorting methods
-			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...this.dirContentsFiltered].sort(customColumn.sort)
-				return this.isAscSorting ? results : results.reverse()
-			}
-
-			return sortNodes(this.dirContentsFiltered, {
-				sortFavoritesFirst: this.userConfig.sort_favorites_first,
-				sortFoldersFirst: this.userConfig.sort_folders_first,
-				sortingMode: this.sortingMode,
-				sortingOrder: this.isAscSorting ? 'asc' : 'desc',
-			})
+			return this.applySorting(this.dirContentsFiltered)
 		},
 
 		/**
@@ -523,7 +512,7 @@ export default defineComponent({
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
-			const filesListVirtual = this.$refs?.filesListVirtual as ComponentPublicInstance<typeof FilesListVirtual> | undefined
+			const filesListVirtual = this.$refs?.filesListVirtual as ComponentPublicInstance<typeof FilesListTable> | undefined
 			if (filesListVirtual?.$el) {
 				filesListVirtual.$el.scrollTop = 0
 			}
@@ -531,7 +520,7 @@ export default defineComponent({
 
 		dirContents(contents) {
 			logger.debug('Directory contents changed', { view: this.currentView, folder: this.currentFolder, contents })
-			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder, contents })
+			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder!, contents })
 			// Also refresh the filtered content
 			this.filterDirContent()
 		},
@@ -551,10 +540,10 @@ export default defineComponent({
 		await this.fetchContent()
 		if (this.fileId) {
 			// If we have a fileId, let's check if the file exists
-			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			const node = this.dirContents.find(node => String(node.fileid) === String(this.fileId))
 			// If the file isn't in the current directory nor if
 			// the current directory is the file, we show an error
-			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+			if (!node && this.currentFolder?.fileid?.toString() !== this.fileId.toString()) {
 				showError(t('files', 'The file could not be found'))
 			}
 		}
