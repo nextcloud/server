@@ -92,7 +92,7 @@
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.48",
     "nextcloud-vue-collections": "^0.13.0",
-    "p-limit": "^6.1.0",
+    "p-limit": "^6.2.0",
     "p-queue": "^7.4.1",
     "path": "^0.12.7",
     "pinia": "^2.3.1",
