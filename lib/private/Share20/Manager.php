@@ -515,7 +515,7 @@ class Manager implements IManager {
 
 		// Check if sharing with this group is blocked
 		$groupsBlockList = $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []);
-		if(in_array($share->getSharedWith(), $groupsBlockList)) {
+		if (in_array($share->getSharedWith(), $groupsBlockList)) {
 			throw new \InvalidArgumentException('Sharing with group ' . $share->getSharedWith() . ' is not allowed.');
 		}
 
