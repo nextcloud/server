@@ -191,21 +191,39 @@ export default defineComponent({
 			},
 		},
 
+		mtime() {
+			// If the mtime is not a valid date, return it as is
+			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
+				return this.source.mtime
+			}
+
+			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
+				return this.source.crtime
+			}
+
+			return null
+		},
+
 		mtimeOpacity() {
+			if (!this.mtime) {
+				return {}
+			}
+
+			// The time when we start reducing the opacity
 			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
-
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
+			// everything older than the maxOpacityTime will have the same value
+			const timeDiff = Date.now() - this.mtime.getTime()
+			if (timeDiff < 0) {
+				// this means we have an invalid mtime which is in the future!
 				return {}
 			}
 
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
+			// inversed time difference from 0 to maxOpacityTime (which would mean today)
+			const opacityTime = Math.max(0, maxOpacityTime - timeDiff)
+			// 100 = today, 0 = 31 days ago or older
+			const percentage = Math.round(opacityTime * 100 / maxOpacityTime)
 			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+				color: `color-mix(in srgb, var(--color-main-text) ${percentage}%, var(--color-text-maxcontrast))`,
 			}
 		},
 
