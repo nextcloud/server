@@ -426,29 +426,23 @@ class OwnershipTransferService {
 			$view->mkdir($finalTarget);
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
-		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
-			throw new TransferOwnershipException('Could not transfer files.', 1);
+		$sourceInfo = $view->getFileInfo($sourcePath);
+
+		/// handle the external storages mounted at the root, or the admin specifying an external storage with --path
+		if ($sourceInfo->getInternalPath() === '' && $includeExternalStorage) {
+			$this->moveMountContents($view, $sourcePath, $finalTarget);
+		} else {
+			if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
+				throw new TransferOwnershipException('Could not transfer files.', 1);
+			}
 		}
 
 		if ($includeExternalStorage) {
 			$nestedMounts = $this->mountManager->findIn($sourcePath);
 			foreach ($nestedMounts as $mount) {
-				$relativePath = substr(trim($mount->getMountPoint(), '/'), strlen($sourcePath));
 				if ($mount->getMountProvider() === ConfigAdapter::class) {
-					if ($view->copy($mount->getMountPoint(), $finalTarget . $relativePath)) {
-						// just doing `rmdir` on the mountpoint would cause it to try and unmount the storage
-						// we need to empty the contents instead
-						$content = $view->getDirectoryContent($mount->getMountPoint());
-						foreach ($content as $item) {
-							if ($item->getType() === FileInfo::TYPE_FOLDER) {
-								$view->rmdir($item->getPath());
-							} else {
-								$view->unlink($item->getPath());
-							}
-						}
-					} else {
-						$output->writeln("<warning>Could not copy {$mount->getMountPoint()}</warning>");
-					}
+					$relativePath = substr(trim($mount->getMountPoint(), '/'), strlen($sourcePath));
+					$this->moveMountContents($view, $mount->getMountPoint(), $finalTarget . $relativePath);
 				}
 			}
 		}
@@ -456,6 +450,23 @@ class OwnershipTransferService {
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$sourceUid/files");
+		}
+	}
+
+	private function moveMountContents(View $rootView, string $source, string $target) {
+		if ($rootView->copy($source, $target)) {
+			// just doing `rmdir` on the mountpoint would cause it to try and unmount the storage
+			// we need to empty the contents instead
+			$content = $rootView->getDirectoryContent($source);
+			foreach ($content as $item) {
+				if ($item->getType() === FileInfo::TYPE_FOLDER) {
+					$rootView->rmdir($item->getPath());
+				} else {
+					$rootView->unlink($item->getPath());
+				}
+			}
+		} else {
+			throw new TransferOwnershipException("Could not transfer $source to $target");
 		}
 	}
 
