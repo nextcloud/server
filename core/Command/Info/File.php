@@ -79,6 +79,7 @@ class File extends Command {
 
 		$output->writeln('  size: ' . Util::humanFileSize($node->getSize()));
 		$output->writeln('  etag: ' . $node->getEtag());
+		$output->writeln('  permissions: ' . $this->fileUtils->formatPermissions($node->getType(), $node->getPermissions()));
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
 			$childSize = array_sum(array_map(function (Node $node) {
