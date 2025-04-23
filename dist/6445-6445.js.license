@@ -90,10 +90,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.25.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios-retry
 	- version: 4.5.0
