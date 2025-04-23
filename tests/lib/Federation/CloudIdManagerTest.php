@@ -70,6 +70,10 @@ class CloudIdManagerTest extends TestCase {
 			['test@example.com/cloud/', 'test', 'example.com/cloud', 'test@example.com/cloud'],
 			['test@example.com/cloud/index.php', 'test', 'example.com/cloud', 'test@example.com/cloud'],
 			['test@example.com@example.com', 'test@example.com', 'example.com', 'test@example.com@example.com'],
+
+			// Equal signs are not valid on Nextcloud side, but can be used by other federated OCM compatible servers
+			['test==@example.com', 'test==', 'example.com', 'test==@example.com'],
+			['==@example.com', '==', 'example.com', '==@example.com'],
 		];
 	}
 
