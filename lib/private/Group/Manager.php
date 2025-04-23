@@ -479,7 +479,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * Returns the appConfig object
-	 * 
 	 * @return IAppConfig
 	 */
 	private function getAppConfig():IAppConfig {
