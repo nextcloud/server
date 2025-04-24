@@ -194,7 +194,7 @@ OC.L10N.register(
     "on {server}" : "en: {server}",
     "File drop" : "Suelta de ficheros",
     "Terms of service" : "Términos del serviciu",
-    "Nickname" : "Nomatu",
+    "Name" : "Nome",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir cola direición de corréu electrónica {email}",
     "Share with group" : "Compartir col grupu",
@@ -304,6 +304,7 @@ OC.L10N.register(
     "Download all files" : "Baxar tolos ficheros",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
     "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
-    "Allow download" : "Permitir la descarga"
+    "Allow download" : "Permitir la descarga",
+    "Nickname" : "Nomatu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "提交名称",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} 与您分享了一个文件夹。",
     "To upload files, you need to provide your name first." : "要上传文件，您需要先提供名称。",
-    "Nickname" : "昵称",
-    "Enter your nickname" : "输入昵称",
+    "Name" : "名称",
+    "Enter your name" : "输入你的名字",
     "Share with {userName}" : "分享至 {userName}",
     "Share with email {email}" : "与邮箱 {email} 分享",
     "Share with group" : "分享至群组",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "不允许编辑不属于您的链接共享",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count}个电子邮箱地址已添加"],
     "_1 email address added_::_{count} email addresses added_" : ["{count}电子邮箱地址已添加"],
-    "Enter your name" : "输入你的名字"
+    "Nickname" : "昵称",
+    "Enter your nickname" : "输入昵称"
 },
 "nplurals=1; plural=0;");

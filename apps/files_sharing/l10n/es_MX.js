@@ -242,6 +242,8 @@ OC.L10N.register(
     "Submit name" : "Enviar nombre",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} le compartió una carpeta.",
     "To upload files, you need to provide your name first." : "Para cargar archivos, primero debe proveer su nombre.",
+    "Name" : "Nombre",
+    "Enter your name" : "Ingrese su nombre",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir al correo electrónico {email}",
     "Share with group" : "Compartir con el grupo",
@@ -360,7 +362,6 @@ OC.L10N.register(
     "Allow download" : "Permitir descarga",
     "You are not allowed to edit link shares that you don't own" : "No tiene permitido editar los enlaces compartidos que no le pertenecen",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
-    "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"],
-    "Enter your name" : "Ingrese su nombre"
+    "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

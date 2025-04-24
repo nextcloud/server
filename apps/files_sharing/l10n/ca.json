@@ -261,8 +261,8 @@
     "Submit name" : "Envia el nom",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ha compartit una carpeta amb tu.",
     "To upload files, you need to provide your name first." : "Per la pujada de fitxers, primer heu de proporcionar el vostre nom.",
-    "Nickname" : "Sobrenom",
-    "Enter your nickname" : "Introduïu el vostre sobrenom",
+    "Name" : "Nom",
+    "Enter your name" : "Introdueix el teu nom",
     "Share with {userName}" : "Comparteix amb {userName}",
     "Share with email {email}" : "Comparteix amb l'adreça electrònica {email}",
     "Share with group" : "Comparteix amb el grup",
@@ -421,6 +421,7 @@
     "You are not allowed to edit link shares that you don't own" : "No teniu permès editar els elements compartits d'enllaços dels que no sigueu propietaris",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ja s'ha afegit 1 adreça de correu","Ja s’han afegit {count} adreces de correu"],
     "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"],
-    "Enter your name" : "Introdueix el teu nom"
+    "Nickname" : "Sobrenom",
+    "Enter your nickname" : "Introduïu el vostre sobrenom"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

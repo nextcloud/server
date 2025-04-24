@@ -261,8 +261,8 @@ OC.L10N.register(
     "Submit name" : "Adı gönder",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} sizinle bir klasör paylaştı.",
     "To upload files, you need to provide your name first." : "Dosyaları yükleyebilmek için önce adınızı yazmalısınız.",
-    "Nickname" : "Takma ad",
-    "Enter your nickname" : "Takma adınızı yazın",
+    "Name" : "Ad",
+    "Enter your name" : "Adınızı yazın",
     "Share with {userName}" : "{userName} ile paylaş",
     "Share with email {email}" : "{email} e-posta adresi ile paylaş",
     "Share with group" : "Grupla paylaş",
@@ -421,6 +421,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Sahibi olmadığınız bağlantı paylaşımlarını düzenleme izniniz yok",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
-    "Enter your name" : "Adınızı yazın"
+    "Nickname" : "Takma ad",
+    "Enter your nickname" : "Takma adınızı yazın"
 },
 "nplurals=2; plural=(n > 1);");
