@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
 	public function __construct(
+		/** @var \OC\AppConfig */
 		protected IAppConfig $appConfig,
 	) {
 		parent::__construct();
@@ -43,6 +44,12 @@ class GetConfig extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'returns complete details about the app config value'
+			)
+			->addOption(
+				'default-if-none',
+				null,
+				InputOption::VALUE_NONE,
+				'returns default if no value is set'
 			)
 			->addOption(
 				'default-value',
@@ -76,10 +83,14 @@ class GetConfig extends Base {
 		try {
 			$configValue = $this->appConfig->getDetails($appName, $configName)['value'];
 		} catch (AppConfigUnknownKeyException $e) {
-			if (!$input->hasParameterOption('--default-value')) {
-				return 1;
+			if ($input->getOption('default-if-none')) {
+				$configValue = $this->appConfig->getValueMixed($appName, $configName, lazy: null);
+			} else {
+				if (!$input->hasParameterOption('--default-value')) {
+					return 1;
+				}
+				$configValue = $defaultValue;
 			}
-			$configValue = $defaultValue;
 		}
 
 		$this->writeMixedInOutputFormat($input, $output, $configValue);
