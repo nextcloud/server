@@ -40,6 +40,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -200,6 +201,12 @@ class UsersController extends Controller {
 		$serverData = [];
 		// groups
 		$serverData['systemGroups'] = [$adminGroupData, $recentUsersGroup, $disabledUsersGroup];
+		$serverData['userGroups'] = array_values(
+			array_map(
+				fn (IGroup $group) => ['id' => $group->getGID(), 'name' => $group->getDisplayName()],
+				$this->groupManager->getUserGroups($user),
+			),
+		);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;

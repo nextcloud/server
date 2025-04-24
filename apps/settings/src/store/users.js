@@ -36,7 +36,10 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [...(usersSettings.systemGroups ?? [])],
+	groups: [
+		...(usersSettings.userGroups ?? []),
+		...(usersSettings.systemGroups ?? []),
+	],
 	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
@@ -263,6 +266,10 @@ const mutations = {
 }
 
 const getters = {
+	getUserGroups() {
+		return usersSettings.userGroups ?? []
+	},
+
 	getUsers(state) {
 		return state.users
 	},
