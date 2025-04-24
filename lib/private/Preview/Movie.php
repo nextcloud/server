@@ -65,10 +65,15 @@ class Movie extends ProviderV2 {
 
 		$result = null;
 		if ($this->useTempFile($file)) {
-			// try downloading 5 MB first as it's likely that the first frames are present there
-			// in some cases this doesn't work for example when the moov atom is at the
-			// end of the file, so if it fails we fall back to getting the full file
-			$sizeAttempts = [5242880, null];
+			// Try downloading 5 MB first, as it's likely that the first frames are present there.
+			// In some cases this doesn't work, for example when the moov atom is at the
+			// end of the file, so if it fails we fall back to getting the full file.
+			// Unless the file is not local (e.g. S3) as we do not want to download the whole (e.g. 37Gb) file
+			if ($file->getStorage()->isLocal()) {
+				$sizeAttempts = [5242880, null];
+			} else {
+				$sizeAttempts = [5242880];
+			}
 		} else {
 			// size is irrelevant, only attempt once
 			$sizeAttempts = [null];
