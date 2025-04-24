@@ -2586,6 +2586,28 @@ $CONFIG = [
 'query_log_file' => '',
 
 /**
+ * Prefix all queries with the requestid when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ */
+'query_log_file_requestid' => '',
+
+/**
+ * Add all query parameters to the query log entry when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ * Warning: This will log sensitive data into a plain text file.
+ */
+'query_log_file_parameters' => '',
+
+/**
+ * Add a backtrace to the query log entry when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ */
+'query_log_file_backtrace' => '',
+
+/**
  * Log all redis requests into a file
  *
  * Warning: This heavily decreases the performance of the server and is only
