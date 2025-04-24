@@ -365,9 +365,15 @@ export default {
 					],
 				)
 
-				this.linkShares = shares.filter(share => [ShareType.Link, ShareType.Email].includes(share.type))
-				this.shares = shares.filter(share => ![ShareType.Link, ShareType.Email, ShareType.Remote, ShareType.RemoteGroup].includes(share.type))
-				this.externalShares = shares.filter(share => [ShareType.Remote, ShareType.RemoteGroup].includes(share.type))
+				for (const share of shares) {
+					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
+						this.linkShares.push(share)
+					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
+						this.externalShares.push(share)
+					} else {
+						this.shares.push(share)
+					}
+				}
 
 				logger.debug(`Processed ${this.linkShares.length} link share(s)`)
 				logger.debug(`Processed ${this.shares.length} share(s)`)
