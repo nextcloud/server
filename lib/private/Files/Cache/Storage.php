@@ -56,9 +56,15 @@ class Storage {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
+			try {
+				$query = $connection->getQueryBuilder();
+				$query->insert('storages')
+					->set('id', $query->createNamedParameter($this->storageId))
+					->set('available', $query->createNamedParameter($available));
+				$query->executeStatement();
+				$this->numericId = $query->getLastInsertId();
+			} catch (\Exception $e) {
+				//TODO: catch only conflict
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {
