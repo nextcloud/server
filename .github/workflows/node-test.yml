@@ -104,6 +104,7 @@ jobs:
           files: ./coverage/lcov.info
 
       - name: Upload test results
+        if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1.1.0
 
   jsunit:

@@ -117,7 +117,7 @@ jobs:
           flags: phpunit-s3
 
       - name: Upload test results
-        if: always()
+        if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1.1.0
         with:
           flags: phpunit-s3
