@@ -140,6 +140,7 @@ OC.L10N.register(
     "Email" : "Epost",
     "Team" : "Tiim",
     "Talk conversation" : "Talk suhtlus",
+    "on {server}" : " {server}",
     "Enter external recipients" : "Lisa välised saajad",
     "Search for internal recipients" : "Otsi rakendusesiseseid saajaid",
     "Note from" : "Märge kasutajalt",
@@ -151,8 +152,8 @@ OC.L10N.register(
     "Terms of service" : "Kasutustingimused",
     "Upload files to {folder}" : "Laadi failid üles kausta {folder}",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} jagas sinuga kausta.",
-    "Nickname" : "Hüüdnimi",
-    "Enter your nickname" : "Sisesta oma hüüdnimi",
+    "Name" : "Nimi",
+    "Enter your name" : "Sisesta oma nimi",
     "Share with group" : "Jaga grupiga",
     "Share in conversation" : "Jaga vestluses",
     "Share with remote group" : "Jaga grupiga liitpilves",
@@ -263,6 +264,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Sa ei saa muuta lingi jagamist, mis pole sinu oma",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posti aadress on juba lisatud","{count} e-posti aadressi on juba lisatud"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-posti aadress on lisatud","{count} e-posti aadressi on lisatud"],
-    "Enter your name" : "Sisesta oma nimi"
+    "Nickname" : "Hüüdnimi",
+    "Enter your nickname" : "Sisesta oma hüüdnimi"
 },
 "nplurals=2; plural=(n != 1);");

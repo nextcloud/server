@@ -261,8 +261,8 @@
     "Submit name" : "Fornisci il nome",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ha condiviso una cartella con te.",
     "To upload files, you need to provide your name first." : "Per caricare file, devi prima fornire il tuo nome.",
-    "Nickname" : "Soprannome",
-    "Enter your nickname" : "Inserisci il tuo soprannome",
+    "Name" : "Nome",
+    "Enter your name" : "Digita il tuo nome",
     "Share with {userName}" : "Condividi con {userName}",
     "Share with email {email}" : "Condividi con l'email {email}",
     "Share with group" : "Condividi con gruppo",
@@ -421,6 +421,7 @@
     "You are not allowed to edit link shares that you don't own" : "Non ti è consentito modificare le condivisioni di collegamenti che non ti appartengono",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 indirizzo di posta già aggiunto","{count} indirizzi di posta già aggiunti","{count} indirizzi di posta già aggiunti"],
     "_1 email address added_::_{count} email addresses added_" : ["1 indirizzo di posta aggiunto","{count} indirizzi di posta aggiunti","{count} indirizzi di posta aggiunti"],
-    "Enter your name" : "Digita il tuo nome"
+    "Nickname" : "Soprannome",
+    "Enter your nickname" : "Inserisci il tuo soprannome"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

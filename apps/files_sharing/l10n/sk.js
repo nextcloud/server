@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "Odoslať meno",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} pre vás zdieľal adresár",
     "To upload files, you need to provide your name first." : "Pre nahranie súborov, musíte najprv zdať svoje meno.",
-    "Nickname" : "Prezývka",
-    "Enter your nickname" : "Zadajte vašu prezývku",
+    "Name" : "Názov",
+    "Enter your name" : "Zadajte svoje meno",
     "Share with {userName}" : "Zdiľať s {userName}",
     "Share with email {email}" : "Zdieľať s emailom {email}",
     "Share with group" : "Zdieľať so skupinou",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Nemáte povolenie upravovať zdieľania odkazov, ktoré nevlastníte",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailová adriesa už bola pridaná","{count} e-mailové adriesy už boli pridané","{count} e-mailových adries už bolo pridaných","{count} e-mailových adries už bolo pridaných"],
     "_1 email address added_::_{count} email addresses added_" : ["1 pridaná e-mailová adresa","{count} pridané e-mailové adriesy","{count} pridaných e-mailových adries","{count} pridaných e-mailových adries"],
-    "Enter your name" : "Zadajte svoje meno"
+    "Nickname" : "Prezývka",
+    "Enter your nickname" : "Zadajte vašu prezývku"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

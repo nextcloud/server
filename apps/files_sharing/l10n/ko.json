@@ -261,8 +261,8 @@
     "Submit name" : "이름 제출",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}님이 당신에게 폴더를 공유했습니다.",
     "To upload files, you need to provide your name first." : "파일을 업로드하려면 먼저 당신의 이름을 알려주세요.",
-    "Nickname" : "별명",
-    "Enter your nickname" : "당신의 닉네임을 입력하세요.",
+    "Name" : "이름",
+    "Enter your name" : "이름을 입력하세요",
     "Share with {userName}" : "{userName}와(과) 공유",
     "Share with email {email}" : "{email} 이메일에 공유",
     "Share with group" : "그룹과 공유",
@@ -420,6 +420,7 @@
     "You are not allowed to edit link shares that you don't own" : "당신이 것이 아닌 링크 공유를 편집할 권한이 없습니다.",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count}개 이메일 주소가 이미 추가됨"],
     "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"],
-    "Enter your name" : "이름을 입력하세요"
+    "Nickname" : "별명",
+    "Enter your nickname" : "당신의 닉네임을 입력하세요."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

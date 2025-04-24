@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "إرسال الاسم",
     "{ownerDisplayName} shared a folder with you." : "قام {ownerDisplayName} بمشاركة مجلد معك.",
     "To upload files, you need to provide your name first." : "لرفع الملفات، يجب أن تكتب اسمك أوّلاً.",
-    "Nickname" : "كنُيَة",
-    "Enter your nickname" : "أدخِل لقبك",
+    "Name" : "الاسم",
+    "Enter your name" : "أدخِل اسمك",
     "Share with {userName}" : "شارِك مع {userName}",
     "Share with email {email}" : "مشاركة مع صاحب البريد الإلكتروني {email}",
     "Share with group" : "شارِك مع مجموعة",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "أنت غير مسموحٍ لك بتعديل مشاركات الروابط التي لا تملكها",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} عنوان إيميل سبقت إضافته سلفاً","1 عنوان إيميل سبقت إضافته سلفاً","{count} عنوان إيميل سبقت إضافته سلفاً","{count} عناوين إيميل سبقت إضافتهت سلفاً","{count} عناوين إيميل سبقت إضافتها سلفاً","{count} عناوين إيميل سبقت إضافتها سلفاً"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} عنوان إيميل تمت إضافته","1 عنوان إيميل تمت إضافته","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها"],
-    "Enter your name" : "أدخِل اسمك"
+    "Nickname" : "كنُيَة",
+    "Enter your nickname" : "أدخِل لقبك"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

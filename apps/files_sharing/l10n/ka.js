@@ -165,7 +165,8 @@ OC.L10N.register(
     "on {server}" : "on {server}",
     "File drop" : "File drop",
     "Terms of service" : "Terms of service",
-    "Nickname" : "Nickname",
+    "Name" : "სახელი",
+    "Enter your name" : "Enter your name",
     "Share with {userName}" : "Share with {userName}",
     "Share with group" : "Share with group",
     "Share in conversation" : "Share in conversation",
@@ -271,6 +272,6 @@ OC.L10N.register(
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",
     "Allow download" : "Allow download",
-    "Enter your name" : "Enter your name"
+    "Nickname" : "Nickname"
 },
 "nplurals=2; plural=(n!=1);");

@@ -255,8 +255,8 @@ OC.L10N.register(
     "Submit name" : "Отправить имя",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} поделился с вами папкой.",
     "To upload files, you need to provide your name first." : "Чтобы загрузить файлы, вам необходимо сначала указать свое имя.",
-    "Nickname" : "Псевдоним",
-    "Enter your nickname" : "Введите свой никнейм",
+    "Name" : "Имя",
+    "Enter your name" : "Введите своё имя",
     "Share with {userName}" : "Поделиться с {userName}",
     "Share with email {email}" : "Поделитесь с помощью электронной почты",
     "Share with group" : "Поделиться с группой",
@@ -401,6 +401,7 @@ OC.L10N.register(
     "Allow download" : "Разрешить скачивать",
     "Share expire date saved" : "Дата истечения общего доступа установлена",
     "You are not allowed to edit link shares that you don't own" : "Вам не разрешается редактировать ссылки, которыми вы не владеете",
-    "Enter your name" : "Введите своё имя"
+    "Nickname" : "Псевдоним",
+    "Enter your nickname" : "Введите свой никнейм"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
