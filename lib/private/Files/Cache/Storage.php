@@ -64,6 +64,9 @@ class Storage {
 				$query->executeStatement();
 				$this->numericId = $query->getLastInsertId();
 			} catch (\Exception $e) {
+				echo "$e\n";
+				\OCP\Server::get(LoggerInterface::class)->debug('Storage with ' . $this->storageId . ' failed to insert, selecting', ['exception' => $e]);
+
 				//TODO: catch only conflict
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
