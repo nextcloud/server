@@ -122,6 +122,7 @@ class OracleConnection extends Connection {
 		if ($name) {
 			$name = $this->replaceTablePrefix($name);
 		}
+		var_dump($this->lastInsertId, $name);
 		return $this->lastInsertId[$name];
 	}
 }

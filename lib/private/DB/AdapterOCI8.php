@@ -41,6 +41,13 @@ class AdapterOCI8 extends Adapter {
 				$statement
 			);
 			var_dump($statement);
+		} elseif (\str_contains($statement, 'storages')) {
+			$statement = preg_replace(
+				'/^INSERT (INTO .+ VALUES ?\(.+\))$/',
+				'INSERT ${1} RETURNING "numeric_id" INTO "vRowid"',
+				$statement
+			);
+			var_dump($statement);
 		}
 
 
