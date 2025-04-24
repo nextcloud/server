@@ -57,12 +57,16 @@
 </template>
 
 <script setup lang="ts">
+import type CancelablePromise from 'cancelable-promise'
+import type { IGroup } from '../views/user-types.d.ts'
+
+import { mdiAccountGroup, mdiPlus } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { useElementVisibility } from '@vueuse/core'
 import { computed, ref, watch, onBeforeMount } from 'vue'
 import { Fragment } from 'vue-frag'
 import { useRoute, useRouter } from 'vue-router/composables'
-import { useElementVisibility } from '@vueuse/core'
-import { showError } from '@nextcloud/dialogs'
-import { mdiAccountGroup, mdiPlus } from '@mdi/js'
 
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
@@ -137,12 +141,16 @@ watch(groupsSearchQuery, async () => {
 })
 
 /** Cancelable promise for search groups request */
-const promise = ref(null)
+const promise = ref<CancelablePromise<IGroup[]>>()
 
 /**
  * Load groups
  */
 async function loadGroups() {
+	if (!isAdminOrDelegatedAdmin.value) {
+		return
+	}
+
 	if (promise.value) {
 		promise.value.cancel()
 	}
@@ -163,7 +171,7 @@ async function loadGroups() {
 	} catch (error) {
 		logger.error(t('settings', 'Failed to load groups'), { error })
 	}
-	promise.value = null
+	promise.value = undefined
 	loadingGroups.value = false
 }
 
