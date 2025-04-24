@@ -59,8 +59,8 @@ class Storage {
 			try {
 				$query = $connection->getQueryBuilder();
 				$query->insert('storages')
-					->set('id', $query->createNamedParameter($this->storageId))
-					->set('available', $query->createNamedParameter($available));
+					->setValue('id', $query->createNamedParameter($this->storageId))
+					->setValue('available', $query->createNamedParameter($available));
 				$query->executeStatement();
 				$this->numericId = $query->getLastInsertId();
 			} catch (\Exception $e) {
