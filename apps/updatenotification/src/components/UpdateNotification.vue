@@ -357,10 +357,10 @@ export default {
 				this.missingAppUpdates = data.ocs.data.missing
 				this.isListFetched = true
 				this.appStoreFailed = false
-			}).catch(({ data }) => {
+			}).catch(({ response }) => {
 				this.availableAppUpdates = []
 				this.missingAppUpdates = []
-				this.appStoreDisabled = data.ocs.data.appstore_disabled
+				this.appStoreDisabled = response.data.ocs.data.appstore_disabled
 				this.isListFetched = true
 				this.appStoreFailed = true
 			})
