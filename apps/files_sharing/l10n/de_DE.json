@@ -261,8 +261,8 @@
     "Submit name" : "Name übermitteln",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} hat einen Ordner mit Ihnen geteilt.",
     "To upload files, you need to provide your name first." : "Um Dateien hochzuladen, müssen Sie zunächst Ihren Namen angeben.",
-    "Nickname" : "Name",
-    "Enter your nickname" : "Geben Sie Ihren Namen ein",
+    "Name" : "Name",
+    "Enter your name" : "Geben Sie Ihren Namen ein",
     "Share with {userName}" : "Mit {userName} teilen",
     "Share with email {email}" : "Mit E-Mail {email} teilen",
     "Share with group" : "Mit Gruppe teilen",
@@ -421,6 +421,7 @@
     "You are not allowed to edit link shares that you don't own" : "Sie dürfen keine Linkfreigaben bearbeiten, die Sie nicht besitzen",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
     "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
-    "Enter your name" : "Geben Sie Ihren Namen ein"
+    "Nickname" : "Name",
+    "Enter your nickname" : "Geben Sie Ihren Namen ein"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -245,8 +245,8 @@ OC.L10N.register(
     "Submit name" : "Испрати име",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} сподели папка со вас.",
     "To upload files, you need to provide your name first." : "За да прикачите датотеки, мора да го наведете вашето име.",
-    "Nickname" : "Прекар",
-    "Enter your nickname" : "Внесете го вашиот прекар",
+    "Name" : "Име",
+    "Enter your name" : "Внесете го вашето име",
     "Share with {userName}" : "Сподели со {userName}",
     "Share with email {email}" : "Сподели со е-пошта {email}",
     "Share with group" : "Сподели со група",
@@ -377,6 +377,7 @@ OC.L10N.register(
     "Search for share recipients" : "Пребарај за примачи на споделувањето",
     "No recommendations. Start typing." : "Нема препораки. Започнете со пишување.",
     "Allow download" : "Дозволи преземање",
-    "Enter your name" : "Внесете го вашето име"
+    "Nickname" : "Прекар",
+    "Enter your nickname" : "Внесете го вашиот прекар"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

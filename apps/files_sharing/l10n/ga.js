@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "Cuir ainm",
     "{ownerDisplayName} shared a folder with you." : "Roinn {ownerDisplayName} fillteán leat.",
     "To upload files, you need to provide your name first." : "Chun comhaid a uaslódáil, ní mór duit d'ainm a sholáthar ar dtús.",
-    "Nickname" : "Leasainm",
-    "Enter your nickname" : "Cuir isteach do leasainm",
+    "Name" : "Ainm",
+    "Enter your name" : "Cuir isteach d'ainm",
     "Share with {userName}" : "Roinn le {userName}",
     "Share with email {email}" : "Roinn le ríomhphost {email}",
     "Share with group" : "Roinn leis an ngrúpa",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Níl cead agat scaireanna naisc nach leatsa a chur in eagar",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
     "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
-    "Enter your name" : "Cuir isteach d'ainm"
+    "Nickname" : "Leasainm",
+    "Enter your nickname" : "Cuir isteach do leasainm"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

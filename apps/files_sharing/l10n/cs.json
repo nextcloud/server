@@ -261,8 +261,8 @@
     "Submit name" : "Odeslat jméno",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} vám nasdílel(a) složku.",
     "To upload files, you need to provide your name first." : "Aby bylo možné nahrávat soubory, je třeba nejprve zadat své jméno.",
-    "Nickname" : "Přezdívka",
-    "Enter your nickname" : "Zadejte svou přezdívku",
+    "Name" : "Název",
+    "Enter your name" : "Zadejte své jméno",
     "Share with {userName}" : "Nasdílet pro {userName}",
     "Share with email {email}" : "Nasdílet e-mailu {email}",
     "Share with group" : "Nasdílet skupině",
@@ -421,6 +421,7 @@
     "You are not allowed to edit link shares that you don't own" : "Nemáte oprávnění upravovat sdílení odkazem, která nevlastníte",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailová adresa už přidána","{count} e-mailové adresy už přidány","{count} e-mailových adres už přidáno","{count} e-mailové adresy už přidány"],
     "_1 email address added_::_{count} email addresses added_" : ["Jedna e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"],
-    "Enter your name" : "Zadejte své jméno"
+    "Nickname" : "Přezdívka",
+    "Enter your nickname" : "Zadejte svou přezdívku"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

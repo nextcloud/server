@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "Поднеси име",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} је са вама поделио фолдер.",
     "To upload files, you need to provide your name first." : "Да бисте могли да отпремите фајлове, најпре наведите своје име.",
-    "Nickname" : "Надимак",
-    "Enter your nickname" : "Унесите свој надимак",
+    "Name" : "Име",
+    "Enter your name" : "Унесите Ваше име",
     "Share with {userName}" : "Подели са {userName}",
     "Share with email {email}" : "Подели и-мејлом {email}",
     "Share with group" : "Подели са групом",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Није вам дозвољено да уређујете дељења линком која нису ваше власништво",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
     "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
-    "Enter your name" : "Унесите Ваше име"
+    "Nickname" : "Надимак",
+    "Enter your nickname" : "Унесите свој надимак"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

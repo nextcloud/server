@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "名前を送信",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}はあなたとフォルダを共有しました。",
     "To upload files, you need to provide your name first." : "ファイルをアップロードするには、最初に名前を入力する必要があります。",
-    "Nickname" : "ニックネーム",
-    "Enter your nickname" : "あなたのニックネームを入力してください",
+    "Name" : "名前",
+    "Enter your name" : "あなたの名前を入力",
     "Share with {userName}" : "{userName} と共有",
     "Share with email {email}" : "{email} とメールで共有",
     "Share with group" : "グループと共有する",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
-    "Enter your name" : "あなたの名前を入力"
+    "Nickname" : "ニックネーム",
+    "Enter your nickname" : "あなたのニックネームを入力してください"
 },
 "nplurals=1; plural=0;");

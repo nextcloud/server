@@ -154,7 +154,8 @@ OC.L10N.register(
     "Deck board" : "Tabella in Deck",
     "on {server}" : "in {server}",
     "Terms of service" : "Cunditziones de servìtziu",
-    "Nickname" : "Nùmene",
+    "Name" : "Nùmene",
+    "Enter your name" : "Inserta•nche su nùmene tuo",
     "Update share" : "Agiorna sa cumpartzidura",
     "Read" : "Leghe",
     "Create" : "Crea",
@@ -233,6 +234,6 @@ OC.L10N.register(
     "Download all files" : "Iscàrriga totu is archìvios",
     "Search for share recipients" : "Chirca destinatàrios de cumpartziduras",
     "No recommendations. Start typing." : "Peruna racumandatzione. Cumintza a iscrìere.",
-    "Enter your name" : "Inserta•nche su nùmene tuo"
+    "Nickname" : "Nùmene"
 },
 "nplurals=2; plural=(n != 1);");

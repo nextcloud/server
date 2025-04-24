@@ -123,6 +123,8 @@ OC.L10N.register(
     "on {server}" : "روی{server}",
     "File drop" : "انداختن پرونده",
     "Terms of service" : "شرایط و قوانین",
+    "Name" : "نام",
+    "Enter your name" : "اسمت را وارد کن",
     "Read" : "خواندن",
     "Create" : "ایجاد",
     "Edit" : "ویرایش",
@@ -212,7 +214,6 @@ OC.L10N.register(
     "Download all files" : "دانلود همه فایل ها",
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
-    "Allow download" : "Allow download",
-    "Enter your name" : "اسمت را وارد کن"
+    "Allow download" : "Allow download"
 },
 "nplurals=2; plural=(n > 1);");

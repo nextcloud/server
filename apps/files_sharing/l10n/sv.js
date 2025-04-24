@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "Skicka namn",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delade en mapp med dig.",
     "To upload files, you need to provide your name first." : "För att ladda upp filer måste du först ange ditt namn.",
-    "Nickname" : "Smeknamn",
-    "Enter your nickname" : "Ange ditt smeknamn",
+    "Name" : "Namn",
+    "Enter your name" : "Ange ditt namn",
     "Share with {userName}" : "Dela med {userName}",
     "Share with email {email}" : "Dela med e-post {email}",
     "Share with group" : "Dela med grupp",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Du får inte redigera länkdelningar som du inte äger",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
-    "Enter your name" : "Ange ditt namn"
+    "Nickname" : "Smeknamn",
+    "Enter your nickname" : "Ange ditt smeknamn"
 },
 "nplurals=2; plural=(n != 1);");
