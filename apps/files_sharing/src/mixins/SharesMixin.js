@@ -234,8 +234,13 @@ export default {
 		 * @param {Date} date
 		 */
 		onExpirationChange(date) {
-			const formattedDate = date ? this.formatDateToString(new Date(date)) : ''
-			this.share.expireDate = formattedDate
+			if (!date) {
+				this.share.expireDate = null
+				this.$set(this.share, 'expireDate', null)
+				return
+			}
+			const parsedDate = (date instanceof Date) ? date : new Date(date)
+			this.share.expireDate = this.formatDateToString(parsedDate)
 		},
 
 		/**
