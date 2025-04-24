@@ -452,7 +452,7 @@ class RequestHandlerController extends Controller {
 	 */
 	private function getHostFromFederationId(string $entry): string {
 		if (!str_contains($entry, '@')) {
-			throw new IncomingRequestException('entry ' . $entry . ' does not contains @');
+			throw new IncomingRequestException('entry ' . $entry . ' does not contain @');
 		}
 		$rightPart = substr($entry, strrpos($entry, '@') + 1);
 
