@@ -29,7 +29,7 @@ class AdapterOCI8 extends Adapter {
 
 		$statement = preg_replace(
 			'/^INSERT (INTO .+ VALUES ?\(.+\))$/',
-			'INSERT ${1} RETURNING ROWID INTO "vRowid"',
+			'INSERT ${1} RETURNING "id" INTO "vRowid"',
 			$statement
 		);
 
