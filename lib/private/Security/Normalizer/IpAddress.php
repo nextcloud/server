@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OC\Security\Normalizer;
 
+use OCP\IConfig;
+
 /**
  * Class IpAddress is used for normalizing IPv4 and IPv6 addresses in security
  * relevant contexts in Nextcloud.
@@ -24,7 +26,8 @@ class IpAddress {
 	}
 
 	/**
-	 * Return the given subnet for an IPv6 address (48 first bits)
+	 * Return the given subnet for an IPv6 address
+	 * Rely on security.ipv6_normalized_subnet_size, defaults to 56
 	 */
 	private function getIPv6Subnet(string $ip): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
@@ -35,10 +38,14 @@ class IpAddress {
 			$ip = substr($ip, 0, $pos - 1);
 		}
 
-		$binary = \inet_pton($ip);
-		$mask = inet_pton('FFFF:FFFF:FFFF::');
+		$config = \OCP\Server::get(IConfig::class);
+		$maskSize = min(64, $config->getSystemValueInt('security.ipv6_normalized_subnet_size', 56));
+		$maskSize = max(32, $maskSize);
+		$mask = pack('VVP', (1 << 32) - 1, (1 << $maskSize - 32) - 1, 0);
 
-		return inet_ntop($binary & $mask).'/48';
+		$binary = \inet_pton($ip);
+
+		return inet_ntop($binary & $mask) . '/' . $maskSize;
 	}
 
 	/**
@@ -63,7 +70,7 @@ class IpAddress {
 
 
 	/**
-	 * Gets either the /32 (IPv4) or the /48 (IPv6) subnet of an IP address
+	 * Gets either the /32 (IPv4) or the /56 (default for IPv6) subnet of an IP address
 	 */
 	public function getSubnet(): string {
 		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
