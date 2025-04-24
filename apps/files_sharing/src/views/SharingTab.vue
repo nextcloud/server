@@ -94,6 +94,11 @@
 					:reshare="reshare"
 					:shares="shares"
 					@open-sharing-details="toggleShareDetailsView" />
+				<!-- Non link external shares list -->
+				<SharingList v-if="!loading"
+					:shares="externalShares"
+					:file-info="fileInfo"
+					@open-sharing-details="toggleShareDetailsView" />
 				<!-- link shares list -->
 				<SharingLinkList v-if="!loading"
 					ref="linkShareList"
@@ -180,6 +185,7 @@ import SharingList from './SharingList.vue'
 import SharingDetailsTab from './SharingDetailsTab.vue'
 
 import ShareDetails from '../mixins/ShareDetails.js'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingTab',
@@ -215,6 +221,7 @@ export default {
 			sharedWithMe: {},
 			shares: [],
 			linkShares: [],
+			externalShares: [],
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
 			projectsEnabled: loadState('core', 'projects_enabled', false),
@@ -358,11 +365,13 @@ export default {
 					],
 				)
 
-				this.linkShares = shares.filter(share => share.type === ShareType.Link || share.type === ShareType.Email)
-				this.shares = shares.filter(share => share.type !== ShareType.Link && share.type !== ShareType.Email)
+				this.linkShares = shares.filter(share => [ShareType.Link, ShareType.Email].includes(share.type))
+				this.shares = shares.filter(share => ![ShareType.Link, ShareType.Email, ShareType.Remote, ShareType.RemoteGroup].includes(share.type))
+				this.externalShares = shares.filter(share => [ShareType.Remote, ShareType.RemoteGroup].includes(share.type))
 
-				console.debug('Processed', this.linkShares.length, 'link share(s)')
-				console.debug('Processed', this.shares.length, 'share(s)')
+				logger.debug(`Processed ${this.linkShares.length} link share(s)`)
+				logger.debug(`Processed ${this.shares.length} share(s)`)
+				logger.debug(`Processed ${this.externalShares.length} external share(s)`)
 			}
 		},
 
@@ -423,6 +432,8 @@ export default {
 			// meaning: not from the ShareInput
 			if (share.type === ShareType.Email) {
 				this.linkShares.unshift(share)
+			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
+				this.externalShares.unshift(share)
 			} else {
 				this.shares.unshift(share)
 			}
