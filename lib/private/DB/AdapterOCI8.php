@@ -27,13 +27,15 @@ class AdapterOCI8 extends Adapter {
 		$statement = str_ireplace('NOW()', 'CURRENT_TIMESTAMP', $statement);
 		$statement = str_ireplace('UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement);
 
-		$statement = preg_replace(
-			'/^INSERT (INTO .+ VALUES ?\(.+\))$/',
-			'INSERT ${1} RETURNING "rowid" INTO "vRowid"',
-			$statement
-		);
+		if (\str_contains($statement, 'filecache')) {
+			$statement = preg_replace(
+				'/^INSERT (INTO .+ VALUES ?\(.+\))$/',
+				'INSERT ${1} RETURNING "fileid" INTO "vRowid"',
+				$statement
+			);
+			var_dump($statement);
+		}
 
-		var_dump($statement);
 
 		return $statement;
 	}
