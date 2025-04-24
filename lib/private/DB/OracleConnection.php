@@ -107,8 +107,8 @@ class OracleConnection extends Connection {
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		$returned = parent::executeStatement($sql, $params, $types);
 
-		var_dump($sql);
-		if (preg_match('/RETURNING/', $sql, $matches)) {
+		var_dump('Conn:' . $sql, $returned);
+		if (preg_match('/INSERT INTO ([^ ]+).* RETURNING/', $sql, $matches)) {
 			var_dump($returned);
 			$this->lastInsertId[$matches[1]] = $returned;
 			var_dump($this->lastInsertId);
