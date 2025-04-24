@@ -256,8 +256,8 @@ OC.L10N.register(
     "Submit name" : "Sartu izena",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}-k zurekin karpeta bat partekatu du.",
     "To upload files, you need to provide your name first." : "Fitxategiak igotzeko, zure izena eman behar duzu lehenik.",
-    "Nickname" : "Ezizena",
-    "Enter your nickname" : "Sartu zure ezizena",
+    "Name" : "Izena",
+    "Enter your name" : "Sartu zure izena",
     "Share with {userName}" : "Partekatu {userName}-rekin",
     "Share with email {email}" : "Partekatu helbide elektronikoarekin {email}",
     "Share with group" : "Partekatu taldearekin",
@@ -397,6 +397,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Ezin dituzu editatu zureak ez diren partekatze estekak",
     "_1 email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko 1 gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
     "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"],
-    "Enter your name" : "Sartu zure izena"
+    "Nickname" : "Ezizena",
+    "Enter your nickname" : "Sartu zure ezizena"
 },
 "nplurals=2; plural=(n != 1);");

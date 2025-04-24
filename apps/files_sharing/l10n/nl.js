@@ -231,8 +231,8 @@ OC.L10N.register(
     "Submit name" : "Naam doorgeven",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} deelde een map met je.",
     "To upload files, you need to provide your name first." : "Om bestanden te uploaden moet je eerste je naam opgeven.",
-    "Nickname" : "Bijnaam",
-    "Enter your nickname" : "Voer je bijnaam in",
+    "Name" : "Naam",
+    "Enter your name" : "Geef je naam op",
     "Share with {userName}" : "Deel met {userName}",
     "Share with email {email}" : "Deel met e-mail {email}",
     "Share with group" : "Deel met groep",
@@ -366,6 +366,7 @@ OC.L10N.register(
     "Share expire date saved" : "Share vervaldatum opgeslagen",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-mailadres al toegevoegd","Al {count} e-mailadressen toegevoegd"],
     "_1 email address added_::_{count} email addresses added_" : ["1  E-mailadres toegevoegd","{count} E-mailadressen toegevoegd"],
-    "Enter your name" : "Geef je naam op"
+    "Nickname" : "Bijnaam",
+    "Enter your nickname" : "Voer je bijnaam in"
 },
 "nplurals=2; plural=(n != 1);");

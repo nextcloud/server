@@ -163,6 +163,7 @@ OC.L10N.register(
     "on {server}" : "en {server}",
     "File drop" : "Soltar archivo",
     "Terms of service" : "Terms of service",
+    "Name" : "Nombre",
     "Read" : "Leer",
     "Create" : "Crear",
     "Edit" : "Editar",

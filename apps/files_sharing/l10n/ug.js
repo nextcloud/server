@@ -246,8 +246,8 @@ OC.L10N.register(
     "Submit name" : "ئىسىم يوللاڭ",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ھۆججەت قىسقۇچنى سىز بىلەن ئورتاقلاشتى.",
     "To upload files, you need to provide your name first." : "ھۆججەتلەرنى يوللاش ئۈچۈن ئالدى بىلەن ئىسمىڭىزنى تەمىنلىشىڭىز كېرەك.",
-    "Nickname" : "لەقەم",
-    "Enter your nickname" : "لەقىمىڭىزنى كىرگۈزۈڭ",
+    "Name" : "ئاتى",
+    "Enter your name" : "ئىسمىڭىزنى كىرگۈزۈڭ",
     "Share with {userName}" : "{userName} بىلەن ئورتاقلىشىڭ",
     "Share with email {email}" : "ئېلېكترونلۇق خەت {email} خەت}",
     "Share with group" : "گۇرۇپپا بىلەن ئورتاقلىشىش",
@@ -382,6 +382,7 @@ OC.L10N.register(
     "Allow download" : "چۈشۈرۈشكە يول قويۇڭ",
     "Share expire date saved" : "ئورتاقلىشىش ۋاقتى ساقلاندى",
     "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
-    "Enter your name" : "ئىسمىڭىزنى كىرگۈزۈڭ"
+    "Nickname" : "لەقەم",
+    "Enter your nickname" : "لەقىمىڭىزنى كىرگۈزۈڭ"
 },
 "nplurals=2; plural=(n != 1);");

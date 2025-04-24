@@ -261,8 +261,8 @@
     "Submit name" : "Wyślij nazwę",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} udostępnił Ci katalog.",
     "To upload files, you need to provide your name first." : "Aby przesłać pliki, musisz najpierw podać swoje imię i nazwisko.",
-    "Nickname" : "Pseudonim",
-    "Enter your nickname" : "Wpisz swój pseudonim",
+    "Name" : "Nazwa",
+    "Enter your name" : "Wpisz swoją nazwę",
     "Share with {userName}" : "Podziel się z {userName}",
     "Share with email {email}" : "Udostępnij na e-mail {email}",
     "Share with group" : "Udostępnij grupie",
@@ -421,6 +421,7 @@
     "You are not allowed to edit link shares that you don't own" : "Nie możesz modyfikować udostępnionych odnośników, których nie jesteś właścicielem",
     "_1 email address already added_::_{count} email addresses already added_" : ["Dodano już 1 adres e-mail","Dodano już {count} adresy e-mail","Dodano już {count} adresów e-mail","Dodano już {count} adresów e-mail"],
     "_1 email address added_::_{count} email addresses added_" : ["Dodano 1 adres e-mail","Dodano {count} adresy e-mail","Dodano {count} adresów e-mail","Dodano {count} adresów e-mail"],
-    "Enter your name" : "Wpisz swoją nazwę"
+    "Nickname" : "Pseudonim",
+    "Enter your nickname" : "Wpisz swój pseudonim"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -261,8 +261,8 @@ OC.L10N.register(
     "Submit name" : "Enviar o nome",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} compartiu un cartafol con Vde.",
     "To upload files, you need to provide your name first." : "Para enviar ficheiros, primeiro debes fornecer o teu nome.",
-    "Nickname" : "Alcume",
-    "Enter your nickname" : "Introduza o seu alcume",
+    "Name" : "Nome",
+    "Enter your name" : "Introduza o seu nome",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir co correo {email}",
     "Share with group" : "Compartir co grupo",
@@ -421,6 +421,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Vde. non ten permiso para editar as ligazóns compartidas das que non é o propietario",
     "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
     "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
-    "Enter your name" : "Introduza o seu nome"
+    "Nickname" : "Alcume",
+    "Enter your nickname" : "Introduza o seu alcume"
 },
 "nplurals=2; plural=(n != 1);");

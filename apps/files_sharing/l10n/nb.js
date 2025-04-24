@@ -246,8 +246,8 @@ OC.L10N.register(
     "Submit name" : "Send inn navn",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delte en mappe med deg.",
     "To upload files, you need to provide your name first." : "For å laste opp filer må du først oppgi navnet ditt.",
-    "Nickname" : "Kallenavn",
-    "Enter your nickname" : "Skriv inn et kallenavn",
+    "Name" : "Navn",
+    "Enter your name" : "Skriv inn navnet ditt",
     "Share with {userName}" : "Del med {userName}",
     "Share with email {email}" : "Del med e-post {email}",
     "Share with group" : "Del med gruppe",
@@ -377,6 +377,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Du har ikke lov til å redigere delte lenker du ikke eier",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
     "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
-    "Enter your name" : "Skriv inn navnet ditt"
+    "Nickname" : "Kallenavn",
+    "Enter your nickname" : "Skriv inn et kallenavn"
 },
 "nplurals=2; plural=(n != 1);");

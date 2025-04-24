@@ -261,8 +261,8 @@ OC.L10N.register(
     "Submit name" : "Confirmer votre nom",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} a partagé un dossier avec vous.",
     "To upload files, you need to provide your name first." : "Pour téléverser des fichiers, vous devez fournir votre nom.",
-    "Nickname" : "Pseudo",
-    "Enter your nickname" : "Saisissez votre pseudo",
+    "Name" : "Nom",
+    "Enter your name" : "Saisissez votre nom",
     "Share with {userName}" : "Partager avec {userName}",
     "Share with email {email}" : "Partager avec l'e-mail {email}",
     "Share with group" : "Partager avec le groupe",
@@ -421,6 +421,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Vous n'êtes pas autorisé à modifier les liens de partage dont vous n'êtes pas propriétaire",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 adresse mail déjà ajoutée"," {count}adresses email déjà ajoutées","{count} adresses e-mail déjà ajoutées"],
     "_1 email address added_::_{count} email addresses added_" : [" 1 adresse mail ajoutée","{count} adresses mail ajoutées","{count} adresses mail ajoutées"],
-    "Enter your name" : "Saisissez votre nom"
+    "Nickname" : "Pseudo",
+    "Enter your nickname" : "Saisissez votre pseudo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

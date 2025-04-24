@@ -263,8 +263,8 @@ OC.L10N.register(
     "Submit name" : "Submit name",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} shared a folder with you.",
     "To upload files, you need to provide your name first." : "To upload files, you need to provide your name first.",
-    "Nickname" : "Nickname",
-    "Enter your nickname" : "Enter your nickname",
+    "Name" : "Surname",
+    "Enter your name" : "Enter your name",
     "Share with {userName}" : "Share with {userName}",
     "Share with email {email}" : "Share with email {email}",
     "Share with group" : "Share with group",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "You are not allowed to edit link shares that you don't own",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
     "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
-    "Enter your name" : "Enter your name"
+    "Nickname" : "Nickname",
+    "Enter your nickname" : "Enter your nickname"
 },
 "nplurals=2; plural=(n != 1);");

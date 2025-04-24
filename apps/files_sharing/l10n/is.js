@@ -242,8 +242,8 @@ OC.L10N.register(
     "Submit name" : "Nafn við innsendingu",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} deildi möppu með þér.",
     "To upload files, you need to provide your name first." : "Til að senda inn skrár þarftu fyrst að gefa upp nafnið þitt.",
-    "Nickname" : "Stuttnefni",
-    "Enter your nickname" : "Settu inn gælunafnið þitt",
+    "Name" : "Heiti",
+    "Enter your name" : "Settu inn nafnið þitt",
     "Share with {userName}" : "Deila með {userName}",
     "Share with email {email}" : "Deila í tölvupósti með {email}",
     "Share with group" : "Deila með hópi",
@@ -394,6 +394,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Þú hefur ekki heimild til að breyta tenglum á sameignir sem þú átt ekki.",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 tölvupóstfangi þegar bætt við","{count} tölvupóstföngum þegar bætt við"],
     "_1 email address added_::_{count} email addresses added_" : ["1 tölvupóstfangi bætt við","{count} tölvupóstföngum bætt við"],
-    "Enter your name" : "Settu inn nafnið þitt"
+    "Nickname" : "Stuttnefni",
+    "Enter your nickname" : "Settu inn gælunafnið þitt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
