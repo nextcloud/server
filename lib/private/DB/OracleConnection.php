@@ -96,9 +96,9 @@ class OracleConnection extends Connection {
 	 *
 	 * This method supports PDO binding types as well as DBAL mapping types.
 	 *
-	 * @param string $sql  The SQL query.
-	 * @param array  $params The query parameters.
-	 * @param array  $types  The parameter types.
+	 * @param string $sql The SQL query.
+	 * @param array $params The query parameters.
+	 * @param array $types The parameter types.
 	 *
 	 * @return int The number of affected rows, if the result is bigger than PHP_INT_MAX, PHP_INT_MAX is returned
 	 *
@@ -108,7 +108,7 @@ class OracleConnection extends Connection {
 		$returned = parent::executeStatement($sql, $params, $types);
 
 		var_dump($sql);
-		if (preg_match('/^DECLARE vRowid ROWID; BEGIN INSERT INTO (.*) VALUES (.*) INTO (.*)$/', $sql, $matches)) {
+		if (preg_match('/INSERT INTO ([^ ]+) VALUES .* RETURNING ROWID INTO vRowid$/', $sql, $matches)) {
 			var_dump($returned);
 			$this->lastInsertId[$matches[1]] = $returned;
 			var_dump($this->lastInsertId);
