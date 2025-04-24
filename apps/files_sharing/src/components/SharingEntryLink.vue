@@ -102,7 +102,8 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@change="expirationDateChanged($event)">
+				@update:model-value="onExpirationChange"
+				@change="expirationDateChanged">
 				<template #icon>
 					<IconCalendarBlank :size="20" />
 				</template>
@@ -866,9 +867,9 @@ export default {
 		},
 
 		expirationDateChanged(event) {
-			const date = event.target.value
-			this.onExpirationChange(date)
-			this.defaultExpirationDateEnabled = !!date
+			const value = event?.target?.value
+			const isValid = !!value && !isNaN(new Date(value).getTime())
+			this.defaultExpirationDateEnabled = isValid
 		},
 
 		/**
