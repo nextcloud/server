@@ -78,14 +78,9 @@ class Event extends Base {
 					//       as seen from the affected user.
 					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
 				}
-				$link = [
-					'view' => 'dayGridMonth',
-					'timeRange' => 'now',
-					'mode' => 'sidebar',
+				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexdirect.edit', [
 					'objectId' => $objectId,
-					'recurrenceId' => 'next'
-				];
-				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexview.timerange.edit', $link);
+				]);
 			} catch (\Exception $error) {
 				// Do nothing
 			}
