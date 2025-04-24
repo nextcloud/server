@@ -34,6 +34,13 @@ class AdapterOCI8 extends Adapter {
 				$statement
 			);
 			var_dump($statement);
+		} elseif (\str_contains($statement, 'addressbooks')) {
+			$statement = preg_replace(
+				'/^INSERT (INTO .+ VALUES ?\(.+\))$/',
+				'INSERT ${1} RETURNING "id" INTO "vRowid"',
+				$statement
+			);
+			var_dump($statement);
 		}
 
 
