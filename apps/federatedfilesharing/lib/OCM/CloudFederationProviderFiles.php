@@ -67,7 +67,6 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		private LoggerInterface $logger,
 		private IFilenameValidator $filenameValidator,
 		private readonly IProviderFactory $shareProviderFactory,
-		private TrustedServers $trustedServers,
 	) {
 	}
 
@@ -156,6 +155,17 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 				// get DisplayName about the owner of the share
 				$ownerDisplayName = $this->getUserDisplayName($ownerFederatedId);
 
+				$trustedServers = null;
+				if ($this->appManager->isInstalled('federation')
+					&& class_exists(TrustedServers::class)) {
+					try {
+						$trustedServers = Server::get(TrustedServers::class);
+					} catch (\Throwable $e) {
+						$this->logger->debug('Failed to create TrustedServers', ['exception' => $e]);
+					}
+				}
+
+
 				if ($shareType === IShare::TYPE_USER) {
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
@@ -167,7 +177,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 					// If auto-accept is enabled, accept the share
-					if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $this->trustedServers->isTrustedServer($remote)) {
+					if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
 						$this->externalShareManager->acceptShare($shareId, $shareWith);
 					}
 				} else {
@@ -183,7 +193,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $ownerDisplayName);
 
 						// If auto-accept is enabled, accept the share
-						if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $this->trustedServers->isTrustedServer($remote)) {
+						if ($this->federatedShareProvider->isFederatedTrustedShareAutoAccept() && $trustedServers?->isTrustedServer($remote) === true) {
 							$this->externalShareManager->acceptShare($shareId, $user->getUID());
 						}
 					}

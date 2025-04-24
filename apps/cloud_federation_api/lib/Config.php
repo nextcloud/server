@@ -6,6 +6,7 @@
 namespace OCA\CloudFederationAPI;
 
 use OCP\Federation\ICloudFederationProviderManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class config
@@ -18,6 +19,7 @@ class Config {
 
 	public function __construct(
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -32,6 +34,7 @@ class Config {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			return $provider->getSupportedShareTypes();
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to create federation provider', ['exception' => $e]);
 			return [];
 		}
 	}
