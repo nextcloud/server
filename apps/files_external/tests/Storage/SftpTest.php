@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_External\Tests\Storage;
 
+use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Storage\SFTP;
 
 /**
@@ -132,5 +133,40 @@ class SftpTest extends \Test\Files\Storage\Storage {
 				'sftp::someuser@FE80::0202:B3FF:FE1E:8329:8822//remotedir/subdir/',
 			],
 		];
+	}
+
+	public function testAuthenticated(): void {
+		$this->assertTrue($this->instance->getConnection()->isAuthenticated());
+	}
+
+	public function testSymlinks(): void {
+		$this->instance->getConnection()->mkdir($this->config['root']);
+		$this->instance->getConnection()->mkdir($this->config['root'] . '/test');
+		$this->instance->getConnection()->touch($this->config['root'] . '/notes.txt');
+		$this->assertTrue($this->instance->getConnection()->is_dir($this->config['root'] . '/test'));
+		$this->assertTrue($this->instance->getConnection()->is_file($this->config['root'] . '/notes.txt'));
+
+		$symlinkDir = $this->config['root'] . '/test/slink';
+		$symlinkFile = $this->config['root'] . '/foo.txt';
+		$this->instance->getConnection()->symlink($this->config['root'], $symlinkDir);
+		$this->instance->getConnection()->symlink($this->config['root'] . '/notes.txt', $symlinkFile);
+		$this->assertTrue($this->instance->getConnection()->is_link($symlinkDir), 'Symlink directory was not created');
+		$this->assertTrue($this->instance->getConnection()->is_link($symlinkFile), 'Symlink file was not created');
+
+		$dirHandle = $this->instance->opendir('test/slink');
+		$files = [];
+		while (($file = readdir($dirHandle)) !== false) {
+				$files[] = $file;
+		}
+		closedir($dirHandle);
+		$this->assertEquals(['test', 'notes.txt'], $files);
+
+		$dirHandle = $this->instance->opendir('test/slink/test');
+		$files = [];
+		while (($file = readdir($dirHandle)) !== false) {
+				$files[] = $file;
+		}
+		closedir($dirHandle);
+		$this->assertEquals([], $files, 'Symlink directory must not repeat itself');
 	}
 }
