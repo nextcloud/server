@@ -1371,6 +1371,7 @@ return array(
     'OC\\Core\\Db\\ProfileConfigMapper' => $baseDir . '/core/Db/ProfileConfigMapper.php',
     'OC\\Core\\Events\\BeforePasswordResetEvent' => $baseDir . '/core/Events/BeforePasswordResetEvent.php',
     'OC\\Core\\Events\\PasswordResetEvent' => $baseDir . '/core/Events/PasswordResetEvent.php',
+    'OC\\Core\\Exception\\LoginFlowV2ClientForbiddenException' => $baseDir . '/core/Exception/LoginFlowV2ClientForbiddenException.php',
     'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => $baseDir . '/core/Exception/LoginFlowV2NotFoundException.php',
     'OC\\Core\\Exception\\ResetPasswordException' => $baseDir . '/core/Exception/ResetPasswordException.php',
     'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => $baseDir . '/core/Listener/BeforeMessageLoggedEventListener.php',

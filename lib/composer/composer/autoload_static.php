@@ -1412,6 +1412,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Db\\ProfileConfigMapper' => __DIR__ . '/../../..' . '/core/Db/ProfileConfigMapper.php',
         'OC\\Core\\Events\\BeforePasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/BeforePasswordResetEvent.php',
         'OC\\Core\\Events\\PasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/PasswordResetEvent.php',
+        'OC\\Core\\Exception\\LoginFlowV2ClientForbiddenException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2ClientForbiddenException.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeMessageLoggedEventListener.php',
