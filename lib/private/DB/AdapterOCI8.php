@@ -37,14 +37,14 @@ class AdapterOCI8 extends Adapter {
 		} elseif (\str_contains($statement, 'addressbooks')) {
 			$statement = preg_replace(
 				'/^INSERT (INTO .+)$/',
-				'INSERT ${1} RETURNING "id" INTO "vRowid"',
+				'DECLARE vRowid NUMBER; BEGIN INSERT INTO ${1} RETURNING "id" INTO vRowid dbms_output.put_line(vRowid); END;',
 				$statement
 			);
 			var_dump($statement);
 		} elseif (\str_contains($statement, 'storages')) {
 			$statement = preg_replace(
 				'/^INSERT (INTO .+)$/',
-				'INSERT ${1} RETURNING "numeric_id" INTO "vRowid"',
+				'DECLARE vRowid NUMBER; BEGIN INSERT INTO ${1} RETURNING "numeric_id" INTO vRowid dbms_output.put_line(vRowid); END;',
 				$statement
 			);
 			var_dump($statement);
