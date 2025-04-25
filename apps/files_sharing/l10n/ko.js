@@ -421,8 +421,6 @@ OC.L10N.register(
     "Share expire date saved" : "공유 만료일 저장됨",
     "You are not allowed to edit link shares that you don't own" : "당신이 것이 아닌 링크 공유를 편집할 권한이 없습니다.",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count}개 이메일 주소가 이미 추가됨"],
-    "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"],
-    "Nickname" : "별명",
-    "Enter your nickname" : "당신의 닉네임을 입력하세요."
+    "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"]
 },
 "nplurals=1; plural=0;");

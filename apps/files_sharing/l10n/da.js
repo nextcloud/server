@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Udløbsdato for deling gemt",
     "You are not allowed to edit link shares that you don't own" : "Du har ikke tilladelse til at redigere link delinger som du ikke ejer",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailadresse allerede tilføjet","{count} e-mailadresser allerede tilføjet"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-mailadresse tilføjet","{count} e-mailadresser tilføjet"],
-    "Nickname" : "Kælenavn",
-    "Enter your nickname" : "Angiv dit kælenavn"
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-mailadresse tilføjet","{count} e-mailadresser tilføjet"]
 },
 "nplurals=2; plural=(n != 1);");

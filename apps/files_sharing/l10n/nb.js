@@ -376,8 +376,6 @@ OC.L10N.register(
     "Allow download" : "Tillat nedlasting",
     "You are not allowed to edit link shares that you don't own" : "Du har ikke lov til å redigere delte lenker du ikke eier",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
-    "Nickname" : "Kallenavn",
-    "Enter your nickname" : "Skriv inn et kallenavn"
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"]
 },
 "nplurals=2; plural=(n != 1);");

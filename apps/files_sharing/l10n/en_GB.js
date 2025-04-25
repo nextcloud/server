@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Share expire date saved",
     "You are not allowed to edit link shares that you don't own" : "You are not allowed to edit link shares that you don't own",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
-    "Nickname" : "Nickname",
-    "Enter your nickname" : "Enter your nickname"
+    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"]
 },
 "nplurals=2; plural=(n != 1);");

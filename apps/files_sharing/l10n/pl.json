@@ -420,8 +420,6 @@
     "Share expire date saved" : "Zapisano datę ważności udziału",
     "You are not allowed to edit link shares that you don't own" : "Nie możesz modyfikować udostępnionych odnośników, których nie jesteś właścicielem",
     "_1 email address already added_::_{count} email addresses already added_" : ["Dodano już 1 adres e-mail","Dodano już {count} adresy e-mail","Dodano już {count} adresów e-mail","Dodano już {count} adresów e-mail"],
-    "_1 email address added_::_{count} email addresses added_" : ["Dodano 1 adres e-mail","Dodano {count} adresy e-mail","Dodano {count} adresów e-mail","Dodano {count} adresów e-mail"],
-    "Nickname" : "Pseudonim",
-    "Enter your nickname" : "Wpisz swój pseudonim"
+    "_1 email address added_::_{count} email addresses added_" : ["Dodano 1 adres e-mail","Dodano {count} adresy e-mail","Dodano {count} adresów e-mail","Dodano {count} adresów e-mail"]
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

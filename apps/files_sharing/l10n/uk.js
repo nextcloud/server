@@ -421,8 +421,6 @@ OC.L10N.register(
     "Share expire date saved" : "Збережено термін доступности спільного ресурсу",
     "You are not allowed to edit link shares that you don't own" : "У вас відсутні права на редагування спільних ресурсів, якими з вами поділилися через посилання, власником яких ви не є",
     "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
-    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
-    "Nickname" : "Прізвисько",
-    "Enter your nickname" : "Зазначте ваше прізвисько"
+    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

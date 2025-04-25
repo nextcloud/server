@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "S'ha desat la data de caducitat de la compartició",
     "You are not allowed to edit link shares that you don't own" : "No teniu permès editar els elements compartits d'enllaços dels que no sigueu propietaris",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ja s'ha afegit 1 adreça de correu","Ja s’han afegit {count} adreces de correu"],
-    "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"],
-    "Nickname" : "Sobrenom",
-    "Enter your nickname" : "Introduïu el vostre sobrenom"
+    "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"]
 },
 "nplurals=2; plural=(n != 1);");

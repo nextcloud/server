@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "已儲存分享過期日期",
     "You are not allowed to edit link shares that you don't own" : "您無權編輯不屬於您的連結分享",
     "_1 email address already added_::_{count} email addresses already added_" : ["已新增 {count} 個電子郵件地址"],
-    "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"],
-    "Nickname" : "暱稱",
-    "Enter your nickname" : "輸入您的暱稱"
+    "_1 email address added_::_{count} email addresses added_" : ["已新增 {count} 個電子郵件地址"]
 },
 "nplurals=1; plural=0;");
