@@ -24,6 +24,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -164,6 +165,12 @@ class Scan extends Base {
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
 			++$this->errorsCounter;
+		} catch (LockedException $e) {
+			if (str_starts_with($e->getPath(), 'scanner::')) {
+				$output->writeln('<error>Another process is already scanning \'' . substr($e->getPath(), strlen('scanner::')) . '\'</error>');
+			} else {
+				throw $e;
+			}
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
