@@ -271,7 +271,6 @@ OC.L10N.register(
     "Download all files" : "Download all files",
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",
-    "Allow download" : "Allow download",
-    "Nickname" : "Nickname"
+    "Allow download" : "Allow download"
 },
 "nplurals=2; plural=(n!=1);");

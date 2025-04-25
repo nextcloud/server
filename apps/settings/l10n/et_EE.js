@@ -115,6 +115,7 @@ OC.L10N.register(
     "The %1$s configuration option must be a valid integer value." : "Seadistusvalik „%1$s“ peab olema korrektne täisarv.",
     "The logging level is set to debug level. Use debug level only when you have a problem to diagnose, and then reset your log level to a less-verbose level as it outputs a lot of information, and can affect your server performance." : "Logimistase on hetkel seatud veaotsinguks. Kasuta seda vaid siis, kui tõesti tegeled veaotsinguga ning peale seda muuda logimine jälle tavaliseks. Veaotsinguks vajalik logimine on väga väljundirikas ning võib mõjutada serveri jõudlust.",
     "Logging level configured correctly." : "Logimistase on korrektselt seadistatud",
+    "Supported" : "Toetatud",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP ei tundu olevat süsteemsete keskkonnamuutujate pärimiseks korrektselt seadistatud. Test getenv(\"PATH\") abil tagastab tühja vastuse.",
     "PHP file size upload limit" : "PHP failide üleslaadimise mahupiir",
     "The PHP upload_max_filesize is too low. A size of at least %1$s is recommended. Current value: %2$s." : "PHP seadistuse „upload_max_filesize“ väärtus on liiga väike. Meie soovitatud väärtus: %1$s. Praegune väärtus: %2$s.",

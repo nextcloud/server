@@ -420,8 +420,6 @@
     "Share expire date saved" : "Data di scadenza della condivisione salvata",
     "You are not allowed to edit link shares that you don't own" : "Non ti è consentito modificare le condivisioni di collegamenti che non ti appartengono",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 indirizzo di posta già aggiunto","{count} indirizzi di posta già aggiunti","{count} indirizzi di posta già aggiunti"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 indirizzo di posta aggiunto","{count} indirizzi di posta aggiunti","{count} indirizzi di posta aggiunti"],
-    "Nickname" : "Soprannome",
-    "Enter your nickname" : "Inserisci il tuo soprannome"
+    "_1 email address added_::_{count} email addresses added_" : ["1 indirizzo di posta aggiunto","{count} indirizzi di posta aggiunti","{count} indirizzi di posta aggiunti"]
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

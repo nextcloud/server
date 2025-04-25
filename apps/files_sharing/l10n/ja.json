@@ -420,8 +420,6 @@
     "Share expire date saved" : "共有の有効期限が保存されました",
     "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
-    "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
-    "Nickname" : "ニックネーム",
-    "Enter your nickname" : "あなたのニックネームを入力してください"
+    "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

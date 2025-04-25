@@ -233,7 +233,6 @@ OC.L10N.register(
     "Files" : "Archìvios",
     "Download all files" : "Iscàrriga totu is archìvios",
     "Search for share recipients" : "Chirca destinatàrios de cumpartziduras",
-    "No recommendations. Start typing." : "Peruna racumandatzione. Cumintza a iscrìere.",
-    "Nickname" : "Nùmene"
+    "No recommendations. Start typing." : "Peruna racumandatzione. Cumintza a iscrìere."
 },
 "nplurals=2; plural=(n != 1);");

@@ -376,8 +376,6 @@ OC.L10N.register(
     "Download all files" : "Преземи ги сите датотеки",
     "Search for share recipients" : "Пребарај за примачи на споделувањето",
     "No recommendations. Start typing." : "Нема препораки. Започнете со пишување.",
-    "Allow download" : "Дозволи преземање",
-    "Nickname" : "Прекар",
-    "Enter your nickname" : "Внесете го вашиот прекар"
+    "Allow download" : "Дозволи преземање"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
