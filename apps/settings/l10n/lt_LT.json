@@ -129,6 +129,7 @@
     "PHP modules" : "PHP moduliai",
     "The PHP OPcache module is not loaded. For better performance it is recommended to load it into your PHP installation." : "PHP OPcache modulis nėra įkeltas. Geresniam našumui rekomenduojame įkelti šį modulį į savo PHP diegimą.",
     "PHP version" : "PHP versija",
+    "Valid enterprise license" : "Galiojanti enterprise licencija",
     "Database version" : "Duomenų bazės versija",
     "Unknown database platform" : "Nežinoma duomenų bazės platforma",
     "Architecture" : "Architektūra",

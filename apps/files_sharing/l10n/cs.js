@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Datum skončení platnosti sdílení uloženo",
     "You are not allowed to edit link shares that you don't own" : "Nemáte oprávnění upravovat sdílení odkazem, která nevlastníte",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailová adresa už přidána","{count} e-mailové adresy už přidány","{count} e-mailových adres už přidáno","{count} e-mailové adresy už přidány"],
-    "_1 email address added_::_{count} email addresses added_" : ["Jedna e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"],
-    "Nickname" : "Přezdívka",
-    "Enter your nickname" : "Zadejte svou přezdívku"
+    "_1 email address added_::_{count} email addresses added_" : ["Jedna e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
