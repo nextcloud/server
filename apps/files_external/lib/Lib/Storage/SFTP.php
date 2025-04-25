@@ -262,7 +262,7 @@ class SFTP extends Common {
 			$dirStream = [];
 			foreach ($list as $file => $stat) {
 				$fileAdded = ((int)$stat['type'] === NET_SFTP_TYPE_SYMLINK) &&
-                             str_contains($absPath, '/' . basename($absPath) . '/' . $file . '/');
+							 str_contains($absPath, '/' . basename($absPath) . '/' . $file . '/');
 
 				if ($file !== '.' && $file !== '..' && !$fileAdded) {
 					$dirStream[] = $file;

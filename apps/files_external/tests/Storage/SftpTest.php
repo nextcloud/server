@@ -6,7 +6,6 @@
  */
 namespace OCA\Files_External\Tests\Storage;
 
-use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Storage\SFTP;
 
 /**
@@ -156,7 +155,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		$dirHandle = $this->instance->opendir('test/slink');
 		$files = [];
 		while (($file = readdir($dirHandle)) !== false) {
-				$files[] = $file;
+			$files[] = $file;
 		}
 		closedir($dirHandle);
 		$this->assertEquals(['test', 'notes.txt'], $files);
@@ -164,7 +163,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		$dirHandle = $this->instance->opendir('test/slink/test');
 		$files = [];
 		while (($file = readdir($dirHandle)) !== false) {
-				$files[] = $file;
+			$files[] = $file;
 		}
 		closedir($dirHandle);
 		$this->assertEquals([], $files, 'Symlink directory must not repeat itself');
