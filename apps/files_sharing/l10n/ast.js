@@ -304,7 +304,6 @@ OC.L10N.register(
     "Download all files" : "Baxar tolos ficheros",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
     "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
-    "Allow download" : "Permitir la descarga",
-    "Nickname" : "Nomatu"
+    "Allow download" : "Permitir la descarga"
 },
 "nplurals=2; plural=(n != 1);");

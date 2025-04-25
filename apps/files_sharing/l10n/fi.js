@@ -306,7 +306,6 @@ OC.L10N.register(
     "Search for share recipients" : "Etsi jaon vastaanottajia",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
     "Password field can't be empty" : "Salasanakenttä ei voi olla tyhjä",
-    "Allow download" : "Salli lataus",
-    "Nickname" : "Nimimerkki"
+    "Allow download" : "Salli lataus"
 },
 "nplurals=2; plural=(n != 1);");

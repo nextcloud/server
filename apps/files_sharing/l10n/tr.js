@@ -420,8 +420,6 @@ OC.L10N.register(
     "Share expire date saved" : "Paylaşım geçerlilik süresi kaydedildi",
     "You are not allowed to edit link shares that you don't own" : "Sahibi olmadığınız bağlantı paylaşımlarını düzenleme izniniz yok",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posta adresi zaten eklenmiş","{count} e-posta adresi zaten eklenmiş"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"],
-    "Nickname" : "Takma ad",
-    "Enter your nickname" : "Takma adınızı yazın"
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-posta adresi eklendi","{count} e-posta adresi eklendi"]
 },
 "nplurals=2; plural=(n > 1);");

@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Data de validade do compartilhamento salva",
     "You are not allowed to edit link shares that you don't own" : "Você não tem permissão para editar compartilhamentos de links que não são de sua propriedade",
     "_1 email address already added_::_{count} email addresses already added_" : ["endereço1 email address already added","{count} endereços de e-mail já adicionados","{count} endereços de e-mail já adicionados"],
-    "_1 email address added_::_{count} email addresses added_" : ["1  endereços de e-mail adicionados","{count} endereços de e-mail adicionados","{count} endereços de e-mail adicionados"],
-    "Nickname" : "Nome",
-    "Enter your nickname" : "Digite seu nome"
+    "_1 email address added_::_{count} email addresses added_" : ["1  endereços de e-mail adicionados","{count} endereços de e-mail adicionados","{count} endereços de e-mail adicionados"]
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

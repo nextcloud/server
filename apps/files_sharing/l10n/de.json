@@ -420,8 +420,6 @@
     "Share expire date saved" : "Freigabe-Ablaufdatum gespeichert",
     "You are not allowed to edit link shares that you don't own" : "Du darfst keine Linkfreigaben bearbeiten, die du nicht besitzst",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
-    "Nickname" : "Name",
-    "Enter your nickname" : "Gib deinen Namen ein"
+    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

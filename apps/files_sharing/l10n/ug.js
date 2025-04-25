@@ -381,8 +381,6 @@ OC.L10N.register(
     "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ.",
     "Allow download" : "چۈشۈرۈشكە يول قويۇڭ",
     "Share expire date saved" : "ئورتاقلىشىش ۋاقتى ساقلاندى",
-    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
-    "Nickname" : "لەقەم",
-    "Enter your nickname" : "لەقىمىڭىزنى كىرگۈزۈڭ"
+    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -420,8 +420,6 @@
     "Share expire date saved" : "Fecha de caducidad del recurso compartido guardada",
     "You are not allowed to edit link shares that you don't own" : "No tiene permitido editar los enlaces compartidos que no le pertenecen",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
-    "_1 email address added_::_{count} email addresses added_" : ["Se ha añadido una dirección de correo","Se han añadido {count} direcciones de correo","Se han añadido {count} direcciones de correo"],
-    "Nickname" : "Alias",
-    "Enter your nickname" : "Introduce tu apodo"
+    "_1 email address added_::_{count} email addresses added_" : ["Se ha añadido una dirección de correo","Se han añadido {count} direcciones de correo","Se han añadido {count} direcciones de correo"]
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

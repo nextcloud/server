@@ -394,8 +394,6 @@
     "Share expire date saved" : "Partekatzearen iraungitze data gordeta",
     "You are not allowed to edit link shares that you don't own" : "Ezin dituzu editatu zureak ez diren partekatze estekak",
     "_1 email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko 1 gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
-    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"],
-    "Nickname" : "Ezizena",
-    "Enter your nickname" : "Sartu zure ezizena"
+    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

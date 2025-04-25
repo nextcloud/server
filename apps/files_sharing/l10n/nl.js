@@ -365,8 +365,6 @@ OC.L10N.register(
     "Allow download" : "Downloaden toestaan",
     "Share expire date saved" : "Share vervaldatum opgeslagen",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-mailadres al toegevoegd","Al {count} e-mailadressen toegevoegd"],
-    "_1 email address added_::_{count} email addresses added_" : ["1  E-mailadres toegevoegd","{count} E-mailadressen toegevoegd"],
-    "Nickname" : "Bijnaam",
-    "Enter your nickname" : "Voer je bijnaam in"
+    "_1 email address added_::_{count} email addresses added_" : ["1  E-mailadres toegevoegd","{count} E-mailadressen toegevoegd"]
 },
 "nplurals=2; plural=(n != 1);");

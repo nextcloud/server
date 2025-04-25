@@ -422,8 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Сачуван је датум истека дељења",
     "You are not allowed to edit link shares that you don't own" : "Није вам дозвољено да уређујете дељења линком која нису ваше власништво",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
-    "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
-    "Nickname" : "Надимак",
-    "Enter your nickname" : "Унесите свој надимак"
+    "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"]
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
