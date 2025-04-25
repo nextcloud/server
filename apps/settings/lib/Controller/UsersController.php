@@ -89,8 +89,8 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function usersListByGroup(): TemplateResponse {
-		return $this->usersList();
+	public function usersListByGroup(INavigationManager $navigationManager, ISubAdmin $subAdmin): TemplateResponse {
+		return $this->usersList($navigationManager, $subAdmin);
 	}
 
 	/**
