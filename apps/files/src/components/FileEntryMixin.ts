@@ -318,7 +318,7 @@ export default defineComponent({
 
 			// if ctrl+click / cmd+click (MacOS uses the meta key) or middle mouse button (button & 4), open in new tab
 			// also if there is no default action use this as a fallback
-			const metaKeyPressed = event.ctrlKey || event.metaKey || Boolean(event.button & 4)
+			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
 			if (metaKeyPressed || !this.defaultFileAction) {
 				// If no download permission, then we can not allow to download (direct link) the files
 				if (isPublicShare() && !isDownloadable(this.source)) {
@@ -330,7 +330,9 @@ export default defineComponent({
 					: generateUrl('/f/{fileId}', { fileId: this.fileid })
 				event.preventDefault()
 				event.stopPropagation()
-				window.open(url, metaKeyPressed ? '_self' : undefined)
+
+				// Open the file in a new tab if the meta key or the middle mouse button is clicked
+				window.open(url, metaKeyPressed ? '_blank' : '_self')
 				return
 			}
 
