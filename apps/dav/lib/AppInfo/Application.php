@@ -228,10 +228,10 @@ class Application extends App implements IBootstrap {
 		// Load all dav apps
 		\OC_App::loadApps(['dav']);
 
-		$context->injectFn([$this, 'registerHooks']);
-		$context->injectFn([$this, 'registerContactsManager']);
-		$context->injectFn([$this, 'registerCalendarManager']);
-		$context->injectFn([$this, 'registerCalendarReminders']);
+		$context->injectFn($this->registerHooks(...));
+		$context->injectFn($this->registerContactsManager(...));
+		$context->injectFn($this->registerCalendarManager(...));
+		$context->injectFn($this->registerCalendarReminders(...));
 	}
 
 	public function registerHooks(
