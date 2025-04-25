@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
@@ -22,11 +24,15 @@
  */
 namespace OC\Core\Command\Config\App;
 
-use OCP\IConfig;
+use OCP\IAppConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 
 abstract class Base extends \OC\Core\Command\Base {
-	protected IConfig $config;
+	public function __construct(
+		protected IAppConfig $appConfig,
+	) {
+		parent::__construct();
+	}
 
 	/**
 	 * @param string $argumentName
@@ -35,12 +41,12 @@ abstract class Base extends \OC\Core\Command\Base {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			return \OC_App::getAllApps();
+			return $this->appConfig->getApps();
 		}
 
 		if ($argumentName === 'name') {
 			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
-			return $this->config->getAppKeys($appName);
+			return $this->appConfig->getKeys($appName);
 		}
 		return [];
 	}

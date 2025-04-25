@@ -28,6 +28,7 @@ use OC\AppConfig;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,12 +36,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class SetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
 	protected function configure() {
 		parent::configure();
 
@@ -193,14 +188,14 @@ class SetConfig extends Base {
 					break;
 
 				case IAppConfig::VALUE_INT:
-					if ($value !== ((string) ((int) $value))) {
+					if ($value !== ((string)((int)$value))) {
 						throw new AppConfigIncorrectTypeException('Value is not an integer');
 					}
 					$updated = $this->appConfig->setValueInt($appName, $configName, (int)$value, $lazy, $sensitive);
 					break;
 
 				case IAppConfig::VALUE_FLOAT:
-					if ($value !== ((string) ((float) $value))) {
+					if ($value !== ((string)((float)$value))) {
 						throw new AppConfigIncorrectTypeException('Value is not a float');
 					}
 					$updated = $this->appConfig->setValueFloat($appName, $configName, (float)$value, $lazy, $sensitive);
@@ -232,7 +227,7 @@ class SetConfig extends Base {
 					"<info>Config value '%s' for app '%s' is now set to '%s', stored as %s in %s</info>",
 					$configName,
 					$appName,
-					$current['value'],
+					$current['sensitive'] ? '<sensitive>' : $current['value'],
 					$current['typeString'],
 					$current['lazy'] ? 'lazy cache' : 'fast cache'
 				)
@@ -245,6 +240,7 @@ class SetConfig extends Base {
 	}
 
 	private function ask(InputInterface $input, OutputInterface $output, string $request): bool {
+		/** @var QuestionHelper $helper */
 		$helper = $this->getHelper('question');
 		if ($input->getOption('no-interaction')) {
 			return true;
