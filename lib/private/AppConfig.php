@@ -1440,6 +1440,9 @@ class AppConfig implements IAppConfig {
 			'globalsiteselector' => [
 				'/^gss\.jwt\.key$/',
 			],
+			'gpgmailer' => [
+				'/^GpgServerKey$/',
+			],
 			'integration_discourse' => [
 				'/^private_key$/',
 				'/^public_key$/',
@@ -1494,6 +1497,9 @@ class AppConfig implements IAppConfig {
 				'/^client_secret$/',
 				'/^oauth_instance_url$/',
 			],
+			'maps' => [
+				'/^mapboxAPIKEY$/',
+			],
 			'notify_push' => [
 				'/^cookie$/',
 			],
@@ -1531,11 +1537,11 @@ class AppConfig implements IAppConfig {
 				'/^slogan$/',
 				'/^url$/',
 			],
-			'user_ldap' => [
-				'/^(s..)?ldap_agent_password$/',
-			],
 			'twofactor_gateway' => [
 				'/^.*token$/',
+			],
+			'user_ldap' => [
+				'/^(s..)?ldap_agent_password$/',
 			],
 			'user_saml' => [
 				'/^idp-x509cert$/',
