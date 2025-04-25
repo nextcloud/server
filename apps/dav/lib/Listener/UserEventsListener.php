@@ -13,6 +13,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Service\DefaultContactService;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\Defaults;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -29,7 +30,7 @@ use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Log\LoggerInterface;
 
-/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent> */
+/** @template-implements IEventListener<UserFirstTimeLoggedInEvent|UserIdAssignedEvent|BeforeUserIdUnassignedEvent|UserIdUnassignedEvent|BeforeUserDeletedEvent|UserDeletedEvent|UserCreatedEvent|UserChangedEvent|UserUpdatedEvent> */
 class UserEventsListener implements IEventListener {
 
 	/** @var IUser[] */
@@ -69,10 +70,16 @@ class UserEventsListener implements IEventListener {
 			$this->changeUser($event->getUser(), $event->getFeature());
 		} elseif ($event instanceof UserFirstTimeLoggedInEvent) {
 			$this->firstLogin($event->getUser());
+		} elseif ($event instanceof UserUpdatedEvent) {
+			$this->updateUser($event->getUser());
 		}
 	}
 
 	public function postCreateUser(IUser $user): void {
+		$this->syncService->updateUser($user);
+	}
+
+	public function updateUser(IUser $user): void {
 		$this->syncService->updateUser($user);
 	}
 
