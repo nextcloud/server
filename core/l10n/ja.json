@@ -25,6 +25,7 @@
     "Could not complete login" : "ログインが完了できませんでした",
     "State token missing" : "状態トークンがありません",
     "Your login token is invalid or has expired" : "あなたのログイントークンは無効か期限が切れています。",
+    "Please use original client" : "オリジナルのクライアントをご利用ください",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "コミュニティリリースのNextcloudにサポートはなく、プッシュ通知には制限があります",
     "Login" : "ログイン",
     "Unsupported email length (>255)" : "メールアドレスが長すぎます (>255)",

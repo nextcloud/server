@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "嘗試登入時發生錯誤",
     "State token missing" : "狀態代符遺失",
     "Your login token is invalid or has expired" : "您的登入代符無效或已過期",
+    "Please use original client" : "請使用原始客戶端",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "這個 Nextcloud 的社群版本沒有得到支援，而且推播通知會有所限制。",
     "Login" : "登入",
     "Unsupported email length (>255)" : "不支援的電子郵件長度 (>255)",
