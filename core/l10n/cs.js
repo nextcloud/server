@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Přihlášení se nedaří dokončit",
     "State token missing" : "Chybí stavový token",
     "Your login token is invalid or has expired" : "Váš přihlašovací token není platný nebo jeho platnost skončila",
+    "Please use original client" : "Prosím použijte původního klienta",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Toto komunitní vydání Nextcloud není podporováno a push oznámení jsou proto omezená.",
     "Login" : "Přihlásit",
     "Unsupported email length (>255)" : "Nepodporovaná délka e-mailu (>255)",

@@ -334,6 +334,7 @@
     "Generate image" : "Зґенерувати зображення",
     "Prompt" : "Запрошення",
     "Chat" : "Чат",
+    "Available tools" : "Доступні інструменти",
     "Generates a possible headline for a text." : "Створює ймовірний заголовок тексту.",
     "Text" : "Текст",
     "Summarize" : "Підсумок",
