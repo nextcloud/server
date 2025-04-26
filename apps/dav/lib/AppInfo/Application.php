@@ -9,7 +9,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\AppInfo;
 
-use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalendarManager;
@@ -82,7 +81,6 @@ use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUserSession;
@@ -205,6 +203,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserCreatedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(UserUpdatedEvent::class, UserEventsListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
@@ -228,35 +227,9 @@ class Application extends App implements IBootstrap {
 		// Load all dav apps
 		\OC_App::loadApps(['dav']);
 
-		$context->injectFn($this->registerHooks(...));
 		$context->injectFn($this->registerContactsManager(...));
 		$context->injectFn($this->registerCalendarManager(...));
 		$context->injectFn($this->registerCalendarReminders(...));
-	}
-
-	public function registerHooks(
-		IEventDispatcher $dispatcher,
-		IAppContainer $container,
-	): void {
-		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($container): void {
-			/** @var SyncService $syncService */
-			$syncService = Server::get(SyncService::class);
-			$syncService->updateUser($event->getUser());
-		});
-
-
-		$dispatcher->addListener(CalendarShareUpdatedEvent::class, function (CalendarShareUpdatedEvent $event) use ($container): void {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-			$backend->onCalendarUpdateShares(
-				$event->getCalendarData(),
-				$event->getOldShares(),
-				$event->getAdded(),
-				$event->getRemoved()
-			);
-
-			// Here we should recalculate if reminders should be sent to new or old sharees
-		});
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
