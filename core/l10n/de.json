@@ -25,6 +25,7 @@
     "Could not complete login" : "Anmeldung konnte nicht abgeschlossen werden",
     "State token missing" : "Zustandstoken fehlt",
     "Your login token is invalid or has expired" : "Dein Anmelde-Token ist ungültig oder abgelaufen",
+    "Please use original client" : "Bitte den Original-Client verwenden",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Diese Community-Version von Nextcloud wird nicht unterstützt und (Push-)Benachrichtigungen sind nur begrenzt verfügbar.",
     "Login" : "Anmelden",
     "Unsupported email length (>255)" : "Nicht unterstützte E-Mail-Adresslänge (>255)",
