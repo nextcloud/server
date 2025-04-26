@@ -1422,6 +1422,15 @@ $CONFIG = [
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
+ * custom path for ffprobe binary
+ *
+ * Defaults to ``null`` and falls back to using the same path as ffmpeg.
+ * ffprobe is typically packaged with ffmpeg and is required for
+ * enhanced preview generation for HDR videos.
+ */
+'preview_ffprobe_path' => '/usr/bin/ffprobe',
+
+/**
  * Set the URL of the Imaginary service to send image previews to.
  * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the
  * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp,
