@@ -104,6 +104,7 @@ OC.L10N.register(
     "Pick start date" : "انتخاب تاریخ شروع",
     "Pick end date" : "انتخاب تاریخ پایان",
     "Search in date range" : "جستجو در بازه تاریخی",
+    "Clear search" : "پاک کردن جستجو",
     "Searching …" : "جستجوکردن …",
     "Start typing to search" : "Start typing to search",
     "Today" : "امروز",

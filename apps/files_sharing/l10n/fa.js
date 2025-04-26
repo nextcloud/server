@@ -125,6 +125,7 @@ OC.L10N.register(
     "Terms of service" : "شرایط و قوانین",
     "Name" : "نام",
     "Enter your name" : "اسمت را وارد کن",
+    "Update share" : "به‌روزرسانی هم‌رسانی",
     "Read" : "خواندن",
     "Create" : "ایجاد",
     "Edit" : "ویرایش",

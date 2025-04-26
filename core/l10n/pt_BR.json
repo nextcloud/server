@@ -25,6 +25,7 @@
     "Could not complete login" : "Não foi possível concluir o login",
     "State token missing" : "Falta o token de estado",
     "Your login token is invalid or has expired" : "Seu token de login é inválido ou expirou",
+    "Please use original client" : "Por favor, use o cliente original",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Esta versão da comunidade do Nextcloud não é compatível e as notificações por push são limitadas.",
     "Login" : "Login",
     "Unsupported email length (>255)" : "Comprimento de e-mail não suportado (>255)",
