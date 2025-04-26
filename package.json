@@ -174,7 +174,7 @@
     "regextras": "^0.8.0",
     "sass": "^1.87.0",
     "sinon": "<= 5.0.7",
-    "stylelint": "^16.18.0",
+    "stylelint": "^16.19.1",
     "stylelint-use-logical": "^2.1.2",
     "tar": "^7.4.3",
     "ts-node": "^10.9.1",
