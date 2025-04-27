@@ -252,6 +252,15 @@ export default class Share {
 	 * Hide the download button on public page
 	 */
 	set hideDownload(state: boolean) {
+		// disabling hide-download also enables the download permission
+		// needed for regression in Nextcloud 31.0.0 until (incl.) 31.0.3
+		if (!state) {
+			const attribute = this.attributes.find(({ key, scope }) => key === 'download' && scope === 'permissions')
+			if (attribute) {
+				attribute.value = true
+			}
+		}
+
 		this._share.hide_download = state === true
 	}
 

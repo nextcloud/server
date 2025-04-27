@@ -146,7 +146,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 		// Create the header action menu
 		$headerActions = [];
-		if ($view !== 'public-file-drop') {
+		if ($view !== 'public-file-drop' && !$share->getHideDownload()) {
 			// The download URL is used for the "download" header action as well as in some cases for the direct link
 			$downloadUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
 				'token' => $token,
@@ -157,7 +157,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			$headerActions[] = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $downloadUrl, 0, (string)$shareNode->getSize());
 
 			// If remote sharing is enabled also add the remote share action to the menu
-			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled() && !$share->getHideDownload()) {
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 				$headerActions[] = new ExternalShareMenuAction(
 					// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
 					$this->l10n->t('Add to your %s', [$this->defaults->getProductName()]),
