@@ -25,6 +25,7 @@
     "Could not complete login" : "Nie je možné dokončiť prihlásenie",
     "State token missing" : "Chýba stavový token",
     "Your login token is invalid or has expired" : "Váš prihlasovací token je neplatný alebo jeho platnosť skončila",
+    "Please use original client" : "Použite prosím originálneho klienta",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Toto komunitné vydanie Nextcloud nie je podporované a push upozornenia nie sú k dispozícii.",
     "Login" : "Prihlásiť sa",
     "Unsupported email length (>255)" : "Dĺžka emailovej správy nie je podporovaná (>255)",
