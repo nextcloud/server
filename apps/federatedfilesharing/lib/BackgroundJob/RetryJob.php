@@ -55,7 +55,7 @@ class RetryJob extends Job {
 		$token = $argument['token'];
 		$action = $argument['action'];
 		$data = json_decode($argument['data'], true);
-		$try = (int)$argument['try'] + 1;
+		$try = (int) $argument['try'] + 1;
 
 		$result = $this->notifications->sendUpdateToRemote($remote, $remoteId, $token, $action, $data, $try);
 
@@ -75,7 +75,7 @@ class RetryJob extends Job {
 				'token' => $argument['token'],
 				'data' => $argument['data'],
 				'action' => $argument['action'],
-				'try' => (int)$argument['try'] + 1,
+				'try' => (int) $argument['try'] + 1,
 				'lastRun' => $this->time->getTime()
 			]
 		);
@@ -85,7 +85,7 @@ class RetryJob extends Job {
 	 * Test if it is time for the next run
 	 */
 	protected function shouldRun(array $argument): bool {
-		$lastRun = (int)$argument['lastRun'];
+		$lastRun = (int) $argument['lastRun'];
 		return (($this->time->getTime() - $lastRun) > $this->interval);
 	}
 }

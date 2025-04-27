@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -66,7 +67,7 @@ trait Sharing {
 		}
 
 		try {
-			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->response = $client->request('POST', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -102,7 +103,7 @@ trait Sharing {
 	public function acceptingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
-		$this->sendingToWith("POST", $url, null);
+		$this->sendingToWith('POST', $url, null);
 
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
@@ -122,7 +123,7 @@ trait Sharing {
 
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
-		$this->sendingToWith("POST", $url, null);
+		$this->sendingToWith('POST', $url, null);
 
 		$this->currentUser = $previousUser;
 
@@ -138,7 +139,7 @@ trait Sharing {
 		} else {
 			$url = $this->lastShareData->data->url;
 		}
-		$fullUrl = $url . "/download";
+		$fullUrl = $url . '/download';
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
@@ -152,7 +153,7 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/s/" . $token . "/download";
+		$fullUrl = substr($this->baseUrl, 0, -4) . 'index.php/s/' . $token . '/download';
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
@@ -207,9 +208,9 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
-		$date = date('Y-m-d', strtotime("+3 days"));
+		$date = date('Y-m-d', strtotime('+3 days'));
 		$options['form_params'] = ['expireDate' => $date];
-		$this->response = $this->response = $client->request("PUT", $fullUrl, $options);
+		$this->response = $this->response = $client->request('PUT', $fullUrl, $options);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -242,7 +243,7 @@ trait Sharing {
 		}
 
 		try {
-			$this->response = $client->request("PUT", $fullUrl, $options);
+			$this->response = $client->request('PUT', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -296,7 +297,7 @@ trait Sharing {
 		$options['form_params'] = $body;
 
 		try {
-			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->response = $client->request('POST', $fullUrl, $options);
 			$this->lastShareData = simplexml_load_string($this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
@@ -306,20 +307,20 @@ trait Sharing {
 
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
-		if ((string)$field == 'expiration') {
-			if(!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+		if ((string) $field == 'expiration') {
+			if (!empty($contentExpected)) {
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
 			}
 		}
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
-				if ($contentExpected == "A_TOKEN") {
-					return (strlen((string)$element->$field) == 15);
-				} elseif ($contentExpected == "A_NUMBER") {
-					return is_numeric((string)$element->$field);
-				} elseif ($contentExpected == "AN_URL") {
-					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
-				} elseif ((string)$element->$field == $contentExpected) {
+				if ($contentExpected == 'A_TOKEN') {
+					return (strlen((string) $element->$field) == 15);
+				} elseif ($contentExpected == 'A_NUMBER') {
+					return is_numeric((string) $element->$field);
+				} elseif ($contentExpected == 'AN_URL') {
+					return $this->isExpectedUrl((string) $element->$field, 'index.php/s/');
+				} elseif ((string) $element->$field == $contentExpected) {
 					return true;
 				} else {
 					print($element->$field);
@@ -328,12 +329,12 @@ trait Sharing {
 
 			return false;
 		} else {
-			if ($contentExpected == "A_TOKEN") {
-				return (strlen((string)$data->$field) == 15);
-			} elseif ($contentExpected == "A_NUMBER") {
-				return is_numeric((string)$data->$field);
-			} elseif ($contentExpected == "AN_URL") {
-				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
+			if ($contentExpected == 'A_TOKEN') {
+				return (strlen((string) $data->$field) == 15);
+			} elseif ($contentExpected == 'A_NUMBER') {
+				return is_numeric((string) $data->$field);
+			} elseif ($contentExpected == 'AN_URL') {
+				return $this->isExpectedUrl((string) $data->$field, 'index.php/s/');
 			} elseif ($contentExpected == $data->$field) {
 				return true;
 			}
@@ -459,7 +460,7 @@ trait Sharing {
 	public function deletingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
-		$this->sendingToWith("DELETE", $url, null);
+		$this->sendingToWith('DELETE', $url, null);
 	}
 
 	/**
@@ -468,7 +469,7 @@ trait Sharing {
 	public function gettingInfoOfLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
-		$this->sendingToWith("GET", $url, null);
+		$this->sendingToWith('GET', $url, null);
 	}
 
 	/**
@@ -500,13 +501,13 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 
 			foreach ($fd as $field => $value) {
-				if (substr($field, 0, 10) === "share_with") {
-					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -5), $value);
-					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -5), $value);
+				if (substr($field, 0, 10) === 'share_with') {
+					$value = str_replace('REMOTE', substr($this->remoteBaseUrl, 0, -5), $value);
+					$value = str_replace('LOCAL', substr($this->localBaseUrl, 0, -5), $value);
 				}
-				if (substr($field, 0, 6) === "remote") {
-					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -4), $value);
-					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
+				if (substr($field, 0, 6) === 'remote') {
+					$value = str_replace('REMOTE', substr($this->remoteBaseUrl, 0, -4), $value);
+					$value = str_replace('LOCAL', substr($this->localBaseUrl, 0, -4), $value);
 				}
 				if (!$this->isFieldInResponse($field, $value)) {
 					Assert::fail("$field" . " doesn't have value " . "$value");
@@ -607,19 +608,19 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {
-			Assert::assertTrue(is_numeric((string)$returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
+			Assert::assertTrue(is_numeric((string) $returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
 		} elseif ($contentExpected === 'A_TOKEN') {
 			// A token is composed by 15 characters from
 			// ISecureRandom::CHAR_HUMAN_READABLE.
-			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string) $returnedShare->$field, "Field '$field' is not a token");
 		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
-			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
+			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string) $returnedShare->$field, "Field '$field' does not match");
 		} else {
-			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");
+			Assert::assertEquals($contentExpected, (string) $returnedShare->$field, "Field '$field' does not match");
 		}
 	}
 

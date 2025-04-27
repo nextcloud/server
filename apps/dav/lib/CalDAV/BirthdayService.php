@@ -169,7 +169,7 @@ class BirthdayService {
 			return null;
 		}
 		$birthday = $doc->{$dateField};
-		if (!(string)$birthday) {
+		if (!(string) $birthday) {
 			return null;
 		}
 		// Skip if the BDAY property is not of the right type.
@@ -188,18 +188,18 @@ class BirthdayService {
 			$omitYear = (isset($parameters['X-APPLE-OMIT-YEAR'])
 					&& $parameters['X-APPLE-OMIT-YEAR'] === $dateParts['year']);
 			// 'X-APPLE-OMIT-YEAR' is not always present, at least iOS 12.4 uses the hard coded date of 1604 (the start of the gregorian calendar) when the year is unknown
-			if ($omitYear || (int)$dateParts['year'] === 1604) {
+			if ($omitYear || (int) $dateParts['year'] === 1604) {
 				$dateParts['year'] = null;
 			}
 		}
 
 		$originalYear = null;
 		if ($dateParts['year'] !== null) {
-			$originalYear = (int)$dateParts['year'];
+			$originalYear = (int) $dateParts['year'];
 		}
 
-		$leapDay = ((int)$dateParts['month'] === 2
-				&& (int)$dateParts['date'] === 29);
+		$leapDay = ((int) $dateParts['month'] === 2
+				&& (int) $dateParts['date'] === 29);
 		if ($dateParts['year'] === null || $originalYear < 1970) {
 			$birthday = ($leapDay ? '1972-' : '1970-')
 				. $dateParts['month'] . '-' . $dateParts['date'];

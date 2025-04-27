@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -57,7 +58,7 @@ EOD;
  *
  */
 EOD;
-		$this->licenseTextLegacy = str_replace('@YEAR@', date("Y"), $this->licenseTextLegacy);
+		$this->licenseTextLegacy = str_replace('@YEAR@', date('Y'), $this->licenseTextLegacy);
 	}
 
 	/**
@@ -109,7 +110,7 @@ EOD;
 
 	public function writeAuthorsFile() {
 		ksort($this->authors);
-		$template = "Nextcloud is written by:
+		$template = 'Nextcloud is written by:
 @AUTHORS@
 
 With help from many libraries and frameworks including:
@@ -117,9 +118,9 @@ With help from many libraries and frameworks including:
 	SabreDAV
 	jQuery
 	…
-";
+';
 		$authors = implode(PHP_EOL, array_map(function ($author) {
-			return " - ".$author;
+			return ' - '.$author;
 		}, $this->authors));
 		$template = str_replace('@AUTHORS@', $authors, $template);
 		file_put_contents(__DIR__.'/../AUTHORS', $template);
@@ -153,9 +154,9 @@ With help from many libraries and frameworks including:
 
 		if ($isPhp) {
 			if ($isStrict) {
-				$source = "<?php" . PHP_EOL . PHP_EOL . 'declare(strict_types=1);' . PHP_EOL . PHP_EOL . $license . PHP_EOL . $source;
+				$source = '<?php' . PHP_EOL . PHP_EOL . 'declare(strict_types=1);' . PHP_EOL . PHP_EOL . $license . PHP_EOL . $source;
 			} else {
-				$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
+				$source = '<?php' . PHP_EOL . $license . PHP_EOL . $source;
 			}
 		} else {
 			$source = $license . PHP_EOL . PHP_EOL . $source;
@@ -266,7 +267,7 @@ With help from many libraries and frameworks including:
 		$copyrightNotice = [];
 		if (trim($licenseHeaderCopyrightAtLines !== '')) {
 			$copyrightNotice = array_map(function ($line) use ($lineByLine) {
-				return $lineByLine[(int)$line - 1];
+				return $lineByLine[(int) $line - 1];
 			}, explode(PHP_EOL, $licenseHeaderCopyrightAtLines));
 		}
 
@@ -298,7 +299,7 @@ With help from many libraries and frameworks including:
 		$timestampChanges = explode(PHP_EOL, $out);
 		$timestampChanges = array_slice($timestampChanges, 0, count($timestampChanges) - 1);
 		foreach ($timestampChanges as $timestamp) {
-			if ((int)$timestamp < $deadlineTimestamp) {
+			if ((int) $timestamp < $deadlineTimestamp) {
 				return;
 			}
 		}
@@ -310,8 +311,8 @@ With help from many libraries and frameworks including:
 	private function printFilesToCheck() {
 		if (!empty($this->checkFiles)) {
 			print "\n";
-			print "For following files all lines changed since the Nextcloud fork." . PHP_EOL;
-			print "Please check if these files can be moved over to AGPLv3 or later" . PHP_EOL;
+			print 'For following files all lines changed since the Nextcloud fork.' . PHP_EOL;
+			print 'Please check if these files can be moved over to AGPLv3 or later' . PHP_EOL;
 			print "\n";
 			foreach ($this->checkFiles as $file) {
 				print $file . PHP_EOL;

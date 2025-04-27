@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -62,7 +63,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $dataDir;
 
-	/** @var  CleaningDBConfig */
+	/** @var CleaningDBConfig */
 	protected $dbConfig;
 
 	/**
@@ -345,7 +346,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$result = $storageCheckQuery->execute();
 		$storages = $result->fetchAll();
 		$result->closeCursor();
-		$this->assertCount(0, $storages, "expected 0 storages, got " . json_encode($storages));
+		$this->assertCount(0, $storages, 'expected 0 storages, got ' . json_encode($storages));
 	}
 
 	protected function actualDeletedUnexistingStorageTest() {

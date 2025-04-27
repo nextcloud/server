@@ -86,7 +86,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],
 				'authType' => \Sabre\DAV\Client::AUTH_BASIC,
-				'password' => (string)$options['password']
+				'password' => (string) $options['password']
 			]
 		);
 	}
@@ -214,20 +214,20 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				// we remove the invalid storage
 				$this->manager->removeShare($this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
-				throw new StorageInvalidException("Remote share not found", 0, $e);
+				throw new StorageInvalidException('Remote share not found', 0, $e);
 			} else {
 				// Nextcloud instance is gone, likely to be a temporary server configuration error
-				throw new StorageNotAvailableException("No nextcloud instance found at remote", 0, $e);
+				throw new StorageNotAvailableException('No nextcloud instance found at remote', 0, $e);
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
-			throw new StorageInvalidException("Auth error when getting remote share");
+			throw new StorageInvalidException('Auth error when getting remote share');
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {
-			throw new StorageNotAvailableException("Failed to connect to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Failed to connect to remote instance', 0, $e);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
-			throw new StorageNotAvailableException("Error while sending request to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Error while sending request to remote instance', 0, $e);
 		}
 	}
 
@@ -258,7 +258,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
 		$cached = $cache->get($url);
 		if ($cached !== null) {
-			return (bool)$cached;
+			return (bool) $cached;
 		}
 
 		$client = $this->httpClient->newClient();
@@ -352,7 +352,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
 			return false;
 		}
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
+		return (bool) ($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
 	public function getPermissions($path): int {
@@ -366,7 +366,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$ocPermissions = $response['{http://owncloud.org/ns}permissions'] ?? null;
 		// old federated sharing permissions
 		if ($ocsPermissions !== null) {
-			$permissions = (int)$ocsPermissions;
+			$permissions = (int) $ocsPermissions;
 		} elseif ($ocmPermissions !== null) {
 			// permissions provided by the OCM API
 			$permissions = $this->ocmPermissions2ncPermissions($ocmPermissions, $path);
@@ -431,6 +431,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	public function free_space($path) {
-		return parent::free_space("");
+		return parent::free_space('');
 	}
 }

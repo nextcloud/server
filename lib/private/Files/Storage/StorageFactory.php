@@ -26,7 +26,7 @@ class StorageFactory implements IStorageFactory {
 	 * @param int $priority wrappers with the lower priority are applied last (meaning they get called first)
 	 * @param \OCP\Files\Mount\IMountPoint[] $existingMounts existing mount points to apply the wrapper to
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
-	 * name registered
+	 *              name registered
 	 */
 	public function addStorageWrapper($wrapperName, $callback, $priority = 50, $existingMounts = []) {
 		if (isset($this->storageWrappers[$wrapperName])) {

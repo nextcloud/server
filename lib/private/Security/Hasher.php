@@ -84,8 +84,8 @@ class Hasher implements IHasher {
 	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
 		if (\count($explodedString) === 2) {
-			if ((int)$explodedString[0] > 0) {
-				return ['version' => (int)$explodedString[0], 'hash' => $explodedString[1]];
+			if ((int) $explodedString[0] > 0) {
+				return ['version' => (int) $explodedString[0], 'hash' => $explodedString[1]];
 			}
 		}
 

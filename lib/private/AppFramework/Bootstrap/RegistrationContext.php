@@ -538,10 +538,10 @@ class RegistrationContext {
 	public function registerTalkBackend(string $appId, string $backend) {
 		// Some safeguards for invalid registrations
 		if ($appId !== 'spreed') {
-			throw new RuntimeException("Only the Talk app is allowed to register a Talk backend");
+			throw new RuntimeException('Only the Talk app is allowed to register a Talk backend');
 		}
 		if ($this->talkBackendRegistration !== null) {
-			throw new RuntimeException("There can only be one Talk backend");
+			throw new RuntimeException('There can only be one Talk backend');
 		}
 
 		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);

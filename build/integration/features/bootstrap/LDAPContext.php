@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -137,7 +138,7 @@ class LDAPContext implements Context {
 		$listReturnedElements = simplexml_load_string($this->response->getBody())->data[0]->$type[0]->element;
 		$extractedIDsArray = json_decode(json_encode($listReturnedElements), 1);
 		foreach ($expectations->getRows() as $expectation) {
-			if ((int)$expectation[1] === 1) {
+			if ((int) $expectation[1] === 1) {
 				Assert::assertContains($expectation[0], $extractedIDsArray);
 			} else {
 				Assert::assertNotContains($expectation[0], $extractedIDsArray);
@@ -170,7 +171,7 @@ class LDAPContext implements Context {
 				$uidsFound++;
 			}
 		}
-		Assert::assertSame((int)$expectedCount, $uidsFound);
+		Assert::assertSame((int) $expectedCount, $uidsFound);
 	}
 
 	/**
@@ -178,11 +179,11 @@ class LDAPContext implements Context {
 	 */
 	public function theRecordFieldsShouldMatch(TableNode $expectations) {
 		foreach ($expectations->getRowsHash() as $k => $v) {
-			$value = (string)simplexml_load_string($this->response->getBody())->data[0]->$k;
+			$value = (string) simplexml_load_string($this->response->getBody())->data[0]->$k;
 			Assert::assertEquals($v, $value, "got $value");
 		}
 
-		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
+		$backend = (string) simplexml_load_string($this->response->getBody())->data[0]->backend;
 		Assert::assertEquals('LDAP', $backend);
 	}
 

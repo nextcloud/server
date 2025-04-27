@@ -317,7 +317,7 @@ class JobList implements IJobList {
 	 */
 	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
-		$this->config->setAppValue('backgroundjob', 'lastjob', (string)$job->getId());
+		$this->config->setAppValue('backgroundjob', 'lastjob', (string) $job->getId());
 	}
 
 	/**

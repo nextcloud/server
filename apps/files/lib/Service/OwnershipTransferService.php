@@ -80,7 +80,7 @@ class OwnershipTransferService {
 		// If encryption is on we have to ensure the user has logged in before and that all encryption modules are ready
 		if (($this->encryptionManager->isEnabled() && $destinationUser->getLastLogin() === 0)
 			|| !$this->encryptionManager->isReadyForUser($destinationUid)) {
-			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
+			throw new TransferOwnershipException('The target user is not ready to accept files. The user has at least to have logged in once.', 2);
 		}
 
 		// setup filesystem
@@ -121,7 +121,7 @@ class OwnershipTransferService {
 		}
 
 		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {
-			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
+			throw new TransferOwnershipException('Destination path does not exists or is not empty', 1);
 		}
 
 
@@ -277,10 +277,10 @@ class OwnershipTransferService {
 
 		// no file is allowed to be encrypted
 		if (!empty($encryptedFiles)) {
-			$output->writeln("<error>Some files are encrypted - please decrypt them first.</error>");
+			$output->writeln('<error>Some files are encrypted - please decrypt them first.</error>');
 			foreach ($encryptedFiles as $encryptedFile) {
 				/** @var FileInfo $encryptedFile */
-				$output->writeln("  " . $encryptedFile->getPath());
+				$output->writeln('  ' . $encryptedFile->getPath());
 			}
 			throw new TransferOwnershipException('Some files are encrypted - please decrypt them first.', 1);
 		}
@@ -414,7 +414,7 @@ class OwnershipTransferService {
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
 		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
-			throw new TransferOwnershipException("Could not transfer files.", 1);
+			throw new TransferOwnershipException('Could not transfer files.', 1);
 		}
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
@@ -433,7 +433,7 @@ class OwnershipTransferService {
 		array $shares,
 		OutputInterface $output,
 	):void {
-		$output->writeln("Restoring shares ...");
+		$output->writeln('Restoring shares ...');
 		$progress = new ProgressBar($output, count($shares));
 
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
@@ -502,7 +502,7 @@ class OwnershipTransferService {
 		string $path,
 		string $finalTarget,
 		bool $move): void {
-		$output->writeln("Restoring incoming shares ...");
+		$output->writeln('Restoring incoming shares ...');
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
 		$finalShareTarget = '';

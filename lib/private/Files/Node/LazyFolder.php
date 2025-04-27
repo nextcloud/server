@@ -472,7 +472,7 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getById($id) {
-		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
+		return $this->getRootFolder()->getByIdInPath((int) $id, $this->getPath());
 	}
 
 	public function getFirstNodeById(int $id): ?\OCP\Files\Node {

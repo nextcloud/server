@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -99,7 +100,7 @@ trait CommandLine {
 	 * @Then /^the command failed with exit code ([0-9]+)$/
 	 */
 	public function theCommandFailedWithExitCode($exitCode) {
-		if ($this->lastCode !== (int)$exitCode) {
+		if ($this->lastCode !== (int) $exitCode) {
 			throw new \Exception('The command was expected to fail with exit code ' . $exitCode . ' but got ' . $this->lastCode);
 		}
 	}

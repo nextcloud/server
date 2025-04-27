@@ -183,15 +183,15 @@ class SessionTest extends TestCase {
 
 		$this->sessionMock->expects($this->any())
 			->method('set')
-			->willReturnCallback([$this, "setValueTester"]);
+			->willReturnCallback([$this, 'setValueTester']);
 
 		$this->sessionMock->expects($this->any())
 			->method('get')
-			->willReturnCallback([$this, "getValueTester"]);
+			->willReturnCallback([$this, 'getValueTester']);
 
 		$this->sessionMock->expects($this->any())
 			->method('remove')
-			->willReturnCallback([$this, "removeValueTester"]);
+			->willReturnCallback([$this, 'removeValueTester']);
 
 
 		$this->instance = new Session($this->sessionMock);

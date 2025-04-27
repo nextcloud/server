@@ -44,28 +44,28 @@ class EncryptAll {
 	/** @var Util */
 	protected $util;
 
-	/** @var array  */
+	/** @var array */
 	protected $userPasswords;
 
-	/** @var  IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	/** @var IMailer */
 	protected $mailer;
 
-	/** @var  IL10N */
+	/** @var IL10N */
 	protected $l;
 
-	/** @var  IFactory */
+	/** @var IFactory */
 	protected $l10nFactory;
 
-	/** @var  QuestionHelper */
+	/** @var QuestionHelper */
 	protected $questionHelper;
 
-	/** @var  OutputInterface */
+	/** @var OutputInterface */
 	protected $output;
 
-	/** @var  InputInterface */
+	/** @var InputInterface */
 	protected $input;
 
 	/** @var ISecureRandom */
@@ -203,7 +203,7 @@ class EncryptAll {
 				$userNo++;
 			}
 		}
-		$progress->setMessage("all files encrypted");
+		$progress->setMessage('all files encrypted');
 		$progress->finish();
 	}
 

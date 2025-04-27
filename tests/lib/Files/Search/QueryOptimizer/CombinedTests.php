@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -26,16 +27,16 @@ class CombinedTests extends TestCase {
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);
@@ -51,30 +52,30 @@ class CombinedTests extends TestCase {
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "201"),
-						new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "201/%"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '201'),
+						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', '201/%'),
 					]),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "301"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '301'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 4),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "401"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '401'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "302"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '302'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 4),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "402"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '402'),
 				]),
 			]
 		);
@@ -89,29 +90,29 @@ class CombinedTests extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "201"),
-						new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "201/%"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '201'),
+						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', '201/%'),
 					]),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "301"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '301'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 4),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "401"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '401'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "302"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '302'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 4),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "402"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 4),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', '402'),
 				]),
 			]
 		);
@@ -126,26 +127,26 @@ class CombinedTests extends TestCase {
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "image/png"),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "image/jpeg"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'image/png'),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'image/jpeg'),
 				]),
 			]),
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files"),
-						new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "files/%"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files'),
+						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', 'files/%'),
 					]),
 				]),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files/301"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files/301'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files/302"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files/302'),
 				]),
 			]),
 		]);
@@ -160,28 +161,28 @@ class CombinedTests extends TestCase {
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "image/png"),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "image/jpeg"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'image/png'),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'image/jpeg'),
 				]),
 			]),
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 1),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
 					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files"),
-						new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "files/%"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files'),
+						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', 'files/%'),
 					]),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 2),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 2),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files/301"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files/301'),
 				]),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "storage", 3),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "files/302"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 3),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'files/302'),
 				]),
 			]),
 		]);

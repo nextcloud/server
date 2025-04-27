@@ -81,7 +81,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$destinationPath = $this->server->calculateUri($request->getHeader('Destination'));
 			$quotaPath = $this->getPathForDestination($destinationPath);
 			if ($quotaPath && is_numeric($length)) {
-				return $this->checkQuota($quotaPath, (int)$length);
+				return $this->checkQuota($quotaPath, (int) $length);
 			}
 		}
 

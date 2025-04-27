@@ -37,7 +37,7 @@ class App {
 	 * namespace tag or uppercasing the appid's first letter
 	 * @param string $appId the app id
 	 * @param string $topNamespace the namespace which should be prepended to
-	 * the transformed app id, defaults to OCA\
+	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
@@ -207,7 +207,7 @@ class App {
 		 */
 		$emptyResponse = false;
 		if (preg_match('/^HTTP\/\d\.\d (\d{3}) .*$/', $httpHeaders, $matches)) {
-			$status = (int)$matches[1];
+			$status = (int) $matches[1];
 			if ($status === Http::STATUS_NO_CONTENT || $status === Http::STATUS_NOT_MODIFIED) {
 				$emptyResponse = true;
 			}

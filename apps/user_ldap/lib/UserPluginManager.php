@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,14 +42,14 @@ class UserPluginManager {
 		$this->respondToActions |= $respondToActions;
 
 		foreach ($this->which as $action => $v) {
-			if (is_int($action) && (bool)($respondToActions & $action)) {
+			if (is_int($action) && (bool) ($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				\OCP\Server::get(LoggerInterface::class)->debug('Registered action '.$action.' to plugin '.get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 		if (method_exists($plugin, 'deleteUser')) {
 			$this->which['deleteUser'] = $plugin;
-			\OCP\Server::get(LoggerInterface::class)->debug("Registered action deleteUser to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+			\OCP\Server::get(LoggerInterface::class)->debug('Registered action deleteUser to plugin '.get_class($plugin), ['app' => 'user_ldap']);
 		}
 	}
 

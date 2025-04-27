@@ -103,7 +103,7 @@ class SystemTagManager implements ISystemTagManager {
 			->from(self::TAG_TABLE);
 
 		if (!\is_null($visibilityFilter)) {
-			$query->andWhere($query->expr()->eq('visibility', $query->createNamedParameter((int)$visibilityFilter)));
+			$query->andWhere($query->expr()->eq('visibility', $query->createNamedParameter((int) $visibilityFilter)));
 		}
 
 		if (!empty($nameSearchPattern)) {
@@ -181,7 +181,7 @@ class SystemTagManager implements ISystemTagManager {
 		$tagId = $query->getLastInsertId();
 
 		$tag = new SystemTag(
-			(string)$tagId,
+			(string) $tagId,
 			$truncatedTagName,
 			$userVisible,
 			$userAssignable
@@ -348,7 +348,7 @@ class SystemTagManager implements ISystemTagManager {
 	}
 
 	private function createSystemTagFromRow($row): SystemTag {
-		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
+		return new SystemTag((string) $row['id'], $row['name'], (bool) $row['visibility'], (bool) $row['editable']);
 	}
 
 	/**

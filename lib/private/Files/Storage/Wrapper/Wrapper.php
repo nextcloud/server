@@ -40,7 +40,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 */
 	public function getWrapperStorage() {
 		if (!$this->storage) {
-			$message = "storage wrapper " . get_class($this) . " doesn't have a wrapped storage set";
+			$message = 'storage wrapper ' . get_class($this) . " doesn't have a wrapped storage set";
 			$logger = Server::get(LoggerInterface::class);
 			$logger->error($message);
 			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);

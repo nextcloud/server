@@ -81,7 +81,7 @@ class ResetPassword extends Base {
 			$password = $helper->ask($input, $output, $question);
 
 			if ($password === null) {
-				$output->writeln("<error>Password cannot be empty!</error>");
+				$output->writeln('<error>Password cannot be empty!</error>');
 				return 1;
 			}
 
@@ -90,11 +90,11 @@ class ResetPassword extends Base {
 			$confirm = $helper->ask($input, $output, $question);
 
 			if ($password !== $confirm) {
-				$output->writeln("<error>Passwords did not match!</error>");
+				$output->writeln('<error>Passwords did not match!</error>');
 				return 1;
 			}
 		} else {
-			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a new password!</error>");
+			$output->writeln('<error>Interactive input or --password-from-env is needed for entering a new password!</error>');
 			return 1;
 		}
 
@@ -107,9 +107,9 @@ class ResetPassword extends Base {
 		}
 
 		if ($success) {
-			$output->writeln("<info>Successfully reset password for " . $username . "</info>");
+			$output->writeln('<info>Successfully reset password for ' . $username . '</info>');
 		} else {
-			$output->writeln("<error>Error while resetting password!</error>");
+			$output->writeln('<error>Error while resetting password!</error>');
 			return 1;
 		}
 		return 0;

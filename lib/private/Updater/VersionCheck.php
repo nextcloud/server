@@ -48,7 +48,7 @@ class VersionCheck {
 		$this->appConfig->setValueInt('core', 'lastupdatedat', time());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
-			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
+			$this->config->setAppValue('core', 'installedat', (string) microtime(true));
 		}
 
 		$version = Util::getVersion();
@@ -85,13 +85,13 @@ class VersionCheck {
 				$data = @simplexml_load_string($xml);
 			}
 			if ($data !== false) {
-				$tmp['version'] = (string)$data->version;
-				$tmp['versionstring'] = (string)$data->versionstring;
-				$tmp['url'] = (string)$data->url;
-				$tmp['web'] = (string)$data->web;
-				$tmp['changes'] = isset($data->changes) ? (string)$data->changes : '';
-				$tmp['autoupdater'] = (string)$data->autoupdater;
-				$tmp['eol'] = isset($data->eol) ? (string)$data->eol : '0';
+				$tmp['version'] = (string) $data->version;
+				$tmp['versionstring'] = (string) $data->versionstring;
+				$tmp['url'] = (string) $data->url;
+				$tmp['web'] = (string) $data->web;
+				$tmp['changes'] = isset($data->changes) ? (string) $data->changes : '';
+				$tmp['autoupdater'] = (string) $data->autoupdater;
+				$tmp['eol'] = isset($data->eol) ? (string) $data->eol : '0';
 			} else {
 				libxml_clear_errors();
 			}

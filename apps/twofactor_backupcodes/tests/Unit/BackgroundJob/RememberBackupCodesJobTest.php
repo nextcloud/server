@@ -21,10 +21,10 @@ use Test\TestCase;
 
 class RememberBackupCodesJobTest extends TestCase {
 
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -17,10 +18,10 @@ class MtimeSanitizer {
 		}
 
 		// Prevent writing invalid mtime (timezone-proof)
-		if ((int)$mtimeFromRequest <= 24 * 60 * 60) {
+		if ((int) $mtimeFromRequest <= 24 * 60 * 60) {
 			throw new \InvalidArgumentException('X-OC-MTime header must be a valid positive integer');
 		}
 
-		return (int)$mtimeFromRequest;
+		return (int) $mtimeFromRequest;
 	}
 }

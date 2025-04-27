@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -80,7 +81,7 @@ abstract class TestBase extends \Test\TestCase {
 		$dir = \OC::$SERVERROOT.'/tests/data';
 		$this->instance = $this->getExisting();
 		$fh = $this->instance->getStream('lorem.txt', 'r');
-		$this->assertTrue((bool)$fh);
+		$this->assertTrue((bool) $fh);
 		$content = fread($fh, $this->instance->filesize('lorem.txt'));
 		fclose($fh);
 		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), $content);

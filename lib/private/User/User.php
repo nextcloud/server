@@ -223,7 +223,7 @@ class User implements IUser {
 		if ($now - $previousLogin > 60) {
 			$this->lastLogin = time();
 			$this->config->setUserValue(
-				$this->uid, 'login', 'lastLogin', (string)$this->lastLogin);
+				$this->uid, 'login', 'lastLogin', (string) $this->lastLogin);
 		}
 
 		return $firstTimeLogin;

@@ -56,14 +56,14 @@ class WebhookCall extends QueuedJob {
 			}
 			$webhookUri = $webhookListener->getUri();
 			$exAppId = $webhookListener->getAppId();
-			if ($exAppId !== null && str_starts_with($webhookUri, "/")) {
+			if ($exAppId !== null && str_starts_with($webhookUri, '/')) {
 				// ExApp is awaiting a direct request to itself using AppAPI
 				if (!$this->appManager->isInstalled('app_api')) {
 					throw new RuntimeException('AppAPI is disabled or not installed.');
 				}
 				try {
 					$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
-				} catch (ContainerExceptionInterface | NotFoundExceptionInterface) {
+				} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
 					throw new RuntimeException('Could not get AppAPI public functions.');
 				}
 				$exApp = $appApiFunctions->getExApp($exAppId);

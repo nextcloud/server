@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -303,7 +304,7 @@ class BackendService {
 	 */
 	public function registerConfigHandler(string $placeholder, callable $configHandlerLoader) {
 		$placeholder = trim(strtolower($placeholder));
-		if (!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
+		if (!(bool) \preg_match('/^[a-z0-9]*$/', $placeholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $placeholder
 			));

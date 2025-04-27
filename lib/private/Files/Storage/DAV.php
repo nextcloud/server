@@ -90,9 +90,9 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (str_starts_with($host, "https://")) {
+			if (str_starts_with($host, 'https://')) {
 				$host = substr($host, 8);
-			} elseif (str_starts_with($host, "http://")) {
+			} elseif (str_starts_with($host, 'http://')) {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
@@ -105,7 +105,7 @@ class DAV extends Common {
 				if (is_string($params['secure'])) {
 					$this->secure = ($params['secure'] === 'true');
 				} else {
-					$this->secure = (bool)$params['secure'];
+					$this->secure = (bool) $params['secure'];
 				}
 			} else {
 				$this->secure = false;
@@ -162,13 +162,13 @@ class DAV extends Common {
 
 		$lastRequestStart = 0;
 		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
-			$this->logger->debug("sending dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$this->logger->debug('sending dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
-			$this->eventLogger->start('fs:storage:dav:request', "Sending dav request to external storage");
+			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
 		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
 			$elapsed = microtime(true) - $lastRequestStart;
-			$this->logger->debug("dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl() . " took " . round($elapsed * 1000, 1) . "ms", ['app' => 'dav']);
+			$this->logger->debug('dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
 	}
@@ -284,11 +284,11 @@ class DAV extends Common {
 				return false;
 			}
 			$responseType = [];
-			if (isset($response["{DAV:}resourcetype"])) {
+			if (isset($response['{DAV:}resourcetype'])) {
 				/** @var ResourceType[] $response */
-				$responseType = $response["{DAV:}resourcetype"]->getValue();
+				$responseType = $response['{DAV:}resourcetype']->getValue();
 			}
-			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+			return (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -583,11 +583,11 @@ class DAV extends Common {
 		}
 
 		$responseType = [];
-		if (isset($response["{DAV:}resourcetype"])) {
+		if (isset($response['{DAV:}resourcetype'])) {
 			/** @var ResourceType[] $response */
-			$responseType = $response["{DAV:}resourcetype"]->getValue();
+			$responseType = $response['{DAV:}resourcetype']->getValue();
 		}
-		$type = (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+		$type = (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
@@ -704,22 +704,22 @@ class DAV extends Common {
 
 	/** {@inheritdoc} */
 	public function isUpdatable($path) {
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
+		return (bool) ($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
 	/** {@inheritdoc} */
 	public function isCreatable($path) {
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
+		return (bool) ($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
 	/** {@inheritdoc} */
 	public function isSharable($path) {
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
+		return (bool) ($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
 	/** {@inheritdoc} */
 	public function isDeletable($path) {
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
+		return (bool) ($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
 	/** {@inheritdoc} */
@@ -792,7 +792,7 @@ class DAV extends Common {
 				if (($cachedData === false) || (!empty($etag) && ($cachedData['etag'] !== $etag))) {
 					return true;
 				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
-					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
+					$sharePermissions = (int) $response['{http://open-collaboration-services.org/ns}share-permissions'];
 					return $sharePermissions !== $cachedData['permissions'];
 				} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
 					$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
@@ -833,9 +833,9 @@ class DAV extends Common {
 	 * @param string $path optional path from the operation
 	 *
 	 * @throws StorageInvalidException if the storage is invalid, for example
-	 * when the authentication expired or is invalid
+	 *                                 when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
-	 * which might be temporary
+	 *                                      which might be temporary
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {

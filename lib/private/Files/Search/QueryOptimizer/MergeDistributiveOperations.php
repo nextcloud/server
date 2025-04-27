@@ -88,7 +88,7 @@ class MergeDistributiveOperations extends ReplacingOptimizerStep {
 			if ($operator instanceof ISearchBinaryOperator && count($operator->getArguments()) > 0) {
 				/** @var SearchBinaryOperator|SearchComparison $child */
 				$child = $operator->getArguments()[$index];
-				$childKey = (string)$child;
+				$childKey = (string) $child;
 				$result[$childKey][] = $operator;
 			} else {
 				$result[] = [$operator];

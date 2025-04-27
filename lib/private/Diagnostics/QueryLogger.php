@@ -52,7 +52,7 @@ class QueryLogger implements IQueryLogger {
 	public function stopQuery() {
 		if ($this->activated && $this->activeQuery) {
 			$this->activeQuery->end(microtime(true));
-			$this->queries[(string)$this->index] = $this->activeQuery;
+			$this->queries[(string) $this->index] = $this->activeQuery;
 			$this->index++;
 			$this->activeQuery = null;
 		}

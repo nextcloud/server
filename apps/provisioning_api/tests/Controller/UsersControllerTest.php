@@ -604,7 +604,7 @@ class UsersControllerTest extends TestCase {
 			->method('generate')
 			->with(10)
 			->willReturnCallback(function () {
-				return (string)rand(100000000, 999999999);
+				return (string) rand(100000000, 999999999);
 			});
 
 		$this->assertTrue(key_exists(

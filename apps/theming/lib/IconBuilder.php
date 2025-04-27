@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -44,12 +45,12 @@ class IconBuilder {
 		}
 		try {
 			$favicon = new Imagick();
-			$favicon->setFormat("ico");
+			$favicon->setFormat('ico');
 			$icon = $this->renderAppIcon($app, 128);
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 
 			$clone = clone $icon;
 			$clone->scaleImage(16, 0);
@@ -87,7 +88,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -117,7 +118,7 @@ class IconBuilder {
 			$mime = mime_content_type($appIcon);
 		}
 
-		if ($appIconContent === false || $appIconContent === "") {
+		if ($appIconContent === false || $appIconContent === '') {
 			return false;
 		}
 
@@ -130,9 +131,9 @@ class IconBuilder {
 			'<rect x="0" y="0" rx="' . $cornerRadius . '" ry="' . $cornerRadius . '" width="' . $size. '" height="' . $size . '" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if (substr($appIconContent, 0, 5) !== "<?xml") {
-				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
+		if ($mime === 'image/svg+xml' || substr($appIconContent, 0, 4) === '<svg') {
+			if (substr($appIconContent, 0, 5) !== '<?xml') {
+				$svg = '<?xml version="1.0"?>'.$appIconContent;
 			} else {
 				$svg = $appIconContent;
 			}
@@ -146,8 +147,8 @@ class IconBuilder {
 
 			// convert svg to resized image
 			$appIconFile = new Imagick();
-			$resX = (int)(72 * $size / $x);
-			$resY = (int)(72 * $size / $y);
+			$resX = (int) (72 * $size / $x);
+			$resY = (int) (72 * $size / $y);
 			$appIconFile->setResolution($resX, $resY);
 			$appIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 			$appIconFile->readImageBlob($svg);
@@ -158,7 +159,7 @@ class IconBuilder {
 			 */
 			if ($this->util->isBrightColor($color)
 				&& !$appIcon instanceof ISimpleFile
-				&& $app !== "core"
+				&& $app !== 'core'
 			) {
 				$appIconFile->negateImage(false);
 			}
@@ -169,23 +170,23 @@ class IconBuilder {
 		}
 		// offset for icon positioning
 		$padding = 0.15;
-		$border_w = (int)($appIconFile->getImageWidth() * $padding);
-		$border_h = (int)($appIconFile->getImageHeight() * $padding);
+		$border_w = (int) ($appIconFile->getImageWidth() * $padding);
+		$border_h = (int) ($appIconFile->getImageHeight() * $padding);
 		$innerWidth = ($appIconFile->getImageWidth() - $border_w * 2);
 		$innerHeight = ($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
 		// center icon
-		$offset_w = (int)($size / 2 - $innerWidth / 2);
-		$offset_h = (int)($size / 2 - $innerHeight / 2);
+		$offset_w = (int) ($size / 2 - $innerWidth / 2);
+		$offset_h = (int) ($size / 2 - $innerHeight / 2);
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 		$finalIconFile->readImageBlob($background);
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
+		$finalIconFile->setImageArtifact('compose:args', '1,0,-0.5,0.5');
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
 		$finalIconFile->setImageFormat('png24');
-		if (defined("Imagick::INTERPOLATE_BICUBIC") === true) {
+		if (defined('Imagick::INTERPOLATE_BICUBIC') === true) {
 			$filter = Imagick::INTERPOLATE_BICUBIC;
 		} else {
 			$filter = Imagick::FILTER_LANCZOS;
@@ -203,11 +204,11 @@ class IconBuilder {
 	 */
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
-		if ($imageFile === false || $imageFile === "") {
+		if ($imageFile === false || $imageFile === '') {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
-		if ($svg !== false && $svg !== "") {
+		if ($svg !== false && $svg !== '') {
 			$color = $this->util->elementColor($this->themingDefaults->getColorPrimary());
 			$svg = $this->util->colorizeSvg($svg, $color);
 			return $svg;

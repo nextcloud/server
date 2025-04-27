@@ -20,10 +20,10 @@ use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractIntegrationTest {
-	/** @var  LDAP */
+	/** @var LDAP */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var Connection */
 	protected $connection;
 
 	/** @var Access */
@@ -35,7 +35,7 @@ abstract class AbstractIntegrationTest {
 	/** @var Helper */
 	protected $helper;
 
-	/** @var  string */
+	/** @var string */
 	protected $base;
 
 	/** @var string[] */

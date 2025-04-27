@@ -228,7 +228,7 @@ class File extends Node implements IFile {
 			}
 
 			$lengthHeader = $this->request->getHeader('content-length');
-			$expected = $lengthHeader !== '' ? (int)$lengthHeader : -1;
+			$expected = $lengthHeader !== '' ? (int) $lengthHeader : -1;
 			if ($result === false && $expected >= 0) {
 				throw new Exception(
 					$this->l10n->t(

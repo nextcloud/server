@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,7 +22,7 @@ class Rotate extends TimedJob {
 	protected function run($argument) {
 		$config = \OC::$server->getConfig();
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
-		$this->filePath = trim((string)$config->getAppValue(Application::APP_ID, 'logfile', $default));
+		$this->filePath = trim((string) $config->getAppValue(Application::APP_ID, 'logfile', $default));
 
 		if ($this->filePath === '') {
 			// disabled, nothing to do

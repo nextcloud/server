@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -171,7 +172,7 @@ class Generator {
 					$previewFiles[] = $preview;
 				}
 			} catch (\InvalidArgumentException $e) {
-				throw new NotFoundException("", 0, $e);
+				throw new NotFoundException('', 0, $e);
 			}
 
 			if ($preview->getSize() === 0) {
@@ -272,13 +273,13 @@ class Generator {
 
 		$hardwareConcurrency = self::getHardwareConcurrency();
 		switch ($type) {
-			case "preview_concurrency_all":
+			case 'preview_concurrency_all':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
-				$concurrency_new = $this->getNumConcurrentPreviews("preview_concurrency_new");
+				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
 				$cached[$type] = max($concurrency_all, $concurrency_new);
 				break;
-			case "preview_concurrency_new":
+			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
 				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;
@@ -369,7 +370,7 @@ class Generator {
 	 */
 	private function getPreviewSize(ISimpleFile $file, string $prefix = '') {
 		$size = explode('-', substr($file->getName(), strlen($prefix)));
-		return [(int)$size[0], (int)$size[1]];
+		return [(int) $size[0], (int) $size[1]];
 	}
 
 	/**
@@ -382,7 +383,7 @@ class Generator {
 	 * @return string
 	 */
 	private function generatePath($width, $height, $crop, $max, $mimeType, $prefix) {
-		$path = $prefix . (string)$width . '-' . (string)$height;
+		$path = $prefix . (string) $width . '-' . (string) $height;
 		if ($crop) {
 			$path .= '-crop';
 		}
@@ -480,7 +481,7 @@ class Generator {
 			$height /= $ratio;
 		}
 
-		return [(int)round($width), (int)round($height)];
+		return [(int) round($width), (int) round($height)];
 	}
 
 	/**
@@ -518,10 +519,10 @@ class Generator {
 						$scaleH = $maxHeight / $widthR;
 						$scaleW = $width;
 					}
-					$preview = $preview->preciseResizeCopy((int)round($scaleW), (int)round($scaleH));
+					$preview = $preview->preciseResizeCopy((int) round($scaleW), (int) round($scaleH));
 				}
-				$cropX = (int)floor(abs($width - $preview->width()) * 0.5);
-				$cropY = (int)floor(abs($height - $preview->height()) * 0.5);
+				$cropX = (int) floor(abs($width - $preview->width()) * 0.5);
+				$cropY = (int) floor(abs($height - $preview->height()) * 0.5);
 				$preview = $preview->cropCopy($cropX, $cropY, $width, $height);
 			} else {
 				$preview = $maxPreview->resizeCopy(max($width, $height));
@@ -575,7 +576,7 @@ class Generator {
 	 */
 	private function getPreviewFolder(File $file) {
 		// Obtain file id outside of try catch block to prevent the creation of an existing folder
-		$fileId = (string)$file->getId();
+		$fileId = (string) $file->getId();
 
 		try {
 			$folder = $this->appData->getFolder($fileId);

@@ -79,10 +79,10 @@ class ChangeKeyStorageRoot extends Command {
 	 * @throws \Exception
 	 */
 	protected function moveAllKeys($oldRoot, $newRoot, OutputInterface $output) {
-		$output->writeln("Start to move keys:");
+		$output->writeln('Start to move keys:');
 
 		if ($this->rootView->is_dir($oldRoot) === false) {
-			$output->writeln("No old keys found: Nothing needs to be moved");
+			$output->writeln('No old keys found: Nothing needs to be moved');
 			return false;
 		}
 

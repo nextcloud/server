@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -117,7 +118,7 @@ class Import extends Base {
 					$existingMount->getApplicableUsers() === $mount->getApplicableUsers() &&
 					$existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
-					$output->writeln("<error>Duplicate mount (" . $mount->getMountPoint() . ")</error>");
+					$output->writeln('<error>Duplicate mount (' . $mount->getMountPoint() . ')</error>');
 					return self::FAILURE;
 				}
 			}

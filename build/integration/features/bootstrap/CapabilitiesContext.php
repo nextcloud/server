@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -32,11 +33,11 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			for ($i = 0; $i < count($path_to_element); $i++) {
 				$answeredValue = $answeredValue->{$path_to_element[$i]};
 			}
-			$answeredValue = (string)$answeredValue;
+			$answeredValue = (string) $answeredValue;
 			Assert::assertEquals(
-				$row['value'] === "EMPTY" ? '' : $row['value'],
+				$row['value'] === 'EMPTY' ? '' : $row['value'],
 				$answeredValue,
-				"Failed field " . $row['capability'] . " " . $row['path_to_element']
+				'Failed field ' . $row['capability'] . ' ' . $row['path_to_element']
 			);
 		}
 	}

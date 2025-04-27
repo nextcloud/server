@@ -136,8 +136,8 @@ interface IDBConnection {
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
 	 * @param array $input data that should be inserted into the table  (column name => value)
 	 * @param array|null $compare List of values that should be checked for "if not exists"
-	 *				If this is null or an empty array, all keys of $input will be compared
-	 *				Please note: text fields (clob) must not be used in the compare array
+	 *                            If this is null or an empty array, all keys of $input will be compared
+	 *                            Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
 	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0

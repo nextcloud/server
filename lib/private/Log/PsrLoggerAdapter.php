@@ -35,20 +35,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	/**
 	 * System is unusable.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function emergency($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::FATAL,
 				],
 				$context
 			));
 		} else {
-			$this->logger->emergency((string)$message, $context);
+			$this->logger->emergency((string) $message, $context);
 		}
 	}
 
@@ -58,20 +58,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Entire website down, database unavailable, etc. This should
 	 * trigger the SMS alerts and wake you up.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function alert($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->alert((string)$message, $context);
+			$this->logger->alert((string) $message, $context);
 		}
 	}
 
@@ -80,20 +80,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: Application component unavailable, unexpected exception.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function critical($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->critical((string)$message, $context);
+			$this->logger->critical((string) $message, $context);
 		}
 	}
 
@@ -101,20 +101,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Runtime errors that do not require immediate action but should typically
 	 * be logged and monitored.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function error($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->error((string)$message, $context);
+			$this->logger->error((string) $message, $context);
 		}
 	}
 
@@ -124,40 +124,40 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Use of deprecated APIs, poor use of an API, undesirable things
 	 * that are not necessarily wrong.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function warning($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::WARN,
 				],
 				$context
 			));
 		} else {
-			$this->logger->warning((string)$message, $context);
+			$this->logger->warning((string) $message, $context);
 		}
 	}
 
 	/**
 	 * Normal but significant events.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function notice($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::INFO,
 				],
 				$context
 			));
 		} else {
-			$this->logger->notice((string)$message, $context);
+			$this->logger->notice((string) $message, $context);
 		}
 	}
 
@@ -166,40 +166,40 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: User logs in, SQL logs.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function info($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::INFO,
 				],
 				$context
 			));
 		} else {
-			$this->logger->info((string)$message, $context);
+			$this->logger->info((string) $message, $context);
 		}
 	}
 
 	/**
 	 * Detailed debug information.
 	 *
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 */
 	public function debug($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => ILogger::DEBUG,
 				],
 				$context
 			));
 		} else {
-			$this->logger->debug((string)$message, $context);
+			$this->logger->debug((string) $message, $context);
 		}
 	}
 
@@ -207,7 +207,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Logs with an arbitrary level.
 	 *
 	 * @param mixed $level
-	 * @param  $message
+	 * @param $message
 	 * @param mixed[] $context
 	 *
 	 * @throws InvalidArgumentException
@@ -219,13 +219,13 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => (string)$message,
+					'message' => (string) $message,
 					'level' => $level,
 				],
 				$context
 			));
 		} else {
-			$this->logger->log($level, (string)$message, $context);
+			$this->logger->log($level, (string) $message, $context);
 		}
 	}
 

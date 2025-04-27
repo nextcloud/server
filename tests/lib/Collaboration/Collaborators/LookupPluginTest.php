@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,15 +25,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var  IClientService|MockObject */
+	/** @var IClientService|MockObject */
 	protected $clientService;
 	/** @var IUserSession|MockObject */
 	protected $userSession;
 	/** @var ICloudIdManager|MockObject */
 	protected $cloudIdManager;
-	/** @var  LookupPlugin */
+	/** @var LookupPlugin */
 	protected $plugin;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;

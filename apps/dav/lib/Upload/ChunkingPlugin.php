@@ -106,7 +106,7 @@ class ChunkingPlugin extends ServerPlugin {
 
 		// casted to string because cast to float cause equality for non equal numbers
 		// and integer has the problem of limited size on 32 bit systems
-		if ((string)$expectedSize !== (string)$actualSize) {
+		if ((string) $expectedSize !== (string) $actualSize) {
 			throw new BadRequest("Chunks on server do not sum up to $expectedSize but to $actualSize bytes");
 		}
 	}

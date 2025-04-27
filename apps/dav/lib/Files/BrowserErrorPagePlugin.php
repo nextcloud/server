@@ -81,7 +81,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 
 		$templateName = 'exception';
 		if ($httpCode === 403 || $httpCode === 404) {
-			$templateName = (string)$httpCode;
+			$templateName = (string) $httpCode;
 		}
 
 		$content = new OC_Template('core', $templateName, 'guest');

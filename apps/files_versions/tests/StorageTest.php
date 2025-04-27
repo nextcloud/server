@@ -51,7 +51,7 @@ class StorageTest extends TestCase {
 		} catch (NotFoundException $e) {
 			$file = $this->userFolder->newFile($path);
 		}
-		$file->putContent((string)$mtime);
+		$file->putContent((string) $mtime);
 		$file->touch($mtime);
 	}
 

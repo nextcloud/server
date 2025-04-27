@@ -228,9 +228,9 @@ interface IAccountManager {
 	 * Search for users based on account data
 	 *
 	 * @param string $property - property or property collection name – since
-	 * NC 22 the implementation MAY add a fitting property collection into the
-	 * search even if a property name was given e.g. email property and email
-	 * collection)
+	 *                         NC 22 the implementation MAY add a fitting property collection into the
+	 *                         search even if a property name was given e.g. email property and email
+	 *                         collection)
 	 * @param string[] $values
 	 * @return array
 	 *

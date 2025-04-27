@@ -99,7 +99,7 @@ class CalendarObjectTest extends TestCase {
 
 		$this->vobject->expects($this->once())
 			->method('getBaseComponent')
-			->willReturn((object)['UID' => 'someid']);
+			->willReturn((object) ['UID' => 'someid']);
 		$this->calendar->expects($this->once())
 			->method('getPermissions')
 			->willReturn(Constants::PERMISSION_ALL);
@@ -156,7 +156,7 @@ class CalendarObjectTest extends TestCase {
 	public function testGetName() {
 		$this->vobject->expects($this->exactly(2))
 			->method('getBaseComponent')
-			->willReturnOnConsecutiveCalls((object)['UID' => 'someid'], (object)['UID' => 'someid', 'X-FILENAME' => 'real-filename.ics']);
+			->willReturnOnConsecutiveCalls((object) ['UID' => 'someid'], (object) ['UID' => 'someid', 'X-FILENAME' => 'real-filename.ics']);
 
 		$this->assertEquals($this->calendarObject->getName(), 'someid.ics');
 		$this->assertEquals($this->calendarObject->getName(), 'real-filename.ics');

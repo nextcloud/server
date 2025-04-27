@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -21,17 +22,17 @@ class MultipartRequestParserTest extends TestCase {
 	private function getValidBodyObject() {
 		return [
 			[
-				"headers" => [
-					"Content-Length" => 7,
-					"X-File-MD5" => "4f2377b4d911f7ec46325fe603c3af03",
-					"X-File-Path" => "/coucou.txt"
+				'headers' => [
+					'Content-Length' => 7,
+					'X-File-MD5' => '4f2377b4d911f7ec46325fe603c3af03',
+					'X-File-Path' => '/coucou.txt'
 				],
-				"content" => "Coucou\n"
+				'content' => "Coucou\n"
 			]
 		];
 	}
 
-	private function getMultipartParser(array $parts, array $headers = [], string $boundary = "boundary_azertyuiop"): MultipartRequestParser {
+	private function getMultipartParser(array $parts, array $headers = [], string $boundary = 'boundary_azertyuiop'): MultipartRequestParser {
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -43,19 +44,19 @@ class MultipartRequestParserTest extends TestCase {
 				return $headers[$key];
 			});
 
-		$body = "";
+		$body = '';
 		foreach ($parts as $part) {
 			$body .= '--'.$boundary."\r\n";
 
 			foreach ($part['headers'] as $headerKey => $headerPart) {
-				$body .= $headerKey.": ".$headerPart."\r\n";
+				$body .= $headerKey.': '.$headerPart."\r\n";
 			}
 
 			$body .= "\r\n";
 			$body .= $part['content']."\r\n";
 		}
 
-		$body .= '--'.$boundary."--";
+		$body .= '--'.$boundary.'--';
 
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
@@ -73,7 +74,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test validation of the request's body type
 	 */
 	public function testBodyTypeValidation(): void {
-		$bodyStream = "I am not a stream, but pretend to be";
+		$bodyStream = 'I am not a stream, but pretend to be';
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
 			->disableOriginalConstructor()
 			->getMock();
@@ -100,11 +101,11 @@ class MultipartRequestParserTest extends TestCase {
 
 		[$headers, $content] = $multipartParser->parseNextPart();
 
-		$this->assertSame((int)$headers["content-length"], 7, "Content-Length header should be the same as provided.");
-		$this->assertSame($headers["x-file-md5"], "4f2377b4d911f7ec46325fe603c3af03", "X-File-MD5 header should be the same as provided.");
-		$this->assertSame($headers["x-file-path"], "/coucou.txt", "X-File-Path header should be the same as provided.");
+		$this->assertSame((int) $headers['content-length'], 7, 'Content-Length header should be the same as provided.');
+		$this->assertSame($headers['x-file-md5'], '4f2377b4d911f7ec46325fe603c3af03', 'X-File-MD5 header should be the same as provided.');
+		$this->assertSame($headers['x-file-path'], '/coucou.txt', 'X-File-Path header should be the same as provided.');
 
-		$this->assertSame($content, "Coucou\n", "Content should be the same");
+		$this->assertSame($content, "Coucou\n", 'Content should be the same');
 	}
 
 	/**
@@ -112,7 +113,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testInvalidMd5Hash(): void {
 		$bodyObject = $this->getValidBodyObject();
-		$bodyObject["0"]["headers"]["X-File-MD5"] = "f2377b4d911f7ec46325fe603c3af03";
+		$bodyObject['0']['headers']['X-File-MD5'] = 'f2377b4d911f7ec46325fe603c3af03';
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
@@ -126,7 +127,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testNullMd5Hash(): void {
 		$bodyObject = $this->getValidBodyObject();
-		unset($bodyObject["0"]["headers"]["X-File-MD5"]);
+		unset($bodyObject['0']['headers']['X-File-MD5']);
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
@@ -140,7 +141,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testNullContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
-		unset($bodyObject["0"]["headers"]["Content-Length"]);
+		unset($bodyObject['0']['headers']['Content-Length']);
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
@@ -154,7 +155,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testLowerContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
-		$bodyObject["0"]["headers"]["Content-Length"] = 6;
+		$bodyObject['0']['headers']['Content-Length'] = 6;
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
@@ -168,7 +169,7 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testHigherContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
-		$bodyObject["0"]["headers"]["Content-Length"] = 8;
+		$bodyObject['0']['headers']['Content-Length'] = 8;
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);

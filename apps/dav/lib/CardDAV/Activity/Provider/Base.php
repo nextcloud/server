@@ -21,7 +21,7 @@ abstract class Base implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
-	/** @var string[]  */
+	/** @var string[] */
 	protected $userDisplayNames = [];
 
 	/** @var IGroupManager */
@@ -55,14 +55,14 @@ abstract class Base implements IProvider {
 			$data['name'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
 			return [
 				'type' => 'addressbook',
-				'id' => (string)$data['id'],
+				'id' => (string) $data['id'],
 				'name' => $l->t('Personal'),
 			];
 		}
 
 		return [
 			'type' => 'addressbook',
-			'id' => (string)$data['id'],
+			'id' => (string) $data['id'],
 			'name' => $data['name'],
 		];
 	}

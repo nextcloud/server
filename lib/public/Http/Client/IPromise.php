@@ -34,7 +34,7 @@ interface IPromise {
 	 * a new promise resolving to the return value of the called handler.
 	 *
 	 * @param ?callable(IResponse): void $onFulfilled Invoked when the promise fulfills. Gets an \OCP\Http\Client\IResponse passed in as argument
-	 * @param ?callable(Exception): void $onRejected  Invoked when the promise is rejected. Gets an \Exception passed in as argument
+	 * @param ?callable(Exception): void $onRejected Invoked when the promise is rejected. Gets an \Exception passed in as argument
 	 *
 	 * @return IPromise
 	 * @since 28.0.0
@@ -76,7 +76,7 @@ interface IPromise {
 	 * @return mixed
 	 *
 	 * @throws LogicException if the promise has no wait function or if the
-	 *                         promise does not settle after waiting.
+	 *                        promise does not settle after waiting.
 	 * @since 28.0.0
 	 */
 	public function wait(bool $unwrap = true): mixed;

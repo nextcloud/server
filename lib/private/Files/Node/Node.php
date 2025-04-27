@@ -158,7 +158,7 @@ class Node implements INode {
 	public function getStorage() {
 		$storage = $this->getMountPoint()->getStorage();
 		if (!$storage) {
-			throw new \Exception("No storage for node");
+			throw new \Exception('No storage for node');
 		}
 		return $storage;
 	}

@@ -104,8 +104,8 @@ class SetConfig extends Base {
 					throw new \InvalidArgumentException('Non-numeric value specified');
 				}
 				return [
-					'value' => (double) $value,
-					'readable-value' => 'double ' . (double) $value,
+					'value' => (float) $value,
+					'readable-value' => 'double ' . (float) $value,
 				];
 
 			case 'boolean':

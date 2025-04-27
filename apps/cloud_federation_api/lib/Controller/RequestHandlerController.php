@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -71,9 +72,9 @@ class RequestHandlerController extends Controller {
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
-	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
-	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
-	 * 501: Share type or the resource type is not supported
+	 *                                                                                                                                                                                                                                                 201: The notification was successfully received. The display name of the recipient might be returned in the body
+	 *                                                                                                                                                                                                                                                 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
+	 *                                                                                                                                                                                                                                                 501: Share type or the resource type is not supported
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
@@ -196,10 +197,10 @@ class RequestHandlerController extends Controller {
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
-	 * 201: The notification was successfully received
-	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
-	 * 403: Getting resource is not allowed
-	 * 501: The resource type is not supported
+	 *                                                                                                                                                                                                                                                                  201: The notification was successfully received
+	 *                                                                                                                                                                                                                                                                  400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
+	 *                                                                                                                                                                                                                                                                  403: Getting resource is not allowed
+	 *                                                                                                                                                                                                                                                                  501: The resource type is not supported
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]

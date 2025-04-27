@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -38,7 +39,7 @@ class ShareRecipientSorter implements ISorter {
 		}
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		/** @var Node[] $nodes */
-		$node = $userFolder->getFirstNodeById((int)$context['itemId']);
+		$node = $userFolder->getFirstNodeById((int) $context['itemId']);
 		if (!$node) {
 			return;
 		}
@@ -79,8 +80,8 @@ class ShareRecipientSorter implements ISorter {
 		$a = $a['value']['shareWith'];
 		$b = $b['value']['shareWith'];
 
-		$valueA = (int)in_array($a, $al, true);
-		$valueB = (int)in_array($b, $al, true);
+		$valueA = (int) in_array($a, $al, true);
+		$valueB = (int) in_array($b, $al, true);
 
 		return $valueB - $valueA;
 	}

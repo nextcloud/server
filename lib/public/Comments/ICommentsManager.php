@@ -85,10 +85,10 @@ interface ICommentsManager {
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * not specified, all comments are returned.
+	 *                   not specified, all comments are returned.
 	 * @param int $offset optional, starting point
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                     that may be returned
 	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
@@ -106,7 +106,7 @@ interface ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 * @since 14.0.0
@@ -128,7 +128,7 @@ interface ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 * @since 24.0.0
@@ -175,7 +175,7 @@ interface ICommentsManager {
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                     that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
 	 * @return Int
 	 * @since 9.0.0

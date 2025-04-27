@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -256,7 +257,7 @@ class MessageTest extends TestCase {
 
 	public function testSetAutoSubmitted1() {
 		$headers = new Headers($this->createMock(HeaderInterface::class));
-		$headers->addTextHeader(AutoSubmitted::HEADER, "yes");
+		$headers->addTextHeader(AutoSubmitted::HEADER, 'yes');
 		$symfonyEmail = $this->createMock(Email::class);
 
 		$symfonyEmail->method('getHeaders')
@@ -289,6 +290,6 @@ class MessageTest extends TestCase {
 			->willReturn($headers);
 
 		$message = new Message($symfonyEmail, false);
-		$this->assertSame("no", $message->getAutoSubmitted());
+		$this->assertSame('no', $message->getAutoSubmitted());
 	}
 }

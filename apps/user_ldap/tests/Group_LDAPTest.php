@@ -969,7 +969,7 @@ class Group_LDAPTest extends TestCase {
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'ldapNestedGroups':
-						return (int)$nestedGroups;
+						return (int) $nestedGroups;
 					case 'ldapGroupMemberAssocAttr':
 						return 'member';
 					case 'ldapGroupFilter':

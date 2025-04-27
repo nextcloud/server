@@ -73,8 +73,8 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
 			if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
-				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
+				$this->initialState->provideInitialState('unified-search', 'limit-default', (int) $this->config->getAppValue('core', 'unified-search.limit-default', (string) SearchQuery::LIMIT_DEFAULT));
+				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int) $this->config->getAppValue('core', 'unified-search.min-search-length', (string) 1));
 				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 				Util::addScript('core', 'legacy-unified-search', 'core');
 			} else {
@@ -299,7 +299,7 @@ class TemplateLayout extends \OC_Template {
 	protected function getVersionHashSuffix(string $path = '', string $file = ''): string {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
-			return "";
+			return '';
 		}
 
 		if ($this->config->getSystemValueBool('installed', false) === false) {

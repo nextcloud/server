@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,7 +24,7 @@ class RecoverUser extends Command {
 	/** @var IUserManager */
 	protected $userManager;
 
-	/** @var  QuestionHelper */
+	/** @var QuestionHelper */
 	protected $questionHelper;
 
 	/**

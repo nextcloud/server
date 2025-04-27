@@ -72,9 +72,9 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->method('getType')
 			->willReturn(Node::TYPE_FOLDER);
 		$this->info->method('getName')
-			->willReturn("folder");
+			->willReturn('folder');
 		$this->info->method('getPath')
-			->willReturn("/admin/files/folder");
+			->willReturn('/admin/files/folder');
 		$this->info->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);
 	}

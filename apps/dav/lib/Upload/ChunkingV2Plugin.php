@@ -139,7 +139,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
 		$chunkName = basename($request->getPath());
-		$partId = is_numeric($chunkName) ? (int)$chunkName : -1;
+		$partId = is_numeric($chunkName) ? (int) $chunkName : -1;
 		if (!($partId >= 1 && $partId <= 10000)) {
 			throw new BadRequest('Invalid chunk name, must be numeric between 1 and 10000');
 		}
@@ -147,7 +147,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$uploadFile = $this->getUploadFile($this->uploadPath);
 		$tempTargetFile = null;
 
-		$additionalSize = (int)$request->getHeader('Content-Length');
+		$additionalSize = (int) $request->getHeader('Content-Length');
 		if ($this->uploadFolder->childExists(self::TEMP_TARGET) && $this->uploadPath) {
 			/** @var UploadFile $tempTargetFile */
 			$tempTargetFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
@@ -162,7 +162,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 
 		$stream = $request->getBodyAsStream();
-		$storage->putChunkedWritePart($storagePath, $this->uploadId, (string)$partId, $stream, $additionalSize);
+		$storage->putChunkedWritePart($storagePath, $this->uploadId, (string) $partId, $stream, $additionalSize);
 
 		$storage->getCache()->update($uploadFile->getId(), ['size' => $uploadFile->getSize() + $additionalSize]);
 		if ($tempTargetFile) {
@@ -294,7 +294,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			throw new InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
 		}
 
-		return (int)$mtimeFromRequest;
+		return (int) $mtimeFromRequest;
 	}
 
 	/**

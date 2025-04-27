@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -49,7 +50,7 @@ class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 
-	/** @var IEventDispatcher  */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 
 	private LoggerInterface $logger;

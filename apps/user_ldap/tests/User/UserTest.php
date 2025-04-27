@@ -29,9 +29,9 @@ use Psr\Log\LoggerInterface;
  * @package OCA\User_LDAP\Tests\User
  */
 class UserTest extends \Test\TestCase {
-	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
-	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;

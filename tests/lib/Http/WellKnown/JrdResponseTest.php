@@ -15,7 +15,7 @@ use Test\TestCase;
 
 class JrdResponseTest extends TestCase {
 	public function testEmptyToHttpResponse(): void {
-		$response = new JrdResponse("subject");
+		$response = new JrdResponse('subject');
 		$httpResponse = $response->toHttpResponse();
 
 		self::assertTrue($response->isEmpty());
@@ -30,7 +30,7 @@ class JrdResponseTest extends TestCase {
 	}
 
 	public function testComplexToHttpResponse(): void {
-		$response = new JrdResponse("subject");
+		$response = new JrdResponse('subject');
 		$response->addAlias('alias');
 		$response->addAlias('blias');
 		$response->addProperty('propa', 'a');

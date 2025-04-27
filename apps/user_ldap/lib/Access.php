@@ -171,10 +171,10 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $dn the record in question
 	 * @param string $attr the attribute that shall be retrieved
-	 *        if empty, just check the record's existence
+	 *                     if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
-	 *          array if $attr is empty, false otherwise
+	 *                     array if $attr is empty, false otherwise
 	 * @throws ServerNotAvailableException
 	 */
 	public function readAttribute(string $dn, string $attr, string $filter = 'objectClass=*') {
@@ -308,8 +308,8 @@ class Access extends LDAPUtility {
 	public function extractRangeData(array $result, string $attribute): array {
 		$keys = array_keys($result);
 		foreach ($keys as $key) {
-			if ($key !== $attribute && str_starts_with((string)$key, $attribute)) {
-				$queryData = explode(';', (string)$key);
+			if ($key !== $attribute && str_starts_with((string) $key, $attribute)) {
+				$queryData = explode(';', (string) $key);
 				if (isset($queryData[1]) && str_starts_with($queryData[1], 'range=')) {
 					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
 					return [
@@ -334,7 +334,7 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function setPassword($userDN, $password) {
-		if ((int)$this->connection->turnOnPasswordChange !== 1) {
+		if ((int) $this->connection->turnOnPasswordChange !== 1) {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
 		$cr = $this->connection->getConnectionResource();
@@ -343,7 +343,7 @@ class Access extends LDAPUtility {
 			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
 				@$this->invokeLDAPMethod('modReplace', $userDN, $password);
 		} catch (ConstraintViolationException $e) {
-			throw new HintException('Password change rejected.', \OCP\Util::getL10N('user_ldap')->t('Password change rejected. Hint: %s', $e->getMessage()), (int)$e->getCode());
+			throw new HintException('Password change rejected.', \OCP\Util::getL10N('user_ldap')->t('Password change rejected. Hint: %s', $e->getMessage()), (int) $e->getCode());
 		}
 	}
 
@@ -810,15 +810,15 @@ class Access extends LDAPUtility {
 	 * "Developers"
 	 */
 	private function _createAltInternalOwnCloudNameForGroups(string $name) {
-		$usedNames = $this->getGroupMapper()->getNamesBySearch($name, "", '_%');
+		$usedNames = $this->getGroupMapper()->getNamesBySearch($name, '', '_%');
 		if (count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
 			natsort($usedNames);
 			$lastName = array_pop($usedNames);
-			$lastNo = (int)substr($lastName, strrpos($lastName, '_') + 1);
+			$lastNo = (int) substr($lastName, strrpos($lastName, '_') + 1);
 		}
-		$altName = $name . '_' . (string)($lastNo + 1);
+		$altName = $name . '_' . (string) ($lastNo + 1);
 		unset($usedNames);
 
 		$attempts = 1;
@@ -920,7 +920,7 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function batchApplyUserAttributes(array $ldapRecords): void {
-		$displayNameAttribute = strtolower((string)$this->connection->ldapUserDisplayName);
+		$displayNameAttribute = strtolower((string) $this->connection->ldapUserDisplayName);
 		foreach ($ldapRecords as $userRecord) {
 			if (!isset($userRecord[$displayNameAttribute])) {
 				// displayName is obligatory
@@ -947,7 +947,7 @@ class Access extends LDAPUtility {
 	 * @return array[]
 	 */
 	public function fetchListOfGroups(string $filter, array $attr, ?int $limit = null, ?int $offset = null): array {
-		$cacheKey = 'fetchListOfGroups_' . $filter . '_' . implode('-', $attr) . '_' . (string)$limit . '_' . (string)$offset;
+		$cacheKey = 'fetchListOfGroups_' . $filter . '_' . implode('-', $attr) . '_' . (string) $limit . '_' . (string) $offset;
 		$listOfGroups = $this->connection->getFromCache($cacheKey);
 		if (!is_null($listOfGroups)) {
 			return $listOfGroups;
@@ -1008,7 +1008,7 @@ class Access extends LDAPUtility {
 		$result = false;
 		foreach ($this->connection->ldapBaseUsers as $base) {
 			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
-			$result = is_int($count) ? (int)$result + $count : $result;
+			$result = is_int($count) ? (int) $result + $count : $result;
 		}
 		return $result;
 	}
@@ -1039,7 +1039,7 @@ class Access extends LDAPUtility {
 		$result = false;
 		foreach ($this->connection->ldapBaseGroups as $base) {
 			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
-			$result = is_int($count) ? (int)$result + $count : $result;
+			$result = is_int($count) ? (int) $result + $count : $result;
 		}
 		return $result;
 	}
@@ -1054,7 +1054,7 @@ class Access extends LDAPUtility {
 		$result = false;
 		foreach ($this->connection->ldapBase as $base) {
 			$count = $this->count('objectclass=*', [$base], ['dn'], $limit ?? 0, $offset ?? 0);
-			$result = is_int($count) ? (int)$result + $count : $result;
+			$result = is_int($count) ? (int) $result + $count : $result;
 		}
 		return $result;
 	}
@@ -1116,7 +1116,7 @@ class Access extends LDAPUtility {
 	 * @param int|null $limit optional, maximum results to be counted
 	 * @param int|null $offset optional, a starting point
 	 * @return array|false array with the search result as first value and pagedSearchOK as
-	 * second | false if not successful
+	 *                     second | false if not successful
 	 * @throws ServerNotAvailableException
 	 */
 	private function executeSearch(
@@ -1131,7 +1131,7 @@ class Access extends LDAPUtility {
 
 		//check whether paged search should be attempted
 		try {
-			[$pagedSearchOK, $pageSize, $cookie] = $this->initPagedSearch($filter, $base, $attr, (int)$pageSize, (int)$offset);
+			[$pagedSearchOK, $pageSize, $cookie] = $this->initPagedSearch($filter, $base, $attr, (int) $pageSize, (int) $offset);
 		} catch (NoMoreResults $e) {
 			// beyond last results page
 			return false;
@@ -1155,7 +1155,7 @@ class Access extends LDAPUtility {
 	 * @param int $limit maximum results to be counted
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
-	 * prior results need to be gained
+	 *                           prior results need to be gained
 	 * @return bool cookie validity, true if we have more pages, false otherwise.
 	 * @throws ServerNotAvailableException
 	 */
@@ -1184,7 +1184,7 @@ class Access extends LDAPUtility {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
-			if ((int)$this->connection->ldapPagingSize !== 0) {
+			if ((int) $this->connection->ldapPagingSize !== 0) {
 				$this->logger->debug(
 					'Paged search was not available',
 					['app' => 'user_ldap']
@@ -1205,11 +1205,11 @@ class Access extends LDAPUtility {
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param ?string[] $attr optional, array, one or more attributes that shall be
-	 * retrieved. Results will according to the order in the array.
+	 *                        retrieved. Results will according to the order in the array.
 	 * @param int $limit maximum results to be counted, 0 means no limit
 	 * @param int $offset a starting point, defaults to 0
 	 * @param bool $skipHandling indicates whether the pages search operation is
-	 * completed
+	 *                           completed
 	 * @return int|false Integer or false if the search could not be initialized
 	 * @throws ServerNotAvailableException
 	 */
@@ -1226,7 +1226,7 @@ class Access extends LDAPUtility {
 			'filter' => $filter
 		]);
 
-		$limitPerPage = (int)$this->connection->ldapPagingSize;
+		$limitPerPage = (int) $this->connection->ldapPagingSize;
 		if ($limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
@@ -1268,7 +1268,7 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($sr): int {
-		return (int)$this->invokeLDAPMethod('countEntries', $sr);
+		return (int) $this->invokeLDAPMethod('countEntries', $sr);
 	}
 
 	/**
@@ -1286,7 +1286,7 @@ class Access extends LDAPUtility {
 		?int $offset = null,
 		bool $skipHandling = false
 	): array {
-		$limitPerPage = (int)$this->connection->ldapPagingSize;
+		$limitPerPage = (int) $this->connection->ldapPagingSize;
 		if (!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
@@ -1455,7 +1455,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
-	 * Combines Filter arguments with OR
+	 *                Combines Filter arguments with OR
 	 */
 	public function combineFilterWithOr($filters) {
 		return $this->combineFilter($filters, '|');
@@ -1510,7 +1510,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $search the search term
 	 * @param string[]|null|'' $searchAttributes needs to have at least two attributes,
-	 * otherwise it does not make sense :)
+	 *                                           otherwise it does not make sense :)
 	 * @return string the final filter part to use in LDAP searches
 	 * @throws DomainException
 	 */
@@ -1538,7 +1538,7 @@ class Access extends LDAPUtility {
 	 * @param string $search the search term
 	 * @param string[]|null|'' $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
-	 * did not define search attributes. Typically the display name attribute.
+	 *                                  did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
 	 */
 	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {
@@ -2009,7 +2009,7 @@ class Access extends LDAPUtility {
 				// no cookie known from a potential previous search. We need
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
-				$defaultPageSize = (int)$this->connection->ldapPagingSize;
+				$defaultPageSize = (int) $this->connection->ldapPagingSize;
 				if ($offset < $defaultPageSize) {
 					/* Make a search with offset as page size and dismiss the result, to init the cookie */
 					$this->search($filter, $base, $attr, $offset, 0, true);
@@ -2043,7 +2043,7 @@ class Access extends LDAPUtility {
 			$this->abandonPagedSearch();
 			// in case someone set it to 0 … use 500, otherwise no results will
 			// be returned.
-			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
+			$pageSize = (int) $this->connection->ldapPagingSize > 0 ? (int) $this->connection->ldapPagingSize : 500;
 			return [true, $pageSize, $this->lastCookie];
 		}
 

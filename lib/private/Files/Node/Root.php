@@ -463,7 +463,7 @@ class Root extends Folder implements IRootFolder {
 				if ($folder instanceof Folder) {
 					return $folder->getByIdInRootMount($id);
 				} else {
-					throw new \Exception("getByIdInPath with non folder");
+					throw new \Exception('getByIdInPath with non folder');
 				}
 			}
 			return [];

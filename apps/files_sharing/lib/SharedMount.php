@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -272,7 +273,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 			$row = $result->fetch();
 			$result->closeCursor();
 			if ($row) {
-				return (int)$row['storage'];
+				return (int) $row['storage'];
 			}
 			return -1;
 		}

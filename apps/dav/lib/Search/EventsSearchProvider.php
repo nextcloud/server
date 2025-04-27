@@ -149,7 +149,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		}
 		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
-			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
+			$title = (string) ($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 			$subline = $this->generateSubline($component);
 
 			if ($eventRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
@@ -164,7 +164,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 
 			if ($dtStart instanceof DateTime) {
 				$startDateTime = $dtStart->getDateTime()->format('U');
-				$result->addAttribute("createdAt", $startDateTime);
+				$result->addAttribute('createdAt', $startDateTime);
 			}
 
 			return $result;

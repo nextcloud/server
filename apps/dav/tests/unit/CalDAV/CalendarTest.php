@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -25,7 +26,7 @@ class CalendarTest extends TestCase {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var MockObject|LoggerInterface  */
+	/** @var MockObject|LoggerInterface */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -418,7 +419,7 @@ EOD;
 			$l10n->expects($this->once())
 				->method('t')
 				->with('Busy')
-				->willReturn("Translated busy");
+				->willReturn('Translated busy');
 		} else {
 			$l10n->expects($this->never())
 				->method('t');

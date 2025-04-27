@@ -85,7 +85,7 @@ class AvatarController extends Controller {
 			$response = new FileDisplayResponse(
 				$avatarFile,
 				Http::STATUS_OK,
-				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int) $avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
@@ -136,7 +136,7 @@ class AvatarController extends Controller {
 			$response = new FileDisplayResponse(
 				$avatarFile,
 				Http::STATUS_OK,
-				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int) $avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
@@ -292,7 +292,7 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_NOT_FOUND);
 		}
@@ -305,7 +305,7 @@ class AvatarController extends Controller {
 			Http::STATUS_OK,
 			['Content-Type' => $image->mimeType()]);
 
-		$resp->setETag((string)crc32($image->data() ?? ''));
+		$resp->setETag((string) crc32($image->data() ?? ''));
 		$resp->cacheFor(0);
 		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		return $resp;
@@ -315,26 +315,26 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No valid crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No valid crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
-		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
+		$image->crop($crop['x'], $crop['y'], (int) round($crop['w']), (int) round($crop['h']));
 		try {
 			$avatar = $this->avatarManager->getAvatar($this->userId);
 			$avatar->set($image);

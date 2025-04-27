@@ -31,7 +31,7 @@ use ReflectionMethod;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-	/** @var IRequest  */
+	/** @var IRequest */
 	private $request;
 	/** @var ControllerMethodReflector */
 	private $reflector;

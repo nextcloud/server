@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,7 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Message\ResponseInterface;
 
 class CardDavContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -84,11 +85,11 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			$this->response = $e->getResponse();
 		}
 
-		if ((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int) $statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
-					(int)$statusCode,
+					(int) $statusCode,
 					$this->response->getStatusCode()
 				)
 			);
@@ -137,11 +138,11 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			]
 		);
 
-		if ($this->response->getStatusCode() !== (int)$statusCode) {
+		if ($this->response->getStatusCode() !== (int) $statusCode) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
-					(int)$statusCode,
+					(int) $statusCode,
 					$this->response->getStatusCode()
 				)
 			);
@@ -336,11 +337,11 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theCarddavHttpStatusCodeShouldBe($code) {
-		if ((int)$code !== $this->response->getStatusCode()) {
+		if ((int) $code !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
-					(int)$code,
+					(int) $code,
 					$this->response->getStatusCode()
 				)
 			);

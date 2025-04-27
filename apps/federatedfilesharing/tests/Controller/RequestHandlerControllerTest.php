@@ -39,22 +39,22 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var RequestHandlerController */
 	private $requestHandler;
 
-	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $federatedShareProvider;
 
-	/** @var  \OCA\FederatedFileSharing\Notifications|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCA\FederatedFileSharing\Notifications|\PHPUnit\Framework\MockObject\MockObject */
 	private $notifications;
 
-	/** @var  \OCA\FederatedFileSharing\AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCA\FederatedFileSharing\AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
 	private $addressHandler;
 
-	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var  IShare|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IShare|\PHPUnit\Framework\MockObject\MockObject */
 	private $share;
 
-	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudIdManager;
 
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */

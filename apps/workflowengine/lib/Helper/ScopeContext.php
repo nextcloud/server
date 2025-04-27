@@ -32,10 +32,10 @@ class ScopeContext {
 
 	private function evaluateScopeId(?string $scopeId = null): string {
 		if ($this->scope === IManager::SCOPE_USER
-			&& trim((string)$scopeId) === '') {
+			&& trim((string) $scopeId) === '') {
 			throw new \InvalidArgumentException('user scope requires a user id');
 		}
-		return trim((string)$scopeId);
+		return trim((string) $scopeId);
 	}
 
 	/**

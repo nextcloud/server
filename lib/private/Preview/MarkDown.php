@@ -63,7 +63,7 @@ class MarkDown extends TXT {
 
 		$canUseTTF = function_exists('imagettftext');
 
-		$textOffset = (int)min($maxX * 0.05, $maxY * 0.05);
+		$textOffset = (int) min($maxX * 0.05, $maxY * 0.05);
 		$nextLineStart = 0;
 		$y = $textOffset;
 		foreach ($lines as $line) {
@@ -89,14 +89,14 @@ class MarkDown extends TXT {
 
 			// Add spacing before headlines
 			if ($actualFontSize !== $fontSize && $y !== $textOffset) {
-				$y += (int)($actualFontSize * 2);
+				$y += (int) ($actualFontSize * 2);
 			}
 
 			$x = $textOffset;
-			$y += (int)($nextLineStart + $actualFontSize);
+			$y += (int) ($nextLineStart + $actualFontSize);
 
 			if ($canUseTTF === true) {
-				$wordWrap = (int)((1 / $actualFontSize * 1.3) * $maxX);
+				$wordWrap = (int) ((1 / $actualFontSize * 1.3) * $maxX);
 
 				// Get rid of markdown symbols that we still needed for the font size
 				$line = preg_replace('/^#*\s/', '', $line);
@@ -104,7 +104,7 @@ class MarkDown extends TXT {
 				$wrappedText = wordwrap($line, $wordWrap, "\n");
 				$linesWrapped = count(explode("\n", $wrappedText));
 				imagettftext($image, $actualFontSize, 0, $x, $y, $textColor, $actualFontSize === $fontSize ? $fontFile : $fontFileBold, $wrappedText);
-				$nextLineStart = (int)($linesWrapped * ceil($actualFontSize * 2));
+				$nextLineStart = (int) ($linesWrapped * ceil($actualFontSize * 2));
 				if ($actualFontSize !== $fontSize && $y !== $textOffset) {
 					$nextLineStart -= $actualFontSize;
 				}

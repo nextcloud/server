@@ -16,7 +16,7 @@ use OCP\DB\ISchemaWrapper;
 abstract class BigIntMigration extends SimpleMigrationStep {
 	/**
 	 * @return array Returns an array with the following structure
-	 * ['table1' => ['column1', 'column2'], ...]
+	 *               ['table1' => ['column1', 'column2'], ...]
 	 * @since 13.0.0
 	 */
 	abstract protected function getColumnsByTable();

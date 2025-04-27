@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -1180,7 +1181,7 @@ class ViewTest extends \Test\TestCase {
 			->getMock();
 
 		$storage2->method('writeStream')
-			->willThrowException(new GenericFileException("Failed to copy stream"));
+			->willThrowException(new GenericFileException('Failed to copy stream'));
 
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
@@ -1877,7 +1878,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param int $expectedLockDuring expected lock during operation
 	 * @param int $expectedLockAfter expected lock during post hooks
 	 * @param int $expectedStrayLock expected lock after returning, should
-	 * be null (unlock) for most operations
+	 *                               be null (unlock) for most operations
 	 */
 	public function testLockBasicOperation(
 		$operation,
@@ -2032,7 +2033,7 @@ class ViewTest extends \Test\TestCase {
 		$path
 	) {
 		if ($operation === 'touch') {
-			$this->markTestSkipped("touch handles storage exceptions internally");
+			$this->markTestSkipped('touch handles storage exceptions internally');
 		}
 		$view = new View('/' . $this->user . '/files/');
 
@@ -2152,7 +2153,7 @@ class ViewTest extends \Test\TestCase {
 	 *
 	 * @param string $operation operation to be done on the view
 	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
-	 * the operation
+	 *                                          the operation
 	 */
 	public function testLockFileRename($operation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
@@ -2337,7 +2338,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $viewOperation operation to be done on the view
 	 * @param string $storageOperation operation to be mocked on the storage
 	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
-	 * the operation
+	 *                                          the operation
 	 */
 	public function testLockFileRenameCrossStorage($viewOperation, $storageOperation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
@@ -2476,7 +2477,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param int $lockTypePre variable to receive lock type that was active in the pre-hook
 	 * @param int $lockTypePost variable to receive lock type that was active in the post-hook
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 */
 	private function connectMockHooks($hookType, $view, $path, &$lockTypePre, &$lockTypePost, $onMountPoint = false) {
 		if ($hookType === null) {
@@ -2524,7 +2525,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param View $view view
 	 * @param string $path path
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 *
 	 * @return int lock type or null if file was not locked
 	 */

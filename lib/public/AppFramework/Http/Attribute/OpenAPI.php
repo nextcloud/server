@@ -60,12 +60,12 @@ class OpenAPI {
 
 	/**
 	 * @param self::SCOPE_*|string $scope Scopes are used to define different clients.
-	 *   It is recommended to go with the scopes available as self::SCOPE_* constants,
-	 *   but in exotic cases other APIs might need documentation as well,
-	 *   then a free string can be provided (but it should be `a-z` only).
+	 *                                    It is recommended to go with the scopes available as self::SCOPE_* constants,
+	 *                                    but in exotic cases other APIs might need documentation as well,
+	 *                                    then a free string can be provided (but it should be `a-z` only).
 	 * @param ?list<string> $tags Tags can be used to group routes inside a scope
-	 *   for easier implementation and reviewing of the API specification.
-	 *   It defaults to the controller name in snake_case (should be `a-z` and underscore only).
+	 *                            for easier implementation and reviewing of the API specification.
+	 *                            It defaults to the controller name in snake_case (should be `a-z` and underscore only).
 	 * @since 28.0.0
 	 */
 	public function __construct(

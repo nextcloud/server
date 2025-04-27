@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -285,7 +286,7 @@ class Provider implements IProvider {
 	protected function getFileParameter($id, $path) {
 		return [
 			'type' => 'file',
-			'id' => (string)$id,
+			'id' => (string) $id,
 			'name' => basename($path),
 			'path' => trim($path, '/'),
 		];
@@ -305,7 +306,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'systemtag',
-			'id' => (string)$tagData['id'],
+			'id' => (string) $tagData['id'],
 			'name' => $tagData['name'],
 			'assignable' => $tagData['assignable'] ? '1' : '0',
 			'visibility' => $tagData['visible'] ? '1' : '0',

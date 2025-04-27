@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -75,7 +76,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 	public function testNotifyGetChanges() {
 		$lastError = null;
-		for($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < 5; $i++) {
 			try {
 				$this->tryTestNotifyGetChanges();
 				return;

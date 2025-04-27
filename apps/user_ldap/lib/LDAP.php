@@ -293,7 +293,7 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
-		if(strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
+		if (strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
 			// The arguments are not key value pairs
 			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
 			// Remove it via direct array access for now, although a better solution could be found mebbe?
@@ -312,8 +312,8 @@ class LDAP implements ILDAPWrapper {
 				if ($this->isResource($item)) {
 					return '(resource)';
 				}
-				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== "") {
-					$item[0]['value']['cookie'] = "*opaque cookie*";
+				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== '') {
+					$item[0]['value']['cookie'] = '*opaque cookie*';
 				}
 				return $item;
 			}, $this->curArgs);

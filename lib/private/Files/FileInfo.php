@@ -134,7 +134,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int|null
 	 */
 	public function getId() {
-		return isset($this->data['fileid']) ? (int)  $this->data['fileid'] : null;
+		return isset($this->data['fileid']) ? (int) $this->data['fileid'] : null;
 	}
 
 	/**

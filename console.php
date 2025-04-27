@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 define('OC_CONSOLE', 1);
 
 function exceptionHandler($exception) {
-	echo "An unhandled exception has been thrown:" . PHP_EOL;
+	echo 'An unhandled exception has been thrown:' . PHP_EOL;
 	echo $exception;
 	exit(1);
 }
@@ -33,7 +33,7 @@ try {
 	}
 
 	if (!OC::$CLI) {
-		echo "This script can be run from the command line only" . PHP_EOL;
+		echo 'This script can be run from the command line only' . PHP_EOL;
 		exit(1);
 	}
 
@@ -41,16 +41,16 @@ try {
 	set_exception_handler('exceptionHandler');
 
 	if (!function_exists('posix_getuid')) {
-		echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
+		echo 'The posix extensions are required - see https://www.php.net/manual/en/book.posix.php' . PHP_EOL;
 		exit(1);
 	}
 
 	$user = posix_getuid();
 	$configUser = fileowner(OC::$configDir . 'config.php');
 	if ($user !== $configUser) {
-		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-		echo "Current user id: " . $user . PHP_EOL;
-		echo "Owner id of config.php: " . $configUser . PHP_EOL;
+		echo 'Console has to be executed with the user that owns the file config/config.php' . PHP_EOL;
+		echo 'Current user id: ' . $user . PHP_EOL;
+		echo 'Owner id of config.php: ' . $configUser . PHP_EOL;
 		echo "Try adding 'sudo -u #" . $configUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
 		echo "If running with 'docker exec' try adding the option '-u " . $configUser . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
@@ -58,16 +58,16 @@ try {
 
 	$oldWorkingDir = getcwd();
 	if ($oldWorkingDir === false) {
-		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
+		echo 'This script can be run from the Nextcloud root directory only.' . PHP_EOL;
 		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
 	} elseif ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
-		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
+		echo 'This script can be run from the Nextcloud root directory only.' . PHP_EOL;
 		echo "Can't change to Nextcloud root directory." . PHP_EOL;
 		exit(1);
 	}
 
 	if (!(function_exists('pcntl_signal') && function_exists('pcntl_signal_dispatch')) && !in_array('--no-warnings', $argv)) {
-		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see https://www.php.net/manual/en/book.pcntl.php" . PHP_EOL;
+		echo 'The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see https://www.php.net/manual/en/book.pcntl.php' . PHP_EOL;
 		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 

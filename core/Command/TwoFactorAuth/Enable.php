@@ -38,14 +38,14 @@ class Enable extends Base {
 		$providerId = $input->getArgument('provider_id');
 		$user = $this->userManager->get($uid);
 		if (is_null($user)) {
-			$output->writeln("<error>Invalid UID</error>");
+			$output->writeln('<error>Invalid UID</error>');
 			return 1;
 		}
 		if ($this->manager->tryEnableProviderFor($providerId, $user)) {
 			$output->writeln("Two-factor provider <options=bold>$providerId</> enabled for user <options=bold>$uid</>.");
 			return 0;
 		} else {
-			$output->writeln("<error>The provider does not support this operation.</error>");
+			$output->writeln('<error>The provider does not support this operation.</error>');
 			return 2;
 		}
 	}

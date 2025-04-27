@@ -23,7 +23,7 @@ interface IProvider {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string					id of this provider (e.g. UUID or 'IMAP/SMTP' or anything else)
+	 * @return string id of this provider (e.g. UUID or 'IMAP/SMTP' or anything else)
 	 */
 	public function id(): string;
 
@@ -32,7 +32,7 @@ interface IProvider {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string					label/name of this provider (e.g. Plain Old IMAP/SMTP)
+	 * @return string label/name of this provider (e.g. Plain Old IMAP/SMTP)
 	 */
 	public function label(): string;
 
@@ -41,20 +41,20 @@ interface IProvider {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
+	 * @param string $userId user id
 	 *
-	 * @return bool 					true if any services are configure for the user
+	 * @return bool true if any services are configure for the user
 	 */
 	public function hasServices(string $userId): bool;
 
 	/**
 	 * retrieve collection of services for a specific user
 	 *
-	 * @param string $userId			user id
+	 * @param string $userId user id
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<string,IService>	collection of service id and object ['1' => IServiceObject]
+	 * @return array<string,IService> collection of service id and object ['1' => IServiceObject]
 	 */
 	public function listServices(string $userId): array;
 
@@ -63,31 +63,31 @@ interface IProvider {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
-	 * @param string $serviceId			service id
+	 * @param string $userId user id
+	 * @param string $serviceId service id
 	 *
-	 * @return IService|null			returns service object or null if none found
+	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceById(string $userId, string $serviceId): IService | null;
+	public function findServiceById(string $userId, string $serviceId): IService|null;
 
 	/**
 	 * retrieve a service for a specific mail address
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $userId			user id
-	 * @param string $address			mail address (e.g. test@example.com)
+	 * @param string $userId user id
+	 * @param string $address mail address (e.g. test@example.com)
 	 *
-	 * @return IService|null			returns service object or null if none found
+	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceByAddress(string $userId, string $address): IService | null;
+	public function findServiceByAddress(string $userId, string $address): IService|null;
 
 	/**
 	 * construct a new empty service object
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return IService					blank service object
+	 * @return IService blank service object
 	 */
 	public function initiateService(): IService;
 

@@ -116,7 +116,7 @@ class Notifications {
 		];
 
 		$ocmFields = $fields;
-		$ocmFields['remoteId'] = (string)$id;
+		$ocmFields['remoteId'] = (string) $id;
 		$ocmFields['localId'] = $shareId;
 		$ocmFields['name'] = $filename;
 
@@ -286,7 +286,7 @@ class Notifications {
 	 * @return array
 	 * @throws \Exception
 	 */
-	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields, $action = "share") {
+	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields, $action = 'share') {
 		if ($this->addressHandler->urlContainProtocol($remoteDomain) === false) {
 			$remoteDomain = 'https://' . $remoteDomain;
 		}

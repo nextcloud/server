@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,7 +25,7 @@ class EnablePluginTest extends TestCase {
 	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
 	protected $birthdayService;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
 	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */

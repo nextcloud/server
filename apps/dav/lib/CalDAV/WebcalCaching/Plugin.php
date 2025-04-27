@@ -28,9 +28,9 @@ class Plugin extends ServerPlugin {
 	 * @var string[]
 	 */
 	public const ENABLE_FOR_CLIENTS = [
-		"/^MSFT-WIN-3/",
-		"/Evolution/",
-		"/KIO/"
+		'/^MSFT-WIN-3/',
+		'/Evolution/',
+		'/KIO/'
 	];
 
 	/**

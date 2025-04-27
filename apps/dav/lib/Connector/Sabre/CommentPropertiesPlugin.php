@@ -59,14 +59,14 @@ class CommentPropertiesPlugin extends ServerPlugin {
 				continue;
 			}
 
-			$ids[] = (string)$id;
+			$ids[] = (string) $id;
 		}
 
 		$ids[] = (string) $directory->getId();
 		$unread = $this->commentsManager->getNumberOfUnreadCommentsForObjects('files', $ids, $this->userSession->getUser());
 
 		foreach ($unread as $id => $count) {
-			$this->cachedUnreadCount[(int)$id] = $count;
+			$this->cachedUnreadCount[(int) $id] = $count;
 		}
 	}
 
@@ -95,7 +95,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		}
 
 		$propFind->handle(self::PROPERTY_NAME_COUNT, function () use ($node): int {
-			return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId());
+			return $this->commentsManager->getNumberOfCommentsForObject('files', (string) $node->getId());
 		});
 
 		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node): ?string {
@@ -117,7 +117,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			// in case we end up somewhere else, unexpectedly.
 			return null;
 		}
-		$commentsPart = 'dav/comments/files/' . rawurldecode((string)$node->getId());
+		$commentsPart = 'dav/comments/files/' . rawurldecode((string) $node->getId());
 		return substr_replace($href, $commentsPart, $entryPoint + strlen('/remote.php/'));
 	}
 
@@ -131,8 +131,8 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return null;
 		}
 
-		$lastRead = $this->commentsManager->getReadMark('files', (string)$node->getId(), $user);
+		$lastRead = $this->commentsManager->getReadMark('files', (string) $node->getId(), $user);
 
-		return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId(), $lastRead);
+		return $this->commentsManager->getNumberOfCommentsForObject('files', (string) $node->getId(), $lastRead);
 	}
 }

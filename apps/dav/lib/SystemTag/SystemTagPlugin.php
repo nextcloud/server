@@ -173,11 +173,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		$userAssignable = true;
 
 		if (isset($data['userVisible'])) {
-			$userVisible = (bool)$data['userVisible'];
+			$userVisible = (bool) $data['userVisible'];
 		}
 
 		if (isset($data['userAssignable'])) {
-			$userAssignable = (bool)$data['userAssignable'];
+			$userAssignable = (bool) $data['userAssignable'];
 		}
 
 		$groups = [];

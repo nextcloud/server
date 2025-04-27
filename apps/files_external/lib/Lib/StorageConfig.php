@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -204,7 +205,7 @@ class StorageConfig implements \JsonSerializable {
 				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
 						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
-							$value = (bool)$value;
+							$value = (bool) $value;
 							break;
 					}
 					$backendOptions[$key] = $value;

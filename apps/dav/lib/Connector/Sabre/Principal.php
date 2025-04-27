@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -180,7 +181,7 @@ class Principal implements BackendInterface {
 		} elseif ($prefix === 'principals/system') {
 			return [
 				'uri' => 'principals/system/' . $name,
-				'{DAV:}displayname' => $this->languageFactory->get('dav')->t("Accounts"),
+				'{DAV:}displayname' => $this->languageFactory->get('dav')->t('Accounts'),
 			];
 		}
 		return null;

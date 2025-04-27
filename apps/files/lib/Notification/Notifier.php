@@ -275,7 +275,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 
 		// TODO: This should all be moved to a service that also the transferownershipController uses.
 		try {
-			$transferOwnership = $this->mapper->getById((int)$notification->getObjectId());
+			$transferOwnership = $this->mapper->getById((int) $notification->getObjectId());
 		} catch (DoesNotExistException $e) {
 			return;
 		}
@@ -295,7 +295,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 				'targetUser' => $transferOwnership->getTargetUser(),
 				'nodeName' => $transferOwnership->getNodeName()
 			])
-			->setObject('transfer', (string)$transferOwnership->getId());
+			->setObject('transfer', (string) $transferOwnership->getId());
 		$this->notificationManager->notify($notification);
 
 		$this->mapper->delete($transferOwnership);

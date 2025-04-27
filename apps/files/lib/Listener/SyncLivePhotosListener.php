@@ -94,7 +94,7 @@ class SyncLivePhotosListener implements IEventListener {
 		$targetName = $targetFile->getName();
 		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
-		if (!str_ends_with($targetName, "." . $sourceExtension)) {
+		if (!str_ends_with($targetName, '.' . $sourceExtension)) {
 			throw new AbortedEventException('Cannot change the extension of a Live Photo');
 		}
 
@@ -165,12 +165,12 @@ class SyncLivePhotosListener implements IEventListener {
 		/** @var FilesMetadata $targetMetadata */
 		$targetMetadata = $this->filesMetadataManager->getMetadata($targetFile->getId(), true);
 		$targetMetadata->setStorageId($targetFile->getStorage()->getCache()->getNumericStorageId());
-		$targetMetadata->setString('files-live-photo', (string)$targetPeerFile->getId());
+		$targetMetadata->setString('files-live-photo', (string) $targetPeerFile->getId());
 		$this->filesMetadataManager->saveMetadata($targetMetadata);
 		/** @var FilesMetadata $peerMetadata */
 		$peerMetadata = $this->filesMetadataManager->getMetadata($targetPeerFile->getId(), true);
 		$peerMetadata->setStorageId($targetPeerFile->getStorage()->getCache()->getNumericStorageId());
-		$peerMetadata->setString('files-live-photo', (string)$targetFile->getId());
+		$peerMetadata->setString('files-live-photo', (string) $targetFile->getId());
 		$this->filesMetadataManager->saveMetadata($peerMetadata);
 	}
 
@@ -188,7 +188,7 @@ class SyncLivePhotosListener implements IEventListener {
 				unset($this->pendingDeletion[$peerFile->getId()]);
 				return;
 			} else {
-				throw new AbortedEventException("Cannot delete the video part of a live photo");
+				throw new AbortedEventException('Cannot delete the video part of a live photo');
 			}
 		} else {
 			$this->pendingDeletion[$deletedFile->getId()] = true;

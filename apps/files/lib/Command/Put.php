@@ -29,8 +29,8 @@ class Put extends Command {
 		$this
 			->setName('files:put')
 			->setDescription('Write contents of a file')
-			->addArgument('input', InputArgument::REQUIRED, "Source local path, use - to read from STDIN")
-			->addArgument('file', InputArgument::REQUIRED, "Target Nextcloud file path to write to or fileid of existing file");
+			->addArgument('input', InputArgument::REQUIRED, 'Source local path, use - to read from STDIN')
+			->addArgument('file', InputArgument::REQUIRED, 'Target Nextcloud file path to write to or fileid of existing file');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {

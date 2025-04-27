@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,9 +29,9 @@ class OrEqualsToInTest extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path eq "bar" or path eq "asd")', $operator->__toString());
@@ -45,11 +46,11 @@ class OrEqualsToInTest extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "fileid", 1),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "fileid", 2),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'fileid', 1),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'fileid', 2),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'asd'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path eq "bar" or fileid eq 1 or fileid eq 2 or mimetype eq "asd")', $operator->__toString());
@@ -64,9 +65,9 @@ class OrEqualsToInTest extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 			]
 		);
 		foreach ($operator->getArguments() as $argument) {
@@ -85,9 +86,9 @@ class OrEqualsToInTest extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, "path", "foo%"),
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', 'foo%'),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
 			]
 		);
 		$this->assertEquals('(path eq "foo" or path like "foo%" or path eq "bar")', $operator->__toString());
@@ -102,13 +103,13 @@ class OrEqualsToInTest extends TestCase {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "mimetype", "text"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'text'),
 				new SearchBinaryOperator(
 					ISearchBinaryOperator::OPERATOR_OR,
 					[
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 					]
 				)
 			]

@@ -55,9 +55,9 @@ class Dispatcher {
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
-	 * runs the middleware
+	 *                                                   runs the middleware
 	 * @param ControllerMethodReflector $reflector the reflector that is used to inject
-	 * the arguments for the controller
+	 *                                             the arguments for the controller
 	 * @param IRequest $request the incoming request
 	 * @param IConfig $config
 	 * @param ConnectionAdapter $connection
@@ -89,10 +89,10 @@ class Dispatcher {
 	 * Handles a request and calls the dispatcher on the controller
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
-	 * the controller
+	 *                           the controller
 	 * @return array $array[0] contains a string with the http main header,
-	 * $array[1] contains headers in the form: $key => value, $array[2] contains
-	 * the response output
+	 *               $array[1] contains headers in the form: $key => value, $array[2] contains
+	 *               the response output
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {

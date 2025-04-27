@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -170,8 +171,8 @@ class Imaginary extends ProviderV2 {
 			$image = new StreamImage(
 				$response->getBody(),
 				$response->getHeader('Content-Type'),
-				(int)$response->getHeader('Image-Width'),
-				(int)$response->getHeader('Image-Height'),
+				(int) $response->getHeader('Image-Width'),
+				(int) $response->getHeader('Image-Height'),
 			);
 		} else {
 			$image = new Image();

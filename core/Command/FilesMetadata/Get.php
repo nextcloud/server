@@ -31,35 +31,35 @@ class Get extends Command {
 
 	protected function configure(): void {
 		$this->setName('metadata:get')
-			 ->setDescription('get stored metadata about a file, by its id')
-			 ->addArgument(
-			 	'fileId',
-			 	InputArgument::REQUIRED,
-			 	'id of the file document'
-			 )
-			 ->addArgument(
-			 	'userId',
-			 	InputArgument::OPTIONAL,
-			 	'file owner'
-			 )
-			 ->addOption(
-			 	'as-array',
-			 	'',
-			 	InputOption::VALUE_NONE,
-			 	'display metadata as a simple key=>value array'
-			 )
-			 ->addOption(
-			 	'refresh',
-			 	'',
-			 	InputOption::VALUE_NONE,
-			 	'refresh metadata'
-			 )
-			 ->addOption(
-			 	'reset',
-			 	'',
-			 	InputOption::VALUE_NONE,
-			 	'refresh metadata from scratch'
-			 );
+			->setDescription('get stored metadata about a file, by its id')
+			->addArgument(
+				'fileId',
+				InputArgument::REQUIRED,
+				'id of the file document'
+			)
+			->addArgument(
+				'userId',
+				InputArgument::OPTIONAL,
+				'file owner'
+			)
+			->addOption(
+				'as-array',
+				'',
+				InputOption::VALUE_NONE,
+				'display metadata as a simple key=>value array'
+			)
+			->addOption(
+				'refresh',
+				'',
+				InputOption::VALUE_NONE,
+				'refresh metadata'
+			)
+			->addOption(
+				'reset',
+				'',
+				InputOption::VALUE_NONE,
+				'refresh metadata from scratch'
+			);
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Get extends Command {
 	 * @throws NotFoundException
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$fileId = (int)$input->getArgument('fileId');
+		$fileId = (int) $input->getArgument('fileId');
 
 		if ($input->getOption('reset')) {
 			$this->filesMetadataManager->deleteMetadata($fileId);

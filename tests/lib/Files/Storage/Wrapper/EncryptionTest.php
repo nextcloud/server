@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -105,11 +106,11 @@ class EncryptionTest extends Storage {
 	 */
 	private $config;
 
-	/** @var  \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
 
-	/** @var  integer dummy unencrypted size */
+	/** @var integer dummy unencrypted size */
 	private $dummySize = -1;
 
 	protected function setUp(): void {
@@ -307,7 +308,7 @@ class EncryptionTest extends Storage {
 
 		$result = $this->instance->getMetaData($path);
 		if (isset($expected['encrypted'])) {
-			$this->assertSame($expected['encrypted'], (bool)$result['encrypted']);
+			$this->assertSame($expected['encrypted'], (bool) $result['encrypted']);
 
 			if (isset($expected['encryptedVersion'])) {
 				$this->assertSame($expected['encryptedVersion'], $result['encryptedVersion']);

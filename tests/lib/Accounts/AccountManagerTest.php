@@ -1029,7 +1029,7 @@ class AccountManagerTest extends TestCase {
 		$result = $this->invokePrivate($this->accountManager, 'buildDefaultUserRecord', [$user]);
 		$resultProperties = array_column($result, 'name');
 
-		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), "Building default user record returned non-allowed properties");
+		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), 'Building default user record returned non-allowed properties');
 		foreach ($expectedResultScopes as $expectedResultScopeKey => $expectedResultScopeValue) {
 			$resultScope = $result[array_search($expectedResultScopeKey, $resultProperties)]['scope'];
 			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");

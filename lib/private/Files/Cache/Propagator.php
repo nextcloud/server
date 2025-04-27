@@ -64,7 +64,7 @@ class Propagator implements IPropagator {
 			}
 		}
 
-		$time = min((int)$time, $this->clock->now()->getTimestamp());
+		$time = min((int) $time, $this->clock->now()->getTimestamp());
 
 		$storageId = $this->storage->getStorageCache()->getNumericId();
 
@@ -188,7 +188,7 @@ class Propagator implements IPropagator {
 		$this->connection->beginTransaction();
 
 		$query = $this->connection->getQueryBuilder();
-		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+		$storageId = (int) $this->storage->getStorageCache()->getNumericId();
 
 		$query->update('filecache')
 			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))

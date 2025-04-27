@@ -30,7 +30,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
 	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
-	/** @var  IComment */
+	/** @var IComment */
 	public $comment;
 
 	/** @var ICommentsManager */

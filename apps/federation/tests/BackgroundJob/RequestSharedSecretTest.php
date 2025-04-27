@@ -50,7 +50,7 @@ class RequestSharedSecretTest extends TestCase {
 	/** @var MockObject|ITimeFactory */
 	private $timeFactory;
 
-	/** @var  RequestSharedSecret */
+	/** @var RequestSharedSecret */
 	private $requestSharedSecret;
 
 	protected function setUp(): void {

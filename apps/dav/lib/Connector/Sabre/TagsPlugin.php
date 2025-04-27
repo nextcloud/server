@@ -117,7 +117,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param integer $fileId file id
 	 * @return array list($tags, $favorite) with $tags as tag array
-	 * and $favorite is a boolean whether the file was favorited
+	 *               and $favorite is a boolean whether the file was favorited
 	 */
 	private function getTagsAndFav($fileId) {
 		$isFav = false;
@@ -203,9 +203,9 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			)) {
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $node->getChildren();
-			$fileIds[] = (int)$node->getId();
+			$fileIds[] = (int) $node->getId();
 			foreach ($folderContent as $info) {
-				$fileIds[] = (int)$info->getId();
+				$fileIds[] = (int) $info->getId();
 			}
 			$tags = $this->getTagger()->getTagsForObjects($fileIds);
 			if ($tags === false) {
@@ -260,7 +260,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		});
 
 		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node) {
-			if ((int)$favState === 1 || $favState === 'true') {
+			if ((int) $favState === 1 || $favState === 'true') {
 				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
 			} else {
 				$this->getTagger()->unTag($node->getId(), self::TAG_FAVORITE);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -64,8 +65,8 @@ class MountPublicLinkController extends Controller {
 	 * @param string $token Token of the share
 	 * @param string $password Password of the share
 	 * @return JSONResponse<Http::STATUS_OK, array{remoteUrl: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
-	 * 200: Remote URL returned
-	 * 400: Creating share is not possible
+	 *                                                                                                                                                  200: Remote URL returned
+	 *                                                                                                                                                  400: Creating share is not possible
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]

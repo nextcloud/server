@@ -109,7 +109,7 @@ class DnsPinMiddleware {
 					return $handler($request, $options);
 				}
 
-				$hostName = (string)$request->getUri()->getHost();
+				$hostName = (string) $request->getUri()->getHost();
 				$port = $request->getUri()->getPort();
 
 				$ports = [
@@ -118,7 +118,7 @@ class DnsPinMiddleware {
 				];
 
 				if ($port !== null) {
-					$ports[] = (string)$port;
+					$ports[] = (string) $port;
 				}
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);

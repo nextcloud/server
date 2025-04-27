@@ -95,7 +95,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
 			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
-			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
+			$title = (string) ($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 			$subline = $this->generateSubline($component);
 
 			if ($taskRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {

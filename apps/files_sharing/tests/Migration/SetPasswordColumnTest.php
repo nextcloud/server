@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -93,7 +94,7 @@ class SetPasswordColumnTest extends TestCase {
 		$result->closeCursor();
 
 		foreach ($allShares as $share) {
-			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
+			if ((int) $share['share_type'] === IShare::TYPE_LINK) {
 				$this->assertNull($share['share_with']);
 				$this->assertSame('shareWith', $share['password']);
 			} else {

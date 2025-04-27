@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -128,9 +129,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]["Key"] = $key;
+			$this->objectCache[$key]['Key'] = $key;
 		}
 		return $this->objectCache[$key];
 	}
@@ -340,12 +341,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private function getContentLength($path) {
 		if (isset($this->filesCache[$path])) {
-			return (int)$this->filesCache[$path]['ContentLength'];
+			return (int) $this->filesCache[$path]['ContentLength'];
 		}
 
 		$result = $this->headObject($path);
 		if (isset($result['ContentLength'])) {
-			return (int)$result['ContentLength'];
+			return (int) $result['ContentLength'];
 		}
 
 		return 0;
@@ -690,7 +691,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'storage_mtime' => strtotime($object['LastModified']),
 			'etag' => trim($object['ETag'], '"'),
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
-			'size' => (int)($object['Size'] ?? $object['ContentLength']),
+			'size' => (int) ($object['Size'] ?? $object['ContentLength']),
 		];
 	}
 
@@ -766,7 +767,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		if (!is_resource($stream)) {
-			throw new \InvalidArgumentException("Invalid stream provided");
+			throw new \InvalidArgumentException('Invalid stream provided');
 		}
 
 		$path = $this->normalizePath($path);

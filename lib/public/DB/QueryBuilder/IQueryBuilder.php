@@ -71,7 +71,7 @@ interface IQueryBuilder {
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
 	 * @param bool $enabled If set to true table names will be prefixed with the
-	 * owncloud database prefix automatically.
+	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
 	public function automaticTablePrefix($enabled);

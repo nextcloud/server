@@ -194,7 +194,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		if ($user->getUsername() !== false && $this->access->setPassword($user->getDN(), $password)) {
 			$ldapDefaultPPolicyDN = $this->access->connection->ldapDefaultPPolicyDN;
 			$turnOnPasswordChange = $this->access->connection->turnOnPasswordChange;
-			if (!empty($ldapDefaultPPolicyDN) && ((int)$turnOnPasswordChange === 1)) {
+			if (!empty($ldapDefaultPPolicyDN) && ((int) $turnOnPasswordChange === 1)) {
 				//remove last password expiry warning if any
 				$notification = $this->notificationManager->createNotification();
 				$notification->setApp('user_ldap')
@@ -261,7 +261,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * checks whether a user is still available on LDAP
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 * name or an instance of that user
+	 *                                              name or an instance of that user
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -277,7 +277,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		if (!$ignoreCache) {
 			$userExists = $this->access->connection->getFromCache($cacheKey);
 			if (!is_null($userExists)) {
-				return (bool)$userExists;
+				return (bool) $userExists;
 			}
 		}
 
@@ -322,7 +322,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	public function userExists($uid) {
 		$userExists = $this->access->connection->getFromCache('userExists'.$uid);
 		if (!is_null($userExists)) {
-			return (bool)$userExists;
+			return (bool) $userExists;
 		}
 		$userExists = $this->access->userManager->exists($uid);
 
@@ -465,7 +465,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
-				/** @var OfflineUser $user*/
+				/** @var OfflineUser $user */
 				$displayName = $user->getDisplayName();
 			}
 			return $displayName;
@@ -521,12 +521,12 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 */
 	public function implementsActions($actions) {
-		return (bool)((Backend::CHECK_PASSWORD
+		return (bool) ((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
 			| Backend::GET_DISPLAYNAME
 			| (($this->access->connection->ldapUserAvatarRule !== 'none') ? Backend::PROVIDE_AVATAR : 0)
 			| Backend::COUNT_USERS
-			| (((int)$this->access->connection->turnOnPasswordChange === 1)? Backend::SET_PASSWORD :0)
+			| (((int) $this->access->connection->turnOnPasswordChange === 1)? Backend::SET_PASSWORD :0)
 			| $this->userPluginManager->getImplementedActions())
 			& $actions);
 	}
@@ -622,7 +622,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 						);
 					}
 				} else {
-					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+					throw new \UnexpectedValueException('LDAP Plugin: Method createUser changed to return the user DN instead of boolean.');
 				}
 			}
 			return (bool) $dn;
@@ -631,7 +631,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	}
 
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
-		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
+		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int) $this->access->connection->markRemnantsAsDisabled === 1)) {
 			return false;
 		} else {
 			return $queryDatabaseValue();

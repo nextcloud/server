@@ -25,15 +25,15 @@ class Get extends Command {
 		$this
 			->setName('files:object:get')
 			->setDescription('Get the contents of an object')
-			->addArgument('object', InputArgument::REQUIRED, "Object to get")
-			->addArgument('output', InputArgument::REQUIRED, "Target local file to output to, use - for STDOUT")
+			->addArgument('object', InputArgument::REQUIRED, 'Object to get')
+			->addArgument('output', InputArgument::REQUIRED, 'Target local file to output to, use - for STDOUT')
 			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to get the object from, only required in cases where it can't be determined from the config");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$object = $input->getArgument('object');
 		$outputName = $input->getArgument('output');
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption("bucket"), $output);
+		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
 		if (!$objectStore) {
 			return self::FAILURE;
 		}

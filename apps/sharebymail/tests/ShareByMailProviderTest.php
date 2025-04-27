@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,46 +42,46 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var IConfig */
 	private $config;
 
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 
-	/** @var  LoggerInterface | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
-	/** @var  IMailer | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMailer | \PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 
-	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IShare | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IShare | \PHPUnit\Framework\MockObject\MockObject */
 	private $share;
 
-	/** @var  \OCP\Activity\IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCP\Activity\IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $activityManager;
 
-	/** @var  SettingsManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var SettingsManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $settingsManager;
 
 	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
 
-	/** @var  IHasher | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IHasher | \PHPUnit\Framework\MockObject\MockObject */
 	private $hasher;
 
 	/** @var IEventDispatcher */
@@ -738,17 +739,17 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertSame(1, count($result));
 
-		$this->assertSame($itemSource, (int)$result[0]['item_source']);
+		$this->assertSame($itemSource, (int) $result[0]['item_source']);
 		$this->assertSame($itemType, $result[0]['item_type']);
 		$this->assertSame($shareWith, $result[0]['share_with']);
 		$this->assertSame($sharedBy, $result[0]['uid_initiator']);
 		$this->assertSame($uidOwner, $result[0]['uid_owner']);
-		$this->assertSame($permissions, (int)$result[0]['permissions']);
+		$this->assertSame($permissions, (int) $result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
 		$this->assertSame($password, $result[0]['password']);
 		$this->assertSame($passwordExpirationTime->getTimestamp(), \DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['password_expiration_time'])->getTimestamp());
-		$this->assertSame($sendPasswordByTalk, (bool)$result[0]['password_by_talk']);
-		$this->assertSame($hideDownload, (bool)$result[0]['hide_download']);
+		$this->assertSame($sendPasswordByTalk, (bool) $result[0]['password_by_talk']);
+		$this->assertSame($hideDownload, (bool) $result[0]['hide_download']);
 		$this->assertSame($label, $result[0]['label']);
 		$this->assertSame($expiration->getTimestamp(), \DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['expiration'])->getTimestamp());
 	}
@@ -791,12 +792,12 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertSame(1, count($result));
 
-		$this->assertSame($itemSource, (int)$result[0]['item_source']);
+		$this->assertSame($itemSource, (int) $result[0]['item_source']);
 		$this->assertSame($itemType, $result[0]['item_type']);
 		$this->assertSame($shareWith, $result[0]['share_with']);
 		$this->assertSame($sharedBy, $result[0]['uid_initiator']);
 		$this->assertSame($uidOwner, $result[0]['uid_owner']);
-		$this->assertSame($permissions + 1, (int)$result[0]['permissions']);
+		$this->assertSame($permissions + 1, (int) $result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
 		$this->assertSame($note, $result[0]['note']);
 	}
@@ -883,7 +884,7 @@ class ShareByMailProviderTest extends TestCase {
 		$permissions = 1;
 		$token = 'token';
 
-		$this->createDummyShare($itemType, $itemSource, $shareWith, "user1wrong", "user2wrong", $permissions, $token);
+		$this->createDummyShare($itemType, $itemSource, $shareWith, 'user1wrong', 'user2wrong', $permissions, $token);
 		$id2 = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
 		$instance->expects($this->once())->method('createShareObject')
@@ -891,7 +892,7 @@ class ShareByMailProviderTest extends TestCase {
 				function ($data) use ($uidOwner, $sharedBy, $id2) {
 					$this->assertSame($uidOwner, $data['uid_owner']);
 					$this->assertSame($sharedBy, $data['uid_initiator']);
-					$this->assertSame($id2, (int)$data['id']);
+					$this->assertSame($id2, (int) $data['id']);
 					return $this->share;
 				}
 			);
@@ -943,7 +944,7 @@ class ShareByMailProviderTest extends TestCase {
 				function ($data) use ($uidOwner, $sharedBy, $id) {
 					$this->assertSame($uidOwner, $data['uid_owner']);
 					$this->assertSame($sharedBy, $data['uid_initiator']);
-					$this->assertSame($id, (int)$data['id']);
+					$this->assertSame($id, (int) $data['id']);
 					return $this->share;
 				}
 			);
@@ -974,7 +975,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createShareObject')
 			->willReturnCallback(
 				function ($data) use ($idMail) {
-					$this->assertSame($idMail, (int)$data['id']);
+					$this->assertSame($idMail, (int) $data['id']);
 					return $this->share;
 				}
 			);
@@ -1000,7 +1001,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", '', IShare::TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, 'token2', '', IShare::TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -1083,7 +1084,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertTrue(is_array($after));
 		$this->assertSame(1, count($after));
-		$this->assertSame($id, (int)$after[0]['id']);
+		$this->assertSame($id, (int) $after[0]['id']);
 	}
 
 	public function testGetRawShare() {
@@ -1102,12 +1103,12 @@ class ShareByMailProviderTest extends TestCase {
 		$result = $this->invokePrivate($instance, 'getRawShare', [$id]);
 
 		$this->assertTrue(is_array($result));
-		$this->assertSame($itemSource, (int)$result['item_source']);
+		$this->assertSame($itemSource, (int) $result['item_source']);
 		$this->assertSame($itemType, $result['item_type']);
 		$this->assertSame($shareWith, $result['share_with']);
 		$this->assertSame($sharedBy, $result['uid_initiator']);
 		$this->assertSame($uidOwner, $result['uid_owner']);
-		$this->assertSame($permissions, (int)$result['permissions']);
+		$this->assertSame($permissions, (int) $result['permissions']);
 		$this->assertSame($token, $result['token']);
 	}
 
@@ -1154,7 +1155,7 @@ class ShareByMailProviderTest extends TestCase {
 		$qb->execute();
 		$id = $qb->getLastInsertId();
 
-		return (int)$id;
+		return (int) $id;
 	}
 
 	public function testGetSharesInFolder() {

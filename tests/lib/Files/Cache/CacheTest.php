@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -742,26 +743,26 @@ class CacheTest extends \Test\TestCase {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'creation_time' => 20];
-		$id1 = $this->cache->put("foo1", $data);
+		$id1 = $this->cache->put('foo1', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'upload_time' => 30];
-		$this->cache->put("foo2", $data);
+		$this->cache->put('foo2', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'metadata_etag' => 'foo'];
-		$this->cache->put("foo3", $data);
+		$this->cache->put('foo3', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
-		$id4 = $this->cache->put("foo4", $data);
+		$id4 = $this->cache->put('foo4', $data);
 
 		$entry = $this->cache->get($id1);
 		$this->assertEquals(20, $entry->getCreationTime());
 		$this->assertEquals(0, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$entries = $this->cache->getFolderContents("");
+		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
 
-		$this->assertEquals("foo1", $entries[0]->getName());
-		$this->assertEquals("foo2", $entries[1]->getName());
-		$this->assertEquals("foo3", $entries[2]->getName());
-		$this->assertEquals("foo4", $entries[3]->getName());
+		$this->assertEquals('foo1', $entries[0]->getName());
+		$this->assertEquals('foo2', $entries[1]->getName());
+		$this->assertEquals('foo3', $entries[2]->getName());
+		$this->assertEquals('foo4', $entries[3]->getName());
 
 		$this->assertEquals(20, $entries[0]->getCreationTime());
 		$this->assertEquals(0, $entries[0]->getUploadTime());
@@ -786,11 +787,11 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$this->cache->put("sub", $folderData);
+		$this->cache->put('sub', $folderData);
 
-		$this->cache->move("foo1", "sub/foo1");
+		$this->cache->move('foo1', 'sub/foo1');
 
-		$entries = $this->cache->getFolderContents("sub");
+		$entries = $this->cache->getFolderContents('sub');
 		$this->assertCount(1, $entries);
 
 		$this->assertEquals(20, $entries[0]->getCreationTime());
@@ -804,7 +805,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$this->cache->remove("sub");
+		$this->cache->remove('sub');
 	}
 
 	protected function tearDown(): void {

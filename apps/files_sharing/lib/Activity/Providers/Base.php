@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -122,7 +123,7 @@ abstract class Base implements IProvider {
 			$id = (string) key($parameter);
 		} elseif ($event !== null) {
 			$path = $parameter;
-			$id = (string)$event->getObjectId();
+			$id = (string) $event->getObjectId();
 		} else {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}

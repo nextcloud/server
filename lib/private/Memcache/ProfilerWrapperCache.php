@@ -18,7 +18,7 @@ use OCP\IMemcacheTTL;
  * @template-implements \ArrayAccess<string,mixed>
  */
 class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL, \ArrayAccess {
-	/** @var Redis  $wrappedCache*/
+	/** @var Redis $wrappedCache */
 	protected $wrappedCache;
 
 	/** @var string $prefix */

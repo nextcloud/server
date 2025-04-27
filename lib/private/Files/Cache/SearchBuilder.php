@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -203,7 +204,7 @@ class SearchBuilder {
 			return [$resultField, $values, ISearchComparison::COMPARE_IN, $paramType];
 		}
 		if ($field === 'mimetype') {
-			$value = (string)$value;
+			$value = (string) $value;
 			if ($type === ISearchComparison::COMPARE_EQUAL) {
 				$value = $this->mimetypeLoader->getId($value);
 			} elseif ($type === ISearchComparison::COMPARE_LIKE) {
@@ -234,7 +235,7 @@ class SearchBuilder {
 			$field = 'file.fileid';
 		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $pathEqHash) {
 			$field = 'path_hash';
-			$value = md5((string)$value);
+			$value = md5((string) $value);
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
 		}
@@ -295,7 +296,7 @@ class SearchBuilder {
 			throw new \InvalidArgumentException('Cannot search non indexed metadata key');
 		}
 
-		switch($operator->getExtra()) {
+		switch ($operator->getExtra()) {
 			case IMetadataQuery::EXTRA:
 				$metadataQuery->joinIndex($field); // join index table if not joined yet
 				$field = $metadataQuery->getMetadataValueField($field);

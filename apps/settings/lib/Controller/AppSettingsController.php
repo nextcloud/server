@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -622,8 +623,8 @@ class AppSettingsController extends Controller {
 	}
 
 	private function sortApps($a, $b) {
-		$a = (string)$a['name'];
-		$b = (string)$b['name'];
+		$a = (string) $a['name'];
+		$b = (string) $b['name'];
 		if ($a === $b) {
 			return 0;
 		}

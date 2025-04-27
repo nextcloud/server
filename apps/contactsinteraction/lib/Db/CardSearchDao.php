@@ -50,7 +50,7 @@ class CardSearchDao {
 		}
 		$addressbooksQuery->selectDistinct('id')
 			->from('addressbooks')
-			->where($addressbooksQuery->expr()->eq('principaluri', $cardQuery->createNamedParameter("principals/users/" . $user->getUID())));
+			->where($addressbooksQuery->expr()->eq('principaluri', $cardQuery->createNamedParameter('principals/users/' . $user->getUID())));
 		$propQuery->selectDistinct('cardid')
 			->from('cards_properties')
 			->where($propQuery->expr()->in('addressbookid', $propQuery->createFunction($addressbooksQuery->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))

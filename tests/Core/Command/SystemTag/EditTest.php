@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -169,8 +170,8 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('getTagsByIds')
-		->with($tagId)
-		->willReturn([]);
+			->with($tagId)
+			->willReturn([]);
 
 		$this->output->expects($this->once())
 			->method('writeln')

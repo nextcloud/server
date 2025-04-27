@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
@@ -25,23 +26,23 @@ class FileTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$config = \OC::$server->getSystemConfig();
-		$this->restore_logfile = $config->getValue("logfile");
+		$this->restore_logfile = $config->getValue('logfile');
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
-		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
+		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown(): void {
 		$config = \OC::$server->getSystemConfig();
 		if (isset($this->restore_logfile)) {
-			$config->getValue("logfile", $this->restore_logfile);
+			$config->getValue('logfile', $this->restore_logfile);
 		} else {
-			$config->deleteValue("logfile");
+			$config->deleteValue('logfile');
 		}
 		if (isset($this->restore_logdateformat)) {
-			$config->getValue("logdateformat", $this->restore_logdateformat);
+			$config->getValue('logdateformat', $this->restore_logdateformat);
 		} else {
-			$config->deleteValue("logdateformat");
+			$config->deleteValue('logdateformat');
 		}
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();

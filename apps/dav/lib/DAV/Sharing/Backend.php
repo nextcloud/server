@@ -58,7 +58,7 @@ abstract class Backend {
 			}
 
 			// Don't add share for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
@@ -83,7 +83,7 @@ abstract class Backend {
 			}
 
 			// Don't add unshare for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
@@ -92,7 +92,7 @@ abstract class Backend {
 
 			// Check if a user has a groupshare that they're trying to free themselves from
 			// If so we need to add a self::ACCESS_UNSHARED row
-			if(!str_contains($principal, 'group')
+			if (!str_contains($principal, 'group')
 				&& $this->service->hasGroupShare($oldShares)
 			) {
 				$this->service->unshare($shareable->getResourceId(), $principal);
@@ -123,31 +123,31 @@ abstract class Backend {
 	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
 	public function getShares(int $resourceId): array {
-		$cached = $this->shareCache->get((string)$resourceId);
+		$cached = $this->shareCache->get((string) $resourceId);
 		if ($cached) {
 			return $cached;
 		}
 
 		$rows = $this->service->getShares($resourceId);
 		$shares = [];
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[] = [
 				'href' => "principal:{$row['principaluri']}",
-				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
+				'commonName' => isset($p['{DAV:}displayname']) ? (string) $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === Backend::ACCESS_READ,
-				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
+				'{http://owncloud.org/ns}principal' => (string) $row['principaluri'],
 				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles'))
 			];
 		}
-		$this->shareCache->set((string)$resourceId, $shares);
+		$this->shareCache->set((string) $resourceId, $shares);
 		return $shares;
 	}
 
 	public function preloadShares(array $resourceIds): void {
 		$resourceIds = array_filter($resourceIds, function (int $resourceId) {
-			return empty($this->shareCache->get((string)$resourceId));
+			return empty($this->shareCache->get((string) $resourceId));
 		});
 		if (empty($resourceIds)) {
 			return;
@@ -155,18 +155,18 @@ abstract class Backend {
 
 		$rows = $this->service->getSharesForIds($resourceIds);
 		$sharesByResource = array_fill_keys($resourceIds, []);
-		foreach($rows as $row) {
-			$resourceId = (int)$row['resourceid'];
+		foreach ($rows as $row) {
+			$resourceId = (int) $row['resourceid'];
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
-				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
+				'commonName' => isset($p['{DAV:}displayname']) ? (string) $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
-				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
+				'{http://owncloud.org/ns}principal' => (string) $row['principaluri'],
 				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
 			];
-			$this->shareCache->set((string)$resourceId, $sharesByResource[$resourceId]);
+			$this->shareCache->set((string) $resourceId, $sharesByResource[$resourceId]);
 		}
 	}
 

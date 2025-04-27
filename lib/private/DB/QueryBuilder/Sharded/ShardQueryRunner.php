@@ -41,7 +41,7 @@ class ShardQueryRunner {
 			return null;
 		}
 		$shards = array_map(function ($shardKey) {
-			return $this->shardDefinition->getShardForKey((int)$shardKey);
+			return $this->shardDefinition->getShardForKey((int) $shardKey);
 		}, $shardKeys);
 		return array_values(array_unique($shards));
 	}

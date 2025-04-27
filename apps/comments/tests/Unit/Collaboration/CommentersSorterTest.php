@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,9 +12,9 @@ use OCP\Comments\ICommentsManager;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {
-	/** @var  ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var  CommentersSorter */
+	/** @var CommentersSorter */
 	protected $sorter;
 
 	protected function setUp(): void {

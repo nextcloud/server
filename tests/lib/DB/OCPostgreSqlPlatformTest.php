@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -48,7 +49,7 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	}
 
 	protected function createTableAndColumn($schema, $type) {
-		$table = $schema->createTable("poor_yorick");
+		$table = $schema->createTable('poor_yorick');
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
 			'unsigned' => true,

@@ -241,7 +241,7 @@ class Util {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
@@ -321,7 +321,7 @@ class Util {
 	 */
 	public static function numericToNumber(string|float|int $number): int|float {
 		/* This is a hack to cast to (int|float) */
-		return 0 + (string)$number;
+		return 0 + (string) $number;
 	}
 
 	/**
@@ -492,7 +492,7 @@ class Util {
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
 	public static function naturalSortCompare($a, $b) {

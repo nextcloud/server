@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -46,7 +47,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->method('getLibraryVersion')
 			->willReturnCallback(function ($lib) {
 				if ($lib === 'curl') {
-					return "2.3.4";
+					return '2.3.4';
 				}
 				return null;
 			});

@@ -94,7 +94,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturnCallback(function ($actions) use ($implementedActions) {
-				return (bool)($actions & $implementedActions);
+				return (bool) ($actions & $implementedActions);
 			});
 		return $backend;
 	}
@@ -180,7 +180,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreate() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -204,7 +204,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateFailure() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |
@@ -233,7 +233,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateTooLong() {
-		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |

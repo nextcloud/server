@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -147,7 +148,7 @@ class RepairTest extends TestCase {
 			->willReturn($directories);
 		$this->rootFolder->expects($this->once())
 			->method('get')
-			->with("appdata_/preview")
+			->with('appdata_/preview')
 			->willReturn($previewFolder);
 
 		$this->repair->run($this->input, $this->output);

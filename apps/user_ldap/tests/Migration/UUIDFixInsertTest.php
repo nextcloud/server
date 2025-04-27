@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,19 +15,19 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMapper;
 
-	/** @var  GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupMapper;
 
-	/** @var  IJobList|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
 	protected $jobList;
 
-	/** @var  UUIDFixInsert */
+	/** @var UUIDFixInsert */
 	protected $job;
 
 	protected function setUp(): void {

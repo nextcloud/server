@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,7 +12,7 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class ConfigTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {

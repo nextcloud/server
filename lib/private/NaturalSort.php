@@ -82,7 +82,7 @@ class NaturalSort {
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 */
 	public function compare($a, $b) {
 		// Needed because PHP doesn't sort correctly when numbers are enclosed in
@@ -98,8 +98,8 @@ class NaturalSort {
 			if ($aChunk !== $bChunk) {
 				// test first character (character comparison, not number comparison)
 				if ($aChunk[0] >= '0' && $aChunk[0] <= '9' && $bChunk[0] >= '0' && $bChunk[0] <= '9') {
-					$aNum = (int)$aChunk;
-					$bNum = (int)$bChunk;
+					$aNum = (int) $aChunk;
+					$bNum = (int) $bChunk;
 					return $aNum - $bNum;
 				}
 				return self::getCollator()->compare($aChunk, $bChunk);

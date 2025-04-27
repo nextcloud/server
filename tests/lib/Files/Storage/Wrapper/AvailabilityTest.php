@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,7 +18,7 @@ class AvailabilityTest extends \Test\TestCase {
 	protected $storageCache;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary */
 	protected $storage;
-	/** @var Availability  */
+	/** @var Availability */
 	protected $wrapper;
 
 	protected function setUp(): void {

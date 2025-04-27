@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,7 +20,7 @@ use Sabre\VObject\Reader;
 
 class PhotoCache {
 
-	/** @var array  */
+	/** @var array */
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',

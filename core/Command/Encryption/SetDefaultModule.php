@@ -39,8 +39,8 @@ class SetDefaultModule extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {
-			$output->writeln("Maintenance mode must be disabled when setting default module,");
-			$output->writeln("in order to load the relevant encryption modules correctly.");
+			$output->writeln('Maintenance mode must be disabled when setting default module,');
+			$output->writeln('in order to load the relevant encryption modules correctly.');
 			return 1;
 		}
 

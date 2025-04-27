@@ -78,6 +78,6 @@ class PreparedStatement implements IPreparedStatement {
 			return $this->result;
 		}
 
-		throw new Exception("You have to execute the prepared statement before accessing the results");
+		throw new Exception('You have to execute the prepared statement before accessing the results');
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -161,7 +162,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldHaveAStatusCode($statusCode) {
-		if ((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int) $statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception("Expected $statusCode, got " . $this->response->getStatusCode());
 		}
 	}
@@ -245,7 +246,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		if (count($table->getRows()) !== count($tags)) {
 			throw new \Exception(
 				sprintf(
-					"Expected %s tags, got %s.",
+					'Expected %s tags, got %s.',
 					count($table->getRows()),
 					count($tags)
 				)
@@ -311,7 +312,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function tagsShouldExistFor($count, $user) {
-		if ((int)$count !== count($this->requestTagsForUser($user))) {
+		if ((int) $count !== count($this->requestTagsForUser($user))) {
 			throw new \Exception("Expected $count tags, got " . count($this->requestTagsForUser($user)));
 		}
 	}
@@ -368,7 +369,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 				break;
 			}
 		}
-		return (int)$tagId;
+		return (int) $tagId;
 	}
 
 	/**
@@ -492,7 +493,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		]);
 		$response = file_get_contents($url, false, $context);
 		preg_match_all('/\<oc:fileid\>(.*?)\<\/oc:fileid\>/', $response, $matches);
-		return (int)$matches[1][0];
+		return (int) $matches[1][0];
 	}
 
 	/**

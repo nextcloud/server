@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,7 +23,7 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
+		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
 		if ($time === false) {
 			$time = new \DateTime('now', $timezone);
 		} else {

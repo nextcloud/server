@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -72,7 +73,7 @@ class UUIDFixInsert implements IRepairStep {
 					$offset += $batchSize;
 				} catch (\InvalidArgumentException $e) {
 					if (str_contains($e->getMessage(), 'Background job arguments can\'t exceed 4000')) {
-						$batchSize = (int)floor(count($records) * 0.8);
+						$batchSize = (int) floor(count($records) * 0.8);
 						$retry = true;
 					}
 				}

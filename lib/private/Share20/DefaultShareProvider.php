@@ -175,7 +175,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		// Update mandatory data
 		$id = $qb->getLastInsertId();
-		$share->setId((string)$id);
+		$share->setId((string) $id);
 		$share->setProviderId($this->identifier());
 
 		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
@@ -597,7 +597,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		if (!$shallow) {
-			throw new \Exception("non-shallow getSharesInFolder is no longer supported");
+			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -972,17 +972,17 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	 */
 	private function createShare($data) {
 		$share = new Share($this->rootFolder, $this->userManager);
-		$share->setId((int)$data['id'])
-			->setShareType((int)$data['share_type'])
-			->setPermissions((int)$data['permissions'])
+		$share->setId((int) $data['id'])
+			->setShareType((int) $data['share_type'])
+			->setPermissions((int) $data['permissions'])
 			->setTarget($data['file_target'])
-			->setNote((string)$data['note'])
-			->setMailSend((bool)$data['mail_send'])
-			->setStatus((int)$data['accepted'])
+			->setNote((string) $data['note'])
+			->setMailSend((bool) $data['mail_send'])
+			->setStatus((int) $data['accepted'])
 			->setLabel($data['label'] ?? '');
 
 		$shareTime = new \DateTime();
-		$shareTime->setTimestamp((int)$data['stime']);
+		$shareTime->setTimestamp((int) $data['stime']);
 		$share->setShareTime($shareTime);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
@@ -999,7 +999,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$share->setPassword($data['password']);
-			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
+			$share->setSendPasswordByTalk((bool) $data['password_by_talk']);
 			$share->setToken($data['token']);
 		}
 
@@ -1008,7 +1008,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$share->setSharedBy($data['uid_initiator']);
 		$share->setShareOwner($data['uid_owner']);
 
-		$share->setNodeId((int)$data['file_source']);
+		$share->setNodeId((int) $data['file_source']);
 		$share->setNodeType($data['item_type']);
 
 		if ($data['expiration'] !== null) {
@@ -1025,7 +1025,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		}
 
 		$share->setProviderId($this->identifier());
-		$share->setHideDownload((int)$data['hide_download'] === 1);
+		$share->setHideDownload((int) $data['hide_download'] === 1);
 
 		return $share;
 	}
@@ -1057,8 +1057,8 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		while ($data = $stmt->fetch()) {
 			if (array_key_exists($data['parent'], $shareMap)) {
-				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
-				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
+				$shareMap[$data['parent']]->setPermissions((int) $data['permissions']);
+				$shareMap[$data['parent']]->setStatus((int) $data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
 				$shareMap[$data['parent']]->setParent($data['parent']);
 			}
@@ -1152,7 +1152,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$cursor = $qb->execute();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
-			$ids[] = (int)$row['id'];
+			$ids[] = (int) $row['id'];
 		}
 		$cursor->closeCursor();
 
@@ -1200,7 +1200,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
-			$ids[] = (int)$row['id'];
+			$ids[] = (int) $row['id'];
 		}
 		$cursor->closeCursor();
 
@@ -1304,7 +1304,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$users = [];
 		$link = false;
 		while ($row = $cursor->fetch()) {
-			$type = (int)$row['share_type'];
+			$type = (int) $row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
 				$users[$uid] = $users[$uid] ?? [];

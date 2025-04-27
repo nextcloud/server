@@ -51,7 +51,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 		ContentSecurityPolicy $defaultPolicy,
 		EmptyContentSecurityPolicy $originalPolicy,
 	): ContentSecurityPolicy {
-		foreach ((object)(array)$originalPolicy as $name => $value) {
+		foreach ((object) (array) $originalPolicy as $name => $value) {
 			$setter = 'set'.ucfirst($name);
 			if (\is_array($value)) {
 				$getter = 'get'.ucfirst($name);

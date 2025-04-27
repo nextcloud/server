@@ -12,10 +12,10 @@ use OCP\Security\ISecureRandom;
 
 class TokenHandlerTest extends \Test\TestCase {
 
-	/** @var  TokenHandler */
+	/** @var TokenHandler */
 	private $tokenHandler;
 
-	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
 	/** @var int */

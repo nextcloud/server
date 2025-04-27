@@ -86,7 +86,7 @@ class Share implements IShare {
 	public function setId($id) {
 		/** @var mixed $id Let's be safe until strong typing */
 		if (is_int($id)) {
-			$id = (string)$id;
+			$id = (string) $id;
 		}
 
 		if (!is_string($id)) {
@@ -190,7 +190,7 @@ class Share implements IShare {
 		}
 
 		if ($this->fileId === null) {
-			throw new NotFoundException("Share source not found");
+			throw new NotFoundException('Share source not found');
 		} else {
 			return $this->fileId;
 		}

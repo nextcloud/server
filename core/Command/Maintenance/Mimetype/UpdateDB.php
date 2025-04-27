@@ -48,7 +48,7 @@ class UpdateDB extends Command {
 			// Single digit extensions will be treated as integers
 			// Let's make sure they are strings
 			// https://github.com/nextcloud/server/issues/42902
-			$ext = (string)$ext;
+			$ext = (string) $ext;
 			if ($ext[0] === '_') {
 				// comment
 				continue;

@@ -93,7 +93,7 @@ class Listener {
 		$activity->setApp('systemtags')
 			->setType('systemtags')
 			->setAuthor($actor)
-			->setObject('systemtag', (int)$tag->getId(), $tag->getName());
+			->setObject('systemtag', (int) $tag->getId(), $tag->getName());
 		if ($event->getEvent() === ManagerEvent::EVENT_CREATE) {
 			$activity->setSubject(Provider::CREATE_TAG, [
 				$actor,
@@ -185,7 +185,7 @@ class Listener {
 			->setObject($event->getObjectType(), (int) $event->getObjectId());
 
 		foreach ($users as $user => $path) {
-			$user = (string)$user; // numerical ids could be ints which are not accepted everywhere
+			$user = (string) $user; // numerical ids could be ints which are not accepted everywhere
 			$activity->setAffectedUser($user);
 
 			foreach ($tags as $tag) {

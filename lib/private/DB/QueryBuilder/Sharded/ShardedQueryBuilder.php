@@ -67,7 +67,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 
 	private function getKeyValue($value): array {
 		if ($value instanceof Parameter) {
-			$value = (string)$value;
+			$value = (string) $value;
 		}
 		if (is_string($value) && str_starts_with($value, ':')) {
 			$param = $this->getParameter(substr($value, 1));
@@ -132,7 +132,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 			}
 			return $values;
 		}
-		$predicate = (string)$predicate;
+		$predicate = (string) $predicate;
 		// expect a condition in the form of 'alias1.column1 = placeholder' or 'alias1.column1 in placeholder'
 		if (substr_count($predicate, ' ') > 2) {
 			return [];
@@ -258,14 +258,14 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 
 	public function setMaxResults($maxResults) {
 		if ($maxResults > 0) {
-			$this->limit = (int)$maxResults;
+			$this->limit = (int) $maxResults;
 		}
 		return parent::setMaxResults($maxResults);
 	}
 
 	public function setFirstResult($firstResult) {
 		if ($firstResult > 0) {
-			$this->offset = (int)$firstResult;
+			$this->offset = (int) $firstResult;
 		}
 		if ($this->shardDefinition && count($this->shardDefinition->shards) > 1) {
 			// we have to emulate offset
@@ -276,13 +276,13 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function addOrderBy($sort, $order = null) {
-		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
+		$this->registerOrder((string) $sort, (string) $order ?? 'ASC');
 		return parent::addOrderBy($sort, $order);
 	}
 
 	public function orderBy($sort, $order = null) {
 		$this->sortList = [];
-		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
+		$this->registerOrder((string) $sort, (string) $order ?? 'ASC');
 		return parent::orderBy($sort, $order);
 	}
 
@@ -343,9 +343,9 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 				throw new InvalidShardedQueryException("Can't update without shard key");
 			}
 			$oldShards = array_values(array_unique(array_map(function ($shardKey) {
-				return $this->shardDefinition->getShardForKey((int)$shardKey);
+				return $this->shardDefinition->getShardForKey((int) $shardKey);
 			}, $oldShardKeys)));
-			$newShard = $this->shardDefinition->getShardForKey((int)$newShardKey);
+			$newShard = $this->shardDefinition->getShardForKey((int) $newShardKey);
 			if ($oldShards === [$newShard]) {
 				throw new InvalidShardedQueryException('Update statement would move rows to a different shard');
 			}

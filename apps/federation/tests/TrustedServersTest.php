@@ -24,31 +24,31 @@ class TrustedServersTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers */
 	private $trustedServers;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | DbHandler */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | DbHandler */
 	private $dbHandler;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $httpClientService;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClient */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IClient */
 	private $httpClient;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IResponse */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IResponse */
 	private $response;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IJobList */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IJobList */
 	private $jobList;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ISecureRandom */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | ISecureRandom */
 	private $secureRandom;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IConfig */
 	private $config;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IEventDispatcher */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IEventDispatcher */
 	private $dispatcher;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
@@ -100,7 +100,7 @@ class TrustedServersTest extends TestCase {
 			->setMethods(['normalizeUrl', 'updateProtocol'])
 			->getMock();
 		$trustedServers->expects($this->once())->method('updateProtocol')
-				->with('url')->willReturn('https://url');
+			->with('url')->willReturn('https://url');
 		$this->timeFactory->method('getTime')
 			->willReturn(1234567);
 		$this->dbHandler->expects($this->once())->method('addServer')->with('https://url')
@@ -127,9 +127,9 @@ class TrustedServersTest extends TestCase {
 
 	public function testGetSharedSecret(): void {
 		$this->dbHandler->expects($this->once())
-				->method('getSharedSecret')
-				->with('url')
-				->willReturn('secret');
+			->method('getSharedSecret')
+			->with('url')
+			->willReturn('secret');
 		$this->assertSame(
 			$this->trustedServers->getSharedSecret('url'),
 			'secret'

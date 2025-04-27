@@ -18,10 +18,10 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var Connection */
 	protected $connection;
 
 	protected function setUp(): void {

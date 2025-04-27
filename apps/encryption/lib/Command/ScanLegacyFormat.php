@@ -24,7 +24,7 @@ class ScanLegacyFormat extends Command {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var  QuestionHelper */
+	/** @var QuestionHelper */
 	protected $questionHelper;
 
 	/** @var IUserManager */

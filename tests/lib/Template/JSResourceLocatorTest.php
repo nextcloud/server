@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -138,7 +139,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Run the tests
 		$locator = $this->jsResourceLocator();
-		$locator->find(["core/l10n/en.js"]);
+		$locator->find(['core/l10n/en.js']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(0, $resources);

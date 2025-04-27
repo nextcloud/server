@@ -67,7 +67,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * test objects. Preparing environment means that all mappings are cleared
 	 * first and then filled with test entries.
 	 * @return array 0 = \OCA\User_LDAP\Mapping\AbstractMapping, 1 = array of
-	 * users or groups
+	 *               users or groups
 	 */
 	private function initTest() {
 		$dbc = \OC::$server->getDatabaseConnection();

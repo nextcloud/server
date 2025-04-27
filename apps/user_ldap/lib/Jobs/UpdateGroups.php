@@ -24,7 +24,7 @@ class UpdateGroups extends TimedJob {
 		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
-		$this->interval = (int)$config->getAppValue('user_ldap', 'bgjRefreshInterval', '3600');
+		$this->interval = (int) $config->getAppValue('user_ldap', 'bgjRefreshInterval', '3600');
 	}
 
 	/**

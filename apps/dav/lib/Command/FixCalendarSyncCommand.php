@@ -56,7 +56,7 @@ class FixCalendarSyncCommand extends Command {
 	}
 
 	private function fixUserCalendars(IUser $user, ?ProgressBar $progress = null): void {
-		$calendars = $this->calDavBackend->getCalendarsForUser("principals/users/" . $user->getUID());
+		$calendars = $this->calDavBackend->getCalendarsForUser('principals/users/' . $user->getUID());
 
 		foreach ($calendars as $calendar) {
 			$this->calDavBackend->restoreChanges($calendar['id']);

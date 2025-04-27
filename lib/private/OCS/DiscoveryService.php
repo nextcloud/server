@@ -108,6 +108,6 @@ class DiscoveryService implements IDiscoveryService {
 	 * @return bool
 	 */
 	protected function isSafeUrl(string $url): bool {
-		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
+		return (bool) preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,7 +16,7 @@ namespace Test\Preview;
  */
 class HEICTest extends Provider {
 	protected function setUp(): void {
-		if (!in_array("HEIC", \Imagick::queryFormats("HEI*"))) {
+		if (!in_array('HEIC', \Imagick::queryFormats('HEI*'))) {
 			$this->markTestSkipped('ImageMagick is not HEIC aware. Skipping tests');
 		} else {
 			parent::setUp();

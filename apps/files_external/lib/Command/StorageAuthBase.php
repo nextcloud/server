@@ -29,7 +29,7 @@ abstract class StorageAuthBase extends Base {
 
 	private function getUserOption(InputInterface $input): ?string {
 		if ($input->getOption('user')) {
-			return (string)$input->getOption('user');
+			return (string) $input->getOption('user');
 		}
 
 		return $_ENV['NOTIFY_USER'] ?? $_SERVER['NOTIFY_USER'] ?? null;
@@ -37,7 +37,7 @@ abstract class StorageAuthBase extends Base {
 
 	private function getPasswordOption(InputInterface $input): ?string {
 		if ($input->getOption('password')) {
-			return (string)$input->getOption('password');
+			return (string) $input->getOption('password');
 		}
 
 		return $_ENV['NOTIFY_PASSWORD'] ?? $_SERVER['NOTIFY_PASSWORD'] ?? null;
@@ -52,7 +52,7 @@ abstract class StorageAuthBase extends Base {
 	protected function createStorage(InputInterface $input, OutputInterface $output): array {
 		try {
 			/** @var StorageConfig|null $mount */
-			$mount = $this->globalService->getStorage((int)$input->getArgument('mount_id'));
+			$mount = $this->globalService->getStorage((int) $input->getArgument('mount_id'));
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount not found</error>');
 			return [null, null];

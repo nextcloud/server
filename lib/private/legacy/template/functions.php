@@ -102,7 +102,7 @@ function print_unescaped($string) {
  *
  * @param string $app the appname
  * @param string|string[] $file the filename,
- * if an array is given it will add all scripts
+ *                              if an array is given it will add all scripts
  */
 function script($app, $file = null) {
 	if (is_array($file)) {
@@ -118,7 +118,7 @@ function script($app, $file = null) {
  * Shortcut for adding vendor scripts to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
- * if an array is given it will add all scripts
+ *                              if an array is given it will add all scripts
  */
 function vendor_script($app, $file = null) {
 	if (is_array($file)) {
@@ -134,7 +134,7 @@ function vendor_script($app, $file = null) {
  * Shortcut for adding styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
- * if an array is given it will add all styles
+ *                              if an array is given it will add all styles
  */
 function style($app, $file = null) {
 	if (is_array($file)) {
@@ -150,7 +150,7 @@ function style($app, $file = null) {
  * Shortcut for adding vendor styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
- * if an array is given it will add all styles
+ *                              if an array is given it will add all styles
  */
 function vendor_style($app, $file = null) {
 	if (is_array($file)) {
@@ -165,7 +165,7 @@ function vendor_style($app, $file = null) {
 /**
  * Shortcut for adding translations to a page
  * @param string $app the appname
- * if an array is given it will add all styles
+ *                    if an array is given it will add all styles
  */
 function translation($app) {
 	OC_Util::addTranslations($app);
@@ -175,7 +175,7 @@ function translation($app) {
  * Shortcut for HTML imports
  * @param string $app the appname
  * @param string|string[] $file the path relative to the app's component folder,
- * if an array is given it will add all components
+ *                              if an array is given it will add all components
  */
 function component($app, $file) {
 	if (is_array($file)) {
@@ -269,7 +269,7 @@ function human_file_size($bytes) {
 function strip_time($timestamp) {
 	$date = new \DateTime("@{$timestamp}");
 	$date->setTime(0, 0, 0);
-	return (int)$date->format('U');
+	return (int) $date->format('U');
 }
 
 /**

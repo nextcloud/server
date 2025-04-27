@@ -25,7 +25,7 @@ class ObjectTree extends CachingTree {
 	protected $fileView;
 
 	/**
-	 * @var  \OCP\Files\Mount\IMountManager
+	 * @var \OCP\Files\Mount\IMountManager
 	 */
 	protected $mountManager;
 
@@ -38,7 +38,7 @@ class ObjectTree extends CachingTree {
 	/**
 	 * @param \Sabre\DAV\INode $rootNode
 	 * @param \OC\Files\View $view
-	 * @param  \OCP\Files\Mount\IMountManager $mountManager
+	 * @param \OCP\Files\Mount\IMountManager $mountManager
 	 */
 	public function init(\Sabre\DAV\INode $rootNode, \OC\Files\View $view, \OCP\Files\Mount\IMountManager $mountManager) {
 		$this->rootNode = $rootNode;

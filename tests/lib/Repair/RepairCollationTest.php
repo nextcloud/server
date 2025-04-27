@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -61,11 +62,11 @@ class RepairCollationTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = \OC::$server->getConfig();
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
-			$this->markTestSkipped("Test only relevant on MySql");
+			$this->markTestSkipped('Test only relevant on MySql');
 		}
 
-		$dbPrefix = $this->config->getSystemValueString("dbtableprefix");
-		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
+		$dbPrefix = $this->config->getSystemValueString('dbtableprefix');
+		$this->tableName = $this->getUniqueID($dbPrefix . '_collation_test');
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
 
 		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);

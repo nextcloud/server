@@ -145,7 +145,7 @@ class OCMProvider implements IOCMProvider {
 					throw new OCMArgumentException('protocol not found');
 				}
 
-				return (string)$entry;
+				return (string) $entry;
 			}
 		}
 
@@ -163,8 +163,8 @@ class OCMProvider implements IOCMProvider {
 	 */
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
-			 ->setApiVersion((string)($data['apiVersion'] ?? ''))
-			 ->setEndPoint($data['endPoint'] ?? '');
+			->setApiVersion((string) ($data['apiVersion'] ?? ''))
+			->setEndPoint($data['endPoint'] ?? '');
 
 		$resources = [];
 		foreach (($data['resourceTypes'] ?? []) as $resourceData) {

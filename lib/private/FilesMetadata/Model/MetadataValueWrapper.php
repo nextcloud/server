@@ -221,7 +221,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (string)$this->value;
+		return (string) $this->value;
 	}
 
 	/**
@@ -237,7 +237,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (int)$this->value;
+		return (int) $this->value;
 	}
 
 	/**
@@ -253,7 +253,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (float)$this->value;
+		return (float) $this->value;
 	}
 
 	/**
@@ -269,7 +269,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (bool)$this->value;
+		return (bool) $this->value;
 	}
 
 	/**
@@ -285,7 +285,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (array)$this->value;
+		return (array) $this->value;
 	}
 
 	/**
@@ -301,7 +301,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (array)$this->value;
+		return (array) $this->value;
 	}
 
 	/**
@@ -317,7 +317,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
-		return (array)$this->value;
+		return (array) $this->value;
 	}
 
 	/**

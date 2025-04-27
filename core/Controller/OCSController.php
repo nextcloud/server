@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -57,9 +58,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		$result = [];
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
-			'major' => (int)$major,
-			'minor' => (int)$minor,
-			'micro' => (int)$micro,
+			'major' => (int) $major,
+			'minor' => (int) $minor,
+			'micro' => (int) $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => \OCP\Util::hasExtendedSupport()

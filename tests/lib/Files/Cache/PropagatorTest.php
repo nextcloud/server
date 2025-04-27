@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,7 +17,7 @@ use Test\TestCase;
  * @group DB
  */
 class PropagatorTest extends TestCase {
-	/** @var  IStorage */
+	/** @var IStorage */
 	private $storage;
 
 	protected function setUp(): void {

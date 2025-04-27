@@ -10,7 +10,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
+$prefix = (string) $_POST['ldap_serverconfig_chooser'];
 
 // Checkboxes are not submitted, when they are unchecked. Set them manually.
 // only legacy checkboxes (Advanced and Expert tab) need to be handled here,

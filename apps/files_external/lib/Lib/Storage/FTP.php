@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -38,7 +39,7 @@ class FTP extends Common {
 				if (is_string($params['secure'])) {
 					$this->secure = ($params['secure'] === 'true');
 				} else {
-					$this->secure = (bool)$params['secure'];
+					$this->secure = (bool) $params['secure'];
 				}
 			} else {
 				$this->secure = false;
@@ -66,11 +67,11 @@ class FTP extends Common {
 					$this->password
 				);
 			} catch (\Exception $e) {
-				throw new StorageNotAvailableException("Failed to create ftp connection", 0, $e);
+				throw new StorageNotAvailableException('Failed to create ftp connection', 0, $e);
 			}
 			if ($this->utf8Mode) {
 				if (!$this->connection->setUtf8Mode()) {
-					throw new StorageNotAvailableException("Could not set UTF-8 mode");
+					throw new StorageNotAvailableException('Could not set UTF-8 mode');
 				}
 			}
 		}
@@ -219,7 +220,7 @@ class FTP extends Common {
 	}
 
 	public function is_dir($path) {
-		if ($path === "") {
+		if ($path === '') {
 			return true;
 		}
 		if ($this->getConnection()->chdir($this->buildPath($path)) === true) {

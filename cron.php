@@ -91,16 +91,16 @@ Options:
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
+			echo 'The posix extensions are required - see https://www.php.net/manual/en/book.posix.php' . PHP_EOL;
 			exit(1);
 		}
 
 		$user = posix_getuid();
 		$configUser = fileowner(OC::$configDir . 'config.php');
 		if ($user !== $configUser) {
-			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of config.php: " . $configUser . PHP_EOL;
+			echo 'Console has to be executed with the user that owns the file config/config.php' . PHP_EOL;
+			echo 'Current user id: ' . $user . PHP_EOL;
+			echo 'Owner id of config.php: ' . $configUser . PHP_EOL;
 			exit(1);
 		}
 

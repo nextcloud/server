@@ -138,7 +138,7 @@ class ReminderService {
 			->setApp(Application::APP_ID)
 			->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('files', 'folder.svg')))
 			->setUser($user->getUID())
-			->setObject('reminder', (string)$reminder->getId())
+			->setObject('reminder', (string) $reminder->getId())
 			->setSubject('reminder-due', [
 				'fileId' => $reminder->getFileId(),
 			])

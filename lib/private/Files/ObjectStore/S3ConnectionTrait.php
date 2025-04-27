@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,7 +30,7 @@ trait S3ConnectionTrait {
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
-			throw new \Exception("Bucket has to be configured.");
+			throw new \Exception('Bucket has to be configured.');
 		}
 
 		$this->id = 'amazon::' . $params['bucket'];
@@ -44,7 +45,7 @@ trait S3ConnectionTrait {
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
-		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
+		$this->useMultipartCopy = (bool) ($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
@@ -137,7 +138,7 @@ trait S3ConnectionTrait {
 				try {
 					$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
 					if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-						throw new StorageNotAvailableException("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
+						throw new StorageNotAvailableException('The bucket will not be created because the name is not dns compatible, please correct it: ' . $this->bucket);
 					}
 					$this->connection->createBucket(['Bucket' => $this->bucket]);
 					$this->testTimeout();
@@ -202,7 +203,7 @@ trait S3ConnectionTrait {
 	}
 
 	protected function getCertificateBundlePath(): ?string {
-		if ((int)($this->params['use_nextcloud_bundle'] ?? "0")) {
+		if ((int) ($this->params['use_nextcloud_bundle'] ?? '0')) {
 			// since we store the certificate bundles on the primary storage, we can't get the bundle while setting up the primary storage
 			if (!isset($this->params['primary_storage'])) {
 				/** @var ICertificateManager $certManager */

@@ -50,7 +50,7 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 		$node = $this->server->tree->getNodeForPath($path);
 		if ($node instanceof File) {
 			$type = strtolower(
-				(string)$request->getHeader('X-Recalculate-Hash')
+				(string) $request->getHeader('X-Recalculate-Hash')
 			);
 
 			$hash = $node->hash($type);

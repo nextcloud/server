@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -103,7 +104,7 @@ if ($notSignedCommits !== []) {
 	echo("Some commits were not signed off!\n");
 	echo("Missing signatures on:\n");
 	foreach ($notSignedCommits as $commit) {
-		echo("- " . $commit . "\n");
+		echo('- ' . $commit . "\n");
 	}
 	echo("Build has failed\n");
 	exit(1);

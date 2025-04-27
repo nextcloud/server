@@ -174,7 +174,7 @@ class AppCalendar extends ExternalCalendar {
 		// We need to group by UID (actually by filename but we do not have that information)
 		$result = [];
 		foreach ($objects as $object) {
-			$uid = (string)$object['UID'] ?: uniqid();
+			$uid = (string) $object['UID'] ?: uniqid();
 			if (!isset($result[$uid])) {
 				$result[$uid] = [];
 			}

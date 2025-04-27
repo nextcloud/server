@@ -236,7 +236,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	public function getGroupsDetails(array $gids): array {
 		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
-			throw new \Exception("Should not have been called");
+			throw new \Exception('Should not have been called');
 		}
 
 		$groupData = [];

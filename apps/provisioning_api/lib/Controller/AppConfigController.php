@@ -113,7 +113,7 @@ class AppConfigController extends OCSController {
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \Exception("User is not logged in."); // Should not happen, since method is guarded by middleware
+			throw new \Exception('User is not logged in.'); // Should not happen, since method is guarded by middleware
 		}
 
 		if (!$this->isAllowedToChangedKey($user, $app, $key)) {
@@ -136,9 +136,9 @@ class AppConfigController extends OCSController {
 
 		/** @psalm-suppress InternalMethod */
 		match ($type) {
-			IAppConfig::VALUE_BOOL => $this->appConfig->setValueBool($app, $key, (bool)$value),
-			IAppConfig::VALUE_FLOAT => $this->appConfig->setValueFloat($app, $key, (float)$value),
-			IAppConfig::VALUE_INT => $this->appConfig->setValueInt($app, $key, (int)$value),
+			IAppConfig::VALUE_BOOL => $this->appConfig->setValueBool($app, $key, (bool) $value),
+			IAppConfig::VALUE_FLOAT => $this->appConfig->setValueFloat($app, $key, (float) $value),
+			IAppConfig::VALUE_INT => $this->appConfig->setValueInt($app, $key, (int) $value),
 			IAppConfig::VALUE_STRING => $this->appConfig->setValueString($app, $key, $value),
 			IAppConfig::VALUE_ARRAY => $this->appConfig->setValueArray($app, $key, \json_decode($value, true)),
 			default => $this->appConfig->setValueMixed($app, $key, $value),

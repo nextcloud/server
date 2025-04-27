@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -63,7 +64,7 @@ class ListCommand extends Base {
 			$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
 		}
 
-		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));
+		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool) $input->getOption('info')));
 		return 0;
 	}
 
@@ -78,7 +79,7 @@ class ListCommand extends Base {
 				$value = [
 					'user_id' => $user->getUID(),
 					'display_name' => $user->getDisplayName(),
-					'email' => (string)$user->getSystemEMailAddress(),
+					'email' => (string) $user->getSystemEMailAddress(),
 					'cloud_id' => $user->getCloudId(),
 					'enabled' => $user->isEnabled(),
 					'groups' => $groups,

@@ -28,7 +28,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	 * Construct a Home storage instance
 	 *
 	 * @param array $arguments array with "user" containing the
-	 * storage owner
+	 *                         storage owner
 	 */
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];

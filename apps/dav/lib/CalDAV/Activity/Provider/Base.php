@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -52,14 +53,14 @@ abstract class Base implements IProvider {
 			$data['name'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			return [
 				'type' => 'calendar',
-				'id' => (string)$data['id'],
+				'id' => (string) $data['id'],
 				'name' => $l->t('Personal'),
 			];
 		}
 
 		return [
 			'type' => 'calendar',
-			'id' => (string)$data['id'],
+			'id' => (string) $data['id'],
 			'name' => $data['name'],
 		];
 	}
@@ -72,7 +73,7 @@ abstract class Base implements IProvider {
 	protected function generateLegacyCalendarParameter($id, $name) {
 		return [
 			'type' => 'calendar',
-			'id' => (string)$id,
+			'id' => (string) $id,
 			'name' => $name,
 		];
 	}

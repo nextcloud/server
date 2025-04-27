@@ -58,9 +58,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->objectPrefix = $params['objectPrefix'];
 		}
 		if (isset($params['validateWrites'])) {
-			$this->validateWrites = (bool)$params['validateWrites'];
+			$this->validateWrites = (bool) $params['validateWrites'];
 		}
-		$this->handleCopiesAsOwned = (bool)($params['handleCopiesAsOwned'] ?? false);
+		$this->handleCopiesAsOwned = (bool) ($params['handleCopiesAsOwned'] ?? false);
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
@@ -317,7 +317,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 						$streamStat = fstat($handle);
 						$actualSize = $streamStat['size'] ?? -1;
 						if ($actualSize > -1 && $actualSize !== $filesize) {
-							$this->getCache()->update((int)$stat['fileid'], ['size' => $actualSize]);
+							$this->getCache()->update((int) $stat['fileid'], ['size' => $actualSize]);
 						}
 						return $handle;
 					} catch (NotFoundException $e) {
@@ -383,7 +383,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function file_exists($path) {
 		$path = $this->normalizePath($path);
-		return (bool)$this->stat($path);
+		return (bool) $this->stat($path);
 	}
 
 	public function rename($source, $target) {
@@ -483,7 +483,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 		// update stat with new data
 		$mTime = time();
-		$stat['size'] = (int)$size;
+		$stat['size'] = (int) $size;
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
@@ -721,7 +721,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$sourceUrn = $this->getURN($sourceEntry->getId());
 
 		if (!$cache instanceof Cache) {
-			throw new \Exception("Invalid source cache for object store copy");
+			throw new \Exception('Invalid source cache for object store copy');
 		}
 
 		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
@@ -767,7 +767,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 
-		$result = $this->objectStore->uploadMultipartPart($urn, $writeToken, (int)$chunkId, $data, $size);
+		$result = $this->objectStore->uploadMultipartPart($urn, $writeToken, (int) $chunkId, $data, $size);
 
 		$parts[$chunkId] = [
 			'PartNumber' => $chunkId,

@@ -30,7 +30,7 @@ class Delete extends Command {
 		$this
 			->setName('files:delete')
 			->setDescription('Delete a file or folder')
-			->addArgument('file', InputArgument::REQUIRED, "File id or path")
+			->addArgument('file', InputArgument::REQUIRED, 'File id or path')
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");
 	}
 
@@ -59,30 +59,30 @@ class Delete extends Command {
 					return self::SUCCESS;
 				} else {
 					$node = $storage->getShare()->getNode();
-					$output->writeln("");
+					$output->writeln('');
 				}
 			}
 
 			$filesByUsers = $this->fileUtils->getFilesByUser($node);
 			if (count($filesByUsers) > 1) {
-				$output->writeln("Warning: the provided file is accessible by more than one user");
-				$output->writeln("  all of the following users will lose access to the file when deleted:");
-				$output->writeln("");
+				$output->writeln('Warning: the provided file is accessible by more than one user');
+				$output->writeln('  all of the following users will lose access to the file when deleted:');
+				$output->writeln('');
 				foreach ($filesByUsers as $user => $filesByUser) {
-					$output->writeln($user . ":");
-					foreach($filesByUser as $file) {
-						$output->writeln("  - " . $file->getPath());
+					$output->writeln($user . ':');
+					foreach ($filesByUser as $file) {
+						$output->writeln('  - ' . $file->getPath());
 					}
 				}
-				$output->writeln("");
+				$output->writeln('');
 			}
 
 			if ($node instanceof Folder) {
 				$maybeContents = " and all it's contents";
 			} else {
-				$maybeContents = "";
+				$maybeContents = '';
 			}
-			$question = new ConfirmationQuestion("Delete " . $node->getPath() . $maybeContents . "? [y/N] ", false);
+			$question = new ConfirmationQuestion('Delete ' . $node->getPath() . $maybeContents . '? [y/N] ', false);
 			$deleteConfirmed = $helper->ask($input, $output, $question);
 		}
 
@@ -90,7 +90,7 @@ class Delete extends Command {
 			if ($node->isDeletable()) {
 				$node->delete();
 			} else {
-				$output->writeln("<error>File cannot be deleted, insufficient permissions.</error>");
+				$output->writeln('<error>File cannot be deleted, insufficient permissions.</error>');
 			}
 		}
 

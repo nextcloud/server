@@ -231,7 +231,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$result->closeCursor();
 
 		if ($all) {
-			return ((int)$row[0] === \count($objIds));
+			return ((int) $row[0] === \count($objIds));
 		}
 
 		return (bool) $row;

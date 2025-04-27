@@ -204,7 +204,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * check if a user exists on LDAP
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 * name or an instance of that user
+	 *                                              name or an instance of that user
 	 */
 	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		$id = ($user instanceof User) ? $user->getUsername() : $user;
@@ -353,7 +353,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
-				$users = (int)$users + $backendUsers;
+				$users = (int) $users + $backendUsers;
 			}
 		}
 		return $users;
@@ -413,7 +413,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
-		if ((int)$this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled !== 1) {
+		if ((int) $this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled !== 1) {
 			return [];
 		}
 		$disabledUsers = $this->deletedUsersIndex->getUsers();

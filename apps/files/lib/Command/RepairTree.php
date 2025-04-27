@@ -33,7 +33,7 @@ class RepairTree extends Command {
 		$rows = $this->findBrokenTreeBits();
 		$fix = !$input->getOption('dry-run');
 
-		$output->writeln("Found " . count($rows) . " file entries with an invalid path");
+		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
 
 		if ($fix) {
 			$this->connection->beginTransaction();
@@ -50,10 +50,10 @@ class RepairTree extends Command {
 			$output->writeln("Path of file {$row['fileid']} is {$row['path']} but should be {$row['parent_path']}/{$row['name']} based on its parent", OutputInterface::VERBOSITY_VERBOSE);
 
 			if ($fix) {
-				$fileId = $this->getFileId((int)$row['parent_storage'], $row['parent_path'] . '/' . $row['name']);
+				$fileId = $this->getFileId((int) $row['parent_storage'], $row['parent_path'] . '/' . $row['name']);
 				if ($fileId > 0) {
 					$output->writeln("Cache entry has already be recreated with id $fileId, deleting instead");
-					$this->deleteById((int)$row['fileid']);
+					$this->deleteById((int) $row['fileid']);
 				} else {
 					$query->setParameters([
 						'fileid' => $row['fileid'],

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,27 +24,27 @@ use OCP\Notification\IManager;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
-	/** @var  array */
+	/** @var array */
 	protected $arguments;
-	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $helper;
-	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldapWrapper;
-	/** @var  Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
-	/** @var  Sync */
+	/** @var Sync */
 	protected $sync;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var  IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
-	/** @var  IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $dbc;
-	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ncUserManager;
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 	/** @var ConnectionFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connectionFactory;

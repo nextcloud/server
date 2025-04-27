@@ -110,7 +110,7 @@ class TransferOwnershipController extends OCSController {
 				'targetUser' => $recipient,
 				'nodeName' => $node->getName(),
 			])
-			->setObject('transfer', (string)$transferOwnership->getId());
+			->setObject('transfer', (string) $transferOwnership->getId());
 
 		$this->notificationManager->notify($notification);
 
@@ -146,7 +146,7 @@ class TransferOwnershipController extends OCSController {
 
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files')
-			->setObject('transfer', (string)$id);
+			->setObject('transfer', (string) $id);
 		$this->notificationManager->markProcessed($notification);
 
 		return new DataResponse([], Http::STATUS_OK);
@@ -177,7 +177,7 @@ class TransferOwnershipController extends OCSController {
 
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files')
-			->setObject('transfer', (string)$id);
+			->setObject('transfer', (string) $id);
 		$this->notificationManager->markProcessed($notification);
 
 		$this->mapper->delete($transferOwnership);

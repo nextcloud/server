@@ -530,7 +530,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 						break;
 					}
 				}
-				$taskIdsToIgnore[] = (int)$task->getId();
+				$taskIdsToIgnore[] = (int) $task->getId();
 			}
 
 			/** @var CoreTaskProcessingTask $json */

@@ -32,7 +32,7 @@ class AppConfigTest extends TestCase {
 
 	/**
 	 * @var array<string, array<array<string, string, int, bool, bool>>>
-	 *     [appId => [configKey, configValue, valueType, lazy, sensitive]]
+	 *                                                                   [appId => [configKey, configValue, valueType, lazy, sensitive]]
 	 */
 	private array $baseStruct =
 		[
@@ -168,7 +168,7 @@ class AppConfigTest extends TestCase {
 
 	/**
 	 * @param bool $preLoading TRUE will preload the 'fast' cache, which is the normal behavior of usual
-	 *     IAppConfig
+	 *                         IAppConfig
 	 *
 	 * @return IAppConfig
 	 */
@@ -223,7 +223,7 @@ class AppConfigTest extends TestCase {
 			foreach ($appData as $row) {
 				$keys[] = $row[0];
 			}
-			$appKeys[] = [(string)$appId, $keys];
+			$appKeys[] = [(string) $appId, $keys];
 		}
 
 		return $appKeys;
@@ -242,7 +242,7 @@ class AppConfigTest extends TestCase {
 		foreach ($this->baseStruct as $appId => $appData) {
 			foreach ($appData as $row) {
 				$appKeys[] = [
-					(string)$appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
+					(string) $appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
 					$row[4] ?? false
 				];
 			}

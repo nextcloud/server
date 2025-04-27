@@ -42,7 +42,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 		}
 
 		while ($mount = $mounts->fetch()) {
-			$config = $this->getStorageConfig((int)$mount['mount_id']);
+			$config = $this->getStorageConfig((int) $mount['mount_id']);
 			$hostname = $config['hostname'];
 			$bucket = $config['bucket'];
 			$key = $config['key'];

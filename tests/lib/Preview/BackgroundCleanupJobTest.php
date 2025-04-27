@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -110,7 +111,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		foreach ($fileIds as $fileId) {
 			try {
-				$previewRoot->getFolder((string)$fileId);
+				$previewRoot->getFolder((string) $fileId);
 			} catch (NotFoundException $e) {
 				continue;
 			}
@@ -188,7 +189,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$f1->newFile('foo.jpg', 'foo');
 		$f2 = $appdata->newFolder('123456782');
 		$f2->newFile('foo.jpg', 'foo');
-		$f2 = $appdata->newFolder((string)PHP_INT_MAX - 1);
+		$f2 = $appdata->newFolder((string) PHP_INT_MAX - 1);
 		$f2->newFile('foo.jpg', 'foo');
 
 		/*

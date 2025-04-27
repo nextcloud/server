@@ -34,7 +34,7 @@ class Address implements IAddress {
 	}
 
 	public function matches(IRange... $ranges): bool {
-		foreach($ranges as $range) {
+		foreach ($ranges as $range) {
 			if ($range->contains($this)) {
 				return true;
 			}

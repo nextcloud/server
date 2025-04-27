@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,7 +22,7 @@ use OCP\IUserSession;
 class AjaxController extends Controller {
 	/** @var RSA */
 	private $rsaMechanism;
-	/** @var GlobalAuth  */
+	/** @var GlobalAuth */
 	private $globalAuth;
 	/** @var IUserSession */
 	private $userSession;

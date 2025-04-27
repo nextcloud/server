@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -386,7 +387,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		try {
 			$stmt = $query->executeQuery();
 		} catch (Exception $e) {
-			$this->logger->error("Could not search resources: " . $e->getMessage(), ['exception' => $e]);
+			$this->logger->error('Could not search resources: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
 		$rows = [];

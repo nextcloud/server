@@ -1088,7 +1088,7 @@ class UsersController extends AUserData {
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
-				$intValue = (int)$value;
+				$intValue = (int) $value;
 				if ($intValue < -1 || $intValue > 6) {
 					throw new OCSException($this->l10n->t('Invalid first day of week'), 101);
 				}

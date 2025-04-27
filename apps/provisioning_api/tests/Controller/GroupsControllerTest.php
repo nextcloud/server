@@ -58,8 +58,8 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->groupManager
-				->method('getSubAdmin')
-				->willReturn($this->subAdminManager);
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
 
 		$this->api = $this->getMockBuilder(GroupsController::class)
 			->setConstructorArgs([

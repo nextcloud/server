@@ -14,12 +14,12 @@ use OCA\Files_External\Service\BackendService;
 
 $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
-$l->t("Enable encryption");
-$l->t("Enable previews");
-$l->t("Enable sharing");
-$l->t("Check for changes");
-$l->t("Never");
-$l->t("Once every direct access");
+$l->t('Enable encryption');
+$l->t('Enable previews');
+$l->t('Enable sharing');
+$l->t('Check for changes');
+$l->t('Never');
+$l->t('Once every direct access');
 $l->t('Read only');
 
 \OCP\Util::addScript('files_external', 'settings');
@@ -64,7 +64,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 			<?php
 				break;
 		case DefinitionParameter::VALUE_BOOLEAN: ?>
-			<?php $checkboxId = uniqid("checkbox_"); ?>
+			<?php $checkboxId = uniqid('checkbox_'); ?>
 			<div>
 			<label>
 			<input type="checkbox"
@@ -164,7 +164,7 @@ uasort($sortedBackends, function ($a, $b) {
 });
 ?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<?php if ($backend->getDeprecateTo() || (!$canCreateNewLocalStorage && $backend->getIdentifier() == "local")) {
+							<?php if ($backend->getDeprecateTo() || (!$canCreateNewLocalStorage && $backend->getIdentifier() == 'local')) {
 								continue;
 							} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
@@ -225,7 +225,7 @@ uasort($sortedBackends, function ($a, $b) {
 	<form autocomplete="false" action="#"
 		  id="global_credentials" method="post"
 		  class="<?php if (isset($_['visibilityType']) && $_['visibilityType'] === BackendService::VISIBILITY_PERSONAL) {
-		  	print_unescaped("global_credentials__personal");
+		  	print_unescaped('global_credentials__personal');
 		  } ?>">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
 		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>

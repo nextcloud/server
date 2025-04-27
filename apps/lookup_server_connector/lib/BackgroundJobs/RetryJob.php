@@ -157,7 +157,7 @@ class RetryJob extends Job {
 				$user->getUID(),
 				'lookup_server_connector',
 				'update_retries',
-				(string)($this->retries + 1),
+				(string) ($this->retries + 1),
 			);
 		}
 	}

@@ -51,7 +51,7 @@ class RequestHandlerController extends OCSController {
 	/** @var AddressHandler */
 	private $addressHandler;
 
-	/** @var  IUserManager */
+	/** @var IUserManager */
 	private $userManager;
 
 	/** @var string */
@@ -385,7 +385,7 @@ class RequestHandlerController extends OCSController {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
-			$ocmPermissions = $this->ncPermissions2ocmPermissions((int)$ncPermissions);
+			$ocmPermissions = $this->ncPermissions2ocmPermissions((int) $ncPermissions);
 			$notification = ['sharedSecret' => $token, 'permission' => $ocmPermissions];
 			$provider->notificationReceived('RESHARE_CHANGE_PERMISSION', $id, $notification);
 			$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent('Federated share with id "%s" has updated permissions "%s"', [$id, implode(', ', $ocmPermissions)]));

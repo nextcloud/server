@@ -53,14 +53,14 @@ class Storage {
 		$this->storageId = self::adjustStorageId($this->storageId);
 
 		if ($row = self::getStorageById($this->storageId)) {
-			$this->numericId = (int)$row['numeric_id'];
+			$this->numericId = (int) $row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
 				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
-					$this->numericId = (int)$row['numeric_id'];
+					$this->numericId = (int) $row['numeric_id'];
 				} else {
 					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
 				}
@@ -80,7 +80,7 @@ class Storage {
 	 * Adjusts the storage id to use md5 if too long
 	 * @param string $storageId storage id
 	 * @return string unchanged $storageId if its length is less than 64 characters,
-	 * else returns the md5 of $storageId
+	 *                else returns the md5 of $storageId
 	 */
 	public static function adjustStorageId($storageId) {
 		if (strlen($storageId) > 64) {
@@ -119,7 +119,7 @@ class Storage {
 		$storageId = self::adjustStorageId($storageId);
 
 		if ($row = self::getStorageById($storageId)) {
-			return (int)$row['numeric_id'];
+			return (int) $row['numeric_id'];
 		} else {
 			return null;
 		}
@@ -131,7 +131,7 @@ class Storage {
 	public function getAvailability() {
 		if ($row = self::getStorageById($this->storageId)) {
 			return [
-				'available' => (int)$row['available'] === 1,
+				'available' => (int) $row['available'] === 1,
 				'last_checked' => $row['last_checked']
 			];
 		} else {

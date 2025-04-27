@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -216,9 +217,9 @@ class NavigationManagerTest extends TestCase {
 			->willReturnArgument(3);
 
 		$this->appManager->expects($this->any())
-		   ->method('isEnabledForUser')
-		   ->with('theming')
-		   ->willReturn(true);
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
 		$this->appManager->expects($this->once())
 			->method('getAppInfo')
 			->with('test')
@@ -243,9 +244,9 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
 		$this->appManager->expects($this->any())
-			 ->method('getEnabledAppsForUser')
-			 ->with($user)
-			 ->willReturn(['test']);
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
@@ -525,9 +526,9 @@ class NavigationManagerTest extends TestCase {
 			);
 
 		$this->appManager->expects($this->any())
-		   ->method('isEnabledForUser')
-		   ->with('theming')
-		   ->willReturn(true);
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
 		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
@@ -545,9 +546,9 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
 		$this->appManager->expects($this->any())
-			 ->method('getEnabledAppsForUser')
-			 ->with($user)
-			 ->willReturn(['test']);
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(false);
 		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);

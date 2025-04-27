@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -101,15 +102,15 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getImprintUrl() {
-		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
+		return (string) $this->config->getAppValue('theming', 'imprintUrl', '');
 	}
 
 	public function getPrivacyUrl() {
-		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
+		return (string) $this->config->getAppValue('theming', 'privacyUrl', '');
 	}
 
 	public function getDocBaseUrl() {
-		return (string)$this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
+		return (string) $this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
 	}
 
 	public function getShortFooter() {
@@ -131,11 +132,11 @@ class ThemingDefaults extends \OC_Defaults {
 		$links = [
 			[
 				'text' => $this->l->t('Legal notice'),
-				'url' => (string)$this->getImprintUrl()
+				'url' => (string) $this->getImprintUrl()
 			],
 			[
 				'text' => $this->l->t('Privacy policy'),
-				'url' => (string)$this->getPrivacyUrl()
+				'url' => (string) $this->getPrivacyUrl()
 			],
 		];
 
@@ -419,8 +420,8 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Increases the cache buster key
 	 */
 	public function increaseCacheBuster(): void {
-		$cacheBusterKey = (int)$this->config->getAppValue('theming', 'cachebuster', '0');
-		$this->config->setAppValue('theming', 'cachebuster', (string)($cacheBusterKey + 1));
+		$cacheBusterKey = (int) $this->config->getAppValue('theming', 'cachebuster', '0');
+		$this->config->setAppValue('theming', 'cachebuster', (string) ($cacheBusterKey + 1));
 		$this->cacheFactory->createDistributed('theming-')->clear();
 		$this->cacheFactory->createDistributed('imagePath')->clear();
 	}

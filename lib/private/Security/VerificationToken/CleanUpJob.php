@@ -33,10 +33,10 @@ class CleanUpJob extends Job {
 	public function setArgument($argument): void {
 		parent::setArgument($argument);
 		$args = \json_decode($argument, true);
-		$this->userId = (string)$args['userId'];
-		$this->subject = (string)$args['subject'];
-		$this->pwdPrefix = (string)$args['pp'];
-		$this->runNotBefore = (int)$args['notBefore'];
+		$this->userId = (string) $args['userId'];
+		$this->subject = (string) $args['subject'];
+		$this->pwdPrefix = (string) $args['pp'];
+		$this->runNotBefore = (int) $args['notBefore'];
 	}
 
 	protected function run($argument): void {

@@ -69,7 +69,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 			return false;
 		}
 
-		return (bool)preg_match(IURLGenerator::URL_REGEX, $referenceText);
+		return (bool) preg_match(IURLGenerator::URL_REGEX, $referenceText);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		}
 
 		$linkContentLength = $headResponse->getHeader('Content-Length');
-		if (is_numeric($linkContentLength) && (int)$linkContentLength > self::MAX_CONTENT_LENGTH) {
+		if (is_numeric($linkContentLength) && (int) $linkContentLength > self::MAX_CONTENT_LENGTH) {
 			$this->logger->debug('[Head] Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}

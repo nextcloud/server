@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
@@ -103,7 +104,7 @@ class LoginCredentials extends AuthMechanism {
 		}
 		$credentials = $this->getCredentials($user);
 
-		$loginKey = $storage->getBackendOption("login_ldap_attr");
+		$loginKey = $storage->getBackendOption('login_ldap_attr');
 		if ($loginKey) {
 			$backend = $user->getBackend();
 			if ($backend instanceof IUserBackend && $backend->getBackendName() === 'LDAP') {

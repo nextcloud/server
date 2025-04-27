@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -239,7 +240,7 @@ class SFTP extends Common {
 				$lines = file($keyPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 				if ($lines) {
 					foreach ($lines as $line) {
-						$hostKeyArray = explode("::", $line, 2);
+						$hostKeyArray = explode('::', $line, 2);
 						if (count($hostKeyArray) === 2) {
 							$hosts[] = $hostKeyArray[0];
 							$keys[] = $hostKeyArray[1];
@@ -441,8 +442,8 @@ class SFTP extends Common {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
 
-			$mtime = isset($stat['mtime']) ? (int)$stat['mtime'] : -1;
-			$size = isset($stat['size']) ? (int)$stat['size'] : 0;
+			$mtime = isset($stat['mtime']) ? (int) $stat['mtime'] : -1;
+			$size = isset($stat['size']) ? (int) $stat['size'] : 0;
 
 			return [
 				'mtime' => $mtime,
@@ -482,7 +483,7 @@ class SFTP extends Common {
 				$size = $writtenSize;
 			});
 			if (!$stream) {
-				throw new \Exception("Failed to wrap stream");
+				throw new \Exception('Failed to wrap stream');
 			}
 		}
 		/** @psalm-suppress InternalMethod */
@@ -490,11 +491,11 @@ class SFTP extends Common {
 		fclose($stream);
 		if ($result) {
 			if ($size === null) {
-				throw new \Exception("Failed to get written size from sftp storage wrapper");
+				throw new \Exception('Failed to get written size from sftp storage wrapper');
 			}
 			return $size;
 		} else {
-			throw new \Exception("Failed to write steam to sftp storage");
+			throw new \Exception('Failed to write steam to sftp storage');
 		}
 	}
 

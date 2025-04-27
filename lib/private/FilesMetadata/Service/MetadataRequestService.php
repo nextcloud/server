@@ -59,11 +59,11 @@ class MetadataRequestService {
 	public function store(IFilesMetadata $filesMetadata): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA)
-		   ->hintShardKey('storage', $this->getStorageId($filesMetadata))
-		   ->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
-		   ->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
-		   ->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-		   ->setValue('last_update', (string) $qb->createFunction('NOW()'));
+			->hintShardKey('storage', $this->getStorageId($filesMetadata))
+			->setValue('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT))
+			->setValue('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
+			->setValue('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
+			->setValue('last_update', (string) $qb->createFunction('NOW()'));
 		$qb->executeStatement();
 	}
 
@@ -139,7 +139,7 @@ class MetadataRequestService {
 	public function dropMetadata(int $fileId): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_METADATA)
-		   ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
 	}
 
@@ -156,16 +156,16 @@ class MetadataRequestService {
 		$expr = $qb->expr();
 
 		$qb->update(self::TABLE_METADATA)
-		   ->hintShardKey('files_metadata', $this->getStorageId($filesMetadata))
-		   ->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
-		   ->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
-		   ->set('last_update', $qb->createFunction('NOW()'))
-		   ->where(
-		   	$expr->andX(
-		   		$expr->eq('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)),
-		   		$expr->eq('sync_token', $qb->createNamedParameter($filesMetadata->getSyncToken()))
-		   	)
-		   );
+			->hintShardKey('files_metadata', $this->getStorageId($filesMetadata))
+			->set('json', $qb->createNamedParameter(json_encode($filesMetadata->jsonSerialize())))
+			->set('sync_token', $qb->createNamedParameter($this->generateSyncToken()))
+			->set('last_update', $qb->createFunction('NOW()'))
+			->where(
+				$expr->andX(
+					$expr->eq('file_id', $qb->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)),
+					$expr->eq('sync_token', $qb->createNamedParameter($filesMetadata->getSyncToken()))
+				)
+			);
 
 		return $qb->executeStatement();
 	}

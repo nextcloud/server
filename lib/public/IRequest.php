@@ -108,11 +108,11 @@ interface IRequest {
 	 * @psalm-taint-source input
 	 *
 	 * @param string $key the key which you want to access in the URL Parameter
-	 *                     placeholder, $_POST or $_GET array.
-	 *                     The priority how they're returned is the following:
-	 *                     1. URL parameters
-	 *                     2. POST parameters
-	 *                     3. GET parameters
+	 *                    placeholder, $_POST or $_GET array.
+	 *                    The priority how they're returned is the following:
+	 *                    1. URL parameters
+	 *                    2. POST parameters
+	 *                    3. GET parameters
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 * @since 6.0.0

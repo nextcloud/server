@@ -76,7 +76,7 @@ class VersionCollection implements ICollection {
 	}
 
 	public function getName(): string {
-		return (string)$this->file->getId();
+		return (string) $this->file->getId();
 	}
 
 	public function setName($name) {

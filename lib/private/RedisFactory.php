@@ -13,7 +13,7 @@ class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
-	/** @var  \Redis|\RedisCluster */
+	/** @var \Redis|\RedisCluster */
 	private $instance;
 
 	private SystemConfig $config;
@@ -44,8 +44,8 @@ class RedisFactory {
 		$readTimeout = $config['read_timeout'] ?? 0.0;
 
 		$auth = null;
-		if (isset($config['password']) && (string)$config['password'] !== '') {
-			if (isset($config['user']) && (string)$config['user'] !== '') {
+		if (isset($config['password']) && (string) $config['password'] !== '') {
+			if (isset($config['user']) && (string) $config['user'] !== '') {
 				$auth = [$config['user'], $config['password']];
 			} else {
 				$auth = $config['password'];

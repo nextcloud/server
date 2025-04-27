@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
@@ -57,7 +58,7 @@ class ExpireTrash extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
-			$output->writeln("Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)");
+			$output->writeln('Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)');
 			return 1;
 		}
 

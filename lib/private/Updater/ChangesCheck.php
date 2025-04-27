@@ -127,12 +127,12 @@ class ChangesCheck {
 				$xml = @simplexml_load_string($body);
 			}
 			if ($xml !== false) {
-				$data['changelogURL'] = (string)$xml->changelog['href'];
+				$data['changelogURL'] = (string) $xml->changelog['href'];
 				$data['whatsNew'] = [];
 				foreach ($xml->whatsNew as $infoSet) {
-					$data['whatsNew'][(string)$infoSet['lang']] = [
-						'regular' => (array)$infoSet->regular->item,
-						'admin' => (array)$infoSet->admin->item,
+					$data['whatsNew'][(string) $infoSet['lang']] = [
+						'regular' => (array) $infoSet->regular->item,
+						'admin' => (array) $infoSet->admin->item,
 					];
 				}
 			} else {

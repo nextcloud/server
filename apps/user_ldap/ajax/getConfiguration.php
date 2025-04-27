@@ -10,7 +10,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
+$prefix = (string) $_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new OCA\User_LDAP\LDAP();
 $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 $configuration = $connection->getConfiguration();

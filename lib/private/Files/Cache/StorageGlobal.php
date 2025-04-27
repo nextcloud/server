@@ -66,7 +66,7 @@ class StorageGlobal {
 
 			if ($row) {
 				$this->cache[$storageId] = $row;
-				$this->numericIdCache[(int)$row['numeric_id']] = $row;
+				$this->numericIdCache[(int) $row['numeric_id']] = $row;
 			}
 		}
 		return $this->cache[$storageId] ?? null;

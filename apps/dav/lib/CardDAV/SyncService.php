@@ -143,7 +143,7 @@ class SyncService {
 			\GuzzleHttp\Psr7\Utils::uriFor($path)
 		);
 
-		return (string)$uri;
+		return (string) $uri;
 	}
 
 	/**
@@ -184,7 +184,7 @@ class SyncService {
 			$options
 		);
 
-		return (string)$response->getBody();
+		return (string) $response->getBody();
 	}
 
 	private function buildSyncCollectionRequestBody(?string $syncToken): string {

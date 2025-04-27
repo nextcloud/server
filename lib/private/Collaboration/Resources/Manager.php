@@ -123,7 +123,7 @@ class Manager implements IManager {
 		while ($row = $result->fetch()) {
 			$foundResults++;
 			$access = $row['access'] === null ? null : (bool) $row['access'];
-			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
+			$collection = new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
 			if ($collection->canAccess($user)) {
 				$collections[] = $collection;
 			}

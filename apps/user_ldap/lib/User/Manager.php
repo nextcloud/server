@@ -120,7 +120,7 @@ class Manager {
 	 * email, displayname, or others.
 	 *
 	 * @param bool $minimal - optional, set to true to skip attributes with big
-	 * payload
+	 *                      payload
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
@@ -144,7 +144,7 @@ class Manager {
 			$this->access->getConnection()->ldapAttributeBirthDate,
 		];
 
-		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;
+		$homeRule = (string) $this->access->getConnection()->homeFolderNamingRule;
 		if (str_starts_with($homeRule, 'attr:')) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}
@@ -160,7 +160,7 @@ class Manager {
 
 		$attributes = array_reduce($attributes,
 			function ($list, $attribute) {
-				$attribute = strtolower(trim((string)$attribute));
+				$attribute = strtolower(trim((string) $attribute));
 				if (!empty($attribute) && !in_array($attribute, $list)) {
 					$list[] = $attribute;
 				}
@@ -181,7 +181,7 @@ class Manager {
 	public function isDeletedUser($id) {
 		$isDeleted = $this->ocConfig->getUserValue(
 			$id, 'user_ldap', 'isDeleted', 0);
-		return (int)$isDeleted === 1;
+		return (int) $isDeleted === 1;
 	}
 
 	/**

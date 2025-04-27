@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -781,7 +782,7 @@ class FolderTest extends NodeTest {
 
 		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
-			return (int)$node->getId();
+			return (int) $node->getId();
 		}, $nodes);
 		$this->assertEquals([$id1, $id2, $id3], $ids);
 	}
@@ -846,7 +847,7 @@ class FolderTest extends NodeTest {
 
 		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
-			return (int)$node->getId();
+			return (int) $node->getId();
 		}, $nodes);
 		$this->assertEquals([$id2, $id3], $ids);
 		$this->assertEquals($baseTime, $nodes[0]->getMTime());
@@ -905,7 +906,7 @@ class FolderTest extends NodeTest {
 
 		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
-			return (int)$node->getId();
+			return (int) $node->getId();
 		}, $nodes);
 		$this->assertEquals([$id1], $ids);
 	}

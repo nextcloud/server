@@ -46,7 +46,7 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is enforced for all users", $display);
+		$this->assertStringContainsString('Two-factor authentication is enforced for all users', $display);
 	}
 
 	public function testEnforceForOneGroup() {
@@ -64,7 +64,7 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is enforced for members of the group(s) twofactorers", $display);
+		$this->assertStringContainsString('Two-factor authentication is enforced for members of the group(s) twofactorers', $display);
 	}
 
 	public function testEnforceForAllExceptOneGroup() {
@@ -82,7 +82,7 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is enforced for all users, except members of yoloers", $display);
+		$this->assertStringContainsString('Two-factor authentication is enforced for all users, except members of yoloers', $display);
 	}
 
 	public function testDisableEnforced() {
@@ -99,7 +99,7 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is not enforced", $display);
+		$this->assertStringContainsString('Two-factor authentication is not enforced', $display);
 	}
 
 	public function testCurrentStateEnabled() {
@@ -111,7 +111,7 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is enforced for all users", $display);
+		$this->assertStringContainsString('Two-factor authentication is enforced for all users', $display);
 	}
 
 	public function testCurrentStateDisabled() {
@@ -123,6 +123,6 @@ class EnforceTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$display = $this->command->getDisplay();
-		$this->assertStringContainsString("Two-factor authentication is not enforced", $display);
+		$this->assertStringContainsString('Two-factor authentication is not enforced', $display);
 	}
 }

@@ -100,7 +100,7 @@ class Repair implements IOutput {
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
-				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
+				$this->logger->error('Exception while executing repair step ' . $step->getName(), ['exception' => $e]);
 				$this->dispatcher->dispatchTyped(new RepairErrorEvent($e->getMessage()));
 			}
 		}

@@ -70,7 +70,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			return $node !== null;
 		};
 		$writeAccessClosure = function ($name) use ($userFolder) {
-			$nodes = $userFolder->getById((int)$name);
+			$nodes = $userFolder->getById((int) $name);
 			foreach ($nodes as $node) {
 				if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
 					return true;

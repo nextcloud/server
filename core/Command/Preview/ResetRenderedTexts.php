@@ -101,7 +101,7 @@ class ResetRenderedTexts extends Command {
 			}
 
 			try {
-				$preview = $this->previewFolder->getFolder((string)$previewFileId);
+				$preview = $this->previewFolder->getFolder((string) $previewFileId);
 				$preview->delete();
 			} catch (NotFoundException $e) {
 				// continue

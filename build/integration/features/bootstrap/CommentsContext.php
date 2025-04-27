@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -100,7 +101,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 		$response = file_get_contents($url, false, $context);
 		preg_match_all('/\<oc:fileid\>(.*)\<\/oc:fileid\>/', $response, $matches);
-		return (int)$matches[1][0];
+		return (int) $matches[1][0];
 	}
 
 	/**
@@ -113,7 +114,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function postsACommentWithContentOnTheFileNamedItShouldReturn($user, $content, $fileName, $statusCode) {
 		$fileId = $this->getFileIdForPath($fileName);
-		$this->fileId = (int)$fileId;
+		$this->fileId = (int) $fileId;
 		$url = $this->baseUrl . '/remote.php/dav/comments/files/' . $fileId . '/';
 
 		$client = new \GuzzleHttp\Client();
@@ -135,8 +136,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			$res = $e->getResponse();
 		}
 
-		if ($res->getStatusCode() !== (int)$statusCode) {
-			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
+		if ($res->getStatusCode() !== (int) $statusCode) {
+			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ')');
 		}
 	}
 
@@ -177,8 +178,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			$res = $e->getResponse();
 		}
 
-		if ($res->getStatusCode() !== (int)$statusCode) {
-			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
+		if ($res->getStatusCode() !== (int) $statusCode) {
+			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ')');
 		}
 
 		if ($res->getStatusCode() === 207) {
@@ -235,8 +236,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			$res = $e->getResponse();
 		}
 
-		if ($res->getStatusCode() !== (int)$statusCode) {
-			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
+		if ($res->getStatusCode() !== (int) $statusCode) {
+			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ')');
 		}
 	}
 
@@ -272,8 +273,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		if ($this->response !== null) {
 			$count = count($this->response);
 		}
-		if ($count !== (int)$number) {
-			throw new \Exception("Found more comments than $number (" . $count . ")");
+		if ($count !== (int) $number) {
+			throw new \Exception("Found more comments than $number (" . $count . ')');
 		}
 	}
 
@@ -302,8 +303,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			$res = $e->getResponse();
 		}
 
-		if ($res->getStatusCode() !== (int)$statusCode) {
-			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
+		if ($res->getStatusCode() !== (int) $statusCode) {
+			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ')');
 		}
 	}
 }

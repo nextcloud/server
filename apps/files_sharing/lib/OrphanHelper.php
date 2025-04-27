@@ -69,10 +69,10 @@ class OrphanHelper {
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			yield [
-				'id' => (int)$row['id'],
-				'owner' => (string)$row['uid_owner'],
-				'fileid' => (int)$row['file_source'],
-				'target' => (string)$row['file_target'],
+				'id' => (int) $row['id'],
+				'owner' => (string) $row['uid_owner'],
+				'fileid' => (int) $row['file_source'],
+				'target' => (string) $row['file_target'],
 			];
 		}
 	}

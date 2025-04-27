@@ -144,7 +144,7 @@ class UsersController extends Controller {
 		];
 
 		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
-			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
+			$isLDAPUsed = (bool) array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
 				return $ldapFound || $backend instanceof User_Proxy;
 			});
 		}
@@ -156,7 +156,7 @@ class UsersController extends Controller {
 			if ($isAdmin || $isDelegatedAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
 				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
-					return $v + (int)$w;
+					return $v + (int) $w;
 				}, 0);
 			} else {
 				// User is subadmin !
@@ -217,7 +217,7 @@ class UsersController extends Controller {
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName
 			? \OC\Group\MetaData::SORT_GROUPNAME
-			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
+			: (int) $this->config->getAppValue('core', 'group.sortBy', (string) \OC\Group\MetaData::SORT_USERCOUNT);
 		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
@@ -432,7 +432,7 @@ class UsersController extends Controller {
 				],
 				Http::STATUS_OK
 			);
-		} catch (ForbiddenException | InvalidArgumentException | PropertyDoesNotExistException $e) {
+		} catch (ForbiddenException|InvalidArgumentException|PropertyDoesNotExistException $e) {
 			return new DataResponse([
 				'status' => 'error',
 				'data' => [
@@ -459,7 +459,7 @@ class UsersController extends Controller {
 		}
 
 		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
-		$oldEmailAddress = strtolower((string)$oldEmailAddress);
+		$oldEmailAddress = strtolower((string) $oldEmailAddress);
 		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address

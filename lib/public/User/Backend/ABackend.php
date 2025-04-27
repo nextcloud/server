@@ -51,6 +51,6 @@ abstract class ABackend implements IUserBackend, UserInterface {
 			$implements |= Backend::COUNT_USERS;
 		}
 
-		return (bool)($actions & $implements);
+		return (bool) ($actions & $implements);
 	}
 }
