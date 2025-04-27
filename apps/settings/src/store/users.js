@@ -36,7 +36,10 @@ const defaults = {
 
 const state = {
 	users: [],
-	groups: [...(usersSettings.systemGroups ?? [])],
+	groups: [
+		...(usersSettings.getSubAdminGroups ?? []),
+		...(usersSettings.systemGroups ?? []),
+	],
 	orderBy: usersSettings.sortGroups ?? GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
@@ -232,12 +235,10 @@ const mutations = {
 	 * @param {object} state the store state
 	 */
 	resetGroups(state) {
-		const systemGroups = state.groups.filter(group => [
-			'admin',
-			'__nc_internal_recent',
-			'disabled',
-		].includes(group.id))
-		state.groups = [...systemGroups]
+		state.groups = [
+			...(usersSettings.getSubAdminGroups ?? []),
+			...(usersSettings.systemGroups ?? []),
+		]
 	},
 
 	setShowConfig(state, { key, value }) {
@@ -270,6 +271,10 @@ const getters = {
 	getGroups(state) {
 		return state.groups
 	},
+	getSubAdminGroups() {
+		return usersSettings.subAdminGroups ?? []
+	},
+
 	getSortedGroups(state) {
 		const groups = [...state.groups]
 		if (state.orderBy === GroupSorting.UserCount) {

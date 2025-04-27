@@ -61,6 +61,7 @@
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
 			<div class="dialog__item">
 				<NcSelect class="dialog__select"
+					data-test="groups"
 					:input-label="!settings.isAdmin && !settings.isDelegatedAdmin ? t('settings', 'Member of the following groups (required)') : t('settings', 'Member of the following groups')"
 					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
@@ -69,7 +70,7 @@
 					label="name"
 					:close-on-select="false"
 					:multiple="true"
-					:taggable="true"
+					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
 					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
 					:create-option="(value) => ({ id: value, name: value, isCreating: true })"
 					@search="searchGroups"
@@ -178,7 +179,7 @@ export default {
 
 	data() {
 		return {
-			availableGroups: this.$store.getters.getSortedGroups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled'),
+			availableGroups: [],
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerInputLabel: t('settings', 'Manager'),
@@ -235,6 +236,13 @@ export default {
 	},
 
 	mounted() {
+		// admins also can assign the system groups
+		if (this.isAdmin || this.isDelegatedAdmin) {
+			this.availableGroups = this.$store.getters.getSortedGroups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		} else {
+			this.availableGroups = [...this.$store.getters.getSubAdminGroups]
+		}
+
 		this.$refs.username?.focus?.()
 	},
 
@@ -273,6 +281,11 @@ export default {
 		},
 
 		async searchGroups(query, toggleLoading) {
+			if (!this.isAdmin && !this.isDelegatedAdmin) {
+				// managers cannot search for groups
+				return
+			}
+
 			if (this.promise) {
 				this.promise.cancel()
 			}
