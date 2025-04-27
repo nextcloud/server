@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Níorbh fhéidir logáil isteach a chríochnú",
     "State token missing" : "Comhartha stáit in easnamh",
     "Your login token is invalid or has expired" : "Tá do chomhartha logáil isteach neamhbhailí nó imithe in éag",
+    "Please use original client" : "Bain úsáid as an gcliant bunaidh le do thoil",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Ní thacaítear leis an scaoileadh pobail seo de Nextcloud agus tá teorainn le fógraí brú.",
     "Login" : "Logáil isteach",
     "Unsupported email length (>255)" : "Fad ríomhphoist nach dtacaítear leis (>255)",
