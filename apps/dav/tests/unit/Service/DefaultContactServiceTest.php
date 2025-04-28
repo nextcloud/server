@@ -17,6 +17,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -28,6 +29,7 @@ class DefaultContactServiceTest extends TestCase {
 	private MockObject|IAppManager $appManager;
 	private MockObject|IAppDataFactory $appDataFactory;
 	private MockObject|LoggerInterface $logger;
+	private MockObject|IAppConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,19 +38,21 @@ class DefaultContactServiceTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->config = $this->createMock(IAppConfig::class);
 
 		$this->service = new DefaultContactService(
 			$this->cardDav,
 			$this->appManager,
 			$this->appDataFactory,
-			$this->logger
+			$this->config,
+			$this->logger,
 		);
 	}
 
 	public function testCreateDefaultContactWithInvalidCard(): void {
 		// Invalid vCard missing required FN property
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nEND:VCARD";
-
+		$this->config->method('getValueString')->willReturn('yes');
 		$appData = $this->createMock(IAppData::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -72,6 +76,7 @@ class DefaultContactServiceTest extends TestCase {
 		$originalRev = '20200101T000000Z';
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nFN:Test User\nUID:$originalUid\nREV:$originalRev\nEND:VCARD";
 
+		$this->config->method('getValueString')->willReturn('yes');
 		$appData = $this->createMock(IAppData::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -103,6 +108,7 @@ class DefaultContactServiceTest extends TestCase {
 
 	public function testDefaultContactFileDoesNotExist(): void {
 		$appData = $this->createMock(IAppData::class);
+		$this->config->method('getValueString')->willReturn('yes');
 		$appData->method('getFolder')->willThrowException(new NotFoundException());
 		$this->appDataFactory->method('get')->willReturn($appData);
 
@@ -115,6 +121,7 @@ class DefaultContactServiceTest extends TestCase {
 	public function testUidAndRevAreAddedIfMissing(): void {
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nFN:Test User\nEND:VCARD";
 
+		$this->config->method('getValueString')->willReturn('yes');
 		$appData = $this->createMock(IAppData::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -144,5 +151,15 @@ class DefaultContactServiceTest extends TestCase {
 		$this->assertNotNull($vcard->REV);
 		$this->assertNotNull($vcard->UID);
 		$this->assertTrue(Uuid::isValid($vcard->UID->getValue()));
+	}
+
+	public function testDefaultContactIsNotCreatedIfEnabled(): void {
+		$this->config->method('getValueString')->willReturn('no');
+		$this->logger->expects($this->never())
+			->method('error');
+		$this->cardDav->expects($this->never())
+			->method('createCard');
+
+		$this->service->createDefaultContact(123);
 	}
 }
