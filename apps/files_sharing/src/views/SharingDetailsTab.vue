@@ -430,11 +430,7 @@ export default {
 				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
 			},
 			set(checked) {
-				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
-				if (downloadAttr) {
-					downloadAttr.value = checked
-				}
+				this.setShareAttribute('permissions', 'download', checked)
 			},
 		},
 		/**
@@ -744,6 +740,30 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Set a share attribute on the current share
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {boolean} value The value
+		 */
+		 setShareAttribute(scope, key, value) {
+			if (!this.share.attributes) {
+				this.$set(this.share, 'attributes', [])
+			}
+
+			const attribute = this.share.attributes
+				.find((attr) => attr.scope === scope || attr.key === key)
+
+			if (attribute) {
+				attribute.value = value
+			} else {
+				this.share.attributes.push({
+					scope,
+					key,
+					value,
+				})
+			}
+		},
 		updateAtomicPermissions({
 			isReadChecked = this.hasRead,
 			isEditChecked = this.canEdit,
