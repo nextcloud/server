@@ -10,15 +10,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Service;
 
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCP\App\IAppManager;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
 class DefaultContactService {
 	public function __construct(
 		private CardDavBackend $cardDav,
-		private IAppManager $appManager,
 		private IAppDataFactory $appDataFactory,
 		private LoggerInterface $logger,
 	) {
@@ -30,6 +29,8 @@ class DefaultContactService {
 			$folder = $appData->getFolder('defaultContact');
 			$defaultContactFile = $folder->getFile('defaultContact.vcf');
 			$data = $defaultContactFile->getContent();
+		} catch (NotFoundException $e) {
+			return;
 		} catch (\Exception $e) {
 			$this->logger->error('Couldn\'t get default contact file', ['exception' => $e]);
 			return;

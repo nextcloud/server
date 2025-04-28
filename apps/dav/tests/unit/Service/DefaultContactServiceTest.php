@@ -11,7 +11,6 @@ namespace OCA\DAV\Tests\Unit\Service;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Service\DefaultContactService;
-use OCP\App\IAppManager;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -25,7 +24,6 @@ use Test\TestCase;
 class DefaultContactServiceTest extends TestCase {
 	private DefaultContactService $service;
 	private MockObject|CardDavBackend $cardDav;
-	private MockObject|IAppManager $appManager;
 	private MockObject|IAppDataFactory $appDataFactory;
 	private MockObject|LoggerInterface $logger;
 
@@ -33,13 +31,11 @@ class DefaultContactServiceTest extends TestCase {
 		parent::setUp();
 
 		$this->cardDav = $this->createMock(CardDavBackend::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->service = new DefaultContactService(
 			$this->cardDav,
-			$this->appManager,
 			$this->appDataFactory,
 			$this->logger
 		);
@@ -79,7 +75,7 @@ class DefaultContactServiceTest extends TestCase {
 		$folder->method('getFile')->willReturn($file);
 		$appData->method('getFolder')->willReturn($folder);
 		$this->appDataFactory->method('get')->willReturn($appData);
-		
+
 		$capturedCardData = null;
 		$this->cardDav->expects($this->once())
 			->method('createCard')
@@ -92,9 +88,9 @@ class DefaultContactServiceTest extends TestCase {
 				}),
 				$this->anything()
 			)->willReturn(null);
-		
+
 		$this->service->createDefaultContact(123);
-		
+
 		$vcard = \Sabre\VObject\Reader::read($capturedCardData);
 		$this->assertNotEquals($originalUid, $vcard->UID->getValue());
 		$this->assertTrue(Uuid::isValid($vcard->UID->getValue()));
@@ -106,6 +102,21 @@ class DefaultContactServiceTest extends TestCase {
 		$appData->method('getFolder')->willThrowException(new NotFoundException());
 		$this->appDataFactory->method('get')->willReturn($appData);
 
+		$this->logger->expects($this->never())
+			->method('error');
+		$this->cardDav->expects($this->never())
+			->method('createCard');
+
+		$this->service->createDefaultContact(123);
+	}
+
+	public function testDefaultContactFileException(): void {
+		$appData = $this->createMock(IAppData::class);
+		$appData->method('getFolder')->willThrowException(new \Exception());
+		$this->appDataFactory->method('get')->willReturn($appData);
+
+		$this->logger->expects($this->once())
+			->method('error');
 		$this->cardDav->expects($this->never())
 			->method('createCard');
 
