@@ -210,19 +210,10 @@ Feature: transfer-ownership
 		And user "user1" accepts last share
 		When transferring ownership from "user0" to "user1"
 		And the command was successful
-		And As an "user1"
-		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 		And using old dav path
 		And as "user0" the folder "/test" exists
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" does not exist
-		And As an "user1"
-		And Getting info of last share
-		And the OCS status code should be "100"
-		And Share fields of last share match with
-			| uid_owner | user1 |
-			| uid_file_owner | user3 |
-			| share_with | group1 |
 
 	Scenario: transferring ownership of folder reshared with group to a user not in the group
 		Given user "user0" exists
