@@ -350,11 +350,10 @@ class Generator {
 
 				$path = $this->generatePath($preview->width(), $preview->height(), $crop, $max, $preview->dataMimeType(), $prefix);
 				try {
-					$file = $previewFolder->newFile($path);
 					if ($preview instanceof IStreamImage) {
-						$file->putContent($preview->resource());
+						return $previewFolder->newFile($path, $preview->resource());
 					} else {
-						$file->putContent($preview->data());
+						return $previewFolder->newFile($path, $preview->data());
 					}
 				} catch (NotPermittedException $e) {
 					throw new NotFoundException();
@@ -540,14 +539,13 @@ class Generator {
 		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
 		try {
 			if ($cacheResult) {
-				$file = $previewFolder->newFile($path, $preview->data());
+				return $previewFolder->newFile($path, $preview->data());
 			} else {
 				return new InMemoryFile($path, $preview->data());
 			}
 		} catch (NotPermittedException $e) {
 			throw new NotFoundException();
 		}
-
 		return $file;
 	}
 
