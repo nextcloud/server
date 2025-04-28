@@ -26,6 +26,8 @@ final class Template implements \JsonSerializable {
 	private $previewUrl = null;
 	/** @var list<Field> */
 	private $fields = [];
+	/** @var string|null */
+	private $fieldsUrl = null;
 
 	/**
 	 * @since 21.0.0
@@ -51,11 +53,20 @@ final class Template implements \JsonSerializable {
 	}
 
 	/**
+	 * @deprecated
 	 * @param list<Field> $fields
 	 * @since 30.0.0
 	 */
 	public function setFields(array $fields): void {
 		$this->fields = $fields;
+	}
+
+	/**
+	 * @param string $fieldsUrl
+	 * @since 32.0.0
+	 */
+	public function setFieldsUrl(string $fieldsUrl): void {
+		$this->fieldsUrl = $fieldsUrl;
 	}
 
 	/**
@@ -72,6 +83,7 @@ final class Template implements \JsonSerializable {
 	 *     type: string,
 	 *     hasPreview: bool,
 	 *     previewUrl: ?string,
+	 *     fieldsUrl: ?string,
 	 *     fields: list<array{
 	 *         index: string,
 	 *         type: string,
@@ -99,6 +111,7 @@ final class Template implements \JsonSerializable {
 			'hasPreview' => $this->hasPreview,
 			'previewUrl' => $this->previewUrl,
 			'fields' => array_map(static fn (Field $field) => $field->jsonSerialize(), $this->fields),
+			'fieldsUrl' => $this->fieldsUrl,
 		];
 	}
 }
