@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Sisselogimine ebaõnnestus",
     "State token missing" : "Oleku tunnusluba on puudu",
     "Your login token is invalid or has expired" : "Sinu sisselogimise tunnusluba on kas vigane või aegunud",
+    "Please use original client" : "Palun kasuta algupärast klienti",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "See Nextcloudi kogukonnaversioon pole toetatud ja tõuketeenuste kasutatavus on piiratud.",
     "Login" : "Logi sisse",
     "Unsupported email length (>255)" : "E-kirja pikkus pole toetatud (>255)",
