@@ -186,6 +186,9 @@ class Updater implements IUpdater {
 	public function copyFromStorage(IStorage $sourceStorage, string $source, string $target): void {
 		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache, ICacheEntry $sourceInfo) use ($target) {
 			$parent = dirname($target);
+			if ($parent === '.') {
+				$parent = '';
+			}
 			$parentInCache = $this->cache->inCache($parent);
 			if (!$parentInCache) {
 				$parentData = $this->scanner->scan($parent, Scanner::SCAN_SHALLOW, -1, false);
