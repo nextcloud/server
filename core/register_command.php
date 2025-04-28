@@ -152,6 +152,10 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
 
 	$application->add(Server::get(Command\Memcache\RedisCommand::class));
+
+	$application->add(Server::get(Command\Async\Live::class));
+	$application->add(Server::get(Command\Async\Manage::class));
+	$application->add(Server::get(Command\Async\Setup::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

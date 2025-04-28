@@ -582,6 +582,7 @@ class OC {
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 
+
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
 			return null;
