@@ -77,7 +77,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
+		$this->init(false);
 
 		$id = $entry['id'];
 
@@ -123,10 +123,6 @@ class NavigationManager implements INavigationManager {
 	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
-		}
-		$this->closureEntries = [];
 
 		$result = $this->entries;
 		if ($type !== 'all') {
@@ -212,7 +208,13 @@ class NavigationManager implements INavigationManager {
 		return $this->activeEntry;
 	}
 
-	private function init() {
+	private function init(bool $resolveClosures = true): void {
+		if ($resolveClosures) {
+			while ($c = array_pop($this->closureEntries)) {
+				$this->add($c());
+			}
+		}
+
 		if ($this->init) {
 			return;
 		}
@@ -420,11 +422,6 @@ class NavigationManager implements INavigationManager {
 
 	public function get(string $id): ?array {
 		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
-		}
-		$this->closureEntries = [];
-
 		return $this->entries[$id];
 	}
 
