@@ -107,7 +107,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
 
-		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class);
+		// we add the version author listener with lower priority to make sure new versions already are created by FileEventsListener
+		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class, -1);
 
 		$context->registerEventListener(VersionRestoredEvent::class, LegacyRollbackListener::class);
 	}
