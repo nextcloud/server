@@ -12,6 +12,7 @@ use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
 use Pimple\Container;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -57,47 +58,54 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			/* No constructor, return a instance directly */
 			return $class->newInstance();
 		}
-		return $class->newLazyGhost(function (object $object) use ($constructor): void {
-			/** @psalm-suppress DirectConstructorCall For lazy ghosts we have to call the constructor directly */
-			$object->__construct(...array_map(function (ReflectionParameter $parameter) {
-				$parameterType = $parameter->getType();
+		if (PHP_VERSION_ID >= 80400) {
+			/* For PHP>=8.4, use a lazy ghost to delay constructor and dependency resolving */
+			/** @psalm-suppress UndefinedMethod */
+			return $class->newLazyGhost(function (object $object) use ($constructor): void {
+				/** @psalm-suppress DirectConstructorCall For lazy ghosts we have to call the constructor directly */
+				$object->__construct(...$this->buildClassConstructorParameters($constructor));
+			});
+		} else {
+			return $class->newInstanceArgs($this->buildClassConstructorParameters($constructor));
+		}
+	}
 
-				$resolveName = $parameter->getName();
+	private function buildClassConstructorParameters(\ReflectionMethod $constructor): array {
+		return array_map(function (ReflectionParameter $parameter) {
+			$parameterType = $parameter->getType();
 
-				// try to find out if it is a class or a simple parameter
-				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameterType->getName();
+			$resolveName = $parameter->getName();
+
+			// try to find out if it is a class or a simple parameter
+			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+				$resolveName = $parameterType->getName();
+			}
+
+			try {
+				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
+							&& $parameterType->isBuiltin();
+				return $this->query($resolveName, !$builtIn);
+			} catch (ContainerExceptionInterface $e) {
+				// Service not found, use the default value when available
+				if ($parameter->isDefaultValueAvailable()) {
+					return $parameter->getDefaultValue();
 				}
 
-				try {
-					$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
-								&& $parameterType->isBuiltin();
-					return $this->query($resolveName, !$builtIn);
-				} catch (QueryException $e) {
-					// Service not found, use the default value when available
-					if ($parameter->isDefaultValueAvailable()) {
-						return $parameter->getDefaultValue();
-					}
-
-					if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-						$resolveName = $parameter->getName();
-						try {
-							return $this->query($resolveName);
-						} catch (QueryException $e2) {
-							// Pass null if typed and nullable
-							if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-								return null;
-							}
-
-							// don't lose the error we got while trying to query by type
-							throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
+				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+					$resolveName = $parameter->getName();
+					try {
+						return $this->query($resolveName);
+					} catch (ContainerExceptionInterface $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
 						}
 					}
-
-					throw $e;
 				}
-			}, $constructor->getParameters()));
-		});
+
+				throw $e;
+			}
+		}, $constructor->getParameters());
 	}
 
 	public function resolve($name) {
