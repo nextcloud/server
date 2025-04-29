@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -139,12 +140,12 @@ class SftpTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testSymlinks(): void {
-        $this->instance->mkdir('test');
-        $this->instance->touch('notes.txt');
+		$this->instance->mkdir('test');
+		$this->instance->touch('notes.txt');
 		$this->assertTrue($this->instance->is_dir('test'));
 		$this->assertTrue($this->instance->is_file('notes.txt'));
 
-        $root = $this->instance->getRoot();
+		$root = $this->instance->getRoot();
 		$symlinkDir = $root . '/test/slink';
 		$symlinkFile = $root . '/test/foo.txt';
 		$this->instance->getConnection()->symlink($root, $symlinkDir);
@@ -152,7 +153,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->getConnection()->is_link($symlinkDir), 'Symlink directory was not created');
 		$this->assertTrue($this->instance->getConnection()->is_link($symlinkFile), 'Symlink file was not created');
 
-        $contents = $this->instance->getDirectoryContent('test/slink');
+		$contents = $this->instance->getDirectoryContent('test/slink');
 		$files = [];
 		foreach ($contents as $file) {
 			$files[] = $file['name'];
