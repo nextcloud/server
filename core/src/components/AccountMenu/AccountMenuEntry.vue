@@ -78,9 +78,14 @@ export default defineComponent({
 	},
 
 	methods: {
-		onClick(e) {
-			this.loading = true
+		onClick(e: MouseEvent) {
 			this.$emit('click', e)
+
+			// Allow to not show the loading indicator
+			// in case the click event was already handled
+			if (!e.defaultPrevented) {
+				this.loading = true
+			}
 		},
 	},
 })

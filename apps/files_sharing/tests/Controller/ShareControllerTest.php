@@ -332,6 +332,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'fileId' => 111,
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
+			'isFileRequest' => false,
 		];
 
 		$response = $this->shareController->showShare();
@@ -474,6 +475,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'disclaimer' => 'My disclaimer text',
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
+			'isFileRequest' => false,
 		];
 
 		$response = $this->shareController->showShare();
