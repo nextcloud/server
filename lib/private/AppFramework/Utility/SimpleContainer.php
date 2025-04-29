@@ -58,6 +58,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			return $class->newInstance();
 		}
 		return $class->newLazyGhost(function (object $object) use ($constructor): void {
+			/** @psalm-suppress DirectConstructorCall For lazy ghosts we have to call the constructor directly */
 			$object->__construct(...array_map(function (ReflectionParameter $parameter) {
 				$parameterType = $parameter->getType();
 
@@ -69,8 +70,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 				}
 
 				try {
-					$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
-						&& $parameter->getType()->isBuiltin();
+					$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
+								&& $parameterType->isBuiltin();
 					return $this->query($resolveName, !$builtIn);
 				} catch (QueryException $e) {
 					// Service not found, use the default value when available
