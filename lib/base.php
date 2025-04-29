@@ -788,7 +788,12 @@ class OC {
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApp('settings');
 			/* Build core application to make sure that listeners are registered */
-			Server::get(\OC\Core\Application::class);
+			$coreApplication = Server::get(\OC\Core\Application::class);
+			if (PHP_VERSION_ID >= 80400) {
+				/* FIXME On 8.4 constructor is not called unless we do that or use the object */
+				$reflector = new \ReflectionClass(\OC\Core\Application::class);
+				$reflector->initializeLazyObject($coreApplication);
+			}
 		}
 
 		//make sure temporary files are cleaned up
