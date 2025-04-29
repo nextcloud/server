@@ -23,8 +23,7 @@ use function class_exists;
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
-	/** @var Container */
-	private $container;
+	private Container $container;
 
 	public function __construct() {
 		$this->container = new Container();
@@ -49,53 +48,55 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	/**
 	 * @param ReflectionClass $class the class to instantiate
-	 * @return \stdClass the created class
+	 * @return object the created class
 	 * @suppress PhanUndeclaredClassInstanceof
 	 */
-	private function buildClass(ReflectionClass $class) {
+	private function buildClass(ReflectionClass $class): object {
 		$constructor = $class->getConstructor();
 		if ($constructor === null) {
+			/* No constructor, return a instance directly */
 			return $class->newInstance();
 		}
+		return $class->newLazyGhost(function (object $object) use ($constructor): void {
+			$object->__construct(...array_map(function (ReflectionParameter $parameter) {
+				$parameterType = $parameter->getType();
 
-		return $class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
-			$parameterType = $parameter->getType();
+				$resolveName = $parameter->getName();
 
-			$resolveName = $parameter->getName();
-
-			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-				$resolveName = $parameterType->getName();
-			}
-
-			try {
-				$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
-					&& $parameter->getType()->isBuiltin();
-				return $this->query($resolveName, !$builtIn);
-			} catch (QueryException $e) {
-				// Service not found, use the default value when available
-				if ($parameter->isDefaultValueAvailable()) {
-					return $parameter->getDefaultValue();
-				}
-
+				// try to find out if it is a class or a simple parameter
 				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameter->getName();
-					try {
-						return $this->query($resolveName);
-					} catch (QueryException $e2) {
-						// Pass null if typed and nullable
-						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-							return null;
-						}
-
-						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
-					}
+					$resolveName = $parameterType->getName();
 				}
 
-				throw $e;
-			}
-		}, $constructor->getParameters()));
+				try {
+					$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
+						&& $parameter->getType()->isBuiltin();
+					return $this->query($resolveName, !$builtIn);
+				} catch (QueryException $e) {
+					// Service not found, use the default value when available
+					if ($parameter->isDefaultValueAvailable()) {
+						return $parameter->getDefaultValue();
+					}
+
+					if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+						$resolveName = $parameter->getName();
+						try {
+							return $this->query($resolveName);
+						} catch (QueryException $e2) {
+							// Pass null if typed and nullable
+							if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+								return null;
+							}
+
+							// don't lose the error we got while trying to query by type
+							throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
+						}
+					}
+
+					throw $e;
+				}
+			}, $constructor->getParameters()));
+		});
 	}
 
 	public function resolve($name) {
