@@ -70,8 +70,10 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 			$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 			if ($ownerNameProperty->getScope() === IAccountManager::SCOPE_PUBLISHED) {
-				$ownerName = $owner->getDisplayName();
 				$ownerId = $owner->getUID();
+				$ownerName = $owner->getDisplayName();
+				$this->initialState->provideInitialState('owner', $ownerId);
+				$this->initialState->provideInitialState('ownerDisplayName', $ownerName);
 			}
 		}
 
