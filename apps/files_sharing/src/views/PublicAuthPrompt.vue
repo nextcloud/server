@@ -9,15 +9,15 @@
 		data-cy-public-auth-prompt-dialog
 		is-form
 		:can-close="false"
-		:name="dialogName"
-		@submit="$emit('close', name)">
-		<p v-if="owner" class="public-auth-prompt__subtitle">
-			{{ t('files_sharing', '{ownerDisplayName} shared a folder with you.', { ownerDisplayName }) }}
+		:name="title"
+		@submit="onSubmit">
+		<p v-if="subtitle" class="public-auth-prompt__subtitle">
+			{{ subtitle }}
 		</p>
 
 		<!-- Header -->
 		<NcNoteCard class="public-auth-prompt__header"
-			:text="t('files_sharing', 'To upload files, you need to provide your name first.')"
+			:text="notice"
 			type="info" />
 
 		<!-- Form -->
@@ -35,7 +35,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { getBuilder } from '@nextcloud/browser-storage'
 import { loadState } from '@nextcloud/initial-state'
+import { setGuestNickname } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 
 import NcDialog from '@nextcloud/vue/components/NcDialog'
@@ -43,6 +45,8 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { getGuestNameValidity } from '../services/GuestNameValidity'
+
+const storage = getBuilder('files_sharing').build()
 
 export default defineComponent({
 	name: 'PublicAuthPrompt',
@@ -62,17 +66,37 @@ export default defineComponent({
 			type: String,
 			default: '',
 		},
+
+		/**
+		 * Dialog title
+		 */
+		title: {
+			type: String,
+			default: t('files_sharing', 'Guest identification'),
+		},
+
+		/**
+		 * Dialog subtitle
+		 * @default 'Enter your name to access the file'
+		 */
+		subtitle: {
+			type: String,
+			default: '',
+		},
+
+		/**
+		 * Dialog notice
+		 * @default 'You are currently not identified.'
+		 */
+		notice: {
+			type: String,
+			default: t('files_sharing', 'You are currently not identified.'),
+		},
 	},
 
 	setup() {
 		return {
 			t,
-
-			owner: loadState('files_sharing', 'owner', ''),
-			ownerDisplayName: loadState('files_sharing', 'ownerDisplayName', ''),
-			label: loadState('files_sharing', 'label', ''),
-			note: loadState('files_sharing', 'note', ''),
-			filename: loadState('files_sharing', 'filename', ''),
 		}
 	},
 
@@ -83,9 +107,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		dialogName() {
-			return this.t('files_sharing', 'Upload files to {folder}', { folder: this.label || this.filename })
-		},
 		dialogButtons() {
 			return [{
 				label: t('files_sharing', 'Submit name'),
@@ -115,6 +136,21 @@ export default defineComponent({
 			const validity = getGuestNameValidity(newName)
 			input.setCustomValidity(validity)
 			input.reportValidity()
+		},
+	},
+
+	methods: {
+		onSubmit() {
+			const nickname = this.name.trim()
+
+			// Set the nickname
+			setGuestNickname(nickname)
+
+			// Set the dialog as shown
+			storage.setItem('public-auth-prompt-shown', 'true')
+
+			// Close the dialog
+			this.$emit('close', this.name)
 		},
 	},
 })
