@@ -878,6 +878,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
         'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToImage' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToImage.php',
+        'OCP\\TaskProcessing\\TaskTypes\\TextToSpeech' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToSpeech.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToText' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToText.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextChangeTone' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextChangeTone.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextChat' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextChat.php',
