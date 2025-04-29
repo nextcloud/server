@@ -53,6 +53,10 @@ export default {
 			type: String,
 			default: '',
 		},
+		operator: {
+			type: String,
+			default: '',
+		}
 	},
 
 	emits: ['update:model-value'],
@@ -86,7 +90,7 @@ export default {
 	},
 	computed: {
 		options() {
-			return [...this.predefinedTypes, this.customValue]
+			return ['is', '!is'].includes(this.operator) ? this.predefinedTypes : [this.customValue]
 		},
 		isPredefined() {
 			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
@@ -118,8 +122,14 @@ export default {
 		modelValue() {
 			this.updateInternalValue()
 		},
+		// If user changed operation from is/!is to matches/!matches (or vice versa), reset value
+		operator(newVal, oldVal) {
+			if ((['is', '!is'].includes(oldVal) && ['matches', '!matches'].includes(newVal))
+				|| (['matches', '!matches'].includes(oldVal) && ['is', '!is'].includes(newVal))) {
+				this.setValue(this.options[0])
+			}
+		},
 	},
-
 	methods: {
 		validateRegex(string) {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
