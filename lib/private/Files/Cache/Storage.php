@@ -56,9 +56,18 @@ class Storage {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
+			try {
+				$query = $connection->getQueryBuilder();
+				$query->insert('storages')
+					->setValue('id', $query->createNamedParameter($this->storageId))
+					->setValue('available', $query->createNamedParameter($available));
+				$query->executeStatement();
+				$this->numericId = $query->getLastInsertId();
+			} catch (\Exception $e) {
+				echo "$e\n";
+				\OCP\Server::get(LoggerInterface::class)->debug('Storage with ' . $this->storageId . ' failed to insert, selecting', ['exception' => $e]);
+
+				//TODO: catch only conflict
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {
