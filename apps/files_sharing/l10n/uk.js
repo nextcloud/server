@@ -411,7 +411,7 @@ OC.L10N.register(
     "You can upload into this folder" : "Ви можете завантажити до цього каталогу",
     "No compatible server found at {remote}" : "Відсутній сумісний сервер за адресою {remote}",
     "Invalid server URL" : "Недійсна адреса сервера URL",
-    "Failed to add the public link to your Nextcloud" : "Не вдалося додати загальнодоступне посилання до вашого Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "Не вдалося додати публічне посилання до вашого Nextcloud",
     "Files" : "Файли",
     "Download all files" : "Звантажити всі файли",
     "Search for share recipients" : "Виберіть отримувачів",
