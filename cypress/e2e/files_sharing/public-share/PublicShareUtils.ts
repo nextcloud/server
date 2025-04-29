@@ -96,12 +96,12 @@ function checkExpirationDateState(enforced: boolean, hasDefault: boolean) {
  * @param shareName The name of the shared folder
  * @param options The share options
  */
-export function createShare(context: ShareContext, shareName: string, options: ShareOptions | null = null) {
+export function createLinkShare(context: ShareContext, shareName: string, options: ShareOptions | null = null): Cypress.Chainable<string> {
 	cy.login(context.user)
 	cy.visit('/apps/files')
 	openSharingPanel(shareName)
 
-	cy.intercept('POST', '**/ocs/v2.php/apps/files_sharing/api/v1/shares').as('createShare')
+	cy.intercept('POST', '**/ocs/v2.php/apps/files_sharing/api/v1/shares').as('createLinkShare')
 	cy.findByRole('button', { name: 'Create a new share link' }).click()
 	// Conduct optional checks based on the provided options
 	if (options) {
@@ -111,14 +111,14 @@ export function createShare(context: ShareContext, shareName: string, options: S
 		cy.findByRole('button', { name: 'Create share' }).click()
 	}
 
-	return cy.wait('@createShare')
+	return cy.wait('@createLinkShare')
 		.should(({ response }) => {
 			expect(response?.statusCode).to.eq(200)
 			const url = response?.body?.ocs?.data?.url
 			expect(url).to.match(/^https?:\/\//)
 			context.url = url
 		})
-		.then(() => cy.wrap(context.url))
+		.then(() => cy.wrap(context.url as string))
 }
 
 /**
@@ -173,7 +173,7 @@ export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string
 						defaultShareContext.user = user
 					})
 					.then(() => setupData(defaultShareContext.user, shareName))
-					.then(() => createShare(defaultShareContext, shareName))
+					.then(() => createLinkShare(defaultShareContext, shareName))
 					.then((url) => {
 						shareData.shareUrl = url
 					})

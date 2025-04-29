@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getRowForFile, haveValidity, triggerActionForFile } from '../../files/FilesUtils.ts'
-import { getShareUrl, setupPublicShare } from './setup-public-share.ts'
+import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
 
 describe('files_sharing: Public share - renaming files', { testIsolation: true }, () => {
 
