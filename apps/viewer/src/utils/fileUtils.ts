@@ -34,6 +34,8 @@ export interface FileInfo {
 	type: 'directory'|'file'
 	/** Attributes for file shares */
 	shareAttributes?: string|Array<{value:boolean|string|number|null|object|Array<unknown>, key: string, scope: string}>
+	/** Share hidden state since Nextcloud 31 */
+	hideDownload?: boolean
 
 	// custom attributes not fetch from API
 
