@@ -105,7 +105,7 @@ OC.L10N.register(
     "Yes" : "Так",
     "The remote URL must include the user." : "Віддалена адреса повинна містити в собі імʼя користувача.",
     "Invalid remote URL." : "Недійсна віддалена адреса.",
-    "Failed to add the public link to your Nextcloud" : "Не вдалося додати загальнодоступне посилання до вашого Nextcloud",
+    "Failed to add the public link to your Nextcloud" : "Не вдалося додати публічне посилання до вашого Nextcloud",
     "Federated user" : "Обʼєднаний користувач",
     "user@your-nextcloud.org" : "користувач@ваш-nextcloud.org",
     "Create share" : "Передати у публічний доступ",
