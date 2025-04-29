@@ -122,7 +122,7 @@ OC.L10N.register(
     "Actual size (100%)" : "Tatsächliche Größe (100%)",
     "Fit size" : "Größe anpassen",
     "Select image to add …" : "Bild zum Hinzufügen auswählen …",
-    "Failed to load image." : "Fehler beim Laden des Bildes.",
+    "Failed to load image." : "Bild konnte nicht geladen werden",
     "Menu" : "Menü",
     "Width" : "Breite",
     "Height" : "Größe",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Unsaved changes" : "Saqlanmagan o'zgarishlar",
     "Edit" : "Tahrirlash",
     "Download" : "Download",
     "Delete" : "Delete",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Custom" : "Boshqa",
     "Value" : "Qiymati",
     "Line" : "Chiziq",
+    "Text" : "Matn",
     "Size" : "Size"
 },
 "nplurals=1; plural=0;");

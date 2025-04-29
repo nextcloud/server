@@ -1,4 +1,5 @@
 { "translations": {
+    "Unsaved changes" : "Saqlanmagan o'zgarishlar",
     "Edit" : "Tahrirlash",
     "Download" : "Download",
     "Delete" : "Delete",
@@ -12,6 +13,7 @@
     "Custom" : "Boshqa",
     "Value" : "Qiymati",
     "Line" : "Chiziq",
+    "Text" : "Matn",
     "Size" : "Size"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
