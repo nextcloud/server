@@ -31,7 +31,6 @@
 			<Operation :operation="operation" :colored="false">
 				<component :is="operation.element"
 					v-if="operation.element"
-					ref="operationComponent"
 					:model-value="inputValue"
 					@update:model-value="updateOperationByEvent" />
 				<component :is="operation.options"
@@ -136,9 +135,8 @@ export default {
 	},
 	mounted() {
 		this.originalRule = JSON.parse(JSON.stringify(this.rule))
-
 		if (this.operation?.element) {
-			this.$refs.operationComponent.value = this.rule.operation
+			this.inputValue = this.rule.operation
 		} else if (this.operation?.options) {
 			// keeping this in an else for apps that try to be backwards compatible and may ship both
 			// to be removed in 03/2028
