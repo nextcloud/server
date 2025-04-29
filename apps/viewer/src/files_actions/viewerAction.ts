@@ -54,7 +54,7 @@ async function execAction(node: Node, view: View, dir: string): Promise<boolean|
 		onNext(fileInfo) {
 			pushToHistory(fileInfo, view, dir)
 		},
-		onClose
+		onClose,
 	})
 
 	return null

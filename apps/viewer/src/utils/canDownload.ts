@@ -10,6 +10,10 @@ import type { FileInfo } from './fileUtils'
  * @param fileInfo The file info to check
  */
 export function canDownload(fileInfo: FileInfo) {
+	if (fileInfo.hideDownload) {
+		return false
+	}
+
 	// TODO: This should probably be part of `@nextcloud/sharing`
 	// check share attributes
 	const shareAttributes = typeof fileInfo?.shareAttributes === 'string' ? JSON.parse(fileInfo.shareAttributes || '[]') : fileInfo?.shareAttributes
