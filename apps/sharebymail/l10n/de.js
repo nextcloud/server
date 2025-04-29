@@ -17,7 +17,7 @@ OC.L10N.register(
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Freigeben von %1$s ist fehlgeschlagen, da dieses Element schon mit dem Konto %2$s geteilt wurde",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte gib in deinen persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche es erneut.",
     "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
-    "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
+    "Failed to send share by email" : "Freigabe konnte nicht per E-Mail gesendet werden",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit dir geteilt",
     "Note:" : "Bemerkung:",
     "This share is valid until %s at midnight" : "Diese Freigabe ist bis zum %s um Mitternacht gültig",
