@@ -103,13 +103,19 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit nodb testsuite
-        run: composer run test -- --exclude-group DB,SLOWDB ${{ matrix.coverage && ' --coverage-clover ./clover.nodb.xml' || '' }}
+        run: composer run test -- --exclude-group DB,SLOWDB --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
 
       - name: Upload nodb code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.nodb.xml
+          flags: phpunit-nodb
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-nodb
 
       - name: Print logs

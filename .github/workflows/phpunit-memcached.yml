@@ -97,13 +97,19 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache,Memcached ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+        run: composer run test -- --group Memcache,Memcached --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-memcached
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-memcached
 
       - name: Print logs

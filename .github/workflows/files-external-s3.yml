@@ -94,13 +94,20 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/Amazons3Test.php \
           apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-s3
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-files-external-s3
 
       - name: S3 logs
@@ -161,13 +168,20 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/Amazons3Test.php \
           apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
         uses: codecov/codecov-action@v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-s3
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1.1.0
+        with:
           flags: phpunit-files-external-s3
 
       - name: S3 logs
