@@ -139,33 +139,31 @@ class SftpTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testSymlinks(): void {
-		$this->instance->getConnection()->mkdir($this->config['root']);
-		$this->instance->getConnection()->mkdir($this->config['root'] . '/test');
-		$this->instance->getConnection()->touch($this->config['root'] . '/notes.txt');
-		$this->assertTrue($this->instance->getConnection()->is_dir($this->config['root'] . '/test'));
-		$this->assertTrue($this->instance->getConnection()->is_file($this->config['root'] . '/notes.txt'));
+        $this->instance->mkdir('test');
+        $this->instance->touch('notes.txt');
+		$this->assertTrue($this->instance->is_dir('test'));
+		$this->assertTrue($this->instance->is_file('notes.txt'));
 
-		$symlinkDir = $this->config['root'] . '/test/slink';
-		$symlinkFile = $this->config['root'] . '/foo.txt';
-		$this->instance->getConnection()->symlink($this->config['root'], $symlinkDir);
-		$this->instance->getConnection()->symlink($this->config['root'] . '/notes.txt', $symlinkFile);
+        $root = $this->instance->getRoot();
+		$symlinkDir = $root . '/test/slink';
+		$symlinkFile = $root . '/test/foo.txt';
+		$this->instance->getConnection()->symlink($root, $symlinkDir);
+		$this->instance->getConnection()->symlink($root . '/notes.txt', $symlinkFile);
 		$this->assertTrue($this->instance->getConnection()->is_link($symlinkDir), 'Symlink directory was not created');
 		$this->assertTrue($this->instance->getConnection()->is_link($symlinkFile), 'Symlink file was not created');
 
-		$dirHandle = $this->instance->opendir('test/slink');
+        $contents = $this->instance->getDirectoryContent('test/slink');
 		$files = [];
-		while (($file = readdir($dirHandle)) !== false) {
-			$files[] = $file;
+		foreach ($contents as $file) {
+			$files[] = $file['name'];
 		}
-		closedir($dirHandle);
 		$this->assertEquals(['test', 'notes.txt'], $files);
 
-		$dirHandle = $this->instance->opendir('test/slink/test');
+		$contents = $this->instance->getDirectoryContent('test/slink/test');
 		$files = [];
-		while (($file = readdir($dirHandle)) !== false) {
-			$files[] = $file;
+		foreach ($contents as $file) {
+			$files[] = $file['name'];
 		}
-		closedir($dirHandle);
-		$this->assertEquals([], $files, 'Symlink directory must not repeat itself');
+		$this->assertEquals(['foo.txt'], $files, 'Symlink directory must not repeat itself');
 	}
 }
