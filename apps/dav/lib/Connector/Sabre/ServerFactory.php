@@ -14,6 +14,7 @@ use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\Theming\ThemingDefaults;
+use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
@@ -123,6 +124,7 @@ class ServerFactory {
 					$this->previewManager,
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
+					\OCP\Server::get(IAccountManager::class),
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)
