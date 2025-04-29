@@ -51,6 +51,7 @@ use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -252,6 +253,7 @@ class Server {
 						\OCP\Server::get(IPreview::class),
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 						false,
 						$config->getSystemValueBool('debug', false) === false,
 					)
