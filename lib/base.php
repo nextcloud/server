@@ -792,6 +792,7 @@ class OC {
 			if (PHP_VERSION_ID >= 80400) {
 				/* FIXME On 8.4 constructor is not called unless we do that or use the object */
 				$reflector = new \ReflectionClass(\OC\Core\Application::class);
+				/** @psalm-suppress UndefinedMethod */
 				$reflector->initializeLazyObject($coreApplication);
 			}
 		}
