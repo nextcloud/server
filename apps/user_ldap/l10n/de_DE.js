@@ -1,8 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Löschen der Zuordnungen fehlgeschlagen.",
-    "Failed to delete the server configuration" : "Löschen der Serverkonfiguration fehlgeschlagen",
+    "Failed to clear the mappings." : "Die Zuordnungen konnten nicht gelöscht werden.",
+    "Failed to delete the server configuration" : "Die Serverkonfiguration konnte nicht gelöscht werden",
     "Invalid configuration: Anonymous binding is not allowed." : "Die Konfiguration ist ungültig: anonymes Binden ist nicht erlaubt. ",
     "Valid configuration, connection established!" : "Gültige Konfiguration, Verbindung hergestellt!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Die Konfiguration ist gültig, aber der LDAP-Bind ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen. ",
