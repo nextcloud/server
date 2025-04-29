@@ -69,6 +69,12 @@ class App {
 					$step['args'][1] === $classNameParts[1]) {
 					$setUpViaQuery = true;
 					break;
+				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
+					$step['class'] === \ReflectionClass::class &&
+					$step['function'] === 'initializeLazyObject' &&
+					$step['args'][0] === $this) {
+					$setUpViaQuery = true;
+					break;
 				}
 			}
 
