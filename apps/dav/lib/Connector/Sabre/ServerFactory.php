@@ -12,6 +12,7 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
@@ -132,6 +133,7 @@ class ServerFactory {
 					$this->previewManager,
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
+					\OCP\Server::get(IAccountManager::class),
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)
