@@ -102,4 +102,36 @@ class NavigationControllerTest extends TestCase {
 			$this->assertEquals('/core/img/settings.svg', $actual->getData()[0]['icon']);
 		}
 	}
+
+	public function testEtagIgnoresLogout(): void {
+		$navigation1 = [
+			['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=abcd', 'icon' => 'icon' ],
+		];
+		$navigation2 = [
+			['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=1234', 'icon' => 'icon' ],
+		];
+		$navigation3 = [
+			['id' => 'files', 'href' => '/index.php/apps/files/test', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=1234', 'icon' => 'icon' ],
+		];
+		$this->navigationManager->expects($this->exactly(3))
+			->method('getAll')
+			->with('link')
+			->willReturnOnConsecutiveCalls(
+				$navigation1,
+				$navigation2,
+				$navigation3,
+			);
+
+		// Changes in the logout url should not change the ETag
+		$request1 = $this->controller->getAppsNavigation();
+		$request2 = $this->controller->getAppsNavigation();
+		$this->assertEquals($request1->getETag(), $request2->getETag());
+
+		// Changes in non-logout urls should result in a different ETag
+		$request3 = $this->controller->getAppsNavigation();
+		$this->assertNotEquals($request2->getETag(), $request3->getETag());
+	}
 }
