@@ -330,6 +330,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'filename' => $filename,
 			'view' => $view,
 			'fileId' => 111,
+			'owner' => 'ownerUID',
+			'ownerDisplayName' => 'ownerDisplay',
 		];
 
 		$response = $this->shareController->showShare();
@@ -470,6 +472,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'filename' => $filename,
 			'view' => 'public-file-drop',
 			'disclaimer' => 'My disclaimer text',
+			'owner' => 'ownerUID',
+			'ownerDisplayName' => 'ownerDisplay',
 		];
 
 		$response = $this->shareController->showShare();
