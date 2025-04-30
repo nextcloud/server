@@ -11,6 +11,7 @@ use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
+use OCP\Accounts\IAccountManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IFilenameValidator;
@@ -91,6 +92,7 @@ class FilesPlugin extends ServerPlugin {
 		private IPreview $previewManager,
 		private IUserSession $userSession,
 		private IFilenameValidator $validator,
+		private IAccountManager $accountManager,
 		private bool $isPublic = false,
 		private bool $downloadAttachment = true,
 	) {
@@ -361,9 +363,26 @@ class FilesPlugin extends ServerPlugin {
 				$owner = $node->getOwner();
 				if (!$owner) {
 					return null;
-				} else {
+				}
+
+				// Get current user to see if we're in a public share or not
+				$user = $this->userSession->getUser();
+
+				// If the user is logged in, we can return the display name
+				if ($user !== null) {
 					return $owner->getDisplayName();
 				}
+
+				// Check if the user published their display name
+				$ownerAccount = $this->accountManager->getAccount($owner);
+				$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
+
+				// Since we are not logged in, we need to have at least the published scope
+				if ($ownerNameProperty->getScope() === IAccountManager::SCOPE_PUBLISHED) {
+					return $owner->getDisplayName();
+				}
+
+				return null;
 			});
 
 			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {

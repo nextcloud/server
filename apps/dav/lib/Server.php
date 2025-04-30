@@ -64,6 +64,7 @@ use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\Theming\ThemingDefaults;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -287,6 +288,7 @@ class Server {
 						\OCP\Server::get(IPreview::class),
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 						false,
 						$config->getSystemValueBool('debug', false) === false,
 					)
