@@ -62,7 +62,7 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function changeRotateSizeProvider() {
+	public static function changeRotateSizeProvider(): array {
 		return [
 			['42', 42],
 			['0', 0],
@@ -96,13 +96,17 @@ class FileTest extends TestCase {
 				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]);
 
+		$calls = [
+			['Log backend file: disabled'],
+			['Log file: /var/log/nextcloud.log'],
+			['Rotate at: 5 MB'],
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Log backend file: disabled'],
-				['Log file: /var/log/nextcloud.log'],
-				['Rotate at: 5 MB'],
-			);
+			->willReturnCallback(function (string $message) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

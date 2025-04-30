@@ -39,7 +39,7 @@ class LogFactoryTest extends TestCase {
 		$this->factory = new LogFactory($this->c, $this->systemConfig);
 	}
 
-	public function fileTypeProvider(): array {
+	public static function fileTypeProvider(): array {
 		return [
 			[
 				'file'
@@ -67,14 +67,17 @@ class LogFactoryTest extends TestCase {
 
 		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
-			->willReturnOnConsecutiveCalls($datadir, $defaultLog, 0640);
+			->willReturnMap([
+				['datadirectory', $datadir, $datadir],
+				['logfile', $defaultLog, $defaultLog],
+				['logfilemode', 0640, 0640],
+			]);
 
 		$log = $this->factory->get($type);
 		$this->assertInstanceOf(File::class, $log);
 	}
 
-	public function logFilePathProvider():array {
+	public static function logFilePathProvider():array {
 		return [
 			[
 				'/dev/null',
@@ -97,8 +100,11 @@ class LogFactoryTest extends TestCase {
 
 		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
-			->willReturnOnConsecutiveCalls($datadir, $path, 0640);
+			->willReturnMap([
+				['datadirectory', $datadir, $datadir],
+				['logfile', $defaultLog, $path],
+				['logfilemode', 0640, 0640],
+			]);
 
 		$log = $this->factory->get('file');
 		$this->assertInstanceOf(File::class, $log);
