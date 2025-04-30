@@ -26,7 +26,7 @@ class Card extends \Sabre\CardDAV\Card {
 	}
 
 	public function getAddressbookId(): int {
-		return (int)$this->cardData['addressbookid'];
+		return (int) $this->cardData['addressbookid'];
 	}
 
 	public function getPrincipalUri(): string {

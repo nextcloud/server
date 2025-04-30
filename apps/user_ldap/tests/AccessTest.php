@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -51,7 +52,7 @@ class AccessTest extends TestCase {
 	private $userManager;
 	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $ncUserManager;

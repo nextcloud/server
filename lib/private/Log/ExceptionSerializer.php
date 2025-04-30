@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -256,7 +257,7 @@ class ExceptionSerializer {
 			}
 
 			// Only log the first 5 elements of an array unless we are on debug
-			if ((int)$this->systemConfig->getValue('loglevel', 2) !== 0) {
+			if ((int) $this->systemConfig->getValue('loglevel', 2) !== 0) {
 				$elemCount = count($arg);
 				if ($elemCount > 5) {
 					$arg = array_slice($arg, 0, 5);

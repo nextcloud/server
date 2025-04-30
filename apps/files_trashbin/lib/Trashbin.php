@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -105,8 +106,8 @@ class Trashbin {
 		$array = [];
 		while ($row = $result->fetch()) {
 			$array[$row['id']][$row['timestamp']] = [
-				'location' => (string)$row['location'],
-				'deletedBy' => (string)$row['deleted_by'],
+				'location' => (string) $row['location'],
+				'deletedBy' => (string) $row['deleted_by'],
 			];
 		}
 		$result->closeCursor();
@@ -439,7 +440,7 @@ class Trashbin {
 	 * Restore a file or folder from trash bin
 	 *
 	 * @param string $file path to the deleted file/folder relative to "files_trashbin/files/",
-	 * including the timestamp suffix ".d12345678"
+	 *                     including the timestamp suffix ".d12345678"
 	 * @param string $filename name of the file/folder
 	 * @param int $timestamp time when the file/folder was deleted
 	 *
@@ -1051,9 +1052,9 @@ class Trashbin {
 
 		if ($view->file_exists('files' . $location . '/' . $filename)) {
 			$i = 2;
-			$uniqueName = $name . " (" . $l->t("restored") . ")" . $ext;
+			$uniqueName = $name . ' (' . $l->t('restored') . ')' . $ext;
 			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
-				$uniqueName = $name . " (" . $l->t("restored") . " " . $i . ")" . $ext;
+				$uniqueName = $name . ' (' . $l->t('restored') . ' ' . $i . ')' . $ext;
 				$i++;
 			}
 

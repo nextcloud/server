@@ -88,7 +88,7 @@ class Swift extends \OC\Files\Storage\Common {
 	 *
 	 * @param string $path
 	 * @return StorageObject|bool object
-	 * or false if the object did not exist
+	 *                            or false if the object did not exist
 	 * @throws \OCP\Files\StorageAuthException
 	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
@@ -134,7 +134,7 @@ class Swift extends \OC\Files\Storage\Common {
 			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
 			or empty($params['region'])
 		) {
-			throw new StorageBadConfigException("API Key or password, Login, Bucket and Region have to be configured.");
+			throw new StorageBadConfigException('API Key or password, Login, Bucket and Region have to be configured.');
 		}
 
 		$user = $params['user'];
@@ -143,7 +143,7 @@ class Swift extends \OC\Files\Storage\Common {
 		$bucketUrl = new Uri($params['bucket']);
 		if ($bucketUrl->getHost()) {
 			$params['bucket'] = basename($bucketUrl->getPath());
-			$params['endpoint_url'] = (string)$bucketUrl->withPath(dirname($bucketUrl->getPath()));
+			$params['endpoint_url'] = (string) $bucketUrl->withPath(dirname($bucketUrl->getPath()));
 		}
 
 		if (empty($params['url'])) {
@@ -324,7 +324,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$stat = [];
-		$stat['size'] = (int)$object->contentLength;
+		$stat['size'] = (int) $object->contentLength;
 		$stat['mtime'] = $mtime;
 		$stat['atime'] = time();
 		return $stat;
@@ -425,7 +425,7 @@ class Swift extends \OC\Files\Storage\Common {
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
-		$metadata = ['timestamp' => (string)$mtime];
+		$metadata = ['timestamp' => (string) $mtime];
 		if ($this->file_exists($path)) {
 			if ($this->is_dir($path) && $path !== '.') {
 				$path .= '/';

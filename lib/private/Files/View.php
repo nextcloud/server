@@ -223,7 +223,7 @@ class View {
 			$relPath = '/' . $pathParts[3];
 			$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			\OC_Hook::emit(
-				Filesystem::CLASSNAME, "umount",
+				Filesystem::CLASSNAME, 'umount',
 				[Filesystem::signal_param_path => $relPath]
 			);
 			$this->changeLock($relPath, ILockingProvider::LOCK_EXCLUSIVE, true);
@@ -231,7 +231,7 @@ class View {
 			$this->changeLock($relPath, ILockingProvider::LOCK_SHARED, true);
 			if ($result) {
 				\OC_Hook::emit(
-					Filesystem::CLASSNAME, "post_umount",
+					Filesystem::CLASSNAME, 'post_umount',
 					[Filesystem::signal_param_path => $relPath]
 				);
 			}
@@ -708,7 +708,7 @@ class View {
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 
 		if (str_starts_with($absolutePath2, $absolutePath1 . '/')) {
-			throw new ForbiddenException("Moving a folder into a child folder is forbidden", false);
+			throw new ForbiddenException('Moving a folder into a child folder is forbidden', false);
 		}
 
 		/** @var IMountManager $mountManager */
@@ -1403,7 +1403,7 @@ class View {
 	 *
 	 * @param string $path
 	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
-	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
+	 *                                        'ext' to add only ext storage mount point sizes. Defaults to true.
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
@@ -1799,7 +1799,7 @@ class View {
 	 * @throws NotFoundException
 	 */
 	public function getPath($id, ?int $storageId = null) {
-		$id = (int)$id;
+		$id = (int) $id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);
@@ -1990,7 +1990,7 @@ class View {
 	 *
 	 * @param string $absolutePath absolute path
 	 * @param bool $useParentMount true to return parent mount instead of whatever
-	 * is mounted directly on the given path, false otherwise
+	 *                             is mounted directly on the given path, false otherwise
 	 * @return IMountPoint mount point for which to apply locks
 	 */
 	private function getMountForLock(string $absolutePath, bool $useParentMount = false): IMountPoint {
@@ -2196,7 +2196,7 @@ class View {
 	 * @param string $absolutePath absolute path which is under "files"
 	 *
 	 * @return string path relative to "files" with trimmed slashes or null
-	 * if the path was NOT relative to files
+	 *                if the path was NOT relative to files
 	 *
 	 * @throws \InvalidArgumentException if the given path was not under "files"
 	 * @since 8.1.0

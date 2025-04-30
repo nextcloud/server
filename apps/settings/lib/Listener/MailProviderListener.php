@@ -44,7 +44,7 @@ class MailProviderListener implements IEventListener {
 	private function handleGetValue(DeclarativeSettingsGetValueEvent $event): void {
 		
 		if ($event->getFieldId() === 'mail_providers_enabled') {
-			$event->setValue((int)$this->config->getValueBool('core', 'mail_providers_enabled', true));
+			$event->setValue((int) $this->config->getValueBool('core', 'mail_providers_enabled', true));
 		}
 
 	}
@@ -52,7 +52,7 @@ class MailProviderListener implements IEventListener {
 	private function handleSetValue(DeclarativeSettingsSetValueEvent $event): void {
 
 		if ($event->getFieldId() === 'mail_providers_enabled') {
-			$this->config->setValueBool('core', 'mail_providers_enabled', (bool)$event->getValue());
+			$this->config->setValueBool('core', 'mail_providers_enabled', (bool) $event->getValue());
 			$event->stopPropagation();
 		}
 

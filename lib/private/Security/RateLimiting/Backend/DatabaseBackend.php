@@ -57,7 +57,7 @@ class DatabaseBackend implements IBackend {
 		$row = $cursor->fetchOne();
 		$cursor->closeCursor();
 
-		return (int)$row;
+		return (int) $row;
 	}
 
 	/**

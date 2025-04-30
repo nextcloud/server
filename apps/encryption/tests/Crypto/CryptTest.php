@@ -125,9 +125,9 @@ class CryptTest extends TestCase {
 
 	public function testGetCipherWithInvalidCipher() {
 		$this->config->expects($this->once())
-				->method('getSystemValueString')
-				->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
-				->willReturn('Not-Existing-Cipher');
+			->method('getSystemValueString')
+			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
+			->willReturn('Not-Existing-Cipher');
 		$this->logger
 			->expects($this->once())
 			->method('warning')

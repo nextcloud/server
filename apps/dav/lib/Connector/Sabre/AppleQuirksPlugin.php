@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -58,8 +59,8 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 * This method handles HTTP REPORT requests.
 	 *
 	 * @param string $reportName
-	 * @param mixed  $report
-	 * @param mixed  $path
+	 * @param mixed $report
+	 * @param mixed $path
 	 *
 	 * @return bool
 	 */

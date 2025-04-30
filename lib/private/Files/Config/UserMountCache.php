@@ -199,13 +199,13 @@ class UserMountCache implements IUserMountCache {
 		$user = new LazyUser($row['user_id'], $this->userManager);
 		$mount_id = $row['mount_id'];
 		if (!is_null($mount_id)) {
-			$mount_id = (int)$mount_id;
+			$mount_id = (int) $mount_id;
 		}
 		if ($pathCallback) {
 			return new LazyPathCachedMountInfo(
 				$user,
-				(int)$row['storage_id'],
-				(int)$row['root_id'],
+				(int) $row['storage_id'],
+				(int) $row['root_id'],
 				$row['mount_point'],
 				$row['mount_provider_class'] ?? '',
 				$mount_id,
@@ -214,8 +214,8 @@ class UserMountCache implements IUserMountCache {
 		} else {
 			return new CachedMountInfo(
 				$user,
-				(int)$row['storage_id'],
-				(int)$row['root_id'],
+				(int) $row['storage_id'],
+				(int) $row['root_id'],
 				$row['mount_point'],
 				$row['mount_provider_class'] ?? '',
 				$mount_id,
@@ -327,9 +327,9 @@ class UserMountCache implements IUserMountCache {
 
 			if (is_array($row)) {
 				$this->cacheInfoCache[$fileId] = [
-					(int)$row['storage'],
-					(string)$row['path'],
-					(int)$row['mimetype']
+					(int) $row['storage'],
+					(string) $row['path'],
+					(int) $row['mimetype']
 				];
 			} else {
 				throw new NotFoundException('File with id "' . $fileId . '" not found');
@@ -477,7 +477,7 @@ class UserMountCache implements IUserMountCache {
 			}
 		}
 
-		throw new NotFoundException("No cached mount for path " . $path);
+		throw new NotFoundException('No cached mount for path ' . $path);
 	}
 
 	public function getMountsInPath(IUser $user, string $path): array {

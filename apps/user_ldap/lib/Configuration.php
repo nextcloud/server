@@ -216,7 +216,7 @@ class Configuration {
 	 * from configuration. It does not save the configuration! To do so, you
 	 * must call saveConfiguration afterwards.
 	 * @param array $config array that holds the config parameters in an associated
-	 * array
+	 *                      array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
 	public function setConfiguration(array $config, ?array &$applied = null): void {
@@ -370,7 +370,7 @@ class Configuration {
 			$this->saveValue($cta[$key], $value);
 		}
 		if ($changed) {
-			$this->saveValue('_lastChange', (string)time());
+			$this->saveValue('_lastChange', (string) time());
 		}
 		$this->unsavedChanges = [];
 	}
@@ -484,7 +484,7 @@ class Configuration {
 
 	/**
 	 * @return array an associative array with the default values. Keys are correspond
-	 * to config-value entries in the database table
+	 *               to config-value entries in the database table
 	 */
 	public function getDefaults(): array {
 		return [

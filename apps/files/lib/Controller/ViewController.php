@@ -88,7 +88,7 @@ class ViewController extends Controller {
 
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile((int)$fileid, $openfile);
+			return $this->redirectToFile((int) $fileid, $openfile);
 		} catch (NotFoundException $e) {
 			// Keep the fileid even if not found, it will be used
 			// to detect the file could not be found and warn the user
@@ -132,7 +132,7 @@ class ViewController extends Controller {
 	public function index($dir = '', $view = '', $fileid = null) {
 		if ($fileid !== null && $view !== 'trashbin') {
 			try {
-				return $this->redirectToFileIfInTrashbin((int)$fileid);
+				return $this->redirectToFileIfInTrashbin((int) $fileid);
 			} catch (NotFoundException $e) {
 			}
 		}
@@ -149,14 +149,14 @@ class ViewController extends Controller {
 		// in the correct folder
 		if ($fileid && $dir !== '') {
 			$baseFolder = $this->rootFolder->getUserFolder($userId);
-			$nodes = $baseFolder->getById((int)$fileid);
+			$nodes = $baseFolder->getById((int) $fileid);
 			if (!empty($nodes)) {
 				$nodePath = $baseFolder->getRelativePath($nodes[0]->getPath());
 				$relativePath = $nodePath ? dirname($nodePath) : '';
 				// If the requested path does not contain the file id
 				// or if the requested path is not the file id itself
 				if (count($nodes) === 1 && $relativePath !== $dir && $nodePath !== $dir) {
-					return $this->redirectToFile((int)$fileid);
+					return $this->redirectToFile((int) $fileid);
 				}
 			}
 		}

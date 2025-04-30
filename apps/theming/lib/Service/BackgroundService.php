@@ -310,7 +310,7 @@ class BackgroundService {
 		if ($background === self::BACKGROUND_CUSTOM) {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
-			} catch (NotFoundException | NotPermittedException $e) {
+			} catch (NotFoundException|NotPermittedException $e) {
 				return null;
 			}
 		}
@@ -358,7 +358,7 @@ class BackgroundService {
 		$tempImage = new \OCP\Image();
 
 		// Crop to only analyze top bar
-		$resource = $image->cropNew(0, 0, $image->width(), min(max(50, (int)($image->height() * 0.125)), $image->height()));
+		$resource = $image->cropNew(0, 0, $image->width(), min(max(50, (int) ($image->height() * 0.125)), $image->height()));
 		if ($resource === false) {
 			return false;
 		}
@@ -387,9 +387,9 @@ class BackgroundService {
 				$blues[] = $value & 0xFF;
 			}
 		}
-		$meanColor = '#' . toHex((int)(array_sum($reds) / count($reds)));
-		$meanColor .= toHex((int)(array_sum($greens) / count($greens)));
-		$meanColor .= toHex((int)(array_sum($blues) / count($blues)));
+		$meanColor = '#' . toHex((int) (array_sum($reds) / count($reds)));
+		$meanColor .= toHex((int) (array_sum($greens) / count($greens)));
+		$meanColor .= toHex((int) (array_sum($blues) / count($blues)));
 		return $meanColor;
 	}
 

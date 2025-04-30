@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -103,22 +104,22 @@ class UtilTest extends TestCase {
 	}
 
 	public function testElementColorDefaultBlack() {
-		$elementColor = $this->util->elementColor("#000000");
+		$elementColor = $this->util->elementColor('#000000');
 		$this->assertEquals('#4d4d4d', $elementColor);
 	}
 
 	public function testElementColorDefaultWhite() {
-		$elementColor = $this->util->elementColor("#ffffff");
+		$elementColor = $this->util->elementColor('#ffffff');
 		$this->assertEquals('#b3b3b3', $elementColor);
 	}
 
 	public function testElementColorBlackOnDarkBackground() {
-		$elementColor = $this->util->elementColor("#000000", false);
+		$elementColor = $this->util->elementColor('#000000', false);
 		$this->assertEquals('#4d4d4d', $elementColor);
 	}
 
 	public function testElementColorBlackOnBrightBackground() {
-		$elementColor = $this->util->elementColor("#000000", true);
+		$elementColor = $this->util->elementColor('#000000', true);
 		$this->assertEquals('#000000', $elementColor);
 	}
 
@@ -206,8 +207,8 @@ class UtilTest extends TestCase {
 	}
 
 	public function testColorizeSvg() {
-		$input = "#0082c9 #0082C9 #000000 #FFFFFF";
-		$expected = "#AAAAAA #AAAAAA #000000 #FFFFFF";
+		$input = '#0082c9 #0082C9 #000000 #FFFFFF';
+		$expected = '#AAAAAA #AAAAAA #000000 #FFFFFF';
 		$result = $this->util->colorizeSvg($input, '#AAAAAA');
 		$this->assertEquals($expected, $result);
 	}

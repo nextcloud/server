@@ -196,7 +196,7 @@ class DbHandler {
 		$statement = $query->executeQuery();
 		$result = $statement->fetch();
 		$statement->closeCursor();
-		return (string)$result['shared_secret'];
+		return (string) $result['shared_secret'];
 	}
 
 	/**
@@ -206,8 +206,8 @@ class DbHandler {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->dbTable)
-				->set('status', $query->createNamedParameter($status))
-				->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+			->set('status', $query->createNamedParameter($status))
+			->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
 		if (!is_null($token)) {
 			$query->set('sync_token', $query->createNamedParameter($token));
 		}
@@ -221,13 +221,13 @@ class DbHandler {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('status')->from($this->dbTable)
-				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-				->setParameter('url_hash', $hash);
+			->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
+			->setParameter('url_hash', $hash);
 
 		$statement = $query->executeQuery();
 		$result = $statement->fetch();
 		$statement->closeCursor();
-		return (int)$result['status'];
+		return (int) $result['status'];
 	}
 
 	/**
@@ -262,7 +262,7 @@ class DbHandler {
 		}
 		$query = $this->connection->getQueryBuilder();
 		$query->select('url')->from($this->dbTable)
-				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
+			->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
 
 		$statement = $query->executeQuery();
 		$result = $statement->fetch();

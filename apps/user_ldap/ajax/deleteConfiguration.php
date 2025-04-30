@@ -10,7 +10,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
+$prefix = (string) $_POST['ldap_serverconfig_chooser'];
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();

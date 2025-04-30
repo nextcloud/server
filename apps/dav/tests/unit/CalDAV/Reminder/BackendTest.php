@@ -242,7 +242,7 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int) $rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);

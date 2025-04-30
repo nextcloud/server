@@ -44,7 +44,7 @@ class MigrateOauthTables implements IRepairStep {
 	public function run(IOutput $output) {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
-			$output->info("oauth2_clients table does not exist.");
+			$output->info('oauth2_clients table does not exist.');
 			return;
 		}
 
@@ -154,7 +154,7 @@ class MigrateOauthTables implements IRepairStep {
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
-			foreach ($identifiers as ["id" => $id, "identifier" => $clientIdentifier]) {
+			foreach ($identifiers as ['id' => $id, 'identifier' => $clientIdentifier]) {
 				$insertQuery = $this->db->getQueryBuilder();
 				$insertQuery->update('oauth2_clients')
 					->set('client_identifier', $insertQuery->createNamedParameter($clientIdentifier, IQueryBuilder::PARAM_STR))

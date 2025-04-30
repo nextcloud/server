@@ -40,7 +40,7 @@ class BackupCodesProviderTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appName = "twofactor_backupcodes";
+		$this->appName = 'twofactor_backupcodes';
 		$this->storage = $this->createMock(BackupCodeStorage::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(AppManager::class);

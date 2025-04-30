@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -30,7 +31,7 @@ class Backend implements \OCP\Share_Backend {
 		// Always make target be test.txt to cause conflicts
 
 		if (substr($itemSource, 0, strlen('test')) !== 'test') {
-			$target = "test.txt";
+			$target = 'test.txt';
 		} else {
 			$target = $itemSource;
 		}

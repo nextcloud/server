@@ -253,7 +253,7 @@ class Database extends ABackend implements
 	 * @return string display name
 	 */
 	public function getDisplayName($uid): string {
-		$uid = (string)$uid;
+		$uid = (string) $uid;
 		$this->loadUser($uid);
 		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
@@ -292,7 +292,7 @@ class Database extends ABackend implements
 		$result = $query->executeQuery();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
-			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
+			$displayNames[(string) $row['uid']] = (string) $row['displayname'];
 		}
 
 		return $displayNames;
@@ -332,7 +332,7 @@ class Database extends ABackend implements
 		$result = $query->execute();
 		$displayNames = [];
 		while ($row = $result->fetch()) {
-			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
+			$displayNames[(string) $row['uid']] = (string) $row['displayname'];
 		}
 
 		return $displayNames;
@@ -358,7 +358,7 @@ class Database extends ABackend implements
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
-				return (string)$this->cache[$loginName]['uid'];
+				return (string) $this->cache[$loginName]['uid'];
 			}
 		}
 
@@ -374,7 +374,7 @@ class Database extends ABackend implements
 	private function loadUser($uid) {
 		$this->fixDI();
 
-		$uid = (string)$uid;
+		$uid = (string) $uid;
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
 			if ($uid === '') {
@@ -397,9 +397,9 @@ class Database extends ABackend implements
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
 				$this->cache[$uid] = [
-					'uid' => (string)$row['uid'],
-					'displayname' => (string)$row['displayname'],
-					'password' => (string)$row['password'],
+					'uid' => (string) $row['uid'],
+					'displayname' => (string) $row['displayname'],
+					'password' => (string) $row['password'],
 				];
 			} else {
 				$this->cache[$uid] = false;
@@ -423,7 +423,7 @@ class Database extends ABackend implements
 
 		$users = $this->getDisplayNames($search, $limit, $offset);
 		$userIds = array_map(function ($uid) {
-			return (string)$uid;
+			return (string) $uid;
 		}, array_keys($users));
 		sort($userIds, SORT_STRING | SORT_FLAG_CASE);
 		return $userIds;

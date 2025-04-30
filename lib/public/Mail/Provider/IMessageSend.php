@@ -23,8 +23,8 @@ interface IMessageSend {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IMessage $message			mail message object with all required parameters to send a message
-	 * @param array $options			array of options reserved for future use
+	 * @param IMessage $message mail message object with all required parameters to send a message
+	 * @param array $options array of options reserved for future use
 	 *
 	 * @throws \OCP\Mail\Provider\Exception\SendException on failure, check message for reason
 	 */

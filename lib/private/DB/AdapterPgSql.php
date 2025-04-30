@@ -13,7 +13,7 @@ class AdapterPgSql extends Adapter {
 		$result = $this->conn->executeQuery('SELECT lastval()');
 		$val = $result->fetchOne();
 		$result->free();
-		return (int)$val;
+		return (int) $val;
 	}
 
 	public const UNIX_TIMESTAMP_REPLACEMENT = 'cast(extract(epoch from current_timestamp) as integer)';

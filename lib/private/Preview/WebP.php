@@ -19,6 +19,6 @@ class WebP extends Image {
 	}
 
 	public function isAvailable(FileInfo $file): bool {
-		return (bool)(imagetypes() & IMG_WEBP);
+		return (bool) (imagetypes() & IMG_WEBP);
 	}
 }

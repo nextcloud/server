@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,7 +42,7 @@ class RemoteContext implements Context {
 	 * @param string $remoteServer "NON_EXISTING" or "REMOTE"
 	 */
 	public function selectRemoteInstance($remoteServer) {
-		if ($remoteServer == "REMOTE") {
+		if ($remoteServer == 'REMOTE') {
 			$baseUri = $this->remoteUrl;
 		} else {
 			$baseUri = 'nonexistingnextcloudserver.local';

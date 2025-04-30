@@ -91,19 +91,19 @@ class AddressBookImpl implements IAddressBookEnabled {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options Options to define the output format and search behavior
-	 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
-	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
-	 * 	- 'limit' - Set a numeric limit for the search results
-	 * 	- 'offset' - Set the offset for the limited search results
-	 * 	- 'wildcard' - Whether the search should use wildcards
+	 *                       - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+	 *                       example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+	 *                       - 'escape_like_param' - If set to false wildcards _ and % are not escaped
+	 *                       - 'limit' - Set a numeric limit for the search results
+	 *                       - 'offset' - Set the offset for the limited search results
+	 *                       - 'wildcard' - Whether the search should use wildcards
 	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
-	 *  example result:
-	 *  [
-	 *		['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
-	 *		['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
-	 *	]
+	 *               example result:
+	 *               [
+	 *               ['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
+	 *               ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
+	 *               ]
 	 * @since 5.0.0
 	 */
 	public function search($pattern, $searchProperties, $options) {
@@ -144,13 +144,13 @@ class AddressBookImpl implements IAddressBookEnabled {
 					if (is_string($entry)) {
 						$property = $vCard->createProperty($key, $entry);
 					} else {
-						if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
-							$entry["value"] = stripslashes($entry["value"]);
-							$entry["value"] = explode(';', $entry["value"]);
+						if (($key === 'ADR' || $key === 'PHOTO') && is_string($entry['value'])) {
+							$entry['value'] = stripslashes($entry['value']);
+							$entry['value'] = explode(';', $entry['value']);
 						}
-						$property = $vCard->createProperty($key, $entry["value"]);
-						if (isset($entry["type"])) {
-							$property->add('TYPE', $entry["type"]);
+						$property = $vCard->createProperty($key, $entry['value']);
+						if (isset($entry['type'])) {
+							$property->add('TYPE', $entry['type']);
 						}
 					}
 					$vCard->add($property);
@@ -353,7 +353,7 @@ class AddressBookImpl implements IAddressBookEnabled {
 		$path = 'addressbooks/users/' . $user . '/' . $uri;
 		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
 		if (count($properties) > 0) {
-			return (bool)$properties[0]->getPropertyvalue();
+			return (bool) $properties[0]->getPropertyvalue();
 		}
 		return true;
 	}

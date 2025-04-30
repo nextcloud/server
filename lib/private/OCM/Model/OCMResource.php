@@ -84,9 +84,9 @@ class OCMResource implements IOCMResource {
 	 * @see self::jsonSerialize()
 	 */
 	public function import(array $data): static {
-		return $this->setName((string)($data['name'] ?? ''))
-					->setShareTypes($data['shareTypes'] ?? [])
-					->setProtocols($data['protocols'] ?? []);
+		return $this->setName((string) ($data['name'] ?? ''))
+			->setShareTypes($data['shareTypes'] ?? [])
+			->setProtocols($data['protocols'] ?? []);
 	}
 
 	/**

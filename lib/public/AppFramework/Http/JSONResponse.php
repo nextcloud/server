@@ -67,7 +67,7 @@ class JSONResponse extends Response {
 	 * Sets values in the data json array
 	 * @psalm-suppress InvalidTemplateParam
 	 * @param T $data an array or object which will be transformed
-	 *                             to JSON
+	 *                to JSON
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */

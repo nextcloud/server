@@ -64,7 +64,7 @@ class LastSeen extends Base {
 		}
 
 		if (!$input->getOption('all')) {
-			$output->writeln("<error>Please specify a username, or \"--all\" to list all</error>");
+			$output->writeln('<error>Please specify a username, or "--all" to list all</error>');
 			return 1;
 		}
 

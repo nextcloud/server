@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -89,7 +90,7 @@ class AppDiscoverFetcher extends Fetcher {
 			$jsonBlob = json_decode($file->getContent(), true);
 
 			if (is_array($jsonBlob) && isset($jsonBlob['ETag'])) {
-				return (string)$jsonBlob['ETag'];
+				return (string) $jsonBlob['ETag'];
 			}
 		} catch (\Throwable $e) {
 			// ignore

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -60,7 +61,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 
 	private LoggerInterface $logger;
 
-	/** @var  IStorage */
+	/** @var IStorage */
 	private $nonMaskedStorage;
 
 	private array $mountOptions = [];
@@ -139,7 +140,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 
 		try {
 			if (self::$initDepth > 10) {
-				throw new \Exception("Maximum share depth reached");
+				throw new \Exception('Maximum share depth reached');
 			}
 
 			/** @var IRootFolder $rootFolder */
@@ -263,7 +264,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 	}
 
 	public function isCreatable($path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
+		return (bool) ($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
 	}
 
 	public function isReadable($path): bool {
@@ -280,18 +281,18 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 	}
 
 	public function isUpdatable($path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
+		return (bool) ($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path): bool {
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
+		return (bool) ($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
 	}
 
 	public function isSharable($path): bool {
 		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
 			return false;
 		}
-		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
+		return (bool) ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
 
 	public function fopen($path, $mode) {
@@ -561,7 +562,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		 * @psalm-suppress DocblockTypeContradiction
 		 */
 		if (!$this->storage) {
-			$message = "no storage set after init for share " . $this->getShareId();
+			$message = 'no storage set after init for share ' . $this->getShareId();
 			$this->logger->error($message);
 			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
 		}

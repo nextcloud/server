@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -97,7 +98,7 @@ class SMB extends Common implements INotifyStorage {
 
 		$options = new Options();
 		if (isset($params['timeout'])) {
-			$timeout = (int)$params['timeout'];
+			$timeout = (int) $params['timeout'];
 			if ($timeout > 0) {
 				$options->setTimeout($timeout);
 			}
@@ -271,7 +272,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while getting folder content', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		} catch (NotFoundException $e) {
 			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		}
@@ -425,7 +426,7 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while deleting file', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		}
 	}
 
@@ -509,10 +510,10 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while opening file', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		}
 	}
 
@@ -539,7 +540,7 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while removing folder', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		}
 	}
 
@@ -552,10 +553,10 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while creating file', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		}
 	}
 
@@ -652,7 +653,7 @@ class SMB extends Common implements INotifyStorage {
 			return true;
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while creating folder', ['exception' => $e]);
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -678,7 +679,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (\OCP\Files\ForbiddenException $e) {
 			return false;
 		} catch (ConnectException $e) {
-			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
+			throw new StorageNotAvailableException($e->getMessage(), (int) $e->getCode(), $e);
 		}
 	}
 
@@ -722,7 +723,7 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	public static function checkDependencies() {
 		return (
-			(bool)\OC_Helper::findBinaryPath('smbclient')
+			(bool) \OC_Helper::findBinaryPath('smbclient')
 			|| NativeServer::available(new System())
 		) ? true : ['smbclient'];
 	}

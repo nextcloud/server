@@ -60,7 +60,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
 		$this->logger = Server::get(LoggerInterface::class);
-		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
+		$this->ldapGroupMemberAssocAttr = strtolower((string) $gAssoc);
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
 	}
@@ -80,7 +80,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$cacheKey = 'inGroup' . $uid . ':' . $gid;
 		$inGroup = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($inGroup)) {
-			return (bool)$inGroup;
+			return (bool) $inGroup;
 		}
 
 		$userDN = $this->access->username2dn($uid);
@@ -180,7 +180,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws ServerNotAvailableException
 	 */
 	public function getDynamicGroupMembers(string $dnGroup): array {
-		$dynamicGroupMemberURL = strtolower((string)$this->access->connection->ldapDynamicGroupMemberURL);
+		$dynamicGroupMemberURL = strtolower((string) $this->access->connection->ldapDynamicGroupMemberURL);
 
 		if (empty($dynamicGroupMemberURL)) {
 			return [];
@@ -270,7 +270,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$allMembers = [];
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
 		if (is_array($members)) {
-			if ((int)$this->access->connection->ldapNestedGroups === 1) {
+			if ((int) $this->access->connection->ldapNestedGroups === 1) {
 				while ($recordDn = array_shift($members)) {
 					$nestedMembers = $this->_groupMembers($recordDn, $seen, $recursive);
 					if (!empty($nestedMembers)) {
@@ -328,7 +328,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$allGroups = [];
 		$groups = $this->access->readAttribute($dn, 'memberOf');
 		if (is_array($groups)) {
-			if ((int)$this->access->connection->ldapNestedGroups === 1) {
+			if ((int) $this->access->connection->ldapNestedGroups === 1) {
 				while ($recordDn = array_shift($groups)) {
 					$nestedParents = $this->_getGroupDNsFromMemberOf($recordDn, $seen);
 					$groups = array_merge($groups, $nestedParents);
@@ -608,7 +608,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
 			$users = $this->access->countUsers($filter, ['dn'], $limit, $offset);
-			return (int)$users;
+			return (int) $users;
 		} catch (ServerNotAvailableException $e) {
 			throw $e;
 		} catch (Exception $e) {
@@ -734,8 +734,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		// if possible, read out membership via memberOf. It's far faster than
 		// performing a search, which still is a fallback later.
 		// memberof doesn't support memberuid, so skip it here.
-		if ((int)$this->access->connection->hasMemberOfFilterSupport === 1
-			&& (int)$this->access->connection->useMemberOfToDetectMembership === 1
+		if ((int) $this->access->connection->hasMemberOfFilterSupport === 1
+			&& (int) $this->access->connection->useMemberOfToDetectMembership === 1
 			&& $this->ldapGroupMemberAssocAttr !== 'memberuid'
 			&& $this->ldapGroupMemberAssocAttr !== 'zimbramailforwardingaddress') {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
@@ -831,7 +831,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			$filter .= '@*';
 		}
 
-		$nesting = (int)$this->access->connection->ldapNestedGroups;
+		$nesting = (int) $this->access->connection->ldapNestedGroups;
 		if ($nesting === 0) {
 			$filter = $this->access->combineFilterWithAnd([$filter, $this->access->connection->ldapGroupFilter]);
 		}
@@ -1140,7 +1140,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$ignoreCache) {
 			$groupExists = $this->access->connection->getFromCache($cacheKey);
 			if (!is_null($groupExists)) {
-				return (bool)$groupExists;
+				return (bool) $groupExists;
 			}
 		}
 
@@ -1203,7 +1203,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
 	public function implementsActions($actions): bool {
-		return (bool)((GroupInterface::COUNT_USERS |
+		return (bool) ((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
 				GroupInterface::IS_ADMIN |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
@@ -1258,7 +1258,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
 				// Delete group in nextcloud internal db
 				$this->access->getGroupMapper()->unmap($gid);
-				$this->access->connection->writeToCache("groupExists" . $gid, false);
+				$this->access->connection->writeToCache('groupExists' . $gid, false);
 			}
 			return $ret;
 		}
@@ -1272,7 +1272,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$this->groupExists($gid)) {
 			// The group does not exist in the LDAP, remove the mapping
 			$this->access->getGroupMapper()->unmap($gid);
-			$this->access->connection->writeToCache("groupExists" . $gid, false);
+			$this->access->connection->writeToCache('groupExists' . $gid, false);
 			return true;
 		}
 

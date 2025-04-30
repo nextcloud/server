@@ -79,7 +79,7 @@ class FixEncryptedVersionTest extends TestCase {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
@@ -147,7 +147,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
@@ -206,7 +206,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('bar.txt');
 		for ($i = 0; $i < 40; $i++) {
@@ -227,7 +227,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		]);
 
 		$cacheInfo = $cache->get($fileInfo->getId());
-		$encryptedVersion = $cacheInfo["encryptedVersion"];
+		$encryptedVersion = $cacheInfo['encryptedVersion'];
 
 		$this->assertEquals(15, $encryptedVersion);
 	}
@@ -236,7 +236,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		// create a file, it's encrypted and also the version is set in the database
 		$view->touch('hello.txt');
@@ -279,14 +279,14 @@ Fixed the file: \"/$this->userId/files/hello.txt\" with version 0 (unencrypted)"
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->touch('hello.txt');
 		$view->touch('world.txt');
 
 		$this->commandTester->execute([
 			'user' => $this->userId,
-			'--path' => "/hello.txt"
+			'--path' => '/hello.txt'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -303,7 +303,7 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
-		$view = new View("/" . $this->userId . "/files");
+		$view = new View('/' . $this->userId . '/files');
 
 		$view->mkdir('sub');
 		$view->touch('sub/hello.txt');
@@ -311,7 +311,7 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 
 		$this->commandTester->execute([
 			'user' => $this->userId,
-			'--path' => "/sub"
+			'--path' => '/sub'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -327,7 +327,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 
 		$this->commandTester->execute([
 			'user' => null,
-			'--path' => "/"
+			'--path' => '/'
 		]);
 
 		$output = $this->commandTester->getDisplay();
@@ -341,7 +341,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 
 		$this->commandTester->execute([
 			'user' => 'nonexisting',
-			'--path' => "/"
+			'--path' => '/'
 		]);
 
 		$output = $this->commandTester->getDisplay();

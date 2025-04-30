@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,7 +42,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 
 		$output->startProgress(count($objects));
 		foreach ($objects as $row) {
-			$calObject = $this->calDavBackend->getCalendarObject((int)$row['calendarid'], $row['uri']);
+			$calObject = $this->calDavBackend->getCalendarObject((int) $row['calendarid'], $row['uri']);
 			$data = preg_replace('/' . $pattern . '/', ':', $calObject['calendardata']);
 
 			if ($data !== $calObject['calendardata']) {
@@ -52,14 +53,14 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 				} catch (InvalidDataException $e) {
 					$this->logger->info('Calendar object for calendar {cal} with uri {uri} still invalid', [
 						'app' => 'dav',
-						'cal' => (int)$row['calendarid'],
+						'cal' => (int) $row['calendarid'],
 						'uri' => $row['uri'],
 					]);
 					$warnings++;
 					continue;
 				}
 
-				$this->calDavBackend->updateCalendarObject((int)$row['calendarid'], $row['uri'], $data);
+				$this->calDavBackend->updateCalendarObject((int) $row['calendarid'], $row['uri'], $data);
 				$count++;
 			}
 		}

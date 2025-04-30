@@ -58,8 +58,8 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 					continue;
 				}
 				$this->ranges[$varName] = [
-					'min' => $matches['rangeMin'][$index] === 'min' ? PHP_INT_MIN : (int)$matches['rangeMin'][$index],
-					'max' => $matches['rangeMax'][$index] === 'max' ? PHP_INT_MAX : (int)$matches['rangeMax'][$index],
+					'min' => $matches['rangeMin'][$index] === 'min' ? PHP_INT_MIN : (int) $matches['rangeMin'][$index],
+					'max' => $matches['rangeMax'][$index] === 'max' ? PHP_INT_MAX : (int) $matches['rangeMax'][$index],
 				];
 			}
 		}
@@ -82,9 +82,9 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	/**
 	 * Inspects the PHPDoc parameters for types
 	 * @param string $parameter the parameter whose type comments should be
-	 * parsed
+	 *                          parsed
 	 * @return string|null type in the type parameters (@param int $something)
-	 * would return int or null if not existing
+	 *                     would return int or null if not existing
 	 */
 	public function getType(string $parameter) {
 		if (array_key_exists($parameter, $this->types)) {

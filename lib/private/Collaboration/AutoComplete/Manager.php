@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,7 +14,7 @@ class Manager implements IManager {
 	/** @var string[] */
 	protected array $sorters = [];
 
-	/** @var ISorter[]  */
+	/** @var ISorter[] */
 	protected array $sorterInstances = [];
 
 	public function __construct(

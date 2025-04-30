@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -242,9 +243,9 @@ class AllConfig implements IConfig {
 		$prevValue = $this->getUserValue($userId, $appName, $key, null);
 
 		if ($prevValue !== null) {
-			if ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			if ($preCondition !== null && $prevValue !== (string) $preCondition) {
 				throw new PreConditionNotMetException();
-			} elseif ($prevValue === (string)$value) {
+			} elseif ($prevValue === (string) $value) {
 				return;
 			} else {
 				$qb = $this->connection->getQueryBuilder();
@@ -255,7 +256,7 @@ class AllConfig implements IConfig {
 					->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 				$qb->executeStatement();
 
-				$this->userCache[$userId][$appName][$key] = (string)$value;
+				$this->userCache[$userId][$appName][$key] = (string) $value;
 				return;
 			}
 		}
@@ -280,7 +281,7 @@ class AllConfig implements IConfig {
 			if (!isset($this->userCache[$userId][$appName])) {
 				$this->userCache[$userId][$appName] = [];
 			}
-			$this->userCache[$userId][$appName][$key] = (string)$value;
+			$this->userCache[$userId][$appName][$key] = (string) $value;
 		}
 	}
 
@@ -382,9 +383,9 @@ class AllConfig implements IConfig {
 	 * @param ?string $userId the user ID to get the app configs from
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
+	 *                 [ $appId =>
+	 *                 [ $key => $value ]
+	 *                 ]
 	 */
 	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {

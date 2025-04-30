@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -264,7 +265,7 @@ class AppConfigControllerTest extends TestCase {
 						'value' => '', // 🤷
 						'type' => $type,
 						'lazy' => false,
-						'typeString' => (string)$type, // this is not accurate, but acceptable
+						'typeString' => (string) $type, // this is not accurate, but acceptable
 						'sensitive' => ($type & IAppConfig::VALUE_SENSITIVE) !== 0,
 					]);
 			}

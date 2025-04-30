@@ -85,8 +85,8 @@ class Search extends Command {
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 
-		$offset = (int)$input->getOption('offset');
-		$limit = (int)$input->getOption('limit');
+		$offset = (int) $input->getOption('offset');
+		$limit = (int) $input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {

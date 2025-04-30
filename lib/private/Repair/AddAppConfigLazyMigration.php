@@ -36,7 +36,7 @@ class AddAppConfigLazyMigration implements IRepairStep {
 		$c = 0;
 		foreach (self::$lazyAppConfig as $appId => $configKeys) {
 			foreach ($configKeys as $configKey) {
-				$c += (int)$this->appConfig->updateLazy($appId, $configKey, true);
+				$c += (int) $this->appConfig->updateLazy($appId, $configKey, true);
 			}
 		}
 

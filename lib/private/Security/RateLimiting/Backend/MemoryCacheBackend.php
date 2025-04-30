@@ -93,7 +93,7 @@ class MemoryCacheBackend implements IBackend {
 		$existingAttempts = array_values($existingAttempts);
 
 		// Store the new attempt
-		$existingAttempts[] = (string)($currentTime + $period);
+		$existingAttempts[] = (string) ($currentTime + $period);
 
 		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {
 			return;

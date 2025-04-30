@@ -44,7 +44,7 @@ class VersionFile implements IFile {
 	}
 
 	public function getETag(): string {
-		return (string)$this->version->getRevisionId();
+		return (string) $this->version->getRevisionId();
 	}
 
 	/**
@@ -64,7 +64,7 @@ class VersionFile implements IFile {
 	}
 
 	public function getName(): string {
-		return (string)$this->version->getRevisionId();
+		return (string) $this->version->getRevisionId();
 	}
 
 	public function setName($name) {

@@ -13,7 +13,7 @@ use OCA\User_LDAP\Mapping\UserMapping;
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$subject = (string)$_POST['ldap_clear_mapping'];
+$subject = (string) $_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
 	if ($subject === 'user') {

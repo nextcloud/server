@@ -152,7 +152,7 @@ class RemoveLinkShares implements IRepairStep {
 		$this->addToNotify($data['uid_owner']);
 		$this->addToNotify($data['uid_initiator']);
 
-		$this->deleteShare((int)$id);
+		$this->deleteShare((int) $id);
 	}
 
 	/**

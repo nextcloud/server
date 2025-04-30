@@ -99,7 +99,7 @@ class TransferOwnership extends QueuedJob {
 				'targetUser' => $transfer->getTargetUser(),
 				'nodeName' => $transfer->getNodeName(),
 			])
-			->setObject('transfer', (string)$transfer->getId());
+			->setObject('transfer', (string) $transfer->getId());
 		$this->notificationManager->notify($notification);
 		// Send notification to source user
 		$notification = $this->notificationManager->createNotification();
@@ -111,7 +111,7 @@ class TransferOwnership extends QueuedJob {
 				'targetUser' => $transfer->getTargetUser(),
 				'nodeName' => $transfer->getNodeName(),
 			])
-			->setObject('transfer', (string)$transfer->getId());
+			->setObject('transfer', (string) $transfer->getId());
 		$this->notificationManager->notify($notification);
 	}
 
@@ -126,7 +126,7 @@ class TransferOwnership extends QueuedJob {
 				'targetUser' => $transfer->getTargetUser(),
 				'nodeName' => $transfer->getNodeName(),
 			])
-			->setObject('transfer', (string)$transfer->getId());
+			->setObject('transfer', (string) $transfer->getId());
 		$this->notificationManager->notify($notification);
 
 		// Send notification to source user
@@ -139,7 +139,7 @@ class TransferOwnership extends QueuedJob {
 				'targetUser' => $transfer->getTargetUser(),
 				'nodeName' => $transfer->getNodeName(),
 			])
-			->setObject('transfer', (string)$transfer->getId());
+			->setObject('transfer', (string) $transfer->getId());
 		$this->notificationManager->notify($notification);
 	}
 }

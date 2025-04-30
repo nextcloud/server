@@ -176,7 +176,7 @@ class OfflineUser {
 		if ($this->lastLogin === null) {
 			$this->fetchDetails();
 		}
-		return (int)$this->lastLogin;
+		return (int) $this->lastLogin;
 	}
 
 	/**
@@ -187,14 +187,14 @@ class OfflineUser {
 		if ($this->foundDeleted === null) {
 			$this->fetchDetails();
 		}
-		return (int)$this->foundDeleted;
+		return (int) $this->foundDeleted;
 	}
 
 	public function getExtStorageHome(): string {
 		if ($this->extStorageHome === null) {
 			$this->fetchDetails();
 		}
-		return (string)$this->extStorageHome;
+		return (string) $this->extStorageHome;
 	}
 
 	/**

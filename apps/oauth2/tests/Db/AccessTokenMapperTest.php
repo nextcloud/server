@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -26,7 +27,7 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId((string) time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);
@@ -44,7 +45,7 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId((string) time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);

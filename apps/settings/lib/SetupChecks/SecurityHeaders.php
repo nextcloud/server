@@ -100,7 +100,7 @@ class SecurityHeaders implements ISetupCheck {
 				$transportSecurityValidity = $response->getHeader('Strict-Transport-Security');
 				$minimumSeconds = 15552000;
 				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
-					$transportSecurityValidity = (int)$m[1];
+					$transportSecurityValidity = (int) $m[1];
 					if ($transportSecurityValidity < $minimumSeconds) {
 						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy.', [$minimumSeconds, $transportSecurityValidity])."\n";
 					}
@@ -131,7 +131,7 @@ class SecurityHeaders implements ISetupCheck {
 			// Otherwise if we fail we can abort here
 			if ($works === false) {
 				return SetupResult::warning(
-					$this->l10n->t("Could not check that your web server serves security headers correctly, unable to query `%s`", [$url]),
+					$this->l10n->t('Could not check that your web server serves security headers correctly, unable to query `%s`', [$url]),
 					$this->urlGenerator->linkToDocs('admin-security'),
 				);
 			}

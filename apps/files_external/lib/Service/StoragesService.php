@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -89,7 +90,7 @@ abstract class StoragesService {
 				$mount['priority']
 			);
 			$config->setType($mount['type']);
-			$config->setId((int)$mount['mount_id']);
+			$config->setId((int) $mount['mount_id']);
 			return $config;
 		} catch (\UnexpectedValueException $e) {
 			// don't die if a storage backend doesn't exist

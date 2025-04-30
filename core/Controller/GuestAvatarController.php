@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -68,7 +69,7 @@ class GuestAvatarController extends Controller {
 			$resp = new FileDisplayResponse(
 				$avatarFile,
 				$avatar->isCustomAvatar() ? Http::STATUS_OK : Http::STATUS_CREATED,
-				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int) $avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
 			$this->logger->error('error while creating guest avatar', [

@@ -47,7 +47,7 @@ class Watcher {
 			if (is_null($node->getId())) {
 				return;
 			}
-			$folder = $this->appData->getFolder((string)$node->getId());
+			$folder = $this->appData->getFolder((string) $node->getId());
 			$folder->delete();
 		} catch (NotFoundException $e) {
 			//Nothing to do

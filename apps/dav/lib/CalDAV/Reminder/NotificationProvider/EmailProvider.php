@@ -417,24 +417,24 @@ class EmailProvider extends AbstractProvider {
 	}
 
 	private function getWeekDayName(IL10N $l10n, DateTime $dt):string {
-		return (string)$l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
+		return (string) $l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
 	}
 
 	private function getDateString(IL10N $l10n, DateTime $dt):string {
-		return (string)$l10n->l('date', $dt, ['width' => 'medium']);
+		return (string) $l10n->l('date', $dt, ['width' => 'medium']);
 	}
 
 	private function getDateTimeString(IL10N $l10n, DateTime $dt):string {
-		return (string)$l10n->l('datetime', $dt, ['width' => 'medium|short']);
+		return (string) $l10n->l('datetime', $dt, ['width' => 'medium|short']);
 	}
 
 	private function getTimeString(IL10N $l10n, DateTime $dt):string {
-		return (string)$l10n->l('time', $dt, ['width' => 'short']);
+		return (string) $l10n->l('time', $dt, ['width' => 'short']);
 	}
 
 	private function getTitleFromVEvent(VEvent $vevent, IL10N $l10n):string {
 		if (isset($vevent->SUMMARY)) {
-			return (string)$vevent->SUMMARY;
+			return (string) $vevent->SUMMARY;
 		}
 
 		return $l10n->t('Untitled event');

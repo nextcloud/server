@@ -135,14 +135,14 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			->setMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m1->expects($this->never())
-				->method('afterException');
+			->method('afterException');
 
 		$m2 = $this->getMockBuilder('OCP\AppFramework\Middleware')
 			->setMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m2->expects($this->once())
-				->method('afterException')
-				->willReturn($response);
+			->method('afterException')
+			->willReturn($response);
 
 		$this->dispatcher->registerMiddleware($m1);
 		$this->dispatcher->registerMiddleware($m2);
@@ -260,11 +260,11 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$m2 = $this->getMiddleware(true);
 		$m3 = $this->createMock(Middleware::class);
 		$m3->expects($this->never())
-				->method('afterException');
+			->method('afterException');
 		$m3->expects($this->never())
-				->method('beforeController');
+			->method('beforeController');
 		$m3->expects($this->never())
-				->method('afterController');
+			->method('afterController');
 		$m3->method('beforeOutput')
 			->willReturnArgument(2);
 

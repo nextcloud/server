@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -40,7 +41,7 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var IManager|MockObject */
 	protected $shareManager;
 
-	/** @var  ISearch|MockObject */
+	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
 
 	/** @var IConfig|MockObject */

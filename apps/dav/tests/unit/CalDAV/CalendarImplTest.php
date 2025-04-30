@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -138,13 +139,13 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with($this->calendar->getPrincipalURI());
 
-		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin*/
+		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
 		/** @var Plugin|MockObject $schedulingPlugin */
 		$schedulingPlugin = $this->createMock(Plugin::class);
 		$iTipMessage = $this->getITipMessage($message);
-		$iTipMessage->recipient = "mailto:lewis@stardew-tent-living.com";
+		$iTipMessage->recipient = 'mailto:lewis@stardew-tent-living.com';
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())
@@ -250,7 +251,7 @@ EOF;
 		$iTipMessage->sender = $attendee;
 		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
 		$iTipMessage->component = 'VEVENT';
-		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int)$vEvent->{'SEQUENCE'}->getValue() : 0;
+		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int) $vEvent->{'SEQUENCE'}->getValue() : 0;
 		$iTipMessage->message = $vObject;
 		return $iTipMessage;
 	}

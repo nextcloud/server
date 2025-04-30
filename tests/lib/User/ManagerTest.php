@@ -673,7 +673,7 @@ class ManagerTest extends TestCase {
 		$manager = \OCP\Server::get(IUserManager::class);
 
 		// Create some users
-		$now = (string)time();
+		$now = (string) time();
 		$user1 = $manager->createUser('test_active_1', 'test_active_1');
 		$config->setUserValue('test_active_1', 'login', 'lastLogin', $now);
 		$user1->setDisplayName('test active 1');

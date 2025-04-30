@@ -83,7 +83,7 @@ class PromoteGroup extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groupInput = (string)$input->getArgument('group');
+		$groupInput = (string) $input->getArgument('group');
 		$group = $this->groupManager->get($groupInput);
 
 		if ($group instanceof IGroup && $this->backend->groupExists($group->getGID())) {

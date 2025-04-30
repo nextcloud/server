@@ -54,8 +54,8 @@ class CleanUp extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 		$minutes = \OC::$server->getConfig()->getSystemValue(
-			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
-		$this->setInterval((int)$minutes * 60);
+			'ldapUserCleanupInterval', (string) $this->defaultIntervalMin);
+		$this->setInterval((int) $minutes * 60);
 		$this->userBackend = $userBackend;
 		$this->dui = $dui;
 	}
@@ -145,8 +145,8 @@ class CleanUp extends TimedJob {
 	 * checks whether clean up is enabled by configuration
 	 */
 	private function isCleanUpEnabled(): bool {
-		return (bool)$this->ocConfig->getSystemValue(
-			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
+		return (bool) $this->ocConfig->getSystemValue(
+			'ldapUserCleanupInterval', (string) $this->defaultIntervalMin);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class CleanUp extends TimedJob {
 	 * gets the offset to fetch users from the mappings table
 	 */
 	private function getOffset(): int {
-		return (int)$this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', '0');
+		return (int) $this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', '0');
 	}
 
 	/**
@@ -187,7 +187,7 @@ class CleanUp extends TimedJob {
 	public function setOffset(bool $reset = false): void {
 		$newOffset = $reset ? 0 :
 			$this->getOffset() + $this->getChunkSize();
-		$this->ocConfig->setAppValue('user_ldap', 'cleanUpJobOffset', (string)$newOffset);
+		$this->ocConfig->setAppValue('user_ldap', 'cleanUpJobOffset', (string) $newOffset);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class CleanUp extends TimedJob {
 	 */
 	public function getChunkSize(): int {
 		if ($this->limit === null) {
-			$this->limit = (int)$this->ocConfig->getAppValue('user_ldap', 'cleanUpJobChunkSize', '50');
+			$this->limit = (int) $this->ocConfig->getAppValue('user_ldap', 'cleanUpJobChunkSize', '50');
 		}
 		return $this->limit;
 	}

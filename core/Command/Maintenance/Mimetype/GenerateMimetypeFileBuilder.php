@@ -21,7 +21,7 @@ class GenerateMimetypeFileBuilder {
 			// Single digit extensions will be treated as integers
 			// Let's make sure they are strings
 			// https://github.com/nextcloud/server/issues/42902
-			$key = (string)$key;
+			$key = (string) $key;
 			return !($key === '' || $key[0] === '_');
 		}, ARRAY_FILTER_USE_KEY);
 

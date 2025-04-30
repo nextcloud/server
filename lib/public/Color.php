@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -83,7 +84,7 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function name(): string {
-		return sprintf("#%02x%02x%02x", $this->r, $this->g, $this->b);
+		return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
 	}
 
 	/**
@@ -115,9 +116,9 @@ class Color {
 	 */
 	public function alphaBlending(float $opacity, Color $source): Color {
 		return new Color(
-			(int)((1 - $opacity) * $source->red() + $opacity * $this->red()),
-			(int)((1 - $opacity) * $source->green() + $opacity * $this->green()),
-			(int)((1 - $opacity) * $source->blue() + $opacity * $this->blue())
+			(int) ((1 - $opacity) * $source->red() + $opacity * $this->red()),
+			(int) ((1 - $opacity) * $source->green() + $opacity * $this->green()),
+			(int) ((1 - $opacity) * $source->blue() + $opacity * $this->blue())
 		);
 	}
 

@@ -134,8 +134,8 @@ class PreferencesController extends OCSController {
 	 * @param string[] $configKeys Keys to delete
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, array<empty>, array{}>
-	 * 200: Preferences deleted successfully
-	 * 400: Preference invalid
+	 *                                                                                       200: Preferences deleted successfully
+	 *                                                                                       400: Preference invalid
 	 */
 	#[NoAdminRequired]
 	public function deleteMultiplePreference(string $appId, array $configKeys): DataResponse {

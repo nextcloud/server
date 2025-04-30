@@ -64,7 +64,7 @@ interface IURLGenerator {
 	 * @param string $appName the name of the app
 	 * @param string $file the name of the file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 6.0.0
 	 */

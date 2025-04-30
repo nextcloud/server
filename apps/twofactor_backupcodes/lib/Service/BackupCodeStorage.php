@@ -88,7 +88,7 @@ class BackupCodeStorage {
 		$total = count($codes);
 		$used = 0;
 		array_walk($codes, function (BackupCode $code) use (&$used) {
-			if ((int)$code->getUsed() === 1) {
+			if ((int) $code->getUsed() === 1) {
 				$used++;
 			}
 		});
@@ -108,7 +108,7 @@ class BackupCodeStorage {
 		$dbCodes = $this->mapper->getBackupCodes($user);
 
 		foreach ($dbCodes as $dbCode) {
-			if ((int)$dbCode->getUsed() === 0 && $this->hasher->verify($code, $dbCode->getCode())) {
+			if ((int) $dbCode->getUsed() === 0 && $this->hasher->verify($code, $dbCode->getCode())) {
 				$dbCode->setUsed(1);
 				$this->mapper->update($dbCode);
 				return true;

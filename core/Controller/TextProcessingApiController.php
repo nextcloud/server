@@ -109,7 +109,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textProcessingManager->runOrScheduleTask($task);
-			} catch(TaskFailureException) {
+			} catch (TaskFailureException) {
 				// noop, because the task object has the failure status set already, we just return the task json
 			}
 

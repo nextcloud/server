@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -82,7 +83,7 @@ class DeletedUsersIndex {
 			return;
 		}
 		$this->config->setUserValue($ocName, 'user_ldap', 'isDeleted', '1');
-		$this->config->setUserValue($ocName, 'user_ldap', 'foundDeleted', (string)time());
+		$this->config->setUserValue($ocName, 'user_ldap', 'foundDeleted', (string) time());
 		$this->deletedUsers = null;
 	}
 

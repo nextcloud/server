@@ -43,8 +43,8 @@ class OC_Hook {
 		}
 		// Connect the hook handler to the requested emitter
 		self::$registered[$signalClass][$signalName][] = [
-			"class" => $slotClass,
-			"name" => $slotName
+			'class' => $slotClass,
+			'name' => $slotName
 		];
 
 		// No chance for failure ;-)
@@ -79,7 +79,7 @@ class OC_Hook {
 		// Call all slots
 		foreach (self::$registered[$signalClass][$signalName] as $i) {
 			try {
-				call_user_func([ $i["class"], $i["name"] ], $params);
+				call_user_func([ $i['class'], $i['name'] ], $params);
 			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
 				\OC::$server->getLogger()->logException($e);

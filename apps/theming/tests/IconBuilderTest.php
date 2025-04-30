@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -84,7 +85,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$icon = $this->iconBuilder->renderAppIcon($app, 512);
 
 		$this->assertEquals(true, $icon->valid());
@@ -113,7 +114,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$icon = new \Imagick();
 		$icon->readImageBlob($this->iconBuilder->getTouchIcon($app));
 
@@ -146,7 +147,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$actualIcon = $this->iconBuilder->getFavicon($app);
 
 		$icon = new \Imagick();

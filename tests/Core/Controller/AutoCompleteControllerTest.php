@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,13 +16,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AutoCompleteControllerTest extends TestCase {
-	/** @var  ISearch|MockObject */
+	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
-	/** @var  IManager|MockObject */
+	/** @var IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var  IEventDispatcher|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var  AutoCompleteController */
+	/** @var AutoCompleteController */
 	protected $controller;
 
 	protected function setUp(): void {

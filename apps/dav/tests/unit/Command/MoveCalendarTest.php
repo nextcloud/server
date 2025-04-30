@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -194,7 +195,7 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function dataTestMoveWithDestinationNotPartOfGroup(): array {
@@ -240,7 +241,7 @@ class MoveCalendarTest extends TestCase {
 			]);
 		if ($shareWithGroupMembersOnly === true) {
 			$this->expectException(InvalidArgumentException::class);
-			$this->expectExceptionMessage("User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.");
+			$this->expectExceptionMessage('User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.');
 		}
 
 		$commandTester = new CommandTester($this->command);
@@ -294,7 +295,7 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function testMoveWithDestinationNotPartOfGroupAndForce(): void {
@@ -342,7 +343,7 @@ class MoveCalendarTest extends TestCase {
 			'--force' => true
 		]);
 
-		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString('[OK] Calendar <personal> was moved from user <user> to <user2>', $commandTester->getDisplay());
 	}
 
 	public function dataTestMoveWithCalendarAlreadySharedToDestination(): array {
@@ -380,17 +381,17 @@ class MoveCalendarTest extends TestCase {
 			);
 
 		$this->calDav->expects($this->once())->method('getShares')
-				->with(1234)
-				->willReturn([
-					[
-						'href' => 'principal:principals/users/user2',
-						'{DAV:}displayname' => 'Personal'
-					]
-				]);
+			->with(1234)
+			->willReturn([
+				[
+					'href' => 'principal:principals/users/user2',
+					'{DAV:}displayname' => 'Personal'
+				]
+			]);
 
 		if ($force === false) {
 			$this->expectException(InvalidArgumentException::class);
-			$this->expectExceptionMessage("The calendar <personal> is already shared to user <user2>.You may use -f to move the calendar while deleting this share.");
+			$this->expectExceptionMessage('The calendar <personal> is already shared to user <user2>.You may use -f to move the calendar while deleting this share.');
 		} else {
 			$this->calDav->expects($this->once())->method('updateShares');
 		}

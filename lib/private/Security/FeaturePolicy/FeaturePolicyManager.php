@@ -44,7 +44,7 @@ class FeaturePolicyManager {
 		FeaturePolicy $defaultPolicy,
 		EmptyFeaturePolicy $originalPolicy,
 	): FeaturePolicy {
-		foreach ((object)(array)$originalPolicy as $name => $value) {
+		foreach ((object) (array) $originalPolicy as $name => $value) {
 			$setter = 'set' . ucfirst($name);
 			if (\is_array($value)) {
 				$getter = 'get' . ucfirst($name);

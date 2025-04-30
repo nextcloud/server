@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,23 +25,23 @@ use Psr\Log\LoggerInterface;
 class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
 	public const MIN_INTERVAL = 30 * 60; // 30min
-	/** @var  Helper */
+	/** @var Helper */
 	protected $ldapHelper;
-	/** @var  LDAP */
+	/** @var LDAP */
 	protected $ldap;
 	/** @var UserMapping */
 	protected $mapper;
-	/** @var  IConfig */
+	/** @var IConfig */
 	protected $config;
-	/** @var  IAvatarManager */
+	/** @var IAvatarManager */
 	protected $avatarManager;
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	protected $dbc;
-	/** @var  IUserManager */
+	/** @var IUserManager */
 	protected $ncUserManager;
-	/** @var  LoggerInterface */
+	/** @var LoggerInterface */
 	protected $logger;
-	/** @var  IManager */
+	/** @var IManager */
 	protected $notificationManager;
 	/** @var ConnectionFactory */
 	protected $connectionFactory;
@@ -50,10 +51,10 @@ class Sync extends TimedJob {
 	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
 		$this->setInterval(
-			(int)\OC::$server->getConfig()->getAppValue(
+			(int) \OC::$server->getConfig()->getAppValue(
 				'user_ldap',
 				'background_sync_interval',
-				(string)self::MIN_INTERVAL
+				(string) self::MIN_INTERVAL
 			)
 		);
 	}
@@ -74,7 +75,7 @@ class Sync extends TimedJob {
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
 		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
-		$this->config->setAppValue('user_ldap', 'background_sync_interval', (string)$interval);
+		$this->config->setAppValue('user_ldap', 'background_sync_interval', (string) $interval);
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Sync extends TimedJob {
 			$pagingSize = $this->config->getAppValue('user_ldap', $configKey, $minPagingSize);
 			$minPagingSize = $minPagingSize === null ? $pagingSize : min($minPagingSize, $pagingSize);
 		}
-		return (int)$minPagingSize;
+		return (int) $minPagingSize;
 	}
 
 	/**
@@ -101,7 +102,7 @@ class Sync extends TimedJob {
 		$this->setArgument($argument);
 
 		$isBackgroundJobModeAjax = $this->config
-				->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
+			->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 		if ($isBackgroundJobModeAjax) {
 			return;
 		}
@@ -150,15 +151,15 @@ class Sync extends TimedJob {
 		$results = $access->fetchListOfUsers(
 			$filter,
 			$access->userManager->getAttributes(),
-			(int)$connection->ldapPagingSize,
+			(int) $connection->ldapPagingSize,
 			$cycleData['offset'],
 			true
 		);
 
-		if ((int)$connection->ldapPagingSize === 0) {
+		if ((int) $connection->ldapPagingSize === 0) {
 			return false;
 		}
-		return count($results) >= (int)$connection->ldapPagingSize;
+		return count($results) >= (int) $connection->ldapPagingSize;
 	}
 
 	/**
@@ -175,7 +176,7 @@ class Sync extends TimedJob {
 
 		$cycleData = [
 			'prefix' => $this->config->getAppValue('user_ldap', 'background_sync_prefix', null),
-			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', '0'),
+			'offset' => (int) $this->config->getAppValue('user_ldap', 'background_sync_offset', '0'),
 		];
 
 		if (
@@ -232,7 +233,7 @@ class Sync extends TimedJob {
 	 * @return bool
 	 */
 	public function qualifiesToRun($cycleData) {
-		$lastChange = (int)$this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', '0');
+		$lastChange = (int) $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', '0');
 		if ((time() - $lastChange) > 60 * 30) {
 			return true;
 		}
@@ -246,7 +247,7 @@ class Sync extends TimedJob {
 	 */
 	protected function increaseOffset($cycleData) {
 		$ldapConfig = new Configuration($cycleData['prefix']);
-		$cycleData['offset'] += (int)$ldapConfig->ldapPagingSize;
+		$cycleData['offset'] += (int) $ldapConfig->ldapPagingSize;
 		$this->setCycle($cycleData);
 	}
 

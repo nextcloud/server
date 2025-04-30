@@ -267,7 +267,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return;
 		}
 
-		$chunkSize = (int)$input->getOption('chunk-size');
+		$chunkSize = (int) $input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);

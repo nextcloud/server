@@ -102,7 +102,7 @@ class TempManager implements ITempManager {
 					\OC_Helper::rmdirr($file);
 				} catch (\UnexpectedValueException $ex) {
 					$this->log->warning(
-						"Error deleting temporary file/folder: {file} - Reason: {error}",
+						'Error deleting temporary file/folder: {file} - Reason: {error}',
 						[
 							'file' => $file,
 							'error' => $ex->getMessage(),

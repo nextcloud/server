@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,7 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -204,11 +205,11 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theCaldavHttpStatusCodeShouldBe($code) {
-		if ((int)$code !== $this->response->getStatusCode()) {
+		if ((int) $code !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
-					(int)$code,
+					(int) $code,
 					$this->response->getStatusCode()
 				)
 			);
@@ -317,7 +318,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$jsonEncoded = json_encode($this->responseXml);
 		$arrayElement = json_decode($jsonEncoded, true);
 		$actual = count($arrayElement['value']) - 1;
-		if ($actual !== (int)$amount) {
+		if ($actual !== (int) $amount) {
 			throw new InvalidArgumentException(
 				sprintf(
 					'Expected %s got %s',

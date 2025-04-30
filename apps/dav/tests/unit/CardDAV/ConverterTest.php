@@ -53,7 +53,7 @@ class ConverterTest extends TestCase {
 			->willReturn($name);
 		$property->expects($this->any())
 			->method('getValue')
-			->willReturn((string)$value);
+			->willReturn((string) $value);
 		$property->expects($this->any())
 			->method('getScope')
 			->willReturn($scope);
@@ -89,7 +89,7 @@ class ConverterTest extends TestCase {
 	 * @dataProvider providesNewUsers
 	 */
 	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
-		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
+		$user = $this->getUserMock((string) $displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
 		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
@@ -104,7 +104,7 @@ class ConverterTest extends TestCase {
 	}
 
 	public function testManagerProp(): void {
-		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$user = $this->getUserMock('user', 'user@domain.tld', 'user@cloud.domain.tld');
 		$user->method('getManagerUids')
 			->willReturn(['mgr']);
 		$this->userManager->expects(self::once())
@@ -168,8 +168,8 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
-				"foo@bar.net",
+				'Dr. Foo Bar',
+				'foo@bar.net',
 				'foo@cloud.net'
 			],
 			[
@@ -178,9 +178,9 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
+				'Dr. Foo Bar',
 				null,
-				"foo@cloud.net"
+				'foo@cloud.net'
 			],
 			[
 				[

@@ -79,7 +79,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		$result = $this->systemTagsInFilesDetector->detectAssignedSystemTagsIn($userFolder, $this->mediaType);
 		$children = [];
 		foreach ($result as $tagData) {
-			$tag = new SystemTag((string)$tagData['id'], $tagData['name'], (bool)$tagData['visibility'], (bool)$tagData['editable']);
+			$tag = new SystemTag((string) $tagData['id'], $tagData['name'], (bool) $tagData['visibility'], (bool) $tagData['editable']);
 			// read only, so we can submit the isAdmin parameter as false generally
 			$node = new SystemTagNode($tag, $user, false, $this->systemTagManager);
 			$node->setNumberOfFiles((int) $tagData['number_files']);

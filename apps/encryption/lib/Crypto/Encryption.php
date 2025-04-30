@@ -99,8 +99,8 @@ class Encryption implements IEncryptionModule {
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
 	 * @return array $header contain data as key-value pairs which should be
-	 *                       written to the header, in case of a write operation
-	 *                       or if no additional data is needed return a empty array
+	 *               written to the header, in case of a write operation
+	 *               or if no additional data is needed return a empty array
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);
@@ -131,7 +131,7 @@ class Encryption implements IEncryptionModule {
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
 		// final location
-		$this->version = (int)$this->keyManager->getVersion($this->stripPartFileExtension($path), new View());
+		$this->version = (int) $this->keyManager->getVersion($this->stripPartFileExtension($path), new View());
 
 		if (
 			$mode === 'w'
@@ -285,7 +285,7 @@ class Encryption implements IEncryptionModule {
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
 
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, (string)$position);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, (string) $position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data

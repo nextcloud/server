@@ -45,12 +45,12 @@ class RefreshWebcalService {
 		}
 
 		// Check the refresh rate if there is any
-		if(!empty($subscription['{http://apple.com/ns/ical/}refreshrate'])) {
+		if (!empty($subscription['{http://apple.com/ns/ical/}refreshrate'])) {
 			// add the refresh interval to the lastmodified timestamp
 			$refreshInterval = new \DateInterval($subscription['{http://apple.com/ns/ical/}refreshrate']);
 			$updateTime = $this->time->getDateTime();
 			$updateTime->setTimestamp($subscription['lastmodified'])->add($refreshInterval);
-			if($updateTime->getTimestamp() > $this->time->getTime()) {
+			if ($updateTime->getTimestamp() > $this->time->getTime()) {
 				return;
 			}
 		}
@@ -131,7 +131,7 @@ class RefreshWebcalService {
 				try {
 					$objectUri = $this->getRandomCalendarObjectUri();
 					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $vObject->serialize(), CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch (NoInstancesException | BadRequest $ex) {
+				} catch (NoInstancesException|BadRequest $ex) {
 					$this->logger->warning('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
 				}
 			}
@@ -143,7 +143,7 @@ class RefreshWebcalService {
 				return $dataSet['uri'];
 			}, $localData);
 
-			if(!empty($ids) && !empty($uris)) {
+			if (!empty($ids) && !empty($uris)) {
 				// Clean up on aisle 5
 				// The only events left over in the $localData array should be those that don't exist upstream
 				// All deleted VObjects from upstream are removed
@@ -157,7 +157,7 @@ class RefreshWebcalService {
 
 			$this->updateSubscription($subscription, $mutations);
 		} catch (ParseException $ex) {
-			$this->logger->error("Subscription {subscriptionId} could not be refreshed due to a parsing error", ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
 		}
 	}
 

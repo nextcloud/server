@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -206,11 +207,11 @@ class ScanAppData extends Base {
 	protected function formatExecTime(): string {
 		$secs = round($this->execTime);
 		# convert seconds into HH:MM:SS form
-		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), (int)$secs % 60);
+		return sprintf('%02d:%02d:%02d', (int) ($secs / 3600), ((int) ($secs / 60) % 60), (int) $secs % 60);
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
-		/** @var Connection $connection*/
+		/** @var Connection $connection */
 		$connection = \OC::$server->get(Connection::class);
 		try {
 			$connection->close();

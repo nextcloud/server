@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -59,9 +60,9 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	 */
 	public function testShouldRun($from, $expected) {
 		$this->config->expects($this->any())
-			   ->method('getSystemValueString')
-			   ->with('version', '0.0.0.0')
-			   ->willReturn($from);
+			->method('getSystemValueString')
+			->with('version', '0.0.0.0')
+			->willReturn($from);
 
 		$this->assertEquals($expected, $this->invokePrivate($this->repair, 'shouldRun'));
 	}

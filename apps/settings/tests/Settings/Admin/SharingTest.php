@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,13 +23,13 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
-	/** @var  IL10N|MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
-	/** @var  IManager|MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var  IURLGenerator|MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var IInitialState|MockObject */
 	private $initialState;
@@ -56,7 +57,7 @@ class SharingTest extends TestCase {
 			$this->appManager,
 			$this->urlGenerator,
 			$this->initialState,
-			"settings",
+			'settings',
 		);
 	}
 
@@ -84,7 +85,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_public_link_disclaimertext', null, 'Lorem ipsum'],
 				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
-				['core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
+				['core', 'shareapi_default_permissions', (string) Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],
@@ -177,7 +178,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups', 'no', 'yes'],
 				['core', 'shareapi_public_link_disclaimertext', null, 'Lorem ipsum'],
 				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
-				['core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
+				['core', 'shareapi_default_permissions', (string) Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],

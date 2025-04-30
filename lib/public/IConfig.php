@@ -206,9 +206,9 @@ interface IConfig {
 	 * @param string $userId the userId of the user that we want to get all values from
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
+	 *                 [ $appId =>
+	 *                 [ $key => $value ]
+	 *                 ]
 	 * @since 24.0.0
 	 */
 	public function getAllUserValues(string $userId): array;

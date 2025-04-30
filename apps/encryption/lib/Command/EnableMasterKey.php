@@ -23,7 +23,7 @@ class EnableMasterKey extends Command {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var  QuestionHelper */
+	/** @var QuestionHelper */
 	protected $questionHelper;
 
 	/**

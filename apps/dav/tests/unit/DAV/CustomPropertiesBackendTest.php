@@ -34,7 +34,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $dbConnection;
 
 	/** @var IUser | \PHPUnit\Framework\MockObject\MockObject */
@@ -121,7 +121,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$data = [];
 		while ($row = $result->fetch()) {
 			$value = $row['propertyvalue'];
-			if ((int)$row['valuetype'] === CustomPropertiesBackend::PROPERTY_TYPE_HREF) {
+			if ((int) $row['valuetype'] === CustomPropertiesBackend::PROPERTY_TYPE_HREF) {
 				$value = new Href($value);
 			}
 			$data[$row['propertyname']] = $value;
@@ -396,7 +396,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->defaultCalendarValidator->expects(self::once())
 			->method('validateScheduleDefaultCalendar')
 			->with($node)
-			->willThrowException(new \Sabre\DAV\Exception("Invalid calendar"));
+			->willThrowException(new \Sabre\DAV\Exception('Invalid calendar'));
 
 		$this->server->method('calculateUri')
 			->willReturnCallback(function ($uri) {

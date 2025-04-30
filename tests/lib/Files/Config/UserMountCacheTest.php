@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -365,7 +366,7 @@ class UserMountCacheTest extends TestCase {
 					->from('filecache')
 					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId)))
 					->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($internalPath))));
-				$id = (int)$query->execute()->fetchColumn();
+				$id = (int) $query->execute()->fetchColumn();
 			} else {
 				throw $e;
 			}

@@ -52,7 +52,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			}
 
 			if ($this->getCurrentUserPrincipal() === $node->getOwner()) {
-				throw new Forbidden("Access denied");
+				throw new Forbidden('Access denied');
 			} else {
 				throw new NotFound(
 					sprintf(

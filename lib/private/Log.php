@@ -276,7 +276,7 @@ class Log implements ILogger, IDataLogger {
 			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
 			if (is_numeric($configLogLevel)) {
 				$this->nestingLevel--;
-				return min((int)$configLogLevel, ILogger::FATAL);
+				return min((int) $configLogLevel, ILogger::FATAL);
 			}
 
 			// Invalid configuration, warn the user and fall back to default level of WARN
@@ -343,7 +343,7 @@ class Log implements ILogger, IDataLogger {
 		try {
 			$serializer = $this->getSerializer();
 		} catch (Throwable $e) {
-			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
+			$this->error('Failed to load ExceptionSerializer serializer while trying to log ' . $exception->getMessage());
 			return;
 		}
 		$data = $context;

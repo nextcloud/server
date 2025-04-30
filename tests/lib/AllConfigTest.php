@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,7 +20,7 @@ use OC\SystemConfig;
 use OCP\IDBConnection;
 
 class AllConfigTest extends \Test\TestCase {
-	/** @var  \OCP\IDBConnection */
+	/** @var \OCP\IDBConnection */
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {

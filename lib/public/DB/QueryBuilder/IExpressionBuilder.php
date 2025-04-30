@@ -51,7 +51,7 @@ interface IExpressionBuilder {
 	 *     $expr->andX('u.type = ?', 'u.role = ?'));
 	 *
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
-	 *                 at least one defined when converting to string.
+	 *                    at least one defined when converting to string.
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
@@ -71,7 +71,7 @@ interface IExpressionBuilder {
 	 *     $qb->where($qb->expr()->orX('u.type = ?', 'u.role = ?'));
 	 *
 	 * @param mixed ...$x Optional clause. Defaults = null, but requires
-	 *                 at least one defined when converting to string.
+	 *                    at least one defined when converting to string.
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
@@ -88,7 +88,7 @@ interface IExpressionBuilder {
 	 * @param string $operator One of the IExpressionBuilder::* constants.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -113,7 +113,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -136,7 +136,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -159,7 +159,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -182,7 +182,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -205,7 +205,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -228,7 +228,7 @@ interface IExpressionBuilder {
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -269,7 +269,7 @@ interface IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by LIKE() comparison.
 	 * @param mixed $y Argument to be used in LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -286,7 +286,7 @@ interface IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT LIKE() comparison.
 	 * @param mixed $y Argument to be used in NOT LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -303,7 +303,7 @@ interface IExpressionBuilder {
 	 * @param string $x Field in string format to be inspected by ILIKE() comparison.
 	 * @param mixed $y Argument to be used in ILIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -320,7 +320,7 @@ interface IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.
 	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
@@ -337,7 +337,7 @@ interface IExpressionBuilder {
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by NOT IN() comparison.
 	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility
+	 *                         required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0

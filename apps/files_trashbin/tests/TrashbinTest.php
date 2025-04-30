@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,8 +17,8 @@ use OCP\Share\IShare;
  * @group DB
  */
 class TrashbinTest extends \Test\TestCase {
-	public const TEST_TRASHBIN_USER1 = "test-trashbin-user1";
-	public const TEST_TRASHBIN_USER2 = "test-trashbin-user2";
+	public const TEST_TRASHBIN_USER1 = 'test-trashbin-user1';
+	public const TEST_TRASHBIN_USER2 = 'test-trashbin-user2';
 
 	private $trashRoot1;
 	private $trashRoot2;
@@ -200,7 +201,7 @@ class TrashbinTest extends \Test\TestCase {
 	 */
 	public function testExpireOldFilesShared() {
 		$currentTime = time();
-		$folder = "trashTest-" . $currentTime . '/';
+		$folder = 'trashTest-' . $currentTime . '/';
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
 
 		// create some files
@@ -235,7 +236,7 @@ class TrashbinTest extends \Test\TestCase {
 		// login as user2
 		self::loginHelper(self::TEST_TRASHBIN_USER2);
 
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($folder . "user1-4.txt"));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($folder . 'user1-4.txt'));
 
 		// create some files
 		\OC\Files\Filesystem::file_put_contents('user2-1.txt', 'file1');

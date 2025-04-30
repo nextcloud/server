@@ -215,7 +215,7 @@ class MountPoint implements IMountPoint {
 			$internalPath = substr($path, strlen($this->mountPoint));
 		}
 		// substr returns false instead of an empty string, we always want a string
-		return (string)$internalPath;
+		return (string) $internalPath;
 	}
 
 	/**
@@ -273,7 +273,7 @@ class MountPoint implements IMountPoint {
 			if ($storage === null) {
 				$this->rootId = -1;
 			} else {
-				$this->rootId = (int)$storage->getCache()->getId('');
+				$this->rootId = (int) $storage->getCache()->getId('');
 			}
 		}
 		return $this->rootId;

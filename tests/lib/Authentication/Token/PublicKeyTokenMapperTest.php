@@ -242,7 +242,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
 
-		$token = $this->mapper->getTokenById((int)$id);
+		$token = $this->mapper->getTokenById((int) $id);
 		$this->assertEquals('user1', $token->getUID());
 	}
 

@@ -54,7 +54,7 @@ class Add extends Base {
 			}
 			$output->writeln('Created group "' . $group->getGID() . '"');
 
-			$displayName = trim((string)$input->getOption('display-name'));
+			$displayName = trim((string) $input->getOption('display-name'));
 			if ($displayName !== '') {
 				$group->setDisplayName($displayName);
 			}

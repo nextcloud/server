@@ -111,7 +111,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			 */
 			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
 			if ($freeSpace < FileInfo::SPACE_UNLIMITED) {
-				$freeSpace = (int)max($freeSpace, 0);
+				$freeSpace = (int) max($freeSpace, 0);
 			} else {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 			}
@@ -212,12 +212,12 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
 		// OpenGraph Support: http://ogp.me/
-		Util::addHeader('meta', ['property' => "og:title", 'content' => $shareTmpl['filename']]);
-		Util::addHeader('meta', ['property' => "og:description", 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
-		Util::addHeader('meta', ['property' => "og:site_name", 'content' => $this->defaults->getName()]);
-		Util::addHeader('meta', ['property' => "og:url", 'content' => $shareTmpl['shareUrl']]);
-		Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
-		Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
+		Util::addHeader('meta', ['property' => 'og:title', 'content' => $shareTmpl['filename']]);
+		Util::addHeader('meta', ['property' => 'og:description', 'content' => $this->defaults->getName() . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : '')]);
+		Util::addHeader('meta', ['property' => 'og:site_name', 'content' => $this->defaults->getName()]);
+		Util::addHeader('meta', ['property' => 'og:url', 'content' => $shareTmpl['shareUrl']]);
+		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'object']);
+		Util::addHeader('meta', ['property' => 'og:image', 'content' => $ogPreview]);
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
 

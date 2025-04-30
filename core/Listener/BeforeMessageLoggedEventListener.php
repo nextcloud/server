@@ -58,7 +58,7 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 			if ($arg === '--'.ReservedOptions::DEBUG_LOG) {
 				unset($argv[$key]);
 			} elseif (str_starts_with($arg, '--'.ReservedOptions::DEBUG_LOG_LEVEL.'=')) {
-				$level = (int)substr($arg, strlen('--'.ReservedOptions::DEBUG_LOG_LEVEL.'='));
+				$level = (int) substr($arg, strlen('--'.ReservedOptions::DEBUG_LOG_LEVEL.'='));
 				unset($argv[$key]);
 			}
 		}

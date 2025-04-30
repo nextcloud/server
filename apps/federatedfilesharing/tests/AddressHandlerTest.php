@@ -20,13 +20,13 @@ class AddressHandlerTest extends \Test\TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var  AddressHandler */
+	/** @var AddressHandler */
 	private $addressHandler;
 
-	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
 	/** @var CloudIdManager */

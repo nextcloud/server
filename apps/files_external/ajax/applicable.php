@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,13 +14,13 @@ $pattern = '';
 $limit = null;
 $offset = null;
 if (isset($_GET['pattern'])) {
-	$pattern = (string)$_GET['pattern'];
+	$pattern = (string) $_GET['pattern'];
 }
 if (isset($_GET['limit'])) {
-	$limit = (int)$_GET['limit'];
+	$limit = (int) $_GET['limit'];
 }
 if (isset($_GET['offset'])) {
-	$offset = (int)$_GET['offset'];
+	$offset = (int) $_GET['offset'];
 }
 
 $groups = [];

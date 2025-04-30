@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -49,7 +50,7 @@ class WhatsNewController extends OCSController {
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', 0);
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
@@ -96,7 +97,7 @@ class WhatsNewController extends OCSController {
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$version = $this->whatsNewService->normalizeVersion($version);
 		// checks whether it's a valid version, throws an Exception otherwise

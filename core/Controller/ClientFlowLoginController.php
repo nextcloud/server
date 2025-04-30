@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -355,7 +356,7 @@ class ClientFlowLoginController extends Controller {
 
 		$protocol = $this->request->getServerProtocol();
 
-		if ($protocol !== "https") {
+		if ($protocol !== 'https') {
 			$xForwardedProto = $this->request->getHeader('X-Forwarded-Proto');
 			$xForwardedSSL = $this->request->getHeader('X-Forwarded-Ssl');
 			if ($xForwardedProto === 'https' || $xForwardedSSL === 'on') {
@@ -363,6 +364,6 @@ class ClientFlowLoginController extends Controller {
 			}
 		}
 
-		return $protocol . "://" . $this->request->getServerHost() . $serverPostfix;
+		return $protocol . '://' . $this->request->getServerHost() . $serverPostfix;
 	}
 }

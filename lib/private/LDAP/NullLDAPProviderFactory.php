@@ -16,7 +16,7 @@ class NullLDAPProviderFactory implements ILDAPProviderFactory {
 	}
 
 	public function getLDAPProvider() {
-		throw new \Exception("No LDAP provider is available");
+		throw new \Exception('No LDAP provider is available');
 	}
 
 	public function isAvailable(): bool {

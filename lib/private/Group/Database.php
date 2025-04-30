@@ -325,17 +325,17 @@ class Database extends ABackend implements
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('gid', 'displayname')
-				->from('groups')
-				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+			->from('groups')
+			->where($qb->expr()->in('gid', $qb->createParameter('ids')));
 		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
 			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $qb->executeQuery();
 			while ($row = $result->fetch()) {
-				$this->groupCache[(string)$row['gid']] = [
-					'displayname' => (string)$row['displayname'],
-					'gid' => (string)$row['gid'],
+				$this->groupCache[(string) $row['gid']] = [
+					'displayname' => (string) $row['displayname'],
+					'gid' => (string) $row['gid'],
 				];
-				$existingGroups[] = (string)$row['gid'];
+				$existingGroups[] = (string) $row['gid'];
 			}
 			$result->closeCursor();
 		}
@@ -428,7 +428,7 @@ class Database extends ABackend implements
 		$result->closeCursor();
 
 		if ($count !== false) {
-			$count = (int)$count;
+			$count = (int) $count;
 		} else {
 			$count = 0;
 		}
@@ -460,7 +460,7 @@ class Database extends ABackend implements
 		$result->closeCursor();
 
 		if ($count !== false) {
-			$count = (int)$count;
+			$count = (int) $count;
 		} else {
 			$count = 0;
 		}
@@ -527,10 +527,10 @@ class Database extends ABackend implements
 
 			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
-				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
-				$this->groupCache[(string)$row['gid']] = [
-					'displayname' => (string)$row['displayname'],
-					'gid' => (string)$row['gid'],
+				$details[(string) $row['gid']] = ['displayName' => (string) $row['displayname']];
+				$this->groupCache[(string) $row['gid']] = [
+					'displayname' => (string) $row['displayname'],
+					'gid' => (string) $row['gid'],
 				];
 			}
 			$result->closeCursor();

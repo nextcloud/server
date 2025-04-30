@@ -42,9 +42,9 @@ class IpAddressClassifier {
 		}
 		/* Replace by normalized form */
 		if ($parsedIp instanceof IPv6) {
-			$ip = (string)($parsedIp->toIPv4() ?? $parsedIp);
+			$ip = (string) ($parsedIp->toIPv4() ?? $parsedIp);
 		} else {
-			$ip = (string)$parsedIp;
+			$ip = (string) $parsedIp;
 		}
 
 		if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {

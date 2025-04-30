@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -108,11 +109,11 @@ class CleanUp extends Command {
 			$node = $this->rootFolder->get($path);
 
 			if ($verbose) {
-				$output->writeln("Deleting <info>" . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln('Deleting <info>' . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
 			}
 			$node->delete();
 			if ($this->rootFolder->nodeExists($path)) {
-				$output->writeln("<error>Trash folder sill exists after attempting to delete it</error>");
+				$output->writeln('<error>Trash folder sill exists after attempting to delete it</error>');
 				return;
 			}
 			$query = $this->dbConnection->getQueryBuilder();

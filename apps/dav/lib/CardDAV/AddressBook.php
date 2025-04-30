@@ -250,7 +250,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		try {
-			return $this->carddavBackend->moveCard($sourceNode->getAddressbookId(), (int)$this->addressBookInfo['id'], $sourceNode->getUri(), $sourceNode->getOwner());
+			return $this->carddavBackend->moveCard($sourceNode->getAddressbookId(), (int) $this->addressBookInfo['id'], $sourceNode->getUri(), $sourceNode->getOwner());
 		} catch (Exception $e) {
 			// Avoid injecting LoggerInterface everywhere
 			Server::get(LoggerInterface::class)->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);

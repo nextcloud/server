@@ -40,7 +40,7 @@ class WellKnownControllerTest extends TestCase {
 	}
 
 	public function testHandleNotProcessed(): void {
-		$httpResponse = $this->controller->handle("nodeinfo");
+		$httpResponse = $this->controller->handle('nodeinfo');
 
 		self::assertInstanceOf(JSONResponse::class, $httpResponse);
 		self::assertArrayHasKey('X-NEXTCLOUD-WELL-KNOWN', $httpResponse->getHeaders());
@@ -55,14 +55,14 @@ class WellKnownControllerTest extends TestCase {
 		$this->manager->expects(self::once())
 			->method('process')
 			->with(
-				"nodeinfo",
+				'nodeinfo',
 				$this->request
 			)->willReturn($response);
 		$jsonResponse->expects(self::once())
 			->method('addHeader')
 			->willReturnSelf();
 
-		$httpResponse = $this->controller->handle("nodeinfo");
+		$httpResponse = $this->controller->handle('nodeinfo');
 
 		self::assertInstanceOf(JSONResponse::class, $httpResponse);
 	}

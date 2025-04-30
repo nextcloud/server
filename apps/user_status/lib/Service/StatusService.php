@@ -499,10 +499,10 @@ class StatusService {
 			return;
 		}
 		// If there is a custom message, don't overwrite it
-		if(empty($status->getCustomMessage())) {
+		if (empty($status->getCustomMessage())) {
 			$status->setCustomMessage($predefinedMessage['message']);
 		}
-		if(empty($status->getCustomIcon())) {
+		if (empty($status->getCustomIcon())) {
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
 	}

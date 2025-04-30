@@ -97,7 +97,7 @@ class CalendarObject implements ICalendarObject, IACL {
 			$components = $this->vobject->getBaseComponents();
 			foreach ($components as $key => $component) {
 				$components[$key]->STATUS = 'CANCELLED';
-				$components[$key]->SEQUENCE = isset($component->SEQUENCE) ? ((int)$component->SEQUENCE->getValue()) + 1 : 1;
+				$components[$key]->SEQUENCE = isset($component->SEQUENCE) ? ((int) $component->SEQUENCE->getValue()) + 1 : 1;
 				if ($component->name === 'VEVENT') {
 					$components[$key]->METHOD = 'CANCEL';
 				}
@@ -116,9 +116,9 @@ class CalendarObject implements ICalendarObject, IACL {
 			throw new NotFound('Invalid node');
 		}
 		if (isset($base->{'X-FILENAME'})) {
-			return (string)$base->{'X-FILENAME'};
+			return (string) $base->{'X-FILENAME'};
 		}
-		return (string)$base->UID . '.ics';
+		return (string) $base->UID . '.ics';
 	}
 
 	public function setName($name): void {

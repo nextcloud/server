@@ -94,7 +94,7 @@ class LostController extends Controller {
 			) {
 				$response = new TemplateResponse(
 					'core', 'error', [
-						"errors" => [["error" => $e->getMessage()]]
+						'errors' => [['error' => $e->getMessage()]]
 					],
 					TemplateResponse::RENDER_AS_GUEST
 				);
@@ -131,7 +131,7 @@ class LostController extends Controller {
 			$error = $e->getCode() === InvalidTokenException::TOKEN_EXPIRED
 				? $this->l10n->t('Could not reset password because the token is expired')
 				: $this->l10n->t('Could not reset password because the token is invalid');
-			throw new Exception($error, (int)$e->getCode(), $e);
+			throw new Exception($error, (int) $e->getCode(), $e);
 		}
 	}
 

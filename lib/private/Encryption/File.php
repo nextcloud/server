@@ -92,7 +92,7 @@ class File implements \OCP\Encryption\IFile {
 		}
 
 		// check if it is a group mount
-		if ($this->getAppManager()->isEnabledForUser("files_external")) {
+		if ($this->getAppManager()->isEnabledForUser('files_external')) {
 			/** @var GlobalStoragesService $storageService */
 			$storageService = \OC::$server->get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();

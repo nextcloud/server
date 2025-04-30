@@ -219,7 +219,7 @@ interface ICache {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
-	 *        where it will search for all mimetypes in the group ('image/*')
+	 *                         where it will search for all mimetypes in the group ('image/*')
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 * @since 9.0.0
 	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this

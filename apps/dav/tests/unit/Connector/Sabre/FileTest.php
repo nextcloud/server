@@ -264,51 +264,51 @@ class FileTest extends TestCase {
 
 	public function legalMtimeProvider() {
 		return [
-			"string" => [
-				'HTTP_X_OC_MTIME' => "string",
+			'string' => [
+				'HTTP_X_OC_MTIME' => 'string',
 				'expected result' => null
 			],
-			"castable string (int)" => [
-				'HTTP_X_OC_MTIME' => "987654321",
+			'castable string (int)' => [
+				'HTTP_X_OC_MTIME' => '987654321',
 				'expected result' => 987654321
 			],
-			"castable string (float)" => [
-				'HTTP_X_OC_MTIME' => "123456789.56",
+			'castable string (float)' => [
+				'HTTP_X_OC_MTIME' => '123456789.56',
 				'expected result' => 123456789
 			],
-			"float" => [
+			'float' => [
 				'HTTP_X_OC_MTIME' => 123456789.56,
 				'expected result' => 123456789
 			],
-			"zero" => [
+			'zero' => [
 				'HTTP_X_OC_MTIME' => 0,
 				'expected result' => null
 			],
-			"zero string" => [
-				'HTTP_X_OC_MTIME' => "0",
+			'zero string' => [
+				'HTTP_X_OC_MTIME' => '0',
 				'expected result' => null
 			],
-			"negative zero string" => [
-				'HTTP_X_OC_MTIME' => "-0",
+			'negative zero string' => [
+				'HTTP_X_OC_MTIME' => '-0',
 				'expected result' => null
 			],
-			"string starting with number following by char" => [
-				'HTTP_X_OC_MTIME' => "2345asdf",
+			'string starting with number following by char' => [
+				'HTTP_X_OC_MTIME' => '2345asdf',
 				'expected result' => null
 			],
-			"string castable hex int" => [
-				'HTTP_X_OC_MTIME' => "0x45adf",
+			'string castable hex int' => [
+				'HTTP_X_OC_MTIME' => '0x45adf',
 				'expected result' => null
 			],
-			"string that looks like invalid hex int" => [
-				'HTTP_X_OC_MTIME' => "0x123g",
+			'string that looks like invalid hex int' => [
+				'HTTP_X_OC_MTIME' => '0x123g',
 				'expected result' => null
 			],
-			"negative int" => [
+			'negative int' => [
 				'HTTP_X_OC_MTIME' => -34,
 				'expected result' => null
 			],
-			"negative float" => [
+			'negative float' => [
 				'HTTP_X_OC_MTIME' => -34.43,
 				'expected result' => null
 			],
@@ -322,7 +322,7 @@ class FileTest extends TestCase {
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime): void {
 		$request = new Request([
 			'server' => [
-				'HTTP_X_OC_MTIME' => (string)$requestMtime,
+				'HTTP_X_OC_MTIME' => (string) $requestMtime,
 			]
 		], $this->requestId, $this->config, null);
 		$file = 'foo.txt';
@@ -905,10 +905,10 @@ class FileTest extends TestCase {
 			$userView = Filesystem::getView();
 		}
 		return [
-			"filesize" => $userView->filesize($path),
-			"mtime" => $userView->filemtime($path),
-			"filetype" => $userView->filetype($path),
-			"mimetype" => $userView->getMimeType($path)
+			'filesize' => $userView->filesize($path),
+			'mtime' => $userView->filemtime($path),
+			'filetype' => $userView->filetype($path),
+			'mimetype' => $userView->getMimeType($path)
 		];
 	}
 

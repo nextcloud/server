@@ -119,13 +119,13 @@ class Manager implements IManager {
 				}
 				try {
 					$folder = $this->appData->getFolder('text2image');
-				} catch(NotFoundException) {
+				} catch (NotFoundException) {
 					$this->logger->debug('Creating folder in appdata for Text2Image results');
 					$folder = $this->appData->newFolder('text2image');
 				}
 				try {
 					$folder = $folder->getFolder((string) $task->getId());
-				} catch(NotFoundException) {
+				} catch (NotFoundException) {
 					$this->logger->debug('Creating new folder in appdata Text2Image results folder');
 					$folder = $folder->newFolder((string) $task->getId());
 				}
@@ -162,7 +162,7 @@ class Manager implements IManager {
 					if (isset($files, $files[$i])) {
 						try {
 							$files[$i]->delete();
-						} catch(NotPermittedException $e) {
+						} catch (NotPermittedException $e) {
 							$this->logger->warning('Failed to clean up Text2Image result file after error', ['exception' => $e]);
 						}
 					}

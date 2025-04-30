@@ -70,7 +70,7 @@ class Manager implements IManager {
 	public const LEGACY_PREFIX_TEXTTOIMAGE = 'legacy:TextToImage:';
 	public const LEGACY_PREFIX_SPEECHTOTEXT = 'legacy:SpeechToText:';
 
-	/** @var list<IProvider>|null  */
+	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
 	/**
@@ -183,7 +183,7 @@ class Manager implements IManager {
 					}
 					try {
 						return ['output' => $this->provider->process($input['input'])];
-					} catch(\RuntimeException $e) {
+					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
 				}
@@ -314,7 +314,7 @@ class Manager implements IManager {
 				public function process(?string $userId, array $input, callable $reportProgress): array {
 					try {
 						$folder = $this->appData->getFolder('text2image');
-					} catch(\OCP\Files\NotFoundException) {
+					} catch (\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('text2image');
 					}
 					$resources = [];
@@ -1025,7 +1025,7 @@ class Manager implements IManager {
 		}
 		$newInputOutput = [];
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
-		foreach($spec as $key => $descriptor) {
+		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($input[$key])) {
 				continue;
@@ -1036,14 +1036,14 @@ class Manager implements IManager {
 			}
 			if (EShapeType::getScalarType($type) === $type) {
 				// is scalar
-				$node = $this->validateFileId((int)$input[$key]);
+				$node = $this->validateFileId((int) $input[$key]);
 				$this->validateUserAccessToFile($input[$key], $userId);
 				$newInputOutput[$key] = $node;
 			} else {
 				// is list
 				$newInputOutput[$key] = [];
 				foreach ($input[$key] as $item) {
-					$node = $this->validateFileId((int)$item);
+					$node = $this->validateFileId((int) $item);
 					$this->validateUserAccessToFile($item, $userId);
 					$newInputOutput[$key][] = $node;
 				}
@@ -1117,7 +1117,7 @@ class Manager implements IManager {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
-		foreach($spec as $key => $descriptor) {
+		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($output[$key])) {
 				continue;
@@ -1262,7 +1262,7 @@ class Manager implements IManager {
 	private function validateOutputFileIds(array $output, ...$specs): array {
 		$newOutput = [];
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
-		foreach($spec as $key => $descriptor) {
+		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($output[$key])) {
 				continue;
@@ -1347,9 +1347,9 @@ class Manager implements IManager {
 			];
 			try {
 				$client->request($httpMethod, $uri, $options);
-			} catch (ClientException | ServerException $e) {
+			} catch (ClientException|ServerException $e) {
 				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed', ['exception' => $e]);
-			} catch (\Exception | \Throwable $e) {
+			} catch (\Exception|\Throwable $e) {
 				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error', ['exception' => $e]);
 			}
 		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {

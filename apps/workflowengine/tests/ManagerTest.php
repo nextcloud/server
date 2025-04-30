@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -58,7 +59,7 @@ class ManagerTest extends TestCase {
 	protected $dispatcher;
 	/** @var MockObject|IConfig */
 	protected $config;
-	/** @var MockObject|ICacheFactory  */
+	/** @var MockObject|ICacheFactory */
 	protected $cacheFactory;
 
 	protected function setUp(): void {

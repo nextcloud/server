@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,13 +12,13 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUser;
 
 class SearchQuery implements ISearchQuery {
-	/** @var  ISearchOperator */
+	/** @var ISearchOperator */
 	private $searchOperation;
-	/** @var  integer */
+	/** @var integer */
 	private $limit;
-	/** @var  integer */
+	/** @var integer */
 	private $offset;
-	/** @var  ISearchOrder[] */
+	/** @var ISearchOrder[] */
 	private $order;
 	/** @var ?IUser */
 	private $user;

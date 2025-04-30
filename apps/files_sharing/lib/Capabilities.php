@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -155,7 +156,7 @@ class Capabilities implements ICapability {
 			$res['group'] = [];
 			$res['group']['enabled'] = $this->shareManager->allowGroupSharing();
 			$res['group']['expire_date']['enabled'] = true;
-			$res['default_permissions'] = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			$res['default_permissions'] = (int) $this->config->getAppValue('core', 'shareapi_default_permissions', (string) Constants::PERMISSION_ALL);
 		}
 
 		//Federated sharing

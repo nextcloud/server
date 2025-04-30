@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -1181,7 +1182,7 @@ class ApiTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-		$view->mkdir("localDir");
+		$view->mkdir('localDir');
 
 		// move mount point to the folder "localDir"
 		$result = $view->rename($this->folder, 'localDir/'.$this->folder);

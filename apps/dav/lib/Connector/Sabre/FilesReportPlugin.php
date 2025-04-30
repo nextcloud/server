@@ -184,9 +184,9 @@ class FilesReportPlugin extends ServerPlugin {
 			} elseif ($name === '{DAV:}limit') {
 				foreach ($reportProps['value'] as $propVal) {
 					if ($propVal['name'] === '{DAV:}nresults') {
-						$limit = (int)$propVal['value'];
+						$limit = (int) $propVal['value'];
 					} elseif ($propVal['name'] === $ncns . 'firstresult') {
-						$offset = (int)$propVal['value'];
+						$offset = (int) $propVal['value'];
 					}
 				}
 			}
@@ -363,7 +363,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * Prepare propfind response for the given nodes
 	 *
 	 * @param string $filesUri $filesUri URI leading to root of the files URI,
-	 * with a leading slash but no trailing slash
+	 *                         with a leading slash but no trailing slash
 	 * @param string[] $requestedProps requested properties
 	 * @param Node[] nodes nodes for which to fetch and prepare responses
 	 * @return Response[]
@@ -410,7 +410,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 		$results = [];
 		foreach ($fileIds as $fileId) {
-			$entry = $folder->getFirstNodeById((int)$fileId);
+			$entry = $folder->getFirstNodeById((int) $fileId);
 			if ($entry) {
 				$results[] = $this->wrapNode($entry);
 			}

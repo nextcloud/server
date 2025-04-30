@@ -100,7 +100,7 @@ class RecentContactMapper extends QBMapper {
 			return null;
 		}
 
-		return (int)$row['last_contact'];
+		return (int) $row['last_contact'];
 	}
 
 	public function cleanUp(int $olderThan): void {

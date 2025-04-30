@@ -99,7 +99,7 @@ class TagSearchProvider implements IProvider {
 		$fileQuery = new SearchQuery(
 			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'systemtag', '%' . $query->getTerm() . '%'),
 			$query->getLimit(),
-			(int)$query->getCursor(),
+			(int) $query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
 				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
 			] : [],
@@ -151,7 +151,7 @@ class TagSearchProvider implements IProvider {
 					$this->urlGenerator->getAbsoluteURL($link),
 					$result->getMimetype() === FileInfo::MIMETYPE_FOLDER ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype())
 				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
+				$searchResultEntry->addAttribute('fileId', (string) $result->getId());
 				$searchResultEntry->addAttribute('path', $path);
 				return $searchResultEntry;
 			}, $searchResults)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -184,7 +185,7 @@ class EtagPropagationTest extends PropagationTestCase {
 	public function testOwnerWritesToSingleFileShare() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		Filesystem::file_put_contents('/foo.txt', 'longer_bar');
-		$t = (int)Filesystem::filemtime('/foo.txt') - 1;
+		$t = (int) Filesystem::filemtime('/foo.txt') - 1;
 		Filesystem::touch('/foo.txt', $t);
 		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER3]);
 		$this->assertEtagsChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2]);

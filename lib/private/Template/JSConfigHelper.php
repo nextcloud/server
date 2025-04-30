@@ -94,7 +94,7 @@ class JSConfigHelper {
 		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
-			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireDate = (int) $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 			$enforceDefaultExpireDate = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
 		}
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
@@ -102,14 +102,14 @@ class JSConfigHelper {
 		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
 		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
 		if ($defaultInternalExpireDateEnabled) {
-			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+			$defaultInternalExpireDate = (int) $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
 			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 		}
 
 		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
 		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
 		if ($defaultRemoteExpireDateEnabled) {
-			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+			$defaultRemoteExpireDate = (int) $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
 			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 		}
 
@@ -135,7 +135,7 @@ class JSConfigHelper {
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
 		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, null);
-		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+		$firstDay = (int) ($userFirstDay ?? $this->l->l('firstday', null));
 
 		$config = [
 			/** @deprecated 30.0.0 - use files capabilities instead */
@@ -160,16 +160,16 @@ class JSConfigHelper {
 		];
 
 		$array = [
-			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"_oc_isadmin" => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			"oc_dataURL" => is_string($dataLocation) ? "\"" . $dataLocation . "\"" : 'false',
-			"_oc_webroot" => "\"" . \OC::$WEBROOT . "\"",
-			"_oc_appswebroots" => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
+			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
+			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
+			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-			"dayNames" => json_encode([
+			'dayNames' => json_encode([
 				$this->l->t('Sunday'),
 				$this->l->t('Monday'),
 				$this->l->t('Tuesday'),
@@ -178,7 +178,7 @@ class JSConfigHelper {
 				$this->l->t('Friday'),
 				$this->l->t('Saturday')
 			]),
-			"dayNamesShort" => json_encode([
+			'dayNamesShort' => json_encode([
 				$this->l->t('Sun.'),
 				$this->l->t('Mon.'),
 				$this->l->t('Tue.'),
@@ -187,7 +187,7 @@ class JSConfigHelper {
 				$this->l->t('Fri.'),
 				$this->l->t('Sat.')
 			]),
-			"dayNamesMin" => json_encode([
+			'dayNamesMin' => json_encode([
 				$this->l->t('Su'),
 				$this->l->t('Mo'),
 				$this->l->t('Tu'),
@@ -196,7 +196,7 @@ class JSConfigHelper {
 				$this->l->t('Fr'),
 				$this->l->t('Sa')
 			]),
-			"monthNames" => json_encode([
+			'monthNames' => json_encode([
 				$this->l->t('January'),
 				$this->l->t('February'),
 				$this->l->t('March'),
@@ -210,7 +210,7 @@ class JSConfigHelper {
 				$this->l->t('November'),
 				$this->l->t('December')
 			]),
-			"monthNamesShort" => json_encode([
+			'monthNamesShort' => json_encode([
 				$this->l->t('Jan.'),
 				$this->l->t('Feb.'),
 				$this->l->t('Mar.'),
@@ -224,9 +224,9 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($firstDay),
-			"_oc_config" => json_encode($config),
-			"oc_appconfig" => json_encode([
+			'firstDay' => json_encode($firstDay),
+			'_oc_config' => json_encode($config),
+			'oc_appconfig' => json_encode([
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
@@ -246,7 +246,7 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
-			"_theme" => json_encode([
+			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'productName' => $this->defaults->getProductName(),
@@ -264,7 +264,7 @@ class JSConfigHelper {
 		if ($this->currentUser !== null) {
 			$array['oc_userconfig'] = json_encode([
 				'avatar' => [
-					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', 0),
+					'version' => (int) $this->config->getUserValue($uid, 'avatar', 'version', 0),
 					'generated' => $this->config->getUserValue($uid, 'avatar', 'generated', 'true') === 'true',
 				]
 			]);
@@ -281,7 +281,7 @@ class JSConfigHelper {
 		$result = '';
 
 		// Echo it
-		foreach ($array as  $setting => $value) {
+		foreach ($array as $setting => $value) {
 			$result .= 'var '. $setting . '='. $value . ';' . PHP_EOL;
 		}
 

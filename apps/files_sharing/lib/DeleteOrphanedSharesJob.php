@@ -93,7 +93,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 				$result->closeCursor();
 				$deleteQb->setParameter('ids', $ids, IQueryBuilder::PARAM_INT_ARRAY);
 				$deleted = $deleteQb->executeStatement();
-				$this->logger->debug("{deleted} orphaned share(s) deleted", [
+				$this->logger->debug('{deleted} orphaned share(s) deleted', [
 					'app' => 'DeleteOrphanedSharesJob',
 					'deleted' => $deleted,
 				]);

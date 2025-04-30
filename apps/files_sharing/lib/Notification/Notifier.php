@@ -34,9 +34,9 @@ class Notifier implements INotifier {
 	private $shareManager;
 	/** @var IRootFolder */
 	private $rootFolder;
-	/** @var IGroupManager  */
+	/** @var IGroupManager */
 	protected $groupManager;
-	/** @var IUserManager  */
+	/** @var IUserManager */
 	protected $userManager;
 	/** @var IURLGenerator */
 	protected $url;

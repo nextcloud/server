@@ -56,7 +56,7 @@ class RootMountProvider implements IRootMountProvider {
 	}
 
 	private function getLocalRootMount(IStorageFactory $loader): MountPoint {
-		$configDataDirectory = $this->config->getSystemValue("datadirectory", OC::$SERVERROOT . "/data");
+		$configDataDirectory = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 		return new MountPoint(LocalRootStorage::class, '/', ['datadir' => $configDataDirectory], $loader, null, null, self::class);
 	}
 

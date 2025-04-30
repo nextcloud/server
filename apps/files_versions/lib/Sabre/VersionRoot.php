@@ -56,7 +56,7 @@ class VersionRoot implements ICollection {
 	public function getChild($name) {
 		$userFolder = $this->rootFolder->getUserFolder($this->user->getUID());
 
-		$fileId = (int)$name;
+		$fileId = (int) $name;
 		$node = $userFolder->getFirstNodeById($fileId);
 
 		if (!$node) {

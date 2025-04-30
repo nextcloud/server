@@ -74,7 +74,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 		$result->closeCursor();
 
 		if ($count !== false) {
-			$count = (int)$count;
+			$count = (int) $count;
 		} else {
 			$count = 0;
 		}

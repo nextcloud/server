@@ -84,7 +84,7 @@ class RequestSharedSecret extends Job {
 	 */
 	protected function run($argument) {
 		$target = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
+		$created = isset($argument['created']) ? (int) $argument['created'] : $this->time->getTime();
 		$currentTime = $this->time->getTime();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');
@@ -149,7 +149,7 @@ class RequestSharedSecret extends Job {
 	 */
 	protected function reAddJob(array $argument): void {
 		$url = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
+		$created = isset($argument['created']) ? (int) $argument['created'] : $this->time->getTime();
 		$token = $argument['token'];
 		$attempt = $this->getAttempt($argument) + 1;
 

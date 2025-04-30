@@ -274,7 +274,7 @@ abstract class AUserData extends OCSController {
 			];
 		} catch (\Exception $e) {
 			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
-				"Could not load storage info for {user}",
+				'Could not load storage info for {user}',
 				[
 					'app' => 'provisioning_api',
 					'user' => $userId,

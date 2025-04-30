@@ -69,7 +69,7 @@ abstract class Backend implements UserInterface {
 	 * compared with self::CREATE_USER etc.
 	 */
 	public function implementsActions($actions) {
-		return (bool)($this->getSupportedActions() & $actions);
+		return (bool) ($this->getSupportedActions() & $actions);
 	}
 
 	/**

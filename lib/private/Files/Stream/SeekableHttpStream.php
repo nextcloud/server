@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -90,7 +91,7 @@ class SeekableHttpStream implements File {
 					continue 2;
 				}
 			}
-			throw new \Exception("Failed to get source stream from stream wrapper of " . get_class($responseHead));
+			throw new \Exception('Failed to get source stream from stream wrapper of ' . get_class($responseHead));
 		}
 
 		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {

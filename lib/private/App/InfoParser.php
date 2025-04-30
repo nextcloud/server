@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -226,7 +227,7 @@ class InfoParser {
 	 */
 	public function xmlToArray($xml) {
 		if (!$xml->children()) {
-			return (string)$xml;
+			return (string) $xml;
 		}
 
 		$array = [];
@@ -234,7 +235,7 @@ class InfoParser {
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
-				$array[$element] = $totalElement > 1 ? [] : "";
+				$array[$element] = $totalElement > 1 ? [] : '';
 			}
 			/** @var \SimpleXMLElement $node */
 			// Has attributes
@@ -243,7 +244,7 @@ class InfoParser {
 					'@attributes' => [],
 				];
 				if (!count($node->children())) {
-					$value = (string)$node;
+					$value = (string) $node;
 					if (!empty($value)) {
 						$data['@value'] = $value;
 					}
@@ -251,7 +252,7 @@ class InfoParser {
 					$data = array_merge($data, $this->xmlToArray($node));
 				}
 				foreach ($attributes as $attr => $value) {
-					$data['@attributes'][$attr] = (string)$value;
+					$data['@attributes'][$attr] = (string) $value;
 				}
 
 				if ($totalElement > 1) {

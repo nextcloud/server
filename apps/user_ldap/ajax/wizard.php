@@ -15,19 +15,19 @@ $l = \OCP\Util::getL10N('user_ldap');
 if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);
 }
-$action = (string)$_POST['action'];
+$action = (string) $_POST['action'];
 
 if (!isset($_POST['ldap_serverconfig_chooser'])) {
 	\OC_JSON::error(['message' => $l->t('No configuration specified')]);
 }
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
+$prefix = (string) $_POST['ldap_serverconfig_chooser'];
 
 $ldapWrapper = new \OCA\User_LDAP\LDAP();
 $configuration = new \OCA\User_LDAP\Configuration($prefix);
 
 $con = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix, null);
 $con->setConfiguration($configuration->getConfiguration());
-$con->ldapConfigurationActive = (string)true;
+$con->ldapConfigurationActive = (string) true;
 $con->setIgnoreValidation(true);
 
 $factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);

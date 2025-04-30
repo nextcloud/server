@@ -22,6 +22,6 @@ class MaxAutoCompleteResultsInitialState extends InitialStateProvider {
 	}
 
 	public function getData(): int {
-		return (int)$this->config->getAppValue('comments', 'maxAutoCompleteResults', '10');
+		return (int) $this->config->getAppValue('comments', 'maxAutoCompleteResults', '10');
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -871,7 +872,7 @@ class Session implements IUserSession, Emitter {
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($uid, 'login_token', $newToken, (string) $this->timeFactory->getTime());
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -923,7 +924,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function createRememberMeToken(IUser $user) {
 		$token = $this->random->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string) $this->timeFactory->getTime());
 		$this->setMagicInCookie($user->getUID(), $token);
 	}
 

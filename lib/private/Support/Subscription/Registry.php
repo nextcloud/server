@@ -224,10 +224,10 @@ class Registry implements IRegistry {
 	}
 
 	protected function reIssue(): bool {
-		$lastNotification = (int)$this->config->getAppValue('lib', 'last_subscription_reminder', '0');
+		$lastNotification = (int) $this->config->getAppValue('lib', 'last_subscription_reminder', '0');
 
 		if ((time() - $lastNotification) >= 86400) {
-			$this->config->setAppValue('lib', 'last_subscription_reminder', (string)time());
+			$this->config->setAppValue('lib', 'last_subscription_reminder', (string) time());
 			return true;
 		}
 		return false;

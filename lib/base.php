@@ -79,7 +79,7 @@ class OC {
 
 	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
-	 * the app path list is empty or contains an invalid path
+	 *                           the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths(): void {
 		if (defined('PHPUNIT_CONFIG_DIR')) {
@@ -93,7 +93,7 @@ class OC {
 		}
 		self::$config = new \OC\Config(self::$configDir);
 
-		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"] ?? ''), strlen(OC::$SERVERROOT)));
+		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
 		 *        Server::get(\OCP\IRequest::class) since \OC::$server does not yet exist.
@@ -582,7 +582,7 @@ class OC {
 		}
 
 		// calculate the root directories
-		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
+		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
 		// register autoloader
 		$loaderStart = microtime(true);
@@ -700,8 +700,8 @@ class OC {
 					echo $error['error'] . "\n";
 					echo $error['hint'] . "\n\n";
 					$staticErrors[] = [
-						'error' => (string)$error['error'],
-						'hint' => (string)$error['hint'],
+						'error' => (string) $error['error'],
+						'hint' => (string) $error['hint'],
 					];
 				}
 
@@ -717,7 +717,7 @@ class OC {
 		}
 
 		// User and Groups
-		if (!$systemConfig->getValue("installed", false)) {
+		if (!$systemConfig->getValue('installed', false)) {
 			self::$server->getSession()->set('user_id', '');
 		}
 
@@ -750,7 +750,7 @@ class OC {
 		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
-		if ($systemConfig->getValue("installed", false)) {
+		if ($systemConfig->getValue('installed', false)) {
 			OC_App::loadApp('settings');
 			/* Build core application to make sure that listeners are registered */
 			Server::get(\OC\Core\Application::class);

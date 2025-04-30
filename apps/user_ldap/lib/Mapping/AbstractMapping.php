@@ -259,7 +259,7 @@ abstract class AbstractMapping {
 	 *
 	 * @return string[]
 	 */
-	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
+	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -352,11 +352,11 @@ abstract class AbstractMapping {
 
 		try {
 			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
-			if ((bool)$result === true) {
+			if ((bool) $result === true) {
 				$this->cache[$fdn] = $name;
 			}
 			// insertIfNotExist returns values as int
-			return (bool)$result;
+			return (bool) $result;
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -406,7 +406,7 @@ abstract class AbstractMapping {
 	 * @param callable $preCallback
 	 * @param callable $postCallback
 	 * @return bool true on success, false when at least one row was not
-	 * deleted
+	 *              deleted
 	 */
 	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();
@@ -437,7 +437,7 @@ abstract class AbstractMapping {
 		$res = $query->execute();
 		$count = $res->fetchOne();
 		$res->closeCursor();
-		return (int)$count;
+		return (int) $count;
 	}
 
 	public function countInvalidated(): int {
@@ -448,6 +448,6 @@ abstract class AbstractMapping {
 		$res = $query->execute();
 		$count = $res->fetchOne();
 		$res->closeCursor();
-		return (int)$count;
+		return (int) $count;
 	}
 }

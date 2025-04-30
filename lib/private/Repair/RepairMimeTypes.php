@@ -52,7 +52,7 @@ class RepairMimeTypes implements IRepairStep {
 		if (empty($this->folderMimeTypeId)) {
 			$query->setParameter('mimetype', 'httpd/unix-directory');
 			$result = $query->execute();
-			$this->folderMimeTypeId = (int)$result->fetchOne();
+			$this->folderMimeTypeId = (int) $result->fetchOne();
 			$result->closeCursor();
 		}
 
@@ -70,7 +70,7 @@ class RepairMimeTypes implements IRepairStep {
 			// get target mimetype id
 			$query->setParameter('mimetype', $mimetype);
 			$result = $query->execute();
-			$mimetypeId = (int)$result->fetchOne();
+			$mimetypeId = (int) $result->fetchOne();
 			$result->closeCursor();
 
 			if (!$mimetypeId) {
@@ -227,10 +227,10 @@ class RepairMimeTypes implements IRepairStep {
 	 */
 	private function introduceFlatOpenDocumentType(): IResult|int|null {
 		$updatedMimetypes = [
-			"fodt" => "application/vnd.oasis.opendocument.text-flat-xml",
-			"fods" => "application/vnd.oasis.opendocument.spreadsheet-flat-xml",
-			"fodg" => "application/vnd.oasis.opendocument.graphics-flat-xml",
-			"fodp" => "application/vnd.oasis.opendocument.presentation-flat-xml",
+			'fodt' => 'application/vnd.oasis.opendocument.text-flat-xml',
+			'fods' => 'application/vnd.oasis.opendocument.spreadsheet-flat-xml',
+			'fodg' => 'application/vnd.oasis.opendocument.graphics-flat-xml',
+			'fodp' => 'application/vnd.oasis.opendocument.presentation-flat-xml',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
@@ -252,8 +252,8 @@ class RepairMimeTypes implements IRepairStep {
 	 */
 	private function introduceOnlyofficeFormType(): IResult|int|null {
 		$updatedMimetypes = [
-			"oform" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform",
-			"docxf" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf",
+			'oform' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform',
+			'docxf' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);

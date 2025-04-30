@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -64,8 +65,8 @@ class CapabilitiesTest extends TestCase {
 		$this->overwriteService(FederatedShareProvider::class, $federatedShareProvider);
 
 		$federatedShareProvider->expects($this->any())
-			 ->method('isLookupServerUploadEnabled')
-			 ->willReturn($lookupServerEnabled);
+			->method('isLookupServerUploadEnabled')
+			->willReturn($lookupServerEnabled);
 
 		$expected = [
 			'provisioning_api' => [

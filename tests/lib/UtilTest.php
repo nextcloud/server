@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -70,7 +71,7 @@ class UtilTest extends \Test\TestCase {
 	public function testEncodePath() {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
-		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+		$this->assertEquals('/%C2%A7%23%40test%25%26%5E%C3%A4/-child', $result);
 	}
 
 	public function testIsNonUTF8Locale() {
@@ -96,7 +97,7 @@ class UtilTest extends \Test\TestCase {
 	 * So we check that with strict email verification we fallback to the default
 	 */
 	public function testGetDefaultEmailAddressStrict() {
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost.localdomain', $email);
 	}
 
@@ -106,7 +107,7 @@ class UtilTest extends \Test\TestCase {
 	public function testGetDefaultEmailAddress() {
 		$config = \OC::$server->getConfig();
 		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost', $email);
 		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
@@ -114,7 +115,7 @@ class UtilTest extends \Test\TestCase {
 	public function testGetDefaultEmailAddressFromConfig() {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 	}
@@ -123,7 +124,7 @@ class UtilTest extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('owncloud@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 		$config->deleteSystemValue('mail_from_address');
@@ -262,25 +263,25 @@ class UtilTest extends \Test\TestCase {
 
 		// All scripts still there
 		$scripts = [
-			"core/js/common",
-			"core/js/main",
-			"core/js/myFancyJSFile1",
-			"core/js/myFancyJSFile4",
-			"core/js/myFancyJSFile5",
-			"first/l10n/en",
-			"first/js/myFirstJSFile",
-			"files/l10n/en",
-			"files/js/myFancyJSFile2",
-			"myApp/l10n/en",
-			"myApp/js/myFancyJSFile3",
-			"myApp2/l10n/en",
-			"myApp2/js/myApp2JSFile",
-			"myApp5/l10n/en",
-			"myApp5/js/myApp5JSFile",
-			"myApp3/l10n/en",
-			"myApp3/js/myApp3JSFile",
-			"myApp4/l10n/en",
-			"myApp4/js/myApp4JSFile",
+			'core/js/common',
+			'core/js/main',
+			'core/js/myFancyJSFile1',
+			'core/js/myFancyJSFile4',
+			'core/js/myFancyJSFile5',
+			'first/l10n/en',
+			'first/js/myFirstJSFile',
+			'files/l10n/en',
+			'files/js/myFancyJSFile2',
+			'myApp/l10n/en',
+			'myApp/js/myFancyJSFile3',
+			'myApp2/l10n/en',
+			'myApp2/js/myApp2JSFile',
+			'myApp5/l10n/en',
+			'myApp5/js/myApp5JSFile',
+			'myApp3/l10n/en',
+			'myApp3/js/myApp3JSFile',
+			'myApp4/l10n/en',
+			'myApp4/js/myApp4JSFile',
 		];
 		foreach ($scripts as $script) {
 			$this->assertContains($script, $scripts);

@@ -19,12 +19,12 @@ style('federation', 'settings-admin')
 	<ul id="listOfTrustedServers">
 		<?php foreach ($_['trustedServers'] as $trustedServer) { ?>
 			<li id="<?php p($trustedServer['id']); ?>">
-				<?php if ((int)$trustedServer['status'] === TrustedServers::STATUS_OK) { ?>
+				<?php if ((int) $trustedServer['status'] === TrustedServers::STATUS_OK) { ?>
 					<span class="status success"></span>
 				<?php
 				} elseif (
-					(int)$trustedServer['status'] === TrustedServers::STATUS_PENDING ||
-					(int)$trustedServer['status'] === TrustedServers::STATUS_ACCESS_REVOKED
+					(int) $trustedServer['status'] === TrustedServers::STATUS_PENDING ||
+					(int) $trustedServer['status'] === TrustedServers::STATUS_ACCESS_REVOKED
 				) { ?>
 					<span class="status indeterminate"></span>
 				<?php } else {?>

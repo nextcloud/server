@@ -43,7 +43,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			$userHome = $this->mountProviderCollection->getHomeMountForUser($user);
 			$storage = $userHome->getStorage();
 			if (!$storage) {
-				throw new \Exception("Account has no home storage");
+				throw new \Exception('Account has no home storage');
 			}
 
 			// remove all wrappers, so we do the delete directly on the home storage bypassing any wrapper
@@ -66,7 +66,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			if ($cache instanceof Cache) {
 				$cache->clear();
 			} else {
-				throw new \Exception("Home storage has invalid cache");
+				throw new \Exception('Home storage has invalid cache');
 			}
 		}
 	}

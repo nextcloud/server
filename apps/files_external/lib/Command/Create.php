@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -78,7 +79,7 @@ class Create extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = (string)$input->getOption('user');
+		$user = (string) $input->getOption('user');
 		$mountPoint = $input->getArgument('mount_point');
 		$storageIdentifier = $input->getArgument('storage_backend');
 		$authIdentifier = $input->getArgument('authentication_backend');
@@ -140,7 +141,7 @@ class Create extends Base {
 			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 				$output->writeln('<info>Storage created with id ' . $mount->getId() . '</info>');
 			} else {
-				$output->writeln((string)$mount->getId());
+				$output->writeln((string) $mount->getId());
 			}
 		}
 		return self::SUCCESS;

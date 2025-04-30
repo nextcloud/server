@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -54,7 +55,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertStringContainsString("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
+		$this->assertStringContainsString('User <' . self::USERNAME . '> in unknown', $commandTester->getDisplay());
 	}
 
 	public function testWithCorrectUserWithNoCalendars(): void {
@@ -72,7 +73,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
+		$this->assertStringContainsString('User <' . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
 	public function dataExecute() {

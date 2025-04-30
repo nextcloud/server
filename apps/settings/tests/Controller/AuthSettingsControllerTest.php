@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -37,7 +38,7 @@ class AuthSettingsControllerTest extends TestCase {
 	private $tokenProvider;
 	/** @var ISession|MockObject */
 	private $session;
-	/**@var IUserSession|MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 	/** @var ISecureRandom|MockObject */
 	private $secureRandom;

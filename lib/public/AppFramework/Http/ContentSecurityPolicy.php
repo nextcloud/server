@@ -38,7 +38,7 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	];
 	/**
 	 * @var bool Whether inline CSS is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/13458
 	 */
 	protected $inlineStyleAllowed = true;

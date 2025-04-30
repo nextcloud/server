@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -204,7 +205,7 @@ class ShareController extends AuthPublicShareController {
 	 * throws hooks when a share is attempted to be accessed
 	 *
 	 * @param \OCP\Share\IShare|string $share the Share instance if available,
-	 * otherwise token
+	 *                                        otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
 	 *

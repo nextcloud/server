@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -763,27 +764,27 @@ class ShareAPIControllerTest extends TestCase {
 	public function testGetShare(IShare $share, array $result): void {
 		/** @var ShareAPIController&MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
-				->setConstructorArgs([
-					Application::APP_ID,
-					$this->request,
-					$this->shareManager,
-					$this->groupManager,
-					$this->userManager,
-					$this->rootFolder,
-					$this->urlGenerator,
-					$this->l,
-					$this->config,
-					$this->appManager,
-					$this->serverContainer,
-					$this->userStatusManager,
-					$this->previewManager,
-					$this->dateTimeZone,
-					$this->logger,
-					$this->factory,
-					$this->mailer,
-					$this->currentUser,
+			->setConstructorArgs([
+				Application::APP_ID,
+				$this->request,
+				$this->shareManager,
+				$this->groupManager,
+				$this->userManager,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->l,
+				$this->config,
+				$this->appManager,
+				$this->serverContainer,
+				$this->userStatusManager,
+				$this->previewManager,
+				$this->dateTimeZone,
+				$this->logger,
+				$this->factory,
+				$this->mailer,
+				$this->currentUser,
 
-				])
+			])
 			->onlyMethods(['canAccessShare'])
 			->getMock();
 
@@ -1762,14 +1763,14 @@ class ShareAPIControllerTest extends TestCase {
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -1816,9 +1817,9 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2284,14 +2285,14 @@ class ShareAPIControllerTest extends TestCase {
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2354,14 +2355,14 @@ class ShareAPIControllerTest extends TestCase {
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2402,14 +2403,14 @@ class ShareAPIControllerTest extends TestCase {
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->expects($this->exactly(2))
-				->method('getUserFolder')
-				->with('currentUser')
-				->willReturn($userFolder);
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2477,9 +2478,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path->method('getPath')->willReturn('valid-path');
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2513,9 +2514,9 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn($userFolder);
 
 		$userFolder->expects($this->once())
-				->method('get')
-				->with('valid-path')
-				->willReturn($path);
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
 		$userFolder->method('getById')
 			->willReturn([]);
 
@@ -2538,7 +2539,7 @@ class ShareAPIControllerTest extends TestCase {
 				''
 			)->willReturnCallback(
 				function ($share) {
-					throw new OCSNotFoundException("Exception thrown by the helper");
+					throw new OCSNotFoundException('Exception thrown by the helper');
 				}
 			);
 

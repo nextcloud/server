@@ -94,7 +94,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln("<error>" . $e->getMessage() . "</error>");
+								$output->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -116,13 +116,13 @@ class Application {
 				}
 			} elseif ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
 				$errorOutput = $output->getErrorOutput();
-				$errorOutput->writeln("Nextcloud is not installed - only a limited number of commands are available");
+				$errorOutput->writeln('Nextcloud is not installed - only a limited number of commands are available');
 			}
 		} catch (NeedsUpdateException $e) {
 			if ($input->getArgument('command') !== '_completion') {
 				$errorOutput = $output->getErrorOutput();
-				$errorOutput->writeln("Nextcloud or one of the apps require upgrade - only a limited number of commands are available");
-				$errorOutput->writeln("You may use your browser or the occ upgrade command to do the upgrade");
+				$errorOutput->writeln('Nextcloud or one of the apps require upgrade - only a limited number of commands are available');
+				$errorOutput->writeln('You may use your browser or the occ upgrade command to do the upgrade');
 			}
 		}
 
@@ -130,11 +130,11 @@ class Application {
 			$errors = \OC_Util::checkServer(\OC::$server->getSystemConfig());
 			if (!empty($errors)) {
 				foreach ($errors as $error) {
-					$output->writeln((string)$error['error']);
-					$output->writeln((string)$error['hint']);
+					$output->writeln((string) $error['error']);
+					$output->writeln((string) $error['hint']);
 					$output->writeln('');
 				}
-				throw new \Exception("Environment not properly prepared.");
+				throw new \Exception('Environment not properly prepared.');
 			}
 		}
 	}
@@ -145,7 +145,7 @@ class Application {
 	 *
 	 * @param InputInterface $input The input implementation for reading inputs.
 	 * @param ConsoleOutputInterface $output The output implementation
-	 * for writing outputs.
+	 *                                       for writing outputs.
 	 * @return void
 	 */
 	private function writeMaintenanceModeInfo(InputInterface $input, ConsoleOutputInterface $output): void {

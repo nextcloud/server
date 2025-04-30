@@ -95,7 +95,7 @@ class JoinCondition {
 			}, $condition->getParts()));
 		}
 
-		$condition = (string)$condition;
+		$condition = (string) $condition;
 		$isSubCondition = self::isExtraCondition($condition);
 		if ($isSubCondition) {
 			if (self::mentionsAlias($condition, $fromAlias)) {

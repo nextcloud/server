@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -371,7 +372,7 @@ class SharedMountTest extends TestCase {
 		// hack to overwrite the cache factory, we can't use the proper "overwriteService" since the mount provider is created before this test is called
 		$mountProvider = \OCP\Server::get(MountProvider::class);
 		$reflectionClass = new \ReflectionClass($mountProvider);
-		$reflectionCacheFactory = $reflectionClass->getProperty("cacheFactory");
+		$reflectionCacheFactory = $reflectionClass->getProperty('cacheFactory');
 		$reflectionCacheFactory->setAccessible(true);
 		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
 

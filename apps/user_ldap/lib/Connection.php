@@ -112,7 +112,7 @@ class Connection extends LDAPUtility {
 	 */
 	protected $cache = null;
 
-	/** @var Configuration settings handler **/
+	/** @var Configuration settings handler * */
 	protected $configuration;
 
 	/**
@@ -214,7 +214,7 @@ class Connection extends LDAPUtility {
 	 * @param bool $state
 	 */
 	public function setIgnoreValidation($state) {
-		$this->ignoreValidation = (bool)$state;
+		$this->ignoreValidation = (bool) $state;
 	}
 
 	/**
@@ -313,7 +313,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Caches the general LDAP configuration.
 	 * @param bool $force optional. true, if the re-read should be forced. defaults
-	 * to false.
+	 *                    to false.
 	 */
 	private function readConfiguration(bool $force = false): void {
 		if ((!$this->configured || $force) && !is_null($this->configID)) {
@@ -397,8 +397,7 @@ class Connection extends LDAPUtility {
 		}
 
 		foreach (['ldapExpertUUIDUserAttr' => 'ldapUuidUserAttribute',
-			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute']
-				as $expertSetting => $effectiveSetting) {
+			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute'] as $expertSetting => $effectiveSetting) {
 			$uuidOverride = $this->configuration->$expertSetting;
 			if (!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;
@@ -417,7 +416,7 @@ class Connection extends LDAPUtility {
 			}
 		}
 
-		$backupPort = (int)$this->configuration->ldapBackupPort;
+		$backupPort = (int) $this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
 			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
 		}
@@ -432,9 +431,9 @@ class Connection extends LDAPUtility {
 			}
 		}
 
-		if ((stripos((string)$this->configuration->ldapHost, 'ldaps://') === 0)
+		if ((stripos((string) $this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
-			$this->configuration->ldapTLS = (string)false;
+			$this->configuration->ldapTLS = (string) false;
 			$this->logger->info(
 				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
 				['app' => 'user_ldap']
@@ -513,7 +512,7 @@ class Connection extends LDAPUtility {
 			$configurationOK = false;
 		}
 
-		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
+		if (mb_strpos((string) $this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
 		   === false) {
 			$this->logger->warning(
 				$errorStr.'login filter does not contain %uid place holder.',

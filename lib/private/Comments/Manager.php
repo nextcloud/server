@@ -33,10 +33,10 @@ class Manager implements ICommentsManager {
 	/** @var IComment[] */
 	protected array $commentsCache = [];
 
-	/** @var  \Closure[] */
+	/** @var \Closure[] */
 	protected array $eventHandlerClosures = [];
 
-	/** @var  ICommentsEventHandler[] */
+	/** @var ICommentsEventHandler[] */
 	protected array $eventHandlers = [];
 
 	/** @var \Closure[] */
@@ -61,9 +61,9 @@ class Manager implements ICommentsManager {
 	 * @param array $data
 	 */
 	protected function normalizeDatabaseData(array $data): array {
-		$data['id'] = (string)$data['id'];
-		$data['parent_id'] = (string)$data['parent_id'];
-		$data['topmost_parent_id'] = (string)$data['topmost_parent_id'];
+		$data['id'] = (string) $data['id'];
+		$data['parent_id'] = (string) $data['parent_id'];
+		$data['topmost_parent_id'] = (string) $data['topmost_parent_id'];
 		$data['creation_timestamp'] = new \DateTime($data['creation_timestamp']);
 		if (!is_null($data['latest_child_timestamp'])) {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
@@ -71,7 +71,7 @@ class Manager implements ICommentsManager {
 		if (!is_null($data['expire_date'])) {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
-		$data['children_count'] = (int)$data['children_count'];
+		$data['children_count'] = (int) $data['children_count'];
 		$data['reference_id'] = $data['reference_id'];
 		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
@@ -132,7 +132,7 @@ class Manager implements ICommentsManager {
 
 		try {
 			$comment->getCreationDateTime();
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 
@@ -179,7 +179,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		$children = (int)$data[0];
+		$children = (int) $data[0];
 
 		$comment = $this->get($id);
 		$comment->setChildrenCount($children);
@@ -213,7 +213,7 @@ class Manager implements ICommentsManager {
 		if (empty($id)) {
 			return;
 		}
-		$this->commentsCache[(string)$id] = $comment;
+		$this->commentsCache[(string) $id] = $comment;
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Manager implements ICommentsManager {
 	 * @param mixed $id the comment's id
 	 */
 	protected function uncache($id): void {
-		$id = (string)$id;
+		$id = (string) $id;
 		if (isset($this->commentsCache[$id])) {
 			unset($this->commentsCache[$id]);
 		}
@@ -237,7 +237,7 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function get($id): IComment {
-		if ((int)$id === 0) {
+		if ((int) $id === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
 		}
 
@@ -308,10 +308,10 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * not specified, all comments are returned.
+	 *                   not specified, all comments are returned.
 	 * @param int $offset optional, starting point
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                that may be returned
 	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
@@ -362,7 +362,7 @@ class Manager implements ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 */
@@ -392,7 +392,7 @@ class Manager implements ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 */
@@ -608,7 +608,7 @@ class Manager implements ICommentsManager {
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
 	 * @return Int
 	 * @since 9.0.0
@@ -635,7 +635,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
 		$resultStatement->closeCursor();
-		return (int)$data[0];
+		return (int) $data[0];
 	}
 
 	/**
@@ -1079,7 +1079,7 @@ class Manager implements ICommentsManager {
 			$result = $this->update($comment);
 		}
 
-		if ($result && !!$comment->getParentId()) {
+		if ($result && (bool) $comment->getParentId()) {
 			$this->updateChildrenInformation(
 				$comment->getParentId(),
 				$comment->getCreationDateTime()
@@ -1121,7 +1121,7 @@ class Manager implements ICommentsManager {
 			->execute();
 
 		if ($affectedRows > 0) {
-			$comment->setId((string)$qb->getLastInsertId());
+			$comment->setId((string) $qb->getLastInsertId());
 			if ($comment->getVerb() === 'reaction') {
 				$this->addReaction($comment);
 			}
@@ -1494,7 +1494,7 @@ class Manager implements ICommentsManager {
 		if (!isset($this->displayNameResolvers[$type])) {
 			throw new \OutOfBoundsException('No Displayname resolver for this type registered');
 		}
-		return (string)$this->displayNameResolvers[$type]($id);
+		return (string) $this->displayNameResolvers[$type]($id);
 	}
 
 	/**

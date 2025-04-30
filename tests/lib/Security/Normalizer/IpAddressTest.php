@@ -65,6 +65,6 @@ class IpAddressTest extends TestCase {
 	}
 
 	public function testToString() {
-		$this->assertSame('127.0.0.1', (string)(new IpAddress('127.0.0.1')));
+		$this->assertSame('127.0.0.1', (string) (new IpAddress('127.0.0.1')));
 	}
 }

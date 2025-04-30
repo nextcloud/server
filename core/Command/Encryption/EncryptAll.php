@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -32,7 +33,7 @@ class EncryptAll extends Command {
 	 * Set maintenance mode and disable the trashbin app
 	 */
 	protected function forceMaintenanceAndTrashbin(): void {
-		$this->wasTrashbinEnabled = (bool)$this->appManager->isEnabledForUser('files_trashbin');
+		$this->wasTrashbinEnabled = (bool) $this->appManager->isEnabledForUser('files_trashbin');
 		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');

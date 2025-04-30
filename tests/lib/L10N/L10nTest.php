@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -58,12 +59,12 @@ class L10nTest extends TestCase {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
 		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
-		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));
-		$this->assertEquals('6 файлов', (string)$l->n('%n file', '%n files', 6));
-		$this->assertEquals('21 файл', (string)$l->n('%n file', '%n files', 21));
-		$this->assertEquals('22 файла', (string)$l->n('%n file', '%n files', 22));
-		$this->assertEquals('26 файлов', (string)$l->n('%n file', '%n files', 26));
+		$this->assertEquals('1 файл', (string) $l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 файла', (string) $l->n('%n file', '%n files', 2));
+		$this->assertEquals('6 файлов', (string) $l->n('%n file', '%n files', 6));
+		$this->assertEquals('21 файл', (string) $l->n('%n file', '%n files', 21));
+		$this->assertEquals('22 файла', (string) $l->n('%n file', '%n files', 22));
+		$this->assertEquals('26 файлов', (string) $l->n('%n file', '%n files', 26));
 
 		/*
 		  1 file	1 файл	1 папка
@@ -82,9 +83,9 @@ class L10nTest extends TestCase {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
 		$l = new L10N($this->getFactory(), 'test', 'cs', 'cs_CZ', [$transFile]);
 
-		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
-		$this->assertEquals('2 okna', (string)$l->n('%n window', '%n windows', 2));
-		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
+		$this->assertEquals('1 okno', (string) $l->n('%n window', '%n windows', 1));
+		$this->assertEquals('2 okna', (string) $l->n('%n window', '%n windows', 2));
+		$this->assertEquals('5 oken', (string) $l->n('%n window', '%n windows', 5));
 	}
 
 	public function testGermanPluralWithCzechLocaleTranslations() {

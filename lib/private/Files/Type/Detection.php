@@ -71,12 +71,12 @@ class Detection implements IMimeTypeDetector {
 	public function registerTypeArray(array $types): void {
 		// Register the types,
 		foreach ($types as $extension => $mimeType) {
-			$this->registerType((string)$extension, $mimeType[0], $mimeType[1] ?? null);
+			$this->registerType((string) $extension, $mimeType[0], $mimeType[1] ?? null);
 		}
 
 		// Update the alternative mimetypes to avoid having to look them up each time.
 		foreach ($this->mimetypes as $extension => $mimeType) {
-			if (str_starts_with((string)$extension, '_comment')) {
+			if (str_starts_with((string) $extension, '_comment')) {
 				continue;
 			}
 

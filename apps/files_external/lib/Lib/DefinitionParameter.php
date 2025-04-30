@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -150,7 +151,7 @@ class DefinitionParameter implements \JsonSerializable {
 	 * @return bool
 	 */
 	public function isFlagSet(int $flag): bool {
-		return (bool)($this->flags & $flag);
+		return (bool) ($this->flags & $flag);
 	}
 
 	/**

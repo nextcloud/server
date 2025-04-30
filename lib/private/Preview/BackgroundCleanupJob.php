@@ -49,7 +49,7 @@ class BackgroundCleanupJob extends TimedJob {
 	public function run($argument) {
 		foreach ($this->getDeletedFiles() as $fileId) {
 			try {
-				$preview = $this->previewFolder->getFolder((string)$fileId);
+				$preview = $this->previewFolder->getFolder((string) $fileId);
 				$preview->delete();
 			} catch (NotFoundException $e) {
 				// continue
@@ -196,7 +196,7 @@ class BackgroundCleanupJob extends TimedJob {
 			if (count($rows) > 0) {
 				$minId = $rows[count($rows) - 1]['fileid'];
 				yield array_map(function ($row) {
-					return (int)$row['name'];
+					return (int) $row['name'];
 				}, $rows);
 			} else {
 				break;

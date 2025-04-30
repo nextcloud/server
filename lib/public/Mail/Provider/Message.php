@@ -23,7 +23,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array $data						message data array
+	 * @param array $data message data array
 	 */
 	public function __construct(
 		protected array $data = [],
@@ -35,7 +35,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string						    id of this message
+	 * @return string id of this message
 	 */
 	public function id(): string {
 		// return id of message
@@ -47,9 +47,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress $value		            sender's mail address object
+	 * @param IAddress $value sender's mail address object
 	 *
-	 * @return self                         	return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setFrom(IAddress $value): self {
 		// create or update field in data store with value
@@ -63,9 +63,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return IAddress|null                 	sender's mail address object
+	 * @return IAddress|null sender's mail address object
 	 */
-	public function getFrom(): IAddress | null {
+	public function getFrom(): IAddress|null {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['from'])) ? $this->data['from'] : null;
 	}
@@ -75,9 +75,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress $value		            senders's reply to mail address object
+	 * @param IAddress $value senders's reply to mail address object
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setReplyTo(IAddress $value): self {
 		// create or update field in data store with value
@@ -91,9 +91,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return IAddress|null                     sender's reply to mail address object
+	 * @return IAddress|null sender's reply to mail address object
 	 */
-	public function getReplyTo(): IAddress | null {
+	public function getReplyTo(): IAddress|null {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['replyTo'])) ? $this->data['replyTo'] : null;
 	}
@@ -103,9 +103,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress ...$value		        collection of or one or more mail address objects
+	 * @param IAddress ...$value collection of or one or more mail address objects
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setTo(IAddress ...$value): self {
 		// create or update field in data store with value
@@ -119,7 +119,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<int,IAddress>				collection of all recipient mail address objects
+	 * @return array<int,IAddress> collection of all recipient mail address objects
 	 */
 	public function getTo(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -131,9 +131,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress ...$value		        collection of or one or more mail address objects
+	 * @param IAddress ...$value collection of or one or more mail address objects
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setCc(IAddress ...$value): self {
 		// create or update field in data store with value
@@ -147,7 +147,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<int,IAddress>	          collection of all copied recipient mail address objects
+	 * @return array<int,IAddress> collection of all copied recipient mail address objects
 	 */
 	public function getCc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -159,9 +159,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress ...$value		        collection of or one or more mail address objects
+	 * @param IAddress ...$value collection of or one or more mail address objects
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setBcc(IAddress ...$value): self {
 		// create or update field in data store with value
@@ -175,7 +175,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<int,IAddress>	           collection of all blind copied recipient mail address objects
+	 * @return array<int,IAddress> collection of all blind copied recipient mail address objects
 	 */
 	public function getBcc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -187,9 +187,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value                     subject of mail message
+	 * @param string $value subject of mail message
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setSubject(string $value): self {
 		// create or update field in data store with value
@@ -203,9 +203,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null                       subject of message or null if one is not set
+	 * @return string|null subject of message or null if one is not set
 	 */
-	public function getSubject(): string | null {
+	public function getSubject(): string|null {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['subject'])) ? $this->data['subject'] : null;
 	}
@@ -215,10 +215,10 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value                     text or html body of message
-	 * @param bool $html                        html flag - true for html
+	 * @param string $value text or html body of message
+	 * @param bool $html html flag - true for html
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setBody(string $value, bool $html = false): self {
 		// evaluate html flag and create or update appropriate field in data store with value
@@ -238,9 +238,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null                       html/plain body of this message or null if one is not set
+	 * @return string|null html/plain body of this message or null if one is not set
 	 */
-	public function getBody(): string | null {
+	public function getBody(): string|null {
 		// evaluate if data store field(s) exists and return value
 		if (isset($this->data['bodyHtml'])) {
 			return $this->data['bodyHtml'];
@@ -256,9 +256,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value                     html body of message
+	 * @param string $value html body of message
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setBodyHtml(string $value): self {
 		// create or update field in data store with value
@@ -272,9 +272,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null                       html body of this message or null if one is not set
+	 * @return string|null html body of this message or null if one is not set
 	 */
-	public function getBodyHtml(): string | null {
+	public function getBodyHtml(): string|null {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyHtml'])) ? $this->data['bodyHtml'] : null;
 	}
@@ -284,9 +284,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value         			plain text body of message
+	 * @param string $value plain text body of message
 	 *
-	 * @return self                 			return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setBodyPlain(string $value): self {
 		// create or update field in data store with value
@@ -300,9 +300,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null						plain text body of this message or null if one is not set
+	 * @return string|null plain text body of this message or null if one is not set
 	 */
-	public function getBodyPlain(): string | null {
+	public function getBodyPlain(): string|null {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyPlain'])) ? $this->data['bodyPlain'] : null;
 	}
@@ -312,9 +312,9 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAttachment ...$value				collection of or one or more mail attachment objects
+	 * @param IAttachment ...$value collection of or one or more mail attachment objects
 	 *
-	 * @return self                             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setAttachments(IAttachment ...$value): self {
 		// create or update field in data store with value
@@ -328,7 +328,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<int,IAttachment>		    collection of all mail attachment objects
+	 * @return array<int,IAttachment> collection of all mail attachment objects
 	 */
 	public function getAttachments(): array {
 		// evaluate if data store field exists and return value(s) or null otherwise

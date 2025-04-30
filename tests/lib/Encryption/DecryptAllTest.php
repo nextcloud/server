@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -38,16 +39,16 @@ class DecryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | View */
 	protected $view;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
 	protected $inputInterface;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $outputInterface;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
 	protected $userInterface;
 
-	/** @var  DecryptAll */
+	/** @var DecryptAll */
 	protected $instance;
 
 	protected function setUp(): void {

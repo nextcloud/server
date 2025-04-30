@@ -46,7 +46,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 			$implements |= GroupInterface::REMOVE_FROM_GOUP;
 		}
 
-		return (bool)($actions & $implements);
+		return (bool) ($actions & $implements);
 	}
 
 	/**
@@ -64,7 +64,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 	 */
 	public function getGroupsDetails(array $gids): array {
 		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
-			throw new \Exception("Should not have been called");
+			throw new \Exception('Should not have been called');
 		}
 		/** @var IGroupDetailsBackend $this */
 		$groupData = [];

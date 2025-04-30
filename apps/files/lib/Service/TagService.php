@@ -53,7 +53,7 @@ class TagService {
 	 * replace the actual tag selection.
 	 *
 	 * @param string $path path
-	 * @param array  $tags array of tags
+	 * @param array $tags array of tags
 	 * @return array list of tags
 	 * @throws \OCP\Files\NotFoundException if the file does not exist
 	 */

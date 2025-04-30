@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,16 +16,16 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
-	/** @var  EncryptionWrapper */
+	/** @var EncryptionWrapper */
 	private $instance;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
 	private $manager;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
 	private $arrayCache;
 
 	protected function setUp(): void {

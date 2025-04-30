@@ -101,7 +101,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 			}
 
 			$background = $this->config->getUserValue($userId, Application::APP_ID, 'background_image');
-			switch($background) {
+			switch ($background) {
 				case BackgroundService::BACKGROUND_DEFAULT:
 					$this->service->setDefaultBackground($userId);
 					break;

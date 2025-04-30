@@ -57,7 +57,7 @@ class ShareTypeList implements Element {
 		}
 		foreach ($tree as $elem) {
 			if ($elem['name'] === '{' . self::NS_OWNCLOUD . '}share-type') {
-				$shareTypes[] = (int)$elem['value'];
+				$shareTypes[] = (int) $elem['value'];
 			}
 		}
 		return new self($shareTypes);

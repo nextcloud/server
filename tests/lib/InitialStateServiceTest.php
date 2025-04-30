@@ -21,7 +21,7 @@ use function json_encode;
 class InitialStateServiceTest extends TestCase {
 	/** @var InitialStateService */
 	private $service;
-	/** @var MockObject|LoggerInterface|(LoggerInterface&MockObject)  */
+	/** @var MockObject|LoggerInterface|(LoggerInterface&MockObject) */
 	protected $logger;
 
 	protected function setUp(): void {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -677,7 +678,7 @@ class StorageTest extends \Test\TestCase {
 
 		$externalStorage = new TemporaryNoCross([]);
 		$externalStorage->getScanner()->scan('');
-		Filesystem::mount($externalStorage, [], "/" . $this->user . "/files/storage");
+		Filesystem::mount($externalStorage, [], '/' . $this->user . '/files/storage');
 
 		$this->assertTrue($this->userView->rename('test.txt', 'storage/test.txt'));
 		$this->assertTrue($externalStorage->file_exists('test.txt'));

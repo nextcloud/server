@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -50,7 +51,7 @@ class ImageTest extends \Test\TestCase {
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->valid());
 
-		$text = base64_encode("Lorem ipsum dolor sir amet …");
+		$text = base64_encode('Lorem ipsum dolor sir amet …');
 		$img = new \OC_Image();
 		$img->loadFromBase64($text);
 		$this->assertFalse($img->valid());
@@ -175,17 +176,17 @@ class ImageTest extends \Test\TestCase {
 		$img = new \OC_Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$expected = base64_encode($img->data());
-		$this->assertEquals($expected, (string)$img);
+		$this->assertEquals($expected, (string) $img);
 
 		$img = new \OC_Image();
 		$img->loadFromData(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$expected = base64_encode($img->data());
-		$this->assertEquals($expected, (string)$img);
+		$this->assertEquals($expected, (string) $img);
 
 		$img = new \OC_Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.gif');
 		$expected = base64_encode($img->data());
-		$this->assertEquals($expected, (string)$img);
+		$this->assertEquals($expected, (string) $img);
 	}
 
 	public function testResize() {

@@ -81,7 +81,7 @@ class GetSharedSecret extends Job {
 
 	protected function run($argument) {
 		$target = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
+		$created = isset($argument['created']) ? (int) $argument['created'] : $this->time->getTime();
 		$currentTime = $this->time->getTime();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');

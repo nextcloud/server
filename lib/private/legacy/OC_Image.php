@@ -334,18 +334,18 @@ class OC_Image implements \OCP\IImage {
 		}
 		ob_start();
 		switch ($this->mimeType) {
-			case "image/png":
+			case 'image/png':
 				$res = imagepng($this->resource);
 				break;
-			case "image/jpeg":
+			case 'image/jpeg':
 				imageinterlace($this->resource, true);
 				$quality = $this->getJpegQuality();
 				$res = imagejpeg($this->resource, null, $quality);
 				break;
-			case "image/gif":
+			case 'image/gif':
 				$res = imagegif($this->resource);
 				break;
-			case "image/webp":
+			case 'image/webp':
 				$res = imagewebp($this->resource, null, $this->getWebpQuality());
 				break;
 			default:
@@ -434,7 +434,7 @@ class OC_Image implements \OCP\IImage {
 			return -1;
 		}
 		$this->exif = $exif;
-		return (int)$exif['Orientation'];
+		return (int) $exif['Orientation'];
 	}
 
 	public function readExif($data): void {
@@ -883,7 +883,7 @@ class OC_Image implements \OCP\IImage {
 			$newHeight = $maxSize;
 		}
 
-		return $this->preciseResizeNew((int)round($newWidth), (int)round($newHeight));
+		return $this->preciseResizeNew((int) round($newWidth), (int) round($newHeight));
 	}
 
 	/**
@@ -1072,7 +1072,7 @@ class OC_Image implements \OCP\IImage {
 		$newWidth = min($maxWidth, $ratio * $maxHeight);
 		$newHeight = min($maxHeight, $maxWidth / $ratio);
 
-		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
+		$this->preciseResize((int) round($newWidth), (int) round($newHeight));
 		return true;
 	}
 

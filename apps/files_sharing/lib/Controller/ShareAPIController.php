@@ -214,7 +214,7 @@ class ShareAPIController extends OCSController {
 					'message' => $userStatus->getMessage(),
 					'icon' => $userStatus->getIcon(),
 					'clearAt' => $userStatus->getClearAt()
-						? (int)$userStatus->getClearAt()->format('U')
+						? (int) $userStatus->getClearAt()->format('U')
 						: null,
 				];
 			}
@@ -308,7 +308,7 @@ class ShareAPIController extends OCSController {
 
 		$result['attributes'] = null;
 		if ($attributes = $share->getAttributes()) {
-			$result['attributes'] = (string)\json_encode($attributes->toArray());
+			$result['attributes'] = (string) \json_encode($attributes->toArray());
 		}
 
 		return $result;
@@ -538,7 +538,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $password Password for the share
 	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
 	 * @param ?string $expireDate The expiry date of the share in the user's timezone at 00:00.
-	 *                If $expireDate is not supplied or set to `null`, the system default will be used.
+	 *                            If $expireDate is not supplied or set to `null`, the system default will be used.
 	 * @param string $note Note for the share
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
@@ -609,7 +609,7 @@ class ShareAPIController extends OCSController {
 		} else {
 			// Use default permissions only for non-link shares to keep legacy behavior
 			if ($permissions === null) {
-				$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+				$permissions = (int) $this->config->getAppValue('core', 'shareapi_default_permissions', (string) Constants::PERMISSION_ALL);
 			}
 			// Non-link shares always require read permissions (link shares could be file drop)
 			$permissions |= Constants::PERMISSION_READ;
@@ -1082,7 +1082,7 @@ class ShareAPIController extends OCSController {
 				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $node)) {
 					$resharingRight = true;
 				}
-			} catch (InvalidPathException | NotFoundException $e) {
+			} catch (InvalidPathException|NotFoundException $e) {
 			}
 		}
 
@@ -1137,7 +1137,7 @@ class ShareAPIController extends OCSController {
 
 		// initiate real owner.
 		$owner = $node->getOwner()
-					  ->getUID();
+			->getUID();
 		if (!$this->userManager->userExists($owner)) {
 			return new DataResponse([]);
 		}
@@ -1146,7 +1146,7 @@ class ShareAPIController extends OCSController {
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($node->getId() !== $userFolder->getId() && !$userFolder->isSubNode($node)) {
 			$owner = $node->getOwner()
-						  ->getUID();
+				->getUID();
 			$userFolder = $this->rootFolder->getUserFolder($owner);
 			$node = $userFolder->getFirstNodeById($node->getId());
 		}
@@ -1209,8 +1209,8 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
 	 * @param string|null $sendMail if the share should be send by mail.
-	 *                    Considering the share already exists, no mail will be send after the share is updated.
-	 *  				  You will have to use the sendMail action to send the mail.
+	 *                              Considering the share already exists, no mail will be send after the share is updated.
+	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
@@ -1319,7 +1319,7 @@ class ShareAPIController extends OCSController {
 
 			if ($label !== null) {
 				if (strlen($label) > 255) {
-					throw new OCSBadRequestException("Maximum label length is 255");
+					throw new OCSBadRequestException('Maximum label length is 255');
 				}
 				$share->setLabel($label);
 			}
@@ -1358,7 +1358,7 @@ class ShareAPIController extends OCSController {
 			$share = $this->shareManager->updateShare($share);
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
-			throw new OCSException($e->getHint(), (int)$code);
+			throw new OCSException($e->getHint(), (int) $code);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException('Failed to update share.', $e);
@@ -1446,7 +1446,7 @@ class ShareAPIController extends OCSController {
 			$this->shareManager->acceptShare($share, $this->currentUser);
 		} catch (HintException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
-			throw new OCSException($e->getHint(), (int)$code);
+			throw new OCSException($e->getHint(), (int) $code);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSBadRequestException('Failed to accept share.', $e);
@@ -1666,7 +1666,7 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
+			$date = new \DateTime(trim($expireDate, '"'), $this->dateTimeZone->getTimeZone());
 			// Make sure it expires at midnight in owner timezone
 			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
@@ -1898,7 +1898,7 @@ class ShareAPIController extends OCSController {
 					if ($this->shareProviderResharingRights($viewer, $share, $node)) {
 						return true;
 					}
-				} catch (InvalidPathException | NotFoundException $e) {
+				} catch (InvalidPathException|NotFoundException $e) {
 				}
 			}
 		}
@@ -2113,7 +2113,7 @@ class ShareAPIController extends OCSController {
 	 * @throws OCSBadRequestException Invalid request or wrong password
 	 * @throws OCSException Error while sending mail notification
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
-	 * 200: The email notification was sent successfully
+	 *                                                              200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 600)]

@@ -276,8 +276,8 @@ class Config {
 		if (function_exists('disk_free_space')) {
 			$df = disk_free_space($this->configDir);
 			$size = strlen($content) + 10240;
-			if ($df !== false && $df < (float)$size) {
-				throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
+			if ($df !== false && $df < (float) $size) {
+				throw new \Exception($this->configDir . ' does not have enough space for writing the config file! Not writing it back!');
 			}
 		}
 

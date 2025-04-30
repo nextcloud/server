@@ -29,7 +29,7 @@ class Helper {
 	 * returns prefixes for each saved LDAP/AD server configuration.
 	 *
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
-	 * retrieved, defaults to false
+	 *                                   retrieved, defaults to false
 	 * @return array with a list of the available prefixes
 	 *
 	 * Configuration prefixes are used to set up configurations for n LDAP or
@@ -101,8 +101,8 @@ class Helper {
 
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
-		$lastNumber = (int)str_replace('s', '', $lastKey);
-		return 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
+		$lastNumber = (int) str_replace('s', '', $lastKey);
+		return 's' . str_pad((string) ($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 	}
 
 	private function getServersConfig(string $value): array {
@@ -133,7 +133,7 @@ class Helper {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('user_ldap')))
-			->andWhere($query->expr()->like('configkey', $query->createNamedParameter((string)$prefix . '%')))
+			->andWhere($query->expr()->like('configkey', $query->createNamedParameter((string) $prefix . '%')))
 			->andWhere($query->expr()->notIn('configkey', $query->createNamedParameter([
 				'enabled',
 				'installed_version',

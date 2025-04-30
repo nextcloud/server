@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -354,7 +355,7 @@ class FileSearchBackend implements ISearchBackend {
 
 		return new SearchQuery(
 			$operators,
-			(int)$limit->maxResults,
+			(int) $limit->maxResults,
 			$offset,
 			$orders,
 			$this->user,
@@ -476,7 +477,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);
 				}
-				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$value);
+				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string) $value);
 				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;

@@ -55,7 +55,7 @@ class ImageExportPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$size = isset($queryParams['size']) ? (int)$queryParams['size'] : -1;
+		$size = isset($queryParams['size']) ? (int) $queryParams['size'] : -1;
 
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);

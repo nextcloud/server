@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -99,7 +100,7 @@ class S3Signature implements SignatureInterface {
 	}
 
 	/**
-	 * @param RequestInterface     $request
+	 * @param RequestInterface $request
 	 * @param CredentialsInterface $creds
 	 *
 	 * @return RequestInterface

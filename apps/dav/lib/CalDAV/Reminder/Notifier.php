@@ -292,7 +292,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getWeekDayName(DateTime $dt):string {
-		return (string)$this->l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
+		return (string) $this->l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
 	}
 
 	/**
@@ -300,7 +300,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getDateString(DateTime $dt):string {
-		return (string)$this->l10n->l('date', $dt, ['width' => 'medium']);
+		return (string) $this->l10n->l('date', $dt, ['width' => 'medium']);
 	}
 
 	/**
@@ -308,7 +308,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getDateTimeString(DateTime $dt):string {
-		return (string)$this->l10n->l('datetime', $dt, ['width' => 'medium|short']);
+		return (string) $this->l10n->l('datetime', $dt, ['width' => 'medium|short']);
 	}
 
 	/**
@@ -316,6 +316,6 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getTimeString(DateTime $dt):string {
-		return (string)$this->l10n->l('time', $dt, ['width' => 'short']);
+		return (string) $this->l10n->l('time', $dt, ['width' => 'short']);
 	}
 }

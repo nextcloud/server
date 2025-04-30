@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -81,7 +82,7 @@ class FunctionBuilderTest extends TestCase {
 				}],
 			'5 columns: string param with special chars used in the function' =>
 				[function ($q) {
-					return [false, [$q->createNamedParameter("b"), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
+					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
 	}
@@ -380,7 +381,7 @@ class FunctionBuilderTest extends TestCase {
 			->values([
 				'appid' => $query->createNamedParameter('minmax'),
 				'configkey' => $query->createNamedParameter(uniqid()),
-				'configvalue' => $query->createNamedParameter((string)$value),
+				'configvalue' => $query->createNamedParameter((string) $value),
 			]);
 		$query->execute();
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -45,7 +46,7 @@ class ManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject **/
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */

@@ -67,7 +67,7 @@ abstract class JobBase extends \OC\Core\Command\Base {
 			$interval = $intervalProperty->getValue($job);
 
 			$nextRun = new \DateTime();
-			$nextRun->setTimestamp((int)$row['last_run'] + $interval);
+			$nextRun->setTimestamp((int) $row['last_run'] + $interval);
 
 			if ($nextRun > new \DateTime()) {
 				$output->writeln('Next execution:       <comment>' . $nextRun->format(\DateTimeInterface::ATOM) . '</comment>');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -44,7 +45,7 @@ trait SimpleSubstitutionTrait {
 	 */
 	protected function checkPlaceholder(): void {
 		$this->sanitizedPlaceholder = trim(strtolower($this->placeholder));
-		if (!(bool)\preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
+		if (!(bool) \preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $this->sanitizedPlaceholder
 			));

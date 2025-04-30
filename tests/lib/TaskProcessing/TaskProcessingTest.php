@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -352,7 +353,7 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
-		foreach($resources as $resource) {
+		foreach ($resources as $resource) {
 			fwrite($resource, 'test');
 		}
 	}

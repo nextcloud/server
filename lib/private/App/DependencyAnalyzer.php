@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -66,7 +67,7 @@ class DependencyAnalyzer {
 	 * @param string $first
 	 * @param string $second
 	 * @return string[] first element is the first version, second element is the
-	 * second version
+	 *                  second version
 	 */
 	private function normalizeVersions($first, $second) {
 		$first = explode('.', $first);
@@ -371,6 +372,6 @@ class DependencyAnalyzer {
 		if (isset($element['@value'])) {
 			return $element['@value'];
 		}
-		return (string)$element;
+		return (string) $element;
 	}
 }

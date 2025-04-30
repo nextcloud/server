@@ -33,10 +33,10 @@ class PhpMaxFileSize implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$upload_max_filesize = (string)$this->iniGetWrapper->getString('upload_max_filesize');
-		$post_max_size = (string)$this->iniGetWrapper->getString('post_max_size');
-		$max_input_time = (int)$this->iniGetWrapper->getString('max_input_time');
-		$max_execution_time = (int)$this->iniGetWrapper->getString('max_execution_time');
+		$upload_max_filesize = (string) $this->iniGetWrapper->getString('upload_max_filesize');
+		$post_max_size = (string) $this->iniGetWrapper->getString('post_max_size');
+		$max_input_time = (int) $this->iniGetWrapper->getString('max_input_time');
+		$max_execution_time = (int) $this->iniGetWrapper->getString('max_execution_time');
 
 		$warnings = [];
 		$recommendedSize = 16 * 1024 * 1024 * 1024;

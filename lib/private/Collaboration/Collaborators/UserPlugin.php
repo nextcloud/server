@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -140,7 +141,7 @@ class UserPlugin implements ISearchPlugin {
 					'message' => $userStatus->getMessage(),
 					'icon' => $userStatus->getIcon(),
 					'clearAt' => $userStatus->getClearAt()
-						? (int)$userStatus->getClearAt()->format('U')
+						? (int) $userStatus->getClearAt()->format('U')
 						: null,
 				];
 			}
@@ -225,7 +226,7 @@ class UserPlugin implements ISearchPlugin {
 							'message' => $userStatus->getMessage(),
 							'icon' => $userStatus->getIcon(),
 							'clearAt' => $userStatus->getClearAt()
-								? (int)$userStatus->getClearAt()->format('U')
+								? (int) $userStatus->getClearAt()->format('U')
 								: null,
 						];
 					}

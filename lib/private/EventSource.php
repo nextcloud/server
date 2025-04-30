@@ -33,7 +33,7 @@ class EventSource implements IEventSource {
 		header('X-Accel-Buffering: no');
 		$this->fallback = isset($_GET['fallback']) and $_GET['fallback'] == 'true';
 		if ($this->fallback) {
-			$this->fallBackId = (int)$_GET['fallback_id'];
+			$this->fallBackId = (int) $_GET['fallback_id'];
 			/**
 			 * FIXME: The default content-security-policy of ownCloud forbids inline
 			 * JavaScript for security reasons. IE starting on Windows 10 will
@@ -45,10 +45,10 @@ class EventSource implements IEventSource {
 			 * @link https://github.com/owncloud/core/issues/14286
 			 */
 			header("Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'");
-			header("Content-Type: text/html");
+			header('Content-Type: text/html');
 			echo str_repeat('<span></span>' . PHP_EOL, 10); //dummy data to keep IE happy
 		} else {
-			header("Content-Type: text/event-stream");
+			header('Content-Type: text/event-stream');
 		}
 		if (!$this->request->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
@@ -69,7 +69,7 @@ class EventSource implements IEventSource {
 	 * @param mixed $data
 	 *
 	 * @throws \BadMethodCallException
-	 * if only one parameter is given, a typeless message will be send with that parameter as data
+	 *                                 if only one parameter is given, a typeless message will be send with that parameter as data
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public function send($type, $data = null) {

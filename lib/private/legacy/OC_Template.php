@@ -95,7 +95,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element. If $text is null then the
-	 * element will be written as empty element. So use "" to get a closing tag.
+	 *                     element will be written as empty element. So use "" to get a closing tag.
 	 */
 	public function addHeader($tag, $attributes, $text = null) {
 		$this->headers[] = [
@@ -172,7 +172,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return boolean|null
 	 */
 	public static function printUserPage($application, $name, $parameters = []) {
-		$content = new OC_Template($application, $name, "user");
+		$content = new OC_Template($application, $name, 'user');
 		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
@@ -187,7 +187,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function printAdminPage($application, $name, $parameters = []) {
-		$content = new OC_Template($application, $name, "admin");
+		$content = new OC_Template($application, $name, 'admin');
 		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}

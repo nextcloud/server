@@ -37,9 +37,9 @@ class SystemTagsEntityEvent extends Event {
 	/**
 	 * @param string $name
 	 * @param \Closure $entityExistsFunction The closure should take one
-	 *                 argument, which is the id of the entity, that tags
-	 *                 should be handled for. The return should then be bool,
-	 *                 depending on whether tags are allowed (true) or not.
+	 *                                       argument, which is the id of the entity, that tags
+	 *                                       should be handled for. The return should then be bool,
+	 *                                       depending on whether tags are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
 	 * @since 9.1.0
 	 */

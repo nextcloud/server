@@ -42,7 +42,7 @@ class KeyManager {
 		$this->recoveryKeyId = $this->config->getAppValue('encryption',
 			'recoveryKeyId');
 		if (empty($this->recoveryKeyId)) {
-			$this->recoveryKeyId = 'recoveryKey_' . substr(md5((string)time()), 0, 8);
+			$this->recoveryKeyId = 'recoveryKey_' . substr(md5((string) time()), 0, 8);
 			$this->config->setAppValue('encryption',
 				'recoveryKeyId',
 				$this->recoveryKeyId);
@@ -51,14 +51,14 @@ class KeyManager {
 		$this->publicShareKeyId = $this->config->getAppValue('encryption',
 			'publicShareKeyId');
 		if (empty($this->publicShareKeyId)) {
-			$this->publicShareKeyId = 'pubShare_' . substr(md5((string)time()), 0, 8);
+			$this->publicShareKeyId = 'pubShare_' . substr(md5((string) time()), 0, 8);
 			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 		}
 
 		$this->masterKeyId = $this->config->getAppValue('encryption',
 			'masterKeyId');
 		if (empty($this->masterKeyId)) {
-			$this->masterKeyId = 'master_' . substr(md5((string)time()), 0, 8);
+			$this->masterKeyId = 'master_' . substr(md5((string) time()), 0, 8);
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
 

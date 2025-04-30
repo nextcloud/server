@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -317,7 +318,7 @@ class Manager implements IManager {
 
 		$operations = [];
 		while (($opId = $result->fetchOne()) !== false) {
-			$operations[] = (int)$opId;
+			$operations[] = (int) $opId;
 		}
 		$this->operationsByScope[$scopeContext->getHash()] = $operations;
 		$result->closeCursor();
@@ -391,12 +392,12 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		try {
 			$this->connection->beginTransaction();
-			$result = (bool)$query->delete('flow_operations')
+			$result = (bool) $query->delete('flow_operations')
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)))
 				->execute();
 			if ($result) {
 				$qb = $this->connection->getQueryBuilder();
-				$result &= (bool)$qb->delete('flow_operations_scope')
+				$result &= (bool) $qb->delete('flow_operations_scope')
 					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
 					->execute();
 			}
@@ -478,7 +479,7 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
 		}
 
-		if (strlen((string)$operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
+		if (strlen((string) $operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
 			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
 		}
 
@@ -506,7 +507,7 @@ class Manager implements IManager {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
 			}
 
-			if (strlen((string)$check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
+			if (strlen((string) $check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
 				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 

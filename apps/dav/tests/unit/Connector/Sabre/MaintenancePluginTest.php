@@ -20,7 +20,7 @@ use Test\TestCase;
 class MaintenancePluginTest extends TestCase {
 	/** @var IConfig */
 	private $config;
-	/** @var \PHPUnit\Framework\MockObject\Builder\InvocationMocker|\PHPUnit_Framework_MockObject_Builder_InvocationMocker|IL10N  */
+	/** @var \PHPUnit\Framework\MockObject\Builder\InvocationMocker|\PHPUnit_Framework_MockObject_Builder_InvocationMocker|IL10N */
 	private $l10n;
 	/** @var MaintenancePlugin */
 	private $maintenancePlugin;

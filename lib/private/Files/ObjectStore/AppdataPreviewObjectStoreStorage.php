@@ -19,7 +19,7 @@ class AppdataPreviewObjectStoreStorage extends ObjectStoreStorage {
 		if (!isset($params['internal-id'])) {
 			throw new \Exception('missing id in parameters');
 		}
-		$this->internalId = (string)$params['internal-id'];
+		$this->internalId = (string) $params['internal-id'];
 		parent::__construct($params);
 	}
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -117,7 +118,7 @@ class DBConfigService {
 		$stmt->closeCursor();
 
 		foreach ($result as $row) {
-			if ((int)$row['count'] > 1) {
+			if ((int) $row['count'] > 1) {
 				$this->removeApplicable($row['mount_id'], $applicableType, $applicableId);
 			} else {
 				$this->removeMount($row['mount_id']);
@@ -402,8 +403,8 @@ class DBConfigService {
 		$options = $this->getOptionsForMounts($mountIds);
 
 		return array_map(function ($mount, $applicable, $config, $options) {
-			$mount['type'] = (int)$mount['type'];
-			$mount['priority'] = (int)$mount['priority'];
+			$mount['type'] = (int) $mount['type'];
+			$mount['priority'] = (int) $mount['priority'];
 			$mount['applicable'] = $applicable;
 			$mount['config'] = $config;
 			$mount['options'] = $options;
@@ -442,7 +443,7 @@ class DBConfigService {
 		}
 		foreach ($rows as $row) {
 			if (isset($row['type'])) {
-				$row['type'] = (int)$row['type'];
+				$row['type'] = (int) $row['type'];
 			}
 			$result[$row['mount_id']][] = $row;
 		}

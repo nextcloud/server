@@ -72,7 +72,7 @@ class Version28000Date20240828142927 extends SimpleMigrationStep {
 				} else {
 					$hash = hash('sha256', $jobRow['argument']);
 				}
-				$insertQuery->setParameter('id', (string)$jobRow['id'], IQueryBuilder::PARAM_INT);
+				$insertQuery->setParameter('id', (string) $jobRow['id'], IQueryBuilder::PARAM_INT);
 				$insertQuery->setParameter('argument_hash', $hash);
 				$insertQuery->executeStatement();
 			}

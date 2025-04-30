@@ -74,6 +74,6 @@ class ObjectStoreScanner extends Scanner {
 		}
 
 		// Make sure Oracle does not continue with null for empty strings
-		return (string)$path;
+		return (string) $path;
 	}
 }

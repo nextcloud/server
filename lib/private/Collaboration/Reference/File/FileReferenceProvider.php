@@ -52,15 +52,15 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 		if (mb_strpos($referenceText, $start) === 0) {
 			$parts = parse_url($referenceText);
 			parse_str($parts['query'] ?? '', $query);
-			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
-			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
+			$fileId = isset($query['fileid']) ? (int) $query['fileid'] : $fileId;
+			$fileId = isset($query['openfile']) ? (int) $query['openfile'] : $fileId;
 		}
 
 		if (mb_strpos($referenceText, $startIndex) === 0) {
 			$parts = parse_url($referenceText);
 			parse_str($parts['query'] ?? '', $query);
-			$fileId = isset($query['fileid']) ? (int)$query['fileid'] : $fileId;
-			$fileId = isset($query['openfile']) ? (int)$query['openfile'] : $fileId;
+			$fileId = isset($query['fileid']) ? (int) $query['fileid'] : $fileId;
+			$fileId = isset($query['openfile']) ? (int) $query['openfile'] : $fileId;
 		}
 
 		if (mb_strpos($referenceText, $this->urlGenerator->getAbsoluteURL('/index.php/f/')) === 0) {
@@ -71,7 +71,7 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 			$fileId = str_replace($this->urlGenerator->getAbsoluteURL('/f/'), '', $referenceText);
 		}
 
-		return $fileId !== null ? (int)$fileId : null;
+		return $fileId !== null ? (int) $fileId : null;
 	}
 
 	public function resolveReference(string $referenceText): ?IReference {
@@ -136,7 +136,7 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 	}
 
 	public function getCachePrefix(string $referenceId): string {
-		return (string)$this->getFilesAppLinkId($referenceId);
+		return (string) $this->getFilesAppLinkId($referenceId);
 	}
 
 	public function getCacheKey(string $referenceId): ?string {

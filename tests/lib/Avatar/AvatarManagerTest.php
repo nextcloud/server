@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -124,9 +125,9 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn(IAccountManager::SCOPE_PRIVATE);
 
 		$this->knownUserService->expects($this->any())
-			 ->method('isKnownToUser')
-			 ->with('valid-user', 'valid-user')
-			 ->willReturn(true);
+			->method('isKnownToUser')
+			->with('valid-user', 'valid-user')
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -261,12 +262,12 @@ class AvatarManagerTest extends \Test\TestCase {
 
 		if (!$isPublicCall) {
 			$this->knownUserService->expects($this->any())
-				 ->method('isKnownToUser')
-				 ->with('requesting-user', 'valid-user')
-				 ->willReturn($isKnownUser);
+				->method('isKnownToUser')
+				->with('requesting-user', 'valid-user')
+				->willReturn($isKnownUser);
 		} else {
 			$this->knownUserService->expects($this->never())
-				 ->method('isKnownToUser');
+				->method('isKnownToUser');
 		}
 
 		if ($expectedPlaceholder) {

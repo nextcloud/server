@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -137,7 +138,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	}
 
 	public function getCalendarId(): int {
-		return (int)$this->objectData['calendarid'];
+		return (int) $this->objectData['calendarid'];
 	}
 
 	public function getPrincipalUri(): string {

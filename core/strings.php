@@ -9,8 +9,8 @@ declare(strict_types=1);
  */
 //some strings that are used in /lib but won't be translatable unless they are in /core too
 $l = \OCP\Util::getL10N('core');
-$l->t("Personal");
-$l->t("Accounts");
-$l->t("Apps");
-$l->t("Admin");
-$l->t("Help");
+$l->t('Personal');
+$l->t('Accounts');
+$l->t('Apps');
+$l->t('Admin');
+$l->t('Help');

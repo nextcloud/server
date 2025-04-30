@@ -55,7 +55,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isBypassListed((string)$ipAddress)) {
+		if ($this->isBypassListed((string) $ipAddress)) {
 			return;
 		}
 
@@ -71,7 +71,7 @@ class Throttler implements IThrottler {
 		);
 
 		$this->backend->registerAttempt(
-			(string)$ipAddress,
+			(string) $ipAddress,
 			$ipAddress->getSubnet(),
 			$this->timeFactory->getTime(),
 			$action,
@@ -113,7 +113,7 @@ class Throttler implements IThrottler {
 
 			$cx = explode('/', $cidr);
 			$addr = $cx[0];
-			$mask = (int)$cx[1];
+			$mask = (int) $cx[1];
 
 			// Do not compare ipv4 to ipv6
 			if (($type === 4 && !filter_var($addr, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) ||
@@ -125,8 +125,8 @@ class Throttler implements IThrottler {
 
 			$valid = true;
 			for ($i = 0; $i < $mask; $i++) {
-				$part = ord($addr[(int)($i / 8)]);
-				$orig = ord($ip[(int)($i / 8)]);
+				$part = ord($addr[(int) ($i / 8)]);
+				$orig = ord($ip[(int) ($i / 8)]);
 
 				$bitmask = 1 << (7 - ($i % 8));
 
@@ -172,7 +172,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isBypassListed((string)$ipAddress)) {
+		if ($this->isBypassListed((string) $ipAddress)) {
 			return 0;
 		}
 
@@ -217,7 +217,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isBypassListed((string)$ipAddress)) {
+		if ($this->isBypassListed((string) $ipAddress)) {
 			return;
 		}
 
@@ -240,7 +240,7 @@ class Throttler implements IThrottler {
 		}
 
 		$ipAddress = new IpAddress($ip);
-		if ($this->isBypassListed((string)$ipAddress)) {
+		if ($this->isBypassListed((string) $ipAddress)) {
 			return;
 		}
 

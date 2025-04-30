@@ -53,7 +53,7 @@ abstract class Backend implements \OCP\GroupInterface {
 	 * compared with \OC\Group\Backend::CREATE_GROUP etc.
 	 */
 	public function implementsActions($actions) {
-		return (bool)($this->getSupportedActions() & $actions);
+		return (bool) ($this->getSupportedActions() & $actions);
 	}
 
 	/**

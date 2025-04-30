@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -37,19 +38,19 @@ namespace OCP {
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options Options to define the output format and search behavior
-		 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-		 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
-		 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
-		 * 	- 'limit' - Set a numeric limit for the search results
-		 * 	- 'offset' - Set the offset for the limited search results
-		 * 	- 'wildcard' - (since 23.0.0) Whether the search should use wildcards
+		 *                       - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+		 *                       example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+		 *                       - 'escape_like_param' - If set to false wildcards _ and % are not escaped
+		 *                       - 'limit' - Set a numeric limit for the search results
+		 *                       - 'offset' - Set the offset for the limited search results
+		 *                       - 'wildcard' - (since 23.0.0) Whether the search should use wildcards
 		 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 		 * @return array an array of contacts which are arrays of key-value-pairs
-		 *  example result:
-		 *  [
-		 *		['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
-		 *		['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
-		 *	]
+		 *               example result:
+		 *               [
+		 *               ['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
+		 *               ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
+		 *               ]
 		 * @since 5.0.0
 		 */
 		public function search($pattern, $searchProperties, $options);

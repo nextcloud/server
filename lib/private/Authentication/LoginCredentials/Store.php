@@ -51,7 +51,7 @@ class Store implements IStore {
 	 */
 	public function authenticate(array $params) {
 		if ($params['password'] !== null) {
-			$params['password'] = $this->crypto->encrypt((string)$params['password']);
+			$params['password'] = $this->crypto->encrypt((string) $params['password']);
 		}
 		$this->session->set('login_credentials', json_encode($params));
 	}

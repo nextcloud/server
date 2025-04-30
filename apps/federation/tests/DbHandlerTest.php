@@ -18,16 +18,16 @@ use Test\TestCase;
  */
 class DbHandlerTest extends TestCase {
 
-	/** @var  DbHandler */
+	/** @var DbHandler */
 	private $dbHandler;
 
 	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
-	/** @var string  */
+	/** @var string */
 	private $dbTable = 'trusted_servers';
 
 	protected function setUp(): void {
@@ -72,9 +72,9 @@ class DbHandlerTest extends TestCase {
 		$qResult->closeCursor();
 		$this->assertSame(1, count($result));
 		$this->assertSame($expectedUrl, $result[0]['url']);
-		$this->assertSame($id, (int)$result[0]['id']);
+		$this->assertSame($id, (int) $result[0]['id']);
 		$this->assertSame($expectedHash, $result[0]['url_hash']);
-		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
+		$this->assertSame(TrustedServers::STATUS_PENDING, (int) $result[0]['status']);
 	}
 
 	public function dataTestAddServer() {
@@ -97,8 +97,8 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(2, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
-		$this->assertSame($id1, (int)$result[0]['id']);
-		$this->assertSame($id2, (int)$result[1]['id']);
+		$this->assertSame($id1, (int) $result[0]['id']);
+		$this->assertSame($id2, (int) $result[1]['id']);
 
 		$this->dbHandler->removeServer($id2);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
@@ -108,7 +108,7 @@ class DbHandlerTest extends TestCase {
 		$qResult->closeCursor();
 		$this->assertSame(1, count($result));
 		$this->assertSame('server1', $result[0]['url']);
-		$this->assertSame($id1, (int)$result[0]['id']);
+		$this->assertSame($id1, (int) $result[0]['id']);
 	}
 
 
@@ -128,8 +128,8 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(2, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
-		$this->assertSame($id1, (int)$result[0]['id']);
-		$this->assertSame($id2, (int)$result[1]['id']);
+		$this->assertSame($id1, (int) $result[0]['id']);
+		$this->assertSame($id2, (int) $result[1]['id']);
 	}
 
 	/**
@@ -216,7 +216,7 @@ class DbHandlerTest extends TestCase {
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 		$this->assertSame(1, count($result));
-		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
+		$this->assertSame(TrustedServers::STATUS_PENDING, (int) $result[0]['status']);
 		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
@@ -224,7 +224,7 @@ class DbHandlerTest extends TestCase {
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 		$this->assertSame(1, count($result));
-		$this->assertSame(TrustedServers::STATUS_OK, (int)$result[0]['status']);
+		$this->assertSame(TrustedServers::STATUS_OK, (int) $result[0]['status']);
 	}
 
 	public function testGetServerStatus() {

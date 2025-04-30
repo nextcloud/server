@@ -29,7 +29,7 @@ class ProviderUserAssignmentDao {
 	 * Get all assigned provider IDs for the given user ID
 	 *
 	 * @return array<string, bool> where the array key is the provider ID (string) and the
-	 *                  value is the enabled state (bool)
+	 *                             value is the enabled state (bool)
 	 */
 	public function getState(string $uid): array {
 		$qb = $this->conn->getQueryBuilder();
@@ -40,7 +40,7 @@ class ProviderUserAssignmentDao {
 		$result = $query->execute();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
-			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
+			$providers[(string) $row['provider_id']] = (int) $row['enabled'] === 1;
 		}
 		$result->closeCursor();
 
@@ -93,8 +93,8 @@ class ProviderUserAssignmentDao {
 
 		return array_values(array_map(function (array $row) {
 			return [
-				'provider_id' => (string)$row['provider_id'],
-				'uid' => (string)$row['uid'],
+				'provider_id' => (string) $row['provider_id'],
+				'uid' => (string) $row['uid'],
 				'enabled' => ((int) $row['enabled']) === 1,
 			];
 		}, $rows));

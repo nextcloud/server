@@ -24,14 +24,14 @@ class CreateAddressBook extends Command {
 
 	protected function configure(): void {
 		$this
-				->setName('dav:create-addressbook')
-				->setDescription('Create a dav addressbook')
-				->addArgument('user',
-					InputArgument::REQUIRED,
-					'User for whom the addressbook will be created')
-				->addArgument('name',
-					InputArgument::REQUIRED,
-					'Name of the addressbook');
+			->setName('dav:create-addressbook')
+			->setDescription('Create a dav addressbook')
+			->addArgument('user',
+				InputArgument::REQUIRED,
+				'User for whom the addressbook will be created')
+			->addArgument('name',
+				InputArgument::REQUIRED,
+				'Name of the addressbook');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

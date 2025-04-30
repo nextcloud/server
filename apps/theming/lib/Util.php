@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -232,7 +233,7 @@ class Util {
 	public function getAppImage($app, $image) {
 		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		$image = str_replace(['\0', '\\', '..'], '', $image);
-		if ($app === "core") {
+		if ($app === 'core') {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
 				return $icon;
@@ -315,7 +316,7 @@ class Util {
 		$themingAppVersion = $this->appManager->getAppVersion('theming');
 		$userCacheBuster = '';
 		if ($userId) {
-			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
+			$userCacheBusterValue = (int) $this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
 			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
 		}
 		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');

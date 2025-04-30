@@ -43,8 +43,8 @@ class SubscriptionListener implements IEventListener {
 
 			$this->logger->debug('Refreshing webcal data for subscription ' . $subscriptionId);
 			$this->refreshWebcalService->refreshSubscription(
-				(string)$subscriptionData['principaluri'],
-				(string)$subscriptionData['uri']
+				(string) $subscriptionData['principaluri'],
+				(string) $subscriptionData['uri']
 			);
 
 			$this->logger->debug('Scheduling webcal data refreshment for subscription ' . $subscriptionId);

@@ -225,7 +225,7 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
     <RedundantCast>
-      <code><![CDATA[(string)$iTipMessage->recipientName]]></code>
+      <code><![CDATA[(string) $iTipMessage->recipientName]]></code>
     </RedundantCast>
     <RedundantCondition>
       <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
@@ -712,7 +712,7 @@
       <code><![CDATA[$shareId]]></code>
       <code><![CDATA[$shareId]]></code>
       <code><![CDATA[$shareId]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
+      <code><![CDATA[(int) $data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
@@ -736,7 +736,7 @@
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code><![CDATA[(int)$share['id']]]></code>
+      <code><![CDATA[(int) $share['id']]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
@@ -819,8 +819,8 @@
   </file>
   <file src="apps/files_external/lib/Controller/StoragesController.php">
     <RedundantCast>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$status]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $status]]></code>
     </RedundantCast>
   </file>
   <file src="apps/files_external/lib/Lib/Backend/Backend.php">
@@ -838,13 +838,13 @@
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
     <RedundantCast>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
-      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
     </RedundantCast>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/Swift.php">
@@ -880,8 +880,8 @@
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <RedundantCast>
-      <code><![CDATA[(int)$code]]></code>
-      <code><![CDATA[(int)$code]]></code>
+      <code><![CDATA[(int) $code]]></code>
+      <code><![CDATA[(int) $code]]></code>
     </RedundantCast>
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
@@ -1012,7 +1012,7 @@
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
       <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this->create('files_versions_download', 'apps/files_versions/download.php')]]></code>
     </InvalidScope>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
@@ -1082,7 +1082,7 @@
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
+      <code><![CDATA[(int) $data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
@@ -1118,7 +1118,7 @@
       <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
     <RedundantCast>
-      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
     </RedundantCast>
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
@@ -1349,7 +1349,7 @@
   </file>
   <file src="core/Controller/LostController.php">
     <RedundantCast>
-      <code><![CDATA[(int)$e->getCode()]]></code>
+      <code><![CDATA[(int) $e->getCode()]]></code>
     </RedundantCast>
   </file>
   <file src="core/Controller/UnifiedSearchController.php">
@@ -1364,7 +1364,6 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope>
-      <code><![CDATA[$this]]></code>
       <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
     </InvalidScope>
   </file>
@@ -1429,7 +1428,7 @@
       <code><![CDATA[$array[$element][]]]></code>
     </InvalidArrayOffset>
     <InvalidReturnStatement>
-      <code><![CDATA[(string)$xml]]></code>
+      <code><![CDATA[(string) $xml]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[array]]></code>
@@ -1690,7 +1689,7 @@
   </file>
   <file src="lib/private/Comments/Manager.php">
     <RedundantCast>
-      <code><![CDATA[(string)$id]]></code>
+      <code><![CDATA[(string) $id]]></code>
     </RedundantCast>
   </file>
   <file src="lib/private/Config.php">
@@ -2549,6 +2548,11 @@
     <InvalidNullableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
+    <NoInterfaceProperties>
+      <code><![CDATA[$this->eventLogger]]></code>
+      <code><![CDATA[$this->loaded]]></code>
+      <code><![CDATA[$this->root]]></code>
+    </NoInterfaceProperties>
     <NullableReturnStatement>
       <code><![CDATA[$this->collectionName]]></code>
     </NullableReturnStatement>
@@ -2655,7 +2659,7 @@
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[$share->getId()]]></code>
-      <code><![CDATA[(int)$data['id']]]></code>
+      <code><![CDATA[(int) $data['id']]]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code><![CDATA[set]]></code>

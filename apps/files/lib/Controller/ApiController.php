@@ -339,7 +339,7 @@ class ApiController extends Controller {
 	#[NoAdminRequired]
 	public function setViewConfig(string $view, string $key, $value): JSONResponse {
 		try {
-			$this->viewConfig->setConfig($view, $key, (string)$value);
+			$this->viewConfig->setConfig($view, $key, (string) $value);
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
@@ -368,7 +368,7 @@ class ApiController extends Controller {
 	#[NoAdminRequired]
 	public function setConfig(string $key, $value): JSONResponse {
 		try {
-			$this->userConfig->setConfig($key, (string)$value);
+			$this->userConfig->setConfig($key, (string) $value);
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}

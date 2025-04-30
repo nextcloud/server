@@ -162,7 +162,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function file_get_contents($path) {
-		$handle = $this->fopen($path, "r");
+		$handle = $this->fopen($path, 'r');
 		if (!$handle) {
 			return false;
 		}
@@ -172,7 +172,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function file_put_contents($path, $data) {
-		$handle = $this->fopen($path, "w");
+		$handle = $this->fopen($path, 'w');
 		if (!$handle) {
 			return false;
 		}
@@ -339,7 +339,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
 			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
-			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
+			$this->watcher->setPolicy((int) $this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
 	}
@@ -433,11 +433,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			if ($this->stat('')) {
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->info("External storage not available: stat() failed");
+			\OC::$server->get(LoggerInterface::class)->info('External storage not available: stat() failed');
 			return false;
 		} catch (\Exception $e) {
 			\OC::$server->get(LoggerInterface::class)->warning(
-				"External storage not available: " . $e->getMessage(),
+				'External storage not available: ' . $e->getMessage(),
 				['exception' => $e]
 			);
 			return false;
@@ -585,7 +585,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 				$this->getCache()->remove($targetInternalPath);
 			}
 		}
-		return (bool)$result;
+		return (bool) $result;
 	}
 
 	/**
@@ -841,7 +841,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		try {
 			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 			if (!$result) {
-				throw new GenericFileException("Failed to copy stream");
+				throw new GenericFileException('Failed to copy stream');
 			}
 		} finally {
 			fclose($target);

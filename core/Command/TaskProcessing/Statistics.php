@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -159,31 +160,31 @@ class Statistics extends Base {
 		if ($runningTimeCount > 0) {
 			$stats['Max running time'] = $maxRunningTime;
 			$averageRunningTime = $totalRunningTime / $runningTimeCount;
-			$stats['Average running time'] = (int)$averageRunningTime;
+			$stats['Average running time'] = (int) $averageRunningTime;
 			$stats['Running time count'] = $runningTimeCount;
 		}
 		if ($queuingTimeCount > 0) {
 			$stats['Max queuing time'] = $maxQueuingTime;
 			$averageQueuingTime = $totalQueuingTime / $queuingTimeCount;
-			$stats['Average queuing time'] = (int)$averageQueuingTime;
+			$stats['Average queuing time'] = (int) $averageQueuingTime;
 			$stats['Queuing time count'] = $queuingTimeCount;
 		}
 		if ($userWaitingTimeCount > 0) {
 			$stats['Max user waiting time'] = $maxUserWaitingTime;
 			$averageUserWaitingTime = $totalUserWaitingTime / $userWaitingTimeCount;
-			$stats['Average user waiting time'] = (int)$averageUserWaitingTime;
+			$stats['Average user waiting time'] = (int) $averageUserWaitingTime;
 			$stats['User waiting time count'] = $userWaitingTimeCount;
 		}
 		if ($outputCount > 0) {
 			$stats['Max output size (bytes)'] = $maxOutputSize;
 			$averageOutputSize = $outputSum / $outputCount;
-			$stats['Average output size (bytes)'] = (int)$averageOutputSize;
+			$stats['Average output size (bytes)'] = (int) $averageOutputSize;
 			$stats['Number of tasks with output'] = $outputCount;
 		}
 		if ($inputCount > 0) {
 			$stats['Max input size (bytes)'] = $maxInputSize;
 			$averageInputSize = $inputSum / $inputCount;
-			$stats['Average input size (bytes)'] = (int)$averageInputSize;
+			$stats['Average input size (bytes)'] = (int) $averageInputSize;
 			$stats['Number of tasks with input'] = $inputCount;
 		}
 

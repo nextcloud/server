@@ -77,19 +77,19 @@ class DispatcherTest extends \Test\TestCase {
 	/** @var Dispatcher */
 	private $dispatcher;
 	private $controllerMethod;
-	/** @var Controller|MockObject  */
+	/** @var Controller|MockObject */
 	private $controller;
 	private $response;
-	/** @var IRequest|MockObject  */
+	/** @var IRequest|MockObject */
 	private $request;
 	private $lastModified;
 	private $etag;
-	/** @var Http|MockObject  */
+	/** @var Http|MockObject */
 	private $http;
 	private $reflector;
-	/** @var IConfig|MockObject  */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var LoggerInterface|MockObject  */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var IEventLogger|MockObject */
 	private $eventLogger;
@@ -286,7 +286,7 @@ class DispatcherTest extends \Test\TestCase {
 
 	private function dispatcherPassthrough() {
 		$this->middlewareDispatcher->expects($this->once())
-				->method('beforeController');
+			->method('beforeController');
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
 			->willReturnCallback(function ($a, $b, $in) {

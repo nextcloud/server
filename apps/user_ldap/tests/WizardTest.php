@@ -368,7 +368,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($res) {
-				return (bool)$res;
+				return (bool) $res;
 			});
 
 		$ldap->expects($this->any())

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -42,14 +43,14 @@ class CalDAVSettingsTest extends TestCase {
 
 	public function testGetForm(): void {
 		$this->config->method('getAppValue')
-		   ->withConsecutive(
-		   	['dav', 'sendInvitations', 'yes'],
-		   	['dav', 'generateBirthdayCalendar', 'yes'],
-		   	['dav', 'sendEventReminders', 'yes'],
-		   	['dav', 'sendEventRemindersToSharedUsers', 'yes'],
-		   	['dav', 'sendEventRemindersPush', 'yes'],
-		   )
-		   ->will($this->onConsecutiveCalls('yes', 'no', 'yes', 'yes', 'yes'));
+			->withConsecutive(
+				['dav', 'sendInvitations', 'yes'],
+				['dav', 'generateBirthdayCalendar', 'yes'],
+				['dav', 'sendEventReminders', 'yes'],
+				['dav', 'sendEventRemindersToSharedUsers', 'yes'],
+				['dav', 'sendEventRemindersPush', 'yes'],
+			)
+			->will($this->onConsecutiveCalls('yes', 'no', 'yes', 'yes', 'yes'));
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToDocs')

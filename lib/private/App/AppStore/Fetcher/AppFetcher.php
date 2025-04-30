@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -126,7 +127,7 @@ class AppFetcher extends Fetcher {
 			if (isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
-					if ((string)$release['version'] === (string)$highestVersion) {
+					if ((string) $release['version'] === (string) $highestVersion) {
 						$response['data'][$dataKey]['releases'] = [$release];
 						break;
 					}

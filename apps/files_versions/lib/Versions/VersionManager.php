@@ -168,7 +168,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			return $callback();
 		} catch (ManuallyLockedException $e) {
 			$owner = (string) $e->getOwner();
-			$appsThatHandleUpdates = ["text", "richdocuments"];
+			$appsThatHandleUpdates = ['text', 'richdocuments'];
 			if (!in_array($owner, $appsThatHandleUpdates)) {
 				throw $e;
 			}

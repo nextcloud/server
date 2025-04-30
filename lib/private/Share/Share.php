@@ -139,7 +139,7 @@ class Share extends Constants {
 					if (!isset($result[$key]['grouped'])) {
 						$result[$key]['grouped'][] = $result[$key];
 					}
-					$result[$key]['permissions'] = (int)$item['permissions'] | (int)$r['permissions'];
+					$result[$key]['permissions'] = (int) $item['permissions'] | (int) $r['permissions'];
 					$result[$key]['grouped'][] = $item;
 					$grouped = true;
 					break;
@@ -175,6 +175,6 @@ class Share extends Constants {
 	 * @return int
 	 */
 	public static function getExpireInterval() {
-		return (int)\OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int) \OC::$server->getConfig()->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 }

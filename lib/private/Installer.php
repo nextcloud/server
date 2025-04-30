@@ -298,19 +298,19 @@ class Installer {
 						);
 					}
 
-					if ((string)$xml->id !== $appId) {
+					if ((string) $xml->id !== $appId) {
 						throw new \Exception(
 							sprintf(
 								'App for id %s has a wrong app ID in info.xml: %s',
 								$appId,
-								(string)$xml->id
+								(string) $xml->id
 							)
 						);
 					}
 
 					// Check if the version is lower than before
 					$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
-					$newVersion = (string)$xml->version;
+					$newVersion = (string) $xml->version;
 					if (version_compare($currentVersion, $newVersion) === 1) {
 						throw new \Exception(
 							sprintf(
@@ -499,7 +499,7 @@ class Installer {
 				while (false !== ($filename = readdir($dir))) {
 					if ($filename[0] !== '.' and is_dir($app_dir['path']."/$filename")) {
 						if (file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
-							if ($config->getAppValue($filename, "installed_version", null) === null) {
+							if ($config->getAppValue($filename, 'installed_version', null) === null) {
 								$enabled = $appManager->isDefaultEnabled($filename);
 								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {

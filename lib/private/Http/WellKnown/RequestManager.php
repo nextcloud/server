@@ -74,11 +74,11 @@ class RequestManager {
 		$context = $this->coordinator->getRegistrationContext();
 
 		if ($context === null) {
-			throw new RuntimeException("Well known handlers requested before the apps had been fully registered");
+			throw new RuntimeException('Well known handlers requested before the apps had been fully registered');
 		}
 
 		$registrations = $context->getWellKnownHandlers();
-		$this->logger->debug(count($registrations) . " well known handlers registered");
+		$this->logger->debug(count($registrations) . ' well known handlers registered');
 
 		return array_filter(
 			array_map(function (ServiceRegistration $registration) {

@@ -44,11 +44,11 @@ class Mapper {
 		// Allow us to prevent writing in old filled buckets
 		$config = $this->config->getSystemValue('objectstore_multibucket');
 		$minBucket = is_array($config) && isset($config['arguments']['min_bucket'])
-			? (int)$config['arguments']['min_bucket']
+			? (int) $config['arguments']['min_bucket']
 			: 0;
 
 		$hash = md5($this->user->getUID());
 		$num = hexdec(substr($hash, 0, 4));
-		return (string)(($num % ($numBuckets - $minBucket)) + $minBucket);
+		return (string) (($num % ($numBuckets - $minBucket)) + $minBucket);
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -115,7 +116,7 @@ class ModeTest extends TestCase {
 	 * @param string $option The command option.
 	 * @param bool $currentMaintenanceState The current maintenance state.
 	 * @param null|bool $expectedMaintenanceState
-	 * 					The expected maintenance state. Null for no change.
+	 *                                            The expected maintenance state. Null for no change.
 	 * @param string $expectedOutput The expected command output.
 	 * @throws \Exception
 	 */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -180,7 +181,7 @@ class LoggerTest extends TestCase implements IWriter {
 		if (is_array($message)) {
 			$textMessage = $message['message'];
 		}
-		$this->logs[] = $level . " " . $textMessage;
+		$this->logs[] = $level . ' ' . $textMessage;
 	}
 
 	public function userAndPasswordData(): array {

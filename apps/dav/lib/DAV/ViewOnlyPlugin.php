@@ -74,7 +74,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 					$nodes = $this->userFolder->getById($node->getId());
 					$node = array_pop($nodes);
 					if (!$node) {
-						throw new NotFoundException("Version file not accessible by current user");
+						throw new NotFoundException('Version file not accessible by current user');
 					}
 				}
 			} else {

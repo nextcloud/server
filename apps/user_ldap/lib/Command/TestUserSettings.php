@@ -190,12 +190,12 @@ class TestUserSettings extends Command {
 			$groups = $groupLdapInstance->getUserGroups($uid);
 			$output->writeln('All known groups: <info>' . json_encode($groups) . '</info>');
 
-			$memberOfUsed = ((int)$access->connection->hasMemberOfFilterSupport === 1
-				&& (int)$access->connection->useMemberOfToDetectMembership === 1);
+			$memberOfUsed = ((int) $access->connection->hasMemberOfFilterSupport === 1
+				&& (int) $access->connection->useMemberOfToDetectMembership === 1);
 
 			$output->writeln('MemberOf usage: <info>' . ($memberOfUsed ? 'on' : 'off') . '</info> (' . $access->connection->hasMemberOfFilterSupport . ',' . $access->connection->useMemberOfToDetectMembership . ')');
 
-			$gid = (string)$input->getOption('group');
+			$gid = (string) $input->getOption('group');
 			if ($gid === '') {
 				return self::SUCCESS;
 			}

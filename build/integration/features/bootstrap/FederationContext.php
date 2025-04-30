@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -64,7 +65,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
 	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer) {
-		if ($shareeServer == "REMOTE") {
+		if ($shareeServer == 'REMOTE') {
 			$shareWith = "$shareeUser@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
 			$shareWith = "$shareeUser@" . substr($this->localBaseUrl, 0, -4);
@@ -85,7 +86,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
 	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer) {
-		if ($shareeServer == "REMOTE") {
+		if ($shareeServer == 'REMOTE') {
 			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
 			$shareWith = "$shareeGroup@" . substr($this->localBaseUrl, 0, -4);
@@ -134,7 +135,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	public function acceptLastPendingShare($user, $server) {
 		$previous = $this->usingServer($server);
 		$this->asAn($user);
-		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);
+		$this->sendingToWith('GET', '/apps/files_sharing/api/v1/remote_shares/pending', null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 		$share_id = simplexml_load_string($this->response->getBody())->data[0]->element[0]->id;
@@ -152,7 +153,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 */
 	public function deleteLastAcceptedRemoteShare($user) {
 		$this->asAn($user);
-		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->lastAcceptedRemoteShareId, null);
+		$this->sendingToWith('DELETE', '/apps/files_sharing/api/v1/remote_shares/' . $this->lastAcceptedRemoteShareId, null);
 	}
 
 	/**

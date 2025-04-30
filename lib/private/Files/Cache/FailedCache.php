@@ -125,7 +125,7 @@ class FailedCache implements ICache {
 	}
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
-		throw new \Exception("Invalid cache");
+		throw new \Exception('Invalid cache');
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {

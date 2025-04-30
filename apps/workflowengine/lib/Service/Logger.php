@@ -29,7 +29,7 @@ class Logger {
 
 	protected function initLogger(): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
-		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
+		$logFile = trim((string) $this->config->getAppValue(Application::APP_ID, 'logfile', $default));
 		if ($logFile !== '') {
 			$this->flowLogger = $this->logFactory->getCustomPsrLogger($logFile);
 		}

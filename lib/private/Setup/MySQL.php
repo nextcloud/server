@@ -162,7 +162,7 @@ class MySQL extends AbstractDatabase {
 						break;
 					} else {
 						//repeat with different username
-						$length = strlen((string)$i);
+						$length = strlen((string) $i);
 						$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
 						$i++;
 					}

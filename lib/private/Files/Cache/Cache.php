@@ -151,18 +151,18 @@ class Cache implements ICache {
 	 */
 	public static function cacheEntryFromData($data, IMimeTypeLoader $mimetypeLoader) {
 		//fix types
-		$data['name'] = (string)$data['name'];
-		$data['path'] = (string)$data['path'];
-		$data['fileid'] = (int)$data['fileid'];
-		$data['parent'] = (int)$data['parent'];
+		$data['name'] = (string) $data['name'];
+		$data['path'] = (string) $data['path'];
+		$data['fileid'] = (int) $data['fileid'];
+		$data['parent'] = (int) $data['parent'];
 		$data['size'] = Util::numericToNumber($data['size']);
 		$data['unencrypted_size'] = Util::numericToNumber($data['unencrypted_size'] ?? 0);
-		$data['mtime'] = (int)$data['mtime'];
-		$data['storage_mtime'] = (int)$data['storage_mtime'];
-		$data['encryptedVersion'] = (int)$data['encrypted'];
-		$data['encrypted'] = (bool)$data['encrypted'];
+		$data['mtime'] = (int) $data['mtime'];
+		$data['storage_mtime'] = (int) $data['storage_mtime'];
+		$data['encryptedVersion'] = (int) $data['encrypted'];
+		$data['encrypted'] = (bool) $data['encrypted'];
 		$data['storage_id'] = $data['storage'];
-		$data['storage'] = (int)$data['storage'];
+		$data['storage'] = (int) $data['storage'];
 		$data['mimetype'] = $mimetypeLoader->getMimetypeById($data['mimetype']);
 		$data['mimepart'] = $mimetypeLoader->getMimetypeById($data['mimepart']);
 		if ($data['storage_mtime'] == 0) {
@@ -171,12 +171,12 @@ class Cache implements ICache {
 		if (isset($data['f_permissions'])) {
 			$data['scan_permissions'] = $data['f_permissions'];
 		}
-		$data['permissions'] = (int)$data['permissions'];
+		$data['permissions'] = (int) $data['permissions'];
 		if (isset($data['creation_time'])) {
-			$data['creation_time'] = (int)$data['creation_time'];
+			$data['creation_time'] = (int) $data['creation_time'];
 		}
 		if (isset($data['upload_time'])) {
-			$data['upload_time'] = (int)$data['upload_time'];
+			$data['upload_time'] = (int) $data['upload_time'];
 		}
 		return new CacheEntry($data);
 	}
@@ -475,7 +475,7 @@ class Cache implements ICache {
 		$id = $result->fetchOne();
 		$result->closeCursor();
 
-		return $id === false ? -1 : (int)$id;
+		return $id === false ? -1 : (int) $id;
 	}
 
 	/**
@@ -489,7 +489,7 @@ class Cache implements ICache {
 			return -1;
 		} else {
 			$parent = $this->getParentPath($file);
-			return (int)$this->getId($parent);
+			return (int) $this->getId($parent);
 		}
 	}
 
@@ -838,7 +838,7 @@ class Cache implements ICache {
 		$result->closeCursor();
 
 		if ($size !== false) {
-			if ((int)$size === -1) {
+			if ((int) $size === -1) {
 				return self::SHALLOW;
 			} else {
 				return self::COMPLETE;
@@ -923,7 +923,7 @@ class Cache implements ICache {
 				->andWhere($query->expr()->eq('size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->execute();
-			$size = (int)$result->fetchOne();
+			$size = (int) $result->fetchOne();
 			$result->closeCursor();
 
 			return $size;
@@ -1047,7 +1047,7 @@ class Cache implements ICache {
 		$result->closeCursor();
 
 		return array_map(function ($id) {
-			return (int)$id;
+			return (int) $id;
 		}, $files);
 	}
 
@@ -1073,7 +1073,7 @@ class Cache implements ICache {
 		$path = $result->fetchOne();
 		$result->closeCursor();
 
-		return $path === false ? false : (string)$path;
+		return $path === false ? false : (string) $path;
 	}
 
 	/**
@@ -1097,7 +1097,7 @@ class Cache implements ICache {
 			return null;
 		}
 
-		return (string)$path;
+		return (string) $path;
 	}
 
 	/**

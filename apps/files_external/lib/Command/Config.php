@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -73,7 +74,7 @@ class Config extends Base {
 		if (!is_string($value) && json_decode(json_encode($value)) === $value) { // show bools and objects correctly
 			$value = json_encode($value);
 		}
-		$output->writeln((string)$value);
+		$output->writeln((string) $value);
 	}
 
 	/**

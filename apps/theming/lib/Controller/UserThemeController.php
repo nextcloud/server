@@ -155,7 +155,7 @@ class UserThemeController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function deleteBackground(): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+		$currentVersion = (int) $this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 		$this->backgroundService->deleteBackgroundImage();
 		return new JSONResponse([
 			'backgroundImage' => null,
@@ -178,7 +178,7 @@ class UserThemeController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
+		$currentVersion = (int) $this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		// Set color if provided
 		if ($color) {
@@ -210,7 +210,7 @@ class UserThemeController extends OCSController {
 		}
 
 		$currentVersion++;
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string)$currentVersion);
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'userCacheBuster', (string) $currentVersion);
 
 		return new JSONResponse([
 			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),

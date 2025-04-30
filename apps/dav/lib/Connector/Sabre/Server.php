@@ -69,7 +69,7 @@ class Server extends \Sabre\DAV\Server {
 			$DOM->appendChild($error);
 
 			$h = function ($v) {
-				return htmlspecialchars((string)$v, ENT_NOQUOTES, 'UTF-8');
+				return htmlspecialchars((string) $v, ENT_NOQUOTES, 'UTF-8');
 			};
 
 			if (self::$exposeVersion) {

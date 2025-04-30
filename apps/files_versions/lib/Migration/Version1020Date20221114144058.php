@@ -29,11 +29,11 @@ class Version1020Date20221114144058 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if ($schema->hasTable("files_versions")) {
+		if ($schema->hasTable('files_versions')) {
 			return null;
 		}
 
-		$table = $schema->createTable("files_versions");
+		$table = $schema->createTable('files_versions');
 		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
 			'notnull' => true,

@@ -61,13 +61,13 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 			ksort($dirList);
 			// drop the newest 3 directories
 			$dirList = array_slice($dirList, 0, -3);
-			$this->log->info("List of all directories that will be deleted: " . json_encode($dirList));
+			$this->log->info('List of all directories that will be deleted: ' . json_encode($dirList));
 
 			foreach ($dirList as $dir) {
 				$this->log->info("Removing $dir ...");
 				\OC_Helper::rmdirr($dir);
 			}
-			$this->log->info("Cleanup finished");
+			$this->log->info('Cleanup finished');
 		} else {
 			$this->log->info("Could not find updater directory $backupFolderPath - cleanup step not needed");
 		}

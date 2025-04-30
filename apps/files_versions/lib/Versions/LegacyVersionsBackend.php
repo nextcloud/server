@@ -65,7 +65,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			$file = $userFolder->getFirstNodeById($fileId);
 
 			if (!$file) {
-				throw new NotFoundException("version file not found for share owner");
+				throw new NotFoundException('version file not found for share owner');
 			}
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
@@ -83,7 +83,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		}
 
 		$currentVersion = [
-			'version' => (string)$file->getMtime(),
+			'version' => (string) $file->getMtime(),
 			'size' => $file->getSize(),
 			'mimetype' => $file->getMimetype(),
 		];
@@ -113,8 +113,8 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			if (empty($versions['db']) && !empty($versions['fs'])) {
 				$versions['db'] = new VersionEntity();
 				$versions['db']->setFileId($fileId);
-				$versions['db']->setTimestamp((int)$versions['fs']['version']);
-				$versions['db']->setSize((int)$versions['fs']['size']);
+				$versions['db']->setTimestamp((int) $versions['fs']['version']);
+				$versions['db']->setSize((int) $versions['fs']['size']);
 				$versions['db']->setMimetype($this->mimeTypeLoader->getId($versions['fs']['mimetype']));
 				$versions['db']->setMetadata([]);
 				$this->versionsMapper->insert($versions['db']);
@@ -276,7 +276,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$currentUserId = $this->userSession->getUser()?->getUID();
 
 		if ($currentUserId === null) {
-			throw new NotFoundException("No user logged in");
+			throw new NotFoundException('No user logged in');
 		}
 
 		if ($sourceFile->getOwner()?->getUID() === $currentUserId) {
@@ -286,7 +286,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
 
 		if (count($nodes) === 0) {
-			throw new NotFoundException("Version file not accessible by current user");
+			throw new NotFoundException('Version file not accessible by current user');
 		}
 
 		foreach ($nodes as $node) {
@@ -366,14 +366,14 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		$relativePath = $userFolder->getRelativePath($source->getPath());
 		if ($relativePath === null) {
-			throw new Exception("Relative path not found for node with path: " . $source->getPath());
+			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
 		$versions = Storage::getVersions($user->getUID(), $relativePath);
 		/** @var Folder versionFolder */
 		$versionFolder = $this->rootFolder->get('admin/files_versions');
 		foreach ($versions as $version) {
-			$versionFolder->get($version['path'] . '.v' . (int)$version['version'])->delete();
+			$versionFolder->get($version['path'] . '.v' . (int) $version['version'])->delete();
 		}
 
 		$this->versionsMapper->deleteAllVersionsForFileId($target->getId());

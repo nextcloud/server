@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /** @var \OCP\IL10N $l */
-/** @var array $_*/
+/** @var array $_ */
 /** @var boolean $error */
 $error = $_['error'];
 /* @var $error_message string */

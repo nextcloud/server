@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -127,7 +128,7 @@ class RenewPasswordController extends Controller {
 		try {
 			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [
-					[], [$this->l10n->t("Please login with the new password")]
+					[], [$this->l10n->t('Please login with the new password')]
 				]);
 				$this->config->setUserValue($user, 'user_ldap', 'needsPasswordReset', 'false');
 				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));

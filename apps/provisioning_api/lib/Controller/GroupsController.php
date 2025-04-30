@@ -211,7 +211,7 @@ class GroupsController extends AUserData {
 			foreach ($users as $user) {
 				try {
 					/** @var IUser $user */
-					$userId = (string)$user->getUID();
+					$userId = (string) $user->getUID();
 					$userData = $this->getUserData($userId);
 					// Do not insert empty entry
 					if ($userData !== null) {

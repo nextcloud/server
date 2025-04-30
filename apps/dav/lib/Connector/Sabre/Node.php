@@ -151,7 +151,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	public function getLastModified() {
 		$timestamp = $this->info->getMtime();
 		if (!empty($timestamp)) {
-			return (int)$timestamp;
+			return (int) $timestamp;
 		}
 		return $timestamp;
 	}
@@ -265,7 +265,7 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		if ($storage && $storage->instanceOfStorage(ISharedStorage::class)) {
 			/** @var ISharedStorage $storage */
-			$permissions = (int)$storage->getShare()->getPermissions();
+			$permissions = (int) $storage->getShare()->getPermissions();
 		} else {
 			$permissions = $this->info->getPermissions();
 		}

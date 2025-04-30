@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -42,7 +43,7 @@ class Updater {
 		}
 		$user = $userFolder->getOwner();
 		if (!$user) {
-			throw new \Exception("user folder has no owner");
+			throw new \Exception('user folder has no owner');
 		}
 
 		$src = $userFolder->get($path);

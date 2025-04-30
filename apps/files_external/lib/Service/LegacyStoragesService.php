@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -137,7 +138,7 @@ abstract class LegacyStoragesService {
 						$storageOptions['authMechanism'] = null; // ensure config hash works
 					}
 					if (isset($storageOptions['id'])) {
-						$configId = (int)$storageOptions['id'];
+						$configId = (int) $storageOptions['id'];
 						if (isset($storages[$configId])) {
 							$currentStorage = $storages[$configId];
 						}

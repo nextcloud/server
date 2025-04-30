@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,7 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 class ChecksumsContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -86,7 +87,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theWebdavResponseShouldHaveAStatusCode($statusCode) {
-		if ((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int) $statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception("Expected $statusCode, got ".$this->response->getStatusCode());
 		}
 	}
@@ -208,7 +209,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theOcChecksumHeaderShouldNotBeThere() {
 		if ($this->response->hasHeader('OC-Checksum')) {
-			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum')[0]);
+			throw new \Exception('Expected no checksum header but got '.$this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -50,8 +51,8 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
-		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
+		$groups = $this->groupManager->search('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool) $input->getOption('info')));
 		return 0;
 	}
 
@@ -62,7 +63,7 @@ class ListCommand extends Base {
 	public function usersForGroup(IGroup $group) {
 		$users = array_keys($group->getUsers());
 		return array_map(function ($userId) {
-			return (string)$userId;
+			return (string) $userId;
 		}, $users);
 	}
 

@@ -382,7 +382,7 @@ class SetupManager {
 		}
 
 		// for the user's home folder, and includes children we need everything always
-		if (rtrim($path) === "/" . $user->getUID() . "/files" && $includeChildren) {
+		if (rtrim($path) === '/' . $user->getUID() . '/files' && $includeChildren) {
 			$this->setupForUser($user);
 			return;
 		}
@@ -412,7 +412,7 @@ class SetupManager {
 				$setupProviders[] = $cachedMount->getMountProvider();
 				$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]);
 			} else {
-				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');
 				$this->eventLogger->end('fs:setup:user:path:find');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
@@ -429,7 +429,7 @@ class SetupManager {
 			}, false);
 
 			if ($needsFullSetup) {
-				$this->logger->debug("mount has no provider set, performing full setup");
+				$this->logger->debug('mount has no provider set, performing full setup');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
 				return;
@@ -491,7 +491,7 @@ class SetupManager {
 			return;
 		}
 
-		$this->eventLogger->start('fs:setup:user:providers', "Setup filesystem for " . implode(', ', $providers));
+		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
 
 		$this->oneTimeUserSetup($user);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -199,7 +200,7 @@ class UpdateTest extends TestCase {
 	/**
 	 * create mock of the update method
 	 *
-	 * @param array$methods methods which should be set
+	 * @param array $methods methods which should be set
 	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUpdateMock($methods) {

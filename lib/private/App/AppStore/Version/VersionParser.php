@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,7 +17,7 @@ class VersionParser {
 	 * @return bool
 	 */
 	private function isValidVersionString($versionString) {
-		return (bool)preg_match('/^[0-9.]+$/', $versionString);
+		return (bool) preg_match('/^[0-9.]+$/', $versionString);
 	}
 
 	/**

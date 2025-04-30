@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -109,7 +110,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->acquireLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
+			$this->config->setAppValue('testing', 'locking_' . $path, (string) $type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -132,7 +133,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->changeLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
+			$this->config->setAppValue('testing', 'locking_' . $path, (string) $type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -190,12 +191,12 @@ class LockingController extends OCSController {
 			if (strpos($lock, 'locking_') === 0) {
 				$path = substr($lock, strlen('locking_'));
 
-				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
-				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
+				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int) $this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
+					$lockingProvider->releaseLock($path, (int) $this->config->getAppValue('testing', $lock));
+				} elseif ($type === ILockingProvider::LOCK_SHARED && (int) $this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
+					$lockingProvider->releaseLock($path, (int) $this->config->getAppValue('testing', $lock));
 				} else {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
+					$lockingProvider->releaseLock($path, (int) $this->config->getAppValue('testing', $lock));
 				}
 			}
 		}

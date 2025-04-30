@@ -144,7 +144,7 @@ class FilesSearchProvider implements IFilteringProvider {
 					$this->urlGenerator->getAbsoluteURL($link),
 					$icon,
 				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
+				$searchResultEntry->addAttribute('fileId', (string) $result->getId());
 				$searchResultEntry->addAttribute('path', $path);
 				return $searchResultEntry;
 			}, $userFolder->search($fileQuery)),

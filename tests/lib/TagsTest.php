@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -85,7 +86,7 @@ class TagsTest extends \Test\TestCase {
 		foreach ($tags as $tag) {
 			$result = $tagger->add($tag);
 			$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
-			$this->assertTrue((bool)$result);
+			$this->assertTrue((bool) $result);
 		}
 
 		$this->assertFalse($tagger->add('Family'));
@@ -104,7 +105,7 @@ class TagsTest extends \Test\TestCase {
 		}
 
 		$result = $tagger->addMultiple($tags);
-		$this->assertTrue((bool)$result);
+		$this->assertTrue((bool) $result);
 
 		foreach ($tags as $tag) {
 			$this->assertTrue($tagger->hasTag($tag));
@@ -125,7 +126,7 @@ class TagsTest extends \Test\TestCase {
 		// Now, we call addMultiple() with $sync=true so the tags will be
 		// be saved to the database.
 		$result = $tagger->addMultiple($tags, true);
-		$this->assertTrue((bool)$result);
+		$this->assertTrue((bool) $result);
 
 		$tagMaps = $tagger->getTags();
 		foreach ($tagMaps as $tagMap) {

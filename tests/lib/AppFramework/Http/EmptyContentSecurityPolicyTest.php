@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -483,15 +484,15 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	public function testGetPolicyWithReportUri() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none';report-uri https://my-report-uri.com";
 
-		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
+		$this->contentSecurityPolicy->addReportTo('https://my-report-uri.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
 	public function testGetPolicyWithMultipleReportUri() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none';report-uri https://my-report-uri.com https://my-other-report-uri.com";
 
-		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
-		$this->contentSecurityPolicy->addReportTo("https://my-other-report-uri.com");
+		$this->contentSecurityPolicy->addReportTo('https://my-report-uri.com');
+		$this->contentSecurityPolicy->addReportTo('https://my-other-report-uri.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 }

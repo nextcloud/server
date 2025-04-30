@@ -133,7 +133,7 @@ class ConnectionFactory {
 				if ($host === '') {
 					$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
 				} else {
-					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
+					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
 				}
 				unset($connectionParams['host']);
 				break;
@@ -187,7 +187,7 @@ class ConnectionFactory {
 		$name = $this->config->getValue($configPrefix . 'dbname', $this->config->getValue('dbname', self::DEFAULT_DBNAME));
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue($configPrefix . 'dbhost', $this->config->getValue('dbhost', ''));

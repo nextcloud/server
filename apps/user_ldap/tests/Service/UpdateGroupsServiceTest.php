@@ -26,17 +26,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateGroupsServiceTest extends TestCase {
-	/** @var Group_Proxy|MockObject  */
+	/** @var Group_Proxy|MockObject */
 	protected $groupBackend;
-	/** @var IEventDispatcher|MockObject  */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var IGroupManager|MockObject  */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var GroupMembershipMapper|MockObject  */
+	/** @var GroupMembershipMapper|MockObject */
 	protected $groupMembershipMapper;
 	/** @var IConfig|MockObject */
 	protected $config;

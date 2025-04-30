@@ -59,7 +59,7 @@ class NotifierTest extends TestCase {
 			->method('n')
 			->willReturnCallback(function ($textSingular, $textPlural, $count, $args) {
 				$text = $count === 1 ? $textSingular : $textPlural;
-				$text = str_replace('%n', (string)$count, $text);
+				$text = str_replace('%n', (string) $count, $text);
 				return vsprintf($text, $args);
 			});
 		$this->factory = $this->createMock(IFactory::class);

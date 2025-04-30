@@ -62,8 +62,8 @@ class ShowRemnants extends Command {
 				'displayName' => $user->getDisplayName(),
 				'uid' => $user->getUID(),
 				'dn' => $user->getDN(),
-				'lastLogin' => $this->formatDate($user->getLastLogin(), '-', (bool)$input->getOption('short-date')),
-				'detectedOn' => $this->formatDate($user->getDetectedOn(), 'unknown', (bool)$input->getOption('short-date')),
+				'lastLogin' => $this->formatDate($user->getLastLogin(), '-', (bool) $input->getOption('short-date')),
+				'detectedOn' => $this->formatDate($user->getDetectedOn(), 'unknown', (bool) $input->getOption('short-date')),
 				'homePath' => $user->getHomePath(),
 				'sharer' => $user->getHasActiveShares() ? 'Y' : 'N',
 			];

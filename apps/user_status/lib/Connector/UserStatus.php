@@ -43,7 +43,7 @@ class UserStatus implements IUserStatus {
 			$this->status = IUserStatus::OFFLINE;
 		}
 		if ($status->getClearAt() !== null) {
-			$this->clearAt = DateTimeImmutable::createFromFormat('U', (string)$status->getClearAt());
+			$this->clearAt = DateTimeImmutable::createFromFormat('U', (string) $status->getClearAt());
 		}
 	}
 

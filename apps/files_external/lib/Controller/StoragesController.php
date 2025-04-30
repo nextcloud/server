@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -231,12 +232,12 @@ abstract class StoragesController extends Controller {
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
 			$status = $e->getCode() ? $e->getCode() : StorageNotAvailableException::STATUS_INDETERMINATE;
 			$storage->setStatus(
-				(int)$status,
+				(int) $status,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
 		} catch (StorageNotAvailableException $e) {
 			$storage->setStatus(
-				(int)$e->getCode(),
+				(int) $e->getCode(),
 				$this->l10n->t('%s', [$e->getMessage()])
 			);
 		} catch (\Exception $e) {

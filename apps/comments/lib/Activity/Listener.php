@@ -38,7 +38,7 @@ class Listener {
 
 		// Get all mount point owners
 		$cache = $this->mountCollection->getMountCache();
-		$mounts = $cache->getMountsForFileId((int)$event->getComment()->getObjectId());
+		$mounts = $cache->getMountsForFileId((int) $event->getComment()->getObjectId());
 		if (empty($mounts)) {
 			return;
 		}
@@ -47,7 +47,7 @@ class Listener {
 		foreach ($mounts as $mount) {
 			$owner = $mount->getUser()->getUID();
 			$ownerFolder = $this->rootFolder->getUserFolder($owner);
-			$nodes = $ownerFolder->getById((int)$event->getComment()->getObjectId());
+			$nodes = $ownerFolder->getById((int) $event->getComment()->getObjectId());
 			if (!empty($nodes)) {
 				/** @var Node $node */
 				$node = array_shift($nodes);
@@ -75,7 +75,7 @@ class Listener {
 		foreach ($users as $user => $path) {
 			// numerical user ids end up as integers from array keys, but string
 			// is required
-			$activity->setAffectedUser((string)$user);
+			$activity->setAffectedUser((string) $user);
 
 			$activity->setSubject('add_comment_subject', [
 				'actor' => $actor,

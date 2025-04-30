@@ -112,7 +112,7 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $appName app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -303,7 +303,7 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
-		if ($this->baseUrl === null || $this->baseUrl === "http://" || $this->baseUrl === "https://") {
+		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
 			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 		}
 		return $this->baseUrl;

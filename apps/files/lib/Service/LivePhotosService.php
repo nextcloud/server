@@ -31,6 +31,6 @@ class LivePhotosService {
 			return null;
 		}
 
-		return (int)$metadata->getString('files-live-photo');
+		return (int) $metadata->getString('files-live-photo');
 	}
 }

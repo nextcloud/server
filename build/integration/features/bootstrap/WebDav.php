@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,7 +18,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait WebDav {
 	use Sharing;
 
-	private string $davPath = "remote.php/webdav";
+	private string $davPath = 'remote.php/webdav';
 	private bool $usingOldDavPath = true;
 	private ?array $storedETAG = null; // map with user as key and another map as value, which has path as key and etag as value
 	private ?int $storedFileID = null;
@@ -40,7 +41,7 @@ trait WebDav {
 	 * @Given /^using old dav path$/
 	 */
 	public function usingOldDavPath() {
-		$this->davPath = "remote.php/webdav";
+		$this->davPath = 'remote.php/webdav';
 		$this->usingOldDavPath = true;
 	}
 
@@ -48,7 +49,7 @@ trait WebDav {
 	 * @Given /^using new dav path$/
 	 */
 	public function usingNewDavPath() {
-		$this->davPath = "remote.php/dav";
+		$this->davPath = 'remote.php/dav';
 		$this->usingOldDavPath = false;
 	}
 
@@ -56,7 +57,7 @@ trait WebDav {
 	 * @Given /^using new public dav path$/
 	 */
 	public function usingNewPublicDavPath() {
-		$this->davPath = "public.php/dav";
+		$this->davPath = 'public.php/dav';
 		$this->usingOldDavPath = false;
 	}
 
@@ -68,10 +69,10 @@ trait WebDav {
 		}
 	}
 
-	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = "files") {
-		if ($type === "files") {
+	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = 'files') {
+		if ($type === 'files') {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
-		} elseif ($type === "uploads") {
+		} elseif ($type === 'uploads') {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
 		} else {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . '/' . $type .  "$path";
@@ -98,7 +99,7 @@ trait WebDav {
 	public function userMovedFile($user, $entry, $fileSource, $fileDestination) {
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
 		$headers['Destination'] = $fullUrl . $fileDestination;
-		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
 		Assert::assertEquals(201, $this->response->getStatusCode());
 	}
 
@@ -112,7 +113,7 @@ trait WebDav {
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user);
 		$headers['Destination'] = $fullUrl . $fileDestination;
 		try {
-			$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+			$this->response = $this->makeDavRequest($user, 'MOVE', $fileSource, $headers);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -142,7 +143,7 @@ trait WebDav {
 	 */
 	public function downloadFileWithRange($fileSource, $range) {
 		$headers['Range'] = $range;
-		$this->response = $this->makeDavRequest($this->currentUser, "GET", $fileSource, $headers);
+		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileSource, $headers);
 	}
 
 	/**
@@ -159,7 +160,7 @@ trait WebDav {
 			'Range' => $range
 		];
 
-		$this->response = $client->request("GET", $fullUrl, $options);
+		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
 	/**
@@ -177,7 +178,7 @@ trait WebDav {
 			]
 		];
 
-		$this->response = $client->request("GET", $fullUrl, $options);
+		$this->response = $client->request('GET', $fullUrl, $options);
 	}
 
 	/**
@@ -185,7 +186,7 @@ trait WebDav {
 	 * @param string $content
 	 */
 	public function downloadedContentShouldBe($content) {
-		Assert::assertEquals($content, (string)$this->response->getBody());
+		Assert::assertEquals($content, (string) $this->response->getBody());
 	}
 
 	/**
@@ -392,7 +393,7 @@ trait WebDav {
 	public function theResponseShouldContainAShareTypesPropertyWith($table) {
 		$keys = $this->response;
 		if (!array_key_exists('{http://owncloud.org/ns}share-types', $keys)) {
-			throw new \Exception("Cannot find property \"{http://owncloud.org/ns}share-types\"");
+			throw new \Exception('Cannot find property "{http://owncloud.org/ns}share-types"');
 		}
 
 		$foundTypes = [];
@@ -557,11 +558,11 @@ trait WebDav {
 </d:searchrequest>';
 
 		try {
-			$this->response = $this->makeDavRequest($user, "SEARCH", '', [
+			$this->response = $this->makeDavRequest($user, 'SEARCH', '', [
 				'Content-Type' => 'text/xml'
 			], $body, '');
 
-			var_dump((string)$this->response->getBody());
+			var_dump((string) $this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -632,9 +633,9 @@ trait WebDav {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
-				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				$webdavPath = '/' . $this->getDavFilesPath($user) . $expectedElement;
 				if (!array_key_exists($webdavPath, $elementList)) {
-					Assert::fail("$webdavPath" . " is not in propfind answer");
+					Assert::fail("$webdavPath" . ' is not in propfind answer');
 				}
 			}
 		}
@@ -649,7 +650,7 @@ trait WebDav {
 	public function userUploadsAFileTo($user, $source, $destination) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 		try {
-			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+			$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -666,11 +667,11 @@ trait WebDav {
 	 * @param string $destination
 	 */
 	public function userAddsAFileTo($user, $bytes, $destination) {
-		$filename = "filespecificSize.txt";
+		$filename = 'filespecificSize.txt';
 		$this->createFileSpecificSize($filename, $bytes);
 		Assert::assertEquals(1, file_exists("work/$filename"));
 		$this->userUploadsAFileTo($user, "work/$filename", $destination);
-		$this->removeFile("work/", $filename);
+		$this->removeFile('work/', $filename);
 		$expectedElements = new \Behat\Gherkin\Node\TableNode([["$destination"]]);
 		$this->checkElementList($user, $expectedElements);
 	}
@@ -681,7 +682,7 @@ trait WebDav {
 	public function userUploadsAFileWithContentTo($user, $content, $destination) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor($content);
 		try {
-			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+			$this->response = $this->makeDavRequest($user, 'PUT', $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -717,7 +718,7 @@ trait WebDav {
 	public function userCreatedAFolder($user, $destination) {
 		try {
 			$destination = '/' . ltrim($destination, '/');
-			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
+			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -738,28 +739,28 @@ trait WebDav {
 	 * @param string $content3
 	 */
 	public function userUploadsBulkedFiles($user, $name1, $content1, $name2, $content2, $name3, $content3) {
-		$boundary = "boundary_azertyuiop";
+		$boundary = 'boundary_azertyuiop';
 
-		$body = "";
+		$body = '';
 		$body .= '--'.$boundary."\r\n";
-		$body .= "X-File-Path: ".$name1."\r\n";
+		$body .= 'X-File-Path: '.$name1."\r\n";
 		$body .= "X-File-MD5: f6a6263167c92de8644ac998b3c4e4d1\r\n";
 		$body .= "X-OC-Mtime: 1111111111\r\n";
-		$body .= "Content-Length: ".strlen($content1)."\r\n";
+		$body .= 'Content-Length: '.strlen($content1)."\r\n";
 		$body .= "\r\n";
 		$body .= $content1."\r\n";
 		$body .= '--'.$boundary."\r\n";
-		$body .= "X-File-Path: ".$name2."\r\n";
+		$body .= 'X-File-Path: '.$name2."\r\n";
 		$body .= "X-File-MD5: 87c7d4068be07d390a1fffd21bf1e944\r\n";
 		$body .= "X-OC-Mtime: 2222222222\r\n";
-		$body .= "Content-Length: ".strlen($content2)."\r\n";
+		$body .= 'Content-Length: '.strlen($content2)."\r\n";
 		$body .= "\r\n";
 		$body .= $content2."\r\n";
 		$body .= '--'.$boundary."\r\n";
-		$body .= "X-File-Path: ".$name3."\r\n";
+		$body .= 'X-File-Path: '.$name3."\r\n";
 		$body .= "X-File-MD5: e86a1cf0678099986a901c79086f5617\r\n";
 		$body .= "X-File-Mtime: 3333333333\r\n";
-		$body .= "Content-Length: ".strlen($content3)."\r\n";
+		$body .= 'Content-Length: '.strlen($content3)."\r\n";
 		$body .= "\r\n";
 		$body .= $content3."\r\n";
 		$body .= '--'.$boundary."--\r\n";
@@ -773,12 +774,12 @@ trait WebDav {
 			'auth' => [$user, $this->regularUser],
 			'headers' => [
 				'Content-Type' => 'multipart/related; boundary='.$boundary,
-				'Content-Length' => (string)strlen($body),
+				'Content-Length' => (string) strlen($body),
 			],
 			'body' => $body
 		];
 
-		return $client->request("POST", substr($this->baseUrl, 0, -4) . "remote.php/dav/bulk", $options);
+		return $client->request('POST', substr($this->baseUrl, 0, -4) . 'remote.php/dav/bulk', $options);
 	}
 
 	/**
@@ -787,7 +788,7 @@ trait WebDav {
 	public function userCreatesANewChunkingUploadWithId($user, $id) {
 		$this->parts = [];
 		$destination = '/uploads/' . $user . '/' . $id;
-		$this->makeDavRequest($user, 'MKCOL', $destination, [], null, "uploads");
+		$this->makeDavRequest($user, 'MKCOL', $destination, [], null, 'uploads');
 	}
 
 	/**
@@ -796,7 +797,7 @@ trait WebDav {
 	public function userUploadsNewChunkFileOfWithToId($user, $num, $data, $id) {
 		$data = \GuzzleHttp\Psr7\Utils::streamFor($data);
 		$destination = '/uploads/' . $user . '/' . $id . '/' . $num;
-		$this->makeDavRequest($user, 'PUT', $destination, [], $data, "uploads");
+		$this->makeDavRequest($user, 'PUT', $destination, [], $data, 'uploads');
 	}
 
 	/**
@@ -807,7 +808,7 @@ trait WebDav {
 		$destination = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . $dest;
 		$this->makeDavRequest($user, 'MOVE', $source, [
 			'Destination' => $destination
-		], null, "uploads");
+		], null, 'uploads');
 	}
 
 	/**
@@ -821,7 +822,7 @@ trait WebDav {
 			$this->response = $this->makeDavRequest($user, 'MOVE', $source, [
 				'Destination' => $destination,
 				'OC-Total-Length' => $size
-			], null, "uploads");
+			], null, 'uploads');
 		} catch (\GuzzleHttp\Exception\BadResponseException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -837,7 +838,7 @@ trait WebDav {
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id);
 		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
 			'Destination' => $this->s3MultipartDestination,
-		], null, "uploads");
+		], null, 'uploads');
 	}
 
 	/**
@@ -848,7 +849,7 @@ trait WebDav {
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id) . '/' . $num;
 		$this->response = $this->makeDavRequest($user, 'PUT', $destination, [
 			'Destination' => $this->s3MultipartDestination
-		], $data, "uploads");
+		], $data, 'uploads');
 	}
 
 	/**
@@ -859,7 +860,7 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, 'MOVE', $source, [
 				'Destination' => $this->s3MultipartDestination,
-			], null, "uploads");
+			], null, 'uploads');
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -878,7 +879,7 @@ trait WebDav {
 	}
 
 	private function newUploadId() {
-		$this->uploadId = (string)time();
+		$this->uploadId = (string) time();
 	}
 
 	/**
@@ -1030,9 +1031,9 @@ trait WebDav {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
 			foreach ($elementsSimplified as $expectedElement) {
-				$webdavPath = "/" . $this->getDavFilesPath($user) . $expectedElement;
+				$webdavPath = '/' . $this->getDavFilesPath($user) . $expectedElement;
 				if (!array_key_exists($webdavPath, $elementList)) {
-					Assert::fail("$webdavPath" . " is not in report answer");
+					Assert::fail("$webdavPath" . ' is not in report answer');
 				}
 			}
 		}
@@ -1047,12 +1048,12 @@ trait WebDav {
 		$elementList = $this->listFolder($user, $folder, 1);
 		$elementListKeys = array_keys($elementList);
 		array_shift($elementListKeys);
-		$davPrefix = "/" . $this->getDavFilesPath($user);
+		$davPrefix = '/' . $this->getDavFilesPath($user);
 		foreach ($elementListKeys as $element) {
 			if (substr($element, 0, strlen($davPrefix)) == $davPrefix) {
 				$element = substr($element, strlen($davPrefix));
 			}
-			$this->userDeletesFile($user, "element", $element);
+			$this->userDeletesFile($user, 'element', $element);
 		}
 	}
 
@@ -1063,9 +1064,9 @@ trait WebDav {
 	 * @return int
 	 */
 	private function getFileIdForPath($user, $path) {
-		$propertiesTable = new \Behat\Gherkin\Node\TableNode([["{http://owncloud.org/ns}fileid"]]);
+		$propertiesTable = new \Behat\Gherkin\Node\TableNode([['{http://owncloud.org/ns}fileid']]);
 		$this->asGetsPropertiesOfFolderWith($user, 'file', $path, $propertiesTable);
-		return (int)$this->response['{http://owncloud.org/ns}fileid'];
+		return (int) $this->response['{http://owncloud.org/ns}fileid'];
 	}
 
 	/**
@@ -1092,8 +1093,8 @@ trait WebDav {
 	 */
 	public function userCreatesAFileLocallyWithChunks($arg1, $chunks) {
 		$this->parts = [];
-		for ($i = 1;$i <= (int)$chunks;$i++) {
-			$randomletter = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 1);
+		for ($i = 1;$i <= (int) $chunks;$i++) {
+			$randomletter = substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 1);
 			file_put_contents('/tmp/part-upload-' . $i, str_repeat($randomletter, 5 * 1024 * 1024));
 			$this->parts[] = '/tmp/part-upload-' . $i;
 		}
@@ -1103,8 +1104,8 @@ trait WebDav {
 	 * @Given user :user creates the chunk :id with a size of :size MB
 	 */
 	public function userCreatesAChunk($user, $id, $size) {
-		$randomletter = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 1);
-		file_put_contents('/tmp/part-upload-' . $id, str_repeat($randomletter, (int)$size * 1024 * 1024));
+		$randomletter = substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 1);
+		file_put_contents('/tmp/part-upload-' . $id, str_repeat($randomletter, (int) $size * 1024 * 1024));
 		$this->parts[] = '/tmp/part-upload-' . $id;
 	}
 
@@ -1117,14 +1118,14 @@ trait WebDav {
 		foreach ($this->parts as $part) {
 			$content .= file_get_contents($part);
 		}
-		Assert::assertEquals($content, (string)$this->response->getBody());
+		Assert::assertEquals($content, (string) $this->response->getBody());
 	}
 
 	/**
 	 * @Then /^the S3 multipart upload was successful with status "([^"]*)"$/
 	 */
 	public function theSmultipartUploadWasSuccessful($status) {
-		Assert::assertEquals((int)$status, $this->response->getStatusCode());
+		Assert::assertEquals((int) $status, $this->response->getStatusCode());
 	}
 
 	/**
@@ -1161,7 +1162,7 @@ trait WebDav {
 	 */
 	private function convertResponseToDavEntries(): array {
 		$client = $this->getSabreClient($this->currentUser);
-		$parsedResponse = $client->parseMultiStatus((string)$this->response->getBody());
+		$parsedResponse = $client->parseMultiStatus((string) $this->response->getBody());
 
 		$results = [];
 		foreach ($parsedResponse as $href => $statusList) {

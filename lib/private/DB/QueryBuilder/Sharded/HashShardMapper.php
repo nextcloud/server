@@ -15,7 +15,7 @@ use OCP\DB\QueryBuilder\Sharded\IShardMapper;
  */
 class HashShardMapper implements IShardMapper {
 	public function getShardForKey(int $key, int $count): int {
-		$int = unpack('L', substr(md5((string)$key, true), 0, 4))[1];
+		$int = unpack('L', substr(md5((string) $key, true), 0, 4))[1];
 		return $int % $count;
 	}
 }

@@ -47,7 +47,7 @@ class CacheEntry implements ICacheEntry {
 	}
 
 	public function getId() {
-		return (int)$this->data['fileid'];
+		return (int) $this->data['fileid'];
 	}
 
 	public function getStorageId() {
@@ -56,7 +56,7 @@ class CacheEntry implements ICacheEntry {
 
 
 	public function getPath() {
-		return (string)$this->data['path'];
+		return (string) $this->data['path'];
 	}
 
 

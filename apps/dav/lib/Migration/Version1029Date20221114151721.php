@@ -28,7 +28,7 @@ class Version1029Date20221114151721 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$calendarObjectsTable = $schema->getTable('calendarobjects');
-		if(!$calendarObjectsTable->hasIndex('calobj_clssfction_index')) {
+		if (!$calendarObjectsTable->hasIndex('calobj_clssfction_index')) {
 			$calendarObjectsTable->addIndex(['classification'], 'calobj_clssfction_index');
 			return $schema;
 		}
