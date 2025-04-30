@@ -7,7 +7,6 @@
 namespace Tests\Core\Controller;
 
 use OC\Core\Controller\NavigationController;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\INavigationManager;
 use OCP\IRequest;
@@ -104,33 +103,35 @@ class NavigationControllerTest extends TestCase {
 		}
 	}
 
-	public function testGetAppNavigationEtagMatch(): void {
-		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
-		$this->request->expects($this->once())
-			->method('getHeader')
-			->with('If-None-Match')
-			->willReturn(md5(json_encode($navigation)));
-		$this->navigationManager->expects($this->once())
+	public function testEtagIgnoresLogout(): void {
+		$navigation1 = [
+			['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=abcd', 'icon' => 'icon' ],
+		];
+		$navigation2 = [
+			['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=1234', 'icon' => 'icon' ],
+		];
+		$navigation3 = [
+			['id' => 'files', 'href' => '/index.php/apps/files/test', 'icon' => 'icon' ],
+			['id' => 'logout', 'href' => '/index.php/logout?requesttoken=1234', 'icon' => 'icon' ],
+		];
+		$this->navigationManager->expects($this->exactly(3))
 			->method('getAll')
 			->with('link')
-			->willReturn($navigation);
-		$actual = $this->controller->getAppsNavigation();
-		$this->assertInstanceOf(DataResponse::class, $actual);
-		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
-	}
+			->willReturnOnConsecutiveCalls(
+				$navigation1,
+				$navigation2,
+				$navigation3,
+			);
 
-	public function testGetSettingsNavigationEtagMatch(): void {
-		$navigation = [ ['id' => 'logout', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
-		$this->request->expects($this->once())
-			->method('getHeader')
-			->with('If-None-Match')
-			->willReturn(md5(json_encode([ ['id' => 'logout', 'href' => 'logout', 'icon' => 'icon' ] ])));
-		$this->navigationManager->expects($this->once())
-			->method('getAll')
-			->with('settings')
-			->willReturn($navigation);
-		$actual = $this->controller->getSettingsNavigation();
-		$this->assertInstanceOf(DataResponse::class, $actual);
-		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
+		// Changes in the logout url should not change the ETag
+		$request1 = $this->controller->getAppsNavigation();
+		$request2 = $this->controller->getAppsNavigation();
+		$this->assertEquals($request1->getETag(), $request2->getETag());
+
+		// Changes in non-logout urls should result in a different ETag
+		$request3 = $this->controller->getAppsNavigation();
+		$this->assertNotEquals($request2->getETag(), $request3->getETag());
 	}
 }
