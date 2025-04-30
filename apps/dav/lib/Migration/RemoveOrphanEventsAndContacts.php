@@ -77,7 +77,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 			$qb->delete($childTable)
 				->where($qb->expr()->in('id', $qb->createParameter('ids')));
 
-			$orphanItemsBatch = array_chunk($orphanItems, 200);
+			$orphanItemsBatch = array_chunk($orphanItems, 1000);
 			foreach ($orphanItemsBatch as $items) {
 				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
 				$qb->executeStatement();
