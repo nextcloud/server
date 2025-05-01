@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.4.2
+        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
         with:
           files: ./clover.xml
           flags: phpunit-files-external-s3
@@ -173,7 +173,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.4.2
+        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
         with:
           files: ./clover.xml
           flags: phpunit-files-external-s3
