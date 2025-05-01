@@ -149,7 +149,7 @@ class FavoriteProvider implements IProvider {
 		}
 		$parameter = [
 			'type' => 'file',
-			'id' => $subjectParams['id'],
+			'id' => (string)$subjectParams['id'],
 			'name' => basename($subjectParams['path']),
 			'path' => trim($subjectParams['path'], '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $subjectParams['id']]),
