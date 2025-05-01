@@ -83,6 +83,18 @@ jobs:
         run: |
           apps/files_external/tests/sso-setup/test-sso-smb.sh ${{ env.DC_IP }}
 
+      - name: Show logs DC
+        if: always()
+        run: |
+          docker logs dc
+          echo "------------"
+          docker exec dc cat /var/log/samba/log.samba
+
+      - name: Show logs Apache
+        if: always()
+        run: |
+          docker logs apache
+
       - name: Show logs
         if: always()
         run: |
