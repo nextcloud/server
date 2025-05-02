@@ -2312,7 +2312,7 @@ $CONFIG = [
  * When disabled, it is still possible to create local storages with occ using
  * the following command:
  *
- * % php occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+ * occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
  *
  * Defaults to ``true``
  *
