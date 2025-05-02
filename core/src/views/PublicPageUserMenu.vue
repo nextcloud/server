@@ -13,7 +13,7 @@
 				disable-menu
 				disable-tooltip
 				is-guest
-				:user="currentUser || '?'" />
+				:user="displayName || '?'" />
 		</template>
 		<ul class="public-page-user-menu__list">
 			<!-- Privacy notice -->
@@ -25,7 +25,7 @@
 			<AccountMenuEntry id="set-nickname"
 				:name="!currentUser ? t('core', 'Set public name') : t('core', 'Change public name')"
 				href="#"
-				@click.capture.prevent.stop="setNickname">
+				@click.prevent.stop="setNickname">
 				<template #icon>
 					<IconAccount />
 				</template>
@@ -35,9 +35,8 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent } from 'vue'
-import { getGuestNickname } from '@nextcloud/auth'
-import { spawnDialog } from '@nextcloud/dialogs'
+import { defineComponent } from 'vue'
+import { getGuestUser, showGuestUserPrompt } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
@@ -65,7 +64,8 @@ export default defineComponent({
 
 	data() {
 		return {
-			currentUser: getGuestNickname(),
+			currentUser: getGuestUser(),
+			displayName: getGuestUser().displayName,
 		}
 	},
 
@@ -75,21 +75,24 @@ export default defineComponent({
 		},
 
 		privacyNotice(): string {
-			return this.currentUser
-				? t('core', 'You will be identified as {user} by the account owner.', { user: this.currentUser })
+			return this.displayName
+				? t('core', 'You will be identified as {user} by the account owner.', { user: this.displayName })
 				: t('core', 'You are currently not identified.')
 		},
 	},
 
+	mounted() {
+		this.currentUser.addEventListener('updateDisplayName', () => {
+			this.displayName = getGuestUser().displayName || ''
+		})
+	},
+
 	methods: {
 		setNickname() {
-			spawnDialog(
-				defineAsyncComponent(() => import('../../../apps/files_sharing/src/views/PublicAuthPrompt.vue')),
-				{
-					nickname: this.currentUser,
-				},
-				((newName: string) => { this.currentUser = newName }) as (...rest: unknown[]) => void,
-			)
+			showGuestUserPrompt({
+				nickname: this.displayName,
+				cancellable: true,
+			})
 		},
 	},
 })
