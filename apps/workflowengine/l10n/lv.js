@@ -64,6 +64,6 @@ OC.L10N.register(
     "not between" : "nav starp",
     "Request user agent" : "Nepieciešams lietotāja aģents",
     "is member of" : "ir biedrs",
-    "is not member of" : "nav biedrs"
+    "is not member of" : "nav dalībnieks"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

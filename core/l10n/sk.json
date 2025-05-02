@@ -333,7 +333,7 @@
     "Grant access" : "Povoliť prístup",
     "Alternative log in using app password" : "Alternatívne prihlásenie pomocou hesla aplikácie",
     "Account access" : "Prístup k účtu",
-    "Currently logged in as %1$s (%2$s)." : "Momentálne prihlásený ako %1$s (%2$s).",
+    "Currently logged in as %1$s (%2$s)." : "Momentálne ste prihlásený ako %1$s (%2$s).",
     "You are about to grant %1$s access to your %2$s account." : "Chystáte sa udeliť %1$s prístup k svojmu %2$s účtu.",
     "Account connected" : "Účet pripojený",
     "Your client should now be connected!" : "Váš klient by mal byť pripojený!",

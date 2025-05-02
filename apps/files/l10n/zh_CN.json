@@ -326,6 +326,7 @@
     "Unexpected error: {error}" : "意外错误：{error}",
     "_%n file_::_%n files_" : ["%n 个文件"],
     "_%n folder_::_%n folders_" : ["%n 个文件夹"],
+    "_%n hidden_::_%n hidden_" : ["%n 已隐藏"],
     "Filename must not be empty." : "文件名不能为空。",
     "\"{char}\" is not allowed inside a filename." : "文件名中不允许出现 “{char}”",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "“{segment}” 是一个保留名称，不允许用在文件名中。",
