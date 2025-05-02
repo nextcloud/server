@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Unerwarteter Fehler: {error}",
     "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
     "_%n folder_::_%n folders_" : ["%n Ordner","%n Ordner"],
+    "_%n hidden_::_%n hidden_" : ["%n versteckt","%n versteckt"],
     "Filename must not be empty." : "Dateiname darf nicht leer sein.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" ist innerhalb eines Dateinamens nicht zulässig.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ist ein reservierter Name und für Dateinamen nicht zulässig.",
