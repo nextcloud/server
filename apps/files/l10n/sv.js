@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Oväntat fel: {error}",
     "_%n file_::_%n files_" : ["%n fil","%n filer"],
     "_%n folder_::_%n folders_" : ["%n mapp","%n mappar"],
+    "_%n hidden_::_%n hidden_" : ["%n gömd","%n gömd"],
     "Filename must not be empty." : "Filnamn får inte vara tomt.",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\" är inte tillåtet i ett filnamn.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" är ett reserverat namn och inte tillåtet som filnamn.",
