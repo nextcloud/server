@@ -109,13 +109,15 @@ class Application extends App implements IBootstrap {
 
 		// File request auth
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadPublicFileRequestAuthListener::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
 		$context->injectFn(function (IInitialState $initialState, IAppConfig $appConfig) {
-			$initialState->provideInitialState('showFederatedSharesAsInternal', $appConfig->getValueBool(self::APP_ID, 'show_federated_shares_as_internal', false));
+			$initialState->provideInitialState('showFederatedSharesAsInternal', $appConfig->getValueBool(self::APP_ID, ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL));
 		});
 
 		Helper::registerHooks();
