@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Neočekávaná chyby: {error}",
     "_%n file_::_%n files_" : ["%n soubor","%n soubory","%n souborů","%n soubory"],
     "_%n folder_::_%n folders_" : ["%n složka","%n složky","%n složek","%n složky"],
+    "_%n hidden_::_%n hidden_" : ["%n skrytý","%n skryté","%n skrytých","%n skryté"],
     "Filename must not be empty." : "Je třeba vyplnit název souboru.",
     "\"{char}\" is not allowed inside a filename." : "„{char}“ není v názvu souboru možné použít.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}“ je vyhrazeným názvem a není povoleno k použití pro názvy souborů.",

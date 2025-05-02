@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Неочекивана грешка: {error}",
     "_%n file_::_%n files_" : ["%n фајл","%n фајла","%n фајлова"],
     "_%n folder_::_%n folders_" : ["%n фасцикла","%n фасцикле","%n фасцикли"],
+    "_%n hidden_::_%n hidden_" : ["%n скривен","%n скривена","%n скривених"],
     "Filename must not be empty." : "Назив фајла не може бити празан.",
     "\"{char}\" is not allowed inside a filename." : "„{char}“ није дозвољен карактер у имену фајла.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "„{segment}” је резервисано име и не сме се користити као име фајла.",

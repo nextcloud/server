@@ -18,7 +18,7 @@ OC.L10N.register(
     "Unlimited quota is forbidden on this instance" : "Cota ilimitada é proibida nesta instância",
     "Setting the password is not supported by the users backend" : "A configuração da senha não é suportada pelo back-end dos usuários",
     "Invalid language" : "Idioma inválido",
-    "Invalid locale" : "Localidade inválida",
+    "Invalid locale" : "Configuração regional inválida",
     "Invalid first day of week" : "Primeiro dia da semana inválido",
     "Cannot remove yourself from the admin group" : "Não é possível remover a si mesmo do grupo de administradores",
     "Cannot remove yourself from this group as you are a sub-admin" : "Não é possível remover a si mesmo desse grupo, pois você é um subadministrador",
