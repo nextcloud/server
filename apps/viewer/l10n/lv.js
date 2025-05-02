@@ -2,10 +2,12 @@ OC.L10N.register(
     "viewer",
     {
     "Viewer" : "Skatītājs",
-    "Simple file viewer with slideshow for media" : "Vienkāršs datņu skatītājs ar slaidrādi multividei",
+    "Simple file viewer with slideshow for media" : "Vienkāršs datņu skatītājs ar slīdrādi informācijas nesējiem",
     "Error loading {name}" : "Kļūda ielādējot {name}",
+    "Unsaved changes" : "Nesaglabātas izmaiņas",
     "Your browser does not support videos." : "Pārlūks nenodrošina video",
     "Edit" : "Labot",
+    "Exit full screen" : "Iziet no pilnekrāna",
     "Open sidebar" : "Atvērt sānjoslu",
     "Download" : "Lejupielādēt",
     "Delete" : "Izdzēst",
