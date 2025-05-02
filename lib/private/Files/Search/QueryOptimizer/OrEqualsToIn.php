@@ -32,7 +32,7 @@ class OrEqualsToIn extends ReplacingOptimizerStep {
 						$value = $comparison->getValue();
 						return $value;
 					}, $group);
-					$in = new SearchComparison(ISearchComparison::COMPARE_IN, $field, $values);
+					$in = new SearchComparison(ISearchComparison::COMPARE_IN, $field, $values, $group[0]->getExtra());
 					$pathEqHash = array_reduce($group, function ($pathEqHash, ISearchComparison $comparison) {
 						return $comparison->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true) && $pathEqHash;
 					}, true);
