@@ -99,7 +99,7 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			['y', true], ['Y', true], ['n', false], ['N', false], ['', false]
 		];

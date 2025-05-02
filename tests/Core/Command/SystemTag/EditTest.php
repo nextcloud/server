@@ -33,7 +33,7 @@ class EditTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Edit::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);

@@ -172,13 +172,18 @@ class LostControllerTest extends TestCase {
 			->method('linkToRouteAbsolute')
 			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'MySecretToken'])
 			->willReturn('https://example.tld/index.php/lostpassword/set/sometoken/someuser');
+
+		$calls = [
+			['resetPasswordUser', 'ValidTokenUser'],
+			['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser'],
+		];
 		$this->initialState
 			->expects($this->exactly(2))
 			->method('provideInitialState')
-			->withConsecutive(
-				['resetPasswordUser', 'ValidTokenUser'],
-				['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser']
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$response = $this->lostController->resetform('MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
@@ -448,12 +453,19 @@ class LostControllerTest extends TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-		$beforePasswordResetEvent = new BeforePasswordResetEvent($this->existingUser, 'NewPassword');
-		$passwordResetEvent = new PasswordResetEvent($this->existingUser, 'NewPassword');
+
+		$calls = [
+			[new BeforePasswordResetEvent($this->existingUser, 'NewPassword')],
+			[new PasswordResetEvent($this->existingUser, 'NewPassword')],
+		];
 		$this->eventDispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->withConsecutive([$beforePasswordResetEvent], [$passwordResetEvent]);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword');
@@ -666,15 +678,15 @@ class LostControllerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function dataTwoUserswithSameEmailOneDisabled(): array {
+	public static function dataTwoUsersWithSameEmailOneDisabled(): array {
 		return [
-			['user1' => true, 'user2' => false],
-			['user1' => false, 'user2' => true]
+			['userEnabled1' => true, 'userEnabled2' => false],
+			['userEnabled1' => false, 'userEnabled2' => true]
 		];
 	}
 
 	/**
-	 * @dataProvider dataTwoUserswithSameEmailOneDisabled
+	 * @dataProvider dataTwoUsersWithSameEmailOneDisabled
 	 * @param bool $userEnabled1
 	 * @param bool $userEnabled2
 	 */

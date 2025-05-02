@@ -76,12 +76,16 @@ class AvailabilityTest extends \Test\TestCase {
 		$this->storage->expects($this->once())
 			->method('test')
 			->willReturn(true);
+		$calls = [
+			false, // prevents concurrent rechecks
+			true, // sets correct availability
+		];
 		$this->storage->expects($this->exactly(2))
 			->method('setAvailability')
-			->withConsecutive(
-				[$this->equalTo(false)], // prevents concurrent rechecks
-				[$this->equalTo(true)] // sets correct availability
-			);
+			->willReturnCallback(function ($value) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $value);
+			});
 		$this->storage->expects($this->once())
 			->method('mkdir');
 

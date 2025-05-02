@@ -32,7 +32,7 @@ class InfoTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->command = $this->getMockBuilder(Info::class)
 			->setConstructorArgs([$this->groupManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);

@@ -33,7 +33,7 @@ class WipeControllerTest extends TestCase {
 			$this->remoteWipe);
 	}
 
-	public function dataTest() {
+	public static function dataTest(): array {
 		return [
 			// valid token, could perform operation, valid result
 			[ true,  true,  true],

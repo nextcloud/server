@@ -38,7 +38,7 @@ class LastSeenTest extends TestCase {
 		$this->command = new LastSeen($userManager);
 	}
 
-	public function validUserLastSeen() {
+	public static function validUserLastSeen(): array {
 		return [
 			[0, 'never logged in'],
 			[time(), 'last login'],

@@ -25,7 +25,7 @@ class DetectionTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataDetectPath(): array {
+	public static function dataDetectPath(): array {
 		return [
 			['foo.txt', 'text/plain'],
 			['foo.png', 'image/png'],
@@ -54,7 +54,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->detection->detectPath($path));
 	}
 
-	public function dataDetectContent(): array {
+	public static function dataDetectContent(): array {
 		return [
 			['/', 'httpd/unix-directory'],
 			['/data.tar.gz', 'application/gzip'],
@@ -74,7 +74,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->detection->detectContent(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
 
-	public function dataDetect(): array {
+	public static function dataDetect(): array {
 		return [
 			['/', 'httpd/unix-directory'],
 			['/data.tar.gz', 'application/gzip'],
@@ -100,7 +100,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function dataMimeTypeCustom(): array {
+	public static function dataMimeTypeCustom(): array {
 		return [
 			['123', 'foobar/123'],
 			['a123', 'foobar/123'],
@@ -135,7 +135,7 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals($mime, $detection->detectPath('foo.' . $ext));
 	}
 
-	public function dataGetSecureMimeType(): array {
+	public static function dataGetSecureMimeType(): array {
 		return [
 			['image/svg+xml', 'text/plain'],
 			['image/png', 'image/png'],
@@ -255,14 +255,16 @@ class DetectionTest extends \Test\TestCase {
 			->getMock();
 
 		//Only call the url generator once
+		$calls = [
+			['core', 'filetypes/my-type.png'],
+			['core', 'filetypes/my.png'],
+		];
 		$urlGenerator->expects($this->exactly(2))
 			->method('imagePath')
-			->withConsecutive(
-				[$this->equalTo('core'), $this->equalTo('filetypes/my-type.png')],
-				[$this->equalTo('core'), $this->equalTo('filetypes/my.png')]
-			)
 			->willReturnCallback(
-				function ($appName, $file) {
+				function ($appName, $file) use (&$calls) {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, [$appName, $file]);
 					if ($file === 'filetypes/my.png') {
 						return 'my.svg';
 					}
@@ -285,15 +287,17 @@ class DetectionTest extends \Test\TestCase {
 			->getMock();
 
 		//Only call the url generator once
+		$calls = [
+			['core', 'filetypes/foo-bar.png'],
+			['core', 'filetypes/foo.png'],
+			['core', 'filetypes/file.png'],
+		];
 		$urlGenerator->expects($this->exactly(3))
 			->method('imagePath')
-			->withConsecutive(
-				[$this->equalTo('core'), $this->equalTo('filetypes/foo-bar.png')],
-				[$this->equalTo('core'), $this->equalTo('filetypes/foo.png')],
-				[$this->equalTo('core'), $this->equalTo('filetypes/file.png')]
-			)
 			->willReturnCallback(
-				function ($appName, $file) {
+				function ($appName, $file) use (&$calls) {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, [$appName, $file]);
 					if ($file === 'filetypes/file.png') {
 						return 'file.svg';
 					}

@@ -73,12 +73,16 @@ class DecryptAllTest extends TestCase {
 	public function testMaintenanceAndTrashbin(): void {
 		// on construct we enable single-user-mode and disable the trash bin
 		// on destruct we disable single-user-mode again and enable the trash bin
+		$calls = [
+			['maintenance', true],
+			['maintenance', false],
+		];
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->appManager->expects($this->once())
 			->method('disableApp')
 			->with('files_trashbin');
@@ -127,12 +131,16 @@ class DecryptAllTest extends TestCase {
 			->willReturn('user1');
 
 		if ($encryptionEnabled) {
+			$calls = [
+				['core', 'encryption_enabled', 'no'],
+				['core', 'encryption_enabled', 'yes'],
+			];
 			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->withConsecutive(
-					['core', 'encryption_enabled', 'no'],
-					['core', 'encryption_enabled', 'yes'],
-				);
+				->willReturnCallback(function () use (&$calls) {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, func_get_args());
+				});
 			$this->questionHelper->expects($this->once())
 				->method('ask')
 				->willReturn($continue);
@@ -152,7 +160,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			[true, true],
 			[true, false],
@@ -174,13 +182,16 @@ class DecryptAllTest extends TestCase {
 		);
 
 		// make sure that we enable encryption again after a exception was thrown
+		$calls = [
+			['core', 'encryption_enabled', 'no'],
+			['core', 'encryption_enabled', 'yes'],
+		];
 		$this->config->expects($this->exactly(2))
 			->method('setAppValue')
-			->withConsecutive(
-				['core', 'encryption_enabled', 'no'],
-				['core', 'encryption_enabled', 'yes'],
-			);
-
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')
 			->willReturn(true);

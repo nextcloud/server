@@ -57,7 +57,7 @@ class AppsEnableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
-	public function dataCommandInput(): array {
+	public static function dataCommandInput(): array {
 		return [
 			[['admin_audit'], null, 0, 'admin_audit ([\d\.]*) enabled'],
 			[['comments'], null, 0, 'comments ([\d\.]*) enabled'],

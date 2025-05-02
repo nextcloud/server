@@ -67,26 +67,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 * Code was moved to separate function to keep setUp function small and clear.
 	 */
 	private function setupSubjectUnderTest(): void {
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->crypto = $this->getMockBuilder(ICrypto::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->mapper = $this->getMockBuilder(LoginFlowV2Mapper::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->tokenProvider = $this->getMockBuilder(IProvider::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)
-			->disableOriginalConstructor()->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->crypto = $this->createMock(ICrypto::class);
+		$this->mapper = $this->createMock(LoginFlowV2Mapper::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->subjectUnderTest = new LoginFlowV2Service(
 			$this->mapper,
