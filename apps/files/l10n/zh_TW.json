@@ -326,6 +326,7 @@
     "Unexpected error: {error}" : "意外錯誤：{error}",
     "_%n file_::_%n files_" : ["%n 個檔案"],
     "_%n folder_::_%n folders_" : ["%n 個資料夾"],
+    "_%n hidden_::_%n hidden_" : ["%n 個隱藏"],
     "Filename must not be empty." : "檔案名稱不能為空。",
     "\"{char}\" is not allowed inside a filename." : "檔案名稱中不允許出現「{char}」",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "「{segment}」是保留名稱，不允許用在檔案名稱。",

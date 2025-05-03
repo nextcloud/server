@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Неочікувана помилка: {error}",
     "_%n file_::_%n files_" : ["%n файл","%n файли","%n файлів","%n файлів"],
     "_%n folder_::_%n folders_" : ["%n каталог ","%n каталоги ","%n каталогів ","%n каталогів"],
+    "_%n hidden_::_%n hidden_" : ["%n приховано","%n приховано","%n приховано","%n приховано"],
     "Filename must not be empty." : "Імена файлів не мають бути порожні.",
     "\"{char}\" is not allowed inside a filename." : "Символ \"{char}\" не дозволено у імені файлу.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" є зарезервованим ім'ям і не дозволяється у іменах файлів.",

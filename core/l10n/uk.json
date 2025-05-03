@@ -25,6 +25,7 @@
     "Could not complete login" : "Не вдалося увійти",
     "State token missing" : "Відсутній токен стану.",
     "Your login token is invalid or has expired" : "Ваш токен для входу неправильний або термін його дії вичерпано",
+    "Please use original client" : "Використовуйте оригінальний клієнт",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Цей випуск спільноти Nextcloud не підтримується, а push-сповіщення обмежені.",
     "Login" : "Вхід",
     "Unsupported email length (>255)" : "Довжина адреси ел.пошти не підтримується (більше 255 символів)",
