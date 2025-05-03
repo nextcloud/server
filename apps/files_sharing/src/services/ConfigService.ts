@@ -312,9 +312,7 @@ export default class Config {
 	 * @return {boolean}
 	 */
 	get showFederatedSharesAsInternal(): boolean {
-		const showFederatedSharesAsInternal = loadState('files_sharing', 'showFederatedSharesAsInternal', false)
-
-		return !!showFederatedSharesAsInternal
+		return loadState('files_sharing', 'showFederatedSharesAsInternal', false)
 	}
 
 }

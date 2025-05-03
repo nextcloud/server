@@ -460,7 +460,6 @@ export default {
 				} else {
 					this.externalShares.unshift(share)
 				}
-				this.externalShares.unshift(share)
 			} else {
 				this.shares.unshift(share)
 			}

@@ -13,6 +13,7 @@ use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
@@ -38,7 +39,6 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
-use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
@@ -49,7 +49,6 @@ use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
-use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -116,9 +115,6 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
-		$context->injectFn(function (IInitialState $initialState, IAppConfig $appConfig) {
-			$initialState->provideInitialState('showFederatedSharesAsInternal', $appConfig->getValueBool(self::APP_ID, ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL));
-		});
 
 		Helper::registerHooks();
 
