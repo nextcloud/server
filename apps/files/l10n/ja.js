@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "予期せぬエラー: {error}",
     "_%n file_::_%n files_" : ["%n 個のファイル"],
     "_%n folder_::_%n folders_" : ["%n 個のフォルダー"],
+    "_%n hidden_::_%n hidden_" : ["%n 非公開"],
     "Filename must not be empty." : "ファイル名は空白にできません。",
     "\"{char}\" is not allowed inside a filename." : "\"{char}\"はファイル名には使用できません。",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\"は予約名であり、ファイル名には使用できません。",

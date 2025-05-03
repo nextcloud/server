@@ -256,7 +256,7 @@ OC.L10N.register(
     "This share is password-protected" : "Šis kopīgojums ir aizsargāts ar paroli",
     "Email address" : "E-pasta adrese",
     "Password sent!" : "Parole ir nosūtīta.",
-    "Two-factor authentication" : "Divpakāpju autentifikācija",
+    "Two-factor authentication" : "Divpakāpju pieteikšanās",
     "Use backup code" : "Izmantot rezerves kodu",
     "Cancel login" : "Atcelt pieteikšanos",
     "Error while validating your second factor" : "Kļūda otras pakāpes pārbaudīšanas laikā",
