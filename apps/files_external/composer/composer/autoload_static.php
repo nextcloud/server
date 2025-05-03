@@ -135,6 +135,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Service\\UserStoragesService' => __DIR__ . '/..' . '/../lib/Service/UserStoragesService.php',
         'OCA\\Files_External\\Service\\UserTrait' => __DIR__ . '/..' . '/../lib/Service/UserTrait.php',
         'OCA\\Files_External\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
+        'OCA\\Files_External\\Settings\\CommonSettingsTrait' => __DIR__ . '/..' . '/../lib/Settings/CommonSettingsTrait.php',
         'OCA\\Files_External\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\Files_External\\Settings\\PersonalSection' => __DIR__ . '/..' . '/../lib/Settings/PersonalSection.php',
         'OCA\\Files_External\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',

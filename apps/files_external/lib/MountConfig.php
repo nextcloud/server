@@ -17,10 +17,8 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\QueryException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
-use OCP\Util;
 use phpseclib\Crypt\AES;
 use Psr\Log\LoggerInterface;
 
@@ -107,52 +105,6 @@ class MountConfig {
 			}
 		}
 		return StorageNotAvailableException::STATUS_ERROR;
-	}
-
-	/**
-	 * Get backend dependency message
-	 * TODO: move into AppFramework along with templates
-	 *
-	 * @param Backend[] $backends
-	 */
-	public static function dependencyMessage(array $backends): string {
-		$l = Util::getL10N('files_external');
-		$message = '';
-		$dependencyGroups = [];
-
-		foreach ($backends as $backend) {
-			foreach ($backend->checkDependencies() as $dependency) {
-				$dependencyMessage = $dependency->getMessage();
-				if ($dependencyMessage !== null) {
-					$message .= '<p>' . $dependencyMessage . '</p>';
-				} else {
-					$dependencyGroups[$dependency->getDependency()][] = $backend;
-				}
-			}
-		}
-
-		foreach ($dependencyGroups as $module => $dependants) {
-			$backends = implode(', ', array_map(function (Backend $backend): string {
-				return '"' . $backend->getText() . '"';
-			}, $dependants));
-			$message .= '<p>' . MountConfig::getSingleDependencyMessage($l, $module, $backends) . '</p>';
-		}
-
-		return $message;
-	}
-
-	/**
-	 * Returns a dependency missing message
-	 */
-	private static function getSingleDependencyMessage(IL10N $l, string $module, string $backend): string {
-		switch (strtolower($module)) {
-			case 'curl':
-				return $l->t('The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);
-			case 'ftp':
-				return $l->t('The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);
-			default:
-				return $l->t('"%1$s" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it.', [$module, $backend]);
-		}
 	}
 
 	/**

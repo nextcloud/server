@@ -120,6 +120,7 @@ return array(
     'OCA\\Files_External\\Service\\UserStoragesService' => $baseDir . '/../lib/Service/UserStoragesService.php',
     'OCA\\Files_External\\Service\\UserTrait' => $baseDir . '/../lib/Service/UserTrait.php',
     'OCA\\Files_External\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
+    'OCA\\Files_External\\Settings\\CommonSettingsTrait' => $baseDir . '/../lib/Settings/CommonSettingsTrait.php',
     'OCA\\Files_External\\Settings\\Personal' => $baseDir . '/../lib/Settings/Personal.php',
     'OCA\\Files_External\\Settings\\PersonalSection' => $baseDir . '/../lib/Settings/PersonalSection.php',
     'OCA\\Files_External\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
