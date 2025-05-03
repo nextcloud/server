@@ -151,6 +151,7 @@ OC.L10N.register(
     "Group name" : "Nama grup",
     "Loading" : "Memuat",
     "Type" : "tipe",
+    "Display Name" : "Nama Tampilan",
     "Learn more" : "Pelajari lebih lanjut",
     "Confirm" : "Konfirmasi",
     "Cancel" : "Batal",

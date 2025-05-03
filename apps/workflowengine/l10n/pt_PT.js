@@ -55,6 +55,7 @@ OC.L10N.register(
     "and" : "e",
     "Cancel" : "Cancelar",
     "Delete" : "Apagar",
+    "Show less" : "Mostrar menos",
     "matches" : "corresponde",
     "does not match" : "não corresponde",
     "is" : "é",
