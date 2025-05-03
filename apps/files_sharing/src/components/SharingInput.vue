@@ -196,7 +196,7 @@ export default {
 
 			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
 
-			if (this.isExternal) {
+			if (this.isExternal && !this.config.showFederatedSharesAsInternal) {
 				shareType.push(...remoteTypes)
 			} else {
 				shareType = shareType.concat([
@@ -212,6 +212,10 @@ export default {
 				if (this.config.showFederatedSharesAsInternal) {
 					shareType.push(...remoteTypes)
 				}
+			}
+
+			if (getCapabilities().files_sharing.public.enabled === true && this.isExternal) {
+				shareType.push(ShareType.Email)
 			}
 
 			let request = null
