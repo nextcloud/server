@@ -25,6 +25,7 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Undo" : "Desfazer",
     "Redo" : "Repetir",
+    "Filters" : "Filtros",
     "Original" : "Original",
     "Custom" : "Personalizado",
     "Value" : "Valor",
