@@ -328,6 +328,7 @@ OC.L10N.register(
     "Unexpected error: {error}" : "Earráid gan choinne: {error}",
     "_%n file_::_%n files_" : ["%n comhad","%n comhaid","%n comhaid","%n comhaid","%n comhaid"],
     "_%n folder_::_%n folders_" : ["%n fillteán","%n fillteáin","%n fillteáin","%n fillteáin","%n fillteáin"],
+    "_%n hidden_::_%n hidden_" : ["%n i bhfolach","%n i bhfolach","%n i bhfolach","%n i bhfolach","%n i bhfolach"],
     "Filename must not be empty." : "Ní ceadmhach ainm an chomhaid a bheith folamh.",
     "\"{char}\" is not allowed inside a filename." : "Ní cheadaítear \"{char}\" taobh istigh d'ainm comhaid.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "Is ainm forchoimeádta é \"{segment}\" agus ní cheadaítear é d'ainmneacha comhaid.",
