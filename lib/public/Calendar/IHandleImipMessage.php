@@ -17,6 +17,8 @@ use OCP\Calendar\Exceptions\CalendarException;
  * @link https://www.rfc-editor.org/rfc/rfc6047
  *
  * @since 26.0.0
+ *
+ * @deprecated 32.0.0 Use IHandleImip instead
  */
 interface IHandleImipMessage extends ICalendar {
 	/**
@@ -25,6 +27,8 @@ interface IHandleImipMessage extends ICalendar {
 	 * @since 26.0.0
 	 *
 	 * @throws CalendarException on validation failure or calendar write error
+	 *
+	 * @deprecated 32.0.0 Use IHandleImip instead
 	 */
 	public function handleIMipMessage(string $name, string $calendarData): void;
 }
