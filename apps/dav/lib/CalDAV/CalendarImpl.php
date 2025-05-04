@@ -20,9 +20,9 @@ use OCP\Constants;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
@@ -35,6 +35,9 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		private CalDavBackend $backend,
 	) {
 	}
+
+	private const DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
+	private const DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
 
 	/**
 	 * @return string defining the technical unique key
@@ -210,58 +213,93 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @throws CalendarException
 	 */
 	public function handleIMipMessage(string $name, string $calendarData): void {
-		$server = $this->getInvitationResponseServer();
 
-		/** @var CustomPrincipalPlugin $plugin */
-		$plugin = $server->getServer()->getPlugin('auth');
-		// we're working around the previous implementation
-		// that only allowed the public system principal to be used
-		// so set the custom principal here
-		$plugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
-
+		try {
+			/** @var VCalendar $vObject|null */
+			$vObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			throw new CalendarException('iMip message could not be processed because an error occurred while parsing the iMip message', 0, $e);
+		}
+		// validate the iMip message
+		if (!isset($vObject->METHOD)) {
+			throw new CalendarException('iMip message contains no valid method');
+		}
+		if (!isset($vObject->VEVENT)) {
+			throw new CalendarException('iMip message contains no event');
+		}
+		if (!isset($vObject->VEVENT->UID)) {
+			throw new CalendarException('iMip message event dose not contain a UID');
+		}
+		if (!isset($vObject->VEVENT->ORGANIZER)) {
+			throw new CalendarException('iMip message event dose not contain an organizer');
+		}
+		if (!isset($vObject->VEVENT->ATTENDEE)) {
+			throw new CalendarException('iMip message event dose not contain an attendee');
+		}
 		if (empty($this->calendarInfo['uri'])) {
 			throw new CalendarException('Could not write to calendar as URI parameter is missing');
 		}
-		// Force calendar change URI
-		/** @var Schedule\Plugin $schedulingPlugin */
-		$schedulingPlugin = $server->getServer()->getPlugin('caldav-schedule');
-		// Let sabre handle the rest
-		$iTipMessage = new Message();
-		/** @var VCalendar $vObject */
-		$vObject = Reader::read($calendarData);
-		/** @var VEvent $vEvent */
-		$vEvent = $vObject->{'VEVENT'};
-
-		if ($vObject->{'METHOD'} === null) {
-			throw new CalendarException('No Method provided for scheduling data. Could not process message');
-		}
-
-		if (!isset($vEvent->{'ORGANIZER'}) || !isset($vEvent->{'ATTENDEE'})) {
-			throw new CalendarException('Could not process scheduling data, neccessary data missing from ICAL');
-		}
-		$organizer = $vEvent->{'ORGANIZER'}->getValue();
-		$attendee = $vEvent->{'ATTENDEE'}->getValue();
-
-		$iTipMessage->method = $vObject->{'METHOD'}->getValue();
-		if ($iTipMessage->method === 'REQUEST') {
-			$iTipMessage->sender = $organizer;
-			$iTipMessage->recipient = $attendee;
-		} elseif ($iTipMessage->method === 'REPLY') {
-			if ($server->isExternalAttendee($vEvent->{'ATTENDEE'}->getValue())) {
-				$iTipMessage->recipient = $organizer;
-			} else {
-				$iTipMessage->recipient = $attendee;
+		// construct dav server
+		$server = $this->getInvitationResponseServer();
+		/** @var CustomPrincipalPlugin $authPlugin */
+		$authPlugin = $server->getServer()->getPlugin('auth');
+		// we're working around the previous implementation
+		// that only allowed the public system principal to be used
+		// so set the custom principal here
+		$authPlugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
+		// retrieve all users addresses
+		$userProperties = $server->getServer()->getProperties($this->calendar->getPrincipalURI(), [ self::DAV_PROPERTY_USER_ADDRESS, self::DAV_PROPERTY_USER_ADDRESSES ]);
+		$userAddress = 'mailto:' . ($userProperties[self::DAV_PROPERTY_USER_ADDRESS] ?? null);
+		$userAddresses = $userProperties[self::DAV_PROPERTY_USER_ADDRESSES]->getHrefs() ?? [];
+		$userAddresses = array_map('strtolower', array_map('urldecode', $userAddresses));
+		// validate the method, recipient and sender
+		$imipMethod = strtoupper($vObject->METHOD->getValue());
+		if (in_array($imipMethod, ['REPLY', 'REFRESH'], true)) {
+			// extract sender (REPLY and REFRESH method should only have one attendee)
+			$sender = strtolower($vObject->VEVENT->ATTENDEE->getValue());
+			// extract and verify the recipient
+			$recipient = strtolower($vObject->VEVENT->ORGANIZER->getValue());
+			if (!in_array($recipient, $userAddresses, true)) {
+				throw new CalendarException('iMip message dose not contain an organizer that matches the user');
 			}
-			$iTipMessage->sender = $attendee;
-		} elseif ($iTipMessage->method === 'CANCEL') {
-			$iTipMessage->recipient = $attendee;
-			$iTipMessage->sender = $organizer;
+			// if the recipient address is not the same as the user address this means an alias was used
+			// the iTip broker uses the users primary email address during processing
+			if ($userAddress !== $recipient) {
+				$recipient = $userAddress;
+			}
+		} elseif (in_array($imipMethod, ['PUBLISH', 'REQUEST', 'ADD', 'CANCEL'], true)) {
+			// extract sender
+			$sender = strtolower($vObject->VEVENT->ORGANIZER->getValue());
+			// extract and verify the recipient
+			foreach ($vObject->VEVENT->ATTENDEE as $attendee) {
+				$recipient = strtolower($attendee->getValue());
+				if (in_array($recipient, $userAddresses, true)) {
+					break;
+				}
+				$recipient = null;
+			}
+			if ($recipient === null) {
+				throw new CalendarException('iMip message dose not contain an attendee that matches the user');
+			}
+			// if the recipient address is not the same as the user address this means an alias was used
+			// the iTip broker uses the users primary email address during processing
+			if ($userAddress !== $recipient) {
+				$recipient = $userAddress;
+			}
+		} else {
+			throw new CalendarException('iMip message contains a method that is not supported: ' . $imipMethod);
 		}
-		$iTipMessage->uid = isset($vEvent->{'UID'}) ? $vEvent->{'UID'}->getValue() : '';
-		$iTipMessage->component = 'VEVENT';
-		$iTipMessage->sequence = isset($vEvent->{'SEQUENCE'}) ? (int)$vEvent->{'SEQUENCE'}->getValue() : 0;
-		$iTipMessage->message = $vObject;
-		$server->server->emit('schedule', [$iTipMessage]);
+		// generate the iTip message
+		$iTip = new Message();
+		$iTip->method = $imipMethod;
+		$iTip->sender = $sender;
+		$iTip->recipient = $recipient;
+		$iTip->component = 'VEVENT';
+		$iTip->uid = $vObject->VEVENT->UID->getValue();
+		$iTip->sequence = isset($vObject->VEVENT->SEQUENCE) ? (int)$vObject->VEVENT->SEQUENCE->getValue() : 1;
+		$iTip->message = $vObject;
+
+		$server->server->emit('schedule', [$iTip]);
 	}
 
 	public function getInvitationResponseServer(): InvitationResponseServer {
