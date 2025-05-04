@@ -136,7 +136,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.1.1
+	- version: 6.2.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -181,7 +181,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.25.1
+	- version: 8.26.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -206,9 +206,6 @@ This file is generated from multiple sources. Included packages:
 	- license: Apache-2.0
 - axios
 	- version: 1.8.4
-	- license: MIT
-- bail
-	- version: 2.0.2
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -380,9 +377,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-generator-function
 	- version: 1.0.10
-	- license: MIT
-- is-plain-obj
-	- version: 4.1.0
 	- license: MIT
 - is-retry-allowed
 	- version: 2.2.0
