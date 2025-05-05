@@ -52,10 +52,6 @@ class LegacyBackend extends Backend {
 					$type = DefinitionParameter::VALUE_PASSWORD;
 					$placeholder = substr($placeholder, 1);
 					break;
-				case '#':
-					$type = DefinitionParameter::VALUE_HIDDEN;
-					$placeholder = substr($placeholder, 1);
-					break;
 			}
 			$this->addParameter((new DefinitionParameter($name, $placeholder))
 				->setType($type)

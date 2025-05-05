@@ -94,7 +94,7 @@ class Backends extends Base {
 	 */
 	private function formatConfiguration(array $parameters): array {
 		$configuration = array_filter($parameters, function (DefinitionParameter $parameter) {
-			return $parameter->getType() !== DefinitionParameter::VALUE_HIDDEN;
+			return $parameter->isFlagSet(DefinitionParameter::FLAG_HIDDEN);
 		});
 		return array_map(function (DefinitionParameter $parameter) {
 			return $parameter->getTypeName();
