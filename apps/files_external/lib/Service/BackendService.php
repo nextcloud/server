@@ -7,14 +7,14 @@
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\ConfigLexicon;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
-
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\Server;
 
 /**
@@ -56,19 +56,12 @@ class BackendService {
 
 	private $configHandlers = [];
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 	) {
 		// Load config values
-		if ($this->config->getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
-			$this->userMountingAllowed = false;
-		}
-		$this->userMountingBackends = explode(',',
-			$this->config->getAppValue('files_external', 'user_mounting_backends', '')
-		);
+		$this->userMountingAllowed = $appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
+		$this->userMountingBackends = explode(',', $appConfig->getValueString('files_external', ConfigLexicon::USER_MOUNTING_BACKENDS));
 
 		// if no backend is in the list an empty string is in the array and user mounting is disabled
 		if ($this->userMountingBackends === ['']) {
