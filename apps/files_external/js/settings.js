@@ -603,14 +603,14 @@ var MountConfigListView = function($el, options) {
 
 MountConfigListView.ParameterFlags = {
 	OPTIONAL: 1,
-	USER_PROVIDED: 2
+	USER_PROVIDED: 2,
+	HIDDEN: 4,
 };
 
 MountConfigListView.ParameterTypes = {
 	TEXT: 0,
 	BOOLEAN: 1,
 	PASSWORD: 2,
-	HIDDEN: 3
 };
 
 /**
@@ -1090,13 +1090,13 @@ MountConfigListView.prototype = _.extend({
 		var newElement;
 
 		var trimmedPlaceholder = placeholder.value;
-		if (placeholder.type === MountConfigListView.ParameterTypes.PASSWORD) {
+		if (hasFlag(MountConfigListView.ParameterFlags.HIDDEN)) {
+			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
+		} else if (placeholder.type === MountConfigListView.ParameterTypes.PASSWORD) {
 			newElement = $('<input type="password" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		} else if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
 			var checkboxId = _.uniqueId('checkbox_');
 			newElement = $('<div><label><input type="checkbox" id="'+checkboxId+'" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />'+ trimmedPlaceholder+'</label></div>');
-		} else if (placeholder.type === MountConfigListView.ParameterTypes.HIDDEN) {
-			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		}
