@@ -55,12 +55,12 @@ class DefinitionParameterTest extends \Test\TestCase {
 			'tooltip' => '',
 		], $param->jsonSerialize());
 
-		$param->setType(Param::VALUE_HIDDEN);
-		$param->setFlags(Param::FLAG_NONE);
+		$param->setType(Param::VALUE_TEXT);
+		$param->setFlags(Param::FLAG_HIDDEN);
 		$this->assertEquals([
 			'value' => 'bar',
-			'flags' => Param::FLAG_NONE,
-			'type' => Param::VALUE_HIDDEN,
+			'flags' => Param::FLAG_HIDDEN,
+			'type' => Param::VALUE_TEXT,
 			'tooltip' => '',
 		], $param->jsonSerialize());
 	}
@@ -70,6 +70,7 @@ class DefinitionParameterTest extends \Test\TestCase {
 			[Param::VALUE_TEXT, Param::FLAG_NONE, 'abc', true],
 			[Param::VALUE_TEXT, Param::FLAG_NONE, '', false],
 			[Param::VALUE_TEXT, Param::FLAG_OPTIONAL, '', true],
+			[Param::VALUE_TEXT, Param::FLAG_HIDDEN, '', false],
 
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, false, true],
 			[Param::VALUE_BOOLEAN, Param::FLAG_NONE, 123, false],
@@ -79,8 +80,6 @@ class DefinitionParameterTest extends \Test\TestCase {
 
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, 'foobar', true],
 			[Param::VALUE_PASSWORD, Param::FLAG_NONE, '', false],
-
-			[Param::VALUE_HIDDEN, Param::FLAG_NONE, '', false]
 		];
 	}
 
