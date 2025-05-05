@@ -401,7 +401,7 @@ OC.L10N.register(
     "Categories" : "Категорії",
     "Resources" : "Ресурси",
     "Documentation" : "Документація",
-    "Interact" : "Взаємодіяти",
+    "Interact" : "Взаємодія",
     "Report a bug" : "Повідомити про помилку",
     "Request feature" : "Запит на удосконалення",
     "Ask questions or discuss" : "Ставте запитання або обговорюйте",
