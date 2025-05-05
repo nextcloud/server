@@ -33,7 +33,6 @@ class LegacyBackendTest extends \Test\TestCase {
 				'textfield' => 'Text field',
 				'passwordfield' => '*Password field',
 				'checkbox' => '!Checkbox',
-				'hiddenfield' => '#Hidden field',
 				'optionaltext' => '&Optional text field',
 				'optionalpassword' => '&*Optional password field',
 			],
@@ -67,9 +66,6 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals('Checkbox', $parameters['checkbox']->getText());
 		$this->assertEquals(DefinitionParameter::VALUE_BOOLEAN, $parameters['checkbox']->getType());
 		$this->assertEquals(DefinitionParameter::FLAG_NONE, $parameters['checkbox']->getFlags());
-		$this->assertEquals('Hidden field', $parameters['hiddenfield']->getText());
-		$this->assertEquals(DefinitionParameter::VALUE_HIDDEN, $parameters['hiddenfield']->getType());
-		$this->assertEquals(DefinitionParameter::FLAG_NONE, $parameters['hiddenfield']->getFlags());
 		$this->assertEquals('Optional text field', $parameters['optionaltext']->getText());
 		$this->assertEquals(DefinitionParameter::VALUE_TEXT, $parameters['optionaltext']->getType());
 		$this->assertEquals(DefinitionParameter::FLAG_OPTIONAL, $parameters['optionaltext']->getFlags());
