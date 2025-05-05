@@ -55,6 +55,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -4551,7 +4552,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager = $this->createManager($factory);
 
 		$factory->setProvider($this->defaultProvider);
-		$extraProvider = $this->createMock(IShareProvider::class);
+		$extraProvider = $this->createMock(IShareProviderSupportsAllSharesInFolder::class);
 		$factory->setSecondProvider($extraProvider);
 
 		$share1 = $this->createMock(IShare::class);
@@ -4559,28 +4560,20 @@ class ManagerTest extends \Test\TestCase {
 
 		$mount = $this->createMock(IShareOwnerlessMount::class);
 
-		$file = $this->createMock(File::class);
-		$file
-			->method('getId')
-			->willReturn(1);
-
 		$folder = $this->createMock(Folder::class);
 		$folder
 			->method('getMountPoint')
 			->willReturn($mount);
-		$folder
-			->method('getDirectoryListing')
-			->willReturn([$file]);
 
 		$this->defaultProvider
-			->method('getSharesByPath')
-			->with($file)
-			->willReturn([$share1]);
+			->method('getAllSharesInFolder')
+			->with($folder)
+			->willReturn([1 => [$share1]]);
 
 		$extraProvider
-			->method('getSharesByPath')
-			->with($file)
-			->willReturn([$share2]);
+			->method('getAllSharesInFolder')
+			->with($folder)
+			->willReturn([1 => [$share2]]);
 
 		$this->assertSame([
 			1 => [$share1, $share2],
