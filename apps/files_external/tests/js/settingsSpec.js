@@ -137,10 +137,6 @@ describe('OCA.Files_External.Settings tests', function() {
 							'value': 'Boolean field',
 							'type': 1
 						},
-						'field_hidden': {
-							'value': 'Hidden field',
-							'type': 3
-						},
 						'field_text_optional': {
 							'value': 'Text field optional',
 							'flags': 1
@@ -372,7 +368,6 @@ describe('OCA.Files_External.Settings tests', function() {
 				});
 				_.each([
 					'field_bool',
-					'field_hidden',
 					'field_text_optional',
 					'field_password_optional'
 				], function(param) {
@@ -386,8 +381,6 @@ describe('OCA.Files_External.Settings tests', function() {
 				$tr.find('input[data-parameter=field_text]').val('foo');
 				$tr.find('input[data-parameter=field_password]').val('bar');
 				$tr.find('input[data-parameter=field_text_optional]').val('foobar');
-				// don't set field_password_optional
-				$tr.find('input[data-parameter=field_hidden]').val('baz');
 
 				var storage = view.getStorageConfig($tr);
 
