@@ -128,9 +128,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 * Tests for poll
 	 */
 
-	public function testPollApptokenCouldNotBeDecrypted() {
+	public function testPollPrivateKeyCouldNotBeDecrypted(): void {
 		$this->expectException(LoginFlowV2NotFoundException::class);
 		$this->expectExceptionMessage('Apptoken could not be decrypted');
+
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willThrowException(new \Exception('HMAC mismatch'));
 
 		/*
 		 * Cannot be mocked, because functions like getLoginName are magic functions.
@@ -148,6 +152,34 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		$this->subjectUnderTest->poll('');
 	}
+
+	public function testPollApptokenCouldNotBeDecrypted(): void {
+		$this->expectException(LoginFlowV2NotFoundException::class);
+		$this->expectExceptionMessage('Apptoken could not be decrypted');
+
+		/*
+		 * Cannot be mocked, because functions like getLoginName are magic functions.
+		 * To be able to set internal properties, we have to use the real class here.
+		 */
+		[$encrypted, $privateKey,] = $this->getOpenSSLEncryptedPublicAndPrivateKey('test');
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setLoginName('test');
+		$loginFlowV2->setServer('test');
+		$loginFlowV2->setAppPassword('broken#' . $encrypted);
+		$loginFlowV2->setPrivateKey('encrypted(test)');
+
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($privateKey);
+
+		$this->mapper->expects($this->once())
+			->method('getByPollToken')
+			->willReturn($loginFlowV2);
+
+		$this->subjectUnderTest->poll('test');
+	}
+
+
 
 	public function testPollInvalidToken() {
 		$this->expectException(LoginFlowV2NotFoundException::class);

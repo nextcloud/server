@@ -62,8 +62,12 @@ class LoginFlowV2Service {
 		try {
 			// Decrypt the apptoken
 			$privateKey = $this->crypto->decrypt($data->getPrivateKey(), $pollToken);
-			$appPassword = $this->decryptPassword($data->getAppPassword(), $privateKey);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
+			throw new LoginFlowV2NotFoundException('Apptoken could not be decrypted');
+		}
+
+		$appPassword = $this->decryptPassword($data->getAppPassword(), $privateKey);
+		if ($appPassword === null) {
 			throw new LoginFlowV2NotFoundException('Apptoken could not be decrypted');
 		}
 
@@ -230,10 +234,10 @@ class LoginFlowV2Service {
 		return $encryptedPassword;
 	}
 
-	private function decryptPassword(string $encryptedPassword, string $privateKey): string {
+	private function decryptPassword(string $encryptedPassword, string $privateKey): ?string {
 		$encryptedPassword = base64_decode($encryptedPassword);
-		openssl_private_decrypt($encryptedPassword, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
+		$success = openssl_private_decrypt($encryptedPassword, $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
 
-		return $password;
+		return $success ? $password : null;
 	}
 }
