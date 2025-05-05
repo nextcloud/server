@@ -160,6 +160,7 @@ class RootCollection extends SimpleCollection {
 			Server::get(CleanupService::class),
 			$rootFolder,
 			$userSession,
+			$logger,
 		);
 		$uploadCollection->disableListing = $disableListing;
 
