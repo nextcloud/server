@@ -61,7 +61,9 @@ class LoginCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in database'))
 			->addParameters([
 				(new DefinitionParameter('password', $l->t('Password')))
-					->setType(DefinitionParameter::VALUE_PASSWORD),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			]);
 
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, StorePasswordListener::class);
