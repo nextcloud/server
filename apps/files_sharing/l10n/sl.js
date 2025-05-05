@@ -225,6 +225,7 @@ OC.L10N.register(
     "Link to a file" : "Povezava do datoteke",
     "Open in Files" : "Odpri v mapi",
     "Shared" : "V souporabi",
+    "Shared multiple times with different people" : "V več souporabah z različnimi uporabniki",
     "Shared with others" : "V souporabi  z drugimi",
     "Public share" : "Javna objava",
     "No shares" : "Ni še vpisanih mest souporabe",
