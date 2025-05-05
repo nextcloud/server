@@ -38,7 +38,7 @@ class DisableTest extends TestCase {
 	}
 
 
-	public function dataDisable() {
+	public static function dataDisable(): array {
 		return [
 			['yes', true, 'Encryption disabled'],
 			['no', false, 'Encryption is already disabled'],

@@ -39,7 +39,7 @@ class GetConfigTest extends TestCase {
 	}
 
 
-	public function getData() {
+	public static function getData(): array {
 		return [
 			// String output as json
 			['name', 'newvalue', true, null, false, 'json', 0, json_encode('newvalue')],

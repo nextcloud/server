@@ -62,7 +62,7 @@ class SettingTest extends TestCase {
 		}
 	}
 
-	public function dataCheckInput() {
+	public static function dataCheckInput(): array {
 		return [
 			[
 				[['uid', 'username']],
@@ -235,7 +235,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteDelete() {
+	public static function dataExecuteDelete(): array {
 		return [
 			['config', false, null, 0],
 			['config', true, null, 0],
@@ -299,7 +299,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteSet() {
+	public static function dataExecuteSet(): array {
 		return [
 			['config', false, null, 0],
 			['config', true, null, 0],
@@ -367,7 +367,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteGet() {
+	public static function dataExecuteGet(): array {
 		return [
 			['config', null, 'config', 0],
 			[null, 'config', 'config', 0],

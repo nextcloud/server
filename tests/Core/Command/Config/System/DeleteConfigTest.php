@@ -38,7 +38,7 @@ class DeleteConfigTest extends TestCase {
 		$this->command = new DeleteConfig($systemConfig);
 	}
 
-	public function deleteData() {
+	public static function deleteData(): array {
 		return [
 			[
 				'name1',
@@ -105,7 +105,7 @@ class DeleteConfigTest extends TestCase {
 		$this->assertSame($expectedReturn, $this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function deleteArrayData() {
+	public static function deleteArrayData(): array {
 		return [
 			[
 				['name', 'sub'],

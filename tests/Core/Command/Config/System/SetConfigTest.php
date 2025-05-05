@@ -76,7 +76,7 @@ class SetConfigTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function setUpdateOnlyProvider() {
+	public static function setUpdateOnlyProvider(): array {
 		return [
 			[['name'], null],
 			[['a', 'b', 'c'], null],
@@ -113,7 +113,7 @@ class SetConfigTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function castValueProvider() {
+	public static function castValueProvider(): array {
 		return [
 			[null, 'string', ['value' => '', 'readable-value' => 'empty string']],
 
@@ -141,7 +141,7 @@ class SetConfigTest extends TestCase {
 		);
 	}
 
-	public function castValueInvalidProvider() {
+	public static function castValueInvalidProvider(): array {
 		return [
 			['123', 'foobar'],
 

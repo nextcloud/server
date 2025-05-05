@@ -42,7 +42,7 @@ class AutoCompleteControllerTest extends TestCase {
 		);
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		return [
 			[ #0 – regular search
 				// searchResults

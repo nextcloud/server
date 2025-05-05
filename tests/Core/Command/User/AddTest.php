@@ -126,7 +126,7 @@ class AddTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function addEmailDataProvider(): array {
+	public static function addEmailDataProvider(): array {
 		return [
 			'Valid E-Mail' => [
 				'info@example.com',
