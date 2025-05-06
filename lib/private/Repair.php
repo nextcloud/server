@@ -9,6 +9,7 @@ namespace OC;
 
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddAppConfigLazyMigration;
+use OC\Repair\AddAsyncProcessJob;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
@@ -191,6 +192,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
 			\OCP\Server::get(AddAppConfigLazyMigration::class),
+			\OCP\Server::get(AddAsyncProcessJob::class),
 			\OCP\Server::get(RepairLogoDimension::class),
 			\OCP\Server::get(RemoveLegacyDatadirFile::class),
 			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),

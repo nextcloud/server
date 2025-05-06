@@ -575,6 +575,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
+		$this->registerAlias(\OCP\Async\IAsyncProcess::class, \OC\Async\AsyncProcess::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
