@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Notification;
 
+use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -56,7 +57,7 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getID(): string {
-		return 'updatenotification';
+		return Application::APP_NAME;
 	}
 
 	/**
@@ -66,7 +67,7 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName(): string {
-		return $this->l10NFactory->get('updatenotification')->t('Update notifications');
+		return $this->l10NFactory->get(Application::APP_NAME)->t('Update notifications');
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Notifier implements INotifier {
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'updatenotification') {
+		if ($notification->getApp() !== Application::APP_NAME) {
 			throw new UnknownNotificationException('Unknown app id');
 		}
 
@@ -86,9 +87,9 @@ class Notifier implements INotifier {
 			throw new UnknownNotificationException('Unknown subject');
 		}
 
-		$l = $this->l10NFactory->get('updatenotification', $languageCode);
+		$l = $this->l10NFactory->get(Application::APP_NAME, $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = (int)$this->config->getAppValue('updatenotification', 'update_check_errors', '0');
+			$errors = $this->appConfig->getValueInt(Application::APP_NAME, 'update_check_errors', 0);
 			if ($errors === 0) {
 				throw new AlreadyProcessedException();
 			}
@@ -133,7 +134,7 @@ class Notifier implements INotifier {
 			}
 		}
 
-		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('updatenotification', 'notification.svg')));
+		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_NAME, 'notification.svg')));
 
 		return $notification;
 	}
