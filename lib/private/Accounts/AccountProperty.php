@@ -55,7 +55,7 @@ class AccountProperty implements IAccountProperty {
 	 * @since 15.0.0
 	 */
 	public function setScope(string $scope): IAccountProperty {
-		if (!in_array($scope, IAccountManager::ALLOWED_SCOPES,)) {
+		if (!in_array($scope, IAccountManager::ALLOWED_SCOPES)) {
 			throw new InvalidArgumentException('Invalid scope');
 		}
 		/** @var IAccountManager::SCOPE_* $scope */
