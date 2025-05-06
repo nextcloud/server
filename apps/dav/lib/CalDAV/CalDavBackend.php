@@ -9,6 +9,7 @@ namespace OCA\DAV\CalDAV;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Generator;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -28,6 +29,7 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Events\CalendarObjectCreatedEvent;
 use OCP\Calendar\Events\CalendarObjectDeletedEvent;
 use OCP\Calendar\Events\CalendarObjectMovedEvent;
@@ -987,6 +989,44 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}, $this->db);
 	}
 
+	/**
+	 * Returns all calendar entries as a stream of data
+	 *
+	 * @since 32.0.0
+	 *
+	 * @return Generator<array>
+	 */
+	public function exportCalendar(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR, ?CalendarExportOptions $options = null): Generator {
+		// extract options
+		$rangeStart = $options?->getRangeStart();
+		$rangeCount = $options?->getRangeCount();
+		// construct query
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('calendarobjects')
+			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+			->andWhere($qb->expr()->isNull('deleted_at'));
+		if ($rangeStart !== null) {
+			$qb->andWhere($qb->expr()->gt('uid', $qb->createNamedParameter($rangeStart)));
+		}
+		if ($rangeCount !== null) {
+			$qb->setMaxResults($rangeCount);
+		}
+		if ($rangeStart !== null || $rangeCount !== null) {
+			$qb->orderBy('uid', 'ASC');
+		}
+		$rs = $qb->executeQuery();
+		// iterate through results
+		try {
+			while (($row = $rs->fetch()) !== false) {
+				yield $row;
+			}
+		} finally {
+			$rs->closeCursor();
+		}
+	}
+	
 	/**
 	 * Returns all calendar objects with limited metadata for a calendar
 	 *
