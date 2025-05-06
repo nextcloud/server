@@ -188,8 +188,6 @@ class OC {
 	}
 
 	public static function checkConfig(): void {
-		$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-
 		// Create config if it does not already exist
 		$configFilePath = self::$configDir . '/config.php';
 		if (!file_exists($configFilePath)) {
@@ -201,6 +199,7 @@ class OC {
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 			$urlGenerator = Server::get(IURLGenerator::class);
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!') . "\n";
@@ -711,6 +710,7 @@ class OC {
 		self::performSameSiteCookieProtection($config);
 
 		if (!defined('OC_CONSOLE')) {
+			$eventLogger->start('check_server', 'Run a few configuration checks');
 			$errors = OC_Util::checkServer($systemConfig);
 			if (count($errors) > 0) {
 				if (!self::$CLI) {
@@ -745,6 +745,7 @@ class OC {
 			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
+			$eventLogger->end('check_server');
 		}
 
 		// User and Groups
@@ -752,6 +753,7 @@ class OC {
 			self::$server->getSession()->set('user_id', '');
 		}
 
+		$eventLogger->start('setup_backends', 'Setup group and user backends');
 		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
@@ -770,6 +772,7 @@ class OC {
 			// Run upgrades in incognito mode
 			OC_User::setIncognitoMode(true);
 		}
+		$eventLogger->end('setup_backends');
 
 		self::registerCleanupHooks($systemConfig);
 		self::registerShareHooks($systemConfig);
