@@ -120,7 +120,7 @@ class PublicShareMiddleware extends Middleware {
 
 	private function throttle($bruteforceProtectionAction, $token): void {
 		$ip = $this->request->getRemoteAddress();
-		$this->throttler->sleepDelay($ip, $bruteforceProtectionAction);
+		$this->throttler->sleepDelayOrThrowOnMax($ip, $bruteforceProtectionAction);
 		$this->throttler->registerAttempt($bruteforceProtectionAction, $ip, ['token' => $token]);
 	}
 }
