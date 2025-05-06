@@ -24,7 +24,7 @@ OC.L10N.register(
     "There was an error clearing the status" : "Ocorreu um erro ao limpar o status",
     "There was an error reverting the status" : "Ocorreu um erro ao reverter o status",
     "Set status" : "Definir status",
-    "Online status" : "Status online",
+    "Online status" : "Status on-line",
     "Status message" : "Mensagem de status",
     "Set absence period" : "Definir período de ausência",
     "Set absence period and replacement" : "Definir período de ausência e substituição",
@@ -34,16 +34,16 @@ OC.L10N.register(
     "Don't clear" : "Não limpe",
     "Today" : "Hoje",
     "This week" : "Esta semana",
-    "Online" : "Online",
+    "Online" : "On-line",
     "Away" : "Fora",
     "Do not disturb" : "Não perturbe",
     "Invisible" : "Invisível",
-    "Offline" : "Offline",
+    "Offline" : "Off-line",
     "There was an error saving the new status" : "Ocorreu um erro ao salvar o novo status",
     "30 minutes" : "30 minutos",
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificações",
-    "Appear offline" : "Aparecer offline"
+    "Appear offline" : "Aparecer off-line"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
