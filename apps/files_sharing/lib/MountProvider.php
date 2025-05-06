@@ -60,7 +60,8 @@ class MountProvider implements IMountProvider {
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
-		$mounts = $this->mountManager->getAll();
+		$otherMounts = $this->mountManager->getAll();
+		$mounts = [];
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
@@ -90,7 +91,7 @@ class MountProvider implements IMountProvider {
 				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					$mounts,
+					array_merge($mounts, $otherMounts),
 					[
 						'user' => $user->getUID(),
 						// parent share
@@ -105,7 +106,7 @@ class MountProvider implements IMountProvider {
 					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					($shareId <= $maxValidatedShare)
+					($shareId <= $maxValidatedShare),
 				);
 
 				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
