@@ -21,19 +21,19 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 
 class GeneratorTest extends \Test\TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig&\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IPreview&\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppData&\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
-	/** @var GeneratorHelper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GeneratorHelper&\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
 
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher&\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 	/** @var Generator */
@@ -191,18 +191,10 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([]);
 		$previewFolder->method('newFile')
-			->willReturnCallback(function ($filename) use ($maxPreview, $previewFile) {
-				if ($filename === '2048-2048-max.png') {
-					return $maxPreview;
-				} elseif ($filename === '256-256.png') {
-					return $previewFile;
-				}
-				$this->fail('Unexpected file');
-			});
-
-		$maxPreview->expects($this->once())
-			->method('putContent')
-			->with($this->equalTo('my data'));
+			->willReturnMap([
+				['2048-2048-max.png', 'my data', $maxPreview],
+				['256-256.png', 'my resized data', $previewFile],
+			]);
 
 		$previewFolder->method('getFile')
 			->with($this->equalTo('256-256.png'))
@@ -212,10 +204,6 @@ class GeneratorTest extends \Test\TestCase {
 		$this->helper->method('getImage')
 			->with($this->equalTo($maxPreview))
 			->willReturn($image);
-
-		$previewFile->expects($this->once())
-			->method('putContent')
-			->with('my resized data');
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
