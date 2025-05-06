@@ -91,7 +91,7 @@ OC.L10N.register(
     "Total rows summary" : "Резиме на вкупно редови",
     "Name" : "Име",
     "Size" : "Големина",
-    "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" сериската акцијата е успешно извршена",
+    "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" сериската акција е успешно извршена",
     "\"{displayName}\" action failed" : "\"{displayName}\" акцијата не успеа",
     "Actions" : "Акции",
     "(selected)" : "(означени)",
