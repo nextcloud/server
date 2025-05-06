@@ -26,8 +26,7 @@ use OCP\L10N\IFactory;
  */
 class APIController extends OCSController {
 
-	/** @var string */
-	protected $language;
+	protected ?string $language = null;
 
 	/**
 	 * List of apps that were in the appstore but are now shipped and don't have
@@ -95,7 +94,7 @@ class APIController extends OCSController {
 		$this->appFetcher->setVersion($newVersion, 'future-apps.json', false);
 
 		// Apps available on the app store for that version
-		$availableApps = array_map(static function (array $app) {
+		$availableApps = array_map(static function (array $app): string {
 			return $app['id'];
 		}, $this->appFetcher->get());
 
@@ -105,8 +104,6 @@ class APIController extends OCSController {
 				'already_on_latest' => false,
 			], Http::STATUS_NOT_FOUND);
 		}
-
-		$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
 
 		// Ignore apps that are deployed from git
 		$installedApps = array_filter($installedApps, function (string $appId) {
@@ -139,12 +136,18 @@ class APIController extends OCSController {
 	 */
 	protected function getAppDetails(string $appId): array {
 		$app = $this->appManager->getAppInfo($appId, false, $this->language);
-		/** @var ?string $name */
-		$name = $app['name'];
+		$name = $app['name'] ?? $appId;
 		return [
 			'appId' => $appId,
-			'appName' => $name ?? $appId,
+			'appName' => $name,
 		];
+	}
+
+	protected function getLanguage(): string {
+		if ($this->language === null) {
+			$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
+		}
+		return $this->language;
 	}
 
 	/**
