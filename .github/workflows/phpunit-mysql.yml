@@ -120,7 +120,8 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
-        run: composer run test:reactions
+        run: |
+          for run in {1..100}; do composer run test:reactions; done
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
