@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Settings;
 
+use OCA\UpdateNotification\AppInfo\Application;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;

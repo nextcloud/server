@@ -10,6 +10,7 @@ namespace OCA\UpdateNotification\BackgroundJob;
 
 use OC\Installer;
 use OC\Updater\VersionCheck;
+use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -99,9 +100,9 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setDateTime(new \DateTime())
-				->setObject('updatenotification', 'error')
+				->setObject(Application::APP_NAME, 'error')
 				->setSubject('connection_error', ['days' => $numDays]);
 
 			foreach ($this->getUsersToNotify() as $uid) {
@@ -119,9 +120,9 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function clearErrorNotifications() {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setSubject('connection_error')
-				->setObject('updatenotification', 'error');
+				->setObject(Application::APP_NAME, 'error');
 		} catch (\InvalidArgumentException $e) {
 			return;
 		}
@@ -162,7 +163,7 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setDateTime(new \DateTime())
 				->setObject($app, $version);
 
@@ -215,9 +216,9 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function deleteOutdatedNotifications($app, $version) {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp('updatenotification')
+			$notification->setApp(Application::APP_NAME)
 				->setObject($app, $version);
-		} catch (\InvalidArgumentException $e) {
+		} catch (\InvalidArgumentException) {
 			return;
 		}
 		$this->notificationManager->markProcessed($notification);
