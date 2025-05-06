@@ -67,7 +67,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	/**
 	 * Check for ownCloud update
 	 */
-	protected function checkCoreUpdate() {
+	protected function checkCoreUpdate(): void {
 		if (\in_array($this->serverVersion->getChannel(), ['daily', 'git'], true)) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
@@ -95,7 +95,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * Send a message to the admin when the update server could not be reached
 	 * @param int $numDays
 	 */
-	protected function sendErrorNotifications($numDays) {
+	protected function sendErrorNotifications($numDays): void {
 		$this->clearErrorNotifications();
 
 		$notification = $this->notificationManager->createNotification();
@@ -117,7 +117,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	/**
 	 * Remove error notifications again
 	 */
-	protected function clearErrorNotifications() {
+	protected function clearErrorNotifications(): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
 			$notification->setApp(Application::APP_NAME)
@@ -132,7 +132,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	/**
 	 * Check all installed apps for updates
 	 */
-	protected function checkAppUpdates() {
+	protected function checkAppUpdates(): void {
 		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$update = $this->isUpdateAvailable($app);
@@ -149,7 +149,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * @param string $version
 	 * @param string $visibleVersion
 	 */
-	protected function createNotifications($app, $version, $visibleVersion = '') {
+	protected function createNotifications($app, $version, $visibleVersion = ''): void {
 		$lastNotification = $this->appConfig->getAppValueString($app, '');
 		if ($lastNotification === $version) {
 			// We already notified about this update
@@ -213,7 +213,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	 * @param string $app
 	 * @param string $version
 	 */
-	protected function deleteOutdatedNotifications($app, $version) {
+	protected function deleteOutdatedNotifications($app, $version): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
 			$notification->setApp(Application::APP_NAME)

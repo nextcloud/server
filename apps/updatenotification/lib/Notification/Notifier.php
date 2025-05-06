@@ -10,7 +10,7 @@ namespace OCA\UpdateNotification\Notification;
 
 use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -29,17 +29,10 @@ class Notifier implements INotifier {
 
 	/**
 	 * Notifier constructor.
-	 *
-	 * @param IURLGenerator $url
-	 * @param IConfig $config
-	 * @param IManager $notificationManager
-	 * @param IFactory $l10NFactory
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		protected IURLGenerator $url,
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $notificationManager,
 		protected IFactory $l10NFactory,
 		protected IUserSession $userSession,
