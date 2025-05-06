@@ -551,10 +551,10 @@ class OC {
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript) - 1];
 
-			// index.php routes are handled in the middleware
-			// and cron.php does not need any authentication at all
-			if ($processingScript === 'index.php'
-				|| $processingScript === 'cron.php') {
+			if ($processingScript === 'index.php' // index.php routes are handled in the middleware
+			|| $processingScript === 'cron.php' // and cron.php does not need any authentication at all
+				// || $processingScript === 'public.php' // public.php does not need any authentication at all
+			) {
 				return;
 			}
 
