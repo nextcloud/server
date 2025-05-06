@@ -9,7 +9,7 @@ namespace OCP\Files\ObjectStore;
 /**
  * Interface IObjectStoreMetaData
  *
- * @psalm-type ObjectMetaData = array{mtime?: \DateTime, etag?: string, size?: int, mimetype?: string, filename?: string}
+ * @psalm-type ObjectMetaData = array{mtime?: \DateTime, etag?: string, size?: int, mimetype?: string, filename?: string, original-path?: string, original-storage?: string}
  *
  * @since 32.0.0
  */
@@ -35,4 +35,13 @@ interface IObjectStoreMetaData {
 	 * @since 32.0.0
 	 */
 	public function listObjects(string $prefix = ''): \Iterator;
+
+	/**
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param resource $stream stream with the data to write
+	 * @param ObjectMetaData $metaData the metadata to set for the object
+	 * @throws \Exception when something goes wrong, message will be logged
+	 * @since 32.0.0
+	 */
+	public function writeObjectWithMetaData(string $urn, $stream, array $metaData): void;
 }
