@@ -69,8 +69,9 @@ class SMB extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setTooltip($l->t("Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty")),
 				(new DefinitionParameter('timeout', $l->t('Timeout')))
-					->setType(DefinitionParameter::VALUE_HIDDEN)
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+					->setType(DefinitionParameter::VALUE_TEXT)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_SMB)
