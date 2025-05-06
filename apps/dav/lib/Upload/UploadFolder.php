@@ -21,6 +21,7 @@ class UploadFolder implements ICollection {
 		private Directory $node,
 		private CleanupService $cleanupService,
 		private IStorage $storage,
+		private string $uid,
 	) {
 	}
 
@@ -89,7 +90,7 @@ class UploadFolder implements ICollection {
 		$this->node->delete();
 
 		// Background cleanup job is not needed anymore
-		$this->cleanupService->removeJob($this->getName());
+		$this->cleanupService->removeJob($this->uid, $this->getName());
 	}
 
 	public function getName() {

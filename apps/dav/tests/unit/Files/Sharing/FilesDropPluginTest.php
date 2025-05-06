@@ -53,6 +53,10 @@ class FilesDropPluginTest extends TestCase {
 		$this->share->expects($this->any())
 			->method('getAttributes')
 			->willReturn($attributes);
+
+		$this->share
+			->method('getToken')
+			->willReturn('token');
 	}
 
 	public function testInitialize(): void {
@@ -86,7 +90,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('PUT');
 
 		$this->request->method('getPath')
-			->willReturn('file.txt');
+			->willReturn('/files/token/file.txt');
 
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
@@ -97,7 +101,7 @@ class FilesDropPluginTest extends TestCase {
 
 		$this->request->expects($this->once())
 			->method('setUrl')
-			->with('https://example.com/file.txt');
+			->with('https://example.com/files/token/file.txt');
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
@@ -111,7 +115,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('PUT');
 
 		$this->request->method('getPath')
-			->willReturn('file.txt');
+			->willReturn('/files/token/file.txt');
 
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
@@ -127,7 +131,7 @@ class FilesDropPluginTest extends TestCase {
 
 		$this->request->expects($this->once())
 			->method('setUrl')
-			->with($this->equalTo('https://example.com/file (2).txt'));
+			->with($this->equalTo('https://example.com/files/token/file (2).txt'));
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
@@ -154,7 +158,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('PUT');
 
 		$this->request->method('getPath')
-			->willReturn('folder/file.txt');
+			->willReturn('/files/token/folder/file.txt');
 
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
@@ -170,7 +174,7 @@ class FilesDropPluginTest extends TestCase {
 
 		$this->request->expects($this->once())
 			->method('setUrl')
-			->with($this->equalTo('https://example.com/file (2).txt'));
+			->with($this->equalTo('https://example.com/files/token/file (2).txt'));
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}

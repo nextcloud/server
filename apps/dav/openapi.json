@@ -29,11 +29,15 @@
                     "dav": {
                         "type": "object",
                         "required": [
-                            "chunking"
+                            "chunking",
+                            "public_shares_chunking"
                         ],
                         "properties": {
                             "chunking": {
                                 "type": "string"
+                            },
+                            "public_shares_chunking": {
+                                "type": "boolean"
                             },
                             "bulkupload": {
                                 "type": "string"

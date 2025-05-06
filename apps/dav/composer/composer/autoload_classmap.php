@@ -284,6 +284,7 @@ return array(
     'OCA\\DAV\\Files\\RootCollection' => $baseDir . '/../lib/Files/RootCollection.php',
     'OCA\\DAV\\Files\\Sharing\\FilesDropPlugin' => $baseDir . '/../lib/Files/Sharing/FilesDropPlugin.php',
     'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => $baseDir . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
+    'OCA\\DAV\\Files\\Sharing\\RootCollection' => $baseDir . '/../lib/Files/Sharing/RootCollection.php',
     'OCA\\DAV\\Listener\\ActivityUpdaterListener' => $baseDir . '/../lib/Listener/ActivityUpdaterListener.php',
     'OCA\\DAV\\Listener\\AddMissingIndicesListener' => $baseDir . '/../lib/Listener/AddMissingIndicesListener.php',
     'OCA\\DAV\\Listener\\AddressbookListener' => $baseDir . '/../lib/Listener/AddressbookListener.php',

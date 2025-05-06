@@ -17,6 +17,7 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
+	private string $uid;
 	private ?Folder $uploadFolder = null;
 
 	public function __construct(
@@ -24,7 +25,19 @@ class UploadHome implements ICollection {
 		private readonly CleanupService $cleanupService,
 		private readonly IRootFolder $rootFolder,
 		private readonly IUserSession $userSession,
+		private readonly \OCP\Share\IManager $shareManager,
 	) {
+		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
+		if ($prefix === 'principals/shares') {
+			$this->uid = $this->shareManager->getShareByToken($name)->getShareOwner();
+		} else {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
+
+			$this->uid = $user->getUID();
+		}
 	}
 
 	public function createFile($name, $data = null) {
@@ -35,16 +48,26 @@ class UploadHome implements ICollection {
 		$this->impl()->createDirectory($name);
 
 		// Add a cleanup job
-		$this->cleanupService->addJob($name);
+		$this->cleanupService->addJob($this->uid, $name);
 	}
 
 	public function getChild($name): UploadFolder {
-		return new UploadFolder($this->impl()->getChild($name), $this->cleanupService, $this->getStorage());
+		return new UploadFolder(
+			$this->impl()->getChild($name),
+			$this->cleanupService,
+			$this->getStorage(),
+			$this->uid,
+		);
 	}
 
 	public function getChildren(): array {
 		return array_map(function ($node) {
-			return new UploadFolder($node, $this->cleanupService, $this->getStorage());
+			return new UploadFolder(
+				$node,
+				$this->cleanupService,
+				$this->getStorage(),
+				$this->uid,
+			);
 		}, $this->impl()->getChildren());
 	}
 
@@ -71,11 +94,7 @@ class UploadHome implements ICollection {
 
 	private function getUploadFolder(): Folder {
 		if ($this->uploadFolder === null) {
-			$user = $this->userSession->getUser();
-			if (!$user) {
-				throw new Forbidden('Not logged in');
-			}
-			$path = '/' . $user->getUID() . '/uploads';
+			$path = '/' . $this->uid . '/uploads';
 			try {
 				$folder = $this->rootFolder->get($path);
 				if (!$folder instanceof Folder) {

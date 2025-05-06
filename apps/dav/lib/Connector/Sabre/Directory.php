@@ -13,7 +13,9 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Storage\PublicShareWrapper;
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
@@ -172,7 +174,19 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function getChild($name, $info = null, ?IRequest $request = null, ?IL10N $l10n = null) {
-		if (!$this->info->isReadable()) {
+		$storage = $this->info->getStorage();
+		$allowDirectory = false;
+		if ($storage instanceof PublicShareWrapper) {
+			$share = $storage->getShare();
+			$allowDirectory =
+				// Only allow directories for file drops
+				($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ &&
+				// And only allow it for directories which are a direct child of the share root
+				$this->info->getId() === $share->getNodeId();
+		}
+
+		// For file drop we need to be allowed to read the directory with the nickname
+		if (!$allowDirectory && !$this->info->isReadable()) {
 			// avoid detecting files through this way
 			throw new NotFound();
 		}
@@ -198,6 +212,11 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
+			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
+			if (!$this->info->isReadable()) {
+				throw new NotFound();
+			}
+
 			$node = new File($this->fileView, $info, $this->shareManager, $request, $l10n);
 		}
 		if ($this->tree) {

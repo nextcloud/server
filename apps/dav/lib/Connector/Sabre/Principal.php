@@ -155,6 +155,11 @@ class Principal implements BackendInterface {
 				'uri' => 'principals/system/' . $name,
 				'{DAV:}displayname' => $this->languageFactory->get('dav')->t('Accounts'),
 			];
+		} elseif ($prefix === 'principals/shares') {
+			return [
+				'uri' => 'principals/shares/' . $name,
+				'{DAV:}displayname' => $name,
+			];
 		}
 		return null;
 	}
