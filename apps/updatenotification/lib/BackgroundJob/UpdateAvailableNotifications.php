@@ -22,10 +22,15 @@ use OCP\Notification\IManager;
 use OCP\ServerVersion;
 
 class UpdateAvailableNotifications extends TimedJob {
-	protected $connectionNotifications = [3, 7, 14, 30];
 
-	/** @var string[] */
-	protected $users;
+	/**
+	 * Numbers of failed updater connection to report error as notification.
+	 * @var list<int>
+	 */
+	protected const CONNECTION_NOTIFICATIONS = [3, 7, 14, 30];
+
+	/** @var ?string[] */
+	protected $users = null;
 
 	public function __construct(
 		ITimeFactory $timeFactory,
@@ -83,7 +88,7 @@ class UpdateAvailableNotifications extends TimedJob {
 			$errors = 1 + $this->appConfig->getAppValueInt('update_check_errors', 0);
 			$this->appConfig->setAppValueInt('update_check_errors', $errors);
 
-			if (\in_array($errors, $this->connectionNotifications, true)) {
+			if (\in_array($errors, self::CONNECTION_NOTIFICATIONS, true)) {
 				$this->sendErrorNotifications($errors);
 			}
 		} elseif (\is_array($status)) {
