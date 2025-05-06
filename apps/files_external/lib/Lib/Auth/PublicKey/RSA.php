@@ -34,7 +34,8 @@ class RSA extends AuthMechanism {
 				new DefinitionParameter('user', $l->t('Login')),
 				new DefinitionParameter('public_key', $l->t('Public key')),
 				(new DefinitionParameter('private_key', 'private_key'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
 			->addCustomJs('public_key')
 		;

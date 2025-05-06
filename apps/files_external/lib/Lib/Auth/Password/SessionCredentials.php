@@ -35,7 +35,9 @@ class SessionCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in session'))
 			->addParameters([
 				(new DefinitionParameter('password', $l->t('Password')))
-					->setType(DefinitionParameter::VALUE_PASSWORD),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			]);
 	}
 
