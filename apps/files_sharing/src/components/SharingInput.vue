@@ -194,11 +194,11 @@ export default {
 
 			let shareType = []
 
-			if (this.isExternal) {
-				shareType.push(ShareType.Remote)
-				shareType.push(ShareType.RemoteGroup)
+			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
+
+			if (this.isExternal && !this.config.showFederatedSharesAsInternal) {
+				shareType.push(...remoteTypes)
 			} else {
-				// Merge shareType array
 				shareType = shareType.concat([
 					ShareType.User,
 					ShareType.Group,
@@ -209,6 +209,9 @@ export default {
 					ShareType.ScienceMesh,
 				])
 
+				if (this.config.showFederatedSharesAsInternal) {
+					shareType.push(...remoteTypes)
+				}
 			}
 
 			if (getCapabilities().files_sharing.public.enabled === true && this.isExternal) {
