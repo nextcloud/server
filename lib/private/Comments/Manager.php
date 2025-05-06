@@ -1073,9 +1073,13 @@ class Manager implements ICommentsManager {
 			$this->throwIfNotSupportReactions();
 		}
 
-		if ($this->prepareCommentForDatabaseWrite($comment)->getId() === '') {
+		$commentId = $this->prepareCommentForDatabaseWrite($comment)->getId();
+		var_dump('save: ', $commentId);
+		if ($commentId === '') {
+			var_dump('insert');
 			$result = $this->insert($comment);
 		} else {
+			var_dump('update');
 			$result = $this->update($comment);
 		}
 
@@ -1120,8 +1124,11 @@ class Manager implements ICommentsManager {
 			->values($values)
 			->execute();
 
+		var_dump('insert$affectedRows', $affectedRows);
 		if ($affectedRows > 0) {
-			$comment->setId((string)$qb->getLastInsertId());
+			$lastInsertId = (string)$qb->getLastInsertId();
+			var_dump('insert$lastInsertId', $lastInsertId);
+			$comment->setId($lastInsertId);
 			if ($comment->getVerb() === 'reaction') {
 				$this->addReaction($comment);
 			}
@@ -1250,6 +1257,7 @@ class Manager implements ICommentsManager {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($comment->getId())));
 		$affectedRows = $qb->executeStatement();
 
+		var_dump('update$affectedRows', $affectedRows);
 		if ($affectedRows === 0) {
 			throw new NotFoundException('Comment to update does ceased to exist');
 		}
