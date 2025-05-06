@@ -50,7 +50,7 @@
 					:link-shares="linkShares"
 					:reshare="reshare"
 					:shares="shares"
-					:placeholder="t('files_sharing', 'Share with accounts and teams')"
+					:placeholder="internalShareInputPlaceholder"
 					@open-sharing-details="toggleShareDetailsView" />
 
 				<!-- other shares list -->
@@ -90,7 +90,7 @@
 					:file-info="fileInfo"
 					:link-shares="linkShares"
 					:is-external="true"
-					:placeholder="t('files_sharing', 'Email, federated cloud id')"
+					:placeholder="externalShareInputPlaceholder"
 					:reshare="reshare"
 					:shares="shares"
 					@open-sharing-details="toggleShareDetailsView" />
@@ -249,6 +249,18 @@ export default {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_SHARE)
 				|| !!(this.reshare && this.reshare.hasSharePermission && this.config.isResharingAllowed)
 		},
+
+		internalShareInputPlaceholder() {
+			return this.config.showFederatedSharesAsInternal
+				? t('files_sharing', 'Share with accounts, teams, federated cloud id')
+				: t('files_sharing', 'Share with accounts and teams')
+		},
+
+		externalShareInputPlaceholder() {
+			return this.config.showFederatedSharesAsInternal
+				? t('files_sharing', 'Email')
+				: t('files_sharing', 'Email, federated cloud id')
+		},
 	},
 
 	methods: {
@@ -369,7 +381,11 @@ export default {
 					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 						this.linkShares.push(share)
 					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-						this.externalShares.push(share)
+						if (this.config.showFederatedSharesAsInternal) {
+							this.shares.push(share)
+						} else {
+							this.externalShares.push(share)
+						}
 					} else {
 						this.shares.push(share)
 					}
@@ -439,7 +455,11 @@ export default {
 			if (share.type === ShareType.Email) {
 				this.linkShares.unshift(share)
 			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-				this.externalShares.unshift(share)
+				if (this.config.showFederatedSharesAsInternal) {
+					this.shares.unshift(share)
+				} else {
+					this.externalShares.unshift(share)
+				}
 			} else {
 				this.shares.unshift(share)
 			}
