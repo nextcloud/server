@@ -10,7 +10,7 @@ namespace OCA\UpdateNotification\Notification;
 
 use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -29,17 +29,10 @@ class Notifier implements INotifier {
 
 	/**
 	 * Notifier constructor.
-	 *
-	 * @param IURLGenerator $url
-	 * @param IConfig $config
-	 * @param IManager $notificationManager
-	 * @param IFactory $l10NFactory
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		protected IURLGenerator $url,
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $notificationManager,
 		protected IFactory $l10NFactory,
 		protected IUserSession $userSession,
@@ -89,7 +82,7 @@ class Notifier implements INotifier {
 
 		$l = $this->l10NFactory->get(Application::APP_NAME, $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = $this->appConfig->getValueInt(Application::APP_NAME, 'update_check_errors', 0);
+			$errors = $this->appConfig->getAppValueInt('update_check_errors', 0);
 			if ($errors === 0) {
 				throw new AlreadyProcessedException();
 			}

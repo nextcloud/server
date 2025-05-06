@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Tests\Notification;
 
 use OCA\UpdateNotification\Notification\Notifier;
 use OCP\App\IAppManager;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -25,7 +26,7 @@ use Test\TestCase;
 class NotifierTest extends TestCase {
 
 	protected IURLGenerator&MockObject $urlGenerator;
-	protected IConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
 	protected IManager&MockObject $notificationManager;
 	protected IFactory&MockObject $l10nFactory;
 	protected IUserSession&MockObject $userSession;
@@ -37,7 +38,7 @@ class NotifierTest extends TestCase {
 		parent::setUp();
 
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -54,7 +55,7 @@ class NotifierTest extends TestCase {
 		if (empty($methods)) {
 			return new Notifier(
 				$this->urlGenerator,
-				$this->config,
+				$this->appConfig,
 				$this->notificationManager,
 				$this->l10nFactory,
 				$this->userSession,
@@ -67,7 +68,7 @@ class NotifierTest extends TestCase {
 			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
 					$this->urlGenerator,
-					$this->config,
+					$this->appConfig,
 					$this->notificationManager,
 					$this->l10nFactory,
 					$this->userSession,
