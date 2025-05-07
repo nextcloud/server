@@ -204,6 +204,9 @@
     "npm": "^10.0.0"
   },
   "overrides": {
-    "colors": "1.4.0"
+    "colors": "1.4.0",
+    "mdast-util-gfm": {
+      "mdast-util-gfm-autolink-literal": "2.0.0"
+    }
   }
 }
