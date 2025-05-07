@@ -32,13 +32,19 @@ class Adapter {
 	 * @throws Exception
 	 */
 	public function lastInsertId($table) {
+		var_dump("Adapter::lastInsertId queries ran:");
+		var_dump($this->inner->queriesExecuted);
 		$return = $this->conn->realLastInsertId($table);
 		if (!is_string($return) && !is_int($return)) {
 			throw new \Exception('realLastInsertId errored? ' . json_encode($return));
 		}
-		if (!(int)$return) {
-			throw new \Exception('realLastInsertId returning falsy value ' . json_encode($return));
+		if (strcasecmp($return, 'false') === 0) {
+			throw new \Exception('realLastInsertId - connection ran ' . $this->conn->queriesExecuted . ' returning falsey value ' . json_encode($return));
 		}
+		if (strcasecmp($return, '0') === 0) {
+			throw new \Exception('realLastInsertId - connection ran ' . $this->conn->queriesExecuted . 'returned 0 ' . json_encode($return));
+		}
+
 		return (int)$return;
 	}
 

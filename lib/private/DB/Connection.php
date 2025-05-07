@@ -68,7 +68,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected $queriesBuilt = 0;
 
 	/** @var int */
-	protected $queriesExecuted = 0;
+	public $queriesExecuted = 0;
 
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;

@@ -64,6 +64,8 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function executeStatement($sql, array $params = [], array $types = []): int {
 		try {
+			var_dump("ConnectionAdapter::executeStatement queries ran:");
+			var_dump($this->inner->queriesExecuted);
 			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e, '', $sql);
@@ -72,6 +74,8 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function lastInsertId(string $table): int {
 		try {
+			var_dump("ConnectionAdapter::lastInsertId queries ran:");
+			var_dump($this->inner->queriesExecuted);
 			return $this->inner->lastInsertId($table);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);

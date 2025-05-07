@@ -8,6 +8,7 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
+use OC\DB\Connection;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
