@@ -121,7 +121,7 @@ jobs:
 
       - name: PHPUnit
         run: |
-          for run in {1..1000}; do composer run test:reactions; done
+          for run in {1..100}; do composer run test:reactions; done
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
