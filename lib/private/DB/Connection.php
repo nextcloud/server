@@ -92,6 +92,8 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected ShardConnectionManager $shardConnectionManager;
 	protected AutoIncrementHandler $autoIncrementHandler;
 	protected bool $isShardingEnabled;
+	protected bool $disableReconnect = false;
+	protected mixed $lastInsertId = null;
 
 	public const SHARD_PRESETS = [
 		'filecache' => [
@@ -510,7 +512,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * because the underlying database may not even support the notion of AUTO_INCREMENT/IDENTITY
 	 * columns or sequences.
 	 *
-	 * @param string $seqName Name of the sequence object from which the ID should be returned.
+	 * @param ?string $name Name of the sequence object from which the ID should be returned.
 	 *
 	 * @return int the last inserted ID.
 	 * @throws Exception
@@ -527,6 +529,11 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function realLastInsertId($seqName = null) {
+		if ($this->lastInsertId !== null && $this->lastInsertId !== '0') {
+			$lastInsertId = $this->lastInsertId;
+			$this->lastInsertId = null;
+			return $lastInsertId;
+		}
 		return parent::lastInsertId($seqName);
 	}
 
@@ -896,10 +903,20 @@ class Connection extends PrimaryReadReplicaConnection {
 		if (
 			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
 			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			$this->isTransactionActive() ||
+			$this->disableReconnect
 		) {
 			return;
 		}
+
+		/**
+		 * Before reconnecting we save the lastInsertId, so that if the reconnect
+		 * happens between the INSERT executeStatement() and the getLastInsertId call
+		 * we are able to return the correct result after all.
+		 */
+		$this->disableReconnect = true;
+		$this->lastInsertId = parent::lastInsertId();
+		$this->disableReconnect = false;
 
 		try {
 			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
