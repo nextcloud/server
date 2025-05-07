@@ -1315,7 +1315,11 @@ class QueryBuilder implements IQueryBuilder {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
-			return $this->connection->lastInsertId($table);
+			$return = $this->connection->lastInsertId($table);
+			if (!$return) {
+				throw new \Exception('getLastInsertId returns 0');
+			}
+			return $return;
 		}
 
 		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
