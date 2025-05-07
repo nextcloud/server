@@ -35,6 +35,8 @@ class Adapter {
 		var_dump("Adapter::lastInsertId queries ran:");
 		var_dump($this->conn->queriesExecuted);
 		$return = $this->conn->realLastInsertId($table);
+		var_dump("Adapter::lastInsertId queries ran after getting realLastInsertId:");
+		var_dump($this->conn->queriesExecuted);
 		if (!is_string($return) && !is_int($return)) {
 			throw new \Exception('realLastInsertId errored? ' . json_encode($return));
 		}
