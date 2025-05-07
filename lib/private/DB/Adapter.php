@@ -32,7 +32,14 @@ class Adapter {
 	 * @throws Exception
 	 */
 	public function lastInsertId($table) {
-		return (int)$this->conn->realLastInsertId($table);
+		$return = $this->conn->realLastInsertId($table);
+		if (!is_string($return) && !is_int($return)) {
+			throw new \Exception('realLastInsertId errored? ' . json_encode($return));
+		}
+		if (!(int)$return) {
+			throw new \Exception('realLastInsertId returning falsy value ' . json_encode($return));
+		}
+		return (int)$return;
 	}
 
 	/**
