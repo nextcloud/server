@@ -23,7 +23,7 @@
 
 			<!-- Nickname dialog -->
 			<AccountMenuEntry id="set-nickname"
-				:name="!currentUser ? t('core', 'Set public name') : t('core', 'Change public name')"
+				:name="!displayName ? t('core', 'Set public name') : t('core', 'Change public name')"
 				href="#"
 				@click.prevent.stop="setNickname">
 				<template #icon>
@@ -36,7 +36,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getGuestUser, showGuestUserPrompt } from '@nextcloud/auth'
+import { getGuestUser } from '@nextcloud/auth'
+import { showGuestUserPrompt } from '@nextcloud/dialogs'
+import { subscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
@@ -64,7 +66,6 @@ export default defineComponent({
 
 	data() {
 		return {
-			currentUser: getGuestUser(),
 			displayName: getGuestUser().displayName,
 		}
 	},
@@ -82,9 +83,7 @@ export default defineComponent({
 	},
 
 	mounted() {
-		this.currentUser.addEventListener('updateDisplayName', () => {
-			this.displayName = getGuestUser().displayName || ''
-		})
+		subscribe('user:info:changed', () => { this.displayName = getGuestUser().displayName || '' })
 	},
 
 	methods: {

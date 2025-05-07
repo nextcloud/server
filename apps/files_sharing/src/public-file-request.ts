@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { defineAsyncComponent } from 'vue'
 import { getBuilder } from '@nextcloud/browser-storage'
 import { getGuestNickname } from '@nextcloud/auth'
 import { getUploader } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
-import { spawnDialog } from '@nextcloud/dialogs'
+import { showGuestUserPrompt } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 
 import logger from './services/logger'
@@ -67,11 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	// If we don't have a nickname or the public auth prompt hasn't been shown yet, show it
 	// We still show the prompt if the user has a nickname to double check
 	if (!nickname || !dialogShown) {
-		spawnDialog(
-			defineAsyncComponent(() => import('./views/PublicAuthPrompt.vue')),
-			options,
-			onSetNickname as (...rest: unknown[]) => void,
-		)
+		showGuestUserPrompt(options)
 	} else {
 		logger.debug('Public auth prompt already shown.', { nickname })
 		registerFileRequestHeader(nickname)
