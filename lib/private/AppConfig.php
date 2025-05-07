@@ -488,6 +488,14 @@ class AppConfig implements IAppConfig {
 	 * @see VALUE_ARRAY
 	 */
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
+		$type = self::VALUE_MIXED;
+		$ignorable = $lazy ?? false;
+		$this->matchAndApplyLexiconDefinition($app, $key, $ignorable, $type);
+		if ($type !== self::VALUE_MIXED) {
+			// a modified $type means config key is set in Lexicon
+			return $type;
+		}
+
 		$this->assertParams($app, $key);
 		$this->loadConfig($app, $lazy);
 
