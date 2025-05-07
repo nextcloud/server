@@ -100,7 +100,7 @@ jobs:
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
         env:
-          update: true
+          update: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
