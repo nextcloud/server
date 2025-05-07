@@ -88,9 +88,6 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = false
 		app.groups = []
-		if (app.removable) {
-			app.canUnInstall = true
-		}
 		if (app.id === 'app_api') {
 			state.appApiEnabled = false
 		}

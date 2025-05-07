@@ -17,6 +17,7 @@
 					<NcButton v-if="showUpdateAll"
 						id="app-list-update-all"
 						type="primary"
+						:disabled="!canUpdateAny"
 						@click="updateAll">
 						{{ n('settings', 'Update', 'Update all', counter) }}
 					</NcButton>
@@ -194,6 +195,9 @@ export default {
 		showUpdateAll() {
 			return this.hasPendingUpdate && this.useListView
 		},
+		canUpdateAny() {
+			return this.apps.filter(app => app.update && app.canUpdate).length > 0
+		},
 		apps() {
 			// Exclude ExApps from the list if AppAPI is disabled
 			const exApps = this.$store.getters.isAppApiEnabled ? this.appApiStore.getAllApps : []
@@ -328,7 +332,7 @@ export default {
 		updateAll() {
 			const limit = pLimit(1)
 			this.apps
-				.filter(app => app.update)
+				.filter(app => app.update && app.canUpdate)
 				.map((app) => limit(() => {
 					this.update(app.id)
 				}))
