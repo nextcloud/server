@@ -22,10 +22,8 @@ class Autoloader {
 
 	/**
 	 * Optional low-latency memory cache for class to path mapping.
-	 *
-	 * @var \OC\Memcache\Cache
 	 */
-	protected $memoryCache;
+	protected ?ICache $memoryCache = null;
 
 	/**
 	 * Autoloader constructor.
@@ -127,13 +125,13 @@ class Autoloader {
 	 * @throws AutoloadNotAllowedException
 	 */
 	public function load(string $class): bool {
+		if (class_exists($class, false)) {
+			return false;
+		}
+
 		$pathsToRequire = null;
 		if ($this->memoryCache) {
 			$pathsToRequire = $this->memoryCache->get($class);
-		}
-
-		if (class_exists($class, false)) {
-			return false;
 		}
 
 		if (!is_array($pathsToRequire)) {
