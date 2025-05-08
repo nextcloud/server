@@ -47,8 +47,8 @@ class ImportCalendar extends Command {
 			->setDescription('Import calendar data to supported calendars from disk or stdin')
 			->addArgument('uid', InputArgument::REQUIRED, 'Id of system user')
 			->addArgument('cid', InputArgument::REQUIRED, 'Id of calendar')
-			->addArgument('format', InputArgument::OPTIONAL, 'Format of output (iCal, jCal, xCal) default to iCal')
-			->addArgument('location', InputArgument::OPTIONAL, 'location of where to write the output. defaults to stdin')
+			->addOption('format', null, InputOption::VALUE_REQUIRED, 'Format of input (ical, jcal, xcal) defaults to ical', 'ical')
+			->addOption('location', null, InputOption::VALUE_REQUIRED, 'Location of where to write the input. defaults to stdin')
 			->addOption('errors', null, InputOption::VALUE_REQUIRED, 'how to handel item errors (0 - continue, 1 - fail)')
 			->addOption('validation', null, InputOption::VALUE_REQUIRED, 'how to handel item validation (0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue)')
 			->addOption('supersede', null, InputOption::VALUE_NONE, 'override/replace existing items')
@@ -65,11 +65,11 @@ class ImportCalendar extends Command {
 		$location = $input->getArgument('location');
 		$errors = is_numeric($input->getOption('errors')) ? (int)$input->getOption('errors') : null;
 		$validation = is_numeric($input->getOption('validation')) ? (int)$input->getOption('validation') : null;
-		$supersede = $input->getOption('supersede') ? true : false;
-		$showCreated = $input->getOption('show-created') ? true : false;
-		$showUpdated = $input->getOption('show-updated') ? true : false;
-		$showSkipped = $input->getOption('show-skipped') ? true : false;
-		$showErrors = $input->getOption('show-errors') ? true : false;
+		$supersede = $input->getOption('supersede');
+		$showCreated = $input->getOption('show-created');
+		$showUpdated = $input->getOption('show-updated');
+		$showSkipped = $input->getOption('show-skipped');
+		$showErrors = $input->getOption('show-errors');
 
 		if (!$this->userManager->userExists($userId)) {
 			throw new InvalidArgumentException("User <$userId> not found.");
@@ -105,41 +105,38 @@ class ImportCalendar extends Command {
 			$options->setValidate($validation);
 		}
 		// evaluate if provided format is supported
-		if ($format !== null && !in_array($format, $this->importService::FORMATS, true)) {
+		if (!in_array($format, ImportService::FORMATS, true)) {
 			throw new InvalidArgumentException("Format <$format> is not valid.");
-		} else {
-			$options->setFormat($format ?? 'ical');
 		}
+		$options->setFormat($format);
 		// evaluate if a valid location was given and is usable otherwise default to stdin
 		$timeStarted = microtime(true);
 		if ($location !== null) {
 			$input = fopen($location, 'r');
 			if ($input === false) {
 				throw new InvalidArgumentException("Location <$location> is not valid. Can not open location for read operation.");
-			} else {
-				try {
-					$outcome = $this->importService->import($input, $calendar, $options);
-				} finally {
-					fclose($input);
-				}
+			}
+			try {
+				$outcome = $this->importService->import($input, $calendar, $options);
+			} finally {
+				fclose($input);
 			}
 		} else {
 			$input = fopen('php://stdin', 'r');
 			if ($input === false) {
 				throw new InvalidArgumentException('Can not open stdin for read operation.');
-			} else {
-				try {
-					$tempPath = $this->tempManager->getTemporaryFile();
-					$tempFile = fopen($tempPath, 'w+');
-					while (!feof($input)) {
-						fwrite($tempFile, fread($input, 8192));
-					}
-					fseek($tempFile, 0);
-					$outcome = $this->importService->import($tempFile, $calendar, $options);
-				} finally {
-					fclose($input);
-					fclose($tempFile);
+			}
+			try {
+				$tempPath = $this->tempManager->getTemporaryFile();
+				$tempFile = fopen($tempPath, 'w+');
+				while (!feof($input)) {
+					fwrite($tempFile, fread($input, 8192));
 				}
+				fseek($tempFile, 0);
+				$outcome = $this->importService->import($tempFile, $calendar, $options);
+			} finally {
+				fclose($input);
+				fclose($tempFile);
 			}
 		}
 		$timeFinished = microtime(true);

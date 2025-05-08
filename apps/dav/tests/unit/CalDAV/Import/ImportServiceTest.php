@@ -33,6 +33,7 @@ class ImportServiceTest extends \Test\TestCase {
 	}
 	
 	public function testImport(): void {
+		// Arrange
 		// construct calendar with a 1 hour event and same start/end time zones
 		$vCalendar = new VCalendar();
 		/** @var VEvent $vEvent */
@@ -58,14 +59,18 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('import')
 			->willReturnCallback($this->mockCollector(...));
-		// test import
+		
+		// Act
 		$this->service->import($stream, $this->calendar, $options);
+
+		// Assert
 		$this->assertCount(1, $this->mockImportCollection, 'Imported items count is invalid');
 		$this->assertTrue(isset($this->mockImportCollection[0]->VEVENT), 'Imported item missing VEVENT');
 		$this->assertCount(1, $this->mockImportCollection[0]->VEVENT, 'Imported items count is invalid');
 	}
 
 	public function testImportWithMultiLineUID(): void {
+		// Arrange
 		// construct calendar with a 1 hour event and same start/end time zones
 		$vCalendar = new VCalendar();
 		/** @var VEvent $vEvent */
@@ -91,8 +96,11 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('import')
 			->willReturnCallback($this->mockCollector(...));
-		// test import
+			
+		// Act
 		$this->service->import($stream, $this->calendar, $options);
+
+		// Assert
 		$this->assertCount(1, $this->mockImportCollection, 'Imported items count is invalid');
 		$this->assertTrue(isset($this->mockImportCollection[0]->VEVENT), 'Imported item missing VEVENT');
 		$this->assertCount(1, $this->mockImportCollection[0]->VEVENT, 'Imported items count is invalid');
