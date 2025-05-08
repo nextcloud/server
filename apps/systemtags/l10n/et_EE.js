@@ -103,7 +103,7 @@ OC.L10N.register(
     "Open in Files" : "Ava failirakenduses",
     "List of tags and their associated files and folders." : "Siltude ja nendega seotud failide ja kaustade loend.",
     "No tags found" : "Silte ei leidinud",
-    "Tags you have created will show up here." : "Sinu loodud sildid saavad  olema nähtavad siin.",
+    "Tags you have created will show up here." : "Sinu loodud sildid saavad olema nähtavad siin.",
     "Failed to load tag" : "Sildi laadimine ei õnnestunud",
     "Failed to load last used tags" : "Viimatikasutatud siltide laadimine ei õnnestunud",
     "Missing \"Content-Location\" header" : "„Content-Location“ päisekirje on puudu",
