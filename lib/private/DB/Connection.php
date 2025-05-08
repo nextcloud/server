@@ -909,14 +909,16 @@ class Connection extends PrimaryReadReplicaConnection {
 			return;
 		}
 
-		/**
-		 * Before reconnecting we save the lastInsertId, so that if the reconnect
-		 * happens between the INSERT executeStatement() and the getLastInsertId call
-		 * we are able to return the correct result after all.
-		 */
-		$this->disableReconnect = true;
-		$this->lastInsertId = parent::lastInsertId();
-		$this->disableReconnect = false;
+		if ($this->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
+			/**
+			 * Before reconnecting we save the lastInsertId, so that if the reconnect
+			 * happens between the INSERT executeStatement() and the getLastInsertId call
+			 * we are able to return the correct result after all.
+			 */
+			$this->disableReconnect = true;
+			$this->lastInsertId = parent::lastInsertId();
+			$this->disableReconnect = false;
+		}
 
 		try {
 			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
