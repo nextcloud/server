@@ -55,6 +55,24 @@ interface IOCMProvider extends JsonSerializable {
 	public function getApiVersion(): string;
 
 	/**
+	  * returns the invite accept dialog
+	  *
+	  * @return string
+	  * @since 32.0.0
+	  */
+	public function getInviteAcceptDialog(): string;
+
+	/**
+	  * set the invite accept dialog
+	  *
+	  * @param string $inviteAcceptDialog
+	  *
+	  * @return $this
+	  * @since 32.0.0
+	 */
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
+
+	/**
 	 * returns the capabilities of the API
 	 *
 	 * @return array
