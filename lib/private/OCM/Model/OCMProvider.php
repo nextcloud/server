@@ -25,6 +25,7 @@ class OCMProvider implements IOCMProvider {
 	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';
+	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
 	private string $endPoint = '';
 	/** @var IOCMResource[] */
@@ -73,6 +74,30 @@ class OCMProvider implements IOCMProvider {
 	 */
 	public function getApiVersion(): string {
 		return $this->apiVersion;
+	}
+
+	/**
+	  * returns the invite accept dialog
+	  *
+	  * @return string
+	  * @since 32.0.0
+	  */
+	public function getInviteAcceptDialog(): string {
+		return $this->inviteAcceptDialog;
+	}
+
+	/**
+	  * set the invite accept dialog
+	  *
+	  * @param string $inviteAcceptDialog
+	  *
+	  * @return $this
+	  * @since 32.0.0
+	 */
+	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
+		$this->inviteAcceptDialog = $inviteAcceptDialog;
+
+		return $this;
 	}
 
 	/**
