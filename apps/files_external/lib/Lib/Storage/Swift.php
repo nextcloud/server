@@ -290,9 +290,8 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
-
 		if ($path === '.') {
 			$path = '';
 		} elseif ($this->is_dir($path)) {
@@ -312,22 +311,23 @@ class Swift extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$dateTime = $object->lastModified ? \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified) : false;
-		$mtime = $dateTime ? $dateTime->getTimestamp() : null;
-		$objectMetadata = $object->getMetadata();
-		if (isset($objectMetadata['timestamp'])) {
-			$mtime = $objectMetadata['timestamp'];
+		$mtime = null;
+		if (!empty($object->lastModified)) {
+			$dateTime = \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified);
+			if ($dateTime !== false) {
+				$mtime = $dateTime->getTimestamp();
+			}
 		}
 
-		if (!empty($mtime)) {
-			$mtime = floor($mtime);
+		if (is_numeric($object->getMetadata()['timestamp'] ?? null)) {
+			$mtime = (float)$object->getMetadata()['timestamp'];
 		}
 
-		$stat = [];
-		$stat['size'] = (int) $object->contentLength;
-		$stat['mtime'] = $mtime;
-		$stat['atime'] = time();
-		return $stat;
+		return [
+			'size' => (int)$object->contentLength,
+			'mtime' => isset($mtime) ? (int)floor($mtime) : null,
+			'atime' => time(),
+		];
 	}
 
 	public function filetype($path) {
