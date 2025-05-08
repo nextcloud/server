@@ -29,6 +29,7 @@ final class CalendarImportOptions {
 		self::ERROR_FAIL,
 	];
 
+	/** @var 'ical'|'jcal'|'xcal' */
 	private string $format = 'ical';
 	private bool $supersede = false;
 	private int $errors = self::ERROR_FAIL;
@@ -37,7 +38,7 @@ final class CalendarImportOptions {
 	/**
 	 * Gets the import format
 	 *
-	 * @return string ical, jcal, xcal, etc, defaults to ical
+	 * @return 'ical'|'jcal'|'xcal' (defaults to ical)
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -46,7 +47,7 @@ final class CalendarImportOptions {
 	/**
 	 * Sets the import format
 	 *
-	 * @param string $format ical, jcal, xcal, etc, defaults to ical
+	 * @param 'ical'|'jcal'|'xcal' $format
 	 */
 	public function setFormat(string $format): void {
 		$this->format = $format;
