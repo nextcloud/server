@@ -46,7 +46,7 @@ class ImportCalendar extends Command {
 		$this->setName('calendar:import')
 			->setDescription('Import calendar data to supported calendars from disk or stdin')
 			->addArgument('uid', InputArgument::REQUIRED, 'Id of system user')
-			->addArgument('cid', InputArgument::REQUIRED, 'Id of calendar')
+			->addArgument('uri', InputArgument::REQUIRED, 'Uri of calendar')
 			->addOption('format', null, InputOption::VALUE_REQUIRED, 'Format of input (ical, jcal, xcal) defaults to ical', 'ical')
 			->addOption('location', null, InputOption::VALUE_REQUIRED, 'Location of where to write the input. defaults to stdin')
 			->addOption('errors', null, InputOption::VALUE_REQUIRED, 'how to handel item errors (0 - continue, 1 - fail)')
@@ -60,9 +60,9 @@ class ImportCalendar extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('uid');
-		$calendarId = $input->getArgument('cid');
-		$format = $input->getArgument('format');
-		$location = $input->getArgument('location');
+		$calendarId = $input->getArgument('uri');
+		$format = $input->getOption('format');
+		$location = $input->getOption('location');
 		$errors = is_numeric($input->getOption('errors')) ? (int)$input->getOption('errors') : null;
 		$validation = is_numeric($input->getOption('validation')) ? (int)$input->getOption('validation') : null;
 		$supersede = $input->getOption('supersede');
