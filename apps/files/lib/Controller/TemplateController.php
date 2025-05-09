@@ -52,6 +52,15 @@ class TemplateController extends OCSController {
 		}, $this->templateManager->listTemplates()));
 	}
 
+	public function listTemplateFields(int $fileId): DataResponse {
+		$fields = $this->templateManager->listTemplateFields($fileId);
+
+		return new DataResponse(
+			array_merge([], ...$fields),
+			Http::STATUS_OK
+		);
+	}
+
 	/**
 	 * Create a template
 	 *

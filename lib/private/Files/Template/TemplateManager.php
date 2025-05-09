@@ -125,6 +125,19 @@ class TemplateManager implements ITemplateManager {
 		}, $this->listCreators()));
 	}
 
+	public function listTemplateFields(int $fileId): array {
+		foreach ($this->listCreators() as $creator) {
+			$fields = $this->getTemplateFields($creator, $fileId);
+			if (empty($fields)) {
+				continue;
+			}
+
+			return $fields;
+		}
+
+		return [];
+	}
+
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
@@ -186,7 +199,7 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return list<Template>
 	 */
-	private function getTemplateFiles(TemplateFileCreator $type): array {
+	private function getTemplateFiles(TemplateFileCreator $type, bool $withFields = false): array {
 		$templates = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
 			foreach ($type->getMimetypes() as $mimetype) {
@@ -212,9 +225,67 @@ class TemplateManager implements ITemplateManager {
 			}
 		}
 
-		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates));
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates, $withFields));
 
 		return $templates;
+	}
+
+	private function getProviderTemplates(TemplateFileCreator $type): array {
+		$templates = [];
+		foreach ($this->getRegisteredProviders() as $provider) {
+			foreach ($type->getMimetypes() as $mimetype) {
+				foreach ($provider->getCustomTemplates($mimetype) as $template) {
+					$templates[] = $template;
+				}
+			}
+		}
+
+		return $templates;
+	}
+
+	private function getUserTemplates(TemplateFileCreator $type): array {
+		$templates = [];
+
+		try {
+			$userTemplateFolder = $this->getTemplateFolder();
+		} catch (\Exception $e) {
+			return $templates;
+		}
+
+		foreach ($type->getMimetypes() as $mimetype) {
+			foreach ($userTemplateFolder->searchByMime($mimetype) as $templateFile) {
+				$template = new Template(
+					'user',
+					$this->rootFolder->getUserFolder($this->userId)->getRelativePath($templateFile->getPath()),
+					$templateFile
+				);
+				$template->setHasPreview($this->previewManager->isAvailable($templateFile));
+				$templates[] = $template;
+			}
+		}
+
+		return $templates;
+	}
+
+	private function getTemplateFields(TemplateFileCreator $type, int $fileId): array {
+		$providerTemplates = $this->getProviderTemplates($type);
+		$userTemplates = $this->getUserTemplates($type);
+
+		$matchedTemplates = array_filter(
+			array_merge($providerTemplates, $userTemplates),
+			function (Template $template) use ($fileId) {
+				return $template->jsonSerialize()['fileid'] === $fileId;
+			});
+
+		if (empty($matchedTemplates)) {
+			return [];
+		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($matchedTemplates, true));
+
+		return array_values(array_map(function (Template $template) {
+			return $template->jsonSerialize()['fields'] ?? [];
+		}, $matchedTemplates));
 	}
 
 	/**
