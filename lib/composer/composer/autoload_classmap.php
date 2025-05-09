@@ -204,6 +204,7 @@ return array(
     'OCP\\Calendar\\ICalendar' => $baseDir . '/lib/public/Calendar/ICalendar.php',
     'OCP\\Calendar\\ICalendarEventBuilder' => $baseDir . '/lib/public/Calendar/ICalendarEventBuilder.php',
     'OCP\\Calendar\\ICalendarExport' => $baseDir . '/lib/public/Calendar/ICalendarExport.php',
+    'OCP\\Calendar\\ICalendarIsEnabled' => $baseDir . '/lib/public/Calendar/ICalendarIsEnabled.php',
     'OCP\\Calendar\\ICalendarIsShared' => $baseDir . '/lib/public/Calendar/ICalendarIsShared.php',
     'OCP\\Calendar\\ICalendarIsWritable' => $baseDir . '/lib/public/Calendar/ICalendarIsWritable.php',
     'OCP\\Calendar\\ICalendarProvider' => $baseDir . '/lib/public/Calendar/ICalendarProvider.php',
