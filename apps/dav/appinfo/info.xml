@@ -36,6 +36,7 @@
 			<step>OCA\DAV\Migration\BuildSocialSearchIndex</step>
 			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
 			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
+			<step>OCA\DAV\Migration\RegisterUpdateCalendarResourcesRoomBackgroundJob</step>
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
 			<step>OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions</step>
