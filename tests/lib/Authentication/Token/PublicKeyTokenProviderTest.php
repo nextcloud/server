@@ -304,12 +304,17 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testInvalidateToken(): void {
+		$calls = [
+			[hash('sha512', 'token7' . '1f4h9s')],
+			[hash('sha512', 'token7')]
+		];
+
 		$this->mapper->expects($this->exactly(2))
 			->method('invalidate')
-			->withConsecutive(
-				[hash('sha512', 'token7' . '1f4h9s')],
-				[hash('sha512', 'token7')]
-			);
+			->willReturnCallback(function() use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->tokenProvider->invalidateToken('token7');
 	}
@@ -336,14 +341,19 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['token_auth_wipe_token_retention', $wipeTokenLifetime, 500],
 				['token_auth_token_retention', 60 * 60 * 24 * 365, 800],
 			]);
+
+		$calls = [
+			[$this->time - 150, IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER],
+			[$this->time - 300, IToken::TEMPORARY_TOKEN, IToken::REMEMBER],
+			[$this->time - 500, IToken::WIPE_TOKEN, null],
+			[$this->time - 800, IToken::PERMANENT_TOKEN, null],
+		];
 		$this->mapper->expects($this->exactly(4))
 			->method('invalidateOld')
-			->withConsecutive(
-				[$this->time - 150, IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER],
-				[$this->time - 300, IToken::TEMPORARY_TOKEN, IToken::REMEMBER],
-				[$this->time - 500, IToken::WIPE_TOKEN, null],
-				[$this->time - 800, IToken::PERMANENT_TOKEN, null],
-			);
+			->willReturnCallback(function() use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->tokenProvider->invalidateOldTokens();
 	}
@@ -453,16 +463,17 @@ class PublicKeyTokenProviderTest extends TestCase {
 	public function testGetInvalidToken(): void {
 		$this->expectException(InvalidTokenException::class);
 
+		$calls = [
+			'unhashedTokentokentokentokentoken' . '1f4h9s',
+			'unhashedTokentokentokentokentoken',
+		];
 		$this->mapper->expects($this->exactly(2))
 			->method('getToken')
-			->withConsecutive(
-				[$this->callback(function (string $token): bool {
-					return hash('sha512', 'unhashedTokentokentokentokentoken' . '1f4h9s') === $token;
-				})],
-				[$this->callback(function (string $token): bool {
-					return hash('sha512', 'unhashedTokentokentokentokentoken') === $token;
-				})]
-			)->willThrowException(new DoesNotExistException('nope'));
+			->willReturnCallback(function (string $token) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals(hash('sha512', $expected), $token);
+				throw new DoesNotExistException('nope');
+			});
 
 		$this->tokenProvider->getToken('unhashedTokentokentokentokentoken');
 	}

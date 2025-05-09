@@ -31,7 +31,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function humanFileSizeProvider() {
+	public static function humanFileSizeProvider(): array {
 		return [
 			['0 B', 0],
 			['1 KB', 1024],
@@ -51,7 +51,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function providesComputerFileSize() {
+	public static function providesComputerFileSize(): array {
 		return [
 			[0.0, '0 B'],
 			[1024.0, '1 KB'],
@@ -110,95 +110,87 @@ class LegacyHelperTest extends \Test\TestCase {
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
+			->willReturnMap([
 				// Conflict on filename.ext
-				['dir/filename.ext'],
-				['dir/filename (2).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+				['dir/filename.ext', true],
+				['dir/filename (2).ext', false],
+			]);
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(3))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename.ext'],
-				['dir/filename (2).ext'],
-				['dir/filename (3).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, true, false));
+			->willReturnMap([
+				// Conflict on filename.ext
+				['dir/filename.ext', true],
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', false],
+			]);
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename (1).ext'],
-				['dir/filename (2).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+			->willReturnMap([
+				['dir/filename (1).ext', true],
+				['dir/filename (2).ext', false],
+			]);
 		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (1).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename (2).ext'],
-				['dir/filename (3).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+			->willReturnMap([
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', false],
+			]);
 		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(3))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename (2).ext'],
-				['dir/filename (3).ext'],
-				['dir/filename (4).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, true, false));
+			->willReturnMap([
+				['dir/filename (2).ext', true],
+				['dir/filename (3).ext', true],
+				['dir/filename (4).ext', false],
+			]);
 		$this->assertEquals('dir/filename (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename(1).ext'],
-				['dir/filename(2).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+			->willReturnMap([
+				['dir/filename(1).ext', true],
+				['dir/filename(2).ext', false],
+			]);
 		$this->assertEquals('dir/filename(2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename(1) (1).ext'],
-				['dir/filename(1) (2).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+			->willReturnMap([
+				['dir/filename(1) (1).ext', true],
+				['dir/filename(1) (2).ext', false],
+			]);
 		$this->assertEquals('dir/filename(1) (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(3))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename(1) (1).ext'],
-				['dir/filename(1) (2).ext'],
-				['dir/filename(1) (3).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, true, false));
+			->willReturnMap([
+				['dir/filename(1) (1).ext', true],
+				['dir/filename(1) (2).ext', true],
+				['dir/filename(1) (3).ext', false],
+			]);
 		$this->assertEquals('dir/filename(1) (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
 
 		$viewMock = $this->createMock(View::class);
 		$viewMock->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['dir/filename(1) (2) (3).ext'],
-				['dir/filename(1) (2) (4).ext'],
-			)
-			->will($this->onConsecutiveCalls(true, false));
+			->willReturnMap([
+				['dir/filename(1) (2) (3).ext', true],
+				['dir/filename(1) (2) (4).ext', false],
+			]);
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
 	}
 
@@ -227,7 +219,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	}
 
 
-	public function streamCopyDataProvider() {
+	public static function streamCopyDataProvider(): array {
 		return [
 			[0, false, false, false],
 			[0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false],
@@ -259,18 +251,5 @@ class LegacyHelperTest extends \Test\TestCase {
 
 		\OC_Helper::rmdirr($baseDir);
 		$this->assertFalse(file_exists($baseDir));
-	}
-
-	/**
-	 * Allows us to test private methods/properties
-	 *
-	 * @param $object
-	 * @param $methodName
-	 * @param array $parameters
-	 * @return mixed
-	 * @deprecated Please extend \Test\TestCase and use self::invokePrivate() then
-	 */
-	public static function invokePrivate($object, $methodName, array $parameters = []) {
-		return parent::invokePrivate($object, $methodName, $parameters);
 	}
 }

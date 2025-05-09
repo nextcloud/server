@@ -15,7 +15,7 @@ use Test\TestCase;
 
 class SimpleCommand implements ICommand {
 	public function handle() {
-		AsyncBusTest::$lastCommand = 'SimpleCommand';
+		AsyncBusTestCase::$lastCommand = 'SimpleCommand';
 	}
 }
 
@@ -27,7 +27,7 @@ class StateFullCommand implements ICommand {
 	}
 
 	public function handle() {
-		AsyncBusTest::$lastCommand = $this->state;
+		AsyncBusTestCase::$lastCommand = $this->state;
 	}
 }
 
@@ -35,18 +35,18 @@ class FilesystemCommand implements ICommand {
 	use FileAccess;
 
 	public function handle() {
-		AsyncBusTest::$lastCommand = 'FileAccess';
+		AsyncBusTestCase::$lastCommand = 'FileAccess';
 	}
 }
 
 function basicFunction() {
-	AsyncBusTest::$lastCommand = 'function';
+	AsyncBusTestCase::$lastCommand = 'function';
 }
 
 // clean class to prevent phpunit putting closure in $this
 class ThisClosureTest {
 	private function privateMethod() {
-		AsyncBusTest::$lastCommand = 'closure-this';
+		AsyncBusTestCase::$lastCommand = 'closure-this';
 	}
 
 	public function test(IBus $bus) {
@@ -56,7 +56,7 @@ class ThisClosureTest {
 	}
 }
 
-abstract class AsyncBusTest extends TestCase {
+abstract class AsyncBusTestCase extends TestCase {
 	/**
 	 * Basic way to check output from a command
 	 *
@@ -107,7 +107,7 @@ abstract class AsyncBusTest extends TestCase {
 	}
 
 	public function testStaticCallable(): void {
-		$this->getBus()->push(['\Test\Command\AsyncBusTest', 'DummyCommand']);
+		$this->getBus()->push(['\Test\Command\AsyncBusTestCase', 'DummyCommand']);
 		$this->runJobs();
 		$this->assertEquals('static', self::$lastCommand);
 	}
@@ -127,7 +127,7 @@ abstract class AsyncBusTest extends TestCase {
 
 	public function testClosure(): void {
 		$this->getBus()->push(function () {
-			AsyncBusTest::$lastCommand = 'closure';
+			AsyncBusTestCase::$lastCommand = 'closure';
 		});
 		$this->runJobs();
 		$this->assertEquals('closure', self::$lastCommand);
@@ -135,7 +135,7 @@ abstract class AsyncBusTest extends TestCase {
 
 	public function testClosureSelf(): void {
 		$this->getBus()->push(function () {
-			AsyncBusTest::$lastCommand = 'closure-self';
+			AsyncBusTestCase::$lastCommand = 'closure-self';
 		});
 		$this->runJobs();
 		$this->assertEquals('closure-self', self::$lastCommand);
@@ -153,7 +153,7 @@ abstract class AsyncBusTest extends TestCase {
 	public function testClosureBind(): void {
 		$state = 'bar';
 		$this->getBus()->push(function () use ($state) {
-			AsyncBusTest::$lastCommand = 'closure-' . $state;
+			AsyncBusTestCase::$lastCommand = 'closure-' . $state;
 		});
 		$this->runJobs();
 		$this->assertEquals('closure-bar', self::$lastCommand);

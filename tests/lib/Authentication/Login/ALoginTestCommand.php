@@ -15,7 +15,7 @@ use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-abstract class ALoginCommandTest extends TestCase {
+abstract class ALoginTestCommand extends TestCase {
 	/** @var IRequest|MockObject */
 	protected $request;
 
@@ -36,7 +36,7 @@ abstract class ALoginCommandTest extends TestCase {
 	/** @var IUser|MockObject */
 	protected $user;
 
-	/** @var ALoginCommand */
+	/** @var ALoginTestCommand */
 	protected $cmd;
 
 	protected function setUp(): void {
