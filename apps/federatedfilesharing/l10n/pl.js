@@ -23,6 +23,7 @@ OC.L10N.register(
     "Sharing" : "Udostępnianie",
     "Federated file sharing" : "Udostępnianie federacyjne plików",
     "Provide federated file sharing across servers" : "Zezwól na udostępnianie federacyjne plików na serwerach",
+    "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Służy do pobierania ID Chmury Federacyjnej, aby ułatwić udostępnianie federacyjne.",
     "Unable to update federated files sharing config" : "Nie można zaktualizować konfiguracji udostępniania federacyjnego plików",
     "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Dostosuj sposób udostępniania między serwerami. Obejmuje to również udostępnianie między ludźmi na tym serwerze, jeśli korzystają z udostępniania federacyjnego.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Zezwalaj ludziom na tym serwerze na wysłanie udostępnień do innych serwerów (opcja ta umożliwia również dostęp WebDAV do udostępnień publicznych)",
