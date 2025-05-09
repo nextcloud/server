@@ -26,6 +26,7 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
+use OCP\Encryption\Exceptions\InvalidHeaderException;
 use OCP\Files\IRootFolder;
 use OCP\HintException;
 use OCP\IConfig;
@@ -210,7 +211,7 @@ class FixEncryptedVersion extends Command {
 			\fclose($handle);
 
 			return true;
-		} catch (ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException|InvalidHeaderException $e) {
 			// not a "bad signature" error and likely "legacy cipher" exception
 			// this could mean that the file is maybe not encrypted but the encrypted version is set
 			if (!$this->supportLegacy && $ignoreCorrectEncVersionCall === true) {

@@ -267,6 +267,7 @@ return array(
     'OCP\\DirectEditing\\IToken' => $baseDir . '/lib/public/DirectEditing/IToken.php',
     'OCP\\DirectEditing\\RegisterDirectEditorEvent' => $baseDir . '/lib/public/DirectEditing/RegisterDirectEditorEvent.php',
     'OCP\\Encryption\\Exceptions\\GenericEncryptionException' => $baseDir . '/lib/public/Encryption/Exceptions/GenericEncryptionException.php',
+    'OCP\\Encryption\\Exceptions\\InvalidHeaderException' => $baseDir . '/lib/public/Encryption/Exceptions/InvalidHeaderException.php',
     'OCP\\Encryption\\IEncryptionModule' => $baseDir . '/lib/public/Encryption/IEncryptionModule.php',
     'OCP\\Encryption\\IFile' => $baseDir . '/lib/public/Encryption/IFile.php',
     'OCP\\Encryption\\IManager' => $baseDir . '/lib/public/Encryption/IManager.php',
