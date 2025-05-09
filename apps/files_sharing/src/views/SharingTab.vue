@@ -252,14 +252,14 @@ export default {
 
 		internalShareInputPlaceholder() {
 			return this.config.showFederatedSharesAsInternal
-				? t('files_sharing', 'Share with accounts, teams, federated cloud id')
+				? t('files_sharing', 'Share with accounts, teams, federated cloud IDs')
 				: t('files_sharing', 'Share with accounts and teams')
 		},
 
 		externalShareInputPlaceholder() {
 			return this.config.showFederatedSharesAsInternal
 				? t('files_sharing', 'Email')
-				: t('files_sharing', 'Email, federated cloud id')
+				: t('files_sharing', 'Email, federated cloud ID')
 		},
 	},
 
