@@ -1060,4 +1060,16 @@ class Encryption extends Wrapper {
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
 	}
+
+	/**
+	 * Check if the on-disk data for a file has a valid encrypted header
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function hasValidHeader(string $path): bool {
+		$firstBlock = $this->readFirstBlock($path);
+		$header = $this->util->parseRawHeader($firstBlock);
+		return (count($header) > 0);
+	}
 }
