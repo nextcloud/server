@@ -175,6 +175,7 @@ OC.L10N.register(
     "Task:" : "Ülesanded:",
     "Enable" : "Lülita sisse",
     "Machine translation" : "Masintõlge",
+    "Image generation" : "Pildiloome",
     "None" : "Pole",
     "Allow apps to use the Share API" : "Luba rakendustel kasutada Share API-t",
     "Allow resharing" : "Luba edasijagamine",
