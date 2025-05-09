@@ -7,38 +7,47 @@
  */
 namespace OC\Cache;
 
-use OC\Files\Filesystem;
-use OC\Files\View;
+use OCP\Files\File as FileNode;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\ICache;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class File implements ICache {
-	/** @var View */
-	protected $storage;
+	protected ?Folder $storage = null;
 
 	/**
-	 * Returns the cache storage for the logged in user
+	 * Returns the cache folder for the logged in user
 	 *
-	 * @return \OC\Files\View cache storage
+	 * @return Folder cache folder
 	 * @throws \OC\ForbiddenException
 	 * @throws \OC\User\NoUserException
 	 */
-	protected function getStorage() {
+	protected function getStorage(?IUser $user = null): Folder {
 		if ($this->storage !== null) {
 			return $this->storage;
 		}
-		$session = Server::get(IUserSession::class);
-		if ($session->isLoggedIn()) {
-			$rootView = new View();
-			$userId = $session->getUser()->getUID();
-			Filesystem::initMountPoints($userId);
-			if (!$rootView->file_exists('/' . $userId . '/cache')) {
-				$rootView->mkdir('/' . $userId . '/cache');
+		if (!$user) {
+			$session = Server::get(IUserSession::class);
+			$user = $session->getUser();
+		}
+		$rootFolder = Server::get(IRootFolder::class);
+		if ($user) {
+			$userId = $user->getUID();
+			try {
+				$cacheFolder = $rootFolder->get('/' . $userId . '/cache');
+				if (!$cacheFolder instanceof Folder) {
+					throw new \Exception('Cache folder is a file');
+				}
+			} catch (NotFoundException $e) {
+				$cacheFolder = $rootFolder->newFolder('/' . $userId . '/cache');
 			}
-			$this->storage = new View('/' . $userId . '/cache');
+			$this->storage = $cacheFolder;
 			return $this->storage;
 		} else {
 			Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
@@ -52,27 +61,29 @@ class File implements ICache {
 	 * @throws \OC\ForbiddenException
 	 */
 	public function get($key) {
-		$result = null;
-		if ($this->hasKey($key)) {
-			$storage = $this->getStorage();
-			$result = $storage->file_get_contents($key);
+		$storage = $this->getStorage();
+		try {
+			/** @var FileNode $item */
+			$item = $storage->get($key);
+			return $item->getContent();
+		} catch (NotFoundException $e) {
+			return null;
 		}
-		return $result;
 	}
 
 	/**
 	 * Returns the size of the stored/cached data
 	 *
 	 * @param string $key
-	 * @return int
+	 * @return int|float
 	 */
 	public function size($key) {
-		$result = 0;
-		if ($this->hasKey($key)) {
-			$storage = $this->getStorage();
-			$result = $storage->filesize($key);
+		$storage = $this->getStorage();
+		try {
+			return $storage->get($key)->getSize();
+		} catch (NotFoundException $e) {
+			return 0;
 		}
-		return $result;
 	}
 
 	/**
@@ -94,14 +105,14 @@ class File implements ICache {
 		// use part file to prevent hasKey() to find the key
 		// while it is being written
 		$keyPart = $key . '.' . $uniqueId . '.part';
-		if ($storage && $storage->file_put_contents($keyPart, $value)) {
-			if ($ttl === 0) {
-				$ttl = 86400; // 60*60*24
-			}
-			$result = $storage->touch($keyPart, time() + $ttl);
-			$result &= $storage->rename($keyPart, $key);
+		$file = $storage->newFile($keyPart, $value);
+		if ($ttl === 0) {
+			$ttl = 86400; // 60*60*24
 		}
-		return $result;
+		$file->touch(time() + $ttl);
+		$file->move($storage->getFullPath($key));
+
+		return true;
 	}
 
 	/**
@@ -110,11 +121,7 @@ class File implements ICache {
 	 * @throws \OC\ForbiddenException
 	 */
 	public function hasKey($key) {
-		$storage = $this->getStorage();
-		if ($storage && $storage->is_file($key) && $storage->isReadable($key)) {
-			return true;
-		}
-		return false;
+		return $this->getStorage()->nodeExists($key);
 	}
 
 	/**
@@ -124,10 +131,12 @@ class File implements ICache {
 	 */
 	public function remove($key) {
 		$storage = $this->getStorage();
-		if (!$storage) {
+		try {
+			$storage->get($key)->delete();
+			return true;
+		} catch (NotFoundException $e) {
 			return false;
 		}
-		return $storage->unlink($key);
 	}
 
 	/**
@@ -137,14 +146,9 @@ class File implements ICache {
 	 */
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
-		if ($storage && $storage->is_dir('/')) {
-			$dh = $storage->opendir('/');
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if ($file !== '.' && $file !== '..' && ($prefix === '' || str_starts_with($file, $prefix))) {
-						$storage->unlink('/' . $file);
-					}
-				}
+		foreach ($storage->getDirectoryListing() as $file) {
+			if ($prefix === '' || str_starts_with($file->getName(), $prefix)) {
+				$file->delete();
 			}
 		}
 		return true;
@@ -154,32 +158,24 @@ class File implements ICache {
 	 * Runs GC
 	 * @throws \OC\ForbiddenException
 	 */
-	public function gc() {
-		$storage = $this->getStorage();
-		if ($storage) {
-			// extra hour safety, in case of stray part chunks that take longer to write,
-			// because touch() is only called after the chunk was finished
-			$now = time() - 3600;
-			$dh = $storage->opendir('/');
-			if (!is_resource($dh)) {
-				return null;
-			}
-			while (($file = readdir($dh)) !== false) {
-				if ($file !== '.' && $file !== '..') {
-					try {
-						$mtime = $storage->filemtime('/' . $file);
-						if ($mtime < $now) {
-							$storage->unlink('/' . $file);
-						}
-					} catch (\OCP\Lock\LockedException $e) {
-						// ignore locked chunks
-						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
-					} catch (\OCP\Files\ForbiddenException $e) {
-						Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
-					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
-					}
+	public function gc(?IUser $user = null) {
+		$storage = $this->getStorage($user);
+		// extra hour safety, in case of stray part chunks that take longer to write,
+		// because touch() is only called after the chunk was finished
+
+		$now = time() - 3600;
+		foreach ($storage->getDirectoryListing() as $file) {
+			try {
+				if ($file->getMTime() < $now) {
+					$file->delete();
 				}
+			} catch (\OCP\Lock\LockedException $e) {
+				// ignore locked chunks
+				Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file->getName() . '"', ['app' => 'core']);
+			} catch (\OCP\Files\ForbiddenException $e) {
+				Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file->getName() . '"', ['app' => 'core']);
+			} catch (\OCP\Files\LockNotAcquiredException $e) {
+				Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file->getName() . '"', ['app' => 'core']);
 			}
 		}
 	}
