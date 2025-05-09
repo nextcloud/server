@@ -49,6 +49,42 @@ class CheckServerResponseTraitTest extends TestCase {
 	}
 
 	/**
+	 * @dataProvider dataInvalidNormalizeUrl
+	 */
+	public function testInvalidNormalizeUrl(string $url, bool $isRootRequest): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Please verify syntax of all URLs'); // only partial match is required
+		$this->trait->normalizeUrl($url, $isRootRequest);
+	}
+
+	/**
+	 * @dataProvider dataInvalidNormalizeUrl
+	 */
+	public static function dataInvalidNormalizeUrl(): array {
+		return [
+			// Web-root left alone
+			'missing IPv6 brackets' => ['https://ff02::1', false, 'https://ff02::1'],
+			'missing scheme' => ['nextcloud.com', false, 'nextcloud.com'],
+			'missing host' => ['https://', false, 'https://'],
+			'missing host with trailing slash' => ['https:///', false, 'https://'],
+			'missing host with web-root' => ['https:///root', false, 'https:///root'],
+			'missing host with web-root with trailing slash' => ['https:///root/', false, 'https:///root'],
+			// Web-root specified for removal
+			'missing IPv6 brackets' => ['https://ff02::1', true, 'https://ff02::1'],
+			'missing scheme' => ['nextcloud.com', true, 'nextcloud.com'],
+			'missing host' => ['https://', true, 'https://'],
+			'missing host with trailing slash' => ['https:///', true, 'https://'],
+			'missing host with web-root' => ['https:///root', true, 'https:///root'],
+			'missing host with web-root with trailing slash' => ['https:///root/', true, 'https:///root'],
+
+			// NOTE: We don't currently catch really bogus URLs here that otherwise follow the basic syntax/format.
+			// e.g. This will probably pass:
+			//	http://https//example.com
+			// This is okay here since these are admin specified hostnames/etc
+		];
+	}
+	
+	/**
 	 * @dataProvider dataNormalizeUrl
 	 */
 	public function testNormalizeUrl(string $url, bool $isRootRequest, string $expected): void {
@@ -57,21 +93,79 @@ class CheckServerResponseTraitTest extends TestCase {
 
 	public static function dataNormalizeUrl(): array {
 		return [
-			// untouched web-root
-			'valid and nothing to change' => ['http://example.com/root', false, 'http://example.com/root'],
-			'valid with port and nothing to change' => ['http://example.com:8081/root', false, 'http://example.com:8081/root'],
-			'trailing slash' => ['http://example.com/root/', false, 'http://example.com/root'],
-			'deep web root' => ['http://example.com/deep/webroot', false, 'http://example.com/deep/webroot'],
-			// removal of the web-root
-			'remove web root' => ['http://example.com/root/', true, 'http://example.com'],
-			'remove web root but empty' => ['http://example.com', true, 'http://example.com'],
-			'remove deep web root' => ['http://example.com/deep/webroot', true, 'http://example.com'],
-			'remove web root with port' => ['http://example.com:8081/root', true, 'http://example.com:8081'],
-			'remove web root with port but empty' => ['http://example.com:8081', true, 'http://example.com:8081'],
-			'remove web root from IP' => ['https://127.0.0.1/root', true, 'https://127.0.0.1'],
-			'remove web root from IP with port' => ['https://127.0.0.1:8080/root', true, 'https://127.0.0.1:8080'],
-			'remove web root from IPv6' => ['https://[ff02::1]/root', true, 'https://[ff02::1]'],
-			'remove web root from IPv6 with port' => ['https://[ff02::1]:8080/root', true, 'https://[ff02::1]:8080'],
+			// web-root left alone
+			//	hostname without web-root
+			'nothing to change' => ['http://example.com', false, 'http://example.com'],
+			'with trailing slash' => ['http://example.com/', false, 'http://example.com'],
+			'with port and nothing to change' => ['http://example.com:8081', false, 'http://example.com:8081'],
+			'with port and trailing slash' => ['http://example.com:8081/', false, 'http://example.com:8081'],
+			//	hostname with web-root
+			'nothing to change' => ['http://example.com/root', false, 'http://example.com/root'],
+			'with trailing slash' => ['http://example.com/root/', false, 'http://example.com/root'],
+			'with port and nothing to change' => ['http://example.com:8081/root', false, 'http://example.com:8081/root'],
+			'with port and trailing slash' => ['http://example.com:8081/root/', false, 'http://example.com:8081/root'],
+			//	hostname with deep web-root
+			'nothing to change' => ['http://example.com/deep/webroot', false, 'http://example.com/deep/webroot'],
+			'with trailing slash' => ['http://example.com/deep/webroot/', false, 'http://example.com/deep/webroot'],
+			'with port and nothing to change' => ['http://example.com:8081/deep/webroot', false, 'http://example.com/deep/webroot'],
+			'with port and trailing slash' => ['http://example.com:8081/deep/webroot/', false, 'http://example.com/deep/webroot'],
+			//	IPv4 instead of hostname without web-root
+			'nothing to change' => ['https://127.0.0.1', false, 'https://127.0.0.1'],
+			'with trailing slash' => ['https://127.0.0.1/', false, 'https://127.0.0.1'],
+			'with port and nothing to change' => ['https://127.0.0.1:8080', false, 'https://127.0.0.1:8080'],
+			'with port and trailing slash' => ['https://127.0.0.1:8080/', false, 'https://127.0.0.1:8080'],
+			//	IPv4 instead of hostname with web-root
+			'nothing to change' => ['https://127.0.0.1/root', false, 'https://127.0.0.1/root'],
+			'with trailing slash' => ['https://127.0.0.1/root/', false, 'https://127.0.0.1/root'],
+			'with port and nothing to change' => ['https://127.0.0.1:8080/root', false, 'https://127.0.0.1:8080/root'],
+			'with port and trailing slash' => ['https://127.0.0.1:8080/root/', false, 'https://127.0.0.1:8080/root'],
+			//	IPv6 instead of hostname without web-root
+			'nothing to change' => ['https://[ff02::1]', false, 'https://[ff02::1]'],
+			'with trailing slash' => ['https://[ff02::1]/', false, 'https://[ff02::1]'],
+			'with port and nothing to change' => ['https://[ff02::1]:8080', false, 'https://[ff02::1]:8080'],
+			'with port and trailing slash' => ['https://[ff02::1]:8080/', false, 'https://[ff02::1]:8080'],
+			//	IPv6 instead of hostname with web-root
+			'nothing to change' => ['https://[ff02::1]/root', false, 'https://[ff02::1]/root'],
+			'with trailing slash' => ['https://[ff02::1]/root/', false, 'https://[ff02::1]/root'],
+			'with port and nothing to change' => ['https://[ff02::1]:8080/root', false, 'https://[ff02::1]:8080/root'],
+			'with port and trailing slash' => ['https://[ff02::1]:8080/root/', false, 'https://[ff02::1]:8080/root'],
+
+			// web-root specified for removal
+			//	hostname without web-root
+			'nothing to change' => ['http://example.com', true, 'http://example.com'],
+			'with trailing slash' => ['http://example.com/', true, 'http://example.com'],
+			'with port and nothing to change' => ['http://example.com:8081', true, 'http://example.com:8081'],
+			'with port and trailing slash' => ['http://example.com:8081/', true, 'http://example.com:8081'],
+			//	hostname with web-root
+			'without trailing slash' => ['http://example.com/root', true, 'http://example.com'],
+			'with trailing slash' => ['http://example.com/root/', true, 'http://example.com'],
+			'with port without trailing slash' => ['http://example.com:8081/root', true, 'http://example.com:8081'],
+			'with port and trailing slash' => ['http://example.com:8081/root/', true, 'http://example.com:8081'],
+			//	hostname with deep web-root
+			'without trailing slash' => ['http://example.com/deep/webroot', true, 'http://example.com'],
+			'with trailing slash' => ['http://example.com/deep/webroot/', true, 'http://example.com'],
+			'with port without trailing slash' => ['http://example.com:8081/deep/webroot', true, 'http://example.com:8081'],
+			'with port and trailing slash' => ['http://example.com:8081/deep/webroot/', true, 'http://example.com:8081'],
+			//	IPv4 instead of hostname without web-root
+			'nothing to change' => ['https://127.0.0.1', true, 'https://127.0.0.1'],
+			'with trailing slash' => ['https://127.0.0.1/', true, 'https://127.0.0.1'],
+			'with port and nothing to change' => ['https://127.0.0.1:8080', true, 'https://127.0.0.1:8080'],
+			'with port and trailing slash' => ['https://127.0.0.1:8080/', true, 'https://127.0.0.1:8080'],
+			//	IPv4 instead of hostname with web-root
+			'without trailing slash' => ['https://127.0.0.1/root', true, 'https://127.0.0.1'],
+			'with trailing slash' => ['https://127.0.0.1/root/', true, 'https://127.0.0.1'],
+			'with port' => ['https://127.0.0.1:8080/root', true, 'https://127.0.0.1:8080/root'],
+			'with port and trailing slash' => ['https://127.0.0.1:8080/root/', true, 'https://127.0.0.1:8080/root'],
+			//	IPv6 instead of hostname without web-root
+			'nothing to change' => ['https://[ff02::1]', true, 'https://[ff02::1]'],
+			'with trailing slash' => ['https://[ff02::1]/', true, 'https://[ff02::1]'],
+			'with port and nothing to change' => ['https://[ff02::1]:8080', true, 'https://[ff02::1]:8080'],
+			'with port and trailing slash' => ['https://[ff02::1]:8080/', true, 'https://[ff02::1]:8080'],
+			//	IPv6 instead of hostname with web-root
+			'without trailing slash' => ['https://[ff02::1]/root', true, 'https://[ff02::1]'],
+			'with trailing slash' => ['https://[ff02::1]/root/', true, 'https://[ff02::1]'],
+			'with port' => ['https://[ff02::1]:8080/root', true, 'https://[ff02::1]:8080'],
+			'with port and trailing slash' => ['https://[ff02::1]:8080/root/', true, 'https://[ff02::1]:8080'],
 		];
 	}
 
