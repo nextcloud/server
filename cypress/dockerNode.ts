@@ -290,3 +290,21 @@ const sleep = function(milliseconds: number) {
 const getCurrentGitBranch = function() {
 	return execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
 }
+
+/**
+ * Get the network name of the github actions network
+ * This is used to connect to the database services
+ * started by github actions
+ */
+const getGithubNetwork = async function(): Promise<string|undefined> {
+	console.log('├─ Looking for github actions network... 🔍')
+	const networks = await docker.listNetworks()
+	const network = networks.find((network) => network.Name.startsWith('github_network'))
+	if (network) {
+		console.log('│  └─ Found github actions network: ' + network.Name)
+		return network.Name
+	}
+
+	console.log('│  └─ No github actions network found')
+	return undefined
+}

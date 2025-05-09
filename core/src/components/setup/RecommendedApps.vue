@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div class="guest-box">
+	<div class="guest-box" data-cy-setup-recommended-apps>
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
 		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
@@ -59,7 +59,8 @@
 			<NcButton v-if="showInstallButton"
 				type="tertiary"
 				role="link"
-				:href="defaultPageUrl">
+				:href="defaultPageUrl"
+				data-cy-setup-recommended-apps-skip>
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
