@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\Db\Property;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -27,11 +29,15 @@ class CalendarProvider implements ICalendarProvider {
 	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
+	/** @var PropertyMapper */
+	private $propertyMapper;
+
+	public function __construct(CalDavBackend $calDavBackend, IL10N $l10n, IConfig $config, LoggerInterface $logger, PropertyMapper $propertyMapper) {
 		$this->calDavBackend = $calDavBackend;
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->propertyMapper = $propertyMapper;
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
@@ -48,6 +54,7 @@ class CalendarProvider implements ICalendarProvider {
 
 		$iCalendars = [];
 		foreach ($calendarInfos as $calendarInfo) {
+			$calendarInfo = array_merge($calendarInfo, $this->getAdditionalProperties($calendarInfo['principaluri'], $calendarInfo['uri']));
 			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 			$iCalendars[] = new CalendarImpl(
 				$calendar,
@@ -56,5 +63,24 @@ class CalendarProvider implements ICalendarProvider {
 			);
 		}
 		return $iCalendars;
+	}
+
+	public function getAdditionalProperties(string $principalUri, string $calendarUri): array {
+		$user = str_replace('principals/users/', '', $principalUri);
+		$path = 'calendars/' . $user . '/' . $calendarUri;
+
+		$properties = $this->propertyMapper->findPropertiesByPath($user, $path);
+
+		$list = [];
+		foreach ($properties as $property) {
+			if ($property instanceof Property) {
+				$list[$property->getPropertyname()] = match ($property->getPropertyname()) {
+					'{http://owncloud.org/ns}calendar-enabled' => (bool) $property->getPropertyvalue(),
+					default => $property->getPropertyvalue()
+				};
+			}
+		}
+
+		return $list;
 	}
 }
