@@ -12,7 +12,6 @@ use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\User\Manager;
-use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -21,6 +20,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
@@ -68,7 +68,7 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class), $this->createMock(IEventLogger::class));
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class), $this->createMock(IEventLogger::class), Server::get(ICacheFactory::class));
 	}
 
 	protected function tearDown(): void {
@@ -117,10 +117,6 @@ class UserMountCacheTest extends TestCase {
 		return [$storage, $rootId];
 	}
 
-	private function clearCache() {
-		$this->invokePrivate($this->cache, 'mountsForUsers', [new CappedMemoryCache()]);
-	}
-
 	private function keyForMount(MountPoint $mount): string {
 		return $mount->getStorageRootId() . '::' . $mount->getMountPoint();
 	}
@@ -133,7 +129,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user);
 
@@ -153,11 +149,11 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user);
 
@@ -177,11 +173,11 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$this->cache->registerMounts($user, []);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user);
 
@@ -196,13 +192,13 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$mount = new MountPoint($storage, '/foo/');
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user);
 
@@ -219,13 +215,13 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$mount = new MountPoint($storage, '/foo/', null, null, null, 1);
 
 		$this->cache->registerMounts($user, [$mount]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user);
 
@@ -248,7 +244,7 @@ class UserMountCacheTest extends TestCase {
 		$this->cache->registerMounts($user2, [$mount2]);
 		$this->cache->registerMounts($user3, [$mount2]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$user3->delete();
 
@@ -283,7 +279,7 @@ class UserMountCacheTest extends TestCase {
 		$this->cache->registerMounts($user1, [$mount1, $mount2]);
 		$this->cache->registerMounts($user2, [$mount2]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForStorageId(2);
 		$this->sortMounts($cachedMounts);
@@ -313,7 +309,7 @@ class UserMountCacheTest extends TestCase {
 		$this->cache->registerMounts($user1, [$mount1, $mount2]);
 		$this->cache->registerMounts($user2, [$mount2]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForRootId($id2);
 		$this->sortMounts($cachedMounts);
@@ -383,7 +379,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user1, [$mount1]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForFileId($rootId);
 
@@ -405,7 +401,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user1, [$mount1]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForFileId($fileId);
 
@@ -438,7 +434,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user1, [$mount1]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForFileId($fileId);
 
@@ -473,7 +469,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->cache->registerMounts($user1, [$mount1]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForFileId($fileId);
 
@@ -490,7 +486,7 @@ class UserMountCacheTest extends TestCase {
 		$this->cache->registerMounts($user1, [$mount1]);
 
 		$user1->delete();
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForFileId($rootId);
 		$this->assertEmpty($cachedMounts);
@@ -535,7 +531,7 @@ class UserMountCacheTest extends TestCase {
 		$mount1 = new MountPoint($storage1, '/foo/');
 		$this->cache->registerMounts($user1, [$mount1]);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 		$this->assertCount(1, $cachedMounts);
@@ -544,7 +540,7 @@ class UserMountCacheTest extends TestCase {
 		$mount1 = new MountPoint($storage1, '/foo/', null, null, null, null, 'dummy');
 		$this->cache->registerMounts($user1, [$mount1], ['dummy']);
 
-		$this->clearCache();
+		$this->cache->clear();
 
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 		$this->assertCount(1, $cachedMounts);
