@@ -229,18 +229,34 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @throws CalendarException
 	 */
 	public function handleIMip(VCalendar $vObject): void {
-		$server = $this->getInvitationResponseServer();
 
+		// validate the iMip message
+		if (!isset($vObject->METHOD)) {
+			throw new CalendarException('iMip message contains no valid method');
+		}
+		if (!isset($vObject->VEVENT)) {
+			throw new CalendarException('iMip message contains no event');
+		}
+		if (!isset($vObject->VEVENT->UID)) {
+			throw new CalendarException('iMip message event dose not contain a UID');
+		}
+		if (!isset($vObject->VEVENT->ORGANIZER)) {
+			throw new CalendarException('iMip message event dose not contain an organizer');
+		}
+		if (!isset($vObject->VEVENT->ATTENDEE)) {
+			throw new CalendarException('iMip message event dose not contain an attendee');
+		}
+		if (empty($this->calendarInfo['uri'])) {
+			throw new CalendarException('Could not write to calendar as URI parameter is missing');
+		}
+		// construct dav server
+		$server = $this->getInvitationResponseServer();
 		/** @var CustomPrincipalPlugin $authPlugin */
 		$authPlugin = $server->getServer()->getPlugin('auth');
 		// we're working around the previous implementation
 		// that only allowed the public system principal to be used
 		// so set the custom principal here
 		$authPlugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
-
-		if (empty($this->calendarInfo['uri'])) {
-			throw new CalendarException('Could not write to calendar as URI parameter is missing');
-		}
 		// Force calendar change URI
 		/** @var \OCA\DAV\CalDAV\Schedule\Plugin $schedulingPlugin */
 		$schedulingPlugin = $server->getServer()->getPlugin('caldav-schedule');

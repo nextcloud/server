@@ -237,27 +237,12 @@ class Manager implements IManager {
 		/** @var VCalendar $vObject|null */
 		$vObject = Reader::read($message);
 
-		if (!isset($vObject->METHOD)) {
-			$this->logger->warning('iMip message contains no valid method');
-			return false;
-		}
 		if (!isset($vObject->VEVENT)) {
 			$this->logger->warning('iMip message contains no event');
 			return false;
 		}
-
-		$eventObject = $vObject->VEVENT;
-
-		if (!isset($eventObject->UID)) {
+		if (!isset($vObject->VEVENT->UID)) {
 			$this->logger->warning('iMip message event dose not contain a UID');
-			return false;
-		}
-		if (!isset($eventObject->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contain an organizer');
-			return false;
-		}
-		if (!isset($eventObject->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contain any attendees');
 			return false;
 		}
 
@@ -268,14 +253,14 @@ class Manager implements IManager {
 			if ($calendar->isDeleted() || !$calendar->isWritable()) {
 				continue;
 			}
-			if (!empty($calendar->search('', [], ['uid' => $eventObject->UID->getValue()]))) {
+			if (!empty($calendar->search('', [], ['uid' => $vObject->VEVENT->UID->getValue()]))) {
 				try {
 					if ($calendar instanceof ICalendarHandleImip) {
 						$calendar->handleIMip($vObject);
 					}
 					return true;
 				} catch (CalendarException $e) {
-					$this->logger->error('An error occurred while processing the iMip message', ['exception' => $e]);
+					$this->logger->error('iMip message could not be processed because an error occurred', ['exception' => $e]);
 					return false;
 				}
 			}

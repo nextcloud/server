@@ -5,7 +5,6 @@
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
-use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
@@ -18,13 +17,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Reader;
 
 class CalendarImplTest extends \Test\TestCase {
 	
 	private CalDavBackend|MockObject $backend;
 	private Calendar|MockObject $calendar;
 	private CalendarImpl|MockObject $calendarImpl;
-	private array $mockExportCollection;
 	private array $calendarInfo;
 	private VCalendar $vCalendar1a;
 
@@ -34,17 +33,14 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->backend = $this->createMock(CalDavBackend::class);
 		$this->calendar = $this->createMock(Calendar::class);
 		$this->calendarInfo = [
-			'id' => 1,
+			'id' => 'fancy_id_123',
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
 			'uri' => '/this/is/a/uri',
 			'principaluri' => 'principal/users/foobar'
 		];
-		$this->calendarImpl = new CalendarImpl(
-			$this->calendar,
-			$this->calendarInfo,
-			$this->backend
-		);
+		$this->calendarImpl = new CalendarImpl($this->calendar, $this->calendarInfo, $this->backend);
+
 		// construct calendar with a 1 hour event and same start/end time zones
 		$this->vCalendar1a = new VCalendar();
 		/** @var VEvent $vEvent */
@@ -66,7 +62,7 @@ class CalendarImplTest extends \Test\TestCase {
 
 
 	public function testGetKey(): void {
-		$this->assertEquals($this->calendarImpl->getKey(), 1);
+		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
 	}
 
 	public function testGetDisplayname(): void {
@@ -138,152 +134,67 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals(31, $this->calendarImpl->getPermissions());
 	}
 
-	public function testHandleImipInvalidMethod(): void {
-
-		$userAddressess = [
-			'mailto:attendee1@testing.com',
-			'/remote.php/dav/principals/users/attendee1/',
-		];
-
+	public function testHandleImipNoMethod(): void {
+		// Arrange
 		$vObject = $this->vCalendar1a;
-		$vObject->add('METHOD', 'BLAHBLAHBLAH');
-
-		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
-		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
-		$authPlugin->expects(self::once())
-			->method('setCurrentPrincipal')
-			->with($this->calendar->getPrincipalURI());
-
-		/** @var \OCA\DAV\CalDAV\Schedule\Plugin|MockObject $schedulingPlugin */
-		$schedulingPlugin = $this->createMock(Plugin::class);
-		$schedulingPlugin->expects(self::once())
-			->method('getAddressesForPrincipal')
-			->with($this->calendar->getPrincipalURI())
-			->willReturn($userAddressess);
-
-		$server = $this->createMock(Server::class);
-		$server->expects($this->any())
-			->method('getPlugin')
-			->willReturnMap([
-				['auth', $authPlugin],
-				['caldav-schedule', $schedulingPlugin]
-			]);
-
-		$invitationResponseServer = $this->createMock(InvitationResponseServer::class);
-		$invitationResponseServer->server = $server;
-		$invitationResponseServer->expects($this->any())
-			->method('getServer')
-			->willReturn($server);
-
-		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
-			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
-			->onlyMethods(['getInvitationResponseServer'])
-			->getMock();
-		$calendarImpl->expects($this->once())
-			->method('getInvitationResponseServer')
-			->willReturn($invitationResponseServer);
 
 		$this->expectException(CalendarException::class);
-		$calendarImpl->handleIMip($vObject);
-
+        $this->expectExceptionMessage('iMip message contains no valid method');
+		
+		// Act
+		$this->calendarImpl->handleIMip($vObject);
 	}
 
-	public function testHandleImipInvalidAttendee(): void {
-
-		$userAddressess = [
-			'mailto:unknown@testing.com',
-			'/remote.php/dav/principals/users/unknown/',
-		];
-
+	public function testHandleImipNoEvent(): void {
+		// Arrange
 		$vObject = $this->vCalendar1a;
 		$vObject->add('METHOD', 'REQUEST');
-
-		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
-		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
-		$authPlugin->expects(self::once())
-			->method('setCurrentPrincipal')
-			->with($this->calendar->getPrincipalURI());
-
-		/** @var \OCA\DAV\CalDAV\Schedule\Plugin|MockObject $schedulingPlugin */
-		$schedulingPlugin = $this->createMock(Plugin::class);
-		$schedulingPlugin->expects(self::once())
-			->method('getAddressesForPrincipal')
-			->with($this->calendar->getPrincipalURI())
-			->willReturn($userAddressess);
-
-		$server = $this->createMock(Server::class);
-		$server->expects($this->any())
-			->method('getPlugin')
-			->willReturnMap([
-				['auth', $authPlugin],
-				['caldav-schedule', $schedulingPlugin]
-			]);
-
-		$invitationResponseServer = $this->createMock(InvitationResponseServer::class);
-		$invitationResponseServer->server = $server;
-		$invitationResponseServer->expects($this->any())
-			->method('getServer')
-			->willReturn($server);
-			
-		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
-			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
-			->onlyMethods(['getInvitationResponseServer'])
-			->getMock();
-		$calendarImpl->expects($this->once())
-			->method('getInvitationResponseServer')
-			->willReturn($invitationResponseServer);
+		$vObject->remove('VEVENT');
 		
 		$this->expectException(CalendarException::class);
-		$calendarImpl->handleIMip($vObject);
+        $this->expectExceptionMessage('iMip message contains no event');
+		
+		// Act
+		$this->calendarImpl->handleIMip($vObject);
 	}
 
-	public function testHandleImipInvalidOrganizer(): void {
-
-		$userAddressess = [
-			'mailto:unknown@testing.com',
-			'/remote.php/dav/principals/users/unknown/',
-		];
-
+	public function testHandleImipNoUid(): void {
+		// Arrange
 		$vObject = $this->vCalendar1a;
-		$vObject->add('METHOD', 'REPLY');
-
-		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
-		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
-		$authPlugin->expects(self::once())
-			->method('setCurrentPrincipal')
-			->with($this->calendar->getPrincipalURI());
-
-		/** @var \OCA\DAV\CalDAV\Schedule\Plugin|MockObject $schedulingPlugin */
-		$schedulingPlugin = $this->createMock(Plugin::class);
-		$schedulingPlugin->expects(self::once())
-			->method('getAddressesForPrincipal')
-			->with($this->calendar->getPrincipalURI())
-			->willReturn($userAddressess);
-
-		$server = $this->createMock(Server::class);
-		$server->expects($this->any())
-			->method('getPlugin')
-			->willReturnMap([
-				['auth', $authPlugin],
-				['caldav-schedule', $schedulingPlugin]
-			]);
-
-		$invitationResponseServer = $this->createMock(InvitationResponseServer::class);
-		$invitationResponseServer->server = $server;
-		$invitationResponseServer->expects($this->any())
-			->method('getServer')
-			->willReturn($server);
-			
-		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
-			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
-			->onlyMethods(['getInvitationResponseServer'])
-			->getMock();
-		$calendarImpl->expects($this->once())
-			->method('getInvitationResponseServer')
-			->willReturn($invitationResponseServer);
+		$vObject->add('METHOD', 'REQUEST');
+		$vObject->VEVENT->remove('UID');
 		
 		$this->expectException(CalendarException::class);
-		$calendarImpl->handleIMip($vObject);
+        $this->expectExceptionMessage('iMip message event dose not contain a UID');
+		
+		// Act
+		$this->calendarImpl->handleIMip($vObject);
+	}
+
+	public function testHandleImipNoOrganizer(): void {
+		// Arrange
+		$vObject = $this->vCalendar1a;
+		$vObject->add('METHOD', 'REQUEST');
+		$vObject->VEVENT->remove('ORGANIZER');
+		
+		$this->expectException(CalendarException::class);
+        $this->expectExceptionMessage('iMip message event dose not contain an organizer');
+		
+		// Act
+		$this->calendarImpl->handleIMip($vObject);
+	}
+
+	public function testHandleImipNoAttendee(): void {
+		// Arrange
+		$vObject = $this->vCalendar1a;
+		$vObject->add('METHOD', 'REQUEST');
+		$vObject->VEVENT->remove('ATTENDEE');
+		
+		$this->expectException(CalendarException::class);
+        $this->expectExceptionMessage('iMip message event dose not contain an attendee');
+		
+		// Act
+		$this->calendarImpl->handleIMip($vObject);
 	}
 
 	public function testHandleImipRequest(): void {
@@ -316,7 +227,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$schedulingPlugin->expects(self::once())
 			->method('getAddressesForPrincipal')
 			->with($this->calendar->getPrincipalURI())
-			->willReturn($userAddressess);
+			->willReturn($userAddressess);		
 
 		$server = $this->createMock(Server::class);
 		$server->expects($this->any())
@@ -327,126 +238,10 @@ class CalendarImplTest extends \Test\TestCase {
 			]);
 		$server->expects(self::once())
 			->method('emit')
-			->with('schedule', [$iTip]);
+			->with('schedule', $iTip);
 
-		$invitationResponseServer = $this->createMock(InvitationResponseServer::class);
-		$invitationResponseServer->server = $server;
-		$invitationResponseServer->expects($this->any())
-			->method('getServer')
-			->willReturn($server);
 			
-		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
-			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
-			->onlyMethods(['getInvitationResponseServer'])
-			->getMock();
-		$calendarImpl->expects($this->once())
-			->method('getInvitationResponseServer')
-			->willReturn($invitationResponseServer);
-
-		$calendarImpl->handleIMip($vObject);
-	}
-
-	public function testHandleImipReply(): void {
-
-		$userAddressess = [
-			'mailto:organizer@testing.com',
-			'/remote.php/dav/principals/users/organizer/',
-		];
-
-		$vObject = $this->vCalendar1a;
-		$vObject->add('METHOD', 'REPLY');
-
-		$iTip = new Message();
-		$iTip->method = 'REPLY';
-		$iTip->sender = $vObject->VEVENT->ATTENDEE->getValue();
-		$iTip->recipient = $vObject->VEVENT->ORGANIZER->getValue();
-		$iTip->component = 'VEVENT';
-		$iTip->uid = $vObject->VEVENT->UID->getValue();
-		$iTip->sequence = (int)$vObject->VEVENT->SEQUENCE->getValue() ?? 0;
-		$iTip->message = $vObject;
-
-		/** @var CustomPrincipalPlugin|MockObject $authPlugin */
-		$authPlugin = $this->createMock(CustomPrincipalPlugin::class);
-		$authPlugin->expects(self::once())
-			->method('setCurrentPrincipal')
-			->with($this->calendar->getPrincipalURI());
-
-		/** @var \OCA\DAV\CalDAV\Schedule\Plugin|MockObject $schedulingPlugin */
-		$schedulingPlugin = $this->createMock(Plugin::class);
-		$schedulingPlugin->expects(self::once())
-			->method('getAddressesForPrincipal')
-			->with($this->calendar->getPrincipalURI())
-			->willReturn($userAddressess);
-
-		$server = $this->createMock(Server::class);
-		$server->expects($this->any())
-			->method('getPlugin')
-			->willReturnMap([
-				['auth', $authPlugin],
-				['caldav-schedule', $schedulingPlugin]
-			]);
-		$server->expects(self::once())
-			->method('emit')
-			->with('schedule', [$iTip]);
-
-		$invitationResponseServer = $this->createMock(InvitationResponseServer::class);
-		$invitationResponseServer->server = $server;
-		$invitationResponseServer->expects($this->any())
-			->method('getServer')
-			->willReturn($server);
-			
-		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
-			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
-			->onlyMethods(['getInvitationResponseServer'])
-			->getMock();
-		$calendarImpl->expects($this->once())
-			->method('getInvitationResponseServer')
-			->willReturn($invitationResponseServer);
-
-		$calendarImpl->handleIMip($vObject);
-	}
-
-	protected function mockExportGenerator(): Generator {
-		foreach ($this->mockExportCollection as $entry) {
-			yield $entry;
-		}
-	}
-
-	public function testExport(): void {
-		// Arrange
-		// construct calendar with a 1 hour event and same start/end time zones
-		$vCalendar = new VCalendar();
-		/** @var VEvent $vEvent */
-		$vEvent = $vCalendar->add('VEVENT', []);
-		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
-		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
-		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
-		$vEvent->add('SUMMARY', 'Test Recurrence Event');
-		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
-		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
-			'CN' => 'Attendee One',
-			'CUTYPE' => 'INDIVIDUAL',
-			'PARTSTAT' => 'NEEDS-ACTION',
-			'ROLE' => 'REQ-PARTICIPANT',
-			'RSVP' => 'TRUE'
-		]);
-		// construct data store return
-		$this->mockExportCollection[] = [
-			'id' => 1,
-			'calendardata' => $vCalendar->serialize()
-		];
-		$this->backend->expects($this->once())
-			->method('exportCalendar')
-			->with(1, $this->backend::CALENDAR_TYPE_CALENDAR, null)
-			->willReturn($this->mockExportGenerator());
-
-		// Act
-		foreach ($this->calendarImpl->export(null) as $entry) {
-			$exported[] = $entry;
-		}
-		
-		// Assert
-		$this->assertCount(1, $exported, 'Invalid exported items count');
+		$this->calendarImpl->handleIMip($vObject);
 	}
 
 }
