@@ -314,7 +314,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Utilitzeu aquest mètode per compartir fitxers amb persones o organitzacions fora de la vostra organització. Els fitxers i les carpetes es poden compartir mitjançant enllaços compartits públics i adreces de correu electrònic. També podeu compartir amb altres comptes de Nextcloud allotjats en diferents instàncies mitjançant el seu ID de núvol federat.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Comparticions que no formen part de comparticions internes o externes. Això pot ser compartit des d'aplicacions o d'altres fonts.",
     "Share with accounts and teams" : "Comparteix amb comptes i equips",
-    "Email, federated cloud id" : "Correu, identificador del núvol federat",
     "Unable to load the shares list" : "No s'ha pogut carregar la llista d'elements compartits",
     "Expires {relativetime}" : "Caduca {relativetime}",
     "this share just expired." : "aquest element compartit acaba de caducar.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Share expire date saved" : "S'ha desat la data de caducitat de la compartició",
     "You are not allowed to edit link shares that you don't own" : "No teniu permès editar els elements compartits d'enllaços dels que no sigueu propietaris",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ja s'ha afegit 1 adreça de correu","Ja s’han afegit {count} adreces de correu"],
-    "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"]
+    "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"],
+    "Email, federated cloud id" : "Correu, identificador del núvol federat"
 },
 "nplurals=2; plural=(n != 1);");

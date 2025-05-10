@@ -313,7 +313,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Використовуйте цей спосіб надання файлів у спільний доступ окремим користувачам або організаціям за межами вашої організації. Файли та каталоги можна надати у спільний доступ користувачам інших примірників хмар Nextcloud з використанням ідентифікатора об'єднаних хмар.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Спільні ресурси, що не є ані внутрішніми, ані зовнішніми спільними ресурсами, наприклад, спільні ресурси, створені застосунками чи іншими ресурсами.",
     "Share with accounts and teams" : "Поділитися з користувачами або командами",
-    "Email, federated cloud id" : "Ел.пошта, ідентифікатор об'єднаної хмари",
     "Unable to load the shares list" : "Не вдалося завантажити список спільних ресурсів",
     "Expires {relativetime}" : "Термін дії закінчується {relativetime}",
     "this share just expired." : "термін дії спільного доступу вичерпано.",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "Share expire date saved" : "Збережено термін доступности спільного ресурсу",
     "You are not allowed to edit link shares that you don't own" : "У вас відсутні права на редагування спільних ресурсів, якими з вами поділилися через посилання, власником яких ви не є",
     "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
-    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"]
+    "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
+    "Email, federated cloud id" : "Ел.пошта, ідентифікатор об'єднаної хмари"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -313,9 +313,7 @@ OC.L10N.register(
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Употребите ову методу да фајлове делите да појединцима или тимовима унутар своје организације. Ако прималац већ има приступ дељењу, али не може да га лоцира, можете му послати интерни линк дељења тако да може лако да му приступи.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Употребите ову методу да фајлове делите са појединцима или организацијама ван своје организације. Фајлови и фолдери могу да се деле путем јавних линкова дељења и и-мејл адресама. Такође можете да делите осталим Nextcloud налозима који се хостују на другим инстанцама користећи њихов ID здруженог облака.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Дељења која нису део интерних или спољних дељења. Ово могу бити дељења из апликација или осталих извора.",
-    "Share with accounts, teams, federated cloud id" : "Дели са налозима, тимовима, id здруженог облака",
     "Share with accounts and teams" : "Дељење са налозима и тимовима",
-    "Email, federated cloud id" : "И-мејл, ID здруженог облака",
     "Unable to load the shares list" : "Неуспело учитавање листе дељења",
     "Expires {relativetime}" : "Истиче {relativetime}",
     "this share just expired." : "ово дељење је управо истекло.",
@@ -423,6 +421,8 @@ OC.L10N.register(
     "Share expire date saved" : "Сачуван је датум истека дељења",
     "You are not allowed to edit link shares that you don't own" : "Није вам дозвољено да уређујете дељења линком која нису ваше власништво",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 и-мејл адреса је већ додата","{count} и-мејл адресе су већ додате","{count} и-мејл адреса је већ додато"],
-    "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"]
+    "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
+    "Share with accounts, teams, federated cloud id" : "Дели са налозима, тимовима, id здруженог облака",
+    "Email, federated cloud id" : "И-мејл, ID здруженог облака"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

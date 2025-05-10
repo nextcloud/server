@@ -304,7 +304,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Користете го овој метод за споделување датотеки со поединци или организации надвор од вашата организација. Датотеките и папките може да се споделуваат преку јавни линкови и адреси на е-пошта. Можете исто така да споделувате со други сметки на Nextcloud хостирани на различни истанци користејќи го нивниот федеративен ID.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Споделувања кои не се дел од внатрешни или надворешни споделувања. Ова може да биде споделување од апликации или други извори.",
     "Share with accounts and teams" : "Сподели со корисници и тимови",
-    "Email, federated cloud id" : "Е-пошта, федерален ИД",
     "Unable to load the shares list" : "Неможе да се вчита листата на споделувања",
     "Expires {relativetime}" : "Истекува {relativetime}",
     "this share just expired." : "ова споделување штотуку истече.",
@@ -408,6 +407,7 @@ OC.L10N.register(
     "Allow download" : "Дозволи преземање",
     "You are not allowed to edit link shares that you don't own" : "Не ви е дозволено да ги уредувате споделувањата кој не се ваши",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 е-пошта адреса е веќе додадена","{count} е-пошта адреси се веќе додадени"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 е-пошта адреса е додадена","{count} е-пошта адреси се додадени"]
+    "_1 email address added_::_{count} email addresses added_" : ["1 е-пошта адреса е додадена","{count} е-пошта адреси се додадени"],
+    "Email, federated cloud id" : "Е-пошта, федерален ИД"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
