@@ -709,7 +709,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			if ($cache->inCache($to)) {
 				$cache->remove($to);
 			}
-			$this->mkdir($to);
+			$this->copyFolder($sourceEntry, $to);
 
 			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
@@ -734,6 +734,27 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
+			if ($this->handleCopiesAsOwned) {
+				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
+				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
+			}
+		} catch (\Exception $e) {
+			$cache->remove($to);
+
+			throw $e;
+		}
+	}
+
+	private function copyFolder(ICacheEntry $sourceEntry, string $to) {
+		$cache = $this->getCache();
+
+		if (!$cache instanceof Cache) {
+			throw new \Exception('Invalid source cache for object store copy');
+		}
+
+		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
+
+		try {
 			if ($this->handleCopiesAsOwned) {
 				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
 				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
