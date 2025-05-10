@@ -54,7 +54,7 @@ class AppleProvisioningNodeTest extends TestCase {
 
 		$this->assertEquals([
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 +0000',
+			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 GMT',
 		], $this->node->getProperties([]));
 	}
 
