@@ -57,7 +57,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { normalize, extname, join } from 'path'
 import { defineComponent } from 'vue'
-import { createFromTemplate, getTemplates } from '../services/Templates.js'
+import { createFromTemplate, getTemplates, getTemplateFields } from '../services/Templates.js'
 
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcModal from '@nextcloud/vue/components/NcModal'
@@ -215,7 +215,7 @@ export default defineComponent({
 			}
 		},
 
-		async createFile(templateFields) {
+		async createFile(templateFields = []) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
@@ -274,14 +274,33 @@ export default defineComponent({
 		},
 
 		async onSubmit() {
-			if (this.selectedTemplate?.fields?.length > 0) {
-				spawnDialog(TemplateFiller, {
-					fields: this.selectedTemplate.fields,
-					onSubmit: this.createFile,
-				})
-			} else {
+			const fieldsUrl = this.selectedTemplate?.fieldsUrl
+
+			if (!fieldsUrl) {
 				this.loading = true
-				await this.createFile()
+				return await this.createFile()
+			}
+
+			try {
+				const fields = await getTemplateFields(fieldsUrl)
+
+				if (fields.length < 1) {
+					this.loading = true
+					return await this.createFile()
+				}
+
+				spawnDialog(TemplateFiller, {
+					onSubmit: this.createFile,
+					fields,
+				})
+			} catch (error) {
+				logger.error('Error while extracting fields from template', { error })
+				showError(t('files', 'Could not extract fields from template'))
+
+				// If fetching the template fields fails, we can create
+				// a file anyway without any fields filled
+				this.loading = true
+				await this.createFile([])
 			}
 		},
 	},

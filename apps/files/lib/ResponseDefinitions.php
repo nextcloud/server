@@ -46,6 +46,7 @@ namespace OCA\Files;
  *      hasPreview: bool,
  *      previewUrl: ?string,
  *      fields: list<FilesTemplateField>,
+ * 		fieldsUrl: ?string,
  *  }
  *
  * @psalm-type FilesTemplateFileCreator = array{
