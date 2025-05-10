@@ -314,7 +314,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "استَعمِل هذه الطريقة لمشاركة الملفات مع الأفراد أو المؤسسات خارج مؤسستك. يمكن مشاركة الملفات والمجلدات عبر روابط المشاركة العامة وعناوين البريد الإلكتروني. يمكنك أيضًا المشاركة مع حسابات نكست كلاود الأخرى المستضافة على خوادم مختلفة باستخدام مُعرِّف سحابتها الاتحاديّة.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "المشاركات التي لا تشكل جزءاً من المشاركات الداخلية أو الخارجية تُعد مُشارَكات من تطبيقات أو مصادر أخرى.",
     "Share with accounts and teams" : "المشاركة مع حسابات وفِرَق",
-    "Email, federated cloud id" : "بريد إلكتروني، مُعرِّف سحابة اتحاديّة",
     "Unable to load the shares list" : "تعذّر تحميل قائمة المشاركات",
     "Expires {relativetime}" : "تنتهي الصلاحية في {relativetime}",
     "this share just expired." : "صلاحية هذه المشاركة إنتَهَت للتَّوّ.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Share expire date saved" : "تمّ حفظ تاريخ انتهاء صلاحية المشاركة",
     "You are not allowed to edit link shares that you don't own" : "أنت غير مسموحٍ لك بتعديل مشاركات الروابط التي لا تملكها",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} عنوان إيميل سبقت إضافته سلفاً","1 عنوان إيميل سبقت إضافته سلفاً","{count} عنوان إيميل سبقت إضافته سلفاً","{count} عناوين إيميل سبقت إضافتهت سلفاً","{count} عناوين إيميل سبقت إضافتها سلفاً","{count} عناوين إيميل سبقت إضافتها سلفاً"],
-    "_1 email address added_::_{count} email addresses added_" : ["{count} عنوان إيميل تمت إضافته","1 عنوان إيميل تمت إضافته","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها"]
+    "_1 email address added_::_{count} email addresses added_" : ["{count} عنوان إيميل تمت إضافته","1 عنوان إيميل تمت إضافته","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها","{count} عناوين إيميل تمت إضافتها"],
+    "Email, federated cloud id" : "بريد إلكتروني، مُعرِّف سحابة اتحاديّة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -314,7 +314,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Shares that are not part of the internal or external shares. This can be shares from apps or other sources.",
     "Share with accounts and teams" : "Share with accounts and teams",
-    "Email, federated cloud id" : "Email, federated cloud id",
     "Unable to load the shares list" : "Unable to load the shares list",
     "Expires {relativetime}" : "Expires {relativetime}",
     "this share just expired." : "this share just expired.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Share expire date saved" : "Share expire date saved",
     "You are not allowed to edit link shares that you don't own" : "You are not allowed to edit link shares that you don't own",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 email address already added","{count} email addresses already added"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"]
+    "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
+    "Email, federated cloud id" : "Email, federated cloud id"
 },
 "nplurals=2; plural=(n != 1);");

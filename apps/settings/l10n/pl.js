@@ -601,6 +601,7 @@ OC.L10N.register(
     "Account deletion" : "Usunięcie konta",
     "Delete {userid}'s account" : "Usuń konto {userid}",
     "Display name was successfully changed" : "Nazwa wyświetlana została zmieniona",
+    "Password can't be empty" : "Hasło nie możne być puste",
     "Password was successfully changed" : "Hasło zostało zmienione",
     "Email was successfully changed" : "Adres e-mail został pomyślnie zmieniony",
     "Welcome mail sent!" : "Wysłano wiadomość powitalną!",
