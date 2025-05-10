@@ -296,9 +296,7 @@ OC.L10N.register(
     "Link shares" : "Jaoslingid",
     "Shares" : "Jagamisi",
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Kasuta seda jagamismeetodit jagamisel oma organisatsiooni kasutajatega ja tiimidega. Kui kasutajal juba on jaosmeediale ligipääs, kuid ei suuad seda leida, siis lihtsuse mõttes saada talle süsteemisisene jagamislink.",
-    "Share with accounts, teams, federated cloud id" : "Jaga kasutajatega, tiimidega ja liitpilves osalejatega",
     "Share with accounts and teams" : "Jaga kasutajate ja tiimidega",
-    "Email, federated cloud id" : "E-posti aadress, liitpilve kasutajatunnus",
     "Unable to load the shares list" : "Jaosmeedia loendi laadimine ei õnnestu",
     "Expires {relativetime}" : "Aegub {relativetime}",
     "this share just expired." : "see jagamine aegus äsja",
@@ -401,6 +399,8 @@ OC.L10N.register(
     "Share expire date saved" : "Jaosmeedia aegumise kuupäev on salvestatud",
     "You are not allowed to edit link shares that you don't own" : "Sa ei saa muuta lingi jagamist, mis pole sinu oma",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-posti aadress on juba lisatud","{count} e-posti aadressi on juba lisatud"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-posti aadress on lisatud","{count} e-posti aadressi on lisatud"]
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-posti aadress on lisatud","{count} e-posti aadressi on lisatud"],
+    "Share with accounts, teams, federated cloud id" : "Jaga kasutajatega, tiimidega ja liitpilves osalejatega",
+    "Email, federated cloud id" : "E-posti aadress, liitpilve kasutajatunnus"
 },
 "nplurals=2; plural=(n != 1);");

@@ -314,7 +314,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "使用此方法與組織外的個人或組織分享檔案。檔案與資料夾可以透過公開的分享連結與電子郵件地址來分享。您也可以使用其他 Nextcloud 帳號的聯邦雲端 ID，將檔案分享給託管在不同站台上的其他 Nextcloud 帳號。",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "不屬於內部或外部分享的分享。這可能是來自應用程式或其他來源的分享。",
     "Share with accounts and teams" : "與帳號及團隊分享",
-    "Email, federated cloud id" : "電郵地址、聯邦雲端 ID",
     "Unable to load the shares list" : "無法載入分享清單",
     "Expires {relativetime}" : "有效期至 {relativetime}",
     "this share just expired." : "此分享剛過期。",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Share expire date saved" : "已儲存分享過期日期",
     "You are not allowed to edit link shares that you don't own" : "您無權編輯不屬於您的鏈接共享",
     "_1 email address already added_::_{count} email addresses already added_" : ["已添加 {count} 個電郵地址"],
-    "_1 email address added_::_{count} email addresses added_" : ["添加了{count}個電郵地址"]
+    "_1 email address added_::_{count} email addresses added_" : ["添加了{count}個電郵地址"],
+    "Email, federated cloud id" : "電郵地址、聯邦雲端 ID"
 },
 "nplurals=1; plural=0;");
