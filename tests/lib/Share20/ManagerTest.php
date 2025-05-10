@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -2492,6 +2493,74 @@ class ManagerTest extends \Test\TestCase {
 			->with('/target');
 
 		$manager->createShare($share);
+	}
+
+	public function testCreateShareBlockedGroups() {
+		/** setup blocked groups list */
+		$appConfig = $this->createMock(IAppConfig::class);
+		$appConfig->method('getValueArray')
+			->with('core', 'shareapi_groups_block_list')
+			->willReturn(['blocked-group-1', 'blocked-group-2']);
+		$this->appConfig = $appConfig;
+
+		$shareProvider = $this->createMock(IShareProvider::class);
+		$shareProvider->method('getSharesByPath')->willReturn([]);
+		$this->factory->setProvider($shareProvider);
+
+		$manager = $this->createManagerMock()
+			->setMethods(['allowGroupSharing', 'canShare', 'generalCreateChecks', 'pathCreateChecks'])
+			->getMock();
+
+		$shareOwner = $this->createMock(IUser::class);
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$storage = $this->createMock(IStorage::class);
+		$path = $this->createMock(File::class);
+		$path->method('getOwner')->willReturn($shareOwner);
+		$path->method('getName')->willReturn('target');
+		$path->method('getStorage')->willReturn($storage);
+
+		/** test create share with 'blocked-group-2': should throw exception */
+		$this->expectException(\InvalidArgumentException::class);
+		$share = $this->createShare(
+			null,
+			IShare::TYPE_GROUP,
+			$path,
+			'blocked-group-1',
+			'sharedBy',
+			null,
+			\OCP\Constants::PERMISSION_ALL,
+		);
+
+		$manager->expects($this->any())
+			->method('allowGroupSharing')
+			->willReturn(true);
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+		$manager->expects($this->once())
+			->method('generalCreateChecks')
+			->with($share);
+		$manager->expects($this->once())
+			->method('pathCreateChecks')
+			->with($path);
+
+		$this->defaultProvider
+			->expects($this->any())
+			->method('create')
+			->with($share)
+			->willReturnArgument(0);
+
+		$share->expects($this->any())
+			->method('setShareOwner')
+			->with('shareOwner');
+		$share->expects($this->any())
+			->method('setTarget')
+			->with('/target');
+
+		$manager->createShare($share);
+
 	}
 
 	public function testCreateShareGroup(): void {
