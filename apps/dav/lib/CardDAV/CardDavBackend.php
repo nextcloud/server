@@ -474,7 +474,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function getCards($addressbookId) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
 
@@ -511,7 +511,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
@@ -554,7 +554,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$cards = [];
 
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->in('uri', $query->createParameter('uri')));
@@ -716,32 +716,33 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @throws Exception
 	 */
-	public function moveCard(int $sourceAddressBookId, int $targetAddressBookId, string $cardUri, string $oldPrincipalUri): bool {
-		return $this->atomic(function () use ($sourceAddressBookId, $targetAddressBookId, $cardUri, $oldPrincipalUri) {
-			$card = $this->getCard($sourceAddressBookId, $cardUri);
+	public function moveCard(int $sourceAddressBookId, string $sourceObjectUri, int $targetAddressBookId, string $tragetObjectUri): bool {
+		return $this->atomic(function () use ($sourceAddressBookId, $sourceObjectUri, $targetAddressBookId, $tragetObjectUri) {
+			$card = $this->getCard($sourceAddressBookId, $sourceObjectUri);
 			if (empty($card)) {
 				return false;
 			}
+			$sourceObjectId = (int)$card['id'];
 
 			$query = $this->db->getQueryBuilder();
 			$query->update('cards')
 				->set('addressbookid', $query->createNamedParameter($targetAddressBookId, IQueryBuilder::PARAM_INT))
-				->where($query->expr()->eq('uri', $query->createNamedParameter($cardUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
+				->set('uri', $query->createNamedParameter($tragetObjectUri, IQueryBuilder::PARAM_STR))
+				->where($query->expr()->eq('uri', $query->createNamedParameter($sourceObjectUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
 				->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($sourceAddressBookId, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 				->executeStatement();
 
-			$this->purgeProperties($sourceAddressBookId, (int)$card['id']);
-			$this->updateProperties($sourceAddressBookId, $card['uri'], $card['carddata']);
+			$this->purgeProperties($sourceAddressBookId, $sourceObjectId);
+			$this->updateProperties($targetAddressBookId, $tragetObjectUri, $card['carddata']);
 
-			$this->addChange($sourceAddressBookId, $card['uri'], 3);
-			$this->addChange($targetAddressBookId, $card['uri'], 1);
+			$this->addChange($sourceAddressBookId, $sourceObjectUri, 3);
+			$this->addChange($targetAddressBookId, $tragetObjectUri, 1);
 
-			$card = $this->getCard($targetAddressBookId, $cardUri);
+			$card = $this->getCard($targetAddressBookId, $tragetObjectUri);
 			// Card wasn't found - possibly because it was deleted in the meantime by a different client
 			if (empty($card)) {
 				return false;
 			}
-
 			$targetAddressBookRow = $this->getAddressBookById($targetAddressBookId);
 			// the address book this card is being moved to does not exist any longer
 			if (empty($targetAddressBookRow)) {
