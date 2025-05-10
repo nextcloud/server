@@ -10,6 +10,7 @@ namespace OC\Collaboration\Reference\File;
 
 use OC\User\NoUserException;
 use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
+use OCP\Collaboration\Reference\IPublicReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
@@ -22,8 +23,10 @@ use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager as ShareManager;
 
-class FileReferenceProvider extends ADiscoverableReferenceProvider {
+class FileReferenceProvider extends ADiscoverableReferenceProvider implements IPublicReferenceProvider {
 	private ?string $userId;
 	private IL10N $l10n;
 
@@ -34,13 +37,14 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 		private IMimeTypeDetector $mimeTypeDetector,
 		private IPreview $previewManager,
 		IFactory $l10n,
+		private ShareManager $shareManager,
 	) {
 		$this->userId = $userSession->getUser()?->getUID();
 		$this->l10n = $l10n->get('files');
 	}
 
 	public function matchReference(string $referenceText): bool {
-		return $this->getFilesAppLinkId($referenceText) !== null;
+		return $this->getFilesAppLinkId($referenceText) !== null || $this->getFilesAppPublicLinkToken($referenceText) !== null;
 	}
 
 	private function getFilesAppLinkId(string $referenceText): ?int {
@@ -74,31 +78,104 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 		return $fileId !== null ? (int)$fileId : null;
 	}
 
-	public function resolveReference(string $referenceText): ?IReference {
-		if ($this->matchReference($referenceText)) {
-			$reference = new Reference($referenceText);
-			try {
-				$this->fetchReference($reference);
-			} catch (NotFoundException $e) {
-				$reference->setRichObject('file', null);
-				$reference->setAccessible(false);
+	private function getFilesAppPublicLinkToken(string $referenceText): ?string {
+		$prefixes = ['/index.php/s/', '/s/'];
+		
+		$token = null;
+		
+		foreach ($prefixes as $prefix) {
+			$fullPrefix = $this->urlGenerator->getAbsoluteURL($prefix);
+			if (mb_strpos($referenceText, $fullPrefix) === 0) {
+				$token = substr($referenceText, mb_strlen($fullPrefix));
+				if (($slashPos = strpos($token, '/')) !== false) {
+					$token = substr($token, 0, $slashPos);
+				}
+				break;
 			}
-			return $reference;
 		}
+		
+		return $token;
+	}
 
-		return null;
+	public function resolveReference(string $referenceText): ?IReference {
+		$reference = new Reference($referenceText);
+		try {
+			$fileId = $this->getFilesAppLinkId($referenceText);
+
+			if ($fileId !== null) {
+				$this->fetchReference($reference, $fileId);
+			} else {
+				$fileToken = $this->getFilesAppPublicLinkToken($referenceText);
+				if ($fileToken !== null) {
+					$this->fetchReferenceForPublicFile($reference, $referenceText, $fileToken);
+				} else {
+					throw new NotFoundException();
+				}
+			}
+		} catch (NotFoundException $e) {
+			$reference->setRichObject('file', null);
+			$reference->setAccessible(false);
+		}
+		return $reference;
+	}
+
+	public function resolveReferencePublic(string $referenceText, string $shareToken): ?IReference {
+		$reference = new Reference($referenceText);
+		try {
+			$fileToken = $this->getFilesAppPublicLinkToken($referenceText);
+			if ($fileToken !== null) {
+				$this->fetchReferenceForPublicFile($reference, $referenceText, $fileToken);
+			} else {
+				throw new NotFoundException();
+			}
+		} catch (NotFoundException $e) {
+			$reference->setRichObject('file', null);
+			$reference->setAccessible(false);
+		}
+		return $reference;
+	}
+
+	private function fetchReferenceForPublicFile(Reference $reference, string $referenceText, string $fileToken): void {
+		try {
+			$share = $this->shareManager->getShareByToken($fileToken);
+			$node = $share->getNode();
+			
+			$reference->setTitle($node->getName());
+			$reference->setDescription($node->getMimetype());
+			$reference->setUrl($referenceText);
+			if ($this->previewManager->isMimeSupported($node->getMimeType())) {
+				$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview', [
+					'x' => 1600,
+					'y' => 630,
+					'token' => $fileToken
+				]));
+			} else {
+				$fileTypeIconUrl = $this->mimeTypeDetector->mimeTypeIcon($node->getMimeType());
+				$reference->setImageUrl($fileTypeIconUrl);
+			}
+			
+			$reference->setRichObject('file', [
+				'id' => $fileToken, // security, public link should not show file id
+				'name' => $node->getName(),
+				'size' => $node->getSize(),
+				'path' => $fileToken,
+				'link' => $reference->getUrl(),
+				'mimetype' => $node->getMimetype(),
+				'mtime' => $node->getMTime(),
+				'preview-available' => $this->previewManager->isAvailable($node),
+				'is-public-link' => true,
+			]);
+		} catch (ShareNotFound|NotFoundException|InvalidPathException|NotPermittedException $e) {
+			$reference->setRichObject('file', null);
+			$reference->setAccessible(false);
+		}
 	}
 
 	/**
 	 * @throws NotFoundException
 	 */
-	private function fetchReference(Reference $reference): void {
+	private function fetchReference(Reference $reference, int $fileId): void {
 		if ($this->userId === null) {
-			throw new NotFoundException();
-		}
-
-		$fileId = $this->getFilesAppLinkId($reference->getId());
-		if ($fileId === null) {
 			throw new NotFoundException();
 		}
 
@@ -136,11 +213,24 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 	}
 
 	public function getCachePrefix(string $referenceId): string {
-		return (string)$this->getFilesAppLinkId($referenceId);
+		$fileId = $this->getFilesAppLinkId($referenceId);
+		if ($fileId !== null) {
+			return (string)$fileId;
+		} else {
+			$fileToken = $this->getFilesAppPublicLinkToken($referenceId);
+			if ($fileToken !== null) {
+				return $fileToken;
+			}
+		}
+		return '';
 	}
 
 	public function getCacheKey(string $referenceId): ?string {
 		return $this->userId ?? '';
+	}
+
+	public function getCacheKeyPublic(string $referenceId, string $shareToken): ?string {
+		return $shareToken;
 	}
 
 	public function getId(): string {
