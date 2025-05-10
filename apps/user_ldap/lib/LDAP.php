@@ -76,7 +76,8 @@ class LDAP implements ILDAPWrapper {
 			$referrals,
 			$controls);
 		if ($errorCode !== 0) {
-			$this->processLDAPError($link, 'ldap_parse_result', $errorCode, $errorMsg);
+			ldap_get_option($link, LDAP_OPT_DIAGNOSTIC_MESSAGE, $diagnosticMessage);
+			$this->processLDAPError('ldap_parse_result', $errorCode, $errorMsg, $diagnosticMessage);
 		}
 		if ($this->dataCollector !== null) {
 			$this->dataCollector->stopLastLdapRequest();
@@ -335,18 +336,21 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * Analyzes the returned LDAP error and acts accordingly if not 0
 	 *
-	 * @param \LDAP\Connection $resource the LDAP Connection resource
 	 * @throws ConstraintViolationException
 	 * @throws ServerNotAvailableException
 	 * @throws \Exception
 	 */
-	private function processLDAPError($resource, string $functionName, int $errorCode, string $errorMsg): void {
+	private function processLDAPError(string $functionName, int $errorCode, string $errorMsg, string $diagnosticMsg): void {
 		$this->logger->debug('LDAP error {message} ({code}) after calling {func}', [
 			'app' => 'user_ldap',
 			'message' => $errorMsg,
+			'diagnosticMessage' => $diagnosticMsg,
 			'code' => $errorCode,
 			'func' => $functionName,
 		]);
+		$extraInfo = $diagnosticMsg !== ''
+			? sprintf(' (Diagnostic Message: %s)', $diagnosticMsg)
+			: '';
 		if ($functionName === 'ldap_get_entries'
 			&& $errorCode === -4) {
 		} elseif ($errorCode === 32) {
@@ -354,16 +358,15 @@ class LDAP implements ILDAPWrapper {
 		} elseif ($errorCode === 10) {
 			//referrals, we switch them off, but then there is AD :)
 		} elseif ($errorCode === -1) {
-			throw new ServerNotAvailableException('Lost connection to LDAP server.');
+			throw new ServerNotAvailableException('Lost connection to LDAP server' . $extraInfo);
 		} elseif ($errorCode === 52) {
-			throw new ServerNotAvailableException('LDAP server is shutting down.');
+			throw new ServerNotAvailableException('LDAP server is shutting down' . $extraInfo);
 		} elseif ($errorCode === 48) {
-			throw new \Exception('LDAP authentication method rejected', $errorCode);
+			throw new \Exception('LDAP authentication method rejected' . $extraInfo, $errorCode);
 		} elseif ($errorCode === 1) {
-			throw new \Exception('LDAP Operations error', $errorCode);
+			throw new \Exception('LDAP Operations error' . $extraInfo, $errorCode);
 		} elseif ($errorCode === 19) {
-			ldap_get_option($resource, LDAP_OPT_ERROR_STRING, $extended_error);
-			throw new ConstraintViolationException(!empty($extended_error) ? $extended_error : $errorMsg, $errorCode);
+			throw new ConstraintViolationException($diagnosticMsg ?: $errorMsg, $errorCode);
 		}
 	}
 
@@ -391,8 +394,9 @@ class LDAP implements ILDAPWrapper {
 			return;
 		}
 		$errorMsg = ldap_error($resource);
+		ldap_get_option($resource, LDAP_OPT_DIAGNOSTIC_MESSAGE, $diagnosticMessage);
 
-		$this->processLDAPError($resource, $functionName, $errorCode, $errorMsg);
+		$this->processLDAPError($functionName, $errorCode, $errorMsg, (string)$diagnosticMessage);
 
 		$this->curArgs = [];
 	}
