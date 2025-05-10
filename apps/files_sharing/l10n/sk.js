@@ -314,7 +314,6 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Túto metódu použite na zdieľanie súborov s jednotlivcami alebo organizáciami mimo vašej organizácie. Súbory a priečinky je možné zdieľať prostredníctvom verejných zdieľaných odkazov a e-mailových adries. Môžete tiež zdieľať s inými účtami Nextcloud hosťovanými v rôznych inštanciách pomocou ich federatívneho cloudového ID.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Akcie, ktoré nie sú súčasťou interných alebo externých akcií. Môžu to byť zdieľania z aplikácií alebo iných zdrojov.",
     "Share with accounts and teams" : "Zdieľať s účtami a tímami",
-    "Email, federated cloud id" : "E-mail, id federovaného cloudu",
     "Unable to load the shares list" : "Nedarí sa načítať zoznam zdieľaní",
     "Expires {relativetime}" : "Platnosť končí {relativetime}",
     "this share just expired." : "platnosť tohto zdieľania práve skončila.",
@@ -422,6 +421,7 @@ OC.L10N.register(
     "Share expire date saved" : "Dátum skončenia platnosti zdieľania bol uložený",
     "You are not allowed to edit link shares that you don't own" : "Nemáte povolenie upravovať zdieľania odkazov, ktoré nevlastníte",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailová adriesa už bola pridaná","{count} e-mailové adriesy už boli pridané","{count} e-mailových adries už bolo pridaných","{count} e-mailových adries už bolo pridaných"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 pridaná e-mailová adresa","{count} pridané e-mailové adriesy","{count} pridaných e-mailových adries","{count} pridaných e-mailových adries"]
+    "_1 email address added_::_{count} email addresses added_" : ["1 pridaná e-mailová adresa","{count} pridané e-mailové adriesy","{count} pridaných e-mailových adries","{count} pridaných e-mailových adries"],
+    "Email, federated cloud id" : "E-mail, id federovaného cloudu"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
