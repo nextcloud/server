@@ -21,6 +21,10 @@
 		<!-- Actions -->
 		<td class="files-list__row-actions" />
 
+		<!-- Mime -->
+		<td v-if="isMimeAvailable"
+			class="files-list__column files-list__row-mime" />
+
 		<!-- Size -->
 		<td v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size">
@@ -59,6 +63,10 @@ export default defineComponent({
 		currentView: {
 			type: View,
 			required: true,
+		},
+		isMimeAvailable: {
+			type: Boolean,
+			default: false,
 		},
 		isMtimeAvailable: {
 			type: Boolean,
