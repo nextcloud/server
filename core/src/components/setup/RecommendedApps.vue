@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="guest-box">
+	<div class="guest-box" data-cy-setup-recommended-apps>
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
 		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
@@ -40,13 +40,15 @@
 			<NcButton v-if="showInstallButton && !installingApps"
 				type="tertiary"
 				role="link"
-				:href="defaultPageUrl">
+				:href="defaultPageUrl"
+				data-cy-setup-recommended-apps-skip>
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
 			<NcButton v-if="showInstallButton"
 				type="primary"
 				:disabled="installingApps || !isAnyAppSelected"
+				data-cy-setup-recommended-apps-install>
 				@click.stop.prevent="installApps">
 				{{ installingApps ? t('core', 'Installing apps …') : t('core', 'Install recommended apps') }}
 			</NcButton>
