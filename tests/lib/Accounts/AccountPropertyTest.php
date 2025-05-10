@@ -63,11 +63,6 @@ class AccountPropertyTest extends TestCase {
 			[IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_LOCAL],
 			[IAccountManager::SCOPE_FEDERATED, IAccountManager::SCOPE_FEDERATED],
 			[IAccountManager::SCOPE_PUBLISHED, IAccountManager::SCOPE_PUBLISHED],
-			// legacy values
-			[IAccountManager::VISIBILITY_PRIVATE, IAccountManager::SCOPE_LOCAL],
-			[IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::SCOPE_FEDERATED],
-			[IAccountManager::VISIBILITY_PUBLIC, IAccountManager::SCOPE_PUBLISHED],
-			['', IAccountManager::SCOPE_LOCAL],
 			// invalid values
 			['unknown', null],
 			['v2-unknown', null],
