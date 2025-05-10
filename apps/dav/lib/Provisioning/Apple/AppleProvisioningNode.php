@@ -57,7 +57,7 @@ class AppleProvisioningNode implements INode, IProperties {
 
 		return [
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC2822),
+			'{DAV:}getlastmodified' => $datetime->format(\DateTimeInterface::RFC7231),
 		];
 	}
 
