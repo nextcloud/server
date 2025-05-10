@@ -11,20 +11,26 @@ namespace OCA\Files\Command;
 
 use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files\Service\OwnershipTransferService;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class TransferOwnership extends Command {
 	public function __construct(
 		private IUserManager $userManager,
 		private OwnershipTransferService $transferService,
 		private IConfig $config,
+		private IMountManager $mountManager,
 	) {
 		parent::__construct();
 	}
@@ -60,6 +66,16 @@ class TransferOwnership extends Command {
 				InputOption::VALUE_OPTIONAL,
 				'transfer incoming user file shares to destination user. Usage: --transfer-incoming-shares=1 (value required)',
 				'2'
+			)->addOption(
+				'include-external-storage',
+				null,
+				InputOption::VALUE_NONE,
+				'include files on external storages, this will _not_ setup an external storage for the target user, but instead moves all the files from the external storages into the target users home directory',
+			)->addOption(
+				'force-include-external-storage',
+				null,
+				InputOption::VALUE_NONE,
+				'don\'t ask for confirmation for transferring external storages',
 			);
 	}
 
@@ -87,6 +103,31 @@ class TransferOwnership extends Command {
 			return self::FAILURE;
 		}
 
+		$path = ltrim($input->getOption('path'), '/');
+		$includeExternalStorage = $input->getOption('include-external-storage');
+		if ($includeExternalStorage) {
+			$mounts = $this->mountManager->findIn('/' . rtrim($sourceUserObject->getUID() . '/files/' . $path, '/'));
+			/** @var IMountPoint[] $mounts */
+			$mounts = array_filter($mounts, fn ($mount) => $mount->getMountProvider() === ConfigAdapter::class);
+			if (count($mounts) > 0) {
+				$output->writeln(count($mounts) . ' external storages will be transferred:');
+				foreach ($mounts as $mount) {
+					$output->writeln('  - <info>' . $mount->getMountPoint() . '</info>');
+				}
+				$output->writeln('');
+				$output->writeln('<comment>Any other users with access to these external storages will lose access to the files.</comment>');
+				$output->writeln('');
+				if (!$input->getOption('force-include-external-storage')) {
+					/** @var QuestionHelper $helper */
+					$helper = $this->getHelper('question');
+					$question = new ConfirmationQuestion('Are you sure you want to transfer external storages? (y/N) ', false);
+					if (!$helper->ask($input, $output, $question)) {
+						return self::FAILURE;
+					}
+				}
+			}
+		}
+
 		try {
 			$includeIncomingArgument = $input->getOption('transfer-incoming-shares');
 
@@ -112,11 +153,12 @@ class TransferOwnership extends Command {
 			$this->transferService->transfer(
 				$sourceUserObject,
 				$destinationUserObject,
-				ltrim($input->getOption('path'), '/'),
+				$path,
 				$output,
 				$input->getOption('move') === true,
 				false,
-				$includeIncoming
+				$includeIncoming,
+				$includeExternalStorage,
 			);
 		} catch (TransferOwnershipException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
