@@ -8,6 +8,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -20,6 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Setting extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
+		protected IAccountManager $accountManager,
 		protected IConfig $config,
 	) {
 		parent::__construct();
@@ -149,14 +151,20 @@ class Setting extends Base {
 			return 0;
 		}
 
-		$value = $this->config->getUserValue($uid, $app, $key, null);
+		$value = $this->getStoredValue($uid, $app, $key);
 		if ($input->getArgument('value') !== null) {
 			if ($input->hasParameterOption('--update-only') && $value === null) {
 				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 				return 1;
 			}
 
-			if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
+			if ($app === 'profile'
+				&& in_array($key, IAccountManager::ALLOWED_PROPERTIES)
+				&& $key !== IAccountManager::PROPERTY_EMAIL
+				&& $key !== IAccountManager::PROPERTY_DISPLAYNAME) {
+				$this->editProfileProperty($uid, $key, $input->getArgument('value'));
+				return 0;
+			} else if ($this->isSettingProperty($app, $key)) {
 				$returnCode = $this->setSettingsProperty($input, $output, $uid, $key);
 				if ($returnCode !== null) {
 					return $returnCode;
@@ -170,7 +178,12 @@ class Setting extends Base {
 				return 1;
 			}
 
-			if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
+			if ($this->isProfileProperty($app, $key)) {
+				$this->deleteProfileProperty($app, $key);
+				return 0;
+			}
+
+			if ($this->isSettingProperty($app, $key)) {
 				$returnCode = $this->deleteSettingsProperty($output, $uid, $key);
 				if ($returnCode !== null) {
 					return $returnCode;
@@ -191,6 +204,20 @@ class Setting extends Base {
 		}
 
 		return 0;
+	}
+
+	private function deleteProfileProperty($uid, $key): void {
+		$this->editProfileProperty($uid, $key, '');
+	}
+
+	private function editProfileProperty($uid, $key, $value): void {
+		$user = $this->userManager->get($uid);
+		if (!$user) {
+			throw new \InvalidArgumentException('The user "' . $uid . '" must exist to edit this setting.');
+		}
+		$account = $this->accountManager->getAccount($user);
+		$account->getProperty($key)->setValue($value);
+		$this->accountManager->updateAccount($account);
 	}
 
 	private function deleteSettingsProperty(OutputInterface $output, $uid, $key): ?int {
@@ -231,6 +258,18 @@ class Setting extends Base {
 		return null;
 	}
 
+	private function getStoredValue(mixed $uid, mixed $app, mixed $key): ?string {
+		if ($app === 'profile') {
+			$user = $this->userManager->get($uid);
+			$account = $this->accountManager->getAccount($user);
+			$property = $account->getProperty($key);
+			return $property->getValue() === '' ? null : $property->getValue();
+		}
+
+		return $this->config->getUserValue($uid, $app, $key, null);
+	}
+
+
 	protected function getUserSettings(string $uid, string $app): array {
 		$settings = $this->config->getAllUserValues($uid);
 		if ($app !== '') {
@@ -241,13 +280,44 @@ class Setting extends Base {
 			}
 		}
 
+		// add user properties that are not stored as settings
+		$settings = array_merge_recursive($settings, $this->getExtraSettings($uid, $app));
+		return $settings;
+	}
+
+	private function getExtraSettings(string $uid, string $app): array {
 		$user = $this->userManager->get($uid);
-		if ($user !== null) {
+		$settings = [];
+		if ($user === null) {
+			return $settings;
+		}
+
+		if (!$app || $app === 'settings') {
 			// Only add the display name if the user exists
 			$settings['settings']['display_name'] = $user->getDisplayName();
 		}
 
+		if (!$app || $app === 'profile') {
+			$userAccount = $this->accountManager->getAccount($user);
+			foreach ($userAccount->getAllProperties() as $property) {
+				if ($property->getValue() !== '' && !in_array($property->getName(), ['email', 'displayname', 'profile_enabled'])) {
+					$settings['profile'][$property->getName()] = $property->getValue();
+				}
+			}
+		}
+
 		return $settings;
+	}
+
+	private function isSettingProperty(string $app, string $key): bool {
+		return $app === 'settings' && in_array($key, ['email', 'display_name']);
+	}
+
+	private function isProfileProperty(string $app, string $key): bool {
+		return $app === 'profile'
+			&& in_array($key, IAccountManager::ALLOWED_PROPERTIES)
+			&& $key !== IAccountManager::PROPERTY_EMAIL
+			&& $key !== IAccountManager::PROPERTY_DISPLAYNAME;
 	}
 
 	/**
