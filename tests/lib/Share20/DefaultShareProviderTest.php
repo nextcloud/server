@@ -30,6 +30,7 @@ use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -83,6 +84,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
 
+	/** @var IConfig&MockObject */
+	protected $config;
+
 	/** @var IShareManager&MockObject */
 	protected $shareManager;
 
@@ -98,6 +102,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
@@ -116,6 +121,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->timeFactory,
 			$this->shareManager,
+			$this->config,
 		);
 	}
 
@@ -478,6 +484,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->urlGenerator,
 				$this->timeFactory,
 				$this->shareManager,
+				$this->config,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -574,6 +581,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->urlGenerator,
 				$this->timeFactory,
 				$this->shareManager,
+				$this->config,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -2569,6 +2577,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->timeFactory,
 			$this->shareManager,
+			$this->config,
 		);
 
 		$password = md5(time());
@@ -2668,6 +2677,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->timeFactory,
 			$this->shareManager,
+			$this->config,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2765,6 +2775,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->timeFactory,
 			$this->shareManager,
+			$this->config,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
