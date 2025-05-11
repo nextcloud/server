@@ -6,6 +6,8 @@ OC.L10N.register(
     "View file" : "View file",
     "View folder" : "View folder",
     "Files reminder" : "Files reminder",
+    "The \"files_reminders\" app can work properly." : "The \"files_reminders\" app can work properly.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
     "Set file reminders" : "Set file reminders",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
     "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\"",

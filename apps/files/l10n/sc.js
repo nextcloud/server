@@ -174,7 +174,11 @@ OC.L10N.register(
     "Created new folder \"{name}\"" : "Cartella noa \"{name}\" creada",
     "Unable to initialize the templates directory" : "Non faghet a initzializare sa cartella de is modellos",
     "Templates" : "Modellos",
+    "No files to upload" : "Perunu archìviu de carrigare",
+    "Some files could not be uploaded" : "No at fatu a carrigare unos cantos archìvios",
+    "Files uploaded successfully" : "Archìvios carrigados",
     "Some files could not be moved" : "No at fatu a tramudare carchi archìviu",
+    "Upload cancelled" : "Carrigamentu annulladu",
     "This operation is forbidden" : "Custa operatzione no est permìtida",
     "This directory is unavailable, please check the logs or contact the administrator" : "Custa cartella no est a disponimentu, controlla is informes o cuntata s'amministratzione",
     "Storage is temporarily not available" : "S'archiviatzione immoe no est a disponimentu",
@@ -184,6 +188,7 @@ OC.L10N.register(
     "Files and folders you mark as favorite will show up here" : "Is archìvios e is cartellas chi marcas comente preferidos ant a aparèssere inoghe",
     "All files" : "Totu is archìvios",
     "List of your files and folders." : "Lista de is cartellas e is archìvios tuos.",
+    "All folders" : "Totu is cartellas",
     "Personal files" : "Archìvios personales",
     "No personal files found" : "Perunu archìviu personale agatadu",
     "Recent" : "Reghente",
@@ -271,7 +276,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Preferidu",
     "Copy direct link (only works for people who have access to this file/folder)" : "Còpia su ligòngiu diretu (funtzionat isceti pro gente chi tenet atzessu a custu archìviu o cartella)",
-    "Upload file" : "Carriga archìviu",
+    "Upload file" : "Càrriga archìviu",
     "Not favorited" : "Non preferidu",
     "An error occurred while trying to update the tags" : "B'at àpidu un'errore proende a agiornare is etichetas",
     "Storage informations" : "Informatziones de s'archiviatzione",
@@ -288,6 +293,7 @@ OC.L10N.register(
     "List of favorites files and folders." : "Lista de cartellas e de archìvios preferidos.",
     "Personal Files" : "Archìvios personales",
     "Text file" : "Archìviu de testu",
-    "New text file.txt" : "Archìviu de testu .txt nou"
+    "New text file.txt" : "Archìviu de testu .txt nou",
+    "Filter filenames…" : "Filtra nùmenes de archìviu..."
 },
 "nplurals=2; plural=(n != 1);");
