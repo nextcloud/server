@@ -313,7 +313,7 @@ OC.L10N.register(
     "New template folder" : "Nova pasta de modelo",
     "In folder" : "Na pasta",
     "Search in folder: {folder}" : "Pesquisar na pasta: {folder}",
-    "One of the dropped files could not be processed" : "Um dos arquivos descartados não pôde ser processado",
+    "One of the dropped files could not be processed" : "Um dos arquivos depositados não pôde ser processado",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Seu navegador não oferece suporte à API Filesystem. Os diretórios não serão carregados",
     "No files to upload" : "Não há arquivos para enviar",
     "Unable to create the directory {directory}" : "Não foi possível criar o diretório {directory}",
