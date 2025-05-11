@@ -8,6 +8,7 @@
 namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Setting;
+use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -16,6 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
+
+	/** @var \OCP\Accounts\IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $accountManager;
 	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -30,6 +34,9 @@ class SettingTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->accountManager = $this->getMockBuilder(IAccountManager::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -49,11 +56,12 @@ class SettingTest extends TestCase {
 
 	public function getCommand(array $methods = []) {
 		if (empty($methods)) {
-			return new Setting($this->userManager, $this->config);
+			return new Setting($this->userManager, $this->accountManager, $this->config);
 		} else {
 			$mock = $this->getMockBuilder(Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
+					$this->accountManager,
 					$this->config,
 				])
 				->onlyMethods($methods)
