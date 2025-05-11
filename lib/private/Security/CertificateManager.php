@@ -100,7 +100,7 @@ class CertificateManager implements ICertificateManager {
 			$this->view->mkdir($path);
 		}
 
-		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+		$defaultCertificates = file_get_contents($this->getDefaultCertificatesBundlePath());
 		if (strlen($defaultCertificates) < 1024) { // sanity check to verify that we have some content for our bundle
 			// log as exception so we have a stacktrace
 			$e = new \Exception('Shipped ca-bundle is empty, refusing to create certificate bundle');
@@ -204,7 +204,7 @@ class CertificateManager implements ICertificateManager {
 		try {
 			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
-					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+					$this->bundlePath = $this->getDefaultCertificatesBundlePath();
 				} else {
 					if ($this->needsRebundling()) {
 						$this->createCertificateBundle();
@@ -221,7 +221,7 @@ class CertificateManager implements ICertificateManager {
 			return $this->bundlePath;
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to get absolute bundle path. Fallback to default ca-bundle.crt', ['exception' => $e]);
-			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+			return $this->getDefaultCertificatesBundlePath();
 		}
 	}
 
@@ -246,6 +246,10 @@ class CertificateManager implements ICertificateManager {
 	 * get mtime of ca-bundle shipped by Nextcloud
 	 */
 	protected function getFilemtimeOfCaBundle(): int {
-		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+		return filemtime($this->getDefaultCertificatesBundlePath());
+	}
+
+	public function getDefaultCertificatesBundlePath(): string {
+		return $this->config->getSystemValueString('default_certificates_bundle_path', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 	}
 }

@@ -471,6 +471,10 @@ class ClientTest extends \Test\TestCase {
 		$this->certificateManager
 			->expects($this->never())
 			->method('listCertificates');
+		$this->certificateManager
+			->expects($this->once())
+			->method('getDefaultCertificatesBundlePath')
+			->willReturn(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
