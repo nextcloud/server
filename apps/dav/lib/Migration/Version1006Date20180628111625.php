@@ -50,7 +50,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 			}
 			$calendarObjectsTable->addUniqueIndex(['calendarid', 'calendartype', 'uri'], 'calobjects_index');
 			$calendarObjectsTable->addUniqueIndex(['calendarid', 'calendartype', 'uid'], 'calobjects_by_uid_index');
-			$calendarObjectsTable->addUniqueIndex(['calendarid', 'calendartype', 'firstoccurence', 'lastoccurence'], 'calobjects_by_time_index');
+			$calendarObjectsTable->addIndex(['calendarid', 'calendartype', 'firstoccurence', 'lastoccurence'], 'calobjects_by_time_index');
 		}
 
 		if ($schema->hasTable('calendarobjects_props')) {
