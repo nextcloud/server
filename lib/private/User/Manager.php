@@ -724,6 +724,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// User ID is too long
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
+		    // TRANSLATORS User ID is too long
 			throw new \InvalidArgumentException($l->t('Login is too long'));
 		}
 
