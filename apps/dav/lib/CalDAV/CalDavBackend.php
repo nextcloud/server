@@ -1778,11 +1778,38 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->andWhere($query->expr()->eq('componenttype', $query->createNamedParameter($componentType)));
 		}
 
-		if ($timeRange && $timeRange['start']) {
-			$query->andWhere($query->expr()->gt('lastoccurence', $query->createNamedParameter($timeRange['start']->getTimeStamp())));
-		}
-		if ($timeRange && $timeRange['end']) {
-			$query->andWhere($query->expr()->lt('firstoccurence', $query->createNamedParameter($timeRange['end']->getTimeStamp())));
+		// time range
+		if ($timeRange) {
+			// case 1: event starts and ends within range
+			// case 2: event starts before range and ends within range
+			// case 3: event starts within range and ends after range
+			// case 4: event starts before range and ends after range
+			$rangerStart = $timeRange['start']->getTimeStamp();
+			$rangerEnd = $timeRange['end']->getTimeStamp();
+			$query->andWhere($query->expr()->orX(
+				// case 1
+				$query->expr()->andX(
+					$query->expr()->gte('firstoccurence', $query->createNamedParameter($rangerStart)),
+					$query->expr()->lte('lastoccurence', $query->createNamedParameter($rangerEnd)),
+				),
+				// case 2
+				$query->expr()->andX(
+					$query->expr()->lt('firstoccurence', $query->createNamedParameter($rangerStart)),
+					$query->expr()->gte('lastoccurence', $query->createNamedParameter($rangerStart)),
+					$query->expr()->lte('lastoccurence', $query->createNamedParameter($rangerEnd))
+				),
+				// case 3
+				$query->expr()->andX(
+					$query->expr()->gte('firstoccurence', $query->createNamedParameter($rangerStart)),
+					$query->expr()->lte('firstoccurence', $query->createNamedParameter($rangerEnd)),
+					$query->expr()->gt('lastoccurence', $query->createNamedParameter($rangerEnd))
+				),
+				// case 4
+				$query->expr()->andX(
+					$query->expr()->lt('firstoccurence', $query->createNamedParameter($rangerStart)),
+					$query->expr()->gt('lastoccurence', $query->createNamedParameter($rangerEnd))
+				)
+			));
 		}
 
 		$stmt = $query->executeQuery();

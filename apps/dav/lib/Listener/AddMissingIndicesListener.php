@@ -35,6 +35,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'calobjects_by_uid_index',
 			['calendarid', 'calendartype', 'uid']
 		);
+		$event->addMissingIndex(
+			'calendarobjects',
+			'calobjects_by_time_index',
+			['calendarid', 'calendartype', 'firstoccurence', 'lastoccurence']
+		);
 	}
 
 }
