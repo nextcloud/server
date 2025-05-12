@@ -17,10 +17,14 @@ use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
+use OC\Core\Config\ConfigLexicon;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\TagManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
@@ -36,7 +40,7 @@ use OCP\Util;
  *
  * @package OC\Core
  */
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct() {
 		parent::__construct('core');
 
@@ -305,4 +309,13 @@ class Application extends App {
 		// Tags
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);
 	}
+
+	public function register(IRegistrationContext $context): void {
+		$context->registerConfigLexicon(ConfigLexicon::class);
+	}
+
+	public function boot(IBootContext $context): void {
+		// ...
+	}
+
 }
