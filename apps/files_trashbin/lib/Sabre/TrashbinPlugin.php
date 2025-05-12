@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OC\Files\Filesystem;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
@@ -40,6 +41,7 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$this->server->on('propFind', [$this, 'propFind']);
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('beforeMove', [$this, 'beforeMove']);
 	}
 
 
@@ -128,5 +130,42 @@ class TrashbinPlugin extends ServerPlugin {
 		if ($node instanceof ITrash) {
 			$response->addHeader('Content-Disposition', 'attachment; filename="' . $node->getFilename() . '"');
 		}
+	}
+
+	/**
+	 * Check if a user has available space before attempting to
+	 * restore from trashbin unless they have unlimited quota.
+	 *
+	 * @param string $sourcePath
+	 * @param string $destinationPath
+	 * @return bool
+	 */
+	public function beforeMove(string $sourcePath, string $destinationPath): bool {
+		try {
+			$node = $this->server->tree->getNodeForPath($sourcePath);
+			$destinationNode = $this->server->tree->getNodeForPath(dirname($destinationPath));
+		} catch (\Exception $e) {
+			return true;
+		}
+
+		// Since we're concerned with restoring from trash, the source must
+		// come from the trashbin and go into the restore folder. Check if that
+		// is the operation being attempted before checking for quota and free space.
+		if (!$node instanceof ITrash || !$destinationNode instanceof RestoreFolder) {
+			return true;
+		}
+
+		$fileInfo = $node->getFileInfo();
+		if (!$fileInfo instanceof ITrashItem) {
+			return true;
+		}
+		$freeSpace = Filesystem::free_space($fileInfo->getOriginalLocation());
+		$filesize = $fileInfo->getSize();
+		if ($freeSpace >= 0 && $freeSpace < $filesize) {
+			$this->server->httpResponse->setStatus(507);
+			return false;
+		}
+
+		return true;
 	}
 }
