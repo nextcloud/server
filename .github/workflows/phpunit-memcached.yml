@@ -76,7 +76,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -97,13 +97,19 @@ jobs:
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache,Memcached ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+        run: composer run test -- --group Memcache,Memcached --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.4.0
+        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-memcached
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@f2dba722c67b86c6caa034178c6e4d35335f6706 # v1.1.0
+        with:
           flags: phpunit-memcached
 
       - name: Print logs

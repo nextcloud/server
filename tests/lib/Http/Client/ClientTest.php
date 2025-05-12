@@ -92,14 +92,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->withConsecutive(
-				['proxy', ''],
-				['proxyuserpwd', ''],
-			)
-			->willReturnOnConsecutiveCalls(
-				'foo',
-				'username:password',
-			);
+			->willReturnMap([
+				['proxy', '', 'foo'],
+				['proxyuserpwd', '', 'username:password'],
+			]);
 		$this->assertEquals([
 			'http' => 'username:password@foo',
 			'https' => 'username:password@foo'
@@ -115,14 +111,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->withConsecutive(
-				['proxy', ''],
-				['proxyuserpwd', ''],
-			)
-			->willReturnOnConsecutiveCalls(
-				'foo',
-				'username:password',
-			);
+			->willReturnMap([
+				['proxy', '', 'foo'],
+				['proxyuserpwd', '', 'username:password'],
+			]);
 		$this->assertEquals([
 			'http' => 'username:password@foo',
 			'https' => 'username:password@foo',
@@ -137,7 +129,7 @@ class ClientTest extends \Test\TestCase {
 		self::invokePrivate($this->client, 'preventLocalAddress', ['!@#$', []]);
 	}
 
-	public function dataPreventLocalAddress():array {
+	public static function dataPreventLocalAddress(): array {
 		return [
 			['https://localhost/foo.bar'],
 			['https://localHost/foo.bar'],
@@ -461,14 +453,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['installed', false],
-				['allow_local_remote_servers', false],
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				false,
-			);
+			->willReturnMap([
+				['installed', false, false],
+				['allow_local_remote_servers', false, false],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueString')
@@ -503,14 +491,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['installed', false],
-				['allow_local_remote_servers', false],
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false,
-			);
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -519,14 +503,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->withConsecutive(
-				['proxy', ''],
-				['proxyuserpwd', ''],
-			)
-			->willReturnOnConsecutiveCalls(
-				'foo',
-				'',
-			);
+			->willReturnMap([
+				['proxy', '', 'foo'],
+				['proxyuserpwd', '', ''],
+			]);
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
@@ -562,14 +542,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['installed', false],
-				['allow_local_remote_servers', false],
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false,
-			);
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -578,14 +554,10 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->withConsecutive(
-				['proxy', ''],
-				['proxyuserpwd', ''],
-			)
-			->willReturnOnConsecutiveCalls(
-				'foo',
-				'',
-			);
+			->willReturnMap([
+				['proxy', '', 'foo'],
+				['proxyuserpwd', '', ''],
+			]);
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')

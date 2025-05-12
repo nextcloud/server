@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "指定のバージョンが復旧されました",
     "Could not restore version" : "このバージョンを復旧できません",
     "Could not set version label" : "バージョンラベルを付けることができませんでした",
-    "Could not delete version" : "指定のバージョンを削除できませんでした"
+    "Could not delete version" : "指定のバージョンを削除できませんでした",
+    "File versions" : "ファイルバージョン"
 },
 "nplurals=1; plural=0;");

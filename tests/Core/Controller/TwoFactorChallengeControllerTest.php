@@ -68,7 +68,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->logger,
 			])
-			->setMethods(['getLogoutUrl'])
+			->onlyMethods(['getLogoutUrl'])
 			->getMock();
 		$this->controller->expects($this->any())
 			->method('getLogoutUrl')
@@ -302,12 +302,16 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
 			->will($this->throwException($exception));
+		$calls = [
+			['two_factor_auth_error_message', '2FA failed'],
+			['two_factor_auth_error', true],
+		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->withConsecutive(
-				['two_factor_auth_error_message', '2FA failed'],
-				['two_factor_auth_error', true]
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [

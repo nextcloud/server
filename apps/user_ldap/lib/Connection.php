@@ -538,8 +538,8 @@ class Connection extends LDAPUtility {
 
 		if (mb_strpos((string)$this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8') === false) {
 			throw new ConfigurationIssueException(
-				'Login filter does not contain %uid place holder.',
-				$this->l10n->t('Login filter does not contain %uid place holder'),
+				'Login filter does not contain %uid placeholder.',
+				$this->l10n->t('Login filter does not contain %s placeholder.', ['%uid']),
 			);
 		}
 	}

@@ -59,7 +59,6 @@
     "No LDAP base DN was given" : "No s'ha donat cap DN base LDAP",
     "User base DN is not a subnode of global base DN" : "El DN base d'usuari no és un subnode del DN base global",
     "Group base DN is not a subnode of global base DN" : "El DN base del grup no és un subnode del DN base global",
-    "Login filter does not contain %uid place holder" : "El filtre d'inici de sessió no conté el marcador de posició %uid",
     "Please login with the new password" : "Inicieu sessió amb la nova contrasenya",
     "LDAP User backend" : "Rerefons d'usuari LDAP",
     "Your password will expire tomorrow." : "La contrasenya caducarà demà.",

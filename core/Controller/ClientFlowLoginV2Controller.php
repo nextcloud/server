@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Core\Db\LoginFlowV2;
+use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\ResponseDefinitions;
 use OC\Core\Service\LoginFlowV2Service;
@@ -109,6 +110,8 @@ class ClientFlowLoginV2Controller extends Controller {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
 			return $this->loginTokenForbiddenResponse();
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return $this->loginTokenForbiddenClientResponse();
 		}
 
 		$stateToken = $this->random->generate(
@@ -152,6 +155,8 @@ class ClientFlowLoginV2Controller extends Controller {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
 			return $this->loginTokenForbiddenResponse();
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return $this->loginTokenForbiddenClientResponse();
 		}
 
 		/** @var IUser $user */
@@ -188,6 +193,8 @@ class ClientFlowLoginV2Controller extends Controller {
 			$this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
 			return $this->loginTokenForbiddenResponse();
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return $this->loginTokenForbiddenClientResponse();
 		}
 
 		$loginToken = $this->session->get(self::TOKEN_NAME);
@@ -233,6 +240,8 @@ class ClientFlowLoginV2Controller extends Controller {
 			$this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
 			return $this->loginTokenForbiddenResponse();
+		} catch (LoginFlowV2ClientForbiddenException $e) {
+			return $this->loginTokenForbiddenClientResponse();
 		}
 
 		$loginToken = $this->session->get(self::TOKEN_NAME);
@@ -333,6 +342,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @return LoginFlowV2
 	 * @throws LoginFlowV2NotFoundException
+	 * @throws LoginFlowV2ClientForbiddenException
 	 */
 	private function getFlowByLoginToken(): LoginFlowV2 {
 		$currentToken = $this->session->get(self::TOKEN_NAME);
@@ -349,6 +359,19 @@ class ClientFlowLoginV2Controller extends Controller {
 			'403',
 			[
 				'message' => $this->l10n->t('Your login token is invalid or has expired'),
+			],
+			'guest'
+		);
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
+	}
+
+	private function loginTokenForbiddenClientResponse(): StandaloneTemplateResponse {
+		$response = new StandaloneTemplateResponse(
+			$this->appName,
+			'403',
+			[
+				'message' => $this->l10n->t('Please use original client'),
 			],
 			'guest'
 		);

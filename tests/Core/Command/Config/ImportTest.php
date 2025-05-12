@@ -38,7 +38,7 @@ class ImportTest extends TestCase {
 		$this->command = new Import($config);
 	}
 
-	public function validateAppsArrayData() {
+	public static function validateAppsArrayData(): array {
 		return [
 			[0],
 			[1],
@@ -58,7 +58,7 @@ class ImportTest extends TestCase {
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function validateAppsArrayThrowsData() {
+	public static function validateAppsArrayThrowsData(): array {
 		return [
 			[false],
 			[true],
@@ -81,7 +81,7 @@ class ImportTest extends TestCase {
 		}
 	}
 
-	public function checkTypeRecursivelyData() {
+	public static function checkTypeRecursivelyData(): array {
 		return [
 			[0],
 			[1],
@@ -107,7 +107,7 @@ class ImportTest extends TestCase {
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function checkTypeRecursivelyThrowsData() {
+	public static function checkTypeRecursivelyThrowsData(): array {
 		return [
 			[new \Exception()],
 			[[new \Exception()]],
@@ -130,7 +130,7 @@ class ImportTest extends TestCase {
 		}
 	}
 
-	public function validateArrayData() {
+	public static function validateArrayData(): array {
 		return [
 			[['system' => []]],
 			[['apps' => []]],
@@ -148,7 +148,7 @@ class ImportTest extends TestCase {
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
 
-	public function validateArrayThrowsData() {
+	public static function validateArrayThrowsData(): array {
 		return [
 			[[], 'At least one key of the following is expected:'],
 			[[0 => []], 'Found invalid entries in root'],

@@ -9,6 +9,7 @@ namespace OCA\Files\Settings;
 
 use OCA\Files\Service\SettingsService;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Settings\DeclarativeSettingsTypes;
 use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
@@ -18,6 +19,7 @@ class DeclarativeAdminSettings implements IDeclarativeSettingsFormWithHandlers {
 	public function __construct(
 		private IL10N $l,
 		private SettingsService $service,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -44,7 +46,12 @@ class DeclarativeAdminSettings implements IDeclarativeSettingsFormWithHandlers {
 			'section_id' => 'server',
 			'storage_type' => DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL,
 			'title' => $this->l->t('Files compatibility'),
-			'description' => $this->l->t('Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.'),
+			'doc_url' => $this->urlGenerator->linkToDocs('admin-windows-compatible-filenames'),
+			'description' => (
+				$this->l->t('Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.')
+				. "\n" . $this->l->t('After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.')
+				. "\n" . $this->l->t('It is also possible to migrate files automatically after enabling this setting, please refer to the documentation about the occ command.')
+			),
 
 			'fields' => [
 				[

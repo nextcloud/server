@@ -169,6 +169,23 @@ Feature: provisioning
       | address | Foo Bar Town |
       | website | https://nextcloud.com |
       | twitter | Nextcloud |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | organisation |
+      | value | Nextcloud GmbH |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | role |
+      | value | Engineer |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has the following profile data
+      | userId | brand-new-user |
+      | displayname | Brand New User |
+      | organisation | Nextcloud GmbH |
+      | role | Engineer |
+      | address | Foo Bar Town |
+      | timezone | UTC |
+      | timezoneOffset | 0 |
+      | pronouns | NULL |
 
   Scenario: Edit a user account properties scopes
     Given user "brand-new-user" exists

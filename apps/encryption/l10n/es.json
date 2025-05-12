@@ -51,6 +51,7 @@
     "Basic encryption module" : "Módulo de cifrado básico",
     "Your private key password no longer matches your log-in password." : "Su contraseña de clave privada ya no coincide con su contraseña de acceso.",
     "Set your old private key password to your current log-in password:" : "Establezca la contraseña de clave privada antigua para su contraseña de inicio de sesión actual:",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Si no recuerda su antigua contraseña, puede pedir a su administrador que recupere sus archivos.",
     "Old log-in password" : "Contraseña de acceso antigua",
     "Current log-in password" : "Contraseña de acceso actual",
     "Update Private Key Password" : "Actualizar contraseña de clave privada",

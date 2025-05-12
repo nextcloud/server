@@ -138,7 +138,8 @@
 			ref="filesListVirtual"
 			:current-folder="currentFolder"
 			:current-view="currentView"
-			:nodes="dirContentsSorted" />
+			:nodes="dirContentsSorted"
+			:summary="summary" />
 	</NcAppContent>
 </template>
 
@@ -161,10 +162,6 @@ import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
-import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-import IconReload from 'vue-material-design-icons/Reload.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
-import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -172,28 +169,34 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconReload from 'vue-material-design-icons/Reload.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
+import { useNavigation } from '../composables/useNavigation.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
+import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FilesListHeader from '../components/FilesListHeader.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
-import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -467,6 +470,14 @@ export default defineComponent({
 				})
 				.toSorted((a, b) => a.order - b.order)
 			return enabledActions
+		},
+
+		/**
+		 * Using the filtered content if filters are active
+		 */
+		summary() {
+			const hidden = this.dirContents.length - this.dirContentsFiltered.length
+			return getSummaryFor(this.dirContentsFiltered, hidden)
 		},
 	},
 

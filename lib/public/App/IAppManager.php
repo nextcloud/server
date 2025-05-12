@@ -52,6 +52,14 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the installed version of all apps
+	 *
+	 * @return array<string, string>
+	 * @since 32.0.0
+	 */
+	public function getAppInstalledVersions(): array;
+
+	/**
 	 * Returns the app icon or null if none is found
 	 *
 	 * @param string $appId

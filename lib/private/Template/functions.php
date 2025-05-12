@@ -123,22 +123,6 @@ function script($app, $file = null): void {
 }
 
 /**
- * Shortcut for adding vendor scripts to a page
- * @param string $app the appname
- * @param string|string[] $file the filename,
- *                              if an array is given it will add all scripts
- */
-function vendor_script($app, $file = null): void {
-	if (is_array($file)) {
-		foreach ($file as $f) {
-			OC_Util::addVendorScript($app, $f);
-		}
-	} else {
-		OC_Util::addVendorScript($app, $file);
-	}
-}
-
-/**
  * Shortcut for adding styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
@@ -147,10 +131,10 @@ function vendor_script($app, $file = null): void {
 function style($app, $file = null): void {
 	if (is_array($file)) {
 		foreach ($file as $f) {
-			OC_Util::addStyle($app, $f);
+			Util::addStyle($app, $f);
 		}
 	} else {
-		OC_Util::addStyle($app, $file);
+		Util::addStyle($app, $file);
 	}
 }
 
@@ -159,6 +143,7 @@ function style($app, $file = null): void {
  * @param string $app the appname
  * @param string|string[] $file the filename,
  *                              if an array is given it will add all styles
+ * @deprecated 32.0.0
  */
 function vendor_style($app, $file = null): void {
 	if (is_array($file)) {
@@ -176,7 +161,7 @@ function vendor_style($app, $file = null): void {
  *                    if an array is given it will add all styles
  */
 function translation($app): void {
-	OC_Util::addTranslations($app);
+	Util::addTranslations($app);
 }
 
 /**

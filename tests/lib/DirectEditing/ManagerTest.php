@@ -173,8 +173,10 @@ class ManagerTest extends TestCase {
 		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')
@@ -198,8 +200,10 @@ class ManagerTest extends TestCase {
 		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')
@@ -226,11 +230,12 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
-		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/File.txt')
@@ -277,8 +282,10 @@ class ManagerTest extends TestCase {
 			]);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')

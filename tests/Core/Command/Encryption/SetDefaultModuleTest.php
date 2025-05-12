@@ -43,7 +43,7 @@ class SetDefaultModuleTest extends TestCase {
 	}
 
 
-	public function dataSetDefaultModule() {
+	public static function dataSetDefaultModule(): array {
 		return [
 			['ID0', 'ID0', null, null, 'already'],
 			['ID0', 'ID1', 'ID1', true, 'info'],
@@ -113,12 +113,16 @@ class SetDefaultModuleTest extends TestCase {
 			->with('maintenance', false)
 			->willReturn(true);
 
+		$calls = [
+			'Maintenance mode must be disabled when setting default module,',
+			'in order to load the relevant encryption modules correctly.',
+		];
 		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->withConsecutive(
-				[$this->stringContains('Maintenance mode must be disabled when setting default module,')],
-				[$this->stringContains('in order to load the relevant encryption modules correctly.')],
-			);
+			->willReturnCallback(function ($message) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

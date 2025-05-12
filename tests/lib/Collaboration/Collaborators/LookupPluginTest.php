@@ -76,13 +76,10 @@ class LookupPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+			]);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -105,13 +102,10 @@ class LookupPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				false,
-				false,
-			);
+			->willReturnMap([
+				['gs.enabled', false, false],
+				['has_internet_connection', true, false],
+			]);
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -141,13 +135,10 @@ class LookupPluginTest extends TestCase {
 			->willReturn('yes');
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
-			->withConsecutive(
-				['gs.enabled', false],
-				['has_internet_connection', true],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				true,
-			);
+			->willReturnMap([
+				['gs.enabled', false, true],
+				['has_internet_connection', true, true],
+			]);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -206,13 +197,10 @@ class LookupPluginTest extends TestCase {
 
 			$this->config->expects($this->exactly(2))
 				->method('getSystemValueBool')
-				->withConsecutive(
-					['gs.enabled', false],
-					['has_internet_connection', true],
-				)->willReturnOnConsecutiveCalls(
-					$GSEnabled,
-					true,
-				);
+				->willReturnMap([
+					['gs.enabled', false, $GSEnabled],
+					['has_internet_connection', true, true],
+				]);
 			$this->config->expects($this->once())
 				->method('getSystemValueString')
 				->with('lookup_server', 'https://lookup.nextcloud.com')
@@ -239,13 +227,10 @@ class LookupPluginTest extends TestCase {
 			$searchResult->expects($this->never())->method('addResultSet');
 			$this->config->expects($this->exactly(2))
 				->method('getSystemValueBool')
-				->withConsecutive(
-					['gs.enabled', false],
-					['has_internet_connection', true],
-				)->willReturnOnConsecutiveCalls(
-					$GSEnabled,
-					true,
-				);
+				->willReturnMap([
+					['gs.enabled', false, $GSEnabled],
+					['has_internet_connection', true, true],
+				]);
 		}
 		$moreResults = $this->plugin->search(
 			$searchParams['search'],
@@ -276,7 +261,7 @@ class LookupPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->search('irr', 10, 0, $searchResult));
 	}
 
-	public function dataSearchEnableDisableLookupServer() {
+	public static function dataSearchEnableDisableLookupServer(): array {
 		$fedIDs = [
 			'foo@enceladus.moon',
 			'foobar@enceladus.moon',
@@ -449,7 +434,7 @@ class LookupPluginTest extends TestCase {
 		];
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		$fedIDs = [
 			'foo@enceladus.moon',
 			'foobar@enceladus.moon',

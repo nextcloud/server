@@ -51,6 +51,7 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAccept;
+use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 
@@ -597,7 +598,11 @@ class Manager implements IManager {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
-					throw new \InvalidArgumentException($this->l->t('Path contains files shared with you'));
+					// Using a flat sharing model ensures the file owner can always see who has access.
+					// Allowing parent folder sharing would require tracking inherited access, which adds complexity
+					// and hurts performance/scalability.
+					// So we forbid sharing a parent folder of a share you received.
+					throw new \InvalidArgumentException($this->l->t('You cannot share a folder that contains other shares'));
 				}
 			}
 		}
@@ -1065,7 +1070,12 @@ class Manager implements IManager {
 
 		foreach ($userIds as $userId) {
 			foreach ($shareTypes as $shareType) {
-				$provider = $this->factory->getProviderForType($shareType);
+				try {
+					$provider = $this->factory->getProviderForType($shareType);
+				} catch (ProviderException $e) {
+					continue;
+				}
+
 				if ($node instanceof Folder) {
 					/* We need to get all shares by this user to get subshares */
 					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
@@ -1204,11 +1214,13 @@ class Manager implements IManager {
 		$shares = [];
 		foreach ($providers as $provider) {
 			if ($isOwnerless) {
-				foreach ($node->getDirectoryListing() as $childNode) {
-					$data = $provider->getSharesByPath($childNode);
-					$fid = $childNode->getId();
-					$shares[$fid] ??= [];
-					$shares[$fid] = array_merge($shares[$fid], $data);
+				// If the provider does not implement the additional interface,
+				// we lack a performant way of querying all shares and therefore ignore the provider.
+				if ($provider instanceof IShareProviderSupportsAllSharesInFolder) {
+					foreach ($provider->getAllSharesInFolder($node) as $fid => $data) {
+						$shares[$fid] ??= [];
+						$shares[$fid] = array_merge($shares[$fid], $data);
+					}
 				}
 			} else {
 				foreach ($provider->getSharesInFolder($userId, $node, $reshares) as $fid => $data) {
@@ -1965,14 +1977,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Copied from \OC_Util::isSharingDisabledForUser
-	 *
-	 * TODO: Deprecate function from OC_Util
-	 *
-	 * @param string $userId
-	 * @return bool
+	 * Check if sharing is disabled for the current user
 	 */
-	public function sharingDisabledForUser($userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 

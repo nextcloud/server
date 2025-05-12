@@ -166,6 +166,7 @@ OC.L10N.register(
     "on {server}" : "trên {server}",
     "File drop" : "Thả file",
     "Terms of service" : "Điều khoản dịch vụ",
+    "Name" : "Tên",
     "Update share" : "Cập nhật chia sẻ",
     "Save share" : "Lưu chia sẻ",
     "Read" : "Đọc",

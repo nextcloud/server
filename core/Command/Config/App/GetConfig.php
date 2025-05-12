@@ -9,19 +9,12 @@ declare(strict_types=1);
 namespace OC\Core\Command\Config\App;
 
 use OCP\Exceptions\AppConfigUnknownKeyException;
-use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
 	protected function configure() {
 		parent::configure();
 

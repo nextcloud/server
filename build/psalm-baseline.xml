@@ -843,6 +843,12 @@
       <code><![CDATA[test]]></code>
     </TooManyArguments>
   </file>
+  <file src="apps/files_reminders/lib/Model/RichReminder.php">
+    <ConstructorSignatureMismatch>
+      <code><![CDATA[public function __construct(]]></code>
+      <code><![CDATA[public function __construct(]]></code>
+    </ConstructorSignatureMismatch>
+  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <RedundantCast>
       <code><![CDATA[(int)$code]]></code>
@@ -1317,11 +1323,6 @@
     <NullableReturnStatement>
       <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->bootedApps]]></code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
@@ -2037,11 +2038,6 @@
       <code><![CDATA[!$isDefaultTemplates]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/Files/Type/Detection.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$mimetype]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>
       <code><![CDATA[$mtime]]></code>
@@ -2223,30 +2219,20 @@
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
+  <file src="lib/private/Notification/Manager.php">
+    <UndefinedClass>
+      <code><![CDATA[\OCA\Notifications\App]]></code>
+    </UndefinedClass>
+  </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Preview/Generator.php">
-    <InvalidArgument>
-      <code><![CDATA[$maxPreviewImage]]></code>
-    </InvalidArgument>
     <LessSpecificReturnType>
       <code><![CDATA[null|string]]></code>
     </LessSpecificReturnType>
-    <MismatchingDocblockParamType>
-      <code><![CDATA[ISimpleFile]]></code>
-    </MismatchingDocblockParamType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[height]]></code>
-      <code><![CDATA[height]]></code>
-      <code><![CDATA[preciseResizeCopy]]></code>
-      <code><![CDATA[resizeCopy]]></code>
-      <code><![CDATA[valid]]></code>
-      <code><![CDATA[width]]></code>
-      <code><![CDATA[width]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement>
@@ -2600,11 +2586,6 @@
     <UndefinedClass>
       <code><![CDATA[\Test\Util\User\Dummy]]></code>
     </UndefinedClass>
-  </file>
-  <file src="lib/private/legacy/OC_Util.php">
-    <InvalidReturnType>
-      <code><![CDATA[void]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties>

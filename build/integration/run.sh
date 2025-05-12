@@ -20,6 +20,8 @@ INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 if [ "$INSTALLED" == "true" ]; then
     # Disable bruteforce protection because the integration tests do trigger them
     $OCC config:system:set auth.bruteforce.protection.enabled --value false --type bool
+    # Disable rate limit protection because the integration tests do trigger them
+    $OCC config:system:set ratelimit.protection.enabled --value false --type bool
     # Allow local remote urls otherwise we can not share
     $OCC config:system:set allow_local_remote_servers --value true --type bool
     # Allow self signed certificates

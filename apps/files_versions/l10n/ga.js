@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Leagan athchóirithe",
     "Could not restore version" : "Níorbh fhéidir an leagan a chur ar ais",
     "Could not set version label" : "Níorbh fhéidir lipéad an leagain a shocrú",
-    "Could not delete version" : "Níorbh fhéidir an leagan a scriosadh"
+    "Could not delete version" : "Níorbh fhéidir an leagan a scriosadh",
+    "File versions" : "Leaganacha comhaid"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

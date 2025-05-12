@@ -89,7 +89,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 					$this->util,
 					$this->questionHelper
 				]
-			)->setMethods(['moveAllKeys'])->getMock();
+			)->onlyMethods(['moveAllKeys'])->getMock();
 
 		$this->util->expects($this->once())->method('getKeyStorageRoot')
 			->willReturn('');
@@ -122,7 +122,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			[null, true, true],
 			[null, true, false],
@@ -143,7 +143,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 					$this->util,
 					$this->questionHelper
 				]
-			)->setMethods(['prepareNewRoot', 'moveSystemKeys', 'moveUserKeys'])->getMock();
+			)->onlyMethods(['prepareNewRoot', 'moveSystemKeys', 'moveUserKeys'])->getMock();
 
 		$changeKeyStorageRoot->expects($this->once())->method('prepareNewRoot')->with('newRoot');
 		$changeKeyStorageRoot->expects($this->once())->method('moveSystemKeys')->with('oldRoot', 'newRoot');
@@ -179,7 +179,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->invokePrivate($this->changeKeyStorageRoot, 'prepareNewRoot', ['newRoot']);
 	}
 
-	public function dataTestPrepareNewRootException() {
+	public static function dataTestPrepareNewRootException(): array {
 		return [
 			[true, false],
 			[true, null],
@@ -204,7 +204,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 					$this->util,
 					$this->questionHelper
 				]
-			)->setMethods(['targetExists'])->getMock();
+			)->onlyMethods(['targetExists'])->getMock();
 
 		$this->view->expects($this->once())->method('is_dir')
 			->with('oldRoot/files_encryption')->willReturn($dirExists);
@@ -221,7 +221,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->invokePrivate($changeKeyStorageRoot, 'moveSystemKeys', ['oldRoot', 'newRoot']);
 	}
 
-	public function dataTestMoveSystemKeys() {
+	public static function dataTestMoveSystemKeys(): array {
 		return [
 			[true, false, true],
 			[false, true, false],
@@ -241,7 +241,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 					$this->util,
 					$this->questionHelper
 				]
-			)->setMethods(['setupUserFS', 'moveUserEncryptionFolder'])->getMock();
+			)->onlyMethods(['setupUserFS', 'moveUserEncryptionFolder'])->getMock();
 
 		$this->userManager->expects($this->once())->method('getBackends')
 			->willReturn([$this->userInterface]);
@@ -271,7 +271,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 					$this->util,
 					$this->questionHelper
 				]
-			)->setMethods(['targetExists', 'prepareParentFolder'])->getMock();
+			)->onlyMethods(['targetExists', 'prepareParentFolder'])->getMock();
 
 		$this->userManager->expects($this->once())->method('userExists')
 			->willReturn($userExists);
@@ -293,7 +293,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->invokePrivate($changeKeyStorageRoot, 'moveUserEncryptionFolder', ['user1', 'oldRoot', 'newRoot']);
 	}
 
-	public function dataTestMoveUserEncryptionFolder() {
+	public static function dataTestMoveUserEncryptionFolder(): array {
 		return [
 			[true, true, false, true],
 			[true, false, true, false],
@@ -334,7 +334,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 		);
 	}
 
-	public function dataTestPrepareParentFolder() {
+	public static function dataTestPrepareParentFolder(): array {
 		return [
 			['/user/folder/sub_folder/keystorage', true],
 			['/user/folder/sub_folder/keystorage', false]

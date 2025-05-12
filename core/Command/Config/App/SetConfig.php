@@ -20,12 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class SetConfig extends Base {
-	public function __construct(
-		protected IAppConfig $appConfig,
-	) {
-		parent::__construct();
-	}
-
 	protected function configure() {
 		parent::configure();
 

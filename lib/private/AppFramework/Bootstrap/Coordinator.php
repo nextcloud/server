@@ -30,8 +30,8 @@ class Coordinator {
 	/** @var RegistrationContext|null */
 	private $registrationContext;
 
-	/** @var string[] */
-	private $bootedApps = [];
+	/** @var array<string,true> */
+	private array $bootedApps = [];
 
 	public function __construct(
 		private IServerContainer $serverContainer,

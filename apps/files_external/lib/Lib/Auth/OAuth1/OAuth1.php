@@ -21,14 +21,17 @@ class OAuth1 extends AuthMechanism {
 			->setText($l->t('OAuth1'))
 			->addParameters([
 				(new DefinitionParameter('configured', 'configured'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_TEXT)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 				new DefinitionParameter('app_key', $l->t('App key')),
 				(new DefinitionParameter('app_secret', $l->t('App secret')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 				(new DefinitionParameter('token', 'token'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 				(new DefinitionParameter('token_secret', 'token_secret'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
 			->addCustomJs('oauth1')
 		;

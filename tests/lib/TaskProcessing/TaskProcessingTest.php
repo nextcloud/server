@@ -28,6 +28,7 @@ use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\TaskProcessing\EShapeType;
+use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
@@ -131,8 +132,10 @@ class AsyncProvider implements IProvider {
 }
 
 class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
+	public const ID = 'test:sync:success';
+
 	public function getId(): string {
-		return 'test:sync:success';
+		return self::ID;
 	}
 
 	public function getName(): string {
@@ -385,6 +388,132 @@ class FailingTextToImageProvider implements \OCP\TextToImage\IProvider {
 	}
 }
 
+class ExternalProvider implements IProvider {
+	public const ID = 'event:external:provider';
+	public const TASK_TYPE_ID = 'event:external:tasktype';
+
+	public function getId(): string {
+		return self::ID;
+	}
+	public function getName(): string {
+		return 'External Provider via Event';
+	}
+	public function getTaskTypeId(): string {
+		return self::TASK_TYPE_ID;
+	}
+	public function getExpectedRuntime(): int {
+		return 5;
+	}
+	public function getOptionalInputShape(): array {
+		return [];
+	}
+	public function getOptionalOutputShape(): array {
+		return [];
+	}
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
+}
+
+class ConflictingExternalProvider implements IProvider {
+	// Same ID as SuccessfulSyncProvider
+	public const ID = 'test:sync:success';
+	public const TASK_TYPE_ID = 'event:external:tasktype'; // Can be different task type
+
+	public function getId(): string {
+		return self::ID;
+	}
+	public function getName(): string {
+		return 'Conflicting External Provider';
+	}
+	public function getTaskTypeId(): string {
+		return self::TASK_TYPE_ID;
+	}
+	public function getExpectedRuntime(): int {
+		return 50;
+	}
+	public function getOptionalInputShape(): array {
+		return [];
+	}
+	public function getOptionalOutputShape(): array {
+		return [];
+	}
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
+}
+
+class ExternalTaskType implements ITaskType {
+	public const ID = 'event:external:tasktype';
+
+	public function getId(): string {
+		return self::ID;
+	}
+	public function getName(): string {
+		return 'External Task Type via Event';
+	}
+	public function getDescription(): string {
+		return 'A task type added via event';
+	}
+	public function getInputShape(): array {
+		return ['external_input' => new ShapeDescriptor('Ext In', '', EShapeType::Text)];
+	}
+	public function getOutputShape(): array {
+		return ['external_output' => new ShapeDescriptor('Ext Out', '', EShapeType::Text)];
+	}
+}
+
+class ConflictingExternalTaskType implements ITaskType {
+	// Same ID as built-in TextToText
+	public const ID = TextToText::ID;
+
+	public function getId(): string {
+		return self::ID;
+	}
+	public function getName(): string {
+		return 'Conflicting External Task Type';
+	}
+	public function getDescription(): string {
+		return 'Overrides built-in TextToText';
+	}
+	public function getInputShape(): array {
+		return ['override_input' => new ShapeDescriptor('Override In', '', EShapeType::Number)];
+	}
+	public function getOutputShape(): array {
+		return ['override_output' => new ShapeDescriptor('Override Out', '', EShapeType::Number)];
+	}
+}
+
 /**
  * @group DB
  */
@@ -416,6 +545,10 @@ class TaskProcessingTest extends \Test\TestCase {
 			FailingTextProcessingSummaryProvider::class => new FailingTextProcessingSummaryProvider(),
 			SuccessfulTextToImageProvider::class => new SuccessfulTextToImageProvider(),
 			FailingTextToImageProvider::class => new FailingTextToImageProvider(),
+			ExternalProvider::class => new ExternalProvider(),
+			ConflictingExternalProvider::class => new ConflictingExternalProvider(),
+			ExternalTaskType::class => new ExternalTaskType(),
+			ConflictingExternalTaskType::class => new ConflictingExternalTaskType(),
 		];
 
 		$userManager = \OCP\Server::get(IUserManager::class);
@@ -447,6 +580,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		});
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->configureEventDispatcherMock();
 
 		$text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
@@ -963,5 +1097,189 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue($task->getOutput() === null);
 		self::assertEquals('ERROR', $task->getErrorMessage());
 		self::assertTrue($this->providers[FailingTextToImageProvider::class]->ran);
+	}
+
+	public function testMergeProvidersLocalAndEvent() {
+		// Arrange: Local provider registered, DIFFERENT external provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$externalProvider = new ExternalProvider(); // ID = 'event:external:provider'
+		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
+		$this->manager = $this->createManagerInstance();
+
+		// Act
+		$providers = $this->manager->getProviders();
+
+		// Assert: Both providers should be present
+		self::assertArrayHasKey(SuccessfulSyncProvider::ID, $providers);
+		self::assertInstanceOf(SuccessfulSyncProvider::class, $providers[SuccessfulSyncProvider::ID]);
+		self::assertArrayHasKey(ExternalProvider::ID, $providers);
+		self::assertInstanceOf(ExternalProvider::class, $providers[ExternalProvider::ID]);
+		self::assertCount(2, $providers);
+	}
+
+	public function testGetProvidersIncludesExternalViaEvent() {
+		// Arrange: No local providers, one external provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+
+		$externalProvider = new ExternalProvider();
+		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
+		$this->manager = $this->createManagerInstance(); // Create manager with configured mocks
+
+		// Act
+		$providers = $this->manager->getProviders(); // Returns ID-indexed array
+
+		// Assert
+		self::assertArrayHasKey(ExternalProvider::ID, $providers);
+		self::assertInstanceOf(ExternalProvider::class, $providers[ExternalProvider::ID]);
+		self::assertCount(1, $providers);
+		self::assertTrue($this->manager->hasProviders());
+	}
+
+	public function testGetAvailableTaskTypesIncludesExternalViaEvent() {
+		// Arrange: No local types/providers, one external type and provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$externalProvider = new ExternalProvider(); // Provides ExternalTaskType
+		$externalTaskType = new ExternalTaskType();
+		$this->configureEventDispatcherMock(
+			providersToAdd: [$externalProvider],
+			taskTypesToAdd: [$externalTaskType]
+		);
+		$this->manager = $this->createManagerInstance();
+
+		// Act
+		$availableTypes = $this->manager->getAvailableTaskTypes();
+
+		// Assert
+		self::assertArrayHasKey(ExternalTaskType::ID, $availableTypes);
+		self::assertEquals(ExternalTaskType::ID, $externalProvider->getTaskTypeId(), 'Test Sanity: Provider must handle the Task Type');
+		self::assertEquals('External Task Type via Event', $availableTypes[ExternalTaskType::ID]['name']);
+		// Check if shapes match the external type/provider
+		self::assertArrayHasKey('external_input', $availableTypes[ExternalTaskType::ID]['inputShape']);
+		self::assertArrayHasKey('external_output', $availableTypes[ExternalTaskType::ID]['outputShape']);
+		self::assertEmpty($availableTypes[ExternalTaskType::ID]['optionalInputShape']); // From ExternalProvider
+	}
+
+	public function testLocalProviderWinsConflictWithEvent() {
+		// Arrange: Local provider registered, conflicting external provider via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$conflictingExternalProvider = new ConflictingExternalProvider(); // ID = 'test:sync:success'
+		$this->configureEventDispatcherMock(providersToAdd: [$conflictingExternalProvider]);
+		$this->manager = $this->createManagerInstance();
+
+		// Act
+		$providers = $this->manager->getProviders();
+
+		// Assert: Only the local provider should be present for the conflicting ID
+		self::assertArrayHasKey(SuccessfulSyncProvider::ID, $providers);
+		self::assertInstanceOf(SuccessfulSyncProvider::class, $providers[SuccessfulSyncProvider::ID]);
+		self::assertCount(1, $providers); // Ensure no extra provider was added
+	}
+
+	public function testMergeTaskTypesLocalAndEvent() {
+		// Arrange: Local type registered, DIFFERENT external type via event
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTextProcessingProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
+		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
+
+		$externalTaskType = new ExternalTaskType(); // ID = 'event:external:tasktype'
+		$externalProvider = new ExternalProvider(); // Handles 'event:external:tasktype'
+		$this->configureEventDispatcherMock(
+			providersToAdd: [$externalProvider],
+			taskTypesToAdd: [$externalTaskType]
+		);
+		$this->manager = $this->createManagerInstance();
+
+		// Act
+		$availableTypes = $this->manager->getAvailableTaskTypes();
+
+		// Assert: Both task types should be available
+		self::assertArrayHasKey(AudioToImage::ID, $availableTypes);
+		self::assertEquals(AudioToImage::class, $availableTypes[AudioToImage::ID]['name']);
+
+		self::assertArrayHasKey(ExternalTaskType::ID, $availableTypes);
+		self::assertEquals('External Task Type via Event', $availableTypes[ExternalTaskType::ID]['name']);
+
+		self::assertCount(2, $availableTypes);
+	}
+
+	private function createManagerInstance(): Manager {
+		// Clear potentially cached config values if needed
+		$this->config->deleteAppValue('core', 'ai.taskprocessing_type_preferences');
+
+		// Re-create Text2ImageManager if its state matters or mocks change
+		$text2imageManager = new \OC\TextToImage\Manager(
+			$this->serverContainer,
+			$this->coordinator,
+			\OC::$server->get(LoggerInterface::class),
+			$this->jobList,
+			\OC::$server->get(\OC\TextToImage\Db\TaskMapper::class),
+			$this->config, // Use the shared config mock
+			\OC::$server->get(IAppDataFactory::class),
+		);
+
+		return new Manager(
+			$this->config,
+			$this->coordinator,
+			$this->serverContainer,
+			\OC::$server->get(LoggerInterface::class),
+			$this->taskMapper,
+			$this->jobList,
+			$this->eventDispatcher, // Use the potentially reconfigured mock
+			\OC::$server->get(IAppDataFactory::class),
+			$this->rootFolder,
+			$text2imageManager,
+			$this->userMountCache,
+			\OC::$server->get(IClientService::class),
+			\OC::$server->get(IAppManager::class),
+			\OC::$server->get(ICacheFactory::class),
+		);
+	}
+
+	private function configureEventDispatcherMock(
+		array $providersToAdd = [],
+		array $taskTypesToAdd = [],
+		?int $expectedCalls = null,
+	): void {
+		$dispatchExpectation = $expectedCalls === null ? $this->any() : $this->exactly($expectedCalls);
+
+		$this->eventDispatcher->expects($dispatchExpectation)
+			->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use ($providersToAdd, $taskTypesToAdd) {
+				if ($event instanceof GetTaskProcessingProvidersEvent) {
+					foreach ($providersToAdd as $providerInstance) {
+						$event->addProvider($providerInstance);
+					}
+					foreach ($taskTypesToAdd as $taskTypeInstance) {
+						$event->addTaskType($taskTypeInstance);
+					}
+				}
+			});
 	}
 }

@@ -7,7 +7,6 @@
  */
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
-use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Service\BackendService;
 
 /** @var array $_ */
@@ -42,63 +41,6 @@ foreach ($_['authMechanisms'] as $authMechanism) {
 	}
 }
 
-function writeParameterInput($parameter, $options, $classes = []) {
-	$value = '';
-	if (isset($options[$parameter->getName()])) {
-		$value = $options[$parameter->getName()];
-	}
-	$placeholder = $parameter->getText();
-	$is_optional = $parameter->isFlagSet(DefinitionParameter::FLAG_OPTIONAL);
-
-	switch ($parameter->getType()) {
-		case DefinitionParameter::VALUE_PASSWORD: ?>
-			<?php if ($is_optional) {
-				$classes[] = 'optional';
-			} ?>
-			<input type="password"
-				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
-				data-parameter="<?php p($parameter->getName()); ?>"
-				value="<?php p($value); ?>"
-				placeholder="<?php p($placeholder); ?>"
-			/>
-			<?php
-				break;
-		case DefinitionParameter::VALUE_BOOLEAN: ?>
-			<?php $checkboxId = uniqid('checkbox_'); ?>
-			<div>
-			<label>
-			<input type="checkbox"
-				id="<?php p($checkboxId); ?>"
-				<?php if (!empty($classes)): ?> class="checkbox <?php p(implode(' ', $classes)); ?>"<?php endif; ?>
-				data-parameter="<?php p($parameter->getName()); ?>"
-				<?php if ($value === true): ?> checked="checked"<?php endif; ?>
-			/>
-			<?php p($placeholder); ?>
-			</label>
-			</div>
-			<?php
-			break;
-		case DefinitionParameter::VALUE_HIDDEN: ?>
-			<input type="hidden"
-				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
-				data-parameter="<?php p($parameter->getName()); ?>"
-				value="<?php p($value); ?>"
-			/>
-			<?php
-			break;
-		default: ?>
-			<?php if ($is_optional) {
-				$classes[] = 'optional';
-			} ?>
-			<input type="text"
-				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
-				data-parameter="<?php p($parameter->getName()); ?>"
-				value="<?php p($value); ?>"
-				placeholder="<?php p($placeholder); ?>"
-			/>
-			<?php
-	}
-}
 ?>
 
 <div class="emptyfilelist emptycontent hidden">

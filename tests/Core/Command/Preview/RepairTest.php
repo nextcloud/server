@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
@@ -54,8 +55,7 @@ class RepairTest extends TestCase {
 			$this->iniGetWrapper,
 			$this->createMock(ILockingProvider::class)
 		);
-		$this->input = $this->getMockBuilder(InputInterface::class)
-			->getMock();
+		$this->input = $this->createMock(InputInterface::class);
 		$this->input->expects($this->any())
 			->method('getOption')
 			->willReturnCallback(function ($parameter) {
@@ -64,13 +64,10 @@ class RepairTest extends TestCase {
 				}
 				return null;
 			});
-		$this->output = $this->getMockBuilder(OutputInterface::class)
-			->setMethods(['section', 'writeln', 'write', 'setVerbosity', 'getVerbosity', 'isQuiet', 'isVerbose', 'isVeryVerbose', 'isDebug', 'setDecorated', 'isDecorated', 'setFormatter', 'getFormatter'])
+		$this->output = $this->getMockBuilder(ConsoleOutput::class)
+			->onlyMethods(['section', 'writeln', 'getFormatter'])
 			->getMock();
 		$self = $this;
-		$this->output->expects($this->any())
-			->method('section')
-			->willReturn($this->output);
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
@@ -87,7 +84,7 @@ class RepairTest extends TestCase {
 			});
 	}
 
-	public function emptyTestDataProvider() {
+	public static function dataEmptyTest(): array {
 		/** directoryNames, expectedOutput */
 		return [
 			[
@@ -114,7 +111,7 @@ class RepairTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider emptyTestDataProvider
+	 * @dataProvider dataEmptyTest
 	 */
 	public function testEmptyExecute($directoryNames, $expectedOutput): void {
 		$previewFolder = $this->getMockBuilder(Folder::class)

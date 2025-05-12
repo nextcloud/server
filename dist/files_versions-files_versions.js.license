@@ -123,22 +123,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.23.1
+	- version: 8.25.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.8.4
+	- version: 1.9.0
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -171,7 +171,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - core-js
-	- version: 3.40.0
+	- version: 3.41.0
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -183,7 +183,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.4
 	- license: MIT
 - dompurify
-	- version: 3.2.4
+	- version: 3.2.5
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -405,7 +405,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.8.0
 	- license: MIT
 - webpack
-	- version: 5.94.0
+	- version: 5.99.7
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

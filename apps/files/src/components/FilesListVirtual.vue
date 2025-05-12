@@ -70,13 +70,12 @@ import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import { useActiveStore } from '../store/active.ts'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { getSummaryFor } from '../utils/fileUtils.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -111,6 +110,10 @@ export default defineComponent({
 		},
 		nodes: {
 			type: Array as PropType<NcNode[]>,
+			required: true,
+		},
+		summary: {
+			type: String,
 			required: true,
 		},
 	},
@@ -150,10 +153,6 @@ export default defineComponent({
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		summary() {
-			return getSummaryFor(this.nodes)
 		},
 
 		isMtimeAvailable() {

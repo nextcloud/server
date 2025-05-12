@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
@@ -31,6 +32,7 @@ use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderSupportsAccept;
+use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
@@ -40,7 +42,7 @@ use function str_starts_with;
  *
  * @package OC\Share20
  */
-class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept {
+class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept, IShareProviderSupportsAllSharesInFolder {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
@@ -603,6 +605,17 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
+		return $this->getSharesInFolderInternal($userId, $node, $reshares);
+	}
+
+	public function getAllSharesInFolder(Folder $node): array {
+		return $this->getSharesInFolderInternal(null, $node, null);
+	}
+
+	/**
+	 * @return array<int, list<IShare>>
+	 */
+	private function getSharesInFolderInternal(?string $userId, Folder $node, ?bool $reshares): array {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('s.*',
 			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
@@ -613,18 +626,20 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		$qb->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)));
 
-		/**
-		 * Reshares for this user are shares where they are the owner.
-		 */
-		if ($reshares === false) {
-			$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
-		} else {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
-				)
-			);
+		if ($userId !== null) {
+			/**
+			 * Reshares for this user are shares where they are the owner.
+			 */
+			if ($reshares !== true) {
+				$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
+			} else {
+				$qb->andWhere(
+					$qb->expr()->orX(
+						$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
+						$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
+					)
+				);
+			}
 		}
 
 		// todo? maybe get these from the oc_mounts table
@@ -656,7 +671,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		foreach ($chunks as $chunk) {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$a = $qb->getSQL();
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
 				$shares[$data['fileid']][] = $this->createShare($data);

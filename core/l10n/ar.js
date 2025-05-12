@@ -146,6 +146,8 @@ OC.L10N.register(
     "Account name" : "اسم الحساب",
     "Server side authentication failed!" : "رفض الخادم المصادقة!",
     "Please contact your administrator." : "يرجى التواصل مع مسؤول النظام.",
+    "Session error" : "خطأ في الجلسة",
+    "It appears your session token has expired, please refresh the page and try again." : "يبدو أن أَمَارَة جلستك قد انتهت صلاحيتها. رجاءً، حدِّث الصفحة ثم حاول مرة أخرى.",
     "An internal error occurred." : "حدث خطأ داخلي.",
     "Please try again or contact your administrator." : "حاول مجددا أو تواصل مع مسؤول النظام.",
     "Password" : "كلمة المرور",

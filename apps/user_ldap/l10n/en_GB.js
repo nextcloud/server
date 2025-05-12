@@ -61,7 +61,7 @@ OC.L10N.register(
     "No LDAP base DN was given" : "No LDAP base DN was given",
     "User base DN is not a subnode of global base DN" : "User base DN is not a subnode of global base DN",
     "Group base DN is not a subnode of global base DN" : "Group base DN is not a subnode of global base DN",
-    "Login filter does not contain %uid place holder" : "Login filter does not contain %uid place holder",
+    "Login filter does not contain %s placeholder." : "Login filter does not contain %s placeholder.",
     "Please login with the new password" : "Please login with the new password",
     "LDAP User backend" : "LDAP User backend",
     "Your password will expire tomorrow." : "Your password will expire tomorrow.",

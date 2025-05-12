@@ -37,6 +37,7 @@ class ChunkCleanup implements IRepairStep {
 		// If we already ran this onec there is no need to run it again
 		if ($this->config->getAppValue('dav', 'chunks_migrated', '0') === '1') {
 			$output->info('Cleanup not required');
+			return;
 		}
 
 		$output->startProgress();

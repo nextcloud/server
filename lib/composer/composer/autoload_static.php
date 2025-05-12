@@ -21,10 +21,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         array (
             'NCU\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -43,10 +39,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -239,6 +231,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Broadcast\\Events\\IBroadcastEvent' => __DIR__ . '/../../..' . '/lib/public/Broadcast/Events/IBroadcastEvent.php',
         'OCP\\Cache\\CappedMemoryCache' => __DIR__ . '/../../..' . '/lib/public/Cache/CappedMemoryCache.php',
         'OCP\\Calendar\\BackendTemporarilyUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
+        'OCP\\Calendar\\CalendarEventStatus' => __DIR__ . '/../../..' . '/lib/public/Calendar/CalendarEventStatus.php',
+        'OCP\\Calendar\\CalendarExportOptions' => __DIR__ . '/../../..' . '/lib/public/Calendar/CalendarExportOptions.php',
         'OCP\\Calendar\\Events\\AbstractCalendarObjectEvent' => __DIR__ . '/../../..' . '/lib/public/Calendar/Events/AbstractCalendarObjectEvent.php',
         'OCP\\Calendar\\Events\\CalendarObjectCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Calendar/Events/CalendarObjectCreatedEvent.php',
         'OCP\\Calendar\\Events\\CalendarObjectDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Calendar/Events/CalendarObjectDeletedEvent.php',
@@ -250,6 +244,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\IAvailabilityResult' => __DIR__ . '/../../..' . '/lib/public/Calendar/IAvailabilityResult.php',
         'OCP\\Calendar\\ICalendar' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendar.php',
         'OCP\\Calendar\\ICalendarEventBuilder' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarEventBuilder.php',
+        'OCP\\Calendar\\ICalendarExport' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarExport.php',
+        'OCP\\Calendar\\ICalendarIsEnabled' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsEnabled.php',
         'OCP\\Calendar\\ICalendarIsShared' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsShared.php',
         'OCP\\Calendar\\ICalendarIsWritable' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarIsWritable.php',
         'OCP\\Calendar\\ICalendarProvider' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarProvider.php',
@@ -366,6 +362,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\DirectEditing\\IToken' => __DIR__ . '/../../..' . '/lib/public/DirectEditing/IToken.php',
         'OCP\\DirectEditing\\RegisterDirectEditorEvent' => __DIR__ . '/../../..' . '/lib/public/DirectEditing/RegisterDirectEditorEvent.php',
         'OCP\\Encryption\\Exceptions\\GenericEncryptionException' => __DIR__ . '/../../..' . '/lib/public/Encryption/Exceptions/GenericEncryptionException.php',
+        'OCP\\Encryption\\Exceptions\\InvalidHeaderException' => __DIR__ . '/../../..' . '/lib/public/Encryption/Exceptions/InvalidHeaderException.php',
         'OCP\\Encryption\\IEncryptionModule' => __DIR__ . '/../../..' . '/lib/public/Encryption/IEncryptionModule.php',
         'OCP\\Encryption\\IFile' => __DIR__ . '/../../..' . '/lib/public/Encryption/IFile.php',
         'OCP\\Encryption\\IManager' => __DIR__ . '/../../..' . '/lib/public/Encryption/IManager.php',
@@ -504,6 +501,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Notify\\INotifyHandler' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/INotifyHandler.php',
         'OCP\\Files\\Notify\\IRenameChange' => __DIR__ . '/../../..' . '/lib/public/Files/Notify/IRenameChange.php',
         'OCP\\Files\\ObjectStore\\IObjectStore' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStore.php',
+        'OCP\\Files\\ObjectStore\\IObjectStoreMetaData' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMetaData.php',
         'OCP\\Files\\ObjectStore\\IObjectStoreMultiPartUpload' => __DIR__ . '/../../..' . '/lib/public/Files/ObjectStore/IObjectStoreMultiPartUpload.php',
         'OCP\\Files\\ReservedWordException' => __DIR__ . '/../../..' . '/lib/public/Files/ReservedWordException.php',
         'OCP\\Files\\Search\\ISearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/public/Files/Search/ISearchBinaryOperator.php',
@@ -825,6 +823,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\IShareHelper' => __DIR__ . '/../../..' . '/lib/public/Share/IShareHelper.php',
         'OCP\\Share\\IShareProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProvider.php',
         'OCP\\Share\\IShareProviderSupportsAccept' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAccept.php',
+        'OCP\\Share\\IShareProviderSupportsAllSharesInFolder' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAllSharesInFolder.php',
         'OCP\\Share\\IShareProviderWithNotification' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderWithNotification.php',
         'OCP\\Share_Backend' => __DIR__ . '/../../..' . '/lib/public/Share_Backend.php',
         'OCP\\Share_Backend_Collection' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_Collection.php',
@@ -863,6 +862,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Talk\\ITalkBackend' => __DIR__ . '/../../..' . '/lib/public/Talk/ITalkBackend.php',
         'OCP\\TaskProcessing\\EShapeType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/EShapeType.php',
         'OCP\\TaskProcessing\\Events\\AbstractTaskProcessingEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/AbstractTaskProcessingEvent.php',
+        'OCP\\TaskProcessing\\Events\\GetTaskProcessingProvidersEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/GetTaskProcessingProvidersEvent.php',
         'OCP\\TaskProcessing\\Events\\TaskFailedEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/TaskFailedEvent.php',
         'OCP\\TaskProcessing\\Events\\TaskSuccessfulEvent' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Events/TaskSuccessfulEvent.php',
         'OCP\\TaskProcessing\\Exception\\Exception' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Exception/Exception.php',
@@ -883,6 +883,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
         'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToImage' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToImage.php',
+        'OCP\\TaskProcessing\\TaskTypes\\TextToSpeech' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToSpeech.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToText' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToText.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextChangeTone' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextChangeTone.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextChat' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextChat.php',
@@ -1417,6 +1418,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Db\\ProfileConfigMapper' => __DIR__ . '/../../..' . '/core/Db/ProfileConfigMapper.php',
         'OC\\Core\\Events\\BeforePasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/BeforePasswordResetEvent.php',
         'OC\\Core\\Events\\PasswordResetEvent' => __DIR__ . '/../../..' . '/core/Events/PasswordResetEvent.php',
+        'OC\\Core\\Exception\\LoginFlowV2ClientForbiddenException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2ClientForbiddenException.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeMessageLoggedEventListener.php',
@@ -1898,6 +1900,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Profile\\Actions\\WebsiteAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/WebsiteAction.php',
         'OC\\Profile\\ProfileManager' => __DIR__ . '/../../..' . '/lib/private/Profile/ProfileManager.php',
         'OC\\Profile\\TProfileHelper' => __DIR__ . '/../../..' . '/lib/private/Profile/TProfileHelper.php',
+        'OC\\Profiler\\BuiltInProfiler' => __DIR__ . '/../../..' . '/lib/private/Profiler/BuiltInProfiler.php',
         'OC\\Profiler\\FileProfilerStorage' => __DIR__ . '/../../..' . '/lib/private/Profiler/FileProfilerStorage.php',
         'OC\\Profiler\\Profile' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profile.php',
         'OC\\Profiler\\Profiler' => __DIR__ . '/../../..' . '/lib/private/Profiler/Profiler.php',

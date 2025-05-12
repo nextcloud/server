@@ -64,6 +64,7 @@ use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\Theming\ThemingDefaults;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -157,7 +158,8 @@ class Server {
 		$bearerAuthBackend = new BearerAuth(
 			\OCP\Server::get(IUserSession::class),
 			\OCP\Server::get(ISession::class),
-			\OCP\Server::get(IRequest::class)
+			\OCP\Server::get(IRequest::class),
+			\OCP\Server::get(IConfig::class),
 		);
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
@@ -287,6 +289,7 @@ class Server {
 						\OCP\Server::get(IPreview::class),
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 						false,
 						$config->getSystemValueBool('debug', false) === false,
 					)

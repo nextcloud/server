@@ -64,7 +64,9 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime"
+				ignore-seconds
+				:timestamp="mtime" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
@@ -86,7 +88,6 @@
 import { formatFileSize } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-import moment from '@nextcloud/moment'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
 import { useNavigation } from '../composables/useNavigation.ts'
@@ -205,26 +206,6 @@ export default defineComponent({
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
-		},
-
-		mtime() {
-			// If the mtime is not a valid date, return it as is
-			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
-				return this.source.mtime
-			}
-
-			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
-				return this.source.crtime
-			}
-
-			return null
-		},
-
-		mtimeTitle() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).format('LLL')
-			}
-			return ''
 		},
 	},
 

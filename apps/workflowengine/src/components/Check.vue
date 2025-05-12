@@ -19,8 +19,18 @@
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a comparator')"
 			@input="updateCheck" />
+		<component :is="currentElement"
+			v-if="currentElement"
+			ref="checkComponent"
+			:disabled="!currentOption"
+			:operator="check.operator"
+			:model-value="check.value"
+			class="option"
+			@update:model-value="updateCheck"
+			@valid="(valid=true) && validate()"
+			@invalid="!(valid=false) && validate()" />
 		<component :is="currentOption.component"
-			v-if="currentOperator && currentComponent"
+			v-else-if="currentOperator && currentComponent"
 			v-model="check.value"
 			:disabled="!currentOption"
 			:check="check"
@@ -52,7 +62,6 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import CloseIcon from 'vue-material-design-icons/Close.vue'
-
 import ClickOutside from 'vue-click-outside'
 
 export default {
@@ -99,6 +108,12 @@ export default {
 			}
 			return operators
 		},
+		currentElement() {
+			if (!this.check.class) {
+				return false
+			}
+			return this.checks[this.check.class].element
+		},
 		currentComponent() {
 			if (!this.currentOption) { return [] }
 			return this.checks[this.currentOption.class].component
@@ -119,6 +134,15 @@ export default {
 		this.options = Object.values(this.checks)
 		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
+
+		if (this.currentElement) {
+			// If we do not set it, the check`s value would remain empty. Unsure why Vue behaves this way.
+			this.$refs.checkComponent.modelValue = undefined
+		} else if (this.currentOption?.component) {
+			// keeping this in an else for apps that try to be backwards compatible and may ship both
+			// to be removed in 03/2028
+			console.warn('Developer warning: `CheckPlugin.options` is deprecated. Use `CheckPlugin.element` instead.')
+		}
 
 		if (this.check.class === null) {
 			this.$nextTick(() => this.$refs.checkSelector.$el.focus())
@@ -141,10 +165,14 @@ export default {
 			this.check.invalid = !this.valid
 			this.$emit('validate', this.valid)
 		},
-		updateCheck() {
-			const matchingOperator = this.operators.findIndex((operator) => this.check.operator === operator.operator)
+		updateCheck(event) {
+			const selectedOperator = event?.operator || this.currentOperator?.operator || this.check.operator
+			const matchingOperator = this.operators.findIndex((operator) => selectedOperator === operator.operator)
 			if (this.check.class !== this.currentOption.class || matchingOperator === -1) {
 				this.currentOperator = this.operators[0]
+			}
+			if (event?.detail) {
+				this.check.value = event.detail[0]
 			}
 			// eslint-disable-next-line vue/no-mutating-props
 			this.check.class = this.currentOption.class

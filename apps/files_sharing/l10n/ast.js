@@ -194,7 +194,7 @@ OC.L10N.register(
     "on {server}" : "en: {server}",
     "File drop" : "Suelta de ficheros",
     "Terms of service" : "Términos del serviciu",
-    "Nickname" : "Nomatu",
+    "Name" : "Nome",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir cola direición de corréu electrónica {email}",
     "Share with group" : "Compartir col grupu",

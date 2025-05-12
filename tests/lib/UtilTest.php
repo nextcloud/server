@@ -8,6 +8,7 @@
 namespace Test;
 
 use OC_Util;
+use OCP\Util;
 
 /**
  * Class UtilTest
@@ -17,7 +18,7 @@ use OC_Util;
  */
 class UtilTest extends \Test\TestCase {
 	public function testGetVersion(): void {
-		$version = \OCP\Util::getVersion();
+		$version = Util::getVersion();
 		$this->assertTrue(is_array($version));
 		foreach ($version as $num) {
 			$this->assertTrue(is_int($num));
@@ -41,25 +42,25 @@ class UtilTest extends \Test\TestCase {
 				'And It Even May &lt;strong&gt;Nest&lt;/strong&gt;'
 			],
 		];
-		$result = OC_Util::sanitizeHTML($badArray);
+		$result = Util::sanitizeHTML($badArray);
 		$this->assertEquals($goodArray, $result);
 
 		$badString = '<img onload="alert(1)" />';
-		$result = OC_Util::sanitizeHTML($badString);
+		$result = Util::sanitizeHTML($badString);
 		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
 
 		$badString = "<script>alert('Hacked!');</script>";
-		$result = OC_Util::sanitizeHTML($badString);
+		$result = Util::sanitizeHTML($badString);
 		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
 
 		$goodString = 'This is a good string without HTML.';
-		$result = OC_Util::sanitizeHTML($goodString);
+		$result = Util::sanitizeHTML($goodString);
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
 	public function testEncodePath(): void {
 		$component = '/§#@test%&^ä/-child';
-		$result = OC_Util::encodePath($component);
+		$result = Util::encodePath($component);
 		$this->assertEquals('/%C2%A7%23%40test%25%26%5E%C3%A4/-child', $result);
 	}
 
@@ -86,7 +87,7 @@ class UtilTest extends \Test\TestCase {
 	 * So we check that with strict email verification we fallback to the default
 	 */
 	public function testGetDefaultEmailAddressStrict(): void {
-		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
+		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost.localdomain', $email);
 	}
 
@@ -96,7 +97,7 @@ class UtilTest extends \Test\TestCase {
 	public function testGetDefaultEmailAddress(): void {
 		$config = \OC::$server->getConfig();
 		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
-		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
+		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost', $email);
 		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
@@ -104,7 +105,7 @@ class UtilTest extends \Test\TestCase {
 	public function testGetDefaultEmailAddressFromConfig(): void {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
-		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
+		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 	}
@@ -113,7 +114,7 @@ class UtilTest extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
-		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
+		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('owncloud@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 		$config->deleteSystemValue('mail_from_address');
@@ -135,19 +136,19 @@ class UtilTest extends \Test\TestCase {
 		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
 		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
 
-		$this->assertFalse(\OCP\Util::needUpgrade());
+		$this->assertFalse(Util::needUpgrade());
 
 		$config->setSystemValue('version', '7.0.0.0');
 		\OC::$server->getSession()->set('OC_Version', [7, 0, 0, 1]);
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
+		self::invokePrivate(new Util, 'needUpgradeCache', [null]);
 
-		$this->assertTrue(\OCP\Util::needUpgrade());
+		$this->assertTrue(Util::needUpgrade());
 
 		$config->setSystemValue('version', $oldConfigVersion);
 		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
+		self::invokePrivate(new Util, 'needUpgradeCache', [null]);
 
-		$this->assertFalse(\OCP\Util::needUpgrade());
+		$this->assertFalse(Util::needUpgrade());
 	}
 
 	public function testCheckDataDirectoryValidity(): void {
@@ -170,39 +171,37 @@ class UtilTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
-		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
-		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
 	}
 	protected function tearDown(): void {
 		parent::tearDown();
 
-		\OC_Util::$scripts = [];
 		\OC_Util::$styles = [];
-		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
-		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
 	}
 
 	public function testAddScript(): void {
-		\OCP\Util::addScript('first', 'myFirstJSFile');
-		\OCP\Util::addScript('core', 'myFancyJSFile1');
-		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
-		\OCP\Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
-		\OCP\Util::addScript('myApp', 'myFancyJSFile3');
-		\OCP\Util::addScript('core', 'myFancyJSFile4');
+		Util::addScript('first', 'myFirstJSFile');
+		Util::addScript('core', 'myFancyJSFile1');
+		Util::addScript('files', 'myFancyJSFile2', 'core');
+		Util::addScript('myApp5', 'myApp5JSFile', 'myApp2');
+		Util::addScript('myApp', 'myFancyJSFile3');
+		Util::addScript('core', 'myFancyJSFile4');
 		// after itself
-		\OCP\Util::addScript('core', 'myFancyJSFile5', 'core');
+		Util::addScript('core', 'myFancyJSFile5', 'core');
 		// add duplicate
-		\OCP\Util::addScript('core', 'myFancyJSFile1');
+		Util::addScript('core', 'myFancyJSFile1');
 		// dependency chain
-		\OCP\Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
-		\OCP\Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
-		\OCP\Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
-		\OCP\Util::addScript('core', 'common');
-		\OCP\Util::addScript('core', 'main');
+		Util::addScript('myApp4', 'myApp4JSFile', 'myApp3');
+		Util::addScript('myApp3', 'myApp3JSFile', 'myApp2');
+		Util::addScript('myApp2', 'myApp2JSFile', 'myApp');
+		Util::addScript('core', 'common');
+		Util::addScript('core', 'main');
 
-		$scripts = \OCP\Util::getScripts();
+		$scripts = Util::getScripts();
 
 		// Core should appear first
 		$this->assertEquals(
@@ -278,49 +277,32 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testAddScriptCircularDependency(): void {
-		\OCP\Util::addScript('circular', 'file1', 'dependency');
-		\OCP\Util::addScript('dependency', 'file2', 'circular');
+		Util::addScript('circular', 'file1', 'dependency');
+		Util::addScript('dependency', 'file2', 'circular');
 
-		$scripts = \OCP\Util::getScripts();
+		$scripts = Util::getScripts();
 		$this->assertContains('circular/js/file1', $scripts);
 		$this->assertContains('dependency/js/file2', $scripts);
 	}
 
-	public function testAddVendorScript(): void {
-		\OC_Util::addVendorScript('core', 'myFancyJSFile1');
-		\OC_Util::addVendorScript('myApp', 'myFancyJSFile2');
-		\OC_Util::addVendorScript('core', 'myFancyJSFile0', true);
-		\OC_Util::addVendorScript('core', 'myFancyJSFile10', true);
-		// add duplicate
-		\OC_Util::addVendorScript('core', 'myFancyJSFile1');
-
-		$this->assertEquals([
-			'core/vendor/myFancyJSFile10',
-			'core/vendor/myFancyJSFile0',
-			'core/vendor/myFancyJSFile1',
-			'myApp/vendor/myFancyJSFile2',
-		], \OC_Util::$scripts);
-		$this->assertEquals([], \OC_Util::$styles);
-	}
-
 	public function testAddTranslations(): void {
-		\OC_Util::addTranslations('appId', 'de');
+		Util::addTranslations('appId', 'de');
 
 		$this->assertEquals([
 			'appId/l10n/de'
-		], \OC_Util::$scripts);
+		], Util::getScripts());
 		$this->assertEquals([], \OC_Util::$styles);
 	}
 
 	public function testAddStyle(): void {
-		\OC_Util::addStyle('core', 'myFancyCSSFile1');
-		\OC_Util::addStyle('myApp', 'myFancyCSSFile2');
-		\OC_Util::addStyle('core', 'myFancyCSSFile0', true);
-		\OC_Util::addStyle('core', 'myFancyCSSFile10', true);
+		Util::addStyle('core', 'myFancyCSSFile1');
+		Util::addStyle('myApp', 'myFancyCSSFile2');
+		Util::addStyle('core', 'myFancyCSSFile0', true);
+		Util::addStyle('core', 'myFancyCSSFile10', true);
 		// add duplicate
-		\OC_Util::addStyle('core', 'myFancyCSSFile1');
+		Util::addStyle('core', 'myFancyCSSFile1');
 
-		$this->assertEquals([], \OC_Util::$scripts);
+		$this->assertEquals([], Util::getScripts());
 		$this->assertEquals([
 			'core/css/myFancyCSSFile10',
 			'core/css/myFancyCSSFile0',
@@ -337,7 +319,7 @@ class UtilTest extends \Test\TestCase {
 		// add duplicate
 		\OC_Util::addVendorStyle('core', 'myFancyCSSFile1');
 
-		$this->assertEquals([], \OC_Util::$scripts);
+		$this->assertEquals([], Util::getScripts());
 		$this->assertEquals([
 			'core/vendor/myFancyCSSFile10',
 			'core/vendor/myFancyCSSFile0',
@@ -347,9 +329,9 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testShortenMultibyteString(): void {
-		$this->assertEquals('Short nuff', \OCP\Util::shortenMultibyteString('Short nuff', 255));
-		$this->assertEquals('ABC', \OCP\Util::shortenMultibyteString('ABCDEF', 3));
+		$this->assertEquals('Short nuff', Util::shortenMultibyteString('Short nuff', 255));
+		$this->assertEquals('ABC', Util::shortenMultibyteString('ABCDEF', 3));
 		// each of the characters is 12 bytes
-		$this->assertEquals('🙈', \OCP\Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
+		$this->assertEquals('🙈', Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
 	}
 }

@@ -12,7 +12,7 @@ OC.L10N.register(
     "Forbidden to manage local mounts" : "Forbudt at administrere lokale mounts",
     "Storage with ID \"%d\" not found" : "Lagring med ID \"%d\" ikke fundet",
     "Invalid backend or authentication mechanism class" : "Ugyldig backend eller klasse for godkendelsesmekanisme",
-    "Invalid mount point" : "Fokert monteringspunkt",
+    "Invalid mount point" : "Ugyldigt monteringspunkt",
     "Objectstore forbidden" : "Objectstore er forbudt",
     "Invalid storage backend \"%s\"" : "Forkert lager til backend \"%s\"en",
     "Not permitted to use backend \"%s\"" : "Ikke tilladt at bruge backend \"%s\"",

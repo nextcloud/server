@@ -171,7 +171,6 @@
     "Path is already shared with this group" : "Путь уже является общим для этой группы",
     "Link sharing is not allowed" : "Обмен ссылками запрещен",
     "Public upload is not allowed" : "Публичная загрузка данных запрещена",
-    "Path contains files shared with you" : "Путь содержит файлы, к которым вы предоставили общий доступ",
     "Sharing is disabled" : "Общий доступ отключен",
     "Sharing is disabled for you" : "Общий доступ для вас отключен",
     "Cannot share with the share owner" : "Невозможно поделиться с владельцем общего доступа",

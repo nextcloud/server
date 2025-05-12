@@ -160,7 +160,7 @@ class DirectHomeTest extends TestCase {
 				'1.2.3.4'
 			);
 		$this->throttler->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with(
 				'1.2.3.4',
 				'directlink'

@@ -65,11 +65,10 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueInt')
-			->withConsecutive(
-				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT],
-				['sharing.minSearchStringLength', 0]
-			)
-			->willReturnOnConsecutiveCalls(25, 0);
+			->willReturnMap([
+				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 25],
+				['sharing.minSearchStringLength', 0, 0],
+			]);
 		$this->contactsStore->expects($this->once())
 			->method('getContacts')
 			->with($user, $filter)
@@ -102,11 +101,10 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueInt')
-			->withConsecutive(
-				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT],
-				['sharing.minSearchStringLength', 0]
-			)
-			->willReturnOnConsecutiveCalls(3, 0);
+			->willReturnMap([
+				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 3],
+				['sharing.minSearchStringLength', 0, 0],
+			]);
 		$this->contactsStore->expects($this->once())
 			->method('getContacts')
 			->with($user, $filter)
@@ -138,11 +136,10 @@ class ManagerTest extends TestCase {
 
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueInt')
-			->withConsecutive(
-				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT],
-				['sharing.minSearchStringLength', 0]
-			)
-			->willReturnOnConsecutiveCalls(3, 4);
+			->willReturnMap([
+				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 3],
+				['sharing.minSearchStringLength', 0, 4],
+			]);
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
 			->with($this->equalTo('contacts'), $user)

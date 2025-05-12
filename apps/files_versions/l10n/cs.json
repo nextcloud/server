@@ -21,6 +21,7 @@
     "Version restored" : "Verze obnovena",
     "Could not restore version" : "Verzi se nedaří obnovit",
     "Could not set version label" : "Nepodařilo se nastavit štítek verze",
-    "Could not delete version" : "Nedaří se smazat verzi"
+    "Could not delete version" : "Nedaří se smazat verzi",
+    "File versions" : "Verze souborů"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

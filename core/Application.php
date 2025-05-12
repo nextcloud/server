@@ -147,12 +147,12 @@ class Application extends App {
 				true
 			);
 
-			$event->addMissingIndex(
+			$event->replaceIndex(
 				'cards_properties',
-				'cards_prop_abid',
-				['addressbookid'],
-				[],
-				true
+				['cards_prop_abid'],
+				'cards_prop_abid_name_value',
+				['addressbookid', 'name', 'value'],
+				false,
 			);
 
 			$event->addMissingIndex(
@@ -182,6 +182,11 @@ class Application extends App {
 				'properties',
 				'properties_pathonly_index',
 				['propertypath']
+			);
+			$event->addMissingIndex(
+				'properties',
+				'properties_name_path_user',
+				['propertyname', 'propertypath', 'userid']
 			);
 
 

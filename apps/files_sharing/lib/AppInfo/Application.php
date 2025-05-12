@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +13,7 @@ use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
@@ -106,6 +108,8 @@ class Application extends App implements IBootstrap {
 
 		// File request auth
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadPublicFileRequestAuthListener::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
 	public function boot(IBootContext $context): void {

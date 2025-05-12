@@ -30,6 +30,7 @@ OC.L10N.register(
     "Confirm querying lookup server" : "确认查询查找服务器",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "启用后，创建分享时的搜索输入将发送到提供公开全局通讯录的外部系统。",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "这用于检索联合云 ID，以使联合共享更容易。",
+    "Moreover, email addresses of users might be sent to that system in order to verify them." : "此外，用户的电子邮件地址可能会被发送到该系统以进行验证。",
     "Disable querying" : "禁用查询",
     "Enable querying" : "启用查询",
     "Unable to update federated files sharing config" : "无法更新联合云文件分享设置",

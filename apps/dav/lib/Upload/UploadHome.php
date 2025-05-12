@@ -7,19 +7,37 @@
  */
 namespace OCA\DAV\Upload;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
-use OCP\Server;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
 class UploadHome implements ICollection {
+	private string $uid;
+	private ?Folder $uploadFolder = null;
+
 	public function __construct(
-		private array $principalInfo,
-		private CleanupService $cleanupService,
+		private readonly array $principalInfo,
+		private readonly CleanupService $cleanupService,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserSession $userSession,
+		private readonly \OCP\Share\IManager $shareManager,
 	) {
+		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
+		if ($prefix === 'principals/shares') {
+			$this->uid = $this->shareManager->getShareByToken($name)->getShareOwner();
+		} else {
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('Not logged in');
+			}
+
+			$this->uid = $user->getUID();
+		}
 	}
 
 	public function createFile($name, $data = null) {
@@ -30,16 +48,26 @@ class UploadHome implements ICollection {
 		$this->impl()->createDirectory($name);
 
 		// Add a cleanup job
-		$this->cleanupService->addJob($name);
+		$this->cleanupService->addJob($this->uid, $name);
 	}
 
 	public function getChild($name): UploadFolder {
-		return new UploadFolder($this->impl()->getChild($name), $this->cleanupService, $this->getStorage());
+		return new UploadFolder(
+			$this->impl()->getChild($name),
+			$this->cleanupService,
+			$this->getStorage(),
+			$this->uid,
+		);
 	}
 
 	public function getChildren(): array {
 		return array_map(function ($node) {
-			return new UploadFolder($node, $this->cleanupService, $this->getStorage());
+			return new UploadFolder(
+				$node,
+				$this->cleanupService,
+				$this->getStorage(),
+				$this->uid,
+			);
 		}, $this->impl()->getChildren());
 	}
 
@@ -64,28 +92,29 @@ class UploadHome implements ICollection {
 		return $this->impl()->getLastModified();
 	}
 
-	/**
-	 * @return Directory
-	 */
-	private function impl() {
-		$view = $this->getView();
-		$rootInfo = $view->getFileInfo('');
-		return new Directory($view, $rootInfo);
+	private function getUploadFolder(): Folder {
+		if ($this->uploadFolder === null) {
+			$path = '/' . $this->uid . '/uploads';
+			try {
+				$folder = $this->rootFolder->get($path);
+				if (!$folder instanceof Folder) {
+					throw new \Exception('Upload folder is a file');
+				}
+				$this->uploadFolder = $folder;
+			} catch (NotFoundException $e) {
+				$this->uploadFolder = $this->rootFolder->newFolder($path);
+			}
+		}
+		return $this->uploadFolder;
 	}
 
-	private function getView() {
-		$rootView = new View();
-		$user = Server::get(IUserSession::class)->getUser();
-		Filesystem::initMountPoints($user->getUID());
-		if (!$rootView->file_exists('/' . $user->getUID() . '/uploads')) {
-			$rootView->mkdir('/' . $user->getUID() . '/uploads');
-		}
-		return new View('/' . $user->getUID() . '/uploads');
+	private function impl(): Directory {
+		$folder = $this->getUploadFolder();
+		$view = new View($folder->getPath());
+		return new Directory($view, $folder);
 	}
 
 	private function getStorage() {
-		$view = $this->getView();
-		$storage = $view->getFileInfo('')->getStorage();
-		return $storage;
+		return $this->getUploadFolder()->getStorage();
 	}
 }

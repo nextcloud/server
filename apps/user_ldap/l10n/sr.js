@@ -61,7 +61,7 @@ OC.L10N.register(
     "No LDAP base DN was given" : "Није наведен ниједан LDAP базни DN",
     "User base DN is not a subnode of global base DN" : "Корисников базни DN није подчвор глобалног базног DN",
     "Group base DN is not a subnode of global base DN" : "Базни DN групе није подчвор глобалног базног DN",
-    "Login filter does not contain %uid place holder" : "Филтер пријаве не садржи %u id чувар места",
+    "Login filter does not contain %s placeholder." : "Филтер пријаве не садржи %s чувар места",
     "Please login with the new password" : "Пријавите се са новом лозинком",
     "LDAP User backend" : "LDAP позадина за кориснике",
     "Your password will expire tomorrow." : "Ваша лозинка ће истећи сутра.",

@@ -105,6 +105,7 @@ class Application extends App implements IBootstrap {
 			INotificationManager $notificationManager,
 			IAppContainer $appContainer,
 			IEventDispatcher $dispatcher,
+			IUserManager $userManager,
 			IGroupManager $groupManager,
 			User_Proxy $userBackend,
 			Group_Proxy $groupBackend,
@@ -115,7 +116,7 @@ class Application extends App implements IBootstrap {
 				$userPluginManager = $appContainer->get(UserPluginManager::class);
 				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
 
-				\OC_User::useBackend($userBackend);
+				$userManager->registerBackend($userBackend);
 				$groupManager->addBackend($groupBackend);
 
 				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);

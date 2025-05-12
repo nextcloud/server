@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Verzia bola obnovená",
     "Could not restore version" : "Nepodarilo sa obnoviť verziu",
     "Could not set version label" : "Nepodarilo sa nastaviť označenie verzie",
-    "Could not delete version" : "Nepodarilo sa odstrániť verziu"
+    "Could not delete version" : "Nepodarilo sa odstrániť verziu",
+    "File versions" : "Verzie súboru"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

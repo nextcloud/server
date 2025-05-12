@@ -40,7 +40,9 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -49,7 +51,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\Server;
 use OCP\Util;
 use function in_array;
 
@@ -88,8 +89,8 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function usersListByGroup(): TemplateResponse {
-		return $this->usersList();
+	public function usersListByGroup(INavigationManager $navigationManager, ISubAdmin $subAdmin): TemplateResponse {
+		return $this->usersList($navigationManager, $subAdmin);
 	}
 
 	/**
@@ -99,13 +100,13 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function usersList(): TemplateResponse {
+	public function usersList(INavigationManager $navigationManager, ISubAdmin $subAdmin): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 		$isAdmin = $this->groupManager->isAdmin($uid);
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
 
-		Server::get(INavigationManager::class)->setActiveEntry('core_users');
+		$navigationManager->setActiveEntry('core_users');
 
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = MetaData::SORT_USERCOUNT;
@@ -134,8 +135,15 @@ class UsersController extends Controller {
 			$this->userSession
 		);
 
-		$groupsInfo->setSorting($sortGroupsBy);
-		[$adminGroup, $groups] = $groupsInfo->get();
+		$adminGroup = $this->groupManager->get('admin');
+		$adminGroupData = [
+			'id' => $adminGroup->getGID(),
+			'name' => $adminGroup->getDisplayName(),
+			'usercount' => $sortGroupsBy === MetaData::SORT_USERCOUNT ? $adminGroup->count() : 0,
+			'disabled' => $adminGroup->countDisabled(),
+			'canAdd' => $adminGroup->canAddUser(),
+			'canRemove' => $adminGroup->canRemoveUser(),
+		];
 
 		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
 			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
@@ -174,6 +182,14 @@ class UsersController extends Controller {
 			'usercount' => $disabledUsers
 		];
 
+		if (!$isAdmin && !$isDelegatedAdmin) {
+			$subAdminGroups = array_map(
+				fn (IGroup $group) => ['id' => $group->getGID(), 'name' => $group->getDisplayName()],
+				$subAdmin->getSubAdminsGroups($user),
+			);
+			$subAdminGroups = array_values($subAdminGroups);
+		}
+
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
 		$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
@@ -196,7 +212,8 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
+		$serverData['systemGroups'] = [$adminGroupData, $recentUsersGroup, $disabledUsersGroup];
+		$serverData['subAdminGroups'] = $subAdminGroups ?? [];
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;

@@ -24,7 +24,7 @@ class SplitLargeIn extends ReplacingOptimizerStep {
 		) {
 			$chunks = array_chunk($operator->getValue(), 1000);
 			$chunkComparisons = array_map(function (array $values) use ($operator) {
-				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values);
+				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values, $operator->getExtra());
 			}, $chunks);
 
 			$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $chunkComparisons);

@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Sürüm geri yüklendi",
     "Could not restore version" : "Sürüm geri yüklenemedi",
     "Could not set version label" : "Sürüm etiketi ayarlanamadı",
-    "Could not delete version" : "Sürüm silinemedi"
+    "Could not delete version" : "Sürüm silinemedi",
+    "File versions" : "Dosya sürümleri"
 },
 "nplurals=2; plural=(n > 1);");

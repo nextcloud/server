@@ -9,6 +9,7 @@ namespace OCA\DAV\CalDAV;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Generator;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -28,6 +29,7 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Events\CalendarObjectCreatedEvent;
 use OCP\Calendar\Events\CalendarObjectDeletedEvent;
 use OCP\Calendar\Events\CalendarObjectMovedEvent;
@@ -988,6 +990,44 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Returns all calendar entries as a stream of data
+	 *
+	 * @since 32.0.0
+	 *
+	 * @return Generator<array>
+	 */
+	public function exportCalendar(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR, ?CalendarExportOptions $options = null): Generator {
+		// extract options
+		$rangeStart = $options?->getRangeStart();
+		$rangeCount = $options?->getRangeCount();
+		// construct query
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('calendarobjects')
+			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+			->andWhere($qb->expr()->isNull('deleted_at'));
+		if ($rangeStart !== null) {
+			$qb->andWhere($qb->expr()->gt('uid', $qb->createNamedParameter($rangeStart)));
+		}
+		if ($rangeCount !== null) {
+			$qb->setMaxResults($rangeCount);
+		}
+		if ($rangeStart !== null || $rangeCount !== null) {
+			$qb->orderBy('uid', 'ASC');
+		}
+		$rs = $qb->executeQuery();
+		// iterate through results
+		try {
+			while (($row = $rs->fetch()) !== false) {
+				yield $row;
+			}
+		} finally {
+			$rs->closeCursor();
+		}
+	}
+	
+	/**
 	 * Returns all calendar objects with limited metadata for a calendar
 	 *
 	 * Every item contains an array with the following keys:
@@ -1429,37 +1469,40 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * Moves a calendar object from calendar to calendar.
 	 *
-	 * @param int $sourceCalendarId
+	 * @param string $sourcePrincipalUri
+	 * @param int $sourceObjectId
+	 * @param string $targetPrincipalUri
 	 * @param int $targetCalendarId
-	 * @param int $objectId
-	 * @param string $oldPrincipalUri
-	 * @param string $newPrincipalUri
+	 * @param string $tragetObjectUri
 	 * @param int $calendarType
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function moveCalendarObject(int $sourceCalendarId, int $targetCalendarId, int $objectId, string $oldPrincipalUri, string $newPrincipalUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): bool {
+	public function moveCalendarObject(string $sourcePrincipalUri, int $sourceObjectId, string $targetPrincipalUri, int $targetCalendarId, string $tragetObjectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): bool {
 		$this->cachedObjects = [];
-		return $this->atomic(function () use ($sourceCalendarId, $targetCalendarId, $objectId, $oldPrincipalUri, $newPrincipalUri, $calendarType) {
-			$object = $this->getCalendarObjectById($oldPrincipalUri, $objectId);
+		return $this->atomic(function () use ($sourcePrincipalUri, $sourceObjectId, $targetPrincipalUri, $targetCalendarId, $tragetObjectUri, $calendarType) {
+			$object = $this->getCalendarObjectById($sourcePrincipalUri, $sourceObjectId);
 			if (empty($object)) {
 				return false;
 			}
 
+			$sourceCalendarId = $object['calendarid'];
+			$sourceObjectUri = $object['uri'];
+
 			$query = $this->db->getQueryBuilder();
 			$query->update('calendarobjects')
 				->set('calendarid', $query->createNamedParameter($targetCalendarId, IQueryBuilder::PARAM_INT))
-				->where($query->expr()->eq('id', $query->createNamedParameter($objectId, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
-				->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
+				->set('uri', $query->createNamedParameter($tragetObjectUri, IQueryBuilder::PARAM_STR))
+				->where($query->expr()->eq('id', $query->createNamedParameter($sourceObjectId, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 				->executeStatement();
 
-			$this->purgeProperties($sourceCalendarId, $objectId);
-			$this->updateProperties($targetCalendarId, $object['uri'], $object['calendardata'], $calendarType);
+			$this->purgeProperties($sourceCalendarId, $sourceObjectId);
+			$this->updateProperties($targetCalendarId, $tragetObjectUri, $object['calendardata'], $calendarType);
 
-			$this->addChanges($sourceCalendarId, [$object['uri']], 3, $calendarType);
-			$this->addChanges($targetCalendarId, [$object['uri']], 1, $calendarType);
+			$this->addChanges($sourceCalendarId, [$sourceObjectUri], 3, $calendarType);
+			$this->addChanges($targetCalendarId, [$tragetObjectUri], 1, $calendarType);
 
-			$object = $this->getCalendarObjectById($newPrincipalUri, $objectId);
+			$object = $this->getCalendarObjectById($targetPrincipalUri, $sourceObjectId);
 			// Calendar Object wasn't found - possibly because it was deleted in the meantime by a different client
 			if (empty($object)) {
 				return false;

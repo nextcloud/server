@@ -167,6 +167,8 @@ OC.L10N.register(
     "on {server}" : "на {server}",
     "File drop" : "Пускане/Преместване/ на файл",
     "Terms of service" : "Условия за ползване",
+    "Name" : "Име",
+    "Enter your name" : "Въведете вашето име",
     "Read" : "Четене",
     "Create" : "Създаване",
     "Edit" : "Редактиране",
@@ -246,7 +248,6 @@ OC.L10N.register(
     "Download all files" : "Изтегли всички файлове",
     "Search for share recipients" : "Търсене на получатели на споделяне",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
-    "Allow download" : "Позволяване на изтегляне/сваляне/",
-    "Enter your name" : "Въведете вашето име"
+    "Allow download" : "Позволяване на изтегляне/сваляне/"
 },
 "nplurals=2; plural=(n != 1);");

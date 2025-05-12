@@ -13,6 +13,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Bună seara, {name}",
     "Hello" : "Bună",
     "Hello, {name}" : "Bună, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "La mulți ani 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "La mulți ani, {name} 🥳🤩🎂🎉",
     "Customize" : "Personalizează",
     "Edit widgets" : "Editează widget",
     "Get more widgets from the App Store" : "Obține mai multe widget-uri din App Store",

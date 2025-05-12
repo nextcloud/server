@@ -34,8 +34,6 @@
 				users,
 				settings,
 				hasObfuscated,
-				groups,
-				subAdminsGroups,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -173,15 +171,8 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the recent and disabled groups
-			return this.$store.getters.getGroups
+			return this.$store.getters.getSortedGroups
 				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getSubadminGroups
 		},
 
 		quotaOptions() {
@@ -359,11 +350,13 @@ export default {
 		setNewUserDefaultGroup(value) {
 			// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
 			if (!value && !this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
+				const groups = this.$store.getters.getSubAdminGroups
 				// if there are multiple groups we do not know which to add,
 				// so we cannot make the managers life easier by preselecting it.
-				if (this.groups.length === 1) {
-					value = this.groups[0].id
+				if (groups.length === 1) {
+					this.newUser.groups = [...groups]
 				}
+				return
 			}
 
 			if (value) {

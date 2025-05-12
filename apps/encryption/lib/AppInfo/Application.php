@@ -32,6 +32,7 @@ use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use Psr\Log\LoggerInterface;
 
@@ -90,6 +91,7 @@ class Application extends App implements IBootstrap {
 		$eventDispatcher->addServiceListener(BeforePasswordResetEvent::class, UserEventsListener::class);
 		$eventDispatcher->addServiceListener(PasswordResetEvent::class, UserEventsListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserEventsListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedOutEvent::class, UserEventsListener::class);
 	}
 

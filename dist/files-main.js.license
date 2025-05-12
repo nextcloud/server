@@ -6,6 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: p-queue developers
+SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
@@ -108,31 +109,34 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.9.1
+	- version: 1.10.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.23.1
+	- version: 8.25.1
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
 - @vueuse/components
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios-retry
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.8.4
+	- version: 1.9.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
+	- license: MIT
+- blurhash
+	- version: 2.0.5
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
@@ -141,7 +145,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - core-js
-	- version: 3.40.0
+	- version: 3.41.0
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -153,7 +157,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.2.4
+	- version: 3.2.5
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -267,7 +271,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.94.0
+	- version: 5.99.7
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

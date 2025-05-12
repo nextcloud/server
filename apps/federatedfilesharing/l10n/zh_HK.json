@@ -28,6 +28,7 @@
     "Confirm querying lookup server" : "確認提問搜索伺服器",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "當啟用時，創建共享時的搜索輸入將被發送到提供公共全面通訊錄的外部系統。",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "這是用來檢索聯邦雲端 ID，以便簡化聯邦共享的過程。",
+    "Moreover, email addresses of users might be sent to that system in order to verify them." : "此外，用戶的電郵地址可能會被發送到該系統以進行驗證。",
     "Disable querying" : "停用提問",
     "Enable querying" : "啟用提問",
     "Unable to update federated files sharing config" : "無法更新聯合檔案分享配置",

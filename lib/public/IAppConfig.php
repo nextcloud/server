@@ -507,4 +507,12 @@ interface IAppConfig {
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
 	public function getFilteredValues($app);
+
+	/**
+	 * Returns the installed version of all apps
+	 *
+	 * @return array<string, string>
+	 * @since 32.0.0
+	 */
+	public function getAppInstalledVersions(): array;
 }

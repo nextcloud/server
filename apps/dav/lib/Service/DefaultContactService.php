@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Service;
 
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\App\IAppManager;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -20,11 +22,16 @@ class DefaultContactService {
 		private CardDavBackend $cardDav,
 		private IAppManager $appManager,
 		private IAppDataFactory $appDataFactory,
+		private IAppConfig $config,
 		private LoggerInterface $logger,
 	) {
 	}
 
 	public function createDefaultContact(int $addressBookId): void {
+		$enableDefaultContact = $this->config->getValueString(Application::APP_ID, 'enableDefaultContact', 'no');
+		if ($enableDefaultContact !== 'yes') {
+			return;
+		}
 		$appData = $this->appDataFactory->get('dav');
 		try {
 			$folder = $appData->getFolder('defaultContact');

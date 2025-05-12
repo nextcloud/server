@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "版本已還原",
     "Could not restore version" : "無法還原版本",
     "Could not set version label" : "無法設置版本標籤",
-    "Could not delete version" : "無法刪除版本"
+    "Could not delete version" : "無法刪除版本",
+    "File versions" : "檔案版本"
 },
 "nplurals=1; plural=0;");

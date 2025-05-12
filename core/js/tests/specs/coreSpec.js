@@ -359,7 +359,7 @@ describe('Core base tests', function() {
 		// to make sure they run.
 		var cit = window.isPhantom?xit:it;
 
-		// must provide the same results as \OC_Util::naturalSortCompare
+		// must provide the same results as \OCP\Util::naturalSortCompare
 		it('sorts alphabetically', function() {
 			var a = [
 				'def',

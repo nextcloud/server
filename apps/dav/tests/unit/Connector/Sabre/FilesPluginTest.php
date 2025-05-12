@@ -7,12 +7,15 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Accounts\Account;
+use OC\Accounts\AccountProperty;
 use OC\User\User;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\Node;
+use OCP\Accounts\IAccountManager;
 use OCP\Files\FileInfo;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
@@ -43,6 +46,7 @@ class FilesPluginTest extends TestCase {
 	private IPreview&MockObject $previewManager;
 	private IUserSession&MockObject $userSession;
 	private IFilenameValidator&MockObject $filenameValidator;
+	private IAccountManager&MockObject $accountManager;
 	private FilesPlugin $plugin;
 
 	protected function setUp(): void {
@@ -57,6 +61,7 @@ class FilesPluginTest extends TestCase {
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
@@ -65,6 +70,7 @@ class FilesPluginTest extends TestCase {
 			$this->previewManager,
 			$this->userSession,
 			$this->filenameValidator,
+			$this->accountManager,
 		);
 
 		$response = $this->getMockBuilder(ResponseInterface::class)
@@ -154,12 +160,31 @@ class FilesPluginTest extends TestCase {
 			->method('getDisplayName')
 			->willReturn('M. Foo');
 
+		$owner = $this->getMockBuilder(Account::class)
+			->disableOriginalConstructor()->getMock();
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($owner);
+
 		$node->expects($this->once())
 			->method('getDirectDownload')
 			->willReturn(['url' => 'http://example.com/']);
 		$node->expects($this->exactly(2))
 			->method('getOwner')
 			->willReturn($user);
+
+		$displayNameProp = $this->getMockBuilder(AccountProperty::class)
+			->disableOriginalConstructor()->getMock();
+		$owner
+			->expects($this->once())
+			->method('getProperty')
+			->with(IAccountManager::PROPERTY_DISPLAYNAME)
+			->willReturn($displayNameProp);
+		$displayNameProp
+			->expects($this->once())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 
 		$this->plugin->handleGetProperties(
 			$propFind,
@@ -177,6 +202,101 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
 		$this->assertEquals('my_fingerprint', $propFind->get(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME));
 		$this->assertEquals([], $propFind->get404Properties());
+	}
+
+	public function testGetDisplayNamePropertyWhenNotPublished(): void {
+		/** @var File|\PHPUnit\Framework\MockObject\MockObject $node */
+		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+
+		$propFind = new PropFind(
+			'/dummyPath',
+			[
+				FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME,
+			],
+			0
+		);
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+
+		$user = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()->getMock();
+
+		$user
+			->expects($this->never())
+			->method('getDisplayName');
+
+		$owner = $this->getMockBuilder(Account::class)
+			->disableOriginalConstructor()->getMock();
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($owner);
+
+		$node->expects($this->once())
+			->method('getOwner')
+			->willReturn($user);
+
+		$displayNameProp = $this->getMockBuilder(AccountProperty::class)
+			->disableOriginalConstructor()->getMock();
+		$owner
+			->expects($this->once())
+			->method('getProperty')
+			->with(IAccountManager::PROPERTY_DISPLAYNAME)
+			->willReturn($displayNameProp);
+		$displayNameProp
+			->expects($this->once())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_PRIVATE);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$this->assertEquals(null, $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
+	}
+	
+	public function testGetDisplayNamePropertyWhenNotPublishedButLoggedIn(): void {
+		/** @var File|\PHPUnit\Framework\MockObject\MockObject $node */
+		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+
+		$propFind = new PropFind(
+			'/dummyPath',
+			[
+				FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME,
+			],
+			0
+		);
+
+		$user = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()->getMock();
+
+		$node->expects($this->once())
+			->method('getOwner')
+			->willReturn($user);
+
+		$loggedInUser = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()->getMock();
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('M. Foo');
+
+		$this->accountManager->expects($this->never())
+			->method('getAccount');
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
 	}
 
 	public function testGetPropertiesStorageNotAvailable(): void {
@@ -215,6 +335,7 @@ class FilesPluginTest extends TestCase {
 			$this->previewManager,
 			$this->userSession,
 			$this->filenameValidator,
+			$this->accountManager,
 			true,
 		);
 		$this->plugin->initialize($this->server);

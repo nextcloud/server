@@ -73,7 +73,7 @@ class FilesDropPlugin extends ServerPlugin {
 		if ($isFileRequest && ($nickName == null || trim($nickName) === '')) {
 			throw new MethodNotAllowed('Nickname is required for file requests');
 		}
-		
+
 		// If this is a file request we need to create a folder for the user
 		if ($isFileRequest) {
 			// Check if the folder already exists
@@ -83,9 +83,9 @@ class FilesDropPlugin extends ServerPlugin {
 			// Put all files in the subfolder
 			$path = $nickName . '/' . $path;
 		}
-		
+
 		$newName = \OC_Helper::buildNotExistingFileNameForView('/', $path, $this->view);
-		$url = $request->getBaseUrl() . $newName;
+		$url = $request->getBaseUrl() . '/files/' . $this->share->getToken() . $newName;
 		$request->setUrl($url);
 	}
 

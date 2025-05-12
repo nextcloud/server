@@ -7,6 +7,8 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Błąd konfiguracji OAuth2",
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
+    "You are not logged in" : "Nie jesteś zalogowany",
+    "Permission denied" : "Odmowa zgody",
     "Forbidden to manage local mounts" : "Zabronione zarządzanie lokalnym montowaniem",
     "Storage with ID \"%d\" not found" : "Nie znaleziono magazynu o ID \"%d\"",
     "Invalid backend or authentication mechanism class" : "Nieprawidłowy mechanizm uwierzytelniania powrotu lub klasy",
@@ -104,7 +106,7 @@ OC.L10N.register(
     "Unable to update this external storage config. {statusMessage}" : "Nie można zaktualizować konfiguracji tej pamięci zewnętrznej. {statusMessage}",
     "New configuration successfully saved" : "Nowa konfiguracja została pomyślnie zapisana",
     "Enter missing credentials" : "Wprowadź brakujące dane uwierzytelniające",
-    "Credentials successfully set" : "Poświadczenia zostały pomyślnie ustawione",
+    "Credentials successfully set" : "Dane uwierzytelniające zostały pomyślnie ustawione",
     "Error while setting credentials: {error}" : "Błąd podczas ustawiania danych uwierzytelniających: {error}",
     "Checking storage …" : "Sprawdzanie pamięci masowej…",
     "There was an error with this external storage." : "Wystąpił błąd związany z pamięcią zewnętrzną.",
@@ -142,6 +144,8 @@ OC.L10N.register(
     "Saved" : "Zapisano",
     "Saving …" : "Zapisywanie…",
     "Save" : "Zapisz",
+    "Failed to save global credentials" : "Nie udało się zapisać globalnych danych uwierzytelniających",
+    "Failed to save global credentials: {message}" : "Nie udało się zapisać globalnych danych uwierzytelniających: {message}",
     "No external storage configured or you don't have the permission to configure them" : "Brak magazynów zewnętrznych lub nie masz uprawnień do ich konfiguracji",
     "Open documentation" : "Otwórz dokumentację",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "Pamięć zewnętrzna umożliwia montowanie zewnętrznych usług i urządzeń pamięci masowej jako dodatkowych urządzeń pamięci masowej Nextcloud. Możesz także zezwolić użytkownikom na instalowanie własnych zewnętrznych usług pamięci masowej.",
@@ -153,6 +157,6 @@ OC.L10N.register(
     "All people" : "Wszystkie osoby",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow people to mount external storage" : "Zezwalaj innym na montowanie pamięci zewnętrznej",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne dane uwierzytelniające mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same dane uwierzytelniające."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

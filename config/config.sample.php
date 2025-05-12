@@ -456,6 +456,16 @@ $CONFIG = [
 'ratelimit.protection.enabled' => true,
 
 /**
+ * Size of subnet used to normalize IPv6
+ *
+ * For Brute Force Protection and Rate Limiting, IPv6 are truncated using subnet size.
+ * It defaults to /56 but you can set it between /32 and /64
+ *
+ * Defaults to ``56``
+ */
+'security.ipv6_normalized_subnet_size' => 56,
+
+/**
  * By default, WebAuthn is available, but it can be explicitly disabled by admins
  */
 'auth.webauthn.enabled' => true,
@@ -1178,6 +1188,65 @@ $CONFIG = [
 'profiler' => false,
 
 /**
+ * Enable profiling for individual requests if profiling single requests is enabled or the secret is passed.
+ * This requires the excimer extension to be installed. Be careful with this, as it can generate a lot of data.
+ *
+ * The profile data will be stored as a json file in the profiling.path directory that can be analysed with speedscope.
+ *
+ * Defaults to ``false``
+ */
+'profiling.request' => false,
+
+/**
+ * The rate at which profiling data is collected for individual requests.
+ * A lower value means more data points but higher overhead.
+ *
+ * Defaults to ``0.001``
+ */
+'profiling.request.rate' => 0.001,
+
+/**
+ * A secret token that can be passed via ?profile_secret=<secret> to enable profiling for a specific request.
+ * This allows profiling specific requests in production without enabling it globally.
+ *
+ * No default value.
+ */
+'profiling.secret' => '',
+
+/**
+ * Enable sampling-based profiling. This collects profiling data periodically rather than per-request.
+ * This requires the excimer extension to be installed. Be careful with this, as it can generate a lot of data.
+ *
+ * The profile data will be stored as a plain text file in the profiling.path directory that can be analysed with speedscope.
+ *
+ * Defaults to ``false``
+ */
+'profiling.sample' => false,
+
+/**
+ * The rate at which sampling profiling data is collected in seconds.
+ * A lower value means more frequent samples but higher overhead.
+ *
+ * Defaults to ``1``
+ */
+'profiling.sample.rate' => 1,
+
+/**
+ * How often (in minutes) the sample log files are rotated.
+ *
+ * Defaults to ``60``
+ */
+'profiling.sample.rotation' => 60,
+
+/**
+ * The directory where profiling data is stored.
+ *
+ * Note that this directory must be writable by the web server user and will not be cleaned up automatically.
+ */
+'profiling.path' => '/tmp',
+
+
+/**
  * Alternate Code Locations
  *
  * Some Nextcloud code may be stored in alternate locations.
@@ -1356,6 +1425,15 @@ $CONFIG = [
  * in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
+
+/**
+ * custom path for ffprobe binary
+ *
+ * Defaults to ``null`` and falls back to using the same path as ffmpeg.
+ * ffprobe is typically packaged with ffmpeg and is required for
+ * enhanced preview generation for HDR videos.
+ */
+'preview_ffprobe_path' => '/usr/bin/ffprobe',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
@@ -2239,7 +2317,7 @@ $CONFIG = [
  * When disabled, it is still possible to create local storages with occ using
  * the following command:
  *
- * % php occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
+ * occ files_external:create /mountpoint local null::null -c datadir=/path/to/data
  *
  * Defaults to ``true``
  *
@@ -2452,6 +2530,20 @@ $CONFIG = [
 ],
 
 /**
+ * This option allows you to specify a list of allowed user agents for the Login Flow V2.
+ * If a user agent is not in this list, it will not be allowed to use the Login Flow V2.
+ * The user agents are defined using regular expressions.
+ *
+ * WARNING: only use this if you know what you are doing
+ *
+ * Example: Allow only the Nextcloud Android app to use the Login Flow V2
+ * 'core.login_flow_v2.allowed_user_agents' => ['/Nextcloud-android/i'],
+ *
+ * Defaults to an empty array.
+ */
+'core.login_flow_v2.allowed_user_agents' => [],
+
+/**
  * By default, there is on public pages a link shown that allows users to
  * learn about the "simple sign up" - see https://nextcloud.com/signup/
  *
@@ -2506,6 +2598,28 @@ $CONFIG = [
  * Also, it might log sensitive data into a plain text file.
  */
 'query_log_file' => '',
+
+/**
+ * Prefix all queries with the requestid when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ */
+'query_log_file_requestid' => '',
+
+/**
+ * Add all query parameters to the query log entry when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ * Warning: This will log sensitive data into a plain text file.
+ */
+'query_log_file_parameters' => '',
+
+/**
+ * Add a backtrace to the query log entry when set to `yes`
+ *
+ * Requires `query_log_file` to be set.
+ */
+'query_log_file_backtrace' => '',
 
 /**
  * Log all redis requests into a file

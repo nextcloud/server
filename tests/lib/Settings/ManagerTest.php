@@ -178,10 +178,6 @@ class ManagerTest extends TestCase {
 
 		$this->container->expects($this->exactly(2))
 			->method('get')
-			->withConsecutive(
-				['section1'],
-				['section2']
-			)
 			->willReturnMap([
 				['section1', $section],
 				['section2', $section2],

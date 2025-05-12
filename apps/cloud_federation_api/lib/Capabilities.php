@@ -12,13 +12,14 @@ use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
 use NCU\Security\Signature\Exceptions\SignatoryException;
 use OC\OCM\OCMSignatoryManager;
 use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMProvider;
 use Psr\Log\LoggerInterface;
 
-class Capabilities implements ICapability {
+class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	public const API_VERSION = '1.1'; // informative, real version.
 
 	public function __construct(
@@ -54,15 +55,13 @@ class Capabilities implements ICapability {
 	 */
 	public function getCapabilities() {
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
+		$pos = strrpos($url, '/');
+		if ($pos === false) {
+			throw new OCMArgumentException('generated route should contain a slash character');
+		}
 
 		$this->provider->setEnabled(true);
 		$this->provider->setApiVersion(self::API_VERSION);
-
-		$pos = strrpos($url, '/');
-		if ($pos === false) {
-			throw new OCMArgumentException('generated route should contains a slash character');
-		}
-
 		$this->provider->setEndPoint(substr($url, 0, $pos));
 
 		$resource = $this->provider->createNewResourceType();
@@ -87,6 +86,6 @@ class Capabilities implements ICapability {
 			$this->logger->warning('cannot generate local signatory', ['exception' => $e]);
 		}
 
-		return ['ocm' => json_decode(json_encode($this->provider->jsonSerialize()), true)];
+		return ['ocm' => $this->provider->jsonSerialize()];
 	}
 }

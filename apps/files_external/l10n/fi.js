@@ -7,6 +7,8 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Virhe OAuth2:n asetuksia tehdessä",
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
+    "You are not logged in" : "Et ole kirjautuneena sisään",
+    "Permission denied" : "Ei käyttöoikeutta",
     "Storage with ID \"%d\" not found" : "Tallennustilaa tunnisteella \"%d\" ei löytynyt",
     "Invalid backend or authentication mechanism class" : "Virheellinen tietovarasto tai tunnistautumismekanismin luokka",
     "Invalid mount point" : "Virheellinen liitoskohta",
@@ -113,6 +115,7 @@ OC.L10N.register(
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
     "Add storage" : "Lisää tallennustila",
+    "All people" : "Kaikki ihmiset",
     "Advanced settings" : "Lisäasetukset",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
 },

@@ -168,6 +168,8 @@ OC.L10N.register(
     "Note:" : "Σημείωση:",
     "File drop" : "Απόθεση αρχείου",
     "Terms of service" : "Όροι χρήσης",
+    "Name" : "Όνομα",
+    "Enter your name" : "Προσθέστε το όνομά σας",
     "Share with group" : "Κοινή χρήση με ομάδα",
     "Share in conversation" : "Κοινή χρήση σε συζήτηση",
     "Share with guest" : "Κοινή χρήση με επισκέπτη",
@@ -269,7 +271,6 @@ OC.L10N.register(
     "Download all files" : "Λήψη όλων των αρχείων",
     "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
     "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
-    "Allow download" : "Να επιτρέπεται η λήψη",
-    "Enter your name" : "Προσθέστε το όνομά σας"
+    "Allow download" : "Να επιτρέπεται η λήψη"
 },
 "nplurals=2; plural=(n != 1);");

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Could not complete login" : "Не могу да довршим пријављивање",
     "State token missing" : "Недостаје жетон стања",
     "Your login token is invalid or has expired" : "Ваш жетон за пријављивање је неисправан или је истекао",
+    "Please use original client" : "Молимо вас да користите оригинални клијент",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Ово Nextcloud издање заједнице није подржано и брза обавештења су ограничена.",
     "Login" : "Пријава",
     "Unsupported email length (>255)" : "Није подржана дужина и-мејла (>255)",

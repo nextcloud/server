@@ -24,20 +24,26 @@
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 			</div>
 
-			<!-- clipboard -->
-			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton :aria-label="copyLinkTooltip"
-					:title="copyLinkTooltip"
-					:href="shareLink"
-					@click.prevent="copyLink">
-					<template #icon>
-						<CheckIcon v-if="copied && copySuccess"
-							:size="20"
-							class="icon-checkmark-color" />
-						<ClipboardIcon v-else :size="20" />
-					</template>
-				</NcActionButton>
-			</NcActions>
+			<div class="sharing-entry__actions">
+				<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
+
+				<!-- clipboard -->
+				<div>
+					<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
+						<NcActionButton :aria-label="copyLinkTooltip"
+							:title="copyLinkTooltip"
+							:href="shareLink"
+							@click.prevent="copyLink">
+							<template #icon>
+								<CheckIcon v-if="copied && copySuccess"
+									:size="20"
+									class="icon-checkmark-color" />
+								<ClipboardIcon v-else :size="20" />
+							</template>
+						</NcActionButton>
+					</NcActions>
+				</div>
+			</div>
 		</div>
 
 		<!-- pending actions -->
@@ -102,7 +108,8 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@change="expirationDateChanged($event)">
+				@update:model-value="onExpirationChange"
+				@change="expirationDateChanged">
 				<template #icon>
 					<IconCalendarBlank :size="20" />
 				</template>
@@ -222,7 +229,6 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
 
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
@@ -245,6 +251,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import ShareExpiryTime from './ShareExpiryTime.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
@@ -278,6 +285,7 @@ export default {
 		CloseIcon,
 		PlusIcon,
 		SharingEntryQuickShareSelect,
+		ShareExpiryTime,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -383,23 +391,6 @@ export default {
 			}
 			return null
 		},
-		/**
-		 * Is the current share password protected ?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtected: {
-			get() {
-				return this.config.enforcePasswordForPublicLink
-					|| !!this.share.password
-			},
-			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
-				Vue.set(this.share, 'newPassword', this.share.password)
-			},
-		},
-
 		passwordExpirationTime() {
 			if (this.share.passwordExpirationTime === null) {
 				return null
@@ -884,9 +875,9 @@ export default {
 		},
 
 		expirationDateChanged(event) {
-			const date = event.target.value
-			this.onExpirationChange(date)
-			this.defaultExpirationDateEnabled = !!date
+			const value = event?.target?.value
+			const isValid = !!value && !isNaN(new Date(value).getTime())
+			this.defaultExpirationDateEnabled = isValid
 		},
 
 		/**
@@ -934,6 +925,12 @@ export default {
 				overflow: hidden;
 				white-space: nowrap;
 			}
+		}
+
+		&__actions {
+			display: flex;
+			align-items: center;
+			margin-inline-start: auto;
 		}
 
 	&:not(.sharing-entry--share) &__actions {

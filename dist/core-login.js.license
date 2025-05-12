@@ -18,6 +18,7 @@ SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Matthew Miller <matthew@millerti.me>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
@@ -90,19 +91,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.23.1
+	- version: 8.25.1
 	- license: AGPL-3.0-or-later
+- @simplewebauthn/browser
+	- version: 13.1.0
+	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.8.4
+	- version: 1.9.0
 	- license: MIT
 - backbone
-	- version: 1.6.0
+	- version: 1.6.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -120,7 +124,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.2.4
+	- version: 3.2.5
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -192,7 +196,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.94.0
+	- version: 5.99.7
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

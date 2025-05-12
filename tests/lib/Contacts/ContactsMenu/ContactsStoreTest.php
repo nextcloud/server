@@ -255,29 +255,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -330,29 +328,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturn($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -463,29 +459,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->knownUserService->method('isKnownToUser')
 			->willReturnMap([
@@ -542,16 +536,17 @@ class ContactsStoreTest extends TestCase {
 
 		$user1 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+		];
 		$this->groupManager->expects($this->exactly(2))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -617,29 +612,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->knownUserService->method('isKnownToUser')
 			->willReturnMap([

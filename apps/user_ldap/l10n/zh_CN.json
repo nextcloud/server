@@ -59,7 +59,7 @@
     "No LDAP base DN was given" : "未提供 LDAP 基本 DN",
     "User base DN is not a subnode of global base DN" : "用户基本 DN 不是全局基本 DN 的子节点",
     "Group base DN is not a subnode of global base DN" : "群组基本 DN 不是全局基本 DN 的子节点",
-    "Login filter does not contain %uid place holder" : "登录筛选器不包含 %uid 占位符",
+    "Login filter does not contain %s placeholder." : "登录筛选器不包含 %s 占位符。",
     "Please login with the new password" : "请使用新密码登录",
     "LDAP User backend" : "LDAP 用户后端",
     "Your password will expire tomorrow." : "您的密码将在明天过期",

@@ -67,7 +67,7 @@ class ModeTest extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function getExecuteTestData(): array {
+	public static function getExecuteTestData(): array {
 		return [
 			'off -> on' => [
 				'on', // command option

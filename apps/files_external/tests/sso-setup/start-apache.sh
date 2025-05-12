@@ -15,6 +15,9 @@ APACHE_IP=$(docker inspect apache --format '{{.NetworkSettings.IPAddress}}')
 docker exec apache chown 33 /var/www/html/config /var/www/html/data /var/www/html/extra-apps
 docker cp "$SCRIPT_DIR/apps.config.php" apache:/var/www/html/config/apps.config.php
 
+# ensure that samba is started (see https://github.com/icewind1991/samba-krb-test/pull/8)
+docker exec dc service samba-ad-dc status || docker exec dc service samba-ad-dc start
+
 # add the dns record for apache
 docker exec dc samba-tool dns add krb.domain.test domain.test httpd A $APACHE_IP -U administrator --password=passwOrd1 1>&2
 

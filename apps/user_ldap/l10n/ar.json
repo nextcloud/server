@@ -59,7 +59,6 @@
     "No LDAP base DN was given" : "لم يتم إعطاء اسم الدليل الأساسي base DN لقائمة المستخدِمين LADP",
     "User base DN is not a subnode of global base DN" : "الدليل الأساسي للمستخدِم  User base DN ليس متفرعاً عن الدليل الأساسي العمومي Global base DN",
     "Group base DN is not a subnode of global base DN" : "الدليل الأساسي للمجموعة Group base DN ليس متفرعاً عن الدليل الأساسي العمومي Global base DN",
-    "Login filter does not contain %uid place holder" : "فلتر تسجيل الدخول لايحتوي على %u موضع لمكان المُعرِّف id",
     "Please login with the new password" : "الرجاء تسجيل الدخول باستخدام كلمة المرور الجديدة",
     "LDAP User backend" : "خلفية المستخدمين User backend من LDAP ",
     "Your password will expire tomorrow." : "كلمة مرورك تنتهي صلاحيتها غداً.",

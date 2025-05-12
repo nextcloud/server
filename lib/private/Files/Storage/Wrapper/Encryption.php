@@ -18,6 +18,7 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\LocalTempFileTrait;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Encryption\Exceptions\InvalidHeaderException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
@@ -344,6 +345,16 @@ class Encryption extends Wrapper {
 			if ($shouldEncrypt === true && $encryptionModule !== null) {
 				$this->encryptedPaths->set($this->util->stripPartialFileExtension($path), true);
 				$headerSize = $this->getHeaderSize($path);
+				if ($mode === 'r' && $headerSize === 0) {
+					$firstBlock = $this->readFirstBlock($path);
+					if (!$firstBlock) {
+						throw new InvalidHeaderException("Unable to get header block for $path");
+					} elseif (!str_starts_with($firstBlock, Util::HEADER_START)) {
+						throw new InvalidHeaderException("Unable to get header size for $path, file doesn't start with encryption header");
+					} else {
+						throw new InvalidHeaderException("Unable to get header size for $path, even though file does start with encryption header");
+					}
+				}
 				$source = $this->storage->fopen($path, $mode);
 				if (!is_resource($source)) {
 					return false;

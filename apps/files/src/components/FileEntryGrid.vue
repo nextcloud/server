@@ -51,7 +51,9 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime"
+				ignore-seconds
+				:timestamp="mtime" />
 		</td>
 
 		<!-- Actions -->

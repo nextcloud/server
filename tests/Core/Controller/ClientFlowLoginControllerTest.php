@@ -22,6 +22,7 @@ use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -48,6 +49,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private ICrypto&MockObject $crypto;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
 
 	private ClientFlowLoginController $clientFlowLoginController;
 
@@ -73,6 +75,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -89,6 +92,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			$this->crypto,
 			$this->eventDispatcher,
 			$this->timeFactory,
+			$this->config,
 		);
 	}
 
@@ -114,10 +118,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 	public function testShowAuthPickerPageWithOcsHeader(): void {
 		$this->request
 			->method('getHeader')
-			->withConsecutive(
-				['USER_AGENT'],
-				['OCS-APIREQUEST']
-			)
 			->willReturnMap([
 				['USER_AGENT', 'Mac OS X Sync Client'],
 				['OCS-APIREQUEST', 'true'],
@@ -163,7 +163,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 				'user' => '',
-				'direct' => 0
+				'direct' => 0,
+				'providedRedirectUri' => '',
 			],
 			'guest'
 		);
@@ -176,10 +177,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 	public function testShowAuthPickerPageWithOauth(): void {
 		$this->request
 			->method('getHeader')
-			->withConsecutive(
-				['USER_AGENT'],
-				['OCS-APIREQUEST']
-			)
 			->willReturnMap([
 				['USER_AGENT', 'Mac OS X Sync Client'],
 				['OCS-APIREQUEST', 'false'],
@@ -233,7 +230,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				'serverHost' => 'https://example.com',
 				'oauthState' => 'OauthStateToken',
 				'user' => '',
-				'direct' => 0
+				'direct' => 0,
+				'providedRedirectUri' => '',
 			],
 			'guest'
 		);
@@ -398,20 +396,20 @@ class ClientFlowLoginControllerTest extends TestCase {
 	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl): void {
 		$this->session
 			->method('get')
-			->withConsecutive(
-				['client.flow.state.token'],
-				['oauth.state']
-			)
 			->willReturnMap([
 				['client.flow.state.token', 'MyStateToken'],
 				['oauth.state', 'MyOauthState'],
 			]);
+		$calls = [
+			'client.flow.state.token',
+			'oauth.state',
+		];
 		$this->session
 			->method('remove')
-			->withConsecutive(
-				['client.flow.state.token'],
-				['oauth.state']
-			);
+			->willReturnCallback(function ($key) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $key);
+			});
 		$this->session
 			->expects($this->once())
 			->method('getId')
@@ -433,10 +431,6 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturn('MyPassword');
 		$this->random
 			->method('generate')
-			->withConsecutive(
-				[72],
-				[128]
-			)
 			->willReturnMap([
 				[72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyGeneratedToken'],
 				[128, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyAccessCode'],
@@ -555,7 +549,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 
-	public function dataGeneratePasswordWithHttpsProxy() {
+	public static function dataGeneratePasswordWithHttpsProxy(): array {
 		return [
 			[
 				[

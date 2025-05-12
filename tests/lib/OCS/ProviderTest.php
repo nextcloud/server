@@ -29,13 +29,12 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturn(false);
+			->willReturnMap([
+				['files_sharing', null, false],
+				['federation', null, false],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
@@ -60,18 +59,12 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false,
-				false,
-				false
-			);
+			->willReturnMap([
+				['files_sharing', null, true],
+				['federation', null, false],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
@@ -109,18 +102,12 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-				false,
-				false
-			);
+			->willReturnMap([
+				['files_sharing', null, false],
+				['federation', null, true],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[

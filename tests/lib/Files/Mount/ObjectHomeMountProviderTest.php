@@ -205,16 +205,12 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 
 	public function testMultiBucketConfigFirstFallBackSingle(): void {
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->withConsecutive(
-				[$this->equalTo('objectstore_multibucket')],
-				[$this->equalTo('objectstore')],
-			)->willReturnOnConsecutiveCalls(
-				'',
-				[
+			->method('getSystemValue')->willReturnMap([
+				['objectstore_multibucket', '', ''],
+				['objectstore', '', [
 					'class' => 'Test\Files\Mount\FakeObjectStore',
-				],
-			);
+				]],
+			]);
 
 		$this->user->method('getUID')
 			->willReturn('uid');

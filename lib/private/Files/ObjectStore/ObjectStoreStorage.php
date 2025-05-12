@@ -22,6 +22,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
@@ -479,6 +480,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
 		$mimetype = $mimetypeDetector->detectPath($path);
+		$metadata = [
+			'mimetype' => $mimetype,
+			'original-storage' => $this->getId(),
+			'original-path' => $path,
+		];
 
 		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
@@ -507,13 +513,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					]);
 					$size = $writtenSize;
 				});
-				$this->objectStore->writeObject($urn, $countStream, $mimetype);
+				if ($this->objectStore instanceof IObjectStoreMetaData) {
+					$this->objectStore->writeObjectWithMetaData($urn, $countStream, $metadata);
+				} else {
+					$this->objectStore->writeObject($urn, $countStream, $metadata['mimetype']);
+				}
 				if (is_resource($countStream)) {
 					fclose($countStream);
 				}
 				$stat['size'] = $size;
 			} else {
-				$this->objectStore->writeObject($urn, $stream, $mimetype);
+				if ($this->objectStore instanceof IObjectStoreMetaData) {
+					$this->objectStore->writeObjectWithMetaData($urn, $stream, $metadata);
+				} else {
+					$this->objectStore->writeObject($urn, $stream, $metadata['mimetype']);
+				}
 				if (is_resource($stream)) {
 					fclose($stream);
 				}
@@ -592,7 +606,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
 		$sourceCache = $sourceStorage->getCache();
-		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class) && $sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
+		if (
+			$sourceStorage->instanceOfStorage(ObjectStoreStorage::class) &&
+			$sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()
+		) {
+			if ($this->getCache()->get($targetInternalPath)) {
+				$this->unlink($targetInternalPath);
+				$this->getCache()->remove($targetInternalPath);
+			}
 			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 			// Do not import any data when source and target bucket are identical.
 			return true;
@@ -614,6 +635,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			$sourceStorage->setPreserveCacheOnDelete(false);
+		}
+		if ($this->getCache()->get($targetInternalPath)) {
+			$this->unlink($targetInternalPath);
+			$this->getCache()->remove($targetInternalPath);
 		}
 		$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 

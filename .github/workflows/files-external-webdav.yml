@@ -61,7 +61,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -87,13 +87,20 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- --verbose \
           apps/files_external/tests/Storage/WebdavTest.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 # v4.1.1
+        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-webdav
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@f2dba722c67b86c6caa034178c6e4d35335f6706 # v1.1.0
+        with:
           flags: phpunit-files-external-webdav
 
   files-external-webdav-summary:

@@ -64,7 +64,7 @@ jobs:
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -85,13 +85,20 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
           apps/files_external/tests/Storage/SFTP_KeyTest.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.4.0
+        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d # v5.4.2
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-sftp
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@f2dba722c67b86c6caa034178c6e4d35335f6706 # v1.1.0
+        with:
           flags: phpunit-files-external-sftp
 
       - name: sftpd logs

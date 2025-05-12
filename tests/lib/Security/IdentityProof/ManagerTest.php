@@ -75,7 +75,9 @@ class ManagerTest extends TestCase {
 					$this->crypto,
 					$this->config,
 					$this->logger
-				])->setMethods($setMethods)->getMock();
+				])
+				->onlyMethods($setMethods)
+				->getMock();
 		}
 	}
 
@@ -104,14 +106,10 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('getFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', $privateFile],
+				['public', $publicFile],
+			]);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -155,14 +153,10 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('newFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', null, $privateFile],
+				['public', null, $publicFile],
+			]);
 		$this->appData
 			->expects($this->exactly(2))
 			->method('getFolder')

@@ -704,30 +704,64 @@ class NavigationManagerTest extends TestCase {
 				true,
 				'settings',
 			],
+			// closure navigation entries are also resolved
+			[
+				'closure2',
+				'',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'closure2',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'',
+				'{"closure2":{"order":1,"app":"closure2","href":"/closure2"}}',
+				true,
+				'closure2',
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider provideDefaultEntries
 	 */
-	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp): void {
+	public function testGetDefaultEntryIdForUser(string $defaultApps, string $userDefaultApps, string $userApporder, bool $withFallbacks, string $expectedApp): void {
 		$this->navigationManager->add([
 			'id' => 'files',
 		]);
 		$this->navigationManager->add([
 			'id' => 'settings',
 		]);
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure1',
+				'href' => '/closure1',
+			];
+		});
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure2',
+				'href' => '/closure2',
+			];
+		});
 
 		$this->appManager->method('getEnabledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
 
-		$this->userSession->expects($this->once())
+		$this->userSession->expects($this->atLeastOnce())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->atLeastOnce())
 			->method('getSystemValueString')
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);

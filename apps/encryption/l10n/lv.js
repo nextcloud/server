@@ -9,7 +9,7 @@ OC.L10N.register(
     "Recovery key successfully disabled" : "Atkopšanas atslēga ir veiksmīgi deaktivizēta",
     "Could not disable recovery key. Please check your recovery key password!" : "Atkopšanas atslēgu nevarēja atspējot. Lūdzu, pārbaudiet atkopšanas atslēgas paroli!",
     "Missing parameters" : "Trūkstošos parametrs",
-    "Please provide the old recovery password" : "Lūdzu, norādiet iepriekšējo atkopšanas paroli",
+    "Please provide the old recovery password" : "Lūgums norādīt iepriekšējo atkopes paroli",
     "Please provide a new recovery password" : "Lūdzu, ievadiet jaunu paroli",
     "Please repeat the new recovery password" : "Lūdzu, atkārtojiet jauno atkopšanas paroli",
     "Password successfully changed." : "Parole veiksmīgi nomainīta.",

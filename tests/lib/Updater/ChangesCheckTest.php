@@ -42,7 +42,7 @@ class ChangesCheckTest extends TestCase {
 		$this->checker = new ChangesCheck($this->clientService, $this->mapper, $this->logger);
 	}
 
-	public function statusCodeProvider():array {
+	public static function statusCodeProvider(): array {
 		return [
 			[200, ChangesCheck::RESPONSE_HAS_CONTENT],
 			[304, ChangesCheck::RESPONSE_USE_CACHE],
@@ -74,8 +74,10 @@ class ChangesCheckTest extends TestCase {
 		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->exactly(2))
 			->method('__call')
-			->withConsecutive(['getVersion'], ['setVersion', [$version]])
-			->willReturnOnConsecutiveCalls('', null);
+			->willReturnMap([
+				['getVersion', [], ''],
+				['setVersion', [$version], null],
+			]);
 
 		$this->mapper->expects($this->once())
 			->method('insert');
@@ -100,7 +102,7 @@ class ChangesCheckTest extends TestCase {
 		$this->invokePrivate($this->checker, 'cacheResult', [$entry, $version]);
 	}
 
-	public function changesXMLProvider(): array {
+	public static function changesXMLProvider(): array {
 		return [
 			[ # 0 - full example
 				'<?xml version="1.0" encoding="utf-8" ?>
@@ -277,7 +279,7 @@ class ChangesCheckTest extends TestCase {
 		$this->assertSame($expected, $actual);
 	}
 
-	public function etagProvider() {
+	public static function etagProvider() {
 		return [
 			[''],
 			['a27aab83d8205d73978435076e53d143']
@@ -310,7 +312,7 @@ class ChangesCheckTest extends TestCase {
 		$this->assertInstanceOf(IResponse::class, $response);
 	}
 
-	public function versionProvider(): array {
+	public static function versionProvider(): array {
 		return [
 			['13.0.7', '13.0.7'],
 			['13.0.7.3', '13.0.7'],
@@ -329,12 +331,12 @@ class ChangesCheckTest extends TestCase {
 		$this->assertSame($expected, $normalized);
 	}
 
-	public function changeDataProvider():array {
-		$testDataFound = $testDataNotFound = $this->versionProvider();
-		array_walk($testDataFound, function (&$params) {
+	public static function changeDataProvider():array {
+		$testDataFound = $testDataNotFound = self::versionProvider();
+		array_walk($testDataFound, static function (&$params) {
 			$params[] = true;
 		});
-		array_walk($testDataNotFound, function (&$params) {
+		array_walk($testDataNotFound, static function (&$params) {
 			$params[] = false;
 		});
 		return array_merge($testDataFound, $testDataNotFound);

@@ -185,6 +185,8 @@ OC.L10N.register(
     "Note:" : "Megjegyzés:",
     "File drop" : "Fájllerakat",
     "Terms of service" : "Szolgáltatási feltételek",
+    "Name" : "Név",
+    "Enter your name" : "Adja meg a nevét",
     "Update share" : "Megosztás frissítése",
     "Save share" : "Megosztás mentése",
     "Read" : "Olvasás",
@@ -290,7 +292,6 @@ OC.L10N.register(
     "Download all files" : "Összes fájl letöltése",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
     "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
-    "Allow download" : "Letöltés engedélyezése",
-    "Enter your name" : "Adja meg a nevét"
+    "Allow download" : "Letöltés engedélyezése"
 },
 "nplurals=2; plural=(n != 1);");

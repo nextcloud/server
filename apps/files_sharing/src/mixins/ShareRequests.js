@@ -6,10 +6,12 @@
 // TODO: remove when ie not supported
 import 'url-search-params-polyfill'
 
+import { emit } from '@nextcloud/event-bus'
+import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+
 import Share from '../models/Share.ts'
-import { emit } from '@nextcloud/event-bus'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 
@@ -45,7 +47,7 @@ export default {
 			} catch (error) {
 				console.error('Error while creating share', error)
 				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
+				showError(
 					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
 					{ type: 'error' },
 				)

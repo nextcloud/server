@@ -28,6 +28,7 @@
     "Confirm querying lookup server" : "Bekräfta förfrågan till uppslagningstjänst",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "När detta är aktiverat kommer sökinmatningen vid skapande av delningar att skickas till ett externt system som tillhandahåller en offentlig och global adressbok.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Detta används för att hämta federerat moln-ID för att göra federerad delning enklare.",
+    "Moreover, email addresses of users might be sent to that system in order to verify them." : "Dessutom kan användares e-postadresser skickas till systemet för att verifieras.",
     "Disable querying" : "Inaktivera förfrågningar",
     "Enable querying" : "Aktivera förfrågningar",
     "Unable to update federated files sharing config" : "Kunde inte uppdatera konfigurationen för federerad fildelning",

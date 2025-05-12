@@ -30,6 +30,7 @@ OC.L10N.register(
     "Confirm querying lookup server" : "Confirm querying lookup server",
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "This is used to retrieve the federated cloud ID to make federated sharing easier.",
+    "Moreover, email addresses of users might be sent to that system in order to verify them." : "Moreover, email addresses of users might be sent to that system in order to verify them.",
     "Disable querying" : "Disable querying",
     "Enable querying" : "Enable querying",
     "Unable to update federated files sharing config" : "Unable to update federated files sharing config",

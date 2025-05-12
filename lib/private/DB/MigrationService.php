@@ -199,9 +199,9 @@ class MigrationService {
 			if ($versionA !== $versionB) {
 				return ($versionA < $versionB) ? -1 : 1;
 			}
-			return ($matchA[2] < $matchB[2]) ? -1 : 1;
+			return strnatcmp($matchA[2], $matchB[2]);
 		}
-		return (basename($a) < basename($b)) ? -1 : 1;
+		return strnatcmp(basename($a), basename($b));
 	}
 
 	/**
@@ -250,7 +250,7 @@ class MigrationService {
 
 		$toBeExecuted = [];
 		foreach ($availableMigrations as $v) {
-			if ($to !== 'latest' && $v > $to) {
+			if ($to !== 'latest' && ($this->sortMigrations($v, $to) > 0)) {
 				continue;
 			}
 			if ($this->shallBeExecuted($v, $knownMigrations)) {

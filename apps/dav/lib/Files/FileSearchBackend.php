@@ -422,10 +422,16 @@ class FileSearchBackend implements ISearchBackend {
 					$field = $this->mapPropertyNameToColumn($property);
 				}
 
+				try {
+					$castedValue = $this->castValue($property, $value ?? '');
+				} catch (\Error $e) {
+					throw new \InvalidArgumentException('Invalid property value for ' . $property->name, previous: $e);
+				}
+
 				return new SearchComparison(
 					$trimmedType,
 					$field,
-					$this->castValue($property, $value ?? ''),
+					$castedValue,
 					$extra ?? ''
 				);
 

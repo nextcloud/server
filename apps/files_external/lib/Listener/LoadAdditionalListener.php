@@ -10,10 +10,11 @@ namespace OCA\Files_External\Listener;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\ConfigLexicon;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\Util;
 
 /**
@@ -22,7 +23,7 @@ use OCP\Util;
 class LoadAdditionalListener implements IEventListener {
 
 	public function __construct(
-		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private IInitialState $initialState,
 	) {
 	}
@@ -32,7 +33,7 @@ class LoadAdditionalListener implements IEventListener {
 			return;
 		}
 
-		$allowUserMounting = $this->config->getAppValue('files_external', 'allow_user_mounting', 'no') === 'yes';
+		$allowUserMounting = $this->appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
 		$this->initialState->provideInitialState('allowUserMounting', $allowUserMounting);
 
 		Util::addInitScript(Application::APP_ID, 'init');

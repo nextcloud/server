@@ -16,7 +16,6 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\ICache;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
@@ -48,13 +47,19 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		CappedMemoryCache $folderExistCache,
 		private IEventDispatcher $eventDispatcher,
 		private IUser $user,
-		private ICache $cache,
+		bool $alreadyVerified,
 	) {
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
-		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
-		$absMountPoint = '/' . $user->getUID() . '/files' . $newMountPoint;
+		$absMountPoint = '/' . $user->getUID() . '/files/' . trim($this->superShare->getTarget(), '/') . '/';
+
+		// after the mountpoint is verified for the first time, only new mountpoints (e.g. groupfolders can overwrite the target)
+		if (!$alreadyVerified || isset($mountpoints[$absMountPoint])) {
+			$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
+			$absMountPoint = '/' . $user->getUID() . '/files/' . trim($newMountPoint, '/') . '/';
+		}
+
 		parent::__construct($storage, $absMountPoint, $arguments, $loader, null, null, MountProvider::class);
 	}
 
@@ -71,12 +76,6 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		array $mountpoints,
 		CappedMemoryCache $folderExistCache,
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
-		$cached = $this->cache->get($cacheKey);
-		if ($cached !== null) {
-			return $cached;
-		}
-
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
@@ -104,8 +103,6 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		if ($newMountPoint !== $share->getTarget()) {
 			$this->updateFileTarget($newMountPoint, $share);
 		}
-
-		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
 
 		return $newMountPoint;
 	}

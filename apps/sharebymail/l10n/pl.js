@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Shared with {email}" : "Udostępniono {email}",
     "Shared with {email} by {actor}" : "Udostępniono {email} przez {actor}",
-    "Unshared from {email}" : "Udostępnianie zatrzymane od {email}",
-    "Unshared from {email} by {actor}" : "Udostępnianie zatrzymane od {email} przez {actor}",
+    "Unshared from {email}" : "Udostępnienie zatrzymane dla {email}",
+    "Unshared from {email} by {actor}" : "Udostępnienie zatrzymane dla {email} przez {actor}",
     "Password for mail share sent to {email}" : "Hasło dostępu do pliku zostało wysłane na {email}",
     "Password for mail share sent to you" : "Hasło dostępu do pliku zostało do Ciebie wysłane",
     "You shared {file} with {email} by mail" : "Udostępniasz {file} dla {email}",

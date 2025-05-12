@@ -86,19 +86,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.23.1
+	- version: 8.25.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/core
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.1.0
+	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.8.4
+	- version: 1.9.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -116,7 +116,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.2.4
+	- version: 3.2.5
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -137,7 +137,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.3.0
 	- license: BSD-3-Clause
 - moment-timezone
-	- version: 0.5.47
+	- version: 0.5.48
 	- license: MIT
 - moment
 	- version: 2.30.1
@@ -197,7 +197,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.6.2
 	- license: MIT
 - webpack
-	- version: 5.94.0
+	- version: 5.99.7
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -59,7 +59,7 @@
     "No LDAP base DN was given" : "Nezadáno LDAP základ DN",
     "User base DN is not a subnode of global base DN" : "Základ DN uživatele není dílčím uzlem globálního základu DN",
     "Group base DN is not a subnode of global base DN" : "Základ DN skupiny není dílčím uzlem globálního základu DN",
-    "Login filter does not contain %uid place holder" : "Filtr přihlášení neobsahuje zástupné vyjádření %uid",
+    "Login filter does not contain %s placeholder." : "Filtr přihlášení neobsahuje zástupné vyjádření %s.",
     "Please login with the new password" : "Přihlaste se pomocí nového hesla",
     "LDAP User backend" : "Podpůrná vrstva pro uživatele z LDAP",
     "Your password will expire tomorrow." : "Platnost hesla zítra skončí.",
