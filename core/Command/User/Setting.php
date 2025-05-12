@@ -158,10 +158,7 @@ class Setting extends Base {
 				return 1;
 			}
 
-			if ($app === 'profile'
-				&& in_array($key, IAccountManager::ALLOWED_PROPERTIES)
-				&& $key !== IAccountManager::PROPERTY_EMAIL
-				&& $key !== IAccountManager::PROPERTY_DISPLAYNAME) {
+			if ($this->isProfileProperty($app, $key)) {
 				$this->editProfileProperty($uid, $key, $input->getArgument('value'));
 				return 0;
 			} else if ($this->isSettingProperty($app, $key)) {
