@@ -411,6 +411,18 @@ export default {
 			return encodeURIComponent(this.user.id + this.rand)
 		},
 
+		availableGroups() {
+			const groups = (this.settings.isAdmin || this.settings.isDelegatedAdmin)
+				? this.$store.getters.getSortedGroups
+				: this.$store.getters.getSubAdminGroups
+
+			return groups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		},
+
+		availableSubAdminGroups() {
+			return this.availableGroups.filter(group => group.id !== 'admin')
+		},
+
 		userGroupsLabels() {
 			return this.userGroups
 				.map(group => group.name ?? group.id)
@@ -559,7 +571,11 @@ export default {
 			this.loading.groupsDetails = true
 			try {
 				const groups = await loadUserGroups({ userId: this.user.id })
-				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
+				this.selectedGroups = this.selectedGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
 			}
@@ -572,7 +588,11 @@ export default {
 			this.loading.subAdminGroupsDetails = true
 			try {
 				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
-				this.availableSubAdminGroups = this.availableSubAdminGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
+				this.selectedSubAdminGroups = this.selectedSubAdminGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load sub admin groups with details'), { error })
 			}
@@ -595,8 +615,10 @@ export default {
 					limit: 25,
 				})
 				const groups = await this.promise
-				this.availableGroups = groups
-				this.availableSubAdminGroups = groups.filter(group => group.id !== 'admin')
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
@@ -757,8 +779,6 @@ export default {
 			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				this.availableGroups.push({ id: gid, name: gid })
-				this.availableSubAdminGroups.push({ id: gid, name: gid })
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 				this.userGroups.push({ id: gid, name: gid })
