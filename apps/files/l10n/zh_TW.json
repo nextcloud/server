@@ -71,7 +71,6 @@
     "Transferred from %1$s on %2$s" : "於 %2$s 從 %1$s 轉移",
     "Files compatibility" : "檔案相容性",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "允許限制檔案名稱以確保檔案可以與所有客戶端同步。預設情況下，允許 POSIX（例如 Linux 或 macOS）上所有有效的檔案名稱。",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "啟用與 Windows 相容的檔案名稱後，無法再修改現有檔案，但可以由其擁有者重新命名為有效的新名稱。",
     "It is also possible to migrate files automatically after enabling this setting, please refer to the documentation about the occ command." : "啟用此設定後，也可以自動遷移檔案，詳情請參閱關於 occ 命令的文件。",
     "Enforce Windows compatibility" : "強制 Windows 相容性",
     "This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity." : "這會封鎖在 Windows 系統上無效的檔案名稱，例如使用保留名稱或特殊字元。但這不會強制區分大小寫的相容性。",

@@ -73,7 +73,6 @@ OC.L10N.register(
     "Transferred from %1$s on %2$s" : "Överförd från %1$s på %2$s",
     "Files compatibility" : "Filkompatibilitet",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Tillåt att begränsa filnamn för att säkerställa att filer kan synkroniseras med alla klienter. Som standard är alla filnamn som är giltiga på POSIX (t.ex. Linux eller macOS) tillåtna.",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "När Windows-kompatibla filnamn har aktiverats kan befintliga filer inte längre ändras, men de kan byta namn till giltiga nya namn av sin ägare.",
     "It is also possible to migrate files automatically after enabling this setting, please refer to the documentation about the occ command." : "Det är också möjligt att migrera filer automatiskt efter att den här inställningen har aktiverats. Se dokumentationen om kommandot occ för mer information.",
     "Enforce Windows compatibility" : "Tvinga Windows-kompatibilitet",
     "This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity." : "Detta kommer att blockera filnamn som inte är giltiga på Windows-system, som att använda reserverade namn eller specialtecken. Men detta kommer inte att framtvinga kompatibiliteten för skiftlägeskänslighet.",
