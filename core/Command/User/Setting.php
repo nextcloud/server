@@ -9,6 +9,7 @@ namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -207,6 +208,14 @@ class Setting extends Base {
 		$this->editProfileProperty($uid, $key, '');
 	}
 
+	/**
+	 * @param $uid
+	 * @param $key
+	 * @param $value
+	 * @return void
+	 * @throws \InvalidArgumentException if the user cannot be found.
+	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
+	 */
 	private function editProfileProperty($uid, $key, $value): void {
 		$user = $this->userManager->get($uid);
 		if (!$user) {
