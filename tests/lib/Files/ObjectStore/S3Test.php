@@ -44,7 +44,7 @@ class NonSeekableStream extends Wrapper {
 /**
  * @group PRIMARY-s3
  */
-class S3Test extends ObjectStoreTest {
+class S3Test extends ObjectStoreTestCase {
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
@@ -126,7 +126,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	/** File size to upload in bytes */
-	public function dataFileSizes() {
+	public static function dataFileSizes(): array {
 		return [
 			[1000000], [2000000], [5242879], [5242880], [5242881], [10000000]
 		];

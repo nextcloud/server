@@ -9,9 +9,11 @@ namespace Test\Files\ObjectStore;
 
 use Test\TestCase;
 
-abstract class ObjectStoreTest extends TestCase {
+abstract class ObjectStoreTestCase extends TestCase {
 	/** @var string[] */
 	private $cleanup = [];
+
+	private $instance = nulL;
 
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
@@ -22,13 +24,20 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->cleanup[] = $urn;
 	}
 
-	public function tearDown(): void {
-		parent::tearDown();
+	public function setUp(): void {
+		parent::setUp();
 
-		$instance = $this->getInstance();
-		foreach ($this->cleanup as $urn) {
-			$instance->deleteObject($urn);
+		$this->instance = $this->getInstance();
+	}
+
+	public function tearDown(): void {
+		if ($this->instance) {
+			foreach ($this->cleanup as $urn) {
+				$this->instance->deleteObject($urn);
+			}
 		}
+
+		parent::tearDown();
 	}
 
 	protected function stringToStream($data) {

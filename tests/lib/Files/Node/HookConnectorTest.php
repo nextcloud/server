@@ -96,7 +96,7 @@ class HookConnectorTest extends TestCase {
 		\OC_Util::tearDownFS();
 	}
 
-	public function viewToNodeProvider() {
+	public static function viewToNodeProvider(): array {
 		return [
 			[function () {
 				Filesystem::file_put_contents('test.txt', 'asd');
@@ -195,7 +195,7 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/test.txt', $newDispatcherNode->getPath());
 	}
 
-	public function viewToNodeProviderCopyRename() {
+	public static function viewToNodeProviderCopyRename(): array {
 		return [
 			[function () {
 				Filesystem::file_put_contents('source', 'asd');

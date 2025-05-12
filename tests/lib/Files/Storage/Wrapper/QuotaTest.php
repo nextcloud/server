@@ -76,7 +76,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testFreeSpaceWithUnknownDiskSpace(): void {
 		$storage = $this->getMockBuilder(Local::class)
-			->setMethods(['free_space'])
+			->onlyMethods(['free_space'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$storage->expects($this->any())
@@ -132,7 +132,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testReturnFalseWhenFopenFailed(): void {
 		$failStorage = $this->getMockBuilder(Local::class)
-			->setMethods(['fopen'])
+			->onlyMethods(['fopen'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$failStorage->expects($this->any())

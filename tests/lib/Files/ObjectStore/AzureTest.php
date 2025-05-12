@@ -11,7 +11,7 @@ use OC\Files\ObjectStore\Azure;
 /**
  * @group PRIMARY-azure
  */
-class AzureTest extends ObjectStoreTest {
+class AzureTest extends ObjectStoreTestCase {
 	protected function getInstance() {
 		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Azure') {
