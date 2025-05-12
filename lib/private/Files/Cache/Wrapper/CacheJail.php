@@ -51,7 +51,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return string
 	 */
-	protected function getGetUnjailedRoot() {
+	public function getGetUnjailedRoot() {
 		return $this->unjailedRoot;
 	}
 
