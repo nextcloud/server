@@ -289,7 +289,7 @@ class OCMProvider implements IOCMProvider {
 			$resourceTypes[] = $res->jsonSerialize();
 		}
 
-		return [
+		$response = [
 			'enabled' => $this->isEnabled(),
 			'apiVersion' => '1.0-proposal1', // deprecated, but keep it to stay compatible with old version
 			'version' => $this->getApiVersion(), // informative but real version
@@ -297,5 +297,16 @@ class OCMProvider implements IOCMProvider {
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
 			'resourceTypes' => $resourceTypes
 		];
+
+			$capabilities = $this->getCapabilities();
+			$inviteAcceptDialog = $this->getInviteAcceptDialog();
+			if ($capabilities) {
+				$response['capabilities'] = $capabilities;
+			}
+			if ($inviteAcceptDialog) {
+				$response['inviteAcceptDialog'] = $inviteAcceptDialog;
+			}
+			return $response;
+
 	}
 }
