@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\RegisterDirectEditorEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -38,12 +39,12 @@ class DirectEditingViewController extends Controller {
 
 	/**
 	 * @param string $token
-	 * @return Response
+	 * @return RedirectResponse
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[UseSession]
-	public function edit(string $token): Response {
+	public function edit(string $token): RedirectResponse {
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 		$token = $this->directEditingManager->getToken($token);
 		$token->useTokenScope();
