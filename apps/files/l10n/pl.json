@@ -71,7 +71,6 @@
     "Transferred from %1$s on %2$s" : "Przeniesiono z %1$s dnia %2$s",
     "Files compatibility" : "Zgodność plików",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Zezwalaj na ograniczenie nazw plików, aby zapewnić synchronizację plików ze wszystkimi klientami. Domyślnie dozwolone są wszystkie nazwy plików obowiązujące w systemie POSIX (np. Linux lub macOS).",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Po włączeniu nazw plików zgodnych z systemem Windows, istniejących plików nie można już modyfikować, ale ich właściciel może zmienić ich nazwy na nowe, prawidłowe.",
     "It is also possible to migrate files automatically after enabling this setting, please refer to the documentation about the occ command." : "Możliwe jest również automatyczne migrowanie plików po włączeniu tego ustawienia. Więcej informacji można znaleźć w dokumentacji polecenia occ.",
     "Enforce Windows compatibility" : "Wymuszaj zgodność z systemem Windows",
     "This will block filenames not valid on Windows systems, like using reserved names or special characters. But this will not enforce compatibility of case sensitivity." : "Spowoduje to zablokowanie nazw plików nieprawidłowych w systemach Windows, na przykład nazw zastrzeżonych lub znaków specjalnych. Nie wymusi to jednak zgodności z rozróżnianiem wielkości liter.",
