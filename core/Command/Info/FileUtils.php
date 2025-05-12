@@ -28,7 +28,7 @@ use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @psalm-type StorageInfo array{numeric_id: int, id: string, available: bool, last_checked: ?\DateTime, files: int}
+ * @psalm-type StorageInfo array{numeric_id: int, id: string, available: bool, last_checked: ?\DateTime, files: int, mount_id: ?int}
  */
 class FileUtils {
 	public function __construct(
@@ -245,12 +245,13 @@ class FileUtils {
 	 */
 	public function getStorage(int $id): ?array {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('numeric_id', 'id', 'available', 'last_checked')
+		$query->select('numeric_id', 's.id', 'available', 'last_checked', 'mount_id')
 			->selectAlias($query->func()->count('fileid'), 'files')
 			->from('storages', 's')
 			->innerJoin('s', 'filecache', 'f', $query->expr()->eq('f.storage', 's.numeric_id'))
+			->leftJoin('s', 'mounts', 'm', $query->expr()->eq('s.numeric_id', 'm.storage_id'))
 			->where($query->expr()->eq('s.numeric_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
-			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked');
+			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked', 'mount_id');
 		$row = $query->executeQuery()->fetch();
 		if ($row) {
 			return [
@@ -259,6 +260,7 @@ class FileUtils {
 				'files' => $row['files'],
 				'available' => (bool)$row['available'],
 				'last_checked' => $row['last_checked'] ? new \DateTime('@' . $row['last_checked']) : null,
+				'mount_id' => $row['mount_id'],
 			];
 		} else {
 			return null;
@@ -272,11 +274,12 @@ class FileUtils {
 	 */
 	public function listStorages(?int $limit): \Iterator {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('numeric_id', 'id', 'available', 'last_checked')
+		$query->select('numeric_id', 's.id', 'available', 'last_checked', 'mount_id')
 			->selectAlias($query->func()->count('fileid'), 'files')
 			->from('storages', 's')
 			->innerJoin('s', 'filecache', 'f', $query->expr()->eq('f.storage', 's.numeric_id'))
-			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked')
+			->leftJoin('s', 'mounts', 'm', $query->expr()->eq('s.numeric_id', 'm.storage_id'))
+			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked', 'mount_id')
 			->orderBy('files', 'DESC');
 		if ($limit !== null) {
 			$query->setMaxResults($limit);
@@ -289,6 +292,7 @@ class FileUtils {
 				'files' => $row['files'],
 				'available' => (bool)$row['available'],
 				'last_checked' => $row['last_checked'] ? new \DateTime('@' . $row['last_checked']) : null,
+				'mount_id' => $row['mount_id'],
 			];
 		}
 	}
@@ -304,6 +308,7 @@ class FileUtils {
 			'files' => $storage['files'],
 			'available' => $storage['available'] ? 'true' : 'false',
 			'last_checked' => $storage['last_checked']?->format(\DATE_ATOM),
+			'external_mount_id' => $storage['mount_id'],
 		];
 	}
 
