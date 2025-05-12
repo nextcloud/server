@@ -207,8 +207,6 @@ export default {
 			providerResultLimit: 5,
 			dateFilter: { id: 'date', type: 'date', text: '', startFrom: null, endAt: null },
 			personFilter: { id: 'person', type: 'person', name: '' },
-			dateFilterIsApplied: false,
-			personFilterIsApplied: false,
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
@@ -292,7 +290,7 @@ export default {
 			emit('nextcloud:unified-search.search', { query })
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
-			const searchProvider = (provider, filters) => {
+			const searchProvider = (provider) => {
 				const params = {
 					type: provider.id,
 					query,
@@ -313,7 +311,7 @@ export default {
 					if (provider.filters.person) {
 						params.person = this.personFilter.user
 					}
-				}
+				})
 
 				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
@@ -336,12 +334,8 @@ export default {
 					this.searching = false
 				})
 			}
-			providersToSearch.forEach(provider => {
-				const dateFilterIsApplied = this.dateFilterIsApplied
-				const personFilterIsApplied = this.personFilterIsApplied
-				searchProvider(provider, { dateFilterIsApplied, personFilterIsApplied })
-			})
 
+			providersToSearch.forEach(searchProvider)
 		},
 		updateResults(newResults) {
 			let updatedResults = [...this.results]
@@ -399,7 +393,7 @@ export default {
 			})
 		},
 		applyPersonFilter(person) {
-			this.personFilterIsApplied = true
+
 			const existingPersonFilter = this.filters.findIndex(filter => filter.id === person.id)
 			if (existingPersonFilter === -1) {
 				this.personFilter.id = person.id
@@ -424,6 +418,7 @@ export default {
 			this.filters = this.filters.filter(filter => filter.type !== 'provider')
 			const provider = this.providers.find(provider => provider.id === providerId)
 			this.addProviderFilter(provider, true)
+			this.find(this.searchQuery)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
 			if (!providerFilter.id) return
@@ -464,14 +459,10 @@ export default {
 				console.debug('Search filters (recently removed)', this.filters)
 
 			} else {
+				// Remove non provider filters such as date and person filters
 				for (let i = 0; i < this.filters.length; i++) {
-					// Remove date and person filter
-					if (this.filters[i].id === 'date' || this.filters[i].id === filter.id) {
-						this.dateFilterIsApplied = false
+					if (this.filters[i].id === filter.id) {
 						this.filters.splice(i, 1)
-						if (filter.type === 'person') {
-							this.personFilterIsApplied = false
-						}
 						this.enableAllProviders()
 						break
 					}
@@ -510,7 +501,7 @@ export default {
 			} else {
 				this.filters.push(this.dateFilter)
 			}
-			this.dateFilterIsApplied = true
+
 			this.providers.forEach(async (provider, index) => {
 				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
 			})
