@@ -85,6 +85,26 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 		sharedSetup()
 	})
 
+	it('Oracle', () => {
+		cy.runCommand('cp /var/www/html/tests/databases-all-config.php /var/www/html/config/config.php')
+		cy.visit('/')
+		cy.get('[data-cy-setup-form]').should('be.visible')
+		cy.get('[data-cy-setup-form-field="adminlogin"]').should('be.visible')
+		cy.get('[data-cy-setup-form-field="adminpass"]').should('be.visible')
+		cy.get('[data-cy-setup-form-field="directory"]').should('have.value', '/var/www/html/data')
+
+		// Select the SQLite database
+		cy.get('[data-cy-setup-form-field="dbtype-oci"] input').check({ force: true })
+
+		// Fill in the DB form
+		cy.get('[data-cy-setup-form-field="dbuser"]').type('{selectAll}system')
+		cy.get('[data-cy-setup-form-field="dbpass"]').type('{selectAll}oracle')
+		cy.get('[data-cy-setup-form-field="dbname"]').type('{selectAll}FREE')
+		cy.get('[data-cy-setup-form-field="dbhost"]').type('{selectAll}oracle:1521')
+
+		sharedSetup()
+	})
+
 })
 
 /**

@@ -182,6 +182,7 @@ export const applyChangesToNextcloud = async function() {
 		'./ocs',
 		'./ocs-provider',
 		'./resources',
+		'./tests',
 		'./console.php',
 		'./cron.php',
 		'./index.php',
