@@ -113,12 +113,7 @@ class UpdateTest extends TestCase {
 		$updateMock->update($node);
 	}
 
-	/**
-	 * data provider for testUpdate()
-	 *
-	 * @return array
-	 */
-	public function dataTestUpdate() {
+	public static function dataTestUpdate(): array {
 		return [
 			['/user/files/foo', true, ['/user/files/foo/file1.txt', '/user/files/foo/file1.txt'], 2],
 			['/user/files/test.txt', false, [], 1],
@@ -152,12 +147,7 @@ class UpdateTest extends TestCase {
 		$updateMock->postRename($sourceNode, $targetNode);
 	}
 
-	/**
-	 * test data for testPostRename()
-	 *
-	 * @return array
-	 */
-	public function dataTestPostRename() {
+	public static function dataTestPostRename(): array {
 		return [
 			['/test.txt', '/testNew.txt'],
 			['/folder/test.txt', '/testNew.txt'],
@@ -193,6 +183,8 @@ class UpdateTest extends TestCase {
 					$this->logger,
 					$this->uid
 				]
-			)->setMethods($methods)->getMock();
+			)
+			->onlyMethods($methods)
+			->getMock();
 	}
 }
