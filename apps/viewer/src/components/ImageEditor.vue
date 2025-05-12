@@ -145,11 +145,7 @@ export default {
 	},
 
 	methods: {
-		onClose(closingReason, haveNotSavedChanges) {
-			if (haveNotSavedChanges) {
-				this.onExitWithoutSaving()
-				return
-			}
+		onClose() {
 			window.removeEventListener('keydown', this.handleKeydown, true)
 			this.$emit('close')
 		},
@@ -204,28 +200,6 @@ export default {
 				logger.error('Error saving image', { error })
 				showError(t('viewer', 'Error saving image'))
 			}
-		},
-
-		/**
-		 * Show warning if unsaved changes
-		 */
-		onExitWithoutSaving() {
-			OC.dialogs.confirmDestructive(
-				translations.changesLoseWarningHint + '\n\n' + translations.discardChangesWarningHint,
-				t('viewer', 'Unsaved changes'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('viewer', 'Drop changes'),
-					confirmClasses: 'error',
-					cancel: translations.cancel,
-				},
-				(decision) => {
-					if (!decision) {
-						return
-					}
-					this.onClose('warning-ignored', false)
-				},
-			)
 		},
 
 		// Key Handlers, override default Viewer arrow and escape key
