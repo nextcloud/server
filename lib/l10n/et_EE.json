@@ -291,6 +291,7 @@
     "The audio to transcribe" : "Üleskirjutatav helifail",
     "Transcription" : "Üleskirjutus",
     "The transcribed text" : "Üleskirjutatud tekst",
+    "Confirmation" : "Kinnitus",
     "Context write" : "Kontekstuaalne kirjutamine",
     "Writes text in a given style based on the provided source material." : "Kirjutab etteantud lähtematerjali lausel teksti üles.",
     "Writing style" : "Kirjutamisstiil",
