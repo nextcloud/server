@@ -12,24 +12,19 @@ use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
 
-	/** @var \OCP\Accounts\IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $accountManager;
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected IAccountManager&MockObject $accountManager;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected IDBConnection&MockObject $connection;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
 
 	protected function setUp(): void {
 		parent::setUp();
