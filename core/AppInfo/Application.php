@@ -78,6 +78,9 @@ class Application extends App implements IBootstrap {
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);
+
+		// config lexicon
+		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
 	public function boot(IBootContext $context): void {

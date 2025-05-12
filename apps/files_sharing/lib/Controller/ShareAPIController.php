@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
@@ -41,6 +42,7 @@ use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -88,6 +90,7 @@ class ShareAPIController extends OCSController {
 		private IURLGenerator $urlGenerator,
 		private IL10N $l,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IAppManager $appManager,
 		private ContainerInterface $serverContainer,
 		private IUserStatusManager $userStatusManager,
@@ -969,9 +972,9 @@ class ShareAPIController extends OCSController {
 				: Constants::PERMISSION_READ;
 		}
 
-		// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
 		if ($this->hasPermission($permissions, Constants::PERMISSION_READ)
-			&& $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			&& $this->shareManager->outgoingServer2ServerSharesAllowed()
+			&& $this->appConfig->getValueBool('core', ConfigLexicon::SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES)) {
 			$permissions |= Constants::PERMISSION_SHARE;
 		}
 
