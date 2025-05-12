@@ -66,7 +66,7 @@ class ControllerTest extends \Test\TestCase {
 		);
 
 		$this->app = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['getAppName'])
+			->onlyMethods(['getAppName'])
 			->setConstructorArgs(['test'])
 			->getMock();
 		$this->app->expects($this->any())

@@ -103,7 +103,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 
 		$middleware = $this->getMockBuilder(SameSiteCookieMiddleware::class)
 			->setConstructorArgs([$this->request, $this->reflector])
-			->setMethods(['setSameSiteCookie'])
+			->onlyMethods(['setSameSiteCookie'])
 			->getMock();
 
 		$middleware->expects($this->once())

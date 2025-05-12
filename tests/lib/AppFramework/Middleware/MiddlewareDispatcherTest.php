@@ -10,6 +10,7 @@ namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
@@ -84,6 +85,9 @@ class TestMiddleware extends Middleware {
 	}
 }
 
+class TestController extends Controller {
+	public function method(): void {}
+}
 
 class MiddlewareDispatcherTest extends \Test\TestCase {
 	public $exception;
@@ -110,8 +114,8 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 
 	private function getControllerMock() {
-		return $this->getMockBuilder('OCP\AppFramework\Controller')
-			->setMethods(['method'])
+		return $this->getMockBuilder(TestController::class)
+			->onlyMethods(['method'])
 			->setConstructorArgs(['app',
 				new Request(
 					['method' => 'GET'],
@@ -131,14 +135,14 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 	public function testAfterExceptionShouldReturnResponseOfMiddleware(): void {
 		$response = new Response();
-		$m1 = $this->getMockBuilder('\OCP\AppFramework\Middleware')
-			->setMethods(['afterException', 'beforeController'])
+		$m1 = $this->getMockBuilder(\OCP\AppFramework\Middleware::class)
+			->onlyMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m1->expects($this->never())
 			->method('afterException');
 
-		$m2 = $this->getMockBuilder('OCP\AppFramework\Middleware')
-			->setMethods(['afterException', 'beforeController'])
+		$m2 = $this->getMockBuilder(\OCP\AppFramework\Middleware::class)
+			->onlyMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m2->expects($this->once())
 			->method('afterException')

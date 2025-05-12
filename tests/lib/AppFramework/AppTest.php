@@ -124,7 +124,7 @@ class AppTest extends \Test\TestCase {
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
-	public function dataNoOutput() {
+	public static function dataNoOutput(): array {
 		return [
 			['HTTP/2.0 204 No content'],
 			['HTTP/2.0 304 Not modified'],

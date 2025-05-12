@@ -28,7 +28,7 @@ class AppConfigTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfigCore = $this->createMock(AppConfigCore::class);
-		
+
 		$this->appConfig = new AppConfig($this->config, $this->appConfigCore, self::TEST_APPID);
 	}
 
@@ -46,7 +46,7 @@ class AppConfigTest extends TestCase {
 	 * @return array
 	 * @see testHasAppKey
 	 */
-	public function providerHasAppKey(): array {
+	public static function providerHasAppKey(): array {
 		return [
 			// lazy, expected
 			[false, true],
@@ -76,7 +76,7 @@ class AppConfigTest extends TestCase {
 	 * @return array
 	 * @see testIsSensitive
 	 */
-	public function providerIsSensitive(): array {
+	public static function providerIsSensitive(): array {
 		return [
 			// lazy, expected
 			[false, true],
@@ -123,7 +123,7 @@ class AppConfigTest extends TestCase {
 	 * @return array
 	 * @see testIsLazy
 	 */
-	public function providerIsLazy(): array {
+	public static function providerIsLazy(): array {
 		return [
 			// expected
 			[true],
@@ -161,7 +161,7 @@ class AppConfigTest extends TestCase {
 	 * @return array
 	 * @see testGetAllAppValues
 	 */
-	public function providerGetAllAppValues(): array {
+	public static function providerGetAllAppValues(): array {
 		return [
 			// key, filtered
 			['', false],
@@ -214,7 +214,7 @@ class AppConfigTest extends TestCase {
 	 * @see testSetAppValueArray
 	 * @see testSetAppValueArrayException
 	 */
-	public function providerSetAppValue(): array {
+	public static function providerSetAppValue(): array {
 		return [
 			// lazy, sensitive, expected
 			[false, false, true],
@@ -340,7 +340,7 @@ class AppConfigTest extends TestCase {
 	 * @return array
 	 * @see testSetAppValueBool
 	 */
-	public function providerSetAppValueBool(): array {
+	public static function providerSetAppValueBool(): array {
 		return [
 			// lazy, expected
 			[false, true],
@@ -456,7 +456,7 @@ class AppConfigTest extends TestCase {
 	 * @see testGetAppValueArray
 	 * @see testGetAppValueArrayException
 	 */
-	public function providerGetAppValue(): array {
+	public static function providerGetAppValue(): array {
 		return [
 			// lazy, exist
 			[false, false],

@@ -156,7 +156,7 @@ class RegistrationContextTest extends TestCase {
 		);
 	}
 
-	public function dataProvider_TrueFalse() {
+	public static function dataProvider_TrueFalse(): array {
 		return[
 			[true],
 			[false]

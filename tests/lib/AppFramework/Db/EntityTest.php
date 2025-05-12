@@ -211,7 +211,7 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	public function dataSetterCasts(): array {
+	public static function dataSetterCasts(): array {
 		return [
 			['Id', '3', 3],
 			['smallInt', '3', 3],

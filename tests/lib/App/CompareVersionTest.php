@@ -23,7 +23,7 @@ class CompareVersionTest extends TestCase {
 		$this->compare = new CompareVersion();
 	}
 
-	public function comparisonData() {
+	public static function comparisonData(): array {
 		return [
 			// Compatible versions
 			['13.0.0.3', '13.0.0', '>=', true],

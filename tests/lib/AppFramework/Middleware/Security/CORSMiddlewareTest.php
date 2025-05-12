@@ -44,7 +44,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataSetCORSAPIHeader(): array {
+	public static function dataSetCORSAPIHeader(): array {
 		return [
 			['testSetCORSAPIHeader'],
 			['testSetCORSAPIHeaderAttribute'],
@@ -89,7 +89,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
-	public function dataNoOriginHeaderNoCORSHEADER(): array {
+	public static function dataNoOriginHeaderNoCORSHEADER(): array {
 		return [
 			['testNoOriginHeaderNoCORSHEADER'],
 			['testNoOriginHeaderNoCORSHEADERAttribute'],
@@ -113,7 +113,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
-	public function dataCorsIgnoredIfWithCredentialsHeaderPresent(): array {
+	public static function dataCorsIgnoredIfWithCredentialsHeaderPresent(): array {
 		return [
 			['testCorsIgnoredIfWithCredentialsHeaderPresent'],
 			['testCorsAttributeIgnoredIfWithCredentialsHeaderPresent'],
@@ -143,7 +143,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->afterController($this->controller, $method, $response);
 	}
 
-	public function dataNoCORSOnAnonymousPublicPage(): array {
+	public static function dataNoCORSOnAnonymousPublicPage(): array {
 		return [
 			['testNoCORSOnAnonymousPublicPage'],
 			['testNoCORSOnAnonymousPublicPageAttribute'],
@@ -177,7 +177,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldNeverAllowCookieAuth(): array {
+	public static function dataCORSShouldNeverAllowCookieAuth(): array {
 		return [
 			['testCORSShouldNeverAllowCookieAuth'],
 			['testCORSShouldNeverAllowCookieAuthAttribute'],
@@ -211,7 +211,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldRelogin(): array {
+	public static function dataCORSShouldRelogin(): array {
 		return [
 			['testCORSShouldRelogin'],
 			['testCORSAttributeShouldRelogin'],
@@ -242,7 +242,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldFailIfPasswordLoginIsForbidden(): array {
+	public static function dataCORSShouldFailIfPasswordLoginIsForbidden(): array {
 		return [
 			['testCORSShouldFailIfPasswordLoginIsForbidden'],
 			['testCORSAttributeShouldFailIfPasswordLoginIsForbidden'],
@@ -275,7 +275,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldNotAllowCookieAuth(): array {
+	public static function dataCORSShouldNotAllowCookieAuth(): array {
 		return [
 			['testCORSShouldNotAllowCookieAuth'],
 			['testCORSAttributeShouldNotAllowCookieAuth'],
