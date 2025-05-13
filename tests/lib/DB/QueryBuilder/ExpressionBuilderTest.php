@@ -50,8 +50,8 @@ class ExpressionBuilderTest extends TestCase {
 		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->internalConnection);
 	}
 
-	public function dataComparison() {
-		$valueSets = $this->dataComparisons();
+	public static function dataComparison(): array {
+		$valueSets = self::dataComparisons();
 		$comparisonOperators = ['=', '<>', '<', '>', '<=', '>='];
 
 		$testSets = [];
@@ -82,7 +82,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	public function dataComparisons() {
+	public static function dataComparisons(): array {
 		return [
 			['value', false, 'value', false],
 			['value', false, 'value', true],
@@ -213,7 +213,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	public function dataLike() {
+	public static function dataLike(): array {
 		return [
 			['value', false],
 			['value', true],
@@ -250,7 +250,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	public function dataIn() {
+	public static function dataIn(): array {
 		return [
 			['value', false],
 			['value', true],
@@ -317,7 +317,7 @@ class ExpressionBuilderTest extends TestCase {
 		return [$doctrineInput, $ocInput];
 	}
 
-	public function dataLiteral() {
+	public static function dataLiteral(): array {
 		return [
 			['value', null],
 			['1', null],
@@ -345,7 +345,7 @@ class ExpressionBuilderTest extends TestCase {
 		);
 	}
 
-	public function dataClobComparisons() {
+	public static function dataClobComparisons(): array {
 		return [
 			['eq', '5', IQueryBuilder::PARAM_STR, false, 3],
 			['eq', '5', IQueryBuilder::PARAM_STR, true, 1],
