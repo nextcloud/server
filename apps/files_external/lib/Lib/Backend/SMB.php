@@ -10,19 +10,20 @@ namespace OCA\Files_External\Lib\Backend;
 use Icewind\SMB\BasicAuth;
 use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
+use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\Wrapped\Server;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth as KerberosApacheAuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\MissingDependency;
+use OCA\Files_External\Lib\Storage\SystemBridge;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\IUser;
 
 class SMB extends Backend {
-	use LegacyDependencyCheckPolyfill;
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('smb')
@@ -121,5 +122,21 @@ class SMB extends Backend {
 		}
 
 		$storage->setBackendOption('auth', $smbAuth);
+	}
+
+	public function checkDependencies() {
+		$system = \OCP\Server::get(SystemBridge::class);
+		if (NativeServer::available($system)) {
+			return [];
+		} elseif (Server::available($system)) {
+			$missing = new MissingDependency('php-smbclient');
+			$missing->setOptional(true);
+			$missing->setMessage('The php-smbclient library provides improved compatibility and performance for SMB storages.');
+			return [$missing];
+		} else {
+			$missing = new MissingDependency('php-smbclient');
+			$missing->setMessage('Either the php-smbclient library (preferred) or the smbclient binary is required for SMB storages.');
+			return [$missing, new MissingDependency('smbclient')];
+		}
 	}
 }
