@@ -486,9 +486,12 @@ class SettingTest extends TestCase {
 
 	public static function dataExecuteGet(): array {
 		return [
-			['config', null, 'config', 0],
-			[null, 'config', 'config', 0],
-			[null, null, '<error>The setting does not exist for user "username".</error>', 1],
+			['appname', 'configkey', 'config', null, 'config', 0],
+			['appname', 'configkey', null, 'config', 'config', 0],
+			['appname', 'configkey', null, null, '<error>The setting does not exist for user "username".</error>', 1],
+			['profile', 'configkey', 'config', null, 'config', 0],
+			['profile', 'configkey', '', 'config', 'config', 0],
+			['profile', 'configkey', '', null, '<error>The setting does not exist for user "username".</error>', 1],
 		];
 	}
 
@@ -500,30 +503,33 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
+	public function testExecuteGet($app, $key, $value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
-			'getUserSettings',
 		]);
 
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap([
 				['uid', 'username'],
-				['app', 'appname'],
-				['key', 'configkey'],
+				['app', $app],
+				['key', $key],
 			]);
 
 		$command->expects($this->once())
 			->method('checkInput');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('username', 'appname', 'configkey', null)
-			->willReturn($value);
+		if ($app === 'profile') {
+			$this->setupProfilePropertiesMock([$key => $value]);
+		} else {
+			$this->config->expects($this->once())
+				->method('getUserValue')
+				->with('username', $app, $key, null)
+				->willReturn($value);
+		}
 
-		if ($value === null) {
+		if ($value === null || $value === '') {
 			if ($defaultValue === null) {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
@@ -531,12 +537,7 @@ class SettingTest extends TestCase {
 			} else {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnCallback(function (string|array $config, bool $default = false): bool {
-						if ($config === '--default-value' && $default === false) {
-							return true;
-						}
-						return false;
-					});
+					->willReturnCallback(fn (string|array $values): bool => $values === '--default-value');
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
 					->with('default-value')
