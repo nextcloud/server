@@ -322,6 +322,10 @@ class Router implements IRouter {
 			call_user_func($action, $parameters);
 			$this->eventLogger->end('route:run:call');
 		} elseif (isset($parameters['file'])) {
+			$param = $parameters;
+			unset($param['_route']);
+			$_GET = array_merge($_GET, $param);
+			unset($param);
 			include $parameters['file'];
 		} else {
 			throw new \Exception('no action available');
