@@ -8,9 +8,12 @@
 namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Setting;
+use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
@@ -438,30 +441,126 @@ class SettingTest extends TestCase {
 	}
 
 	public function testExecuteList(): void {
+		$userDisplayName = 'display name';
+		$profileData = [
+			'pronouns' => 'they/them',
+			'address' => 'Berlin',
+		];
+		$settingsData = ['appname' => [
+			'settings1' => 'value1',
+			'settings2' => 'value2',
+		]];
+
+		$expectedOutputSettings = [
+			'appname' => $settingsData['appname'],
+			'settings' => [
+				'display_name' => $userDisplayName,
+			],
+			'profile' => $profileData
+		];
+
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
-			'getUserSettings',
 		]);
 
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap([
 				['uid', 'username'],
-				['app', 'appname'],
+				['app', ''],
 				['key', ''],
 			]);
 
 		$command->expects($this->once())
 			->method('checkInput');
-		$command->expects($this->once())
-			->method('getUserSettings')
-			->willReturn(['settings']);
+
+		$this->config->expects($this->once())
+			->method('getAllUserValues')
+			->with('username')
+			->willReturn($settingsData);
+
+		$mocks = $this->setupProfilePropertiesMock(['address' => $profileData['address'], 'pronouns' => $profileData['pronouns']]);
+
+		$mocks['userMock']->expects($this->once())
+			->method('getDisplayName')
+			->willReturn($userDisplayName);
+
+
 		$command->expects($this->once())
 			->method('writeArrayInOutputFormat')
-			->with($this->consoleInput, $this->consoleOutput, ['settings']);
+			->with($this->consoleInput, $this->consoleOutput, $expectedOutputSettings);
 
 
 		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	/**
+	 * Helper to avoid boilerplate in tests in this file when mocking objects
+	 * of IAccountProperty type.
+	 *
+	 * @param array<string, string> $properties the properties to be set up as key => value
+	 * @return array{
+	 *     userMock: IUser&MockObject,
+	 *     accountMock: IAccount&MockObject,
+	 *     profilePropertiesMocks: IAccountProperty&MockObject[]
+	 * }
+	 */
+	private function setupProfilePropertiesMock(array $properties): array {
+		$userMock = $this->getMockForClass(IUser::class);
+		$accountMock = $this->getMockForClass(IAccount::class);
+		$this->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($userMock);
+		$this->accountManager->expects($this->atLeastOnce())
+			->method('getAccount')
+			->willReturn($accountMock);
+
+		/** @var IAccountProperty&MockObject[] $propertiesMocks */
+		$propertiesMocks = [];
+		foreach ($properties as $key => $value) {
+			$propertiesMocks[] = $this->getAccountPropertyMock($key, $value);
+		}
+
+		if (count($properties) === 1) {
+			$accountMock->expects($this->atLeastOnce())
+				->method('getProperty')
+				->with(array_keys($properties)[0])
+				->willReturn($propertiesMocks[array_key_first($propertiesMocks)]);
+		} else {
+			$accountMock->expects($this->atLeastOnce())
+				->method('getAllProperties')
+				->willReturnCallback(function () use ($propertiesMocks) {
+					foreach ($propertiesMocks as $property) {
+						yield $property;
+					}
+				});
+		}
+
+		return [
+			'userMock' => $userMock,
+			'accountMock' => $accountMock,
+			'profilePropertiesMocks' => $propertiesMocks,
+		];
+	}
+
+	private function getMockForClass(string $className): MockObject {
+		return $this->getMockBuilder($className)
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
+	private function getAccountPropertyMock(string $name, string $value): IAccountProperty&MockObject {
+		$propertyMock = $this->getMockBuilder(IAccountProperty::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$propertyMock->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+		$propertyMock->expects($this->any())
+			->method('getValue')
+			->willReturn($value);
+
+		return $propertyMock;
 	}
 }
