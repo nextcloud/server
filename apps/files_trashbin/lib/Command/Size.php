@@ -45,7 +45,7 @@ class Size extends Base {
 		$size = $input->getArgument('size');
 
 		if ($size) {
-			$parsedSize = \OC_Helper::computerFileSize($size);
+			$parsedSize = \OCP\Util::computerFileSize($size);
 			if ($parsedSize === false) {
 				$output->writeln('<error>Failed to parse input size</error>');
 				return -1;
@@ -70,7 +70,7 @@ class Size extends Base {
 		if ($globalSize < 0) {
 			$globalHumanSize = 'default (50% of available space)';
 		} else {
-			$globalHumanSize = \OC_Helper::humanFileSize($globalSize);
+			$globalHumanSize = \OCP\Util::humanFileSize($globalSize);
 		}
 
 		if ($user) {
@@ -79,7 +79,7 @@ class Size extends Base {
 			if ($userSize < 0) {
 				$userHumanSize = ($globalSize < 0) ? $globalHumanSize : "default($globalHumanSize)";
 			} else {
-				$userHumanSize = \OC_Helper::humanFileSize($userSize);
+				$userHumanSize = \OCP\Util::humanFileSize($userSize);
 			}
 
 			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
@@ -106,7 +106,7 @@ class Size extends Base {
 				if (count($userValues)) {
 					$output->writeln('Per-user sizes:');
 					$this->writeArrayInOutputFormat($input, $output, array_map(function ($size) {
-						return \OC_Helper::humanFileSize($size);
+						return \OCP\Util::humanFileSize($size);
 					}, $userValues));
 				} else {
 					$output->writeln('No per-user sizes configured');
