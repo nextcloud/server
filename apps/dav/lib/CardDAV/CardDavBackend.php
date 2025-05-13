@@ -857,8 +857,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		if ($limit === null) {
 			$limit = $this->config->getSystemValueInt('carddav_sync_request_limit', 1);
-
 		}
+
 		// Current synctoken
 		return $this->atomic(function () use ($addressBookId, $syncToken, $syncLevel, $limit) {
 			$qb = $this->db->getQueryBuilder();
