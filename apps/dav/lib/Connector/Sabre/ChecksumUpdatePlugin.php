@@ -26,20 +26,6 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 		return 'checksumupdate';
 	}
 
-		/** @return string[] */
-		public function getHTTPMethods($path): array {
-			$tree = $this->server->tree;
-
-			if ($tree->nodeExists($path)) {
-				$node = $tree->getNodeForPath($path);
-				if ($node instanceof File) {
-					return ['PATCH'];
-				}
-			}
-
-			return [];
-		}
-
 	/** @return string[] */
 	public function getFeatures(): array {
 		return ['nextcloud-checksum-update'];
