@@ -16,6 +16,10 @@ class ZIPTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new ZIP(\OC::$server->getTempManager()->getTempBaseDir() . '/newArchive.zip');
+		$newZip = \OC::$server->getTempManager()->getTempBaseDir() . '/newArchive.zip';
+		if (file_exists($newZip)) {
+			unlink($newZip);
+		}
+		return new ZIP($newZip);
 	}
 }
