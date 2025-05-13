@@ -241,6 +241,76 @@ class SettingTest extends TestCase {
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
+	public static function dataExecuteDeleteProfileProperty(): array {
+		return [
+			['address', 'Berlin', false, null, 0],
+			['address', 'Berlin', true, null, 0],
+			['address', '', false, null, 0],
+			['address', '', true, '<error>The setting does not exist for user "username".</error>', 1],
+		];
+	}
+
+	/**
+	 * Tests the deletion mechanism on profile settings.
+	 *
+	 * @dataProvider dataExecuteDeleteProfileProperty
+	 *
+	 * @param string $configKey
+	 * @param string|null $value
+	 * @param bool $errorIfNotExists
+	 * @param string $expectedLine
+	 * @param int $expectedReturn
+	 */
+	public function testExecuteDeleteProfileProperty($configKey, $value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
+		$appName = 'profile';
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', $appName],
+				['key', $configKey],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		$mocks = $this->setupProfilePropertiesMock([$configKey => $value]);
+
+		$this->consoleInput->expects($this->atLeastOnce())
+			->method('hasParameterOption')
+			->willReturnMap([
+				['--delete', false, true],
+				['--error-if-not-exists', false, $errorIfNotExists],
+			]);
+
+		if ($expectedLine === null) {
+			$this->consoleOutput->expects($this->never())
+				->method('writeln');
+			$mocks['profilePropertiesMocks'][0]->expects($this->once())
+				->method('setValue')
+				->with('');
+			$this->accountManager->expects($this->once())
+				->method('updateAccount')
+				->with($mocks['accountMock']);
+		} else {
+			$this->consoleOutput->expects($this->once())
+				->method('writeln')
+				->with($expectedLine);
+			$this->accountManager->expects($this->never())
+				->method('updateAccount');
+		}
+
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+
+		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
 	public static function dataExecuteDelete(): array {
 		return [
 			['config', false, null, 0],
