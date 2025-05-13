@@ -15,6 +15,9 @@ use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Matcher\CompiledUrlMatcher;
+use Symfony\Component\Routing\Matcher\Dumper\CompiledUrlMatcherDumper;
 use Symfony\Component\Routing\RouteCollection;
 
 class CachingRouter extends Router {
@@ -57,60 +60,47 @@ class CachingRouter extends Router {
 	}
 
 	private function serializeRouteCollection(RouteCollection $collection): array {
-		return array_map(
-			fn (Route $route) => [$route->getPath(), $route->getDefaults(), $route->getRequirements(), $route->getOptions(), $route->getHost(), $route->getSchemes(), $route->getMethods(), $route->getCondition()],
-			$collection->all(),
-		);
-	}
-
-	private function unserializeRouteCollection(array $data): RouteCollection {
-		$collection = new RouteCollection();
-		foreach ($data as $name => $details) {
-			$route = new Route(...$details);
-			$collection->add($name, $route);
-		}
-		return $collection;
+		$dumper = new CompiledUrlMatcherDumper($collection);
+		return $dumper->getCompiledRoutes();
 	}
 
 	/**
-	 * Loads the routes
+	 * Find the route matching $url
 	 *
-	 * @param null|string $app
+	 * @param string $url The url to find
+	 * @throws \Exception
+	 * @return array
 	 */
-	public function loadRoutes($app = null): void {
-		$this->eventLogger->start('cacheroute:load:' . $app, 'Loading Routes (using cache) for ' . $app);
-		if (is_string($app)) {
-			$app = $this->appManager->cleanAppId($app);
+	public function findMatchingRoute(string $url): array {
+		$this->eventLogger->start('cacheroute:match');
+		$cachedRoutes = $this->cache->get('root:');
+		if (!$cachedRoutes) {
+			parent::loadRoutes();
+			$cachedRoutes = $this->serializeRouteCollection($this->root);
+			$this->cache->set('root:', $cachedRoutes, 3600);
 		}
+		$matcher = new CompiledUrlMatcher($cachedRoutes, $this->context);
+		$this->eventLogger->start('cacheroute:url:match');
+		try {
+			$parameters = $matcher->match($url);
+		} catch (ResourceNotFoundException $e) {
+			if (!str_ends_with($url, '/')) {
+				// We allow links to apps/files? for backwards compatibility reasons
+				// However, since Symfony does not allow empty route names, the route
+				// we need to match is '/', so we need to append the '/' here.
+				try {
+					$parameters = $matcher->match($url . '/');
+				} catch (ResourceNotFoundException $newException) {
+					// If we still didn't match a route, we throw the original exception
+					throw $e;
+				}
+			} else {
+				throw $e;
+			}
+		}
+		$this->eventLogger->end('cacheroute:url:match');
 
-		$requestedApp = $app;
-		if ($this->loaded) {
-			$this->eventLogger->end('cacheroute:load:' . $app);
-			return;
-		}
-		if (is_null($app)) {
-			$cachedRoutes = $this->cache->get('root:');
-			if ($cachedRoutes) {
-				$this->root = $this->unserializeRouteCollection($cachedRoutes);
-				$this->loaded = true;
-				$this->eventLogger->end('cacheroute:load:' . $app);
-				return;
-			}
-		} else {
-			if (isset($this->loadedApps[$app])) {
-				$this->eventLogger->end('cacheroute:load:' . $app);
-				return;
-			}
-			$cachedRoutes = $this->cache->get('root:' . $requestedApp);
-			if ($cachedRoutes) {
-				$this->root = $this->unserializeRouteCollection($cachedRoutes);
-				$this->loadedApps[$app] = true;
-				$this->eventLogger->end('cacheroute:load:' . $app);
-				return;
-			}
-		}
-		parent::loadRoutes($app);
-		$this->cache->set('root:' . $requestedApp, $this->serializeRouteCollection($this->root), 3600);
-		$this->eventLogger->end('cacheroute:load:' . $app);
+		$this->eventLogger->end('cacheroute:match');
+		return $parameters;
 	}
 }
