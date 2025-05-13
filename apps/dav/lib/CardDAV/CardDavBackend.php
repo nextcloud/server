@@ -27,7 +27,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use PDO;
-use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -61,7 +60,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		private IUserManager $userManager,
 		private IEventDispatcher $dispatcher,
 		private Sharing\Backend $sharingBackend,
-		private LoggerInterface $logger,
 		private IConfig $config,
 	) {
 	}
@@ -899,10 +897,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['result_truncated'] = false;
 					$result['added'] = [];
 				} else {
-					$lastID = end($values)['id'];
+					$lastID = $values[array_key_last($values)]['id'];
 					$result['added'] = array_column($values, 'uri');
-					$result['syncToken'] = count($result['added']) === $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
-					$result['result_truncated'] = count($result['added']) === $limit;
+					$result['syncToken'] = count($result['added']) >= $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
+					$result['result_truncated'] = count($result['added']) >= $limit;
 				}
 			} elseif ($syncToken) {
 				$qb = $this->db->getQueryBuilder();
@@ -965,7 +963,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 
 				$result['added'] = array_column($values, 'uri');
-				
+
 				$stmt->closeCursor();
 			}
 			return $result;
