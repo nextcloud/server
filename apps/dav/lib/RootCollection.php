@@ -172,7 +172,11 @@ class RootCollection extends SimpleCollection {
 		$uploadCollection = new Upload\RootCollection(
 			$userPrincipalBackend,
 			'principals/users',
-			\OC::$server->query(CleanupService::class));
+			\OC::$server->query(CleanupService::class),
+			$rootFolder,
+			$userSession,
+			$logger,
+		);
 		$uploadCollection->disableListing = $disableListing;
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
