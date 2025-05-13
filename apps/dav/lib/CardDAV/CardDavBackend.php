@@ -903,10 +903,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['result_truncated'] = false;
 					$result['added'] = [];
 				} else {
-					$lastID = end($values)['id'];
+					$lastID = $values[array_key_last($values)]['id'];
 					$result['added'] = array_column($values, 'uri');
-					$result['syncToken'] = count($result['added']) === $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
-					$result['result_truncated'] = count($result['added']) === $limit;
+					$result['syncToken'] = count($result['added']) >= $limit ? "init_{$lastID}_$initialSyncToken" : $initialSyncToken ;
+					$result['result_truncated'] = count($result['added']) >= $limit;
 				}
 			} elseif ($syncToken) {
 				$qb = $this->db->getQueryBuilder();
@@ -963,8 +963,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$qb->setMaxResults($limit);
 					$stmt = $qb->executeQuery();
 					$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-					$lastID = end($values)['id'];
-					if (count(array_values($values)) === $limit) {
+					$lastID = $values[array_key_last($values)]['id'];
+					if (count(array_values($values)) >= $limit) {
 						$result['syncToken'] = 'init_' . $lastID . '_' . $currentToken;
 						$result['result_truncated'] = true;
 					}
@@ -974,7 +974,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$this->logger->error('getChangesForAddressBook', ['values' => $values]);
 				}
 				$result['added'] = array_column($values, 'uri');
-				
+
 				$stmt->closeCursor();
 			}
 			return $result;

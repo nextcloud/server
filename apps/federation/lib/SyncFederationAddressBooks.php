@@ -81,10 +81,10 @@ class SyncFederationAddressBooks {
 		}
 	}
 
-	private function syncTruncatedAddressBook(string $url, string $cardDavUser, string $addressBookUrl, string $sharedSecret, string $syncToken, int $targetBookId, string $targetPrincipal, array $targetBookProperties): string {
+	private function syncTruncatedAddressBook(string $url, string $cardDavUser, string $addressBookUrl, string $sharedSecret, string $syncToken, string $targetBookId, string $targetPrincipal, array $targetBookProperties): string {
 		$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);
 		while (strpos($newToken, 'init') !== false) {
-			$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);
+			$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $newToken, $targetBookId, $targetPrincipal, $targetBookProperties);
 		}
 		return $newToken;
 	}
