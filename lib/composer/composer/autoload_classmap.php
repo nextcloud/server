@@ -1554,6 +1554,7 @@ return array(
     'OC\\Encryption\\Manager' => $baseDir . '/lib/private/Encryption/Manager.php',
     'OC\\Encryption\\Update' => $baseDir . '/lib/private/Encryption/Update.php',
     'OC\\Encryption\\Util' => $baseDir . '/lib/private/Encryption/Util.php',
+    'OC\\EventDispatcher\\CoreDispatcher' => $baseDir . '/lib/private/EventDispatcher/CoreDispatcher.php',
     'OC\\EventDispatcher\\EventDispatcher' => $baseDir . '/lib/private/EventDispatcher/EventDispatcher.php',
     'OC\\EventDispatcher\\ServiceEventListener' => $baseDir . '/lib/private/EventDispatcher/ServiceEventListener.php',
     'OC\\EventSource' => $baseDir . '/lib/private/EventSource.php',

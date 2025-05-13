@@ -16,12 +16,11 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use function get_class;
 
 class EventDispatcher implements IEventDispatcher {
 	public function __construct(
-		private SymfonyDispatcher $dispatcher,
+		private CoreDispatcher $dispatcher,
 		private IServerContainer $container,
 		private LoggerInterface $logger,
 	) {
@@ -80,10 +79,10 @@ class EventDispatcher implements IEventDispatcher {
 	}
 
 	/**
-	 * @return SymfonyDispatcher
+	 * @return CoreDispatcher
 	 * @deprecated 20.0.0
 	 */
-	public function getSymfonyDispatcher(): SymfonyDispatcher {
+	public function getSymfonyDispatcher(): CoreDispatcher {
 		return $this->dispatcher;
 	}
 }
