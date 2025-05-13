@@ -157,7 +157,7 @@ class RegistryTest extends TestCase {
 		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
-	public function dataForUserLimitCheck() {
+	public static function dataForUserLimitCheck(): array {
 		return [
 			// $userLimit, $userCount, $disabledUsers, $expectedResult
 			[35, 15, 2, false],

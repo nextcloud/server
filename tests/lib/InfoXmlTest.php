@@ -23,7 +23,7 @@ class InfoXmlTest extends TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
-	public function dataApps() {
+	public static function dataApps(): array {
 		return [
 			['admin_audit'],
 			['comments'],

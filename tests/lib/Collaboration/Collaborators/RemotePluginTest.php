@@ -141,7 +141,7 @@ class RemotePluginTest extends TestCase {
 		$this->plugin->splitUserRemote($id);
 	}
 
-	public function dataGetRemote() {
+	public static function dataGetRemote() {
 		return [
 			['test', [], true, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
 			['test', [], false, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
@@ -374,7 +374,7 @@ class RemotePluginTest extends TestCase {
 		];
 	}
 
-	public function dataTestSplitUserRemote() {
+	public static function dataTestSplitUserRemote(): array {
 		$userPrefix = ['user@name', 'username'];
 		$protocols = ['', 'http://', 'https://'];
 		$remotes = [
@@ -410,7 +410,7 @@ class RemotePluginTest extends TestCase {
 		return $testCases;
 	}
 
-	public function dataTestSplitUserRemoteError() {
+	public static function dataTestSplitUserRemoteError(): array {
 		return [
 			// Invalid path
 			['user@'],

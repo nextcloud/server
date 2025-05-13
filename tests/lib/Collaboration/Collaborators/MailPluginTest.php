@@ -134,7 +134,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
-	public function dataGetEmail() {
+	public static function dataGetEmail(): array {
 		return [
 			// data set 0
 			['test', [], true, ['emails' => [], 'exact' => ['emails' => []]], false, false, false],
@@ -636,7 +636,7 @@ class MailPluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
-	public function dataGetEmailGroupsOnly() {
+	public static function dataGetEmailGroupsOnly(): array {
 		return [
 			// The user `User` can share with the current user
 			[

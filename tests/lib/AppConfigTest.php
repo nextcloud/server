@@ -32,10 +32,10 @@ class AppConfigTest extends TestCase {
 	private array $originalConfig;
 
 	/**
-	 * @var array<string, array<array<string, string, int, bool, bool>>>
+	 * @var array<string, array<string, array<string, string, int, bool, bool>>>
 	 *                                                                   [appId => [configKey, configValue, valueType, lazy, sensitive]]
 	 */
-	private array $baseStruct =
+	private static array $baseStruct =
 		[
 			'testapp' => [
 				'enabled' => ['enabled', 'true'],
@@ -114,14 +114,14 @@ class AppConfigTest extends TestCase {
 				]
 			);
 
-		foreach ($this->baseStruct as $appId => $appData) {
+		foreach (self::$baseStruct as $appId => $appData) {
 			foreach ($appData as $key => $row) {
 				$value = $row[1];
 				$type = $row[2] ?? IAppConfig::VALUE_MIXED;
 				if (($row[4] ?? false) === true) {
 					$type |= IAppConfig::VALUE_SENSITIVE;
 					$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
-					$this->baseStruct[$appId][$key]['encrypted'] = $value;
+					self::$baseStruct[$appId][$key]['encrypted'] = $value;
 				}
 
 				$sql->setParameters(
@@ -197,7 +197,7 @@ class AppConfigTest extends TestCase {
 			$this->assertSame(true, $status['fastLoaded'], $msg);
 			$this->assertSame(false, $status['lazyLoaded'], $msg);
 
-			$apps = array_values(array_diff(array_keys($this->baseStruct), ['only-lazy']));
+			$apps = array_values(array_diff(array_keys(self::$baseStruct), ['only-lazy']));
 			$this->assertEqualsCanonicalizing($apps, array_keys($status['fastCache']), $msg);
 			$this->assertSame([], array_keys($status['lazyCache']), $msg);
 		}
@@ -208,7 +208,7 @@ class AppConfigTest extends TestCase {
 	public function testGetApps(): void {
 		$config = $this->generateAppConfig(false);
 
-		$this->assertEqualsCanonicalizing(array_keys($this->baseStruct), $config->getApps());
+		$this->assertEqualsCanonicalizing(array_keys(self::$baseStruct), $config->getApps());
 	}
 
 	/**
@@ -217,9 +217,9 @@ class AppConfigTest extends TestCase {
 	 * @return array<string, string[]> ['appId' => ['key1', 'key2', ]]
 	 * @see testGetKeys
 	 */
-	public function providerGetAppKeys(): array {
+	public static function providerGetAppKeys(): array {
 		$appKeys = [];
-		foreach ($this->baseStruct as $appId => $appData) {
+		foreach (self::$baseStruct as $appId => $appData) {
 			$keys = [];
 			foreach ($appData as $row) {
 				$keys[] = $row[0];
@@ -238,9 +238,9 @@ class AppConfigTest extends TestCase {
 	 * @see testIsLazy
 	 * @see testGetKeys
 	 */
-	public function providerGetKeys(): array {
+	public static function providerGetKeys(): array {
 		$appKeys = [];
-		foreach ($this->baseStruct as $appId => $appData) {
+		foreach (self::$baseStruct as $appId => $appData) {
 			foreach ($appData as $row) {
 				$appKeys[] = [
 					(string)$appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
@@ -283,7 +283,7 @@ class AppConfigTest extends TestCase {
 
 	public function testHasKeyOnNonExistentKeyReturnsFalse(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEquals(false, $config->hasKey(array_keys($this->baseStruct)[0], 'inexistant-key'));
+		$this->assertEquals(false, $config->hasKey(array_keys(self::$baseStruct)[0], 'inexistant-key'));
 	}
 
 	public function testHasKeyOnUnknownAppReturnsFalse(): void {
@@ -319,7 +319,7 @@ class AppConfigTest extends TestCase {
 	public function testIsSensitiveOnNonExistentKeyThrowsException(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
-		$config->isSensitive(array_keys($this->baseStruct)[0], 'inexistant-key');
+		$config->isSensitive(array_keys(self::$baseStruct)[0], 'inexistant-key');
 	}
 
 	public function testIsSensitiveOnUnknownAppThrowsException(): void {
@@ -362,7 +362,7 @@ class AppConfigTest extends TestCase {
 	public function testIsLazyOnNonExistentKeyThrowsException(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
-		$config->isLazy(array_keys($this->baseStruct)[0], 'inexistant-key');
+		$config->isLazy(array_keys(self::$baseStruct)[0], 'inexistant-key');
 	}
 
 	public function testIsLazyOnUnknownAppThrowsException(): void {
@@ -530,7 +530,7 @@ class AppConfigTest extends TestCase {
 	 *
 	 * @see testGetValueMixed
 	 */
-	public function providerGetValueMixed(): array {
+	public static function providerGetValueMixed(): array {
 		return [
 			// key, value, type
 			['mixed', 'mix', IAppConfig::VALUE_MIXED],

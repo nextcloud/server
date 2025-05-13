@@ -12,7 +12,7 @@ namespace Test\Share;
  * Class Helper
  */
 class HelperTest extends \Test\TestCase {
-	public function expireDateProvider() {
+	public static function expireDateProvider(): array {
 		return [
 			// no default expire date, we take the users expire date
 			[['defaultExpireDateSet' => false], 2000000000, 2000010000, 2000010000],
@@ -54,7 +54,7 @@ class HelperTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataTestCompareServerAddresses() {
+	public static function dataTestCompareServerAddresses(): array {
 		return [
 			['user1', 'http://server1', 'user1', 'http://server1', true],
 			['user1', 'https://server1', 'user1', 'http://server1', true],

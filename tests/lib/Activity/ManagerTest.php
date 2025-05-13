@@ -74,7 +74,7 @@ class ManagerTest extends TestCase {
 		self::invokePrivate($this->activityManager, 'getConsumers');
 	}
 
-	public function getUserFromTokenThrowInvalidTokenData() {
+	public static function getUserFromTokenThrowInvalidTokenData(): array {
 		return [
 			[null, []],
 			['', []],
@@ -98,7 +98,7 @@ class ManagerTest extends TestCase {
 		self::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
 
-	public function getUserFromTokenData() {
+	public static function getUserFromTokenData(): array {
 		return [
 			[null, '123456789012345678901234567890', 'user1'],
 			['user2', null, 'user2'],
@@ -190,7 +190,7 @@ class ManagerTest extends TestCase {
 		$this->activityManager->publish($event);
 	}
 
-	public function dataPublish() {
+	public static function dataPublish(): array {
 		return [
 			[null, ''],
 			['test_author', 'test_author'],

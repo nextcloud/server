@@ -10,7 +10,7 @@ use OCP\RichObjectStrings\Definitions;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
-	public function dataGetDefinition() {
+	public static function dataGetDefinition() {
 		$definitions = new Definitions();
 		$testsuite = [];
 		foreach ($definitions->definitions as $type => $definition) {
@@ -19,7 +19,7 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-	
+
 	public function testGetDefinitionNotExisting(): void {
 		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');

@@ -68,10 +68,10 @@ class NavigationManagerTest extends TestCase {
 		$this->navigationManager->clear(false);
 	}
 
-	public function addArrayData() {
+	public static function addArrayData(): array {
 		return [
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -81,7 +81,7 @@ class NavigationManagerTest extends TestCase {
 					'classes' => '',
 					'unread' => 0
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -94,7 +94,7 @@ class NavigationManagerTest extends TestCase {
 				]
 			],
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -103,7 +103,7 @@ class NavigationManagerTest extends TestCase {
 					'active' => true,
 					'unread' => 0,
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -272,7 +272,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals($expected, $entries);
 	}
 
-	public function providesNavigationConfig() {
+	public static function providesNavigationConfig(): array {
 		$apps = [
 			'core_apps' => [
 				'id' => 'core_apps',

@@ -36,7 +36,7 @@ class InitialStateServiceTest extends TestCase {
 		);
 	}
 
-	public function staticData(): array {
+	public static function staticData(): array {
 		return [
 			['string'],
 			[23],

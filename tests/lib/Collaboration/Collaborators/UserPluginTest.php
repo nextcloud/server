@@ -124,7 +124,7 @@ class UserPluginTest extends TestCase {
 		return $group;
 	}
 
-	public function dataGetUsers() {
+	public function dataGetUsers(): array {
 		return [
 			['test', false, true, [], [], [], [], true, false],
 			['test', false, false, [], [], [], [], true, false],
@@ -508,7 +508,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
-	public function takeOutCurrentUserProvider() {
+	public static function takeOutCurrentUserProvider(): array {
 		$inputUsers = [
 			'alice' => 'Alice',
 			'bob' => 'Bob',
@@ -555,7 +555,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($expectedUIDs, array_keys($users));
 	}
 
-	public function dataSearchEnumeration() {
+	public static function dataSearchEnumeration(): array {
 		return [
 			[
 				'test',

@@ -111,7 +111,7 @@ class InstallerTest extends TestCase {
 		$installer->removeApp(self::$appid);
 	}
 
-	public function updateArrayProvider() {
+	public static function updateArrayProvider(): array {
 		return [
 			// Update available
 			[

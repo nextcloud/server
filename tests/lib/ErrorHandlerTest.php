@@ -16,10 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase {
-	/** @var MockObject */
-	private LoggerInterface $logger;
-
+	private LoggerInterface&MockObject $logger;
 	private ErrorHandler $errorHandler;
+	private int $errorReporting;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,6 +27,13 @@ class ErrorHandlerTest extends TestCase {
 		$this->errorHandler = new ErrorHandler(
 			$this->logger
 		);
+
+		$this->errorReporting = error_reporting(E_ALL);
+	}
+
+	protected function tearDown(): void {
+		error_reporting($this->errorReporting);
+		parent::tearDown();
 	}
 
 	/**

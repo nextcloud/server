@@ -138,10 +138,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function invalidPathProvider() {
+	public static function invalidPathProvider(): array {
 		return [
 			[
 				'../',

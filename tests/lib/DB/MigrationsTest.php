@@ -175,7 +175,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function dataGetMigration() {
+	public static function dataGetMigration(): array {
 		return [
 			['current', '20170130180001'],
 			['prev', '20170130180000'],

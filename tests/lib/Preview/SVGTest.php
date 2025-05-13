@@ -30,7 +30,7 @@ class SVGTest extends Provider {
 		}
 	}
 
-	public function dataGetThumbnailSVGHref(): array {
+	public static function dataGetThumbnailSVGHref(): array {
 		return [
 			['href'],
 			[' href'],
