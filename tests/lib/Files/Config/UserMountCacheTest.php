@@ -9,6 +9,7 @@ namespace Test\Files\Config;
 
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Cache\Cache;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\User\Manager;
@@ -88,25 +89,19 @@ class UserMountCacheTest extends TestCase {
 	private function getStorage($storageId, $rootInternalPath = '') {
 		$rootId = $this->createCacheEntry($rootInternalPath, $storageId);
 
-		$storageCache = $this->getMockBuilder('\OC\Files\Cache\Storage')
-			->disableOriginalConstructor()
-			->getMock();
+		$storageCache = $this->createMock(\OC\Files\Cache\Storage::class);
 		$storageCache->expects($this->any())
 			->method('getNumericId')
 			->willReturn($storageId);
 
-		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
-			->disableOriginalConstructor()
-			->getMock();
+		$cache = $this->createMock(Cache::class);
 		$cache->expects($this->any())
 			->method('getId')
 			->willReturn($rootId);
 		$cache->method('getNumericStorageId')
 			->willReturn($storageId);
 
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->any())
 			->method('getStorageCache')
 			->willReturn($storageCache);
@@ -427,9 +422,9 @@ class UserMountCacheTest extends TestCase {
 		$fileId = $this->createCacheEntry('/foo/bar', 2);
 
 
-		$mount1 = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
+		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/'])
-			->setMethods(['getStorageRootId'])
+			->onlyMethods(['getStorageRootId'])
 			->getMock();
 
 		$mount1->expects($this->any())
@@ -460,9 +455,9 @@ class UserMountCacheTest extends TestCase {
 		$folderId = $this->createCacheEntry('/foo', 2);
 		$fileId = $this->createCacheEntry('/bar/asd', 2);
 
-		$mount1 = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
+		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/foo/'])
-			->setMethods(['getStorageRootId'])
+			->onlyMethods(['getStorageRootId'])
 			->getMock();
 
 		$mount1->expects($this->any())
@@ -509,7 +504,7 @@ class UserMountCacheTest extends TestCase {
 
 		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/u1/'])
-			->setMethods(['getStorageRootId', 'getNumericStorageId'])
+			->onlyMethods(['getStorageRootId', 'getNumericStorageId'])
 			->getMock();
 
 		$mount1->expects($this->any())

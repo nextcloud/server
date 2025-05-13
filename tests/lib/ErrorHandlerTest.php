@@ -34,7 +34,7 @@ class ErrorHandlerTest extends TestCase {
 	 * provide username, password combinations for testRemovePassword
 	 * @return array
 	 */
-	public function passwordProvider() {
+	public static function passwordProvider(): array {
 		return [
 			['us:er', 'pass@word'],
 			['us:er', 'password'],
