@@ -375,6 +375,47 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
+	public function testExecuteSetProfileProperty() {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+		]);
+
+		$appName = 'profile';
+		$propertyKey = 'address';
+		$propertyValue = 'Barcelona';
+
+		$this->consoleInput->expects($this->atLeast(4))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', $appName],
+				['key', $propertyKey],
+				['value', $propertyValue],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		// profile properties are not stored in user settings
+		$this->config->expects($this->never())
+			->method('getUserValue');
+
+		$mocks = $this->setupProfilePropertiesMock([$propertyKey => $propertyValue]);
+
+		$mocks['profilePropertiesMocks'][0]->expects($this->once())
+			->method('setValue')
+			->with($propertyValue);
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($mocks['accountMock']);
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
 	public static function dataExecuteSet(): array {
 		return [
 			['config', false, null, 0],
