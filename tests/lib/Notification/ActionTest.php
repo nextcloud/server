@@ -20,7 +20,7 @@ class ActionTest extends TestCase {
 		$this->action = new Action();
 	}
 
-	public function dataSetLabel() {
+	public static function dataSetLabel(): array {
 		return [
 			['test1'],
 			[str_repeat('a', 1)],
@@ -38,7 +38,7 @@ class ActionTest extends TestCase {
 		$this->assertSame($label, $this->action->getLabel());
 	}
 
-	public function dataSetLabelInvalid() {
+	public static function dataSetLabelInvalid(): array {
 		return [
 			[''],
 			[str_repeat('a', 33)],
@@ -56,7 +56,7 @@ class ActionTest extends TestCase {
 		$this->action->setLabel($label);
 	}
 
-	public function dataSetParsedLabel() {
+	public static function dataSetParsedLabel(): array {
 		return [
 			['test1'],
 			[str_repeat('a', 1)],
@@ -74,7 +74,7 @@ class ActionTest extends TestCase {
 		$this->assertSame($label, $this->action->getParsedLabel());
 	}
 
-	public function dataSetParsedLabelInvalid() {
+	public static function dataSetParsedLabelInvalid(): array {
 		return [
 			[''],
 		];
@@ -91,7 +91,7 @@ class ActionTest extends TestCase {
 		$this->action->setParsedLabel($label);
 	}
 
-	public function dataSetLink() {
+	public static function dataSetLink(): array {
 		return [
 			['test1', 'GET'],
 			['test2', 'POST'],
@@ -112,7 +112,7 @@ class ActionTest extends TestCase {
 		$this->assertSame($type, $this->action->getRequestType());
 	}
 
-	public function dataSetLinkInvalid() {
+	public static function dataSetLinkInvalid(): array {
 		return [
 			// Invalid link
 			['', 'GET'],
@@ -135,7 +135,7 @@ class ActionTest extends TestCase {
 		$this->action->setLink($link, $type);
 	}
 
-	public function dataSetPrimary() {
+	public static function dataSetPrimary(): array {
 		return [
 			[true],
 			[false],

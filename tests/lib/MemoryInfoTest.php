@@ -37,12 +37,7 @@ class MemoryInfoTest extends TestCase {
 		ini_set('memory_limit', $this->iniSettingBeforeTest);
 	}
 
-	/**
-	 * Provides test data.
-	 *
-	 * @return array
-	 */
-	public function getMemoryLimitTestData(): array {
+	public static function getMemoryLimitTestData(): array {
 		return [
 			'unlimited' => ['-1', -1,],
 			'524288000 bytes' => ['524288000', 524288000,],
@@ -65,12 +60,7 @@ class MemoryInfoTest extends TestCase {
 		self::assertEquals($expected, $memoryInfo->getMemoryLimit());
 	}
 
-	/**
-	 * Provides sufficient memory limit test data.
-	 *
-	 * @return array
-	 */
-	public function getSufficientMemoryTestData(): array {
+	public static function getSufficientMemoryTestData(): array {
 		return [
 			'unlimited' => [-1, true,],
 			'512M' => [512 * 1024 * 1024, true,],
@@ -85,12 +75,11 @@ class MemoryInfoTest extends TestCase {
 	 * @param int $memoryLimit The memory limit
 	 * @param bool $expected If the memory limit is sufficient.
 	 * @dataProvider getSufficientMemoryTestData
-	 * @return void
 	 */
 	public function testIsMemoryLimitSufficient(int $memoryLimit, bool $expected): void {
 		/* @var MemoryInfo|MockObject $memoryInfo */
 		$memoryInfo = $this->getMockBuilder(MemoryInfo::class)
-			->setMethods(['getMemoryLimit',])
+			->onlyMethods(['getMemoryLimit',])
 			->getMock();
 
 		$memoryInfo

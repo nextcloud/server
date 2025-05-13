@@ -30,7 +30,7 @@ class NotificationTest extends TestCase {
 		$this->notification = new Notification($this->validator, $this->richTextFormatter);
 	}
 
-	protected function dataValidString($maxLength) {
+	protected static function dataValidString($maxLength): array {
 		$dataSets = [
 			['test1'],
 			['1564'],
@@ -42,7 +42,7 @@ class NotificationTest extends TestCase {
 		return $dataSets;
 	}
 
-	protected function dataInvalidString($maxLength) {
+	protected static function dataInvalidString($maxLength): array {
 		$dataSets = [
 			['']
 		];
@@ -52,8 +52,8 @@ class NotificationTest extends TestCase {
 		return $dataSets;
 	}
 
-	public function dataSetApp() {
-		return $this->dataValidString(32);
+	public static function dataSetApp(): array {
+		return self::dataValidString(32);
 	}
 
 	/**
@@ -66,8 +66,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($app, $this->notification->getApp());
 	}
 
-	public function dataSetAppInvalid() {
-		return $this->dataInvalidString(32);
+	public static function dataSetAppInvalid(): array {
+		return self::dataInvalidString(32);
 	}
 
 	/**
@@ -82,8 +82,8 @@ class NotificationTest extends TestCase {
 	}
 
 
-	public function dataSetUser() {
-		return $this->dataValidString(64);
+	public static function dataSetUser(): array {
+		return self::dataValidString(64);
 	}
 
 	/**
@@ -96,8 +96,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($user, $this->notification->getUser());
 	}
 
-	public function dataSetUserInvalid() {
-		return $this->dataInvalidString(64);
+	public static function dataSetUserInvalid(): array {
+		return self::dataInvalidString(64);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class NotificationTest extends TestCase {
 		$this->notification->setUser($user);
 	}
 
-	public function dataSetDateTime() {
+	public static function dataSetDateTime(): array {
 		$past = new \DateTime();
 		$past->sub(new \DateInterval('P1Y'));
 		$current = new \DateTime();
@@ -135,7 +135,7 @@ class NotificationTest extends TestCase {
 		$this->assertSame($dateTime, $this->notification->getDateTime());
 	}
 
-	public function dataSetDateTimeZero() {
+	public static function dataSetDateTimeZero(): array {
 		$nineTeenSeventy = new \DateTime();
 		$nineTeenSeventy->setTimestamp(0);
 		return [
@@ -155,7 +155,7 @@ class NotificationTest extends TestCase {
 		$this->notification->setDateTime($dateTime);
 	}
 
-	public function dataSetObject() {
+	public static function dataSetObject(): array {
 		return [
 			['a', '21'],
 			[str_repeat('a', 64), '42'],
@@ -175,11 +175,11 @@ class NotificationTest extends TestCase {
 		$this->assertSame($id, $this->notification->getObjectId());
 	}
 
-	public function dataSetObjectTypeInvalid() {
-		return $this->dataInvalidString(64);
+	public static function dataSetObjectTypeInvalid(): array {
+		return self::dataInvalidString(64);
 	}
 
-	public function dataSetObjectIdInvalid() {
+	public static function dataSetObjectIdInvalid(): array {
 		return [
 			[''],
 			[str_repeat('a', 64 + 1)],
@@ -198,7 +198,7 @@ class NotificationTest extends TestCase {
 		$this->notification->setObject('object', $id);
 	}
 
-	public function dataSetSubject() {
+	public static function dataSetSubject(): array {
 		return [
 			['a', []],
 			[str_repeat('a', 64), [str_repeat('a', 160)]],
@@ -219,8 +219,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($parameters, $this->notification->getSubjectParameters());
 	}
 
-	public function dataSetSubjectInvalidSubject() {
-		return $this->dataInvalidString(64);
+	public static function dataSetSubjectInvalidSubject(): array {
+		return self::dataInvalidString(64);
 	}
 
 	/**
@@ -234,8 +234,8 @@ class NotificationTest extends TestCase {
 		$this->notification->setSubject($subject, []);
 	}
 
-	public function dataSetParsedSubject() {
-		return $this->dataValidString(false);
+	public static function dataSetParsedSubject(): array {
+		return self::dataValidString(false);
 	}
 
 	/**
@@ -248,8 +248,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($subject, $this->notification->getParsedSubject());
 	}
 
-	public function dataSetParsedSubjectInvalid() {
-		return $this->dataInvalidString(false);
+	public static function dataSetParsedSubjectInvalid(): array {
+		return self::dataInvalidString(false);
 	}
 
 	/**
@@ -263,7 +263,7 @@ class NotificationTest extends TestCase {
 		$this->notification->setParsedSubject($subject);
 	}
 
-	public function dataSetMessage() {
+	public static function dataSetMessage(): array {
 		return [
 			['a', []],
 			[str_repeat('a', 64), [str_repeat('a', 160)]],
@@ -284,8 +284,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($parameters, $this->notification->getMessageParameters());
 	}
 
-	public function dataSetMessageInvalidMessage() {
-		return $this->dataInvalidString(64);
+	public static function dataSetMessageInvalidMessage(): array {
+		return self::dataInvalidString(64);
 	}
 
 	/**
@@ -299,8 +299,8 @@ class NotificationTest extends TestCase {
 		$this->notification->setMessage($message, []);
 	}
 
-	public function dataSetParsedMessage() {
-		return $this->dataValidString(false);
+	public static function dataSetParsedMessage(): array {
+		return self::dataValidString(false);
 	}
 
 	/**
@@ -313,8 +313,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($message, $this->notification->getParsedMessage());
 	}
 
-	public function dataSetParsedMessageInvalid() {
-		return $this->dataInvalidString(false);
+	public static function dataSetParsedMessageInvalid(): array {
+		return self::dataInvalidString(false);
 	}
 
 	/**
@@ -328,8 +328,8 @@ class NotificationTest extends TestCase {
 		$this->notification->setParsedMessage($message);
 	}
 
-	public function dataSetLink() {
-		return $this->dataValidString(4000);
+	public static function dataSetLink(): array {
+		return self::dataValidString(4000);
 	}
 
 	/**
@@ -342,8 +342,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($link, $this->notification->getLink());
 	}
 
-	public function dataSetLinkInvalid() {
-		return $this->dataInvalidString(4000);
+	public static function dataSetLinkInvalid(): array {
+		return self::dataInvalidString(4000);
 	}
 
 	/**
@@ -357,8 +357,8 @@ class NotificationTest extends TestCase {
 		$this->notification->setLink($link);
 	}
 
-	public function dataSetIcon() {
-		return $this->dataValidString(4000);
+	public static function dataSetIcon(): array {
+		return self::dataValidString(4000);
 	}
 
 	/**
@@ -371,8 +371,8 @@ class NotificationTest extends TestCase {
 		$this->assertSame($icon, $this->notification->getIcon());
 	}
 
-	public function dataSetIconInvalid() {
-		return $this->dataInvalidString(4000);
+	public static function dataSetIconInvalid(): array {
+		return self::dataInvalidString(4000);
 	}
 
 	/**
@@ -508,7 +508,7 @@ class NotificationTest extends TestCase {
 		$this->assertEquals([$action2, $action1, $action1], $this->notification->getParsedActions());
 	}
 
-	public function dataIsValid() {
+	public static function dataIsValid(): array {
 		return [
 			[false, '', false],
 			[true, '', false],
@@ -527,7 +527,7 @@ class NotificationTest extends TestCase {
 	public function testIsValid($isValidCommon, $subject, $expected): void {
 		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
-			->setMethods([
+			->onlyMethods([
 				'isValidCommon',
 				'getSubject',
 				'getParsedSubject',
@@ -560,7 +560,7 @@ class NotificationTest extends TestCase {
 	public function testIsParsedValid($isValidCommon, $subject, $expected): void {
 		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
-			->setMethods([
+			->onlyMethods([
 				'isValidCommon',
 				'getParsedSubject',
 				'getSubject',
@@ -583,7 +583,7 @@ class NotificationTest extends TestCase {
 		$this->assertEquals($expected, $notification->isValidParsed());
 	}
 
-	public function dataIsValidCommon() {
+	public static function dataIsValidCommon(): array {
 		return [
 			['', '', 0, '', '', false],
 			['app', '', 0, '', '', false],
@@ -607,7 +607,7 @@ class NotificationTest extends TestCase {
 	public function testIsValidCommon($app, $user, $timestamp, $objectType, $objectId, $expected): void {
 		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
-			->setMethods([
+			->onlyMethods([
 				'getApp',
 				'getUser',
 				'getDateTime',
