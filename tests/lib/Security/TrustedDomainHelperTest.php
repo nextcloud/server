@@ -63,7 +63,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function trustedDomainDataProvider() {
+	public static function trustedDomainDataProvider(): array {
 		$trustedHostTestList = [
 			'host.one.test',
 			'host.two.test',

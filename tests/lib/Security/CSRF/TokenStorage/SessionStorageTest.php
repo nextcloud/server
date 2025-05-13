@@ -28,7 +28,7 @@ class SessionStorageTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function getTokenDataProvider() {
+	public static function getTokenDataProvider(): array {
 		return [
 			[
 				'',

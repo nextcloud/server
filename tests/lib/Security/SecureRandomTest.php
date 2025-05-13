@@ -13,7 +13,7 @@ namespace Test\Security;
 use OC\Security\SecureRandom;
 
 class SecureRandomTest extends \Test\TestCase {
-	public function stringGenerationProvider() {
+	public static function stringGenerationProvider(): array {
 		return [
 			[1, 1],
 			[128, 128],
@@ -24,7 +24,7 @@ class SecureRandomTest extends \Test\TestCase {
 		];
 	}
 
-	public static function charCombinations() {
+	public static function charCombinations(): array {
 		return [
 			['CHAR_LOWER', '[a-z]'],
 			['CHAR_UPPER', '[A-Z]'],
@@ -76,7 +76,7 @@ class SecureRandomTest extends \Test\TestCase {
 		$this->assertSame(1, $matchesRegex);
 	}
 
-	public static function invalidLengths() {
+	public static function invalidLengths(): array {
 		return [
 			[0],
 			[-1],
