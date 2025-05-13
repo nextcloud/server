@@ -15,21 +15,14 @@ use OCP\Activity\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderTest extends TestCase {
-
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityManager;
-
-	/** @var Provider */
-	private $provider;
+	private IFactory&MockObject $l10n;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IManager&MockObject $activityManager;
+	private Provider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,7 +45,7 @@ class ProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function subjectData() {
+	public static function subjectData(): array {
 		return [
 			['codes_generated'],
 		];
@@ -61,7 +54,7 @@ class ProviderTest extends TestCase {
 	/**
 	 * @dataProvider subjectData
 	 */
-	public function testParse($subject): void {
+	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);

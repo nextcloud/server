@@ -29,9 +29,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-
-	private Admin $admin;
-
 	private IFactory&MockObject $l10nFactory;
 	private IConfig&MockObject $config;
 	private IAppConfig&MockObject $appConfig;
@@ -43,6 +40,7 @@ class AdminTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IInitialState&MockObject $initialState;
 	private ServerVersion&MockObject $serverVersion;
+	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -395,7 +393,7 @@ class AdminTest extends TestCase {
 		$this->assertSame(11, $this->admin->getPriority());
 	}
 
-	public function changesProvider() {
+	public static function changesProvider(): array {
 		return [
 			[ #0, all info, en
 				[

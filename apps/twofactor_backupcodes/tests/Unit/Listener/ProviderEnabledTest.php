@@ -15,11 +15,12 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderEnabledTest extends TestCase {
-	private IRegistry $registy;
-	private IJobList $jobList;
+	private IRegistry&MockObject $registy;
+	private IJobList&MockObject $jobList;
 	private ProviderEnabled $listener;
 
 	protected function setUp(): void {

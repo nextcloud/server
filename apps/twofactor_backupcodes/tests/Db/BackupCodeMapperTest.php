@@ -19,15 +19,9 @@ use Test\TestCase;
  * @group DB
  */
 class BackupCodeMapperTest extends TestCase {
-
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var BackupCodeMapper */
-	private $mapper;
-
-	/** @var string */
-	private $testUID = 'test123456';
+	private IDBConnection $db;
+	private BackupCodeMapper $mapper;
+	private string $testUID = 'test123456';
 
 	private function resetDB() {
 		$qb = $this->db->getQueryBuilder();

@@ -8,13 +8,12 @@ namespace OCA\Comments\Tests\Unit\Collaboration;
 use OCA\Comments\Collaboration\CommentersSorter;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-	/** @var CommentersSorter */
-	protected $sorter;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected CommentersSorter $sorter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,7 +54,7 @@ class CommentersSorterTest extends TestCase {
 		$this->assertEquals($data['expected'], $workArray);
 	}
 
-	public function sortDataProvider() {
+	public static function sortDataProvider(): array {
 		return [[
 			[
 				#1 – sort properly and otherwise keep existing order

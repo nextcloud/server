@@ -21,12 +21,8 @@ use Test\TestCase;
  * @group DB
  */
 class RecentContactMapperTest extends TestCase {
-
-	/** @var RecentContactMapper */
-	private $recentContactMapper;
-
-	/** @var ITimeFactory */
-	private $time;
+	private RecentContactMapper $recentContactMapper;
+	private ITimeFactory $time;
 
 	protected function setUp(): void {
 		parent::setUp();

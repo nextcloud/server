@@ -10,15 +10,12 @@ namespace OCA\UserStatus\Tests;
 
 use OCA\UserStatus\Capabilities;
 use OCP\IEmojiHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
-
-	/** @var IEmojiHelper|\PHPUnit\Framework\MockObject\MockObject */
-	private $emojiHelper;
-
-	/** @var Capabilities */
-	private $capabilities;
+	private IEmojiHelper&MockObject $emojiHelper;
+	private Capabilities $capabilities;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,8 +25,6 @@ class CapabilitiesTest extends TestCase {
 	}
 
 	/**
-	 * @param bool $supportsEmojis
-	 *
 	 * @dataProvider getCapabilitiesDataProvider
 	 */
 	public function testGetCapabilities(bool $supportsEmojis): void {
@@ -46,7 +41,7 @@ class CapabilitiesTest extends TestCase {
 		], $this->capabilities->getCapabilities());
 	}
 
-	public function getCapabilitiesDataProvider(): array {
+	public static function getCapabilitiesDataProvider(): array {
 		return [
 			[true],
 			[false],

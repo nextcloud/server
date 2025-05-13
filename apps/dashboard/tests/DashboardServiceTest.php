@@ -40,7 +40,7 @@ class DashboardServiceTest extends TestCase {
 		);
 	}
 
-	public function testGetBirthdate() {
+	public function testGetBirthdate(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->method('get')
 			->willReturn($user);
@@ -61,7 +61,7 @@ class DashboardServiceTest extends TestCase {
 		$this->assertEquals('2024-12-10T00:00:00.000Z', $birthdate);
 	}
 
-	public function testGetBirthdatePropertyDoesNotExist() {
+	public function testGetBirthdatePropertyDoesNotExist(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->method('get')
 			->willReturn($user);
@@ -75,7 +75,7 @@ class DashboardServiceTest extends TestCase {
 		$this->assertEquals('', $birthdate);
 	}
 
-	public function testGetBirthdateUserNotFound() {
+	public function testGetBirthdateUserNotFound(): void {
 		$this->userManager->method('get')
 			->willReturn(null);
 
@@ -84,7 +84,7 @@ class DashboardServiceTest extends TestCase {
 		$this->assertEquals('', $birthdate);
 	}
 
-	public function testGetBirthdateNoUserId() {
+	public function testGetBirthdateNoUserId(): void {
 		$service = new DashboardService(
 			$this->config,
 			null,
