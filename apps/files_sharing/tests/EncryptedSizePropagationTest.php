@@ -17,8 +17,12 @@ use Test\Traits\EncryptionTrait;
 class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 
-	protected function setupUser($name, $password = '') {
+	protected function setUp(): void {
+		parent::setUp();
 		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+	}
+
+	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
 		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
