@@ -47,8 +47,10 @@ abstract class LogDetails {
 			$userAgent = '--';
 		}
 		$version = $this->config->getValue('version', '');
+		$clientReqId = $request->getHeader('X-Request-Id');
 		$entry = compact(
 			'reqId',
+			'clientReqId',
 			'level',
 			'time',
 			'remoteAddr',
