@@ -73,11 +73,12 @@ class CachingRouter extends Router {
 	 */
 	public function findMatchingRoute(string $url): array {
 		$this->eventLogger->start('cacheroute:match');
-		$cachedRoutes = $this->cache->get('root:');
+		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
+		$cachedRoutes = $this->cache->get($key);
 		if (!$cachedRoutes) {
 			parent::loadRoutes();
 			$cachedRoutes = $this->serializeRouteCollection($this->root);
-			$this->cache->set('root:', $cachedRoutes, 3600);
+			$this->cache->set($key, $cachedRoutes, 3600);
 		}
 		$matcher = new CompiledUrlMatcher($cachedRoutes, $this->context);
 		$this->eventLogger->start('cacheroute:url:match');
