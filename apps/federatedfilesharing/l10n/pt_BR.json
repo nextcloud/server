@@ -22,7 +22,7 @@
     "Federated file sharing" : "Compartilhamento federado de arquivos",
     "Provide federated file sharing across servers" : "Fornecer compartilhamento federado entre servidores",
     "Confirm data upload to lookup server" : "Confirmar o upload de dados para o servidor de pesquisa",
-    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Quando ativadas, todas as propriedades da conta (por exemplo, endereço de e-mail) com visibilidade de escopo definida como \"publicada\" serão automaticamente sincronizadas e transmitidas para um sistema externo e disponibilizadas em um catálogo de endereços público e global.",
+    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Quando ativadas, todas as propriedades da conta (p. ex., endereço de e-mail) com visibilidade de escopo definida como \"publicado\" serão automaticamente sincronizadas e transmitidas para um sistema externo e disponibilizadas em um catálogo de endereços público e global.",
     "Disable upload" : "Desativar upload",
     "Enable data upload" : "Ativar upload de dados",
     "Confirm querying lookup server" : "Confirmar a consulta ao servidor de pesquisa",
