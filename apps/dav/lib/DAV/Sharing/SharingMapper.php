@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\DAV\Sharing;
 
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -83,6 +84,19 @@ class SharingMapper {
 		$query->executeStatement();
 	}
 
+	public function shareWithToken(int $resourceId, string $resourceType, int $access, string $principal, string $token): void {
+		$query = $this->db->getQueryBuilder();
+		$query->insert('dav_shares')
+			->values([
+				'principaluri' => $query->createNamedParameter($principal),
+				'type' => $query->createNamedParameter($resourceType),
+				'access' => $query->createNamedParameter($access),
+				'resourceid' => $query->createNamedParameter($resourceId),
+				'token' => $query->createNamedParameter($token),
+			]);
+		$query->executeStatement();
+	}
+
 	public function deleteShare(int $resourceId, string $resourceType, string $principal): void {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares');
@@ -133,5 +147,56 @@ class SharingMapper {
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
+	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
+	public function hasShareWithPrincipalUri(string $resourceType, string $principalUri): bool {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->selectDistinct($query->func()->count('*'))
+			->from('dav_shares')
+			->where($query->expr()->eq(
+				'principaluri',
+				$query->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->andWhere($query->expr()->eq(
+				'type',
+				$query->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->executeQuery();
+
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+
+		return $count > 0;
+	}
+
+	/**
+	 * @return array{principaluri: string}[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getPrincipalUrisByPrefix(string $resourceType, string $prefix): array {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->selectDistinct('principaluri')
+			->from('dav_shares')
+			->where($query->expr()->like(
+				'principaluri',
+				$query->createNamedParameter("$prefix/%", IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->andWhere($query->expr()->eq(
+				'type',
+				$query->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR)),
+				IQueryBuilder::PARAM_STR,
+			)
+			->executeQuery();
+
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
 	}
 }

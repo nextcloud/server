@@ -12,6 +12,8 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Generator;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -108,8 +110,11 @@ use function time;
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
 	use TTransactional;
 
+	public const NS_Nextcloud = 'http://nextcloud.com/ns';
+
 	public const CALENDAR_TYPE_CALENDAR = 0;
 	public const CALENDAR_TYPE_SUBSCRIPTION = 1;
+	public const CALENDAR_TYPE_FEDERATED = 2;
 
 	public const PERSONAL_CALENDAR_URI = 'personal';
 	public const PERSONAL_CALENDAR_NAME = 'Personal';
@@ -208,6 +213,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IEventDispatcher $dispatcher,
 		private IConfig $config,
 		private Sharing\Backend $calendarSharingBackend,
+		private FederatedCalendarMapper $federatedCalendarMapper,
 		private bool $legacyEndpoint = false,
 	) {
 	}
@@ -787,6 +793,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->rowToSubscription($row, $subscription);
 	}
 
+	public const PROP_FEDERATED = '{' . self::NS_Nextcloud . '}federated';
+	public const PROP_FEDERATION_REMOTE = '{' . self::NS_Nextcloud . '}federation-remote';
+	public const PROP_FEDERATION_TOKEN = '{' . self::NS_Nextcloud . '}federation-token';
+
 	/**
 	 * Creates a new calendar for a principal.
 	 *
@@ -830,6 +840,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
 			$values['transparent'] = (int)($properties[$transp]->getValue() === 'transparent');
+		}
+
+		if (isset($properties[self::PROP_FEDERATED])) {
+			$values['federated'] = true;
+		}
+		if (isset($properties[self::PROP_FEDERATION_TOKEN])) {
+			$values['federation_token'] = $properties[self::PROP_FEDERATION_TOKEN];
+		}
+		if (isset($properties[self::PROP_FEDERATION_REMOTE])) {
+			$values['remote'] = $properties[self::PROP_FEDERATION_REMOTE];
 		}
 
 		foreach ($this->propertyMap as $xmlName => [$dbName, $type]) {
@@ -1408,10 +1428,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-			} else {
+			} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CachedCalendarObjectCreatedEvent($calendarId, $subscriptionRow, [], $objectRow));
+			} elseif ($calendarType === self::CALENDAR_TYPE_FEDERATED) {
+				// TODO: implement custom event for federated calendars
 			}
 
 			return '"' . $extraData['etag'] . '"';
@@ -1468,10 +1490,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$shares = $this->getShares($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-				} else {
+				} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CachedCalendarObjectUpdatedEvent($calendarId, $subscriptionRow, [], $objectRow));
+				} elseif ($calendarType === self::CALENDAR_TYPE_FEDERATED) {
+					// TODO: implement custom event for federated calendars
 				}
 			}
 
@@ -1976,8 +2000,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
 
+		// TODO: improve this
 		if (isset($calendarInfo['source'])) {
 			$calendarType = self::CALENDAR_TYPE_SUBSCRIPTION;
+		} elseif (isset($calendarInfo['federated'])) {
+			$calendarType = self::CALENDAR_TYPE_FEDERATED;
 		} else {
 			$calendarType = self::CALENDAR_TYPE_CALENDAR;
 		}
@@ -3192,6 +3219,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->calendarSharingBackend->getShares($resourceId);
 	}
 
+	public function getSharesByShareePrincipal(string $principal): array {
+		return $this->calendarSharingBackend->getSharesByShareePrincipal($principal);
+	}
+
 	public function preloadShares(array $resourceIds): void {
 		$this->calendarSharingBackend->preloadShares($resourceIds);
 	}
@@ -3257,6 +3288,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function applyShareAcl(int $resourceId, array $acl): array {
 		$shares = $this->calendarSharingBackend->getShares($resourceId);
 		return $this->calendarSharingBackend->applyShareAcl($shares, $acl);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getRemoteUserPrincipalsWithAccess(int $resourceId): array {
+		/*
+		$shares = $this->calendarSharingBackend->getShares($resourceId);
+		return array_map(static function (array $share): string {
+			$token = $share['{http://nextcloud.com/ns}token'];
+			if ($token)
+		}, $shares);
+		*/
+
+		return [];
 	}
 
 	/**
@@ -3685,6 +3731,23 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					[$principal]
 				));
 			}
+		}, $this->db);
+	}
+
+	public function getFederatedCalendarsForUser(string $principalUri): array {
+		return $this->atomic(function () use ($principalUri) {
+			$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri($principalUri);
+			return array_map(
+				static fn (FederatedCalendarEntity $entity) => $entity->toCalendarInfo(),
+				$federatedCalendars,
+			);
+		}, $this->db);
+	}
+
+	public function getFederatedCalendarByUri(string $principalUri, string $uri): ?array {
+		return $this->atomic(function () use ($principalUri, $uri) {
+			$federatedCalendar = $this->federatedCalendarMapper->findByUri($principalUri, $uri);
+			return $federatedCalendar?->toCalendarInfo();
 		}, $this->db);
 	}
 }

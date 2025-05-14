@@ -11,8 +11,11 @@ namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\CachedSubscriptionProvider;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
+use OCA\DAV\CalDAV\Federation\CalendarFederationProvider;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -36,6 +39,7 @@ use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Listener\ActivityUpdaterListener;
@@ -51,6 +55,7 @@ use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\DavAdminSettingsListener;
 use OCA\DAV\Listener\OutOfOfficeListener;
+use OCA\DAV\Listener\SabrePluginAuthInitListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
 use OCA\DAV\Listener\UserEventsListener;
@@ -82,6 +87,8 @@ use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
+use OCP\Federation\ICloudFederationProvider;
+use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
@@ -198,10 +205,13 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserChangedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserUpdatedEvent::class, UserEventsListener::class);
 
+		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
 		$context->registerCalendarProvider(CachedSubscriptionProvider::class);
+		//$context->registerCalendarProvider(FederatedCalendarProvider::class);
 
 		$context->registerUserMigrator(CalendarMigrator::class);
 		$context->registerUserMigrator(ContactsMigrator::class);
@@ -213,7 +223,6 @@ class Application extends App implements IBootstrap {
 		$context->registerDeclarativeSettings(SystemAddressBookSettings::class);
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, DavAdminSettingsListener::class);
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DavAdminSettingsListener::class);
-
 	}
 
 	public function boot(IBootContext $context): void {
@@ -223,6 +232,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn($this->registerContactsManager(...));
 		$context->injectFn($this->registerCalendarManager(...));
 		$context->injectFn($this->registerCalendarReminders(...));
+		$context->injectFn($this->registerCloudFederationProvider(...));
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
@@ -278,5 +288,15 @@ class Application extends App implements IBootstrap {
 		} catch (Throwable $ex) {
 			$logger->error($ex->getMessage(), ['exception' => $ex]);
 		}
+	}
+
+	public function registerCloudFederationProvider(
+		ICloudFederationProviderManager $manager,
+	): void {
+		$manager->addCloudFederationProvider(
+			CalendarFederationProvider::PROVIDER_ID,
+			'Calendar Federation',
+			static fn() => Server::get(CalendarFederationProvider::class),
+		);
 	}
 }

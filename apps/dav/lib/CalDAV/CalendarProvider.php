@@ -8,6 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Federation\FederatedCalendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
@@ -23,20 +26,27 @@ class CalendarProvider implements ICalendarProvider {
 		private IConfig $config,
 		private LoggerInterface $logger,
 		private PropertyMapper $propertyMapper,
+		private FederatedCalendarMapper $federatedCalendarMapper,
 	) {
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];
+		$federatedCalendarInfos = $this->calDavBackend->getFederatedCalendarsForUser($principalUri);
 
 		if (!empty($calendarUris)) {
 			$calendarInfos = array_filter($calendarInfos, function ($calendar) use ($calendarUris) {
 				return in_array($calendar['uri'], $calendarUris);
 			});
+
+			$federatedCalendarInfos = array_filter($federatedCalendarInfos, function ($federatedCalendar) use ($calendarUris) {
+				return in_array($federatedCalendar['uri'], $calendarUris);
+			});
 		}
 
 		$iCalendars = [];
+
 		foreach ($calendarInfos as $calendarInfo) {
 			$calendarInfo = array_merge($calendarInfo, $this->getAdditionalProperties($calendarInfo['principaluri'], $calendarInfo['uri']));
 			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
@@ -46,6 +56,20 @@ class CalendarProvider implements ICalendarProvider {
 				$this->calDavBackend,
 			);
 		}
+
+		foreach ($federatedCalendarInfos as $calendarInfo) {
+			$calendarInfo = array_merge($calendarInfo, $this->getAdditionalProperties($calendarInfo['principaluri'], $calendarInfo['uri']));
+			$calendar = new FederatedCalendar(
+				$this->calDavBackend,
+				$calendarInfo,
+				$this->l10n,
+				$this->config,
+				$this->logger,
+				$this->federatedCalendarMapper,
+			);
+			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);
+		}
+
 		return $iCalendars;
 	}
 
