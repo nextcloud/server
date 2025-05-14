@@ -5,7 +5,7 @@
  */
 namespace OCA\DAV\Files\Sharing;
 
-use OC\Files\View;
+use OCP\Files\Folder;
 use OCP\Share\IShare;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ServerPlugin;
@@ -17,13 +17,8 @@ use Sabre\HTTP\ResponseInterface;
  */
 class FilesDropPlugin extends ServerPlugin {
 
-	private ?View $view = null;
 	private ?IShare $share = null;
 	private bool $enabled = false;
-
-	public function setView(View $view): void {
-		$this->view = $view;
-	}
 
 	public function setShare(IShare $share): void {
 		$this->share = $share;
@@ -32,7 +27,6 @@ class FilesDropPlugin extends ServerPlugin {
 	public function enable(): void {
 		$this->enabled = true;
 	}
-
 
 	/**
 	 * This initializes the plugin.
@@ -45,7 +39,12 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function onMkcol(RequestInterface $request, ResponseInterface $response) {
-		if (!$this->enabled || $this->share === null || $this->view === null) {
+		if (!$this->enabled || $this->share === null) {
+			return;
+		}
+
+		$node = $this->share->getNode();
+		if (!($node instanceof Folder)) {
 			return;
 		}
 
@@ -57,7 +56,12 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		if (!$this->enabled || $this->share === null || $this->view === null) {
+		if (!$this->enabled || $this->share === null) {
+			return;
+		}
+
+		$node = $this->share->getNode();
+		if (!($node instanceof Folder)) {
 			return;
 		}
 
@@ -132,14 +136,16 @@ class FilesDropPlugin extends ServerPlugin {
 			if ($folder === '') {
 				continue;
 			} // skip empty parts
-			if (!$this->view->file_exists($folder)) {
-				$this->view->mkdir($folder);
+			if (!$node->nodeExists($folder)) {
+				$node->newFolder($folder);
 			}
 		}
 
 		// Finally handle conflicts on the end files
-		$noConflictPath = \OC_Helper::buildNotExistingFileNameForView(dirname($relativePath), basename($relativePath), $this->view);
-		$path = '/files/' . $token . '/' . $noConflictPath;
+		/** @var Folder */
+		$folder = $node->get(dirname($relativePath));
+		$uniqueName = $folder->getNonExistingName(basename(($relativePath)));
+		$path = '/files/' . $token . '/' . dirname($relativePath) . '/' . $uniqueName;
 		$url = $request->getBaseUrl() . str_replace('//', '/', $path);
 		$request->setUrl($url);
 	}

@@ -131,11 +131,9 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	if (!$isReadable) {
 		$filesDropPlugin->enable();
 	}
-
-	$view = new View($node->getPath());
-	$filesDropPlugin->setView($view);
 	$filesDropPlugin->setShare($share);
 
+	$view = new View($node->getPath());
 	return $view;
 });
 
