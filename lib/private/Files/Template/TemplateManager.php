@@ -199,37 +199,20 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return list<Template>
 	 */
-	private function getTemplateFiles(TemplateFileCreator $type, bool $withFields = false): array {
-		$templates = [];
-		foreach ($this->getRegisteredProviders() as $provider) {
-			foreach ($type->getMimetypes() as $mimetype) {
-				foreach ($provider->getCustomTemplates($mimetype) as $template) {
-					$templates[] = $template;
-				}
-			}
-		}
-		try {
-			$userTemplateFolder = $this->getTemplateFolder();
-		} catch (\Exception $e) {
-			return $templates;
-		}
-		foreach ($type->getMimetypes() as $mimetype) {
-			foreach ($userTemplateFolder->searchByMime($mimetype) as $templateFile) {
-				$template = new Template(
-					'user',
-					$this->rootFolder->getUserFolder($this->userId)->getRelativePath($templateFile->getPath()),
-					$templateFile
-				);
-				$template->setHasPreview($this->previewManager->isAvailable($templateFile));
-				$templates[] = $template;
-			}
-		}
+	private function getTemplateFiles(TemplateFileCreator $type): array {
+		$templates = array_merge(
+			$this->getProviderTemplates($type),
+			$this->getUserTemplates($type)
+		);
 
-		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates, $withFields));
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates, false));
 
 		return $templates;
 	}
 
+	/**
+	 * @return list<Template>
+	 */
 	private function getProviderTemplates(TemplateFileCreator $type): array {
 		$templates = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
@@ -243,6 +226,9 @@ class TemplateManager implements ITemplateManager {
 		return $templates;
 	}
 
+	/**
+	 * @return list<Template>
+	 */
 	private function getUserTemplates(TemplateFileCreator $type): array {
 		$templates = [];
 
