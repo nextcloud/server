@@ -36,6 +36,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -378,7 +379,7 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			$owner = $node->getOwner()?->getUid();
-		} catch (\OCP\Files\NotFoundException) {
+		} catch (NotFoundException) {
 			$owner = null;
 		}
 

@@ -25,12 +25,6 @@ use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
 
-	/** @var ProxyMapper */
-	private $proxyMapper;
-
-	/** @var string */
-	private $principalPrefix;
-
 	/** @var string */
 	private $dbTableName;
 
@@ -45,13 +39,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
-		ProxyMapper $proxyMapper,
-		string $principalPrefix,
+		private ProxyMapper $proxyMapper,
+		private string $principalPrefix,
 		string $dbPrefix,
 		private string $cuType,
 	) {
-		$this->proxyMapper = $proxyMapper;
-		$this->principalPrefix = $principalPrefix;
 		$this->dbTableName = 'calendar_' . $dbPrefix . 's';
 		$this->dbMetaDataTableName = $this->dbTableName . '_md';
 		$this->dbForeignKeyName = $dbPrefix . '_id';

@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\integration\DAV\Sharing;
 
+use OC\Memcache\NullCache;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
@@ -50,11 +52,11 @@ class CalDavSharingBackendTest extends TestCase {
 		$this->principalBackend = $this->createMock(Principal::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cacheFactory->method('createInMemory')
-			->willReturn(new \OC\Memcache\NullCache());
+			->willReturn(new NullCache());
 		$this->logger = new \Psr\Log\NullLogger();
 
 		$this->sharingMapper = new SharingMapper($this->db);
-		$this->sharingService = new \OCA\DAV\CalDAV\Sharing\Service($this->sharingMapper);
+		$this->sharingService = new Service($this->sharingMapper);
 
 		$this->sharingBackend = new \OCA\DAV\CalDAV\Sharing\Backend(
 			$this->userManager,
