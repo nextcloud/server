@@ -263,8 +263,7 @@
 					:options="possibleManagers"
 					:placeholder="managerLabel"
 					@open="searchInitialUserManager"
-					@search="searchUserManager"
-					@option:selected="updateUserManager" />
+					@search="searchUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -503,6 +502,12 @@ export default {
 		},
 	},
 
+	watch: {
+		currentManager() {
+			this.updateUserManager()
+		},
+	},
+
 	async beforeMount() {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
@@ -613,10 +618,7 @@ export default {
 			})
 		},
 
-		async updateUserManager(manager) {
-			if (manager === null) {
-				this.currentManager = ''
-			}
+		async updateUserManager() {
 			this.loading.manager = true
 			try {
 				await this.$store.dispatch('setUserData', {
