@@ -767,23 +767,27 @@ const actions = {
 	 */
 	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
-		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
-			// We allow empty email or displayname
-			if (typeof value === 'string'
-				&& (
-					(allowedEmpty.indexOf(key) === -1 && value.length > 0)
-					|| allowedEmpty.indexOf(key) !== -1
-				)
-			) {
-				try {
-					await api.requireAdmin()
-					await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-					return context.commit('setUserData', { userid, key, value })
-				} catch (error) {
-					context.commit('API_FAILURE', { userid, error })
-				}
-			}
+		const validKeys = ['email', 'language', 'quota', 'displayname', 'password', 'manager']
+		if (!validKeys.includes(key)) {
+			return Promise.reject(new Error('Invalid request data'))
 		}
+
+		try {
+			await api.requireAdmin()
+			if (typeof value === 'string' && value.length === 0 && allowedEmpty.includes(key)) {
+				// If value is empty and allowed to be empty, send DELETE request
+				await api.delete(generateOcsUrl('cloud/users/{userid}', { userid }), { key })
+				return context.commit('setUserData', { userid, key, value: '' })
+			}
+
+			if (typeof value === 'string' && (value.length > 0 || allowedEmpty.includes(key))) {
+				await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+				return context.commit('setUserData', { userid, key, value })
+			}
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+		}
+
 		return Promise.reject(new Error('Invalid request data'))
 	},
 
