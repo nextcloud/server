@@ -210,6 +210,7 @@ export default {
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
+			lastSearchQuery: '',
 			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
