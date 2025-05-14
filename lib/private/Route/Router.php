@@ -312,25 +312,41 @@ class Router implements IRouter {
 			$application = $this->getApplicationClass($caller[0]);
 			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
 		} elseif (isset($parameters['action'])) {
-			$action = $parameters['action'];
-			if (!is_callable($action)) {
-				throw new \Exception('not a callable action');
-			}
-			unset($parameters['action']);
-			unset($parameters['caller']);
-			$this->eventLogger->start('route:run:call', 'Run callable route');
-			call_user_func($action, $parameters);
-			$this->eventLogger->end('route:run:call');
+			$this->logger->warning('Deprecated action route used', ['parameters' => $parameters]);
+			$this->callLegacyActionRoute($parameters);
 		} elseif (isset($parameters['file'])) {
-			$param = $parameters;
-			unset($param['_route']);
-			$_GET = array_merge($_GET, $param);
-			unset($param);
-			include $parameters['file'];
+			$this->logger->debug('Deprecated file route used', ['parameters' => $parameters]);
+			$this->includeLegacyFileRoute($parameters);
 		} else {
 			throw new \Exception('no action available');
 		}
 		$this->eventLogger->end('route:run');
+	}
+
+	/**
+	 * @param array{file:mixed, ...} $parameters
+	 */
+	protected function includeLegacyFileRoute(array $parameters): void {
+		$param = $parameters;
+		unset($param['_route']);
+		$_GET = array_merge($_GET, $param);
+		unset($param);
+		require_once $parameters['file'];
+	}
+
+	/**
+	 * @param array{action:mixed, ...} $parameters
+	 */
+	protected function callLegacyActionRoute(array $parameters): void {
+		$action = $parameters['action'];
+		if (!is_callable($action)) {
+			throw new \Exception('not a callable action');
+		}
+		unset($parameters['action']);
+		unset($parameters['caller']);
+		$this->eventLogger->start('route:run:call', 'Run callable route');
+		call_user_func($action, $parameters);
+		$this->eventLogger->end('route:run:call');
 	}
 
 	/**
@@ -496,7 +512,7 @@ class Router implements IRouter {
 	 * @param string $file the route file location to include
 	 * @param string $appName
 	 */
-	private function requireRouteFile($file, $appName) {
+	protected function requireRouteFile(string $file, string $appName): void {
 		$this->setupRoutes(include $file, $appName);
 	}
 
