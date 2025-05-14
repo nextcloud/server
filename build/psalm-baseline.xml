@@ -2579,11 +2579,6 @@
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/public/AppFramework/App.php">
-    <InternalMethod>
-      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
-    </InternalMethod>
-  </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[array_merge($mergeWith, $this->headers)]]></code>
