@@ -15,10 +15,11 @@ use OC\Files\View;
 use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
+use OCA\Files_External\Config\ConfigAdapter;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
-use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
@@ -70,6 +71,7 @@ class OwnershipTransferService {
 		bool $move = false,
 		bool $firstLogin = false,
 		bool $transferIncomingShares = false,
+		bool $includeExternalStorage = false,
 	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
@@ -149,7 +151,8 @@ class OwnershipTransferService {
 			$sourcePath,
 			$finalTarget,
 			$view,
-			$output
+			$output,
+			$includeExternalStorage,
 		);
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
@@ -215,11 +218,14 @@ class OwnershipTransferService {
 	 *
 	 * @throws TransferOwnershipException
 	 */
-	protected function analyse(string $sourceUid,
+	protected function analyse(
+		string $sourceUid,
 		string $destinationUid,
 		string $sourcePath,
 		View $view,
-		OutputInterface $output): void {
+		OutputInterface $output,
+		bool $includeExternalStorage = false,
+	): void {
 		$output->writeln('Validating quota');
 		$sourceFileInfo = $view->getFileInfo($sourcePath, false);
 		if ($sourceFileInfo === false) {
@@ -247,17 +253,22 @@ class OwnershipTransferService {
 				$encryptedFiles[] = $sourceFileInfo;
 			} else {
 				$this->walkFiles($view, $sourcePath,
-					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles) {
+					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles, $includeExternalStorage) {
 						if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+							$mount = $fileInfo->getMountPoint();
 							// only analyze into folders from main storage,
-							if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+							if (
+								$mount->getMountProvider() instanceof IHomeMountProvider ||
+								($includeExternalStorage && $mount->getMountProvider() instanceof ConfigAdapter)
+							) {
+								if ($fileInfo->isEncrypted()) {
+									/* Encrypted folder means e2ee encrypted, we cannot transfer it */
+									$encryptedFiles[] = $fileInfo;
+								}
+								return true;
+							} else {
 								return false;
 							}
-							if ($fileInfo->isEncrypted()) {
-								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
-								$encryptedFiles[] = $fileInfo;
-							}
-							return true;
 						}
 						$progress->advance();
 						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
@@ -399,11 +410,14 @@ class OwnershipTransferService {
 	/**
 	 * @throws TransferOwnershipException
 	 */
-	protected function transferFiles(string $sourceUid,
+	protected function transferFiles(
+		string $sourceUid,
 		string $sourcePath,
 		string $finalTarget,
 		View $view,
-		OutputInterface $output): void {
+		OutputInterface $output,
+		bool $includeExternalStorage,
+	): void {
 		$output->writeln("Transferring files to $finalTarget ...");
 
 		// This change will help user to transfer the folder specified using --path option.
@@ -412,12 +426,47 @@ class OwnershipTransferService {
 			$view->mkdir($finalTarget);
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
-		if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
-			throw new TransferOwnershipException('Could not transfer files.', 1);
+		$sourceInfo = $view->getFileInfo($sourcePath);
+
+		/// handle the external storages mounted at the root, or the admin specifying an external storage with --path
+		if ($sourceInfo->getInternalPath() === '' && $includeExternalStorage) {
+			$this->moveMountContents($view, $sourcePath, $finalTarget);
+		} else {
+			if ($view->rename($sourcePath, $finalTarget, ['checkSubMounts' => false]) === false) {
+				throw new TransferOwnershipException('Could not transfer files.', 1);
+			}
 		}
+
+		if ($includeExternalStorage) {
+			$nestedMounts = $this->mountManager->findIn($sourcePath);
+			foreach ($nestedMounts as $mount) {
+				if ($mount->getMountProvider() === ConfigAdapter::class) {
+					$relativePath = substr(trim($mount->getMountPoint(), '/'), strlen($sourcePath));
+					$this->moveMountContents($view, $mount->getMountPoint(), $finalTarget . $relativePath);
+				}
+			}
+		}
+
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
 			$view->mkdir("$sourceUid/files");
+		}
+	}
+
+	private function moveMountContents(View $rootView, string $source, string $target) {
+		if ($rootView->copy($source, $target)) {
+			// just doing `rmdir` on the mountpoint would cause it to try and unmount the storage
+			// we need to empty the contents instead
+			$content = $rootView->getDirectoryContent($source);
+			foreach ($content as $item) {
+				if ($item->getType() === FileInfo::TYPE_FOLDER) {
+					$rootView->rmdir($item->getPath());
+				} else {
+					$rootView->unlink($item->getPath());
+				}
+			}
+		} else {
+			throw new TransferOwnershipException("Could not transfer $source to $target");
 		}
 	}
 
