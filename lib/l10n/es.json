@@ -91,6 +91,8 @@
     "Destination does not exist" : "El destino no existe",
     "Destination is not creatable" : "El destino no se puede crear",
     "Dot files are not allowed" : "Los archivos Dot no están permitidos",
+    "%1$s (renamed)" : "%1$s (renombrado)",
+    "renamed file" : "archivo renombrado",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" Es un nombre de archivo o carpeta no permitido.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "%1$s es un prefijo prohibido para nombres de archivo o carpeta.",
     "\"%1$s\" is not allowed inside a file or folder name." : "«%1$s» no se permite en el nombre de un archivo o carpeta.",

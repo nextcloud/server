@@ -41,8 +41,6 @@
     "Files" : "Filer",
     "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "En favorit-fil eller mapp har blivit <strong>ändrad</strong>",
-    "%1$s (renamed)" : "%1$s (omdöpt)",
-    "renamed file" : "omdöpt fil",
     "Failed to authorize" : "Det gick inte att auktorisera",
     "Invalid folder path" : "Ogiltig mappsökväg",
     "Folder not found" : "Mappen hittades inte",

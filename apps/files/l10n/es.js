@@ -43,8 +43,6 @@ OC.L10N.register(
     "Files" : "Archivos",
     "A file or folder has been <strong>changed</strong>" : "Se ha <strong>modificado</strong> un archivo o carpeta",
     "A favorite file or folder has been <strong>changed</strong>" : "Un archivo o carpeta favorito ha sido <strong>cambiado</strong>",
-    "%1$s (renamed)" : "%1$s (renombrado)",
-    "renamed file" : "archivo renombrado",
     "Failed to authorize" : "Fallo al autorizar",
     "Invalid folder path" : "Ruta de carpeta inválida",
     "Folder not found" : "Carpeta no encontrada",

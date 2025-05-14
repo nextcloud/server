@@ -43,8 +43,6 @@ OC.L10N.register(
     "Files" : "Soubory",
     "A file or folder has been <strong>changed</strong>" : "Soubor nebo složka byla <strong>změněna</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Oblíbený soubor nebo složka byla <strong>změněna</strong>",
-    "%1$s (renamed)" : "%1$s (přejmenované)",
-    "renamed file" : "přejmenovaný soubor",
     "Failed to authorize" : "Nepodařilo se získat pověření",
     "Invalid folder path" : "Neplatný popis umístění složky",
     "Folder not found" : "Složka nenalezena",

@@ -91,6 +91,8 @@
     "Destination does not exist" : "Destinationen finns inte",
     "Destination is not creatable" : "Destinationen går inte att skapa",
     "Dot files are not allowed" : "Dot-filer är inte tillåtna",
+    "%1$s (renamed)" : "%1$s (omdöpt)",
+    "renamed file" : "omdöpt fil",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" är ett förbjudet fil- eller mappnamn.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" är ett förbjudet prefix för fil- eller mappnamn.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" är inte tillåtet i ett fil- eller mappnamn.",

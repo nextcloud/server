@@ -313,7 +313,9 @@ OC.L10N.register(
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Bain úsáid as an modh seo chun comhaid a roinnt le daoine aonair nó le foirne laistigh de d'eagraíocht. Má tá rochtain ag an bhfaighteoir ar an sciar cheana féin ach nach féidir leis í a aimsiú, is féidir leat an nasc scaire inmheánach a sheoladh chucu le go mbeidh rochtain éasca air.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Bain úsáid as an modh seo chun comhaid a roinnt le daoine aonair nó le heagraíochtaí lasmuigh de d'eagraíocht. Is féidir comhaid agus fillteáin a roinnt trí naisc scaireanna poiblí agus seoltaí ríomhphoist. Is féidir leat a roinnt freisin le cuntais Nextcloud eile arna óstáil ar chásanna éagsúla ag baint úsáide as a n-ID néil cónasctha.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Scaireanna nach cuid de na scaireanna inmheánacha nó seachtracha iad. Is féidir gur scaireanna iad seo ó aipeanna nó ó fhoinsí eile.",
+    "Share with accounts, teams, federated cloud IDs" : "Comhroinn le cuntais, foirne, agus aitheantóirí scamall cónaidhme",
     "Share with accounts and teams" : "Roinn le cuntais agus foirne",
+    "Email, federated cloud ID" : "Ríomhphost, ID scamall cónaidhme",
     "Unable to load the shares list" : "Ní féidir an liosta scaireanna a lódáil",
     "Expires {relativetime}" : "In éag {relativetime}",
     "this share just expired." : "tá an sciar seo díreach imithe in éag.",
@@ -422,6 +424,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "Níl cead agat scaireanna naisc nach leatsa a chur in eagar",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 seoladh ríomhphoist curtha leis cheana féin","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana","{count} seoladh ríomhphoist curtha leis cheana"],
     "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
+    "Share with accounts, teams, federated cloud id" : "Comhroinn le cuntais, foirne, aitheantas scamall cónaidhme",
     "Email, federated cloud id" : "Ríomhphost, aitheantas scamall cónaidhme"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
