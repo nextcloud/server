@@ -509,10 +509,8 @@ class OC_App {
 				if ($appManager->isShipped($app)) {
 					$info['internal'] = true;
 					$info['level'] = self::officialApp;
-					$info['removable'] = false;
 				} else {
 					$info['internal'] = false;
-					$info['removable'] = true;
 				}
 
 				if (in_array($app, $supportedApps)) {
