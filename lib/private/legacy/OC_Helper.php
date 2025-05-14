@@ -196,6 +196,7 @@ class OC_Helper {
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
 	 * @return bool true if executable program found in path
+	 * @deprecated 32.0.0 use the \OCP\IBinaryFinder
 	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
