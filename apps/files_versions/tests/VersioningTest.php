@@ -808,7 +808,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$eventDispatcher = Server::get(IEventDispatcher::class);
 		$eventFired = false;
-		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2) {
+		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2): void {
 			$eventFired = true;
 			$this->assertEquals('/sub/test.txt', $event->getVersion()->getVersionPath());
 			$this->assertTrue($event->getVersion()->getRevisionId() > 0);

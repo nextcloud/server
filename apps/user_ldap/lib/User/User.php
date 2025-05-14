@@ -563,7 +563,7 @@ class User {
 	}
 
 	private function verifyQuotaValue(string $quotaValue): bool {
-		return $quotaValue === 'none' || $quotaValue === 'default' || \OCP\Util::computerFileSize($quotaValue) !== false;
+		return $quotaValue === 'none' || $quotaValue === 'default' || Util::computerFileSize($quotaValue) !== false;
 	}
 
 	/**

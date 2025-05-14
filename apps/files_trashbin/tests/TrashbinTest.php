@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OC\SystemConfig;
+use OC\User\Database;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
@@ -59,7 +60,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// reset backend
 		Server::get(IUserManager::class)->clearBackends();
-		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
+		Server::get(IUserManager::class)->registerBackend(new Database());
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
