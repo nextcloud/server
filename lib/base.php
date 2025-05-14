@@ -631,6 +631,9 @@ class OC {
 			exit();
 		}
 
+		// Enable lazy loading if activated
+		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects');
+
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
