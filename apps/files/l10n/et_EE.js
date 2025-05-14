@@ -43,8 +43,6 @@ OC.L10N.register(
     "Files" : "Failid",
     "A file or folder has been <strong>changed</strong>" : "Fail või kaust on <strong>muudetud</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Lemmikuks märgitud faili või kausta on <strong>muudetud</strong>",
-    "%1$s (renamed)" : "%1$s (nimi on muudetud)",
-    "renamed file" : "muudetud nimega fail",
     "Failed to authorize" : "Autoriseerimine ei õnnestunud",
     "Invalid folder path" : "Kausta vigane asukoht",
     "Folder not found" : "Kausta ei leidu",
