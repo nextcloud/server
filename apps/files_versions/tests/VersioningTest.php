@@ -83,7 +83,10 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->createMock(IConfig::class);
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(\OC\SystemConfig::class)])
+			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {
@@ -427,8 +430,9 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		// move file into the shared folder as recipient
-		Filesystem::rename('/test.txt', '/folder1/test.txt');
+		$success = Filesystem::rename('/test.txt', '/folder1/test.txt');
 
+		$this->assertTrue($success);
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 

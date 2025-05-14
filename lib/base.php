@@ -6,13 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-use OC\Encryption\HookManager;
+
 use OC\Profiler\BuiltInProfiler;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
 use OC\Share20\UserRemovedListener;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
@@ -22,7 +23,6 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
-use OCP\Share;
 use OCP\Template\ITemplateManager;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -907,15 +907,16 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapperAndHooks(): void {
+		/** @var \OC\Encryption\Manager */
 		$manager = Server::get(\OCP\Encryption\IManager::class);
-		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $manager, 'setupStorage');
+		Server::get(IEventDispatcher::class)->addListener(
+			BeforeFileSystemSetupEvent::class,
+			$manager->setupStorage(...),
+		);
 
 		$enabled = $manager->isEnabled();
 		if ($enabled) {
-			\OCP\Util::connectHook(Share::class, 'post_shared', HookManager::class, 'postShared');
-			\OCP\Util::connectHook(Share::class, 'post_unshare', HookManager::class, 'postUnshared');
-			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', HookManager::class, 'postRename');
-			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', HookManager::class, 'postRestore');
+			\OC\Encryption\EncryptionEventListener::register(Server::get(IEventDispatcher::class));
 		}
 	}
 
