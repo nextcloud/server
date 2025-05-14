@@ -34,6 +34,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 /**
  * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
@@ -204,7 +205,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->session->remove(self::STATE_NAME);
 
 		try {
-			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
+			$token = Server::get(\OC\Authentication\Token\IProvider::class)->getToken($password);
 			if ($token->getLoginName() !== $user) {
 				throw new InvalidTokenException('login name does not match');
 			}

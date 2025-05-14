@@ -13,9 +13,11 @@ use Doctrine\DBAL\Schema\Table;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
+use OC\DB\PgSqlTools;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -159,7 +161,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$this->readPassword($input, $output);
 
 		/** @var Connection $fromDB */
-		$fromDB = \OC::$server->get(Connection::class);
+		$fromDB = Server::get(Connection::class);
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
@@ -401,7 +403,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {
-				$tools = new \OC\DB\PgSqlTools($this->config);
+				$tools = new PgSqlTools($this->config);
 				$tools->resynchronizeDatabaseSequences($toDB);
 			}
 			// save new database config

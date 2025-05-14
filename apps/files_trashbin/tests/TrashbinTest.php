@@ -118,7 +118,7 @@ class TrashbinTest extends \Test\TestCase {
 		$config = Server::get(IConfig::class);
 		$mockConfig = $this->getMockBuilder(AllConfig::class)
 			->onlyMethods(['getSystemValue'])
-			->setConstructorArgs([Server::get(\OC\SystemConfig::class)])
+			->setConstructorArgs([Server::get(SystemConfig::class)])
 			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')

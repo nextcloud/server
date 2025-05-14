@@ -10,6 +10,8 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\TimedJob;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,7 +77,7 @@ class Job extends Command {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -99,10 +101,10 @@ class Job extends Command {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');
