@@ -96,7 +96,7 @@ class CleanUp extends Command {
 			$node = $this->rootFolder->get($path);
 
 			if ($verbose) {
-				$output->writeln('Deleting <info>' . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln('Deleting <info>' . \OCP\Util::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
 			}
 			$node->delete();
 			if ($this->rootFolder->nodeExists($path)) {
