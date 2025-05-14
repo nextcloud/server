@@ -57,39 +57,32 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		return $class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
 			$parameterType = $parameter->getType();
 
-			$resolveName = $parameter->getName();
 
 			// try to find out if it is a class or a simple parameter
 			if (($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 				$resolveName = $parameterType->getName();
+			} else {
+				$resolveName = $parameter->getName();
 			}
 
 			try {
-				$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
-					&& $parameter->getType()->isBuiltin();
+				$builtIn = $parameter->hasType() && ($parameterType instanceof ReflectionNamedType)
+					&& $parameterType->isBuiltin();
 				return $this->query($resolveName, !$builtIn);
 			} catch (QueryException $e) {
-				// Service not found, use the default value when available
+				try {
+					// try by argument name
+					return $this->query($parameter->getName());
+				} catch (QueryException $e2) {
+					// ignore
+				}
 				if ($parameter->isDefaultValueAvailable()) {
 					return $parameter->getDefaultValue();
+				} elseif ($parameter->allowsNull() && $parameter->hasType()) {
+					return null;
+				} else {
+					throw $e;
 				}
-
-				if (($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameter->getName();
-					try {
-						return $this->query($resolveName);
-					} catch (QueryException $e2) {
-						// Pass null if typed and nullable
-						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-							return null;
-						}
-
-						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
-					}
-				}
-
-				throw $e;
 			}
 		}, $constructor->getParameters()));
 	}
