@@ -255,6 +255,7 @@ export default defineComponent({
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
+			lastSearchQuery: '',
 			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
@@ -366,6 +367,12 @@ export default defineComponent({
 				this.searching = false
 				return
 			}
+
+			// Reset the provider result limit when performing a new search
+			if (query !== this.lastSearchQuery) {
+				this.providerResultLimit = 5
+			}
+			this.lastSearchQuery = query
 
 			this.searching = true
 			const newResults = []
