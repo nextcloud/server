@@ -99,6 +99,47 @@ Feature: FilesDrop
     And Downloading file "/drop/Alice/folder/a.txt"
     Then Downloaded content should be "abc"
 
+  Scenario: File drop uploading folder with name of file
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder" with "its a file" as "Alice"
+    Then the HTTP status code should be "201"
+    When Dropping file "/folder/a.txt" with "abc" as "Alice"
+    Then the HTTP status code should be "201"
+    When Downloading file "/drop/Alice/folder"
+    Then the HTTP status code should be "200"
+    And Downloaded content should be "its a file"
+    When Downloading file "/drop/Alice/folder (2)/a.txt"
+    Then Downloaded content should be "abc"
+
+  Scenario: File drop uploading file with name of folder
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder/a.txt" with "abc" as "Alice"
+    Then the HTTP status code should be "201"
+    When Dropping file "/folder" with "its a file" as "Alice"
+    Then the HTTP status code should be "201"
+    When Downloading file "/drop/Alice/folder/a.txt"
+    Then the HTTP status code should be "200"
+    And Downloaded content should be "abc"
+    When Downloading file "/drop/Alice/folder (2)"
+    Then the HTTP status code should be "200"
+    And Downloaded content should be "its a file"
+    
   Scenario: Put file same file multiple times via files drop
     Given user "user0" exists
     And As an "user0"
