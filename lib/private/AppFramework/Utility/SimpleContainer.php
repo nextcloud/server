@@ -24,6 +24,8 @@ use function class_exists;
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
+	public static bool $useLazyObjects = false;
+
 	private Container $container;
 
 	public function __construct() {
@@ -58,7 +60,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			/* No constructor, return a instance directly */
 			return $class->newInstance();
 		}
-		if (PHP_VERSION_ID >= 80400) {
+		if (PHP_VERSION_ID >= 80400 && self::$useLazyObjects) {
 			/* For PHP>=8.4, use a lazy ghost to delay constructor and dependency resolving */
 			/** @psalm-suppress UndefinedMethod */
 			return $class->newLazyGhost(function (object $object) use ($constructor): void {

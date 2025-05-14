@@ -2743,4 +2743,12 @@ $CONFIG = [
  * Defaults to true.
  */
 'files.trash.delete' => true,
+
+/**
+ * Enable lazy objects feature from PHP 8.4 to be used in the Dependency Injection.
+ * Should improve performances by avoiding buiding unused objects.
+ *
+ * Defaults to false.
+ */
+'enable_lazy_objects' => false,
 ];
