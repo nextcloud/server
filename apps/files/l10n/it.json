@@ -41,8 +41,6 @@
     "Files" : "File",
     "A file or folder has been <strong>changed</strong>" : "Un file o una cartella è stato <strong>modificato</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un file preferito o una cartella è stato <strong>modificato</strong>",
-    "%1$s (renamed)" : "%1$s (rinominato)",
-    "renamed file" : "file rinominato",
     "Failed to authorize" : "Impossibile dare l'autorizzazione",
     "Invalid folder path" : "Percorso della cartella non valido",
     "Folder not found" : "Cartella non trovata",

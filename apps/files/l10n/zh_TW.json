@@ -41,8 +41,6 @@
     "Files" : "檔案",
     "A file or folder has been <strong>changed</strong>" : "檔案或資料夾已被<strong>變更</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "一個喜愛的檔案或資料夾已<strong>變更</strong>",
-    "%1$s (renamed)" : "%1$s（已重新命名）",
-    "renamed file" : "已重新命名檔案",
     "Failed to authorize" : "授權失敗",
     "Invalid folder path" : "無效的資料夾路徑",
     "Folder not found" : "找不到資料夾",

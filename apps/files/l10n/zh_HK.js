@@ -43,8 +43,6 @@ OC.L10N.register(
     "Files" : "檔案",
     "A file or folder has been <strong>changed</strong>" : "檔案或資料夾有所<strong>更改</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "收藏的檔案或資料夾有所<strong>更改</strong>",
-    "%1$s (renamed)" : "%1$s（已重新命名）",
-    "renamed file" : "已重新命名的檔案",
     "Failed to authorize" : "無法授權",
     "Invalid folder path" : "無效的資料夾路徑",
     "Folder not found" : "找不到資料夾",
