@@ -10,7 +10,10 @@ namespace OC\Core\Command\Background;
 
 use OC\Core\Command\InterruptedException;
 use OC\Files\SetupManager;
+use OCP\BackgroundJob\Events\BeforeJobExecutedEvent;
+use OCP\BackgroundJob\Events\JobExecutedEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,6 +28,7 @@ class JobWorker extends JobBase {
 		protected LoggerInterface $logger,
 		private ITempManager $tempManager,
 		private SetupManager $setupManager,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($jobList, $logger);
 	}
@@ -125,8 +129,10 @@ class JobWorker extends JobBase {
 				$this->printJobInfo($job->getId(), $job, $output);
 			}
 
+			$this->eventDispatcher->dispatchTyped(new BeforeJobExecutedEvent($job));
 			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 			$job->execute($this->jobList);
+			$this->eventDispatcher->dispatchTyped(new JobExecutedEvent($job));
 
 			$output->writeln('Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
 
