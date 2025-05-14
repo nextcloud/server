@@ -53,6 +53,8 @@ $config = RectorConfig::configure()
 	->withPaths([
 		$nextcloudDir . '/apps',
 		$nextcloudDir . '/core',
+		$nextcloudDir . '/ocs',
+		$nextcloudDir . '/ocs-provider',
 		$nextcloudDir . '/console.php',
 		$nextcloudDir . '/cron.php',
 		$nextcloudDir . '/index.php',
@@ -63,8 +65,6 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/version.php',
 		// $nextcloudDir . '/config',
 		// $nextcloudDir . '/lib',
-		// $nextcloudDir . '/ocs',
-		// $nextcloudDir . '/ocs-provider',
 		// $nextcloudDir . '/tests',
 		// $nextcloudDir . '/themes',
 	])
