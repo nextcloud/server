@@ -58,9 +58,8 @@ abstract class ApiController extends Controller {
 	#[PublicPage]
 	#[NoAdminRequired]
 	public function preflightedCors() {
-		if (isset($this->request->server['HTTP_ORIGIN'])) {
-			$origin = $this->request->server['HTTP_ORIGIN'];
-		} else {
+		$origin = $this->request->getHeader('origin');
+		if ($origin === '') {
 			$origin = '*';
 		}
 

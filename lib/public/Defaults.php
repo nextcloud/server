@@ -29,7 +29,7 @@ class Defaults {
 	 */
 	public function __construct(?\OC_Defaults $defaults = null) {
 		if ($defaults === null) {
-			$defaults = \OC::$server->get('ThemingDefaults');
+			$defaults = \OCP\Server::get('ThemingDefaults');
 		}
 		$this->defaults = $defaults;
 	}

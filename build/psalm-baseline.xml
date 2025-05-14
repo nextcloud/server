@@ -3780,9 +3780,6 @@
     <InvalidArgument>
       <code><![CDATA[microtime(true)]]></code>
     </InvalidArgument>
-    <InvalidReturnType>
-      <code><![CDATA[stopQuery]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/DirectEditing/Manager.php">
     <InvalidReturnType>
@@ -4679,11 +4676,6 @@
       <code><![CDATA[\Test\Util\User\Dummy]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/AppFramework/ApiController.php">
-    <NoInterfaceProperties>
-      <code><![CDATA[$this->request->server]]></code>
-    </NoInterfaceProperties>
-  </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[array_merge($mergeWith, $this->headers)]]></code>
@@ -4699,22 +4691,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/public/Diagnostics/IQueryLogger.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[mixed]]></code>
-    </LessSpecificImplementedReturnType>
-  </file>
-  <file src="lib/public/EventDispatcher/GenericEvent.php">
-    <MissingTemplateParam>
-      <code><![CDATA[ArrayAccess]]></code>
-      <code><![CDATA[IteratorAggregate]]></code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/public/L10N/ILanguageIterator.php">
-    <MissingTemplateParam>
-      <code><![CDATA[\Iterator]]></code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/public/Preview/BeforePreviewFetchedEvent.php">
     <LessSpecificReturnStatement>

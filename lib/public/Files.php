@@ -9,6 +9,8 @@
 
 namespace OCP;
 
+use OCP\Files\IMimeTypeDetector;
+
 /**
  * This class provides access to the internal filesystem abstraction layer. Use
  * this class exclusively if you want to access files
@@ -67,7 +69,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	public static function getMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detect($path);
+		return Server::get(IMimeTypeDetector::class)->detect($path);
 	}
 
 	/**

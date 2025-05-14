@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OCP\AppFramework;
 
 use OC\ServerContainer;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,7 +46,7 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
+		$runIsSetupDirectly = Server::get(IConfig::class)->getSystemValueBool('debug')
 			&& !ini_get('zend.exception_ignore_args');
 
 		if ($runIsSetupDirectly) {
@@ -71,7 +73,7 @@ class App {
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
+				Server::get(LoggerInterface::class)->error($e->getMessage(), [
 					'app' => $appName,
 					'exception' => $e,
 				]);
