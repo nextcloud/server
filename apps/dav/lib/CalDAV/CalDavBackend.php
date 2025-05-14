@@ -12,6 +12,8 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Generator;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -110,6 +112,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	public const CALENDAR_TYPE_CALENDAR = 0;
 	public const CALENDAR_TYPE_SUBSCRIPTION = 1;
+	public const CALENDAR_TYPE_FEDERATED = 2;
 
 	public const PERSONAL_CALENDAR_URI = 'personal';
 	public const PERSONAL_CALENDAR_NAME = 'Personal';
@@ -208,6 +211,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IEventDispatcher $dispatcher,
 		private IConfig $config,
 		private Sharing\Backend $calendarSharingBackend,
+		private FederatedCalendarMapper $federatedCalendarMapper,
 		private bool $legacyEndpoint = false,
 	) {
 	}
@@ -1408,10 +1412,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-			} else {
+			} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CachedCalendarObjectCreatedEvent($calendarId, $subscriptionRow, [], $objectRow));
+			} elseif ($calendarType === self::CALENDAR_TYPE_FEDERATED) {
+				// TODO: implement custom event for federated calendars
 			}
 
 			return '"' . $extraData['etag'] . '"';
@@ -1468,10 +1474,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$shares = $this->getShares($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-				} else {
+				} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 
 					$this->dispatcher->dispatchTyped(new CachedCalendarObjectUpdatedEvent($calendarId, $subscriptionRow, [], $objectRow));
+				} elseif ($calendarType === self::CALENDAR_TYPE_FEDERATED) {
+					// TODO: implement custom event for federated calendars
 				}
 			}
 
@@ -1978,6 +1986,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		if (isset($calendarInfo['source'])) {
 			$calendarType = self::CALENDAR_TYPE_SUBSCRIPTION;
+		} elseif (isset($calendarInfo['federated'])) {
+			$calendarType = self::CALENDAR_TYPE_FEDERATED;
 		} else {
 			$calendarType = self::CALENDAR_TYPE_CALENDAR;
 		}
@@ -3197,6 +3207,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->calendarSharingBackend->getShares($resourceId);
 	}
 
+	public function getSharesByShareePrincipal(string $principal): array {
+		return $this->calendarSharingBackend->getSharesByShareePrincipal($principal);
+	}
+
 	public function preloadShares(array $resourceIds): void {
 		$this->calendarSharingBackend->preloadShares($resourceIds);
 	}
@@ -3691,5 +3705,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				));
 			}
 		}, $this->db);
+	}
+
+	/**
+	 * @return array<string, mixed>[]
+	 */
+	public function getFederatedCalendarsForUser(string $principalUri): array {
+		$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri($principalUri);
+		return array_map(
+			static fn (FederatedCalendarEntity $entity) => $entity->toCalendarInfo(),
+			$federatedCalendars,
+		);
+	}
+
+	public function getFederatedCalendarByUri(string $principalUri, string $uri): ?array {
+		$federatedCalendar = $this->federatedCalendarMapper->findByUri($principalUri, $uri);
+		return $federatedCalendar?->toCalendarInfo();
 	}
 }

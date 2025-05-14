@@ -31,6 +31,7 @@
 
 	<commands>
 		<command>OCA\Federation\Command\SyncFederationAddressBooks</command>
+		<command>OCA\Federation\Command\SyncFederationCalendars</command>
 	</commands>
 
 	<settings>

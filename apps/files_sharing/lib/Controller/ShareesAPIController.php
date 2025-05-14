@@ -166,6 +166,10 @@ class ShareesAPIController extends OCSController {
 			$shareTypes[] = IShare::TYPE_SCIENCEMESH;
 		}
 
+		if ($itemType === 'calendar') {
+			$shareTypes[] = IShare::TYPE_REMOTE;
+		}
+
 		if ($shareType !== null && is_array($shareType)) {
 			$shareTypes = array_intersect($shareTypes, $shareType);
 		} elseif (is_numeric($shareType)) {

@@ -83,6 +83,19 @@ class SharingMapper {
 		$query->executeStatement();
 	}
 
+	public function shareWithToken(int $resourceId, string $resourceType, int $access, string $principal, string $token): void {
+		$query = $this->db->getQueryBuilder();
+		$query->insert('dav_shares')
+			->values([
+				'principaluri' => $query->createNamedParameter($principal),
+				'type' => $query->createNamedParameter($resourceType),
+				'access' => $query->createNamedParameter($access),
+				'resourceid' => $query->createNamedParameter($resourceId),
+				'token' => $query->createNamedParameter($token),
+			]);
+		$query->executeStatement();
+	}
+
 	public function deleteShare(int $resourceId, string $resourceType, string $principal): void {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares');
@@ -133,5 +146,104 @@ class SharingMapper {
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
+	}
+
+	/**
+	 * @return array{principaluri: string}[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getPrincipalUrisByPrefix(string $resourceType, string $prefix): array {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->selectDistinct('principaluri')
+			->from('dav_shares')
+			->where($query->expr()->like(
+				'principaluri',
+				$query->createNamedParameter("$prefix/%", IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->andWhere($query->expr()->eq(
+				'type',
+				$query->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR)),
+				IQueryBuilder::PARAM_STR,
+			)
+			->executeQuery();
+
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
+	}
+
+	/**
+	 * @psalm-return array{uri: string, principaluri: string}[]
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getSharedCalendarsForRemoteUser(
+		string $remoteUserPrincipalUri,
+		string $token,
+	): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('c.uri', 'c.principaluri')
+			->from('dav_shares', 'ds')
+			->join('ds', 'calendars', 'c', $qb->expr()->eq(
+				'ds.resourceid',
+				'c.id',
+				IQueryBuilder::PARAM_INT,
+			))
+			->where($qb->expr()->eq(
+				'ds.type',
+				$qb->createNamedParameter('calendar', IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->andWhere($qb->expr()->eq(
+				'ds.principaluri',
+				$qb->createNamedParameter($remoteUserPrincipalUri, IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			))
+			->andWhere($qb->expr()->eq(
+				'ds.token',
+				$qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			));
+		$result = $qb->executeQuery();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
+	}
+
+	/**
+	 * @param string[] $principalUris
+	 *
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getSharesByPrincipalsAndResource(
+		array $principalUris,
+		int $resourceId,
+		string $resourceType,
+	): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('dav_shares')
+			->where($qb->expr()->in(
+				'principaluri',
+				$qb->createNamedParameter($principalUris, IQueryBuilder::PARAM_STR_ARRAY),
+				IQueryBuilder::PARAM_STR_ARRAY,
+			))
+			->andWhere($qb->expr()->eq(
+				'resourceid',
+				$qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			))
+			->andWhere($qb->expr()->eq(
+				'type',
+				$qb->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR),
+				IQueryBuilder::PARAM_STR,
+			));
+		$result = $qb->executeQuery();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
 	}
 }

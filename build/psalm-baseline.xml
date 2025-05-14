@@ -126,7 +126,6 @@
     <DeprecatedMethod>
       <code><![CDATA[exec]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getL10N]]></code>
       <code><![CDATA[getL10NFactory]]></code>
     </DeprecatedMethod>
     <UndefinedGlobalVariable>
@@ -823,6 +822,20 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/DAV/RemoteUserPrincipalBackend.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[getPrincipalByPath]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$principal]]></code>
+      <code><![CDATA[null]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="apps/dav/lib/DAV/Sharing/Backend.php">
+    <LessSpecificReturnType>
+      <code><![CDATA[?array]]></code>
+    </LessSpecificReturnType>
   </file>
   <file src="apps/dav/lib/DAV/Sharing/Plugin.php">
     <DeprecatedMethod>

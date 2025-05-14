@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\DAV\Sharing;
 
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -31,8 +33,13 @@ abstract class Backend {
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private Principal $principalBackend,
+		private RemoteUserPrincipalBackend $remoteUserPrincipalBackend,
 		private ICacheFactory $cacheFactory,
 		private SharingService $service,
+		// TODO: Make `FederationSharingService` abstract once we support federated address book
+		//       sharing. The abstract sharing backend should not take a service scoped to calendars
+		//       by default.
+		private FederationSharingService $federationSharingService,
 		private LoggerInterface $logger,
 	) {
 		$this->shareCache = $this->cacheFactory->createInMemory();
@@ -45,7 +52,9 @@ abstract class Backend {
 	public function updateShares(IShareable $shareable, array $add, array $remove, array $oldShares = []): void {
 		$this->shareCache->clear();
 		foreach ($add as $element) {
-			$principal = $this->principalBackend->findByUri($element['href'], '');
+			// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
+			$principal = $this->principalBackend->findByUri($element['href'], '')
+				?? $this->remoteUserPrincipalBackend->findByUri($element['href'], '');
 			if (empty($principal)) {
 				continue;
 			}
@@ -53,7 +62,7 @@ abstract class Backend {
 			// We need to validate manually because some principals are only virtual
 			// i.e. Group principals
 			$principalparts = explode('/', $principal, 3);
-			if (count($principalparts) !== 3 || $principalparts[0] !== 'principals' || !in_array($principalparts[1], ['users', 'groups', 'circles'], true)) {
+			if (count($principalparts) !== 3 || $principalparts[0] !== 'principals' || !in_array($principalparts[1], ['users', 'groups', 'circles', 'remote-users'], true)) {
 				// Invalid principal
 				continue;
 			}
@@ -75,10 +84,16 @@ abstract class Backend {
 				$access = $element['readOnly'] ? Backend::ACCESS_READ : Backend::ACCESS_READ_WRITE;
 			}
 
-			$this->service->shareWith($shareable->getResourceId(), $principal, $access);
+			if ($principalparts[1] === 'remote-users') {
+				$this->federationSharingService->shareWith($shareable, $principal, $access);
+			} else {
+				$this->service->shareWith($shareable->getResourceId(), $principal, $access);
+			}
 		}
 		foreach ($remove as $element) {
-			$principal = $this->principalBackend->findByUri($element, '');
+			// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
+			$principal = $this->principalBackend->findByUri($element, '')
+				?? $this->remoteUserPrincipalBackend->findByUri($element, '');
 			if (empty($principal)) {
 				continue;
 			}
@@ -124,14 +139,14 @@ abstract class Backend {
 		$rows = $this->service->getShares($resourceId);
 		$shares = [];
 		foreach ($rows as $row) {
-			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$p = $this->getPrincipalByPath($row['principaluri']);
 			$shares[] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => (int)$row['access'] === Backend::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles'))
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles')),
 			];
 		}
 		$this->shareCache->set((string)$resourceId, $shares);
@@ -150,7 +165,7 @@ abstract class Backend {
 		$sharesByResource = array_fill_keys($resourceIds, []);
 		foreach ($rows as $row) {
 			$resourceId = (int)$row['resourceid'];
-			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$p = $this->getPrincipalByPath($row['principaluri']);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
@@ -236,5 +251,18 @@ abstract class Backend {
 		);
 
 		return count(array_intersect($memberships, $shares)) > 0;
+	}
+
+	public function getSharesByShareePrincipal(string $principal): array {
+		return $this->service->getSharesByPrincipals([$principal]);
+	}
+
+	private function getPrincipalByPath(string $principalUri): ?array {
+		// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
+		if (str_starts_with($principalUri, RemoteUserPrincipalBackend::PRINCIPAL_PREFIX)) {
+			return $this->remoteUserPrincipalBackend->getPrincipalByPath($principalUri);
+		}
+
+		return $this->principalBackend->getPrincipalByPath($principalUri);
 	}
 }
