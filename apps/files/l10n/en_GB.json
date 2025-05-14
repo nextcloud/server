@@ -41,8 +41,6 @@
     "Files" : "Files",
     "A file or folder has been <strong>changed</strong>" : "A file or folder has been <strong>changed</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "A favourite file or folder has been <strong>changed</strong>",
-    "%1$s (renamed)" : "%1$s (renamed)",
-    "renamed file" : "renamed file",
     "Failed to authorize" : "Failed to authorize",
     "Invalid folder path" : "Invalid folder path",
     "Folder not found" : "Folder not found",

@@ -43,8 +43,6 @@ OC.L10N.register(
     "Files" : "Pliki",
     "A file or folder has been <strong>changed</strong>" : "Plik lub katalog został <strong>zmieniony</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Ulubiony plik lub katalog został <strong>zmieniony</strong>",
-    "%1$s (renamed)" : "%1$s (zmieniona nazwa)",
-    "renamed file" : "zmieniona nazwa pliku",
     "Failed to authorize" : "Błąd autoryzacji",
     "Invalid folder path" : "Nieprawidłowa ścieżka katalogu",
     "Folder not found" : "Nie znaleziono katalogu",
