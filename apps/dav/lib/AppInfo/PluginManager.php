@@ -14,11 +14,9 @@ use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use Sabre\DAV\Collection;
 use Sabre\DAV\ServerPlugin;
 use function array_map;
-use function class_exists;
 use function is_array;
 
 /**
@@ -226,19 +224,6 @@ class PluginManager {
 		return [];
 	}
 
-	private function createClass(string $className): object {
-		try {
-			return $this->container->get($className);
-		} catch (QueryException $e) {
-			if (class_exists($className)) {
-				return new $className();
-			}
-		}
-
-		throw new \Exception('Could not load ' . $className, 0, $e);
-	}
-
-
 	/**
 	 * @param string[] $classes
 	 * @return ServerPlugin[]
@@ -246,7 +231,7 @@ class PluginManager {
 	 */
 	private function loadSabrePluginsFromInfoXml(array $classes): array {
 		return array_map(function (string $className): ServerPlugin {
-			$instance = $this->createClass($className);
+			$instance = $this->container->get($className);
 			if (!($instance instanceof ServerPlugin)) {
 				throw new \Exception('Sabre server plugin ' . $className . ' does not implement the ' . ServerPlugin::class . ' interface');
 			}
@@ -260,7 +245,7 @@ class PluginManager {
 	 */
 	private function loadSabreCollectionsFromInfoXml(array $classes): array {
 		return array_map(function (string $className): Collection {
-			$instance = $this->createClass($className);
+			$instance = $this->container->get($className);
 			if (!($instance instanceof Collection)) {
 				throw new \Exception('Sabre collection plugin ' . $className . ' does not implement the ' . Collection::class . ' interface');
 			}
@@ -274,7 +259,8 @@ class PluginManager {
 	 */
 	private function loadSabreAddressBookPluginsFromInfoXml(array $classes): array {
 		return array_map(function (string $className): IAddressBookProvider {
-			$instance = $this->createClass($className);
+			$instance = $this->container->get($className);
+			;
 			if (!($instance instanceof IAddressBookProvider)) {
 				throw new \Exception('Sabre address book plugin class ' . $className . ' does not implement the ' . IAddressBookProvider::class . ' interface');
 			}
@@ -288,7 +274,7 @@ class PluginManager {
 	 */
 	private function loadSabreCalendarPluginsFromInfoXml(array $classes): array {
 		return array_map(function (string $className): ICalendarProvider {
-			$instance = $this->createClass($className);
+			$instance = $this->container->get($className);
 			if (!($instance instanceof ICalendarProvider)) {
 				throw new \Exception('Sabre calendar plugin class ' . $className . ' does not implement the ' . ICalendarProvider::class . ' interface');
 			}
