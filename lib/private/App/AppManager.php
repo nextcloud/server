@@ -8,6 +8,7 @@ namespace OC\App;
 
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -561,6 +562,8 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
+
+		\OCP\Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 	}
 
 	/**
@@ -615,6 +618,8 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
+
+		\OCP\Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 	}
 
 	/**
