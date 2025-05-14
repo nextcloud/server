@@ -1701,12 +1701,6 @@
       <code><![CDATA[$image]]></code>
       <code><![CDATA[$image]]></code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code><![CDATA[($newImage !== false) ? $newImage : $image]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[GdImage|false]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
@@ -2562,24 +2556,9 @@
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Preview/Generator.php">
-    <InvalidArgument>
-      <code><![CDATA[$maxPreviewImage]]></code>
-    </InvalidArgument>
     <LessSpecificReturnType>
       <code><![CDATA[null|string]]></code>
     </LessSpecificReturnType>
-    <MismatchingDocblockParamType>
-      <code><![CDATA[ISimpleFile]]></code>
-    </MismatchingDocblockParamType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[height]]></code>
-      <code><![CDATA[height]]></code>
-      <code><![CDATA[preciseResizeCopy]]></code>
-      <code><![CDATA[resizeCopy]]></code>
-      <code><![CDATA[valid]]></code>
-      <code><![CDATA[width]]></code>
-      <code><![CDATA[width]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement>
