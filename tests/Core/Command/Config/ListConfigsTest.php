@@ -7,6 +7,7 @@
 
 namespace Tests\Core\Command\Config;
 
+use OC\Config\ConfigManager;
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
 use OCP\IAppConfig;
@@ -20,6 +21,8 @@ class ListConfigsTest extends TestCase {
 	protected $appConfig;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	protected $configManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
@@ -38,12 +41,17 @@ class ListConfigsTest extends TestCase {
 		$appConfig = $this->appConfig = $this->getMockBuilder(IAppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$configManager = $this->configManager = $this->getMockBuilder(ConfigManager::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
 		/** @var \OCP\IAppConfig $appConfig */
-		$this->command = new ListConfigs($systemConfig, $appConfig);
+		/** @var ConfigManager $configManager */
+		$this->command = new ListConfigs($systemConfig, $appConfig, $configManager);
 	}
 
 	public static function listData(): array {
