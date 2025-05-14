@@ -1,12 +1,10 @@
 {
-	"_comment" : "Array of human readable mimes.",
-	"_comment2": "Any changes you make here will be overwritten on an update of Nextcloud.",
-	"_comment3": "Put any custom mappings in a new file mimetypenames.json in the config/ folder of Nextcloud",
-
-	"_comment4": "After any change to mimetypenames.json run:",
-	"_comment5": "./occ maintenance:mimetype:update-js",
-	"_comment6": "Otherwise your update won't propagate through the system.",
-
+  "_comment": "Array of human readable mimes.",
+  "_comment2": "Any changes you make here will be overwritten on an update of Nextcloud.",
+  "_comment3": "Put any custom mappings in a new file mimetypenames.json in the config/ folder of Nextcloud",
+  "_comment4": "After any change to mimetypenames.json run:",
+  "_comment5": "./occ maintenance:mimetype:update-js",
+  "_comment6": "Otherwise your update won't propagate through the system.",
   "application/epub+zip": "Electronic book document",
   "application/gpx+xml": "GPX geographic data",
   "application/gzip": "Gzip archive",
@@ -32,6 +30,7 @@
   "application/vnd.ms-powerpoint.slideshow.macroEnabled.12": "PowerPoint presentation",
   "application/vnd.ms-powerpoint.template.macroEnabled.12": "PowerPoint presentation template",
   "application/vnd.ms-word.document.macroEnabled.12": "Word document",
+  "application/vnd.oasis.opendocument.formula": "ODF formula",
   "application/vnd.oasis.opendocument.graphics": "ODG drawing",
   "application/vnd.oasis.opendocument.graphics-flat-xml": "ODG drawing (Flat XML)",
   "application/vnd.oasis.opendocument.graphics-template": "ODG template",
@@ -109,6 +108,5 @@
   "video/webm": "WebM video",
   "video/x-flv": "Flash video",
   "video/x-matroska": "Matroska video",
-  "video/x-ms-wmv": "Windows Media video",
-  "application/vnd.oasis.opendocument.formula": "ODF formula"
+  "video/x-ms-wmv": "Windows Media video"
 }

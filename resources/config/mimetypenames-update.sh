@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 set -e
 
 # Paths
@@ -48,8 +52,8 @@ while read -r MIME; do
     fi
 done <<< "$MIME_TYPES"
 
-# Final formatting
-jq '.' "$OUTPUT_JSON.tmp" > "$OUTPUT_JSON" && rm "$OUTPUT_JSON.tmp"
+# Final formatting and sorting by keys
+jq -S . "$OUTPUT_JSON.tmp" > "$OUTPUT_JSON" && rm "$OUTPUT_JSON.tmp"
 
 echo "✅ Done!"
 echo "✔️  Descriptions found for $MATCHED_COUNT MIME types"
