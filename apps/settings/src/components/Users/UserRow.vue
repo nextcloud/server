@@ -256,6 +256,7 @@
 					label="displayname"
 					:options="possibleManagers"
 					:placeholder="managerLabel"
+					clearable
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
 					@option:selected="updateUserManager" />
@@ -630,20 +631,25 @@ export default {
 		},
 
 		async updateUserManager(manager) {
-			if (manager === null) {
-				this.currentManager = ''
-			}
+			// Update the local state immediately for better UX
+			const previousManager = this.currentManager
+			this.currentManager = manager || ''
 			this.loading.manager = true
+
 			try {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
-					value: this.currentManager ? this.currentManager.id : '',
+					value: manager ? manager.id : '',
 				})
+
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
 				showError(t('settings', 'Failed to update line manager'))
-				console.error(error)
+				console.error('Failed to update manager:', error)
+
+				// Revert to the previous manager in the UI on error
+				this.currentManager = previousManager
 			} finally {
 				this.loading.manager = false
 			}
