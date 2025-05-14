@@ -134,7 +134,9 @@ class ServerContainer extends SimpleContainer {
 				// Didn't find the service or the respective app container
 				// In this case the service won't be part of the core container,
 				// so we can throw directly
-				throw $e;
+				if (!$this->has($name)) {
+					throw $e;
+				}
 			}
 		} elseif (str_starts_with($name, 'OC\\Settings\\') && substr_count($name, '\\') >= 3) {
 			$segments = explode('\\', $name);
