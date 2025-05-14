@@ -68,7 +68,6 @@ class RootCollection extends SimpleCollection {
 			$groupManager,
 			Server::get(IAccountManager::class),
 			$shareManager,
-			Server::get(IUserSession::class),
 			Server::get(IAppManager::class),
 			$proxyMapper,
 			Server::get(KnownUserService::class),
