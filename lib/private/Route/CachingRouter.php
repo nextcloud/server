@@ -23,6 +23,8 @@ use Symfony\Component\Routing\RouteCollection;
 class CachingRouter extends Router {
 	protected ICache $cache;
 
+	protected array $legacyCreatedRoutes = [];
+
 	public function __construct(
 		ICacheFactory $cacheFactory,
 		LoggerInterface $logger,
@@ -103,5 +105,53 @@ class CachingRouter extends Router {
 
 		$this->eventLogger->end('cacheroute:match');
 		return $parameters;
+	}
+
+	/**
+	 * @param array{action:mixed, ...} $parameters
+	 */
+	protected function callLegacyActionRoute(array $parameters): void {
+		/*
+		 * Closures cannot be serialized to cache, so for legacy routes calling an action we have to include the routes.php file again
+		 */
+		$app = $parameters['app'];
+		$this->useCollection($app);
+		parent::requireRouteFile($parameters['route-file'], $app);
+		$collection = $this->getCollection($app);
+		$parameters['action'] = $collection->get($parameters['_route'])?->getDefault('action');
+		parent::callLegacyActionRoute($parameters);
+	}
+
+	/**
+	 * Create a \OC\Route\Route.
+	 * Deprecated
+	 *
+	 * @param string $name Name of the route to create.
+	 * @param string $pattern The pattern to match
+	 * @param array $defaults An array of default parameter values
+	 * @param array $requirements An array of requirements for parameters (regexes)
+	 */
+	public function create($name, $pattern, array $defaults = [], array $requirements = []): Route {
+		$this->legacyCreatedRoutes[] = $name;
+		return parent::create($name, $pattern, $defaults, $requirements);
+	}
+
+	/**
+	 * Require a routes.php file
+	 */
+	protected function requireRouteFile(string $file, string $appName): void {
+		$this->legacyCreatedRoutes = [];
+		parent::requireRouteFile($file, $appName);
+		foreach ($this->legacyCreatedRoutes as $routeName) {
+			$route = $this->collection?->get($routeName);
+			if ($route === null) {
+				/* Should never happen */
+				throw new \Exception("Could not find route $routeName");
+			}
+			if ($route->hasDefault('action')) {
+				$route->setDefault('route-file', $file);
+				$route->setDefault('app', $appName);
+			}
+		}
 	}
 }
