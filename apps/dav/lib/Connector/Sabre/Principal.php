@@ -24,7 +24,6 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Auth\Plugin as AuthPlugin;
@@ -54,7 +53,6 @@ class Principal implements BackendInterface {
 		private IGroupManager $groupManager,
 		private IAccountManager $accountManager,
 		private IShareManager $shareManager,
-		private IUserSession $userSession,
 		private IAppManager $appManager,
 		ProxyMapper $proxyMapper,
 		KnownUserService $knownUserService,
