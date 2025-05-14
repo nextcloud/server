@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -5232,5 +5233,101 @@ class ShareAPIControllerTest extends TestCase {
 			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
 			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
 		], $result);
+	}
+
+	public function testCreateShareWithMailNotificationEnabled(): void {
+		$share = $this->createMock(IShare::class);
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
+
+		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnMap([
+				[\OCA\Files_Sharing\External\Storage::class, false],
+				[\OCA\Files_Sharing\SharedStorage::class, false],
+			]);
+	
+		$node->method('getPath')->willReturn('/testfile.txt');
+		$node->method('getId')->willReturn(1);
+		$node->method('getStorage')->willReturn($storage);
+		$userFolder->method('get')
+			->with('/testfile.txt')
+			->willReturn($node);
+		$userFolder->method('getById')
+			->with(1)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+		$this->userManager->method('userExists')->with('recipient')->willReturn(true);
+		$this->shareManager->method('newShare')->willReturn($share);
+		$this->shareManager->method('createShare')->with($share)->willReturn($share);
+		$share->method('getNode')->willReturn($node);
+	
+		$share->expects($this->once())
+			->method('setMailSend')
+			->with(true);
+	
+		$formattedShare = ['id' => '123'];
+		$controller = $this->mockFormatShare();
+		$controller->method('formatShare')
+			->with($share)
+			->willReturn($formattedShare);
+	
+		$result = $controller->createShare(
+			'/testfile.txt', 1, IShare::TYPE_USER, 'recipient',
+			null, '', null, null, '', '', null, 'true'
+		);
+	
+		$this->assertEquals(\OCP\AppFramework\Http::STATUS_OK, $result->getStatus());
+		$this->assertEquals($formattedShare, $result->getData());
+	}
+	
+	public function testCreateShareWithMailNotificationDisabled(): void {
+		$share = $this->createMock(IShare::class);
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
+
+		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnMap([
+				[\OCA\Files_Sharing\External\Storage::class, false],
+				[\OCA\Files_Sharing\SharedStorage::class, false],
+			]);
+	
+		$node->method('getPath')->willReturn('/testfile.txt');
+		$node->method('getId')->willReturn(1);
+		$node->method('getStorage')->willReturn($storage);
+		$userFolder->method('get')
+			->with('/testfile.txt')
+			->willReturn($node);
+		$userFolder->method('getById')
+			->with(1)
+			->willReturn([]);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+		$this->userManager->method('userExists')->with('recipient')->willReturn(true);
+		$this->shareManager->method('newShare')->willReturn($share);
+		$this->shareManager->method('createShare')->with($share)->willReturn($share);
+		$share->method('getNode')->willReturn($node);
+	
+		$share->expects($this->once())
+			->method('setMailSend')
+			->with(false);
+	
+		$formattedShare = ['id' => '123'];
+		$controller = $this->mockFormatShare();
+		$controller->method('formatShare')
+			->with($share)
+			->willReturn($formattedShare);
+	
+		$result = $controller->createShare(
+			'/testfile.txt', 1, IShare::TYPE_USER, 'recipient',
+			null, '', null, null, '', '', null, 'false'
+		);
+	
+		$this->assertEquals(\OCP\AppFramework\Http::STATUS_OK, $result->getStatus());
+		$this->assertEquals($formattedShare, $result->getData());
 	}
 }
