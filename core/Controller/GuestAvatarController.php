@@ -76,7 +76,7 @@ class GuestAvatarController extends Controller {
 			$this->logger->error('error while creating guest avatar', [
 				'err' => $e,
 			]);
-			$resp = new Http\Response();
+			$resp = new Response();
 			$resp->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
 			return $resp;
 		}

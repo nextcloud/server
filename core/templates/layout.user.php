@@ -11,7 +11,7 @@
  */
 
 $getUserAvatar = static function (int $size) use ($_): string {
-	return \OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', [
+	return \OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.avatar.getAvatar', [
 		'userId' => $_['user_uid'],
 		'size' => $size,
 		'v' => $_['userAvatarVersion']
