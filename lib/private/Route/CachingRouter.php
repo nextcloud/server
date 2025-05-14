@@ -74,7 +74,7 @@ class CachingRouter extends Router {
 	 * @return array
 	 */
 	public function findMatchingRoute(string $url): array {
-		$this->eventLogger->start('cacheroute:match');
+		$this->eventLogger->start('cacheroute:match', 'Match route');
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . '#rootCollection';
 		$cachedRoutes = $this->cache->get($key);
 		if (!$cachedRoutes) {
@@ -83,7 +83,7 @@ class CachingRouter extends Router {
 			$this->cache->set($key, $cachedRoutes, 3600);
 		}
 		$matcher = new CompiledUrlMatcher($cachedRoutes, $this->context);
-		$this->eventLogger->start('cacheroute:url:match');
+		$this->eventLogger->start('cacheroute:url:match', 'Symfony URL match call');
 		try {
 			$parameters = $matcher->match($url);
 		} catch (ResourceNotFoundException $e) {
