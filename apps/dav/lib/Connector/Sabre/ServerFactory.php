@@ -116,7 +116,7 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $tree, $viewCallBack, $isPublicShare, $rootCollection): void {
+		$server->on('beforeMethod:*', function () use ($server, $tree, $viewCallBack, $isPublicShare, $rootCollection, $authPlugin): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -147,6 +147,7 @@ class ServerFactory {
 					\OCP\Server::get(KnownUserService::class),
 					\OCP\Server::get(IConfig::class),
 					\OC::$server->getL10NFactory(),
+					$authPlugin,
 				);
 
 				// Mount the share collection at /public.php/dav/shares/<share token>

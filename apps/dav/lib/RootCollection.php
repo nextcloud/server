@@ -43,10 +43,13 @@ use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
-	public function __construct() {
+	public function __construct(
+		AuthPlugin $authPlugin,
+	) {
 		$l10n = \OC::$server->getL10N('dav');
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);
@@ -70,7 +73,8 @@ class RootCollection extends SimpleCollection {
 			$proxyMapper,
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
-			\OC::$server->getL10NFactory()
+			\OC::$server->getL10NFactory(),
+			$authPlugin,
 		);
 
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
