@@ -88,6 +88,8 @@ export const useRenamingStore = defineStore('renaming', () => {
 			})
 
 			// Update mime type if extension changed
+			// as other related informations might have changed
+			// on the backend but it is really hard to know on the front
 			if (oldExtension !== newExtension) {
 				node = await fetchNode(node.path)
 			}
