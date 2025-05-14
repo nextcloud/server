@@ -87,7 +87,8 @@ class Coordinator {
 					$this->eventLogger->start("bootstrap:register_app:$appId:application", "Load `Application` instance for $appId");
 					try {
 						/** @var IBootstrap&App $application */
-						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
+						$application = $this->serverContainer->query($applicationClassName);
+						$apps[$appId] = $application;
 					} catch (QueryException $e) {
 						// Weird, but ok
 						$this->eventLogger->end("bootstrap:register_app:$appId");
