@@ -768,27 +768,25 @@ const actions = {
 	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
 		const validKeys = ['email', 'language', 'quota', 'displayname', 'password', 'manager']
+
 		if (!validKeys.includes(key)) {
-			return Promise.reject(new Error('Invalid request data'))
+			throw new Error('Invalid request data')
+		}
+
+		// If value is empty and the key doesn't allow empty values, throw error
+		if (value === '' && !allowedEmpty.includes(key)) {
+			throw new Error('Value cannot be empty for this field')
 		}
 
 		try {
 			await api.requireAdmin()
-			if (typeof value === 'string' && value.length === 0 && allowedEmpty.includes(key)) {
-				// If value is empty and allowed to be empty, send DELETE request
-				await api.delete(generateOcsUrl('cloud/users/{userid}', { userid }), { key })
-				return context.commit('setUserData', { userid, key, value: '' })
-			}
-
-			if (typeof value === 'string' && (value.length > 0 || allowedEmpty.includes(key))) {
-				await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-				return context.commit('setUserData', { userid, key, value })
-			}
+			const commitValue = value === '' ? '' : value
+			await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+			return context.commit('setUserData', { userid, key, value: commitValue })
 		} catch (error) {
 			context.commit('API_FAILURE', { userid, error })
+			throw error
 		}
-
-		return Promise.reject(new Error('Invalid request data'))
 	},
 
 	/**

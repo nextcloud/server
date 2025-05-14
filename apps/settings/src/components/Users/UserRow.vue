@@ -264,8 +264,7 @@
 					:placeholder="managerLabel"
 					clearable
 					@open="searchInitialUserManager"
-					@search="searchUserManager"
-					@option:selected="updateUserManager" />
+					@search="searchUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -516,6 +515,12 @@ export default {
 		},
 	},
 
+	watch: {
+		currentManager() {
+			this.updateUserManager()
+		},
+	},
+
 	async beforeMount() {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
@@ -636,23 +641,22 @@ export default {
 			})
 		},
 
-		async updateUserManager(manager) {
-			// Update the local state immediately for better UX
-			const previousManager = this.currentManager
-			this.currentManager = manager || ''
+		async updateUserManager() {
 			this.loading.manager = true
+
+			// Store the current manager before making changes
+			const previousManager = this.currentManager
 
 			try {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
-					value: manager ? manager.id : '',
+					value: this.currentManager ? this.currentManager.id : '',
 				})
-
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
 				showError(t('settings', 'Failed to update line manager'))
-				console.error('Failed to update manager:', error)
+				logger.error('Failed to update manager:', error)
 
 				// Revert to the previous manager in the UI on error
 				this.currentManager = previousManager
