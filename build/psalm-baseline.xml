@@ -1266,11 +1266,6 @@
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
   </file>
-  <file src="lib/autoloader.php">
-    <RedundantCondition>
-      <code><![CDATA[$this->memoryCache]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/base.php">
     <InvalidArgument>
       <code><![CDATA[$restrictions]]></code>
