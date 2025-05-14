@@ -57,7 +57,7 @@ class UserConfig {
 		[
 			// Whether to show the mime column or not
 			'key' => 'show_mime_column',
-			'default' => true,
+			'default' => false,
 			'allowed' => [true, false],
 		]
 	];
