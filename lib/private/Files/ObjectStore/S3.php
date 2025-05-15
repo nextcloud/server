@@ -9,7 +9,6 @@ namespace OC\Files\ObjectStore;
 use Aws\Result;
 use Exception;
 use OCP\Files\ObjectStore\IObjectStore;
-use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 
 class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaData {

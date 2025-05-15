@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files\Command\Object;
 
 use OC\Core\Command\Base;
-use OCP\Files\ObjectStore\IObjectStoreMetaData;
+use OC\Files\ObjectStore\IObjectStoreMetaData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
