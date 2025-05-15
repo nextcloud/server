@@ -33,12 +33,6 @@ class ProviderFactory implements IProviderFactory {
 	private ?ShareByMailProvider $shareByMailProvider = null;
 	/**
 	 * @psalm-suppress UndefinedDocblockClass
-	 * @var ?ShareByCircleProvider
-	 */
-	private $shareByCircleProvider = null;
-	private bool $circlesAreNotAvailable = false;
-	/**
-	 * @psalm-suppress UndefinedDocblockClass
 	 * @var ?RoomShareProvider
 	 */
 	private $roomShareProvider = null;
@@ -100,33 +94,6 @@ class ProviderFactory implements IProviderFactory {
 		return $this->shareByMailProvider;
 	}
 
-
-	/**
-	 * Create the circle share provider
-	 *
-	 * @psalm-suppress UndefinedDocblockClass
-	 * @return ?ShareByCircleProvider
-	 */
-	protected function getShareByCircleProvider() {
-		if ($this->circlesAreNotAvailable) {
-			return null;
-		}
-
-		if (!$this->appManager->isEnabledForUser('circles') ||
-			!class_exists('\OCA\Circles\ShareByCircleProvider')
-		) {
-			$this->circlesAreNotAvailable = true;
-			return null;
-		}
-
-		if ($this->shareByCircleProvider === null) {
-			/** @psalm-suppress UndefinedClass */
-			$this->shareByCircleProvider = Server::get(ShareByCircleProvider::class);
-		}
-
-		return $this->shareByCircleProvider;
-	}
-
 	/**
 	 * Create the room share provider
 	 *
@@ -174,8 +141,6 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->federatedShareProvider();
 		} elseif ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
-		} elseif ($id === 'ocCircleShare') {
-			$provider = $this->getShareByCircleProvider();
 		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
 		}
@@ -220,7 +185,7 @@ class ProviderFactory implements IProviderFactory {
 		} elseif ($shareType === IShare::TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
-			$provider = $this->getShareByCircleProvider();
+			$provider = $this->getProvider(ShareByCircleProvider::IDENTIFIER);
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
@@ -242,10 +207,6 @@ class ProviderFactory implements IProviderFactory {
 		$shareByMail = $this->getShareByMailProvider();
 		if ($shareByMail !== null) {
 			$shares[] = $shareByMail;
-		}
-		$shareByCircle = $this->getShareByCircleProvider();
-		if ($shareByCircle !== null) {
-			$shares[] = $shareByCircle;
 		}
 		$roomShare = $this->getRoomShareProvider();
 		if ($roomShare !== null) {
