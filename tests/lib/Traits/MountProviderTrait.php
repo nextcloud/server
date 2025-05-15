@@ -58,6 +58,6 @@ trait MountProviderTrait {
 					return [];
 				}
 			}));
-		\OC::$server->getMountProviderCollection()->registerProvider($this->mountProvider);
+		\OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class)->registerProvider($this->mountProvider);
 	}
 }
