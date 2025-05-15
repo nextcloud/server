@@ -1125,7 +1125,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', ProviderFactory::class);
 			/** @var \OCP\Share\IProviderFactory $factory */
-			return new $factoryClass($this);
+			return $c->get($factoryClass);
 		});
 
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
