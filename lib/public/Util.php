@@ -51,7 +51,7 @@ class Util {
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+		return \OCP\Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Util {
 	 * @since 8.1.0
 	 */
 	public static function setChannel($channel) {
-		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
+		\OCP\Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
@@ -182,7 +182,7 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// Sort scriptDeps into sortedScriptDeps
-		$scriptSort = \OC::$server->get(AppScriptSort::class);
+		$scriptSort = \OCP\Server::get(AppScriptSort::class);
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
@@ -209,7 +209,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
+			$languageCode = \OCP\Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -247,7 +247,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -260,7 +260,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
@@ -273,7 +273,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = \OC::$server->getRequest()->getServerHost();
+		$host_name = \OCP\Server::get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
 		if ($colon_pos != false) {
@@ -299,13 +299,13 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OC::$server->getConfig();
+		$config = \OCP\Server::get(IConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$mailer = \OC::$server->get(IMailer::class);
+		$mailer = \OCP\Server::get(IMailer::class);
 		if ($mailer->validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
@@ -447,7 +447,7 @@ class Util {
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
+			self::$token = \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}
@@ -582,7 +582,7 @@ class Util {
 	 */
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
+			self::$needUpgradeCache = \OC_Util::needUpgrade(\OCP\Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}
