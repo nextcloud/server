@@ -1284,6 +1284,7 @@ return array(
     'OC\\Core\\Command\\Maintenance\\RepairShareOwnership' => $baseDir . '/core/Command/Maintenance/RepairShareOwnership.php',
     'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => $baseDir . '/core/Command/Maintenance/UpdateHtaccess.php',
     'OC\\Core\\Command\\Maintenance\\UpdateTheme' => $baseDir . '/core/Command/Maintenance/UpdateTheme.php',
+    'OC\\Core\\Command\\Memcache\\DistributedClear' => $baseDir . '/core/Command/Memcache/DistributedClear.php',
     'OC\\Core\\Command\\Memcache\\DistributedDelete' => $baseDir . '/core/Command/Memcache/DistributedDelete.php',
     'OC\\Core\\Command\\Memcache\\DistributedGet' => $baseDir . '/core/Command/Memcache/DistributedGet.php',
     'OC\\Core\\Command\\Memcache\\DistributedSet' => $baseDir . '/core/Command/Memcache/DistributedSet.php',
