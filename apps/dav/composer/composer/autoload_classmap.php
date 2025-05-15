@@ -16,6 +16,7 @@ return array(
     'OCA\\DAV\\BackgroundJob\\CalendarRetentionJob' => $baseDir . '/../lib/BackgroundJob/CalendarRetentionJob.php',
     'OCA\\DAV\\BackgroundJob\\CleanupDirectLinksJob' => $baseDir . '/../lib/BackgroundJob/CleanupDirectLinksJob.php',
     'OCA\\DAV\\BackgroundJob\\CleanupInvitationTokenJob' => $baseDir . '/../lib/BackgroundJob/CleanupInvitationTokenJob.php',
+    'OCA\\DAV\\BackgroundJob\\CleanupOrphanedChildrenJob' => $baseDir . '/../lib/BackgroundJob/CleanupOrphanedChildrenJob.php',
     'OCA\\DAV\\BackgroundJob\\DeleteOutdatedSchedulingObjects' => $baseDir . '/../lib/BackgroundJob/DeleteOutdatedSchedulingObjects.php',
     'OCA\\DAV\\BackgroundJob\\EventReminderJob' => $baseDir . '/../lib/BackgroundJob/EventReminderJob.php',
     'OCA\\DAV\\BackgroundJob\\GenerateBirthdayCalendarBackgroundJob' => $baseDir . '/../lib/BackgroundJob/GenerateBirthdayCalendarBackgroundJob.php',
