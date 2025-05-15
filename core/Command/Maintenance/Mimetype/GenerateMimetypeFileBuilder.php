@@ -73,7 +73,7 @@ class GenerateMimetypeFileBuilder {
 
 		$namesOutput = '';
 		foreach ($names as $key => $name) {
-			if (str_starts_with($key, '_')) {
+			if (str_starts_with($key, '_') || trim($name) === '') {
 				// Skip internal names
 				continue;
 			}

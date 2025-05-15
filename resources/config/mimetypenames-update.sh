@@ -48,6 +48,7 @@ while read -r MIME; do
         MATCHED_COUNT=$((MATCHED_COUNT + 1))
     else
         echo " > Warning: No description found for MIME type $MIME ⚠️"
+        jq --arg key "$MIME" --arg value "" '. + {($key): $value}' "$OUTPUT_JSON.tmp" > "$OUTPUT_JSON.tmp2" && mv "$OUTPUT_JSON.tmp2" "$OUTPUT_JSON.tmp"
         MISSING_COUNT=$((MISSING_COUNT + 1))
     fi
 done <<< "$MIME_TYPES"
