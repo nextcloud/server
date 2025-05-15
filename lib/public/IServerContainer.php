@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCP;
 
-use OCP\Federation\ICloudFederationProviderManager;
-use OCP\Security\IContentSecurityPolicyManager;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -94,15 +92,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getUserSession();
 
 	/**
-	 * Returns the navigation manager
-	 *
-	 * @return \OCP\INavigationManager
-	 * @since 6.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getNavigationManager();
-
-	/**
 	 * Returns the config manager
 	 *
 	 * @return \OCP\IConfig
@@ -137,15 +126,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getSecureRandom();
-
-	/**
-	 * Returns the app config manager
-	 *
-	 * @return \OCP\IAppConfig
-	 * @since 7.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getAppConfig();
 
 	/**
 	 * @return \OCP\L10N\IFactory
@@ -251,15 +231,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getCertificateManager();
 
 	/**
-	 * Returns an instance of the HTTP client service
-	 *
-	 * @return \OCP\Http\Client\IClientService
-	 * @since 8.1.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getHTTPClientService();
-
-	/**
 	 * Get the manager for temporary files and folders
 	 *
 	 * @return \OCP\ITempManager
@@ -305,13 +276,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getLockingProvider();
 
 	/**
-	 * @return \OCP\Files\Mount\IMountManager
-	 * @since 8.2.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getMountManager();
-
-	/**
 	 * Get the MimeTypeDetector
 	 *
 	 * @return \OCP\Files\IMimeTypeDetector
@@ -339,30 +303,9 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getNotificationManager();
 
 	/**
-	 * @return IContentSecurityPolicyManager
-	 * @since 9.0.0
-	 * @deprecated 17.0.0 Use the AddContentSecurityPolicyEvent
-	 */
-	public function getContentSecurityPolicyManager();
-
-	/**
 	 * @return \OCP\Federation\ICloudIdManager
 	 * @since 12.0.0
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCloudIdManager();
-
-	/**
-	 * @return \OCP\GlobalScale\IConfig
-	 * @since 14.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getGlobalScaleConfig();
-
-	/**
-	 * @return ICloudFederationProviderManager
-	 * @since 14.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function getCloudFederationProviderManager();
 }
