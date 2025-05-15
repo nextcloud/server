@@ -86,7 +86,8 @@ class TestMiddleware extends Middleware {
 }
 
 class TestController extends Controller {
-	public function method(): void {}
+	public function method(): void {
+	}
 }
 
 class MiddlewareDispatcherTest extends \Test\TestCase {

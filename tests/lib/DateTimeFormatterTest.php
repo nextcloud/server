@@ -81,7 +81,7 @@ class DateTimeFormatterTest extends TestCase {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatTimeSpan($timestamp, $compare, $locale));
 	}
 
-	public static function formatDateSpanData(): array{
+	public static function formatDateSpanData(): array {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
 		$deL10N = \OCP\Util::getL10N('lib', 'de');
 		return [

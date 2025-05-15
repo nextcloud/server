@@ -9,14 +9,14 @@ namespace Test\Encryption;
 
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Memcache\ArrayCache;
+use OCA\Files_Trashbin\Storage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use OCA\Files_Trashbin\Storage;
-use OC\Files\Storage\Wrapper\Encryption;
 
 class EncryptionWrapperTest extends TestCase {
 	/** @var EncryptionWrapper */

@@ -8,6 +8,7 @@
 
 namespace Test\AppFramework\Http;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
@@ -26,7 +27,6 @@ use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use OC\AppFramework\DependencyInjection\DIContainer;
 
 class TestController extends Controller {
 	/**

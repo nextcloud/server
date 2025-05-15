@@ -360,7 +360,7 @@ class RoutingTest extends \Test\TestCase {
 		$router
 			->expects($this->exactly(5))
 			->method('create')
-			->willReturnCallback(function(string $name, string $pattern) use (&$calls) {
+			->willReturnCallback(function (string $name, string $pattern) use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected['name'], $name);
 				$this->assertEquals($expected['pattern'], $pattern);
@@ -414,7 +414,7 @@ class RoutingTest extends \Test\TestCase {
 		$router
 			->expects($this->exactly(5))
 			->method('create')
-			->willReturnCallback(function(string $name, string $pattern) use (&$calls) {
+			->willReturnCallback(function (string $name, string $pattern) use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected['name'], $name);
 				$this->assertEquals($expected['pattern'], $pattern);

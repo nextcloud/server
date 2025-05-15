@@ -10,9 +10,11 @@ declare(strict_types=1);
 namespace Test\Files\Stream;
 
 use OC\Encryption\File;
+use OC\Encryption\Util;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Files\Stream\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Encryption\IEncryptionModule;
@@ -22,8 +24,6 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use OC\Files\Stream\Encryption;
-use OC\Encryption\Util;
 
 class EncryptionTest extends \Test\TestCase {
 	public const DEFAULT_WRAPPER = '\OC\Files\Stream\Encryption';

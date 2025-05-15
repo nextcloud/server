@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Login;
 
-use OC\Authentication\Login\ALoginCommand;
 use OC\Authentication\Login\LoginData;
 use OCP\IRequest;
 use OCP\IUser;

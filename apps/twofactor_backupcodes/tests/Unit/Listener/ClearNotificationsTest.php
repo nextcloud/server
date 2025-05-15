@@ -20,7 +20,7 @@ use Test\TestCase;
 
 class ClearNotificationsTest extends TestCase {
 	private IManager&MockObject $notificationManager;
-	private ClearNotifications$listener;
+	private ClearNotifications $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

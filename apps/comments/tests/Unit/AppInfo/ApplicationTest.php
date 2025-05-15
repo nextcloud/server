@@ -9,17 +9,17 @@ declare(strict_types=1);
  */
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
+use OCA\Comments\Activity\Filter;
+use OCA\Comments\Activity\Listener;
+use OCA\Comments\Activity\Provider;
+use OCA\Comments\Activity\Setting;
 use OCA\Comments\AppInfo\Application;
+use OCA\Comments\Controller\NotificationsController;
 use OCA\Comments\Notification\Notifier;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
 use Test\TestCase;
-use OCA\Comments\Controller\NotificationsController;
-use OCA\Comments\Activity\Filter;
-use OCA\Comments\Activity\Listener;
-use OCA\Comments\Activity\Provider;
-use OCA\Comments\Activity\Setting;
 
 /**
  * Class ApplicationTest

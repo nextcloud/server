@@ -13,7 +13,7 @@ abstract class ObjectStoreTestCase extends TestCase {
 	/** @var string[] */
 	private $cleanup = [];
 
-	private $instance = nulL;
+	private $instance = null;
 
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore

@@ -27,12 +27,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ListenerTest extends TestCase {
-	protected IManager&MockObject  $activityManager;
-	protected IUserSession&MockObject  $session;
+	protected IManager&MockObject $activityManager;
+	protected IUserSession&MockObject $session;
 	protected IAppManager&MockObject $appManager;
-	protected IMountProviderCollection&MockObject  $mountProviderCollection;
-	protected IRootFolder&MockObject  $rootFolder;
-	protected IShareHelper&MockObject  $shareHelper;
+	protected IMountProviderCollection&MockObject $mountProviderCollection;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IShareHelper&MockObject $shareHelper;
 	protected Listener $listener;
 
 	protected function setUp(): void {

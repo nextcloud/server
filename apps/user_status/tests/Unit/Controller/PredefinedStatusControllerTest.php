@@ -16,7 +16,7 @@ use Test\TestCase;
 
 class PredefinedStatusControllerTest extends TestCase {
 	private PredefinedStatusService&MockObject $service;
-	private PredefinedStatusController$controller;
+	private PredefinedStatusController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();

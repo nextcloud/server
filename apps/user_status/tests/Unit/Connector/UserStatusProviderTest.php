@@ -16,7 +16,7 @@ use Test\TestCase;
 
 class UserStatusProviderTest extends TestCase {
 	private StatusService&MockObject $service;
-	private UserStatusProvider$provider;
+	private UserStatusProvider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();

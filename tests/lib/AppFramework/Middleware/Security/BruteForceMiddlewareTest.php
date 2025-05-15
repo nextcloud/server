@@ -106,7 +106,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
-			->willReturnCallback(function() use (&$calls) {
+			->willReturnCallback(function () use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 				return 0;
@@ -235,7 +235,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
-			->willReturnCallback(function() use (&$sleepCalls) {
+			->willReturnCallback(function () use (&$sleepCalls) {
 				$expected = array_shift($sleepCalls);
 				$this->assertEquals($expected, func_get_args());
 				return 0;
@@ -248,7 +248,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('registerAttempt')
-			->willReturnCallback(function() use (&$attemptCalls) {
+			->willReturnCallback(function () use (&$attemptCalls) {
 				$expected = array_shift($attemptCalls);
 				$this->assertEquals($expected, func_get_args());
 			});

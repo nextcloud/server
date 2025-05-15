@@ -9,6 +9,7 @@ namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
+use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -21,7 +22,6 @@ use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
-use OC\Files\Node\Root;
 
 /**
  * Class NodeTest

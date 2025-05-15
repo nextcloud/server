@@ -311,7 +311,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$this->mapper->expects($this->exactly(2))
 			->method('invalidate')
-			->willReturnCallback(function() use (&$calls) {
+			->willReturnCallback(function () use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -350,7 +350,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		];
 		$this->mapper->expects($this->exactly(4))
 			->method('invalidateOld')
-			->willReturnCallback(function() use (&$calls) {
+			->willReturnCallback(function () use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
