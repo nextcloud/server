@@ -41,9 +41,6 @@
     </MissingTemplateParam>
   </file>
   <file src="lib/public/Files.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[\OC_App::getStorage($app)]]></code>
-    </FalsableReturnStatement>
     <UndefinedClass>
       <code><![CDATA[\OC]]></code>
     </UndefinedClass>
