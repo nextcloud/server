@@ -76,7 +76,7 @@ class Cache extends CacheJail {
 		return $this->root;
 	}
 
-	protected function getGetUnjailedRoot() {
+	public function getGetUnjailedRoot() {
 		return $this->sourceRootInfo->getPath();
 	}
 

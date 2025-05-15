@@ -35,10 +35,13 @@ class CacheJail extends CacheWrapper {
 		parent::__construct($cache, $dependencies);
 		$this->root = $root;
 
-		if ($cache instanceof CacheJail) {
-			$this->unjailedRoot = $cache->getSourcePath($root);
-		} else {
-			$this->unjailedRoot = $root;
+		$this->unjailedRoot = $root;
+		$parent = $cache;
+		while ($parent instanceof CacheWrapper) {
+			if ($parent instanceof CacheJail) {
+				$this->unjailedRoot = $parent->getSourcePath($this->unjailedRoot);
+			}
+			$parent = $parent->getCache();
 		}
 	}
 
@@ -51,7 +54,7 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return string
 	 */
-	protected function getGetUnjailedRoot() {
+	public function getGetUnjailedRoot() {
 		return $this->unjailedRoot;
 	}
 
