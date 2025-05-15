@@ -255,16 +255,17 @@
 					data-cy-user-list-input-manager
 					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
-					:close-on-select="true"
 					:disabled="isLoadingField"
-					:append-to-body="false"
 					:loading="loadingPossibleManagers || loading.manager"
-					label="displayname"
 					:options="possibleManagers"
 					:placeholder="managerLabel"
-					clearable
+					label="displayname"
+					:filterable="false"
+					:internal-search="false"
+					:clearable="true"
 					@open="searchInitialUserManager"
-					@search="searchUserManager" />
+					@search="searchUserManager"
+					@update:model-value="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -502,13 +503,6 @@ export default {
 			return this.languages[0].languages.concat(this.languages[1].languages)
 		},
 	},
-
-	watch: {
-		currentManager() {
-			this.updateUserManager()
-		},
-	},
-
 	async beforeMount() {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
@@ -623,7 +617,7 @@ export default {
 			this.loading.manager = true
 
 			// Store the current manager before making changes
-			const previousManager = this.currentManager
+			const previousManager = this.user.manager
 
 			try {
 				await this.$store.dispatch('setUserData', {
