@@ -63,6 +63,7 @@ OC.L10N.register(
     "Favorite" : "Любими",
     "Filename" : "Име на файла",
     "Folder name" : "Име на папка",
+    "Folder" : "Папка",
     "Pending" : "Чакащо",
     "Clear filter" : "Изчстиване на филтър",
     "Modified" : "Промяна",
