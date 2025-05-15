@@ -75,6 +75,7 @@ OC.L10N.register(
     "This node is unavailable" : "Esti noyu nun ta disponible",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renomóse «{oldName}» a «{newName}»",
     "Rename file" : "Renomar el ficheru",
+    "Folder" : "Carpeta",
     "Pending" : "Pendiente",
     "Modified" : "Modificóse",
     "Type" : "Tipu",

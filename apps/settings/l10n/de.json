@@ -435,7 +435,7 @@
     "Search groups…" : "Suche Gruppen…",
     "List of groups. This list is not fully populated for performance reasons. The groups will be loaded as you navigate or search through the list." : "Liste der Gruppen. Diese Liste ist aus Leistungsgründen nicht vollständig gefüllt. Die Gruppen werden während des Navigierens oder Suchens geladen.",
     "Loading groups…" : "Lade Gruppen…",
-    "Could not load app discover section" : "Der App-Erkennungsabschnitt konnte nicht geladen werden",
+    "Could not load app discover section" : "Der Menüpunkt \"Endecken\" konnte nicht geladen werden.",
     "Could not render element" : "Element konnte nicht dargestellt werden",
     "Nothing to show" : "Nichts anzuzeigen",
     "Could not load section content from app store." : "Abschnittsinhalt konnte nicht aus dem App Store geladen werden.",

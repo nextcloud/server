@@ -96,6 +96,7 @@ OC.L10N.register(
     "Invalid filename." : "Nieprawidłowa nazwa pliku.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Zmieniono nazwę \"{oldName}\" na \"{newName}\"",
     "Rename file" : "Zmień nazwę pliku",
+    "Folder" : "Katalog",
     "Pending" : "Oczekujące",
     "Unknown date" : "Nieznana data",
     "Clear filter" : "Wyczyść filtr",

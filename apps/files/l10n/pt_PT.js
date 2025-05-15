@@ -87,6 +87,7 @@ OC.L10N.register(
     "Invalid filename." : "Nome de ficheiro inválido",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renomeado de \"{oldName}\" para \"{newName}\"",
     "Rename file" : "Renomear ficheiro",
+    "Folder" : "Pasta",
     "Pending" : "Pendente",
     "Clear filter" : "Limpar filtro",
     "Modified" : "Modificado",

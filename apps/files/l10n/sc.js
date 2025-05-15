@@ -66,6 +66,7 @@ OC.L10N.register(
     "Folder name" : "Nùmene de sa cartella",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" s'est torradu a numenare comente \"{newName}\"",
     "Rename file" : "Torra a numenare s'archìviu",
+    "Folder" : "Cartella",
     "Pending" : "In suspesu",
     "Clear filter" : "Lìmpia filtru",
     "Modified" : "Modificadu",
