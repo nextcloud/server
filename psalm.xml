@@ -161,5 +161,40 @@
 				<referencedConstant name="OC\Memcache\LoggerWrapperCache::DEFAULT_TTL" />
 			</errorLevel>
 		</AmbiguousConstantInheritance>
+		<DeprecatedClass>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedClass>
+		<DeprecatedConstant>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedConstant>
+		<DeprecatedFunction>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedFunction>
+		<DeprecatedInterface>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedInterface>
+		<DeprecatedMethod>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedMethod>
+		<DeprecatedProperty>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedProperty>
+		<DeprecatedTrait>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedTrait>
 	</issueHandlers>
 </psalm>
