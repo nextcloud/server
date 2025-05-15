@@ -80,7 +80,7 @@
     "Misc accessibility options" : "Verschiedene Barrierefreiheitsoptionen",
     "Enable blur background filter (may increase GPU load)" : "Filter für unscharfes Hintergrundbild aktivieren (kann die GPU-Auslastung erhöhen)",
     "Customization has been disabled by your administrator" : "Diese Anpassungsmöglichkeit wurde von deiner Administration deaktiviert",
-    "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Legen eine Primärfarbe fest, um wichtige Elemente hervorzuheben. Die für Elemente wie Primärschaltflächen verwendete Farbe kann etwas abweichen, da sie angepasst wird, um die Zugänglichkeitsanforderungen zu erfüllen.",
+    "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Lege eine Primärfarbe fest, um wichtige Elemente hervorzuheben. Die für Elemente wie Primärschaltflächen verwendete Farbe kann etwas abweichen, da sie angepasst wird, um die Zugänglichkeitsanforderungen zu erfüllen.",
     "Background and color" : "Hintergrund und Farbe",
     "The background can be set to an image from the default set, a custom uploaded image, or a plain color." : "Als Hintergrund kann ein Bild aus dem Standardsatz, ein benutzerdefiniertes hochgeladenes Bild oder eine einfache Farbe ausgewählt werden.",
     "Keyboard shortcuts" : "Tastaturkürzel",

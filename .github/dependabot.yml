@@ -16,8 +16,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
 
 # Main composer (linting, testing, openapi)
 - package-ecosystem: composer
@@ -28,6 +26,7 @@ updates:
     - "/vendor-bin/openapi-extractor"
     - "/vendor-bin/phpunit"
     - "/vendor-bin/psalm"
+    - "/vendor-bin/rector"
   schedule:
     interval: weekly
     day: saturday
@@ -36,8 +35,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
 
 # Main master npm frontend dependencies
 - package-ecosystem: npm
@@ -51,8 +48,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
 
@@ -75,8 +70,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
   ignore:
     # only patch updates on stable branches
     - dependency-name: "*"
@@ -96,8 +89,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
   ignore:
@@ -125,8 +116,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
   ignore:
     # only patch updates on stable branches
     - dependency-name: "*"
@@ -145,8 +134,6 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
   ignore:

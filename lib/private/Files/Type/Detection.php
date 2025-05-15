@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\IBinaryFinder;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
@@ -225,11 +226,13 @@ class Detection implements IMimeTypeDetector {
 			}
 		}
 
-		if (\OC_Helper::canExecute('file')) {
+		$binaryFinder = \OCP\Server::get(IBinaryFinder::class);
+		$program = $binaryFinder->findBinaryPath('file');
+		if ($program !== false) {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
-			$fp = popen("test -f $path && file -b --mime-type $path", 'r');
+			$fp = popen("test -f $path && $program -b --mime-type $path", 'r');
 			if ($fp !== false) {
 				$mimeType = fgets($fp);
 				pclose($fp);

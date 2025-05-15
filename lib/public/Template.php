@@ -77,7 +77,7 @@ class Template extends \OC_Template implements ITemplate {
 	}
 
 	/**
-	 * Make OC_Helper::humanFileSize available as a simple function
+	 * Make \OCP\Util::humanFileSize available as a simple function
 	 * Example: 2048 to 2 kB.
 	 *
 	 * @param int $bytes in bytes

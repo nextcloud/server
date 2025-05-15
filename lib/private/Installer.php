@@ -19,6 +19,7 @@ use OC\DB\MigrationService;
 use OC_App;
 use OC_Helper;
 use OCP\App\IAppManager;
+use OCP\Files;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -324,14 +325,14 @@ class Installer {
 
 					$baseDir = OC_App::getInstallPath() . '/' . $appId;
 					// Remove old app with the ID if existent
-					OC_Helper::rmdirr($baseDir);
+					Files::rmdirr($baseDir);
 					// Move to app folder
 					if (@mkdir($baseDir)) {
 						$extractDir .= '/' . $folders[0];
 						OC_Helper::copyr($extractDir, $baseDir);
 					}
 					OC_Helper::copyr($extractDir, $baseDir);
-					OC_Helper::rmdirr($extractDir);
+					Files::rmdirr($extractDir);
 					return;
 				}
 				// Signature does not match
@@ -450,7 +451,7 @@ class Installer {
 				return false;
 			}
 			$appDir = OC_App::getInstallPath() . '/' . $appId;
-			OC_Helper::rmdirr($appDir);
+			Files::rmdirr($appDir);
 			return true;
 		} else {
 			$this->logger->error('can\'t remove app ' . $appId . '. It is not installed.');

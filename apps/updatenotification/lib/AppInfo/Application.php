@@ -73,7 +73,7 @@ class Application extends App implements IBootstrap {
 				}
 
 				if ($updateChecker->getUpdateState() !== []) {
-					Util::addScript('updatenotification', 'update-notification-legacy');
+					Util::addScript(self::APP_NAME, 'update-notification-legacy');
 					$updateChecker->setInitialState();
 				}
 			}

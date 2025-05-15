@@ -178,6 +178,7 @@
     "Delete slot" : "Kustuta ajavahemik",
     "No working hours set" : "Tööajad on sisestamata",
     "Add slot" : "Lisa ajavahemik",
+    "Weekdays" : "Nädalapäevad",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Kõikide teavituste summutamiseks määra automaatselt kasutajale olek „Ära sega“ nendele aegadele, kus ta vaba ei ole.",
     "Availability" : "Saadavus",
     "Absence" : "Äraolek",

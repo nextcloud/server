@@ -262,7 +262,11 @@ trait WebDav {
 			'Accept' => 'application/zip'
 		];
 
-		$this->response = $client->request('GET', $fullUrl, $options);
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**

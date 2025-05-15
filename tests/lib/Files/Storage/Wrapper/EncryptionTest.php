@@ -11,7 +11,6 @@ use Exception;
 use OC;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\File;
-use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
@@ -46,7 +45,6 @@ class EncryptionTest extends Storage {
 	private Util&MockObject $util;
 	private \OC\Encryption\Manager&MockObject $encryptionManager;
 	private IEncryptionModule&MockObject $encryptionModule;
-	private Update&MockObject $update;
 	private Cache&MockObject $cache;
 	private LoggerInterface&MockObject $logger;
 	private File&MockObject $file;
@@ -111,9 +109,6 @@ class EncryptionTest extends Storage {
 		$this->keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
 
-		$this->update = $this->getMockBuilder('\OC\Encryption\Update')
-			->disableOriginalConstructor()->getMock();
-
 		$this->mount = $this->getMockBuilder('\OC\Files\Mount\MountPoint')
 			->disableOriginalConstructor()
 			->setMethods(['getOption'])
@@ -155,7 +150,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache
 				]
@@ -237,7 +231,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache,
 				]
@@ -316,7 +309,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache,
 				]
@@ -361,7 +353,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache,
 				]
@@ -491,7 +482,6 @@ class EncryptionTest extends Storage {
 			$this->file,
 			null,
 			$this->keyStore,
-			$this->update,
 			$this->mountManager,
 			$this->arrayCache,
 		);
@@ -598,7 +588,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache,
 				]
@@ -692,7 +681,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache,
 				]
@@ -867,7 +855,6 @@ class EncryptionTest extends Storage {
 					$this->file,
 					null,
 					$this->keyStore,
-					$this->update,
 					$this->mountManager,
 					$this->arrayCache
 				]
@@ -968,7 +955,6 @@ class EncryptionTest extends Storage {
 		$util = $this->createMock(Util::class);
 		$fileHelper = $this->createMock(IFile::class);
 		$keyStorage = $this->createMock(IStorage::class);
-		$update = $this->createMock(Update::class);
 		$mountManager = $this->createMock(\OC\Files\Mount\Manager::class);
 		$mount = $this->createMock(IMountPoint::class);
 		$arrayCache = $this->createMock(ArrayCache::class);
@@ -986,7 +972,6 @@ class EncryptionTest extends Storage {
 					$fileHelper,
 					null,
 					$keyStorage,
-					$update,
 					$mountManager,
 					$arrayCache
 				]

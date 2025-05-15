@@ -10,12 +10,15 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Background;
 
+use OC\Core\Command\Base;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class JobBase extends \OC\Core\Command\Base {
+abstract class JobBase extends Base {
 
 	public function __construct(
 		protected IJobList $jobList,
@@ -41,10 +44,10 @@ abstract class JobBase extends \OC\Core\Command\Base {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');

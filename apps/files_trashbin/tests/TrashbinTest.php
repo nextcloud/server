@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OC\SystemConfig;
+use OC\User\Database;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
@@ -59,7 +60,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// reset backend
 		Server::get(IUserManager::class)->clearBackends();
-		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
+		Server::get(IUserManager::class)->registerBackend(new Database());
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
@@ -115,8 +116,11 @@ class TrashbinTest extends \Test\TestCase {
 
 		Server::get(IAppManager::class)->enableApp('files_trashbin');
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->createMock(IConfig::class);
-		$mockConfig
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(SystemConfig::class)])
+			->getMock();
+		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(static function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
@@ -124,16 +128,6 @@ class TrashbinTest extends \Test\TestCase {
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			});
-		$mockConfig
-			->method('getUserValue')
-			->willReturnCallback(static function ($userId, $appName, $key, $default = '') use ($config) {
-				return $config->getUserValue($userId, $appName, $key, $default);
-			});
-		$mockConfig
-			->method('getAppValue')
-			->willReturnCallback(static function ($appName, $key, $default = '') use ($config) {
-				return $config->getAppValue($appName, $key, $default);
 			});
 		$this->overwriteService(AllConfig::class, $mockConfig);
 

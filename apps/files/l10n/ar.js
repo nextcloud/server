@@ -95,6 +95,7 @@ OC.L10N.register(
     "Invalid filename." : "اسم ملف غير صحيح.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",
     "Rename file" : "إعادة تسمية الملف",
+    "Folder" : "مجلد",
     "Pending" : "قيد الانتظار",
     "Unknown date" : "تاريخ غير معروف",
     "Clear filter" : "إزالة التصفية",

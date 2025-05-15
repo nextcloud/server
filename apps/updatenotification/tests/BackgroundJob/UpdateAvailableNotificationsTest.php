@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateAvailableNotificationsTest extends TestCase {
-	private ServerVersion $serverVersion;
+	private ServerVersion&MockObject $serverVersion;
 	private IConfig|MockObject $config;
 	private IManager|MockObject $notificationManager;
 	private IGroupManager|MockObject $groupManager;
@@ -96,13 +96,12 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$job->expects($this->once())
 			->method('checkAppUpdates');
 
-		$this->config->expects($this->exactly(2))
+		$this->config->expects(self::exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['has_internet_connection', true, true],
 				['debug', false, true],
+				['has_internet_connection', true, true],
 			]);
-
 		self::invokePrivate($job, 'run', [null]);
 	}
 
@@ -117,7 +116,9 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$job->expects($this->never())
 			->method('checkAppUpdates');
 
-		$this->config->method('getSystemValueBool')
+		$this->config
+			->expects(self::once())
+			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(false);
 
@@ -211,6 +212,13 @@ class UpdateAvailableNotificationsTest extends TestCase {
 				->method('createNotifications')
 				->with('core', $version, $readableVersion);
 		}
+
+		$this->config->expects(self::any())
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['updatechecker', true, true],
+				['has_internet_connection', true, true],
+			]);
 
 		self::invokePrivate($job, 'checkCoreUpdate');
 	}

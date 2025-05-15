@@ -68,6 +68,7 @@ OC.L10N.register(
     "This node is unavailable" : "Acest nod este indisponibil",
     "Renamed \"{oldName}\" to \"{newName}\"" : "A fost redenumit  \"{oldName}\" cu \"{newName}\"",
     "Rename file" : "Redenumire fișier",
+    "Folder" : "Director",
     "Pending" : "În așteptare",
     "Clear filter" : "Șterge filtrul",
     "Modified" : "Modificat",

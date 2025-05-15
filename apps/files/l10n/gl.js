@@ -95,6 +95,7 @@ OC.L10N.register(
     "Invalid filename." : "Nome de ficheiro incorrecto.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiouse o nome de «{oldName}» a «{newName}»",
     "Rename file" : "Cambiar o nome do ficheiro",
+    "Folder" : "Cartafol",
     "Pending" : "Pendentes",
     "Unknown date" : "Data descoñecida",
     "Clear filter" : "Limpar o filtro",

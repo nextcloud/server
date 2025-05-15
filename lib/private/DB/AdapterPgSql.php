@@ -9,7 +9,7 @@ namespace OC\DB;
 
 class AdapterPgSql extends Adapter {
 
-	public function lastInsertId($table) {
+	public function lastInsertId($table, bool $allowRetry = true): int {
 		$result = $this->conn->executeQuery('SELECT lastval()');
 		$val = $result->fetchOne();
 		$result->free();

@@ -332,19 +332,70 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function humanFileSize(int|float $bytes): string {
-		return \OC_Helper::humanFileSize($bytes);
+		if ($bytes < 0) {
+			return '?';
+		}
+		if ($bytes < 1024) {
+			return "$bytes B";
+		}
+		$bytes = round($bytes / 1024, 0);
+		if ($bytes < 1024) {
+			return "$bytes KB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes MB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes GB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes TB";
+		}
+
+		$bytes = round($bytes / 1024, 1);
+		return "$bytes PB";
 	}
 
 	/**
 	 * Make a computer file size (2 kB to 2048)
+	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
+	 *
 	 * @param string $str file size in a fancy format
 	 * @return false|int|float a file size in bytes
-	 *
-	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
 	public static function computerFileSize(string $str): false|int|float {
-		return \OC_Helper::computerFileSize($str);
+		$str = strtolower($str);
+		if (is_numeric($str)) {
+			return Util::numericToNumber($str);
+		}
+
+		$bytes_array = [
+			'b' => 1,
+			'k' => 1024,
+			'kb' => 1024,
+			'mb' => 1024 * 1024,
+			'm' => 1024 * 1024,
+			'gb' => 1024 * 1024 * 1024,
+			'g' => 1024 * 1024 * 1024,
+			'tb' => 1024 * 1024 * 1024 * 1024,
+			't' => 1024 * 1024 * 1024 * 1024,
+			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+		];
+
+		$bytes = (float)$str;
+
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
+			$bytes *= $bytes_array[$matches[1]];
+		} else {
+			return false;
+		}
+
+		return Util::numericToNumber(round($bytes));
 	}
 
 	/**

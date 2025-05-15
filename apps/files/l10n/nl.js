@@ -95,6 +95,7 @@ OC.L10N.register(
     "Invalid filename." : "Ongeldige bestandsnaam",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" hernoemd naar \"{newName}\"",
     "Rename file" : "Bestand hernoemen",
+    "Folder" : "Map",
     "Pending" : "In behandeling",
     "Unknown date" : "Onbekende datum",
     "Clear filter" : "Filter leegmaken",
