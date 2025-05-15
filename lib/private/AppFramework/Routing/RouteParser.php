@@ -76,7 +76,7 @@ class RouteParser {
 		$url = $root . '/' . ltrim($route['url'], '/');
 		$verb = strtoupper($route['verb'] ?? 'GET');
 
-		$split = explode('#', $name, 2);
+		$split = explode('#', $name, 3);
 		if (count($split) !== 2) {
 			throw new \UnexpectedValueException('Invalid route name: use the format foo#bar to reference FooController::bar');
 		}

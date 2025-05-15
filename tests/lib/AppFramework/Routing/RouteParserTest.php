@@ -142,6 +142,15 @@ class RouteParserTest extends \Test\TestCase {
 		$this->parser->parseDefaultRoutes($routes, 'app1');
 	}
 
+	public function testParseRoutesInvalidName2(): void {
+		$routes = ['routes' => [
+			['name' => 'folders#open#action', 'url' => '/{folderId}/open', 'verb' => 'GET']
+		]];
+
+		$this->expectException(\UnexpectedValueException::class);
+		$this->parser->parseDefaultRoutes($routes, 'app1');
+	}
+
 	public function testParseRoutesEmpty(): void {
 		$routes = ['routes' => []];
 
