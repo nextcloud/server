@@ -33,7 +33,7 @@ Feature: FilesDrop
     And Downloading file "/drop/a (2).txt"
     Then Downloaded content should be "def"
 
-  Scenario: Files drop ignores directory
+  Scenario: Files drop forbid directory without a nickname
     Given user "user0" exists
     And As an "user0"
     And user "user0" created a folder "/drop"
@@ -44,10 +44,9 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When Dropping file "/folder/a.txt" with "abc"
-    And Downloading file "/drop/a.txt"
-    Then Downloaded content should be "abc"
+    Then the HTTP status code should be "405"
 
-  Scenario: Files drop forbis MKCOL
+  Scenario: Files drop forbid MKCOL without a nickname
     Given user "user0" exists
     And As an "user0"
     And user "user0" created a folder "/drop"
@@ -58,6 +57,32 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop
+    Then the HTTP status code should be "405"
+
+  Scenario: Files drop allows MKCOL with a nickname
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 3 |
+      | publicUpload | true |
+    And Updating last share with
+      | permissions | 4 |
+    When Creating folder "folder" in drop as "nickname"
+    Then the HTTP status code should be "201"
+
+  Scenario: Files drop forbid subfolder creation without a nickname
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 3 |
+      | publicUpload | true |
+    And Updating last share with
+      | permissions | 4 |
+    When dropping file "/folder/a.txt" with "abc"
     Then the HTTP status code should be "405"
 
   Scenario: Files request drop
@@ -71,7 +96,7 @@ Feature: FilesDrop
       | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
       | shareWith |  |
     When Dropping file "/folder/a.txt" with "abc" as "Alice"
-    And Downloading file "/drop/Alice/a.txt"
+    And Downloading file "/drop/Alice/folder/a.txt"
     Then Downloaded content should be "abc"
 
   Scenario: Put file same file multiple times via files drop
@@ -86,7 +111,47 @@ Feature: FilesDrop
       | shareWith |  |
     When Dropping file "/folder/a.txt" with "abc" as "Mallory"
     And Dropping file "/folder/a.txt" with "def" as "Mallory"
-    And Downloading file "/drop/Mallory/a.txt"
+    # Ensure folder structure and that we only checked
+    # for files duplicates, but merged the existing folders
+    Then as "user0" the folder "/drop/Mallory" exists
+    Then as "user0" the folder "/drop/Mallory/folder" exists
+    Then as "user0" the folder "/drop/Mallory (2)" does not exist
+    Then as "user0" the folder "/drop/Mallory/folder (2)" does not exist
+    Then as "user0" the file "/drop/Mallory/folder/a.txt" exists
+    Then as "user0" the file "/drop/Mallory/folder/a (2).txt" exists
+    And Downloading file "/drop/Mallory/folder/a.txt"
     Then Downloaded content should be "abc"
-    And Downloading file "/drop/Mallory/a (2).txt"
+    And Downloading file "/drop/Mallory/folder/a (2).txt"
     Then Downloaded content should be "def"
+
+  Scenario: Files drop prevents GET
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | shareWith |  |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+    When Dropping file "/folder/a.txt" with "abc" as "Mallory"
+    When as "user0" the file "/drop/Mallory/folder/a.txt" exists
+    And Downloading public folder "Mallory"
+    Then the HTTP status code should be "405"
+    And Downloading public folder "Mallory/folder"
+    Then the HTTP status code should be "405"
+    And Downloading public file "Mallory/folder/a.txt"
+    Then the HTTP status code should be "405"
+
+  Scenario: Files drop requires nickname if file request is enabled
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder/a.txt" with "abc"
+    Then the HTTP status code should be "405"

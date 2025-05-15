@@ -89,7 +89,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
     "System admin disabled tag creation. You can only use existing ones." : "Die Systemadministration hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
-    "Loading collaborative tags …" : "Lade kollaborative Schlagworte …",
+    "Loading collaborative tags …" : "Kollaborative Schlagworte laden…",
     "Search or create collaborative tags" : "Suchen oder erstellen von kollaborativen Schlagworten",
     "No tags to select, type to create a new tag" : "Keine Schlagworte zur Auswahl, geben Sie ein, um ein neues Schlagwort zu erstellen",
     "Unable to update setting" : "Einstellung konnte nicht aktualisiert werden",

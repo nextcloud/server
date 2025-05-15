@@ -87,6 +87,7 @@ OC.L10N.register(
     "Invalid filename." : "Epäkelpo tiedostonimi.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Kohteen \"{oldName}\" uudeksi nimeksi asetettiin \"{newName}\"",
     "Rename file" : "Nimeä tiedosto uudelleen",
+    "Folder" : "Kansio",
     "Pending" : "Odottaa",
     "Unknown date" : "Tuntematon päivämäärä",
     "Clear filter" : "Tyhjennä suodatin",

@@ -5,7 +5,7 @@
  */
 
 style('core', 'login/authpicker');
-script('core', 'login/authpicker');
+\OCP\Util::addScript('core', 'login/authpicker', 'core');
 
 /** @var array $_ */
 /** @var \OCP\IURLGenerator $urlGenerator */

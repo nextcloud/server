@@ -86,7 +86,7 @@ class Repair extends Command {
 		$output->writeln('');
 
 		$output->writeln('Fetching previews that need to be migrated …');
-		/** @var \OCP\Files\Folder $currentPreviewFolder */
+		/** @var Folder $currentPreviewFolder */
 		$currentPreviewFolder = $this->rootFolder->get("appdata_$instanceId/preview");
 
 		$directoryListing = $currentPreviewFolder->getDirectoryListing();

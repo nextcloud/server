@@ -128,18 +128,17 @@ class ServerContainer extends SimpleContainer {
 			} catch (QueryException $e) {
 				// Continue with general autoloading then
 			}
-		}
-
-		// In case the service starts with OCA\ we try to find the service in
-		// the apps container first.
-		if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-			try {
-				return $appContainer->queryNoFallback($name);
-			} catch (QueryException $e) {
-				// Didn't find the service or the respective app container
-				// In this case the service won't be part of the core container,
-				// so we can throw directly
-				throw $e;
+			// In case the service starts with OCA\ we try to find the service in
+			// the apps container first.
+			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
+				try {
+					return $appContainer->queryNoFallback($name);
+				} catch (QueryException $e) {
+					// Didn't find the service or the respective app container
+					// In this case the service won't be part of the core container,
+					// so we can throw directly
+					throw $e;
+				}
 			}
 		} elseif (str_starts_with($name, 'OC\\Settings\\') && substr_count($name, '\\') >= 3) {
 			$segments = explode('\\', $name);

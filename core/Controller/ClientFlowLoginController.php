@@ -19,6 +19,8 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -124,7 +126,7 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
 
-		$csp = new Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		if ($client) {
 			$csp->addAllowedFormActionDomain($client->getRedirectUri());
 		} else {
@@ -177,7 +179,7 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		$csp = new Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		if ($client) {
 			$csp->addAllowedFormActionDomain($client->getRedirectUri());
 		} else {
@@ -313,7 +315,7 @@ class ClientFlowLoginController extends Controller {
 			new AppPasswordCreatedEvent($generatedToken)
 		);
 
-		return new Http\RedirectResponse($redirectUri);
+		return new RedirectResponse($redirectUri);
 	}
 
 	#[PublicPage]
@@ -342,7 +344,7 @@ class ClientFlowLoginController extends Controller {
 		}
 
 		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
-		return new Http\RedirectResponse($redirectUri);
+		return new RedirectResponse($redirectUri);
 	}
 
 	private function getServerPath(): string {

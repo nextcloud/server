@@ -8,7 +8,7 @@
 namespace OC\DB;
 
 class AdapterOCI8 extends Adapter {
-	public function lastInsertId($table) {
+	public function lastInsertId($table, bool $allowRetry = true): int {
 		if (is_null($table)) {
 			throw new \InvalidArgumentException('Oracle requires a table name to be passed into lastInsertId()');
 		}

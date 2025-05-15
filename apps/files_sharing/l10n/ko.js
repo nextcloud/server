@@ -313,8 +313,9 @@ OC.L10N.register(
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "이 방법을 사용하여 조직 내 개인 또는 팀과 파일을 공유하세요. 수신자가 이미 공유 폴더에 접근할 수 있지만 위치를 찾을 수 없는 경우, 쉽게 접근할 수 있도록 내부 공유 링크를 보낼 수 있습니다.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "이 방법을 사용하면 조직 외부의 조직이나 개인과 파일을 공유할 수 있습니다. 파일과 폴더는 공개 공유 링크와 이메일 주소를 통해 공유할 수 있습니다. 또한, 다른 인스턴스에 소속된 다른 Nextcloud 계정과도 연합 클라우드 ID를 사용하여 공유할 수 있습니다.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "내부 또는 외부 공유에 포함되지 않은 공유입니다. 앱이나 다른 소스에서 공유된 내용이 여기에 해당할 수 있습니다.",
+    "Share with accounts, teams, federated cloud IDs" : "계정, 팀 및 연합 클라우드 ID와 공유",
     "Share with accounts and teams" : "계정 및 팀과 공유",
-    "Email, federated cloud id" : "이메일, 연합 클라우드 ID",
+    "Email, federated cloud ID" : "이메일, 연합 클라우드 ID",
     "Unable to load the shares list" : "공유 목록을 불러올 수 없음",
     "Expires {relativetime}" : "{relativetime}에 만료",
     "this share just expired." : "이 공유는 방금 만료되었습니다.",
@@ -378,6 +379,7 @@ OC.L10N.register(
     "Could not update share" : "공유를 갱신할 수 없음",
     "Share saved" : "공유 저장됨",
     "Share expiry date saved" : "공유 만료일 저장됨",
+    "Share hide-download state saved" : "공유 다운로드 숨기기 상태 저장됨",
     "Share label saved" : "공유 이름 저장됨",
     "Share note for recipient saved" : "받는이를 위한 공유 메모 저장됨",
     "Share password saved" : "공유 암호 저장됨",
@@ -421,6 +423,8 @@ OC.L10N.register(
     "Share expire date saved" : "공유 만료일 저장됨",
     "You are not allowed to edit link shares that you don't own" : "당신이 것이 아닌 링크 공유를 편집할 권한이 없습니다.",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count}개 이메일 주소가 이미 추가됨"],
-    "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"]
+    "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"],
+    "Share with accounts, teams, federated cloud id" : "계정, 팀 및 연합 클라우드 ID와 공유",
+    "Email, federated cloud id" : "이메일, 연합 클라우드 ID"
 },
 "nplurals=1; plural=0;");
