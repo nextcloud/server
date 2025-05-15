@@ -160,9 +160,8 @@ class Setting extends Base {
 			}
 
 			if ($this->isProfileProperty($app, $key)) {
-				$this->editProfileProperty($uid, $key, $input->getArgument('value'));
-				return 0;
-			} else if ($this->isSettingProperty($app, $key)) {
+				return $this->editProfileProperty($output, $uid, $key, $input->getArgument('value'));
+			} elseif ($this->isSettingProperty($app, $key)) {
 				$returnCode = $this->setSettingsProperty($input, $output, $uid, $key);
 				if ($returnCode !== null) {
 					return $returnCode;
@@ -177,8 +176,7 @@ class Setting extends Base {
 			}
 
 			if ($this->isProfileProperty($app, $key)) {
-				$this->deleteProfileProperty($app, $key);
-				return 0;
+				return $this->deleteProfileProperty($output, $uid, $key);
 			}
 
 			if ($this->isSettingProperty($app, $key)) {
@@ -204,26 +202,35 @@ class Setting extends Base {
 		return 0;
 	}
 
-	private function deleteProfileProperty($uid, $key): void {
-		$this->editProfileProperty($uid, $key, '');
+	/**
+	 * @param OutputInterface $output
+	 * @param $uid
+	 * @param $key
+	 * @return int
+	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
+	 */
+	private function deleteProfileProperty(OutputInterface $output, $uid, $key): int {
+		return $this->editProfileProperty($output, $uid, $key, '');
 	}
 
 	/**
+	 * @param OutputInterface $output
 	 * @param $uid
 	 * @param $key
 	 * @param $value
-	 * @return void
-	 * @throws \InvalidArgumentException if the user cannot be found.
+	 * @return int
 	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
 	 */
-	private function editProfileProperty($uid, $key, $value): void {
+	private function editProfileProperty(OutputInterface $output, $uid, $key, $value): int {
 		$user = $this->userManager->get($uid);
 		if (!$user) {
-			throw new \InvalidArgumentException('The user "' . $uid . '" must exist to edit this setting.');
+			$output->writeln("<error>The user {$uid} must exist to edit this setting.</error>");
+			return 1;
 		}
 		$account = $this->accountManager->getAccount($user);
 		$account->getProperty($key)->setValue($value);
 		$this->accountManager->updateAccount($account);
+		return 0;
 	}
 
 	private function deleteSettingsProperty(OutputInterface $output, $uid, $key): ?int {
