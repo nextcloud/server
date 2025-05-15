@@ -69,6 +69,9 @@ use OC\Core\Command\Maintenance\RepairShareOwnership;
 use OC\Core\Command\Maintenance\UpdateHtaccess;
 use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Core\Command\Memcache\RedisCommand;
+use OC\Core\Command\Memcache\DistributedGet;
+use OC\Core\Command\Memcache\DistributedSet;
+use OC\Core\Command\Memcache\RedisCommand;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Security\BruteforceAttempts;
@@ -245,6 +248,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Statistics::class));
 
 	$application->add(Server::get(RedisCommand::class));
+	$application->add(Server::get(DistributedGet::class));
+	$application->add(Server::get(DistributedSet::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }
