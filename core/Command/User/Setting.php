@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -203,25 +205,16 @@ class Setting extends Base {
 	}
 
 	/**
-	 * @param OutputInterface $output
-	 * @param $uid
-	 * @param $key
-	 * @return int
 	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
 	 */
-	private function deleteProfileProperty(OutputInterface $output, $uid, $key): int {
+	private function deleteProfileProperty(OutputInterface $output, string $uid, string $key): int {
 		return $this->editProfileProperty($output, $uid, $key, '');
 	}
 
 	/**
-	 * @param OutputInterface $output
-	 * @param $uid
-	 * @param $key
-	 * @param $value
-	 * @return int
 	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
 	 */
-	private function editProfileProperty(OutputInterface $output, $uid, $key, $value): int {
+	private function editProfileProperty(OutputInterface $output, string $uid, string $key, string $value): int {
 		$user = $this->userManager->get($uid);
 		if (!$user) {
 			$output->writeln("<error>The user {$uid} must exist to edit this setting.</error>");
@@ -233,7 +226,7 @@ class Setting extends Base {
 		return 0;
 	}
 
-	private function deleteSettingsProperty(OutputInterface $output, $uid, $key): ?int {
+	private function deleteSettingsProperty(OutputInterface $output, string $uid, string $key): ?int {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			if ($key === 'email') {
@@ -248,6 +241,7 @@ class Setting extends Base {
 
 		return null;
 	}
+
 	private function setSettingsProperty(InputInterface $input, OutputInterface $output, string $uid, string $key): ?int {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
@@ -271,7 +265,7 @@ class Setting extends Base {
 		return null;
 	}
 
-	private function getStoredValue(mixed $uid, mixed $app, mixed $key): ?string {
+	private function getStoredValue(string $uid, string $app, string $key): ?string {
 		if ($app === 'profile') {
 			$user = $this->userManager->get($uid);
 			$account = $this->accountManager->getAccount($user);
