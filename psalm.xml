@@ -66,6 +66,7 @@
 			<directory name="apps/files_external/3rdparty"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
+			<directory name="3rdparty"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
