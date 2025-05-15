@@ -72,7 +72,6 @@ use OCP\Comments\ICommentsManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\IFilesMetadataManager;
@@ -216,10 +215,7 @@ class Server {
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OCP\Server::get(IAppDataFactory::class)->get('dav-photocache'),
-				$logger)
-			));
+			$this->server->addPlugin(new ImageExportPlugin(\OCP\Server::get(PhotoCache::class)));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));

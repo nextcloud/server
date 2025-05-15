@@ -23,7 +23,6 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -98,10 +97,7 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
-$server->addPlugin(new ImageExportPlugin(new PhotoCache(
-	Server::get(IAppDataFactory::class)->get('dav-photocache'),
-	Server::get(LoggerInterface::class)
-)));
+$server->addPlugin(new ImageExportPlugin(Server::get(PhotoCache::class)));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', Server::get(LoggerInterface::class)));
 $server->addPlugin(Server::get(CardDavRateLimitingPlugin::class));
 $server->addPlugin(Server::get(CardDavValidatePlugin::class));
