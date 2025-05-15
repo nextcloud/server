@@ -1333,6 +1333,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Maintenance\\RepairShareOwnership' => __DIR__ . '/../../..' . '/core/Command/Maintenance/RepairShareOwnership.php',
         'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateHtaccess.php',
         'OC\\Core\\Command\\Maintenance\\UpdateTheme' => __DIR__ . '/../../..' . '/core/Command/Maintenance/UpdateTheme.php',
+        'OC\\Core\\Command\\Memcache\\DistributedDelete' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedDelete.php',
         'OC\\Core\\Command\\Memcache\\DistributedGet' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedGet.php',
         'OC\\Core\\Command\\Memcache\\DistributedSet' => __DIR__ . '/../../..' . '/core/Command/Memcache/DistributedSet.php',
         'OC\\Core\\Command\\Memcache\\RedisCommand' => __DIR__ . '/../../..' . '/core/Command/Memcache/RedisCommand.php',
