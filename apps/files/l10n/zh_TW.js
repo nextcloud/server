@@ -97,6 +97,7 @@ OC.L10N.register(
     "Invalid filename." : "無效的檔案名稱。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已將「{oldName}」重新命名為「{newName}」",
     "Rename file" : "重新命名檔案",
+    "Folder" : "資料夾",
     "Pending" : "待處理",
     "Unknown date" : "未知日期",
     "Clear filter" : "清除過濾條件",

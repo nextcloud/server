@@ -68,6 +68,7 @@ OC.L10N.register(
     "This node is unavailable" : "گره شما در دسترس نیست",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تغییر نام \"{oldName}\" به \"{newName}\"",
     "Rename file" : "تغییر نام فایل",
+    "Folder" : "پوشه",
     "Pending" : "در انتظار",
     "Clear filter" : "پاک کردن پالایه",
     "Modified" : "تاریخ",

@@ -79,6 +79,7 @@ OC.L10N.register(
     "Invalid filename." : "Μη έγκυρο όνομα αρχείου",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Μετονομασία του \"{oldName}\" σε \"{newName}\"",
     "Rename file" : "Μετονομασία αρχείου",
+    "Folder" : "Φάκελος",
     "Pending" : "Εκκρεμεί",
     "Clear filter" : "Εκκαθάριση φίλτρου",
     "Modified" : "Τροποποιήθηκε",

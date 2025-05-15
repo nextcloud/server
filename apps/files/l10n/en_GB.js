@@ -97,6 +97,7 @@ OC.L10N.register(
     "Invalid filename." : "Invalid filename.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Rename file" : "Rename file",
+    "Folder" : "Folder",
     "Pending" : "Pending",
     "Unknown date" : "Unknown date",
     "Clear filter" : "Clear filter",

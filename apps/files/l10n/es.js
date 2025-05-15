@@ -96,6 +96,7 @@ OC.L10N.register(
     "Invalid filename." : "Nombre de archivo inválido.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renombrado \"{oldName}\" a \"{newName}\"",
     "Rename file" : "Renombrar archivo",
+    "Folder" : "Carpeta",
     "Pending" : "Pendiente",
     "Unknown date" : "Fecha desconocida",
     "Clear filter" : "Borrar filtro",

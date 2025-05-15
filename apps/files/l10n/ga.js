@@ -97,6 +97,7 @@ OC.L10N.register(
     "Invalid filename." : "Ainm comhaid neamhbhailí.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Athainmnithe \"{oldName}\" go \"{newName}\"",
     "Rename file" : "Athainmnigh an comhad",
+    "Folder" : "Fillteán",
     "Pending" : "Ar feitheamh",
     "Unknown date" : "Dáta anaithnid",
     "Clear filter" : "Glan an scagaire",

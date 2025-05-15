@@ -97,6 +97,7 @@ OC.L10N.register(
     "Invalid filename." : "Nome di file non valido.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Rinominato \"{oldName}\" in \"{newName}\"",
     "Rename file" : "Rinomina file",
+    "Folder" : "Cartella",
     "Pending" : "In corso",
     "Unknown date" : "Data sconosciuta",
     "Clear filter" : "Pulisci il filtro",
