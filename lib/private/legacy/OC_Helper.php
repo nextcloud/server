@@ -158,31 +158,10 @@ class OC_Helper {
 	 * @param resource $source
 	 * @param resource $target
 	 * @return array the number of bytes copied and result
+	 * @deprecated 5.0.0 - Use \OCP\Files::streamCopy
 	 */
 	public static function streamCopy($source, $target) {
-		if (!$source or !$target) {
-			return [0, false];
-		}
-		$bufSize = 8192;
-		$result = true;
-		$count = 0;
-		while (!feof($source)) {
-			$buf = fread($source, $bufSize);
-			$bytesWritten = fwrite($target, $buf);
-			if ($bytesWritten !== false) {
-				$count += $bytesWritten;
-			}
-			// note: strlen is expensive so only use it when necessary,
-			// on the last block
-			if ($bytesWritten === false
-				|| ($bytesWritten < $bufSize && $bytesWritten < strlen($buf))
-			) {
-				// write error, could be disk full ?
-				$result = false;
-				break;
-			}
-		}
-		return [$count, $result];
+		return \OCP\Files::streamCopy($source, $target, true);
 	}
 
 	/**

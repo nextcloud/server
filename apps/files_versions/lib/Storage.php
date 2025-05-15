@@ -23,6 +23,7 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -416,10 +417,12 @@ class Storage {
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids
-			if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+			if ($storage1->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
+				|| $storage2->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
+			) {
 				$source = $storage1->fopen($internalPath1, 'r');
 				$target = $storage2->fopen($internalPath2, 'w');
-				[, $result] = \OC_Helper::streamCopy($source, $target);
+				[, $result] = Files::streamCopy($source, $target, true);
 				fclose($source);
 				fclose($target);
 
