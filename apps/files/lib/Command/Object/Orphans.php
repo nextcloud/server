@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace OCA\Files\Command\Object;
 
 use OC\Core\Command\Base;
+use OC\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

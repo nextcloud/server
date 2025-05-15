@@ -4,14 +4,12 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCP\Files\ObjectStore;
+namespace OC\Files\ObjectStore;
 
 /**
  * Interface IObjectStoreMetaData
  *
  * @psalm-type ObjectMetaData = array{mtime?: \DateTime, etag?: string, size?: int, mimetype?: string, filename?: string}
- *
- * @since 32.0.0
  */
 interface IObjectStoreMetaData {
 	/**
