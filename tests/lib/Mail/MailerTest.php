@@ -66,7 +66,7 @@ class MailerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function sendmailModeProvider(): array {
+	public static function sendmailModeProvider(): array {
 		return [
 			'smtp' => ['smtp', ' -bs'],
 			'pipe' => ['pipe', ' -t -i'],
@@ -170,7 +170,7 @@ class MailerTest extends TestCase {
 				['mail_smtpport', 25, 25],
 			]);
 		$this->mailer = $this->getMockBuilder(Mailer::class)
-			->setMethods(['getInstance'])
+			->onlyMethods(['getInstance'])
 			->setConstructorArgs(
 				[
 					$this->config,
@@ -227,7 +227,7 @@ class MailerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function mailAddressProvider() {
+	public static function mailAddressProvider(): array {
 		return [
 			['lukas@owncloud.com', true, false],
 			['lukas@localhost', true, false],

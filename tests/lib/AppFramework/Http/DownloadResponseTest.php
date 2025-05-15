@@ -37,7 +37,7 @@ class DownloadResponseTest extends \Test\TestCase {
 		$this->assertEquals('attachment; filename="' . $expected . '"', $headers['Content-Disposition']);
 	}
 
-	public function filenameEncodingProvider() : array {
+	public static function filenameEncodingProvider() : array {
 		return [
 			['TestName.txt', 'TestName.txt'],
 			['A "Quoted" Filename.txt', 'A \\"Quoted\\" Filename.txt'],

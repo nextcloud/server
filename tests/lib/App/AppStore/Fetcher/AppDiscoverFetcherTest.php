@@ -104,7 +104,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		}
 	}
 
-	public function dataGetETag(): array {
+	public static function dataGetETag(): array {
 		return [
 			'file not found' => [null, true],
 			'empty file' => [null, false, ''],

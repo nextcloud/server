@@ -186,7 +186,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function dataGetAvatarScopes() {
+	public static function dataGetAvatarScopes(): array {
 		return [
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],

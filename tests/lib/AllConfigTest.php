@@ -125,7 +125,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userPreCond', 'appPreCond', 'keyPreCond');
 	}
 
-	public function dataSetUserValueUnexpectedValue() {
+	public static function dataSetUserValueUnexpectedValue(): array {
 		return [
 			[true],
 			[false],

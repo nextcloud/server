@@ -41,7 +41,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->avatar = $this->getUserAvatar($this->user);
 	}
 
-	public function avatarTextData() {
+	public static function avatarTextData(): array {
 		return [
 			['', '?'],
 			['matchish', 'M'],

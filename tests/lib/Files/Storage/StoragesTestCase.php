@@ -9,7 +9,7 @@ namespace Test\Files\Storage;
 
 use Test\TestCase;
 
-abstract class StoragesTest extends TestCase {
+abstract class StoragesTestCase extends TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage
 	 */

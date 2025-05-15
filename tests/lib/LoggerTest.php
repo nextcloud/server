@@ -72,7 +72,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
-	public function dataMatchesCondition(): array {
+	public static function dataMatchesCondition(): array {
 		return [
 			[
 				'user0',
@@ -181,7 +181,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logs[] = $level . ' ' . $textMessage;
 	}
 
-	public function userAndPasswordData(): array {
+	public static function userAndPasswordData(): array {
 		return [
 			['mySpecialUsername', 'MySuperSecretPassword'],
 			['my-user', '324324()#ä234'],

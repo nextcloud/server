@@ -42,7 +42,7 @@ class BruteforceAllowListTest extends TestCase {
 		);
 	}
 
-	public function dataIsBypassListed(): array {
+	public static function dataIsBypassListed(): array {
 		return [
 			[
 				'10.10.10.10',

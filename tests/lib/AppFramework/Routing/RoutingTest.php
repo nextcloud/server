@@ -348,23 +348,24 @@ class RoutingTest extends \Test\TestCase {
 
 		$urlWithParam = $url . '/{' . $paramName . '}';
 
+		$calls = [
+			['name' => 'ocs.app1.' . $resourceName . '.index', 'pattern' => $url, 'route' => $indexRoute],
+			['name' => 'ocs.app1.' . $resourceName . '.show', 'pattern' => $urlWithParam, 'route' => $showRoute],
+			['name' => 'ocs.app1.' . $resourceName . '.create', 'pattern' => $url, 'route' => $createRoute],
+			['name' => 'ocs.app1.' . $resourceName . '.update', 'pattern' => $urlWithParam, 'route' => $updateRoute],
+			['name' => 'ocs.app1.' . $resourceName . '.destroy', 'pattern' => $urlWithParam, 'route' => $destroyRoute],
+		];
+
 		// we expect create to be called five times:
 		$router
 			->expects($this->exactly(5))
 			->method('create')
-			->withConsecutive(
-				[$this->equalTo('ocs.app1.' . $resourceName . '.index'), $this->equalTo($url)],
-				[$this->equalTo('ocs.app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam)],
-				[$this->equalTo('ocs.app1.' . $resourceName . '.create'), $this->equalTo($url)],
-				[$this->equalTo('ocs.app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam)],
-				[$this->equalTo('ocs.app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam)],
-			)->willReturnOnConsecutiveCalls(
-				$indexRoute,
-				$showRoute,
-				$createRoute,
-				$updateRoute,
-				$destroyRoute,
-			);
+			->willReturnCallback(function (string $name, string $pattern) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected['name'], $name);
+				$this->assertEquals($expected['pattern'], $pattern);
+				return $expected['route'];
+			});
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $yaml);
@@ -402,23 +403,23 @@ class RoutingTest extends \Test\TestCase {
 
 		$urlWithParam = $url . '/{' . $paramName . '}';
 
+		$calls = [
+			['name' => 'app1.' . $resourceName . '.index', 'pattern' => $url, 'route' => $indexRoute],
+			['name' => 'app1.' . $resourceName . '.show', 'pattern' => $urlWithParam, 'route' => $showRoute],
+			['name' => 'app1.' . $resourceName . '.create', 'pattern' => $url, 'route' => $createRoute],
+			['name' => 'app1.' . $resourceName . '.update', 'pattern' => $urlWithParam, 'route' => $updateRoute],
+			['name' => 'app1.' . $resourceName . '.destroy', 'pattern' => $urlWithParam, 'route' => $destroyRoute],
+		];
 		// we expect create to be called five times:
 		$router
 			->expects($this->exactly(5))
 			->method('create')
-			->withConsecutive(
-				[$this->equalTo('app1.' . $resourceName . '.index'), $this->equalTo($url)],
-				[$this->equalTo('app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam)],
-				[$this->equalTo('app1.' . $resourceName . '.create'), $this->equalTo($url)],
-				[$this->equalTo('app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam)],
-				[$this->equalTo('app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam)],
-			)->willReturnOnConsecutiveCalls(
-				$indexRoute,
-				$showRoute,
-				$createRoute,
-				$updateRoute,
-				$destroyRoute,
-			);
+			->willReturnCallback(function (string $name, string $pattern) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected['name'], $name);
+				$this->assertEquals($expected['pattern'], $pattern);
+				return $expected['route'];
+			});
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $yaml);

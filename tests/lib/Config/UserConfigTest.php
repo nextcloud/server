@@ -333,10 +333,7 @@ class UserConfigTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @return array[]
-	 */
-	public function providerHasKey(): array {
+	public static function providerHasKey(): array {
 		return [
 			['user1', 'app1', 'key1', false, true],
 			['user0', 'app1', 'key1', false, false],
@@ -358,10 +355,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->hasKey($userId, $appId, $key, $lazy));
 	}
 
-	/**
-	 * @return array[]
-	 */
-	public function providerIsSensitive(): array {
+	public static function providerIsSensitive(): array {
 		return [
 			['user1', 'app1', 'key1', false, false, false],
 			['user0', 'app1', 'key1', false, false, true],
@@ -399,10 +393,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->isSensitive($userId, $appId, $key, $lazy));
 	}
 
-	/**
-	 * @return array[]
-	 */
-	public function providerIsLazy(): array {
+	public static function providerIsLazy(): array {
 		return [
 			['user1', 'app1', 'key1', false, false],
 			['user0', 'app1', 'key1', false, true],
@@ -432,7 +423,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->isLazy($userId, $appId, $key));
 	}
 
-	public function providerGetValues(): array {
+	public static function providerGetValues(): array {
 		return [
 			[
 				'user1', 'app1', '', true,
@@ -565,7 +556,7 @@ class UserConfigTest extends TestCase {
 		);
 	}
 
-	public function providerGetAllValues(): array {
+	public static function providerGetAllValues(): array {
 		return [
 			[
 				'user2', false,
@@ -662,7 +653,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, $userConfig->getAllValues($userId, $filtered));
 	}
 
-	public function providerSearchValuesByApps(): array {
+	public static function providerSearchValuesByApps(): array {
 		return [
 			[
 				'user1', 'key1', false, null,
@@ -708,7 +699,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValuesByApps($userId, $key, $lazy, $typedAs));
 	}
 
-	public function providerSearchValuesByUsers(): array {
+	public static function providerSearchValuesByUsers(): array {
 		return [
 			[
 				'app2', 'key2', null, null,
@@ -760,7 +751,7 @@ class UserConfigTest extends TestCase {
 		);
 	}
 
-	public function providerSearchValuesByValueString(): array {
+	public static function providerSearchValuesByValueString(): array {
 		return [
 			['app2', 'key2', 'value2a', false, ['user1']],
 			['app2', 'key2', 'value2A', false, ['user4']],
@@ -782,7 +773,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueString($app, $key, $value, $ci)));
 	}
 
-	public function providerSearchValuesByValueInt(): array {
+	public static function providerSearchValuesByValueInt(): array {
 		return [
 			['app3', 'key8', 12, []], // sensitive value, cannot search
 			['app2', 'key8', 12, ['user2', 'user5']], // sensitive value, cannot search
@@ -803,7 +794,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueInt($app, $key, $value)));
 	}
 
-	public function providerSearchValuesByValues(): array {
+	public static function providerSearchValuesByValues(): array {
 		return [
 			['app2', 'key2', ['value2a', 'value2b'], ['user1', 'user2']],
 			['app2', 'key2', ['value2a', 'value2c'], ['user1', 'user3']],
@@ -823,7 +814,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValues($app, $key, $values)));
 	}
 
-	public function providerSearchValuesByValueBool(): array {
+	public static function providerSearchValuesByValueBool(): array {
 		return [
 			['app3', 'key10', true, ['user1', 'user4']],
 			['app3', 'key10', false, ['user2']],
@@ -843,7 +834,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEqualsCanonicalizing($result, iterator_to_array($userConfig->searchUsersByValueBool($app, $key, $value)));
 	}
 
-	public function providerGetValueMixed(): array {
+	public static function providerGetValueMixed(): array {
 		return [
 			[
 				['user1'], 'user1', 'app1', 'key0', 'default_because_unknown_key', true,
@@ -943,7 +934,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValueString($userId, $app, $key, $default, $lazy));
 	}
 
-	public function providerGetValueInt(): array {
+	public static function providerGetValueInt(): array {
 		return [
 			[['user1'], 'user1', 'app1', 'key0', 54321, true, 54321],
 			[null, 'user1', 'app1', 'key0', 54321, true, 54321],
@@ -985,7 +976,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValueInt($userId, $app, $key, $default, $lazy));
 	}
 
-	public function providerGetValueFloat(): array {
+	public static function providerGetValueFloat(): array {
 		return [
 			[['user1'], 'user1', 'app1', 'key0', 54.321, true, 54.321],
 			[null, 'user1', 'app1', 'key0', 54.321, true, 54.321],
@@ -1026,7 +1017,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValueFloat($userId, $app, $key, $default, $lazy));
 	}
 
-	public function providerGetValueBool(): array {
+	public static function providerGetValueBool(): array {
 		return [
 			[['user1'], 'user1', 'app1', 'key0', false, true, false],
 			[null, 'user1', 'app1', 'key0', false, true, false],
@@ -1087,7 +1078,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValueBool($userId, $app, $key, $default, $lazy));
 	}
 
-	public function providerGetValueArray(): array {
+	public static function providerGetValueArray(): array {
 		return [
 			[
 				['user1'], 'user1', 'app1', 'key0', ['default_because_unknown_key'], true,
@@ -1126,7 +1117,7 @@ class UserConfigTest extends TestCase {
 		);
 	}
 
-	public function providerGetValueType(): array {
+	public static function providerGetValueType(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', false, ValueType::MIXED],
 			[null, 'user1', 'app1', 'key1', true, null, UnknownKeyException::class],
@@ -1187,7 +1178,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerSetValueMixed(): array {
+	public static function providerSetValueMixed(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', 'value', false, false, true],
 			[null, 'user1', 'app1', 'key1', '12345', true, false, true],
@@ -1250,7 +1241,7 @@ class UserConfigTest extends TestCase {
 	}
 
 
-	public function providerSetValueString(): array {
+	public static function providerSetValueString(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', 'value', false, false, true],
 			[null, 'user1', 'app1', 'key1', '12345', true, false, true],
@@ -1325,7 +1316,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerSetValueInt(): array {
+	public static function providerSetValueInt(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', 12345, false, false, true],
 			[null, 'user1', 'app1', 'key1', 12345, true, false, true],
@@ -1389,7 +1380,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerSetValueFloat(): array {
+	public static function providerSetValueFloat(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', 12.345, false, false, true],
 			[null, 'user1', 'app1', 'key1', 12.345, true, false, true],
@@ -1453,7 +1444,7 @@ class UserConfigTest extends TestCase {
 	}
 
 
-	public function providerSetValueArray(): array {
+	public static function providerSetValueArray(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', [], false, false, true],
 			[null, 'user1', 'app1', 'key1', [], true, false, true],
@@ -1520,7 +1511,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerUpdateSensitive(): array {
+	public static function providerUpdateSensitive(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', false, false],
 			[['user1'], 'user1', 'app1', 'key1', false, false],
@@ -1566,7 +1557,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerUpdateGlobalSensitive(): array {
+	public static function providerUpdateGlobalSensitive(): array {
 		return [[true], [false]];
 	}
 
@@ -1610,7 +1601,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerUpdateLazy(): array {
+	public static function providerUpdateLazy(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', false, false],
 			[['user1'], 'user1', 'app1', 'key1', false, false],
@@ -1649,7 +1640,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerUpdateGlobalLazy(): array {
+	public static function providerUpdateGlobalLazy(): array {
 		return [[true], [false]];
 	}
 
@@ -1679,7 +1670,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-	public function providerGetDetails(): array {
+	public static function providerGetDetails(): array {
 		return [
 			[
 				'user3', 'app2', 'key2',
@@ -1732,7 +1723,7 @@ class UserConfigTest extends TestCase {
 	}
 
 
-	public function providerDeletePreference(): array {
+	public static function providerDeletePreference(): array {
 		return [
 			[null, 'user1', 'app1', 'key22'],
 			[['user1'], 'user1', 'app1', 'fast_string_sensitive'],
@@ -1763,7 +1754,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, $lazy));
 	}
 
-	public function providerDeleteKey(): array {
+	public static function providerDeleteKey(): array {
 		return [
 			[null, 'app2', 'key3'],
 			[['user1'], 'app2', 'key3'],
@@ -1832,7 +1823,7 @@ class UserConfigTest extends TestCase {
 				'fastCache' => [],
 				'lazyLoaded' => [],
 				'lazyCache' => [],
-				'valueTypes' => [],
+				'valueDetails' => [],
 			],
 			$userConfig->statusCache()
 		);

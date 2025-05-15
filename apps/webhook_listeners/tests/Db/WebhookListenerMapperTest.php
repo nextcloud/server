@@ -44,7 +44,7 @@ class WebhookListenerMapperTest extends TestCase {
 		parent::tearDown();
 	}
 
-	protected function pruneTables() {
+	protected function pruneTables(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(WebhookListenerMapper::TABLE_NAME)->executeStatement();
 	}

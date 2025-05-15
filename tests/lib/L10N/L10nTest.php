@@ -96,7 +96,7 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 Dateien', (string)$l->n('%n file', '%n files', 5));
 	}
 
-	public function dataPlaceholders(): array {
+	public static function dataPlaceholders(): array {
 		return [
 			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
 			['Reordered placeholders one %s two %s', 'Placeholder two 2 one 1'],
@@ -117,7 +117,7 @@ class L10nTest extends TestCase {
 		$this->assertEquals($expected, $l->t($string, ['1', '2']));
 	}
 
-	public function localizationData() {
+	public static function localizationData(): array {
 		return [
 			// timestamp as string
 			["February 13, 2009, 11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'datetime', '1234567890'],
@@ -161,7 +161,7 @@ class L10nTest extends TestCase {
 		$this->assertSame($expectedDate, $l->l($type, $value));
 	}
 
-	public function firstDayData() {
+	public static function firstDayData(): array {
 		return [
 			[1, 'de', 'de_DE'],
 			[0, 'en', 'en_US'],
@@ -179,7 +179,7 @@ class L10nTest extends TestCase {
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
-	public function jsDateData() {
+	public static function jsDateData(): array {
 		return [
 			['dd.MM.yy', 'de', 'de_DE'],
 			['M/d/yy', 'en', 'en_US'],
@@ -224,10 +224,7 @@ class L10nTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function findLanguageFromLocaleData(): array {
+	public static function findLanguageFromLocaleData(): array {
 		return [
 			'en_US' => ['en_US', 'en'],
 			'en_UK' => ['en_UK', 'en'],

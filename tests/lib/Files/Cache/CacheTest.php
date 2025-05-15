@@ -49,6 +49,25 @@ class CacheTest extends \Test\TestCase {
 	 */
 	protected $cache2;
 
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->storage = new \OC\Files\Storage\Temporary([]);
+		$this->storage2 = new \OC\Files\Storage\Temporary([]);
+		$this->cache = new \OC\Files\Cache\Cache($this->storage);
+		$this->cache2 = new \OC\Files\Cache\Cache($this->storage2);
+		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+	}
+
+	protected function tearDown(): void {
+		if ($this->cache) {
+			$this->cache->clear();
+		}
+
+		parent::tearDown();
+	}
+
 	public function testGetNumericId(): void {
 		$this->assertNotNull($this->cache->getNumericStorageId());
 	}
@@ -208,7 +227,7 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	public function folderDataProvider() {
+	public static function folderDataProvider(): array {
 		return [
 			['folder'],
 			// that was too easy, try something harder
@@ -301,7 +320,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(\OC\Files\Cache\Cache::COMPLETE, $this->cache->getStatus('foo'));
 	}
 
-	public function putWithAllKindOfQuotesData() {
+	public static function putWithAllKindOfQuotesData(): array {
 		return [
 			['`backtick`'],
 			['´forward´'],
@@ -437,7 +456,7 @@ class CacheTest extends \Test\TestCase {
 			new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN_EQUAL, 'size', 100), 10, 0, [], $user)));
 	}
 
-	public function movePathProvider() {
+	public static function movePathProvider(): array {
 		return [
 			['folder/foo', 'folder/foobar', ['1', '2']],
 			['folder/foo', 'foo', ['1', '2']],
@@ -575,7 +594,7 @@ class CacheTest extends \Test\TestCase {
 		 * @var \OC\Files\Cache\Cache | \PHPUnit\Framework\MockObject\MockObject $cacheMock
 		 */
 		$cacheMock = $this->getMockBuilder(Cache::class)
-			->setMethods(['normalize'])
+			->onlyMethods(['normalize'])
 			->setConstructorArgs([$this->storage])
 			->getMock();
 
@@ -646,7 +665,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(1, count($this->cache->getFolderContents('folder')));
 	}
 
-	public function bogusPathNamesProvider() {
+	public static function bogusPathNamesProvider(): array {
 		return [
 			['/bogus.txt', 'bogus.txt'],
 			['//bogus.txt', 'bogus.txt'],
@@ -691,7 +710,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertNotEquals($fileId, $fileId2);
 	}
 
-	public function escapingProvider() {
+	public static function escapingProvider(): array {
 		return [
 			['foo'],
 			['o%'],
@@ -806,24 +825,5 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
 		$this->cache->remove('sub');
-	}
-
-	protected function tearDown(): void {
-		if ($this->cache) {
-			$this->cache->clear();
-		}
-
-		parent::tearDown();
-	}
-
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->storage = new \OC\Files\Storage\Temporary([]);
-		$this->storage2 = new \OC\Files\Storage\Temporary([]);
-		$this->cache = new \OC\Files\Cache\Cache($this->storage);
-		$this->cache2 = new \OC\Files\Cache\Cache($this->storage2);
-		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
-		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 	}
 }

@@ -44,7 +44,7 @@ class RemoteAddressTest extends \Test\TestCase {
 	/**
 	 * @return array<string, mixed, bool>
 	 */
-	public function dataProvider(): array {
+	public static function dataProvider(): array {
 		return [
 			// No IP (ie. CLI)
 			['', ['192.168.1.2/24'], true],

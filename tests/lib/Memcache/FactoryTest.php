@@ -56,7 +56,7 @@ class FactoryTest extends \Test\TestCase {
 	public const UNAVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache1';
 	public const UNAVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache2';
 
-	public function cacheAvailabilityProvider() {
+	public static function cacheAvailabilityProvider(): array {
 		return [
 			[
 				// local and distributed available
@@ -86,7 +86,7 @@ class FactoryTest extends \Test\TestCase {
 		];
 	}
 
-	public function cacheUnavailableProvider() {
+	public static function cacheUnavailableProvider(): array {
 		return [
 			[
 				// local available, distributed unavailable

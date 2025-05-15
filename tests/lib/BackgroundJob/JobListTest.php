@@ -73,7 +73,7 @@ class JobListTest extends TestCase {
 		return $jobs;
 	}
 
-	public function argumentProvider() {
+	public static function argumentProvider(): array {
 		return [
 			[null],
 			[false],

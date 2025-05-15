@@ -8,6 +8,7 @@
 
 namespace Test\AppFramework\Http;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
@@ -20,6 +21,7 @@ use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -63,6 +65,10 @@ class TestController extends Controller {
 			'text' => [$int, $bool, $test, $test2]
 		]);
 	}
+
+	public function test(): Response {
+		return new DataResponse();
+	}
 }
 
 /**
@@ -104,33 +110,17 @@ class DispatcherTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->container = $this->createMock(ContainerInterface::class);
-		$app = $this->getMockBuilder(
-			'OC\AppFramework\DependencyInjection\DIContainer')
-			->disableOriginalConstructor()
-			->getMock();
-		$request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->http = $this->getMockBuilder(
-			\OC\AppFramework\Http::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$app = $this->createMock(DIContainer::class);
+		$request = $this->createMock(Request::class);
+		$this->http = $this->createMock(\OC\AppFramework\Http::class);
 
-		$this->middlewareDispatcher = $this->getMockBuilder(
-			'\OC\AppFramework\Middleware\MiddlewareDispatcher')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->controller = $this->getMockBuilder(
-			'\OCP\AppFramework\Controller')
-			->setMethods([$this->controllerMethod])
+		$this->middlewareDispatcher = $this->createMock(MiddlewareDispatcher::class);
+		$this->controller = $this->getMockBuilder(TestController::class)
+			->onlyMethods([$this->controllerMethod])
 			->setConstructorArgs([$app, $request])
 			->getMock();
 
-		$this->request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(Request::class);
 
 		$this->reflector = new ControllerMethodReflector();
 
@@ -140,7 +130,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			\OCP\Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
@@ -545,7 +535,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function rangeDataProvider(): array {
+	public static function rangeDataProvider(): array {
 		return [
 			[PHP_INT_MIN, PHP_INT_MAX, 42, false],
 			[0, 12, -5, true],

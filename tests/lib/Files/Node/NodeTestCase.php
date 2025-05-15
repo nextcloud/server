@@ -9,6 +9,7 @@ namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
+use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -27,7 +28,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\Files\Node
  */
-abstract class NodeTest extends \Test\TestCase {
+abstract class NodeTestCase extends \Test\TestCase {
 	/** @var \OC\User\User */
 	protected $user;
 	/** @var \OC\Files\Mount\Manager */
@@ -71,7 +72,7 @@ abstract class NodeTest extends \Test\TestCase {
 			->willReturnCallback(function () {
 				return new ArrayCache();
 			});
-		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$this->root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 	}
@@ -592,7 +593,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals('/bar/asd', $node->getPath());
 	}
 
-	public function moveOrCopyProvider() {
+	public static function moveOrCopyProvider(): array {
 		return [
 			['move', 'rename', 'preRename', 'postRename'],
 			['copy', 'copy', 'preCopy', 'postCopy'],
@@ -608,9 +609,9 @@ abstract class NodeTest extends \Test\TestCase {
 	 */
 	public function testMoveCopyHooks($operationMethod, $viewMethod, $preHookName, $postHookName): void {
 		/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
-			->setMethods(['get'])
+			->onlyMethods(['get'])
 			->getMock();
 
 		$this->view->expects($this->any())

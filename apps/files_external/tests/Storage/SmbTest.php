@@ -49,7 +49,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		// doesn't support leading/trailing spaces
 		return [['folder']];
 	}

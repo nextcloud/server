@@ -66,7 +66,7 @@ class SystemTagManagerTest extends TestCase {
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
-	public static function getAllTagsDataProvider() {
+	public static function getAllTagsDataProvider(): array {
 		return [
 			[
 				// no tags at all
@@ -113,7 +113,7 @@ class SystemTagManagerTest extends TestCase {
 		}
 	}
 
-	public static function getAllTagsFilteredDataProvider() {
+	public static function getAllTagsFilteredDataProvider(): array {
 		return [
 			[
 				[
@@ -226,7 +226,7 @@ class SystemTagManagerTest extends TestCase {
 		}
 	}
 
-	public static function oneTagMultipleFlagsProvider() {
+	public static function oneTagMultipleFlagsProvider(): array {
 		return [
 			['one', false, false],
 			['one', true, false],
@@ -299,7 +299,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
 	}
 
-	public static function updateTagProvider() {
+	public static function updateTagProvider(): array {
 		return [
 			[
 				// update name
@@ -424,7 +424,7 @@ class SystemTagManagerTest extends TestCase {
 		], $tagIdMapping);
 	}
 
-	public static function visibilityCheckProvider() {
+	public static function visibilityCheckProvider(): array {
 		return [
 			[false, false, false, false],
 			[true, false, false, true],
@@ -451,7 +451,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
 
-	public static function assignabilityCheckProvider() {
+	public static function assignabilityCheckProvider(): array {
 		return [
 			// no groups
 			[false, false, false, false],
@@ -529,7 +529,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals([], $this->tagManager->getTagGroups($tag1));
 	}
 
-	private function allowedToCreateProvider(): array {
+	public static function allowedToCreateProvider(): array {
 		return [
 			[true, null, true],
 			[true, null, false],
@@ -570,7 +570,7 @@ class SystemTagManagerTest extends TestCase {
 		\OC::$CLI = $oldCli;
 	}
 
-	private function disallowedToCreateProvider(): array {
+	public static function disallowedToCreateProvider(): array {
 		return [
 			[false],
 			[null],

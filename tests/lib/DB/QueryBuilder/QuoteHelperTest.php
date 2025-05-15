@@ -23,7 +23,7 @@ class QuoteHelperTest extends \Test\TestCase {
 		$this->helper = new QuoteHelper();
 	}
 
-	public function dataQuoteColumnName() {
+	public static function dataQuoteColumnName(): array {
 		return [
 			['column', '`column`'],
 			[new Literal('literal'), 'literal'],
@@ -48,7 +48,7 @@ class QuoteHelperTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataQuoteColumnNames() {
+	public static function dataQuoteColumnNames(): array {
 		return [
 			// Single case
 			['d.column', '`d`.`column`'],

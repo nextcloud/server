@@ -71,13 +71,13 @@ class HelperStorageTest extends \Test\TestCase {
 	 */
 	private function getStorageMock($freeSpace = 12) {
 		$this->storageMock = $this->getMockBuilder(Temporary::class)
-			->setMethods(['free_space'])
+			->onlyMethods(['free_space'])
 			->setConstructorArgs([[]])
 			->getMock();
 
 		$this->storageMock->expects($this->once())
 			->method('free_space')
-			->willReturn(12);
+			->willReturn($freeSpace);
 		return $this->storageMock;
 	}
 

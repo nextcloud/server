@@ -100,7 +100,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('folder', $internalPath);
 	}
 
-	public function normalizePathData() {
+	public static function normalizePathData(): array {
 		return [
 			['/', ''],
 			['/', '/'],
@@ -201,7 +201,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
 	}
 
-	public function normalizePathKeepUnicodeData() {
+	public static function normalizePathKeepUnicodeData(): array {
 		$nfdName = 'ümlaut';
 		$nfcName = 'ümlaut';
 		return [
@@ -227,7 +227,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('/' . $nfdName, \OC\Files\Filesystem::normalizePath($nfdName, true, false, true));
 	}
 
-	public function isValidPathData() {
+	public static function isValidPathData(): array {
 		return [
 			['/', true],
 			['/path', true],
@@ -260,7 +260,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
 	}
 
-	public function isFileBlacklistedData() {
+	public static function isFileBlacklistedData(): array {
 		return [
 			['/etc/foo/bar/foo.txt', false],
 			['\etc\foo/bar\foo.txt', false],

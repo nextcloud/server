@@ -199,7 +199,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function searchProvider() {
+	public static function searchProvider(): array {
 		$search1 = [
 			[
 				'id' => 1,
@@ -1096,7 +1096,7 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
@@ -1544,11 +1544,11 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
-		
+
 		$principalUri = 'principals/user/pierre';
 		$sender = 'clint@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
@@ -1588,7 +1588,7 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();

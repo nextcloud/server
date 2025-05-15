@@ -45,7 +45,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	/**
 	 * ftp has no proper way to handle spaces at the end of file names
 	 */
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		return array_filter(parent::directoryProvider(), function ($item) {
 			return substr($item[0], -1) !== ' ';
 		});

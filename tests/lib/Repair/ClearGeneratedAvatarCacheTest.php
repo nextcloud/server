@@ -30,7 +30,7 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 		$this->repair = new ClearGeneratedAvatarCache($this->config, $this->avatarManager, $this->jobList);
 	}
 
-	public function shouldRunDataProvider() {
+	public static function shouldRunDataProvider(): array {
 		return [
 			['11.0.0.0', true],
 			['15.0.0.3', true],

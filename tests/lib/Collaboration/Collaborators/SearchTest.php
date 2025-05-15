@@ -115,7 +115,7 @@ class SearchTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public function dataSearchSharees() {
+	public static function dataSearchSharees(): array {
 		return [
 			// #0
 			[

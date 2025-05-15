@@ -26,7 +26,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		$this->helper = new \OC\LargeFileHelper();
 	}
 
-	public function dataFileNameProvider() {
+	public static function dataFileNameProvider(): array {
 		$path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
 
 		return [

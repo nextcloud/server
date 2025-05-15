@@ -13,7 +13,7 @@ use OC\Security\Normalizer\IpAddress;
 use Test\TestCase;
 
 class IpAddressTest extends TestCase {
-	public function subnetDataProvider() {
+	public static function subnetDataProvider(): array {
 		return [
 			[
 				'64.233.191.254',

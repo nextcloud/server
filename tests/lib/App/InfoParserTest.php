@@ -45,7 +45,7 @@ class InfoParserTest extends TestCase {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
-	public function providesInfoXml(): array {
+	public static function providesInfoXml(): array {
 		return [
 			['expected-info.json', 'valid-info.xml'],
 			[null, 'invalid-info.xml'],

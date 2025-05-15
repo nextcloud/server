@@ -204,7 +204,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->manager->isTwoFactorAuthenticated($this->user));
 	}
 
-	public function providerStatesFixData(): array {
+	public static function providerStatesFixData(): array {
 		return [
 			[false, false],
 			[true, true],
@@ -356,12 +356,18 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('two_factor_remember_login')
 			->willReturn(false);
+
+		$calls = [
+			['two_factor_auth_uid'],
+			['two_factor_remember_login'],
+		];
 		$this->session->expects($this->exactly(2))
 			->method('remove')
-			->withConsecutive(
-				['two_factor_auth_uid'],
-				['two_factor_remember_login']
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
 		$this->session->expects($this->once())
 			->method('set')
 			->with(Manager::SESSION_UID_DONE, 'jos');
@@ -474,14 +480,19 @@ class ManagerTest extends TestCase {
 
 	public function testNeedsSecondFactor(): void {
 		$user = $this->createMock(IUser::class);
+
+		$calls = [
+			['app_password'],
+			['two_factor_auth_uid'],
+			[Manager::SESSION_UID_DONE],
+		];
 		$this->session->expects($this->exactly(3))
 			->method('exists')
-			->withConsecutive(
-				['app_password'],
-				['two_factor_auth_uid'],
-				[Manager::SESSION_UID_DONE],
-			)
-			->willReturn(false);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return false;
+			});
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -513,7 +524,7 @@ class ManagerTest extends TestCase {
 				$this->timeFactory,
 				$this->dispatcher,
 			])
-			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps
+			->onlyMethods(['isTwoFactorAuthenticated'])// Do not actually load the apps
 			->getMock();
 
 		$manager->method('isTwoFactorAuthenticated')
@@ -550,12 +561,16 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
+		$calls = [
+			['two_factor_auth_uid', 'ferdinand'],
+			['two_factor_remember_login', true],
+		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->withConsecutive(
-				['two_factor_auth_uid', 'ferdinand'],
-				['two_factor_remember_login', true]
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -580,12 +595,16 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
+		$calls = [
+			['two_factor_auth_uid', 'ferdinand'],
+			['two_factor_remember_login', false],
+		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->withConsecutive(
-				['two_factor_auth_uid', 'ferdinand'],
-				['two_factor_remember_login', false]
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -710,21 +729,29 @@ class ManagerTest extends TestCase {
 				'42', '43', '44'
 			]);
 
+		$deleteUserValueCalls = [
+			['theUserId', 'login_token_2fa', '42'],
+			['theUserId', 'login_token_2fa', '43'],
+			['theUserId', 'login_token_2fa', '44'],
+		];
 		$this->config->expects($this->exactly(3))
 			->method('deleteUserValue')
-			->withConsecutive(
-				['theUserId', 'login_token_2fa', '42'],
-				['theUserId', 'login_token_2fa', '43'],
-				['theUserId', 'login_token_2fa', '44'],
-			);
+			->willReturnCallback(function () use (&$deleteUserValueCalls) {
+				$expected = array_shift($deleteUserValueCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
+		$invalidateCalls = [
+			['theUserId', 42],
+			['theUserId', 43],
+			['theUserId', 44],
+		];
 		$this->tokenProvider->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->withConsecutive(
-				['theUserId', 42],
-				['theUserId', 43],
-				['theUserId', 44],
-			);
+			->willReturnCallback(function () use (&$invalidateCalls) {
+				$expected = array_shift($invalidateCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->manager->clearTwoFactorPending('theUserId');
 	}
@@ -736,22 +763,28 @@ class ManagerTest extends TestCase {
 				'42', '43', '44'
 			]);
 
+		$deleteUserValueCalls = [
+			['theUserId', 'login_token_2fa', '42'],
+			['theUserId', 'login_token_2fa', '43'],
+			['theUserId', 'login_token_2fa', '44'],
+		];
 		$this->config->expects($this->exactly(3))
 			->method('deleteUserValue')
-			->withConsecutive(
-				['theUserId', 'login_token_2fa', '42'],
-				['theUserId', 'login_token_2fa', '43'],
-				['theUserId', 'login_token_2fa', '44'],
-			);
+			->willReturnCallback(function () use (&$deleteUserValueCalls) {
+				$expected = array_shift($deleteUserValueCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
+		$invalidateCalls = [
+			['theUserId', 42],
+			['theUserId', 43],
+			['theUserId', 44],
+		];
 		$this->tokenProvider->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->withConsecutive(
-				['theUserId', 42],
-				['theUserId', 43],
-				['theUserId', 44],
-			)
-			->willReturnCallback(function ($user, $tokenId) {
+			->willReturnCallback(function ($user, $tokenId) use (&$invalidateCalls) {
+				$expected = array_shift($invalidateCalls);
+				$this->assertEquals($expected, func_get_args());
 				if ($tokenId === 43) {
 					throw new DoesNotExistException('token does not exist');
 				}

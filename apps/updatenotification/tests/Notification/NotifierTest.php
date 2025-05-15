@@ -49,9 +49,9 @@ class NotifierTest extends TestCase {
 
 	/**
 	 * @param array $methods
-	 * @return Notifier|\PHPUnit\Framework\MockObject\MockObject
+	 * @return Notifier|MockObject
 	 */
-	protected function getNotifier(array $methods = []) {
+	protected function getNotifier(array $methods = []): Notifier {
 		if (empty($methods)) {
 			return new Notifier(
 				$this->urlGenerator,
@@ -81,7 +81,7 @@ class NotifierTest extends TestCase {
 		}
 	}
 
-	public function dataUpdateAlreadyInstalledCheck(): array {
+	public static function dataUpdateAlreadyInstalledCheck(): array {
 		return [
 			['1.1.0', '1.0.0', false],
 			['1.1.0', '1.1.0', true],
@@ -91,10 +91,6 @@ class NotifierTest extends TestCase {
 
 	/**
 	 * @dataProvider dataUpdateAlreadyInstalledCheck
-	 *
-	 * @param string $versionNotification
-	 * @param string $versionInstalled
-	 * @param bool $exception
 	 */
 	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception): void {
 		$notifier = $this->getNotifier();

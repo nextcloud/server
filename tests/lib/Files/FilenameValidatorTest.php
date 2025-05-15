@@ -122,7 +122,7 @@ class FilenameValidatorTest extends TestCase {
 		$this->assertEquals($exception === null, $validator->isFilenameValid($filename));
 	}
 
-	public function dataValidateFilename(): array {
+	public static function dataValidateFilename(): array {
 		return [
 			'valid name' => [
 				'a: b.txt', ['.htaccess'], [], [], [], null
@@ -202,7 +202,7 @@ class FilenameValidatorTest extends TestCase {
 		$validator->validateFilename($filename);
 	}
 
-	public function data4ByteUnicode(): array {
+	public static function data4ByteUnicode(): array {
 		return [
 			['plane 1 𐪅'],
 			['emoji 😶‍🌫️'],
@@ -218,7 +218,7 @@ class FilenameValidatorTest extends TestCase {
 		$validator->validateFilename($filename);
 	}
 
-	public function dataInvalidAsciiCharacters(): array {
+	public static function dataInvalidAsciiCharacters(): array {
 		return [
 			[\chr(0)],
 			[\chr(1)],
@@ -271,7 +271,7 @@ class FilenameValidatorTest extends TestCase {
 		$this->assertEquals($expected, $validator->isForbidden($filename));
 	}
 
-	public function dataIsForbidden(): array {
+	public static function dataIsForbidden(): array {
 		return [
 			'valid name' => [
 				'a: b.txt', ['.htaccess'], false

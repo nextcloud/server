@@ -19,14 +19,9 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActivityPublisherTest extends TestCase {
-	/** @var IManager|MockObject */
-	private $activityManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ActivityPublisher */
-	private $listener;
+	private IManager&MockObject $activityManager;
+	private LoggerInterface&MockObject $logger;
+	private ActivityPublisher $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

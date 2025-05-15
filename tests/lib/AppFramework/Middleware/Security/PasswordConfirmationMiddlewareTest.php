@@ -162,7 +162,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 
 
-	public function dataProvider() {
+	public static function dataProvider(): array {
 		return [
 			['foo', 2000, 4000, true],
 			['foo', 2000, 3000, false],

@@ -305,7 +305,7 @@ class UpdaterTest extends \Test\TestCase {
 		}
 	}
 
-	public function changeExtensionProvider(): array {
+	public static function changeExtensionProvider(): array {
 		return [
 			[new Temporary()],
 			[new ObjectStoreStorage(['objectstore' => new StorageObjectStore(new Temporary())])]

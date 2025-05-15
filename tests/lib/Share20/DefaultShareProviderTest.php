@@ -472,7 +472,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->logger,
 				$this->shareManager,
 			])
-			->setMethods(['getShareById'])
+			->onlyMethods(['getShareById'])
 			->getMock();
 
 		$provider->delete($share);
@@ -569,7 +569,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->logger,
 				$this->shareManager,
 			])
-			->setMethods(['getShareById'])
+			->onlyMethods(['getShareById'])
 			->getMock();
 
 		$provider->delete($share);
@@ -968,7 +968,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		return $qb->getLastInsertId();
 	}
 
-	public function storageAndFileNameProvider() {
+	public static function storageAndFileNameProvider(): array {
 		return [
 			// regular file on regular storage
 			['home::shareOwner', 'files/test.txt', 'files/test2.txt'],
@@ -1281,7 +1281,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 	}
 
-	public function shareTypesProvider() {
+	public static function shareTypesProvider(): array {
 		return [
 			[IShare::TYPE_USER, false],
 			[IShare::TYPE_GROUP, false],
@@ -2276,7 +2276,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
 	}
 
-	public function dataDeleteUser() {
+	public static function dataDeleteUser(): array {
 		return [
 			[IShare::TYPE_USER, 'a', 'b', 'c', 'a', true],
 			[IShare::TYPE_USER, 'a', 'b', 'c', 'b', false],
@@ -2334,7 +2334,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount($rowDeleted ? 0 : 1, $data);
 	}
 
-	public function dataDeleteUserGroup() {
+	public static function dataDeleteUserGroup(): array {
 		return [
 			['a', 'b', 'c', 'a', true, true],
 			['a', 'b', 'c', 'b', false, false],
@@ -2403,7 +2403,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount($groupShareDeleted ? 0 : 1, $data);
 	}
 
-	public function dataGroupDeleted() {
+	public static function dataGroupDeleted(): array {
 		return [
 			[
 				[
@@ -2497,7 +2497,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount($shouldBeDeleted ? 0 : count($ids), $data);
 	}
 
-	public function dataUserDeletedFromGroup() {
+	public static function dataUserDeletedFromGroup(): array {
 		return [
 			['group1', 'user1', true],
 			['group1', 'user2', false],

@@ -56,7 +56,7 @@ class CloudIdManagerTest extends TestCase {
 		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
 	}
 
-	public function dataGetDisplayNameFromContact(): array {
+	public static function dataGetDisplayNameFromContact(): array {
 		return [
 			['test1@example.tld', 'test', 'test'],
 			['test2@example.tld', null, null],
@@ -84,7 +84,7 @@ class CloudIdManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->cloudIdManager->getDisplayNameFromContact($cloudId));
 	}
 
-	public function cloudIdProvider(): array {
+	public static function cloudIdProvider(): array {
 		return [
 			['test@example.com', 'test', 'example.com', 'test@example.com'],
 			['test@example.com/cloud', 'test', 'example.com/cloud', 'test@example.com/cloud'],
@@ -122,7 +122,7 @@ class CloudIdManagerTest extends TestCase {
 		$this->assertEquals($displayName . '@' . $noProtocolRemote, $cloudId->getDisplayId());
 	}
 
-	public function invalidCloudIdProvider(): array {
+	public static function invalidCloudIdProvider(): array {
 		return [
 			['example.com'],
 			['test:foo@example.com'],
@@ -142,7 +142,7 @@ class CloudIdManagerTest extends TestCase {
 		$this->cloudIdManager->resolveCloudId($cloudId);
 	}
 
-	public function getCloudIdProvider(): array {
+	public static function getCloudIdProvider(): array {
 		return [
 			['test', 'example.com', 'test@example.com', null, 'https://example.com', 'https://example.com'],
 			['test', 'http://example.com', 'test@http://example.com', 'test@example.com'],

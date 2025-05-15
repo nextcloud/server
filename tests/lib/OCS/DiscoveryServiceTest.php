@@ -45,7 +45,7 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function dataTestIsSafeUrl() {
+	public static function dataTestIsSafeUrl(): array {
 		return [
 			['api/ocs/v1.php/foo', true],
 			['/api/ocs/v1.php/foo', true],
@@ -69,7 +69,7 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function dataTestGetEndpoints() {
+	public static function dataTestGetEndpoints(): array {
 		return [
 			[['services' => ['myService' => ['endpoints' => []]]], 'myService', []],
 			[['services' => ['myService' => ['endpoints' => ['foo' => '/bar']]]], 'myService', ['foo' => '/bar']],

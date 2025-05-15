@@ -12,6 +12,11 @@ use OC\Group\Database;
 use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
@@ -21,7 +26,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterface {
+abstract class TestBackend extends ABackend implements ISearchableGroupBackend, IAddToGroupBackend, ICreateGroupBackend, IGroupDetailsBackend, IRemoveFromGroupBackend, GroupInterface {
+
 }
 
 class ManagerTest extends TestCase {
@@ -74,9 +80,9 @@ class ManagerTest extends TestCase {
 		}
 		// need to declare it this way due to optional methods
 		// thanks to the implementsActions logic
-		$backend = $this->getMockBuilder(ISearchableGroupInterface::class)
+		$backend = $this->getMockBuilder(TestBackend::class)
 			->disableOriginalConstructor()
-			->setMethods([
+			->onlyMethods([
 				'getGroupDetails',
 				'implementsActions',
 				'getUserGroups',
@@ -283,9 +289,10 @@ class ManagerTest extends TestCase {
 			->with('1')
 			->willReturn(['group1']);
 		$backend->expects($this->once())
-			->method('groupExists')
-			->with('group1')
-			->willReturn(true);
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group1', ['displayName' => 'group1']],
+			]);
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
@@ -306,8 +313,11 @@ class ManagerTest extends TestCase {
 			->with('1')
 			->willReturn(['group1']);
 		$backend1->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group1', ['displayName' => 'group1']],
+				['group12', []],
+			]);
 
 		/**
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
@@ -318,8 +328,11 @@ class ManagerTest extends TestCase {
 			->with('1')
 			->willReturn(['group12', 'group1']);
 		$backend2->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
+			->method('getGroupDetails')
+			->willReturnMap([
+				['group12', ['displayName' => 'group12']],
+				['group1', ['displayName' => 'group1']],
+			]);
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);
@@ -335,7 +348,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearchMultipleBackendsLimitAndOffset(): void {
 		/**
-		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
+		 * @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend1
 		 */
 		$backend1 = $this->getTestBackend();
 		$backend1->expects($this->once())
@@ -343,11 +356,16 @@ class ManagerTest extends TestCase {
 			->with('1', 2, 1)
 			->willReturn(['group1']);
 		$backend1->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
+			->method('getGroupDetails')
+			->willReturnMap([
+				[1, []],
+				[2, []],
+				['group1', ['displayName' => 'group1']],
+				['group12', []],
+			]);
 
 		/**
-		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
+		 * @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend2
 		 */
 		$backend2 = $this->getTestBackend();
 		$backend2->expects($this->once())
@@ -355,8 +373,13 @@ class ManagerTest extends TestCase {
 			->with('1', 2, 1)
 			->willReturn(['group12']);
 		$backend2->expects($this->any())
-			->method('groupExists')
-			->willReturn(true);
+			->method('getGroupDetails')
+			->willReturnMap([
+				[1, []],
+				[2, []],
+				['group1', []],
+				['group12', ['displayName' => 'group12']],
+			]);
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);

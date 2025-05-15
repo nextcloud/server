@@ -15,9 +15,7 @@ use OCP\DB\Exception;
 use Test\TestCase;
 
 class UserStatusMapperTest extends TestCase {
-
-	/** @var UserStatusMapper */
-	private $mapper;
+	private UserStatusMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -137,11 +135,6 @@ class UserStatusMapperTest extends TestCase {
 	}
 
 	/**
-	 * @param string $status
-	 * @param bool $isUserDefined
-	 * @param int $timestamp
-	 * @param bool $expectsClean
-	 *
 	 * @dataProvider clearStatusesOlderThanDataProvider
 	 */
 	public function testClearStatusesOlderThan(string $status, bool $isUserDefined, int $timestamp, bool $expectsClean): void {
@@ -169,7 +162,7 @@ class UserStatusMapperTest extends TestCase {
 		}
 	}
 
-	public function clearStatusesOlderThanDataProvider(): array {
+	public static function clearStatusesOlderThanDataProvider(): array {
 		return [
 			['offline', false, 6000, false],
 			['online', true, 6000, false],
@@ -231,7 +224,7 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus3);
 	}
 
-	public function dataCreateBackupStatus(): array {
+	public static function dataCreateBackupStatus(): array {
 		return [
 			[false, false, false],
 			[true, false, true],
@@ -242,9 +235,6 @@ class UserStatusMapperTest extends TestCase {
 
 	/**
 	 * @dataProvider dataCreateBackupStatus
-	 * @param bool $hasStatus
-	 * @param bool $hasBackup
-	 * @param bool $backupCreated
 	 */
 	public function testCreateBackupStatus(bool $hasStatus, bool $hasBackup, bool $backupCreated): void {
 		if ($hasStatus) {

@@ -20,7 +20,7 @@ class PlatformRepositoryTest extends \Test\TestCase {
 		$this->assertEquals($expected, $normalizedVersion);
 	}
 
-	public function providesVersions() {
+	public static function providesVersions(): array {
 		return [
 			'none' => ['1.0.0', '1.0.0.0'],
 			'none/2' => ['1.2.3.4', '1.2.3.4'],

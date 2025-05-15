@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class SetUserTimezoneCommandTest extends ALoginCommandTest {
+class SetUserTimezoneCommandTest extends ALoginTestCommand {
 	/** @var IConfig|MockObject */
 	private $config;
 

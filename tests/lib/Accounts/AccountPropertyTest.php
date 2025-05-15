@@ -56,7 +56,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::SCOPE_LOCAL, $actualReturn->getScope());
 	}
 
-	public function scopesProvider() {
+	public static function scopesProvider(): array {
 		return [
 			// current values
 			[IAccountManager::SCOPE_PRIVATE, IAccountManager::SCOPE_PRIVATE],

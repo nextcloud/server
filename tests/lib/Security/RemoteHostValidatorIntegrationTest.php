@@ -37,7 +37,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		);
 	}
 
-	public function localHostsData(): array {
+	public static function localHostsData(): array {
 		return [
 			['[::1]'],
 			['[::]'],
@@ -101,7 +101,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		self::assertTrue($isValid);
 	}
 
-	public function externalAddressesData():array {
+	public static function externalAddressesData():array {
 		return [
 			['8.8.8.8'],
 			['8.8.4.4'],

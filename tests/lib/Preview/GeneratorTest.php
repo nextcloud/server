@@ -343,7 +343,7 @@ class GeneratorTest extends \Test\TestCase {
 		return $image;
 	}
 
-	public function dataSize() {
+	public static function dataSize(): array {
 		return [
 			[1024, 2048, 512, 512, false, IPreview::MODE_FILL, 256, 512],
 			[1024, 2048, 512, 512, false, IPreview::MODE_COVER, 512, 1024],

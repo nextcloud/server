@@ -44,7 +44,7 @@ class RemoteHostValidatorTest extends TestCase {
 		);
 	}
 
-	public function dataValid(): array {
+	public static function dataValid(): array {
 		return [
 			['nextcloud.com', true],
 			['com.one-.nextcloud-one.com', false],

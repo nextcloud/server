@@ -28,7 +28,7 @@ class ServerTest extends \Test\TestCase {
 		$this->server = new \OC\Server('', $config);
 	}
 
-	public function dataTestQuery() {
+	public static function dataTestQuery(): array {
 		return [
 			['\OCP\Activity\IManager', '\OC\Activity\Manager'],
 			['\OCP\IConfig', '\OC\AllConfig'],

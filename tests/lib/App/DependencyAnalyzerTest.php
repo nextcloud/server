@@ -195,7 +195,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOC() {
+	public static function providesOC(): array {
 		return [
 			// no version -> no missing dependency
 			[
@@ -423,7 +423,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOS() {
+	public static function providesOS(): array {
 		return [
 			[[], null],
 			[[], []],
@@ -435,7 +435,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesLibs() {
+	public static function providesLibs(): array {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -465,7 +465,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesCommands() {
+	public static function providesCommands(): array {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -483,7 +483,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesDatabases() {
+	public static function providesDatabases(): array {
 		return [
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
@@ -496,7 +496,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesPhpVersion() {
+	public static function providesPhpVersion(): array {
 		return [
 			[[], null, null, null],
 			[[], '5.4', null, null],

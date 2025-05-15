@@ -81,7 +81,7 @@ class CommentTest extends TestCase {
 		$this->assertSame('', $comment->getId());
 	}
 
-	public function simpleSetterProvider() {
+	public static function simpleSetterProvider(): array {
 		return [
 			['Id', true],
 			['TopmostParentId', true],
@@ -105,7 +105,7 @@ class CommentTest extends TestCase {
 		$comment->$setter($input);
 	}
 
-	public function roleSetterProvider() {
+	public static function roleSetterProvider(): array {
 		return [
 			['Actor', true, true],
 			['Actor', 'users', true],
@@ -138,7 +138,7 @@ class CommentTest extends TestCase {
 		$comment->setMessage($msg);
 	}
 
-	public function mentionsProvider(): array {
+	public static function mentionsProvider(): array {
 		return [
 			[
 				'@alice @bob look look, a cook!',

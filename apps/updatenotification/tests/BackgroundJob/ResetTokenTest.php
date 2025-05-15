@@ -16,9 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ResetTokenTest extends TestCase {
-	private IConfig|MockObject $config;
-	private IAppConfig|MockObject $appConfig;
-	private ITimeFactory|MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private ITimeFactory&MockObject $timeFactory;
 	private BackgroundJobResetToken $resetTokenBackgroundJob;
 
 	protected function setUp(): void {

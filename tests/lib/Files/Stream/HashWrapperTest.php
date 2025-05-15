@@ -31,7 +31,7 @@ class HashWrapperTest extends TestCase {
 		stream_get_contents($wrapper);
 	}
 
-	public function hashProvider() {
+	public static function hashProvider(): array {
 		return [
 			['foo', 'md5', 'acbd18db4cc2f85cedef654fccc4a4d8'],
 			['foo', 'sha1', '0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'],

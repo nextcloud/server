@@ -44,7 +44,7 @@ class DbalExceptionTest extends \Test\TestCase {
 		$this->assertSame($reason, $result->getReason());
 	}
 
-	public function dataDriverException(): array {
+	public static function dataDriverException(): array {
 		return [
 			[LockWaitTimeoutException::class, DbalException::REASON_LOCK_WAIT_TIMEOUT],
 			[ForeignKeyConstraintViolationException::class, DbalException::REASON_FOREIGN_KEY_VIOLATION],

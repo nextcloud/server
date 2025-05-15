@@ -9,12 +9,12 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
-use Test\Files\Storage\StoragesTest;
+use Test\Files\Storage\StoragesTestCase;
 
 /**
  * @group DB
  */
-class ObjectStoreStoragesSameBucketTest extends StoragesTest {
+class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
 	/**
 	 * @var \OCP\Files\ObjectStore\IObjectStore
 	 */
