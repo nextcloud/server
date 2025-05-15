@@ -95,6 +95,7 @@
     "Invalid filename." : "檔案名稱無效。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已將「{oldName}」重新命名為「{newName}」",
     "Rename file" : "重新命名檔案",
+    "Folder" : "資料夾",
     "Pending" : "待定的",
     "Unknown date" : "日期不詳",
     "Clear filter" : "清空過濾器",

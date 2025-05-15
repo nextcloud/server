@@ -96,6 +96,7 @@ OC.L10N.register(
     "Invalid filename." : "Неисправно име фајла.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}” је промењено на „{newName}”",
     "Rename file" : "Промени назив фајла",
+    "Folder" : "Фасцикла",
     "Pending" : "На чекању",
     "Unknown date" : "Непознат датум",
     "Clear filter" : "Очисти филтер",

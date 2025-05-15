@@ -95,6 +95,7 @@ OC.L10N.register(
     "Invalid filename." : "잘못된 파일 이름",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" 에서 \"{newName}\"(으)로 이름 변경함",
     "Rename file" : "파일 이름 바꾸기",
+    "Folder" : "폴더",
     "Pending" : "대기 중",
     "Unknown date" : "알 수 없는 날짜",
     "Clear filter" : "필터 지우기",
