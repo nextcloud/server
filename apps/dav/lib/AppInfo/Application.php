@@ -22,7 +22,6 @@ use OCA\DAV\CalDAV\Reminder\Notifier;
 
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
-use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
@@ -103,12 +102,6 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
-		$context->registerService(PhotoCache::class, function (ContainerInterface $c) {
-			return new PhotoCache(
-				$c->get(IAppDataFactory::class)->get('dav-photocache'),
-				$c->get(LoggerInterface::class)
-			);
-		});
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
 				$c->get(ICalendarManager::class),
