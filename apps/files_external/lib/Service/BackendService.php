@@ -13,6 +13,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCA\Files_External\Lib\MissingDependency;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -199,7 +200,8 @@ class BackendService {
 	 */
 	public function getAvailableBackends() {
 		return array_filter($this->getBackends(), function ($backend) {
-			return !$backend->checkDependencies();
+			$missing = array_filter($backend->checkDependencies(), fn (MissingDependency $dependency) => !$dependency->isOptional());
+			return count($missing) === 0;
 		});
 	}
 
