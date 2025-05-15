@@ -1275,6 +1275,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Config\\Import' => __DIR__ . '/../../..' . '/core/Command/Config/Import.php',
         'OC\\Core\\Command\\Config\\ListConfigs' => __DIR__ . '/../../..' . '/core/Command/Config/ListConfigs.php',
         'OC\\Core\\Command\\Config\\System\\Base' => __DIR__ . '/../../..' . '/core/Command/Config/System/Base.php',
+        'OC\\Core\\Command\\Config\\System\\CastHelper' => __DIR__ . '/../../..' . '/core/Command/Config/System/CastHelper.php',
         'OC\\Core\\Command\\Config\\System\\DeleteConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/DeleteConfig.php',
         'OC\\Core\\Command\\Config\\System\\GetConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/GetConfig.php',
         'OC\\Core\\Command\\Config\\System\\SetConfig' => __DIR__ . '/../../..' . '/core/Command/Config/System/SetConfig.php',

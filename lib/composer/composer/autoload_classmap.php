@@ -1234,6 +1234,7 @@ return array(
     'OC\\Core\\Command\\Config\\Import' => $baseDir . '/core/Command/Config/Import.php',
     'OC\\Core\\Command\\Config\\ListConfigs' => $baseDir . '/core/Command/Config/ListConfigs.php',
     'OC\\Core\\Command\\Config\\System\\Base' => $baseDir . '/core/Command/Config/System/Base.php',
+    'OC\\Core\\Command\\Config\\System\\CastHelper' => $baseDir . '/core/Command/Config/System/CastHelper.php',
     'OC\\Core\\Command\\Config\\System\\DeleteConfig' => $baseDir . '/core/Command/Config/System/DeleteConfig.php',
     'OC\\Core\\Command\\Config\\System\\GetConfig' => $baseDir . '/core/Command/Config/System/GetConfig.php',
     'OC\\Core\\Command\\Config\\System\\SetConfig' => $baseDir . '/core/Command/Config/System/SetConfig.php',
