@@ -67,7 +67,7 @@
     "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
-    "Twitter" : "X",
+    "Twitter" : "Twitter",
     "Diaspora" : "Diaspora"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

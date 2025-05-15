@@ -52,7 +52,7 @@
     "{actor} removed you from the share named {file}" : "{actor} hat Sie aus der Freigabe von {file} entfernt",
     "Share for file {file} with {user} expired" : "Freigabe der Datei {file} für {user} abgelaufen",
     "Share for file {file} expired" : "Freigabe für die Datei {file} abgelaufen",
-    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei oder geteilter Ordner wurde <strong>heruntergeladen</strong>",
+    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei / Ordner wurde <strong>heruntergeladen</strong>",
     "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Dateien wurden in einen per E-Mail oder über einen öffentlichen Link freigegebenen Ordner <strong>hochgeladen</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
     "Sharing" : "Teilen",
@@ -311,9 +311,9 @@
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Diese Methode verwenden, um Dateien für Einzelpersonen oder Teams innerhalb Ihrer Organisation freizugeben. Wenn der Empfänger bereits Zugriff auf die Freigabe hat, diese aber nicht finden kann, können Sie ihm den internen Freigabelink für einen einfachen Zugriff senden.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Verwenden Sie diese Methode, um Dateien für Personen oder Organisationen außerhalb Ihrer Organisation freizugeben. Dateien und Ordner können über öffentliche Freigabelinks und E-Mail-Adressen freigegeben werden. Sie können auch Dateien für andere Nextcloud-Konten freigeben, die auf verschiedenen Instanzen gehostet werden, indem Sie deren Federated-Cloud-ID verwenden.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Freigaben, die nicht zu internen oder externen Freigaben gehören. Dies können Freigaben von Apps oder anderen Quellen sein.",
-    "Share with accounts, teams, federated cloud IDs" : "Teilen mit Konten, Teams, Federated-Cloud-IDs",
+    "Share with accounts, teams, federated cloud id" : "Teilen mit Konten, Teams, Federated-Cloud-IDs",
     "Share with accounts and teams" : "Teile mit Konten und Teams",
-    "Email, federated cloud ID" : "Name, Federated-Cloud-ID",
+    "Email, federated cloud id" : "Name, Federated-Cloud-ID",
     "Unable to load the shares list" : "Liste der Freigaben kann nicht geladen werden",
     "Expires {relativetime}" : "Läuft {relativetime} ab",
     "this share just expired." : "Diese Freigabe ist gerade abgelaufen.",
@@ -354,7 +354,7 @@
     "List of files that you shared with others." : "Liste der Dateien, die Sie mit anderen geteilt haben.",
     "Nothing shared yet" : "Noch nichts geteilt",
     "Files and folders you shared will show up here" : "Von Ihnen geteilte Dateien und Ordner werden hier angezeigt werden",
-    "Shared by link" : "Über einen Link geteilt",
+    "Shared by link" : "Geteilt über einen Link",
     "List of files that are shared by link." : "Liste der Dateien, die mittels Link geteilt wurden.",
     "No shared links" : "Keine geteilten Links",
     "Files and folders you shared by link will show up here" : "Von Ihnen mittels Link geteilte Dateien und Ordner werden hier angezeigt werden",
@@ -421,8 +421,6 @@
     "Share expire date saved" : "Freigabe-Ablaufdatum gespeichert",
     "You are not allowed to edit link shares that you don't own" : "Sie dürfen keine Linkfreigaben bearbeiten, die Sie nicht besitzen",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-Mail-Adresse bereits hinzugefügt","{count} E-Mail-Adressen bereits hinzugefügt"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
-    "Share with accounts, teams, federated cloud id" : "Teilen mit Konten, Teams, Federated-Cloud-IDs",
-    "Email, federated cloud id" : "Name, Federated-Cloud-ID"
+    "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -91,8 +91,6 @@
     "Destination does not exist" : "Одредиште не постоји",
     "Destination is not creatable" : "Одредиште не може да се креира",
     "Dot files are not allowed" : "Фајлови са почетном тачком нису дозвољени",
-    "%1$s (renamed)" : "%1$s (преименован)",
-    "renamed file" : "преименован фајл",
     "\"%1$s\" is a forbidden file or folder name." : "„%1$s” је забрањено име фајла или фолдера.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "„%1$s” је забрањени префикс имена фајла или фолдера.",
     "\"%1$s\" is not allowed inside a file or folder name." : "„%1$s” није дозвољено у имену фајла или фолдера.",

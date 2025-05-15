@@ -91,8 +91,6 @@
     "Destination does not exist" : "目标不存在",
     "Destination is not creatable" : "目标不可创建",
     "Dot files are not allowed" : "以 . 开头的文件不被允许",
-    "%1$s (renamed)" : "%1$s（已重命名）",
-    "renamed file" : "已重命名文件",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" 是禁止的文件或文件夹名称。",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" 是文件或文件夹名称的禁止前缀。",
     "\"%1$s\" is not allowed inside a file or folder name." : "文件或文件夹名称中不允许出现 \"%1$s\"。",

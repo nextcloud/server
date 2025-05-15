@@ -311,9 +311,8 @@
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Använd den här metoden för att dela filer med individer eller team inom din organisation. Om mottagaren redan har åtkomst till delningen men inte kan hitta den, kan du skicka den interna delningslänken för enkel åtkomst.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Använd den här metoden för att dela filer med individer eller organisationer utanför din organisation. Filer och mappar kan delas via publika delningslänkar och e-postadresser. Du kan också dela med andra Nextcloud-konton som finns på andra instanser genom deras federerade moln-ID.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Delningar som inte ingår i de interna eller externa delningarna. Detta kan vara delningar från appar eller andra källor.",
-    "Share with accounts, teams, federated cloud IDs" : "Dela med konton, team, federerade moln-ID:n",
     "Share with accounts and teams" : "Dela med konton och team",
-    "Email, federated cloud ID" : "E-post, federerat moln-ID",
+    "Email, federated cloud id" : "E-post, federerat moln-id",
     "Unable to load the shares list" : "Kunde inte läsa in delningslistan",
     "Expires {relativetime}" : "Upphör {relativetime}",
     "this share just expired." : "denna delning har just gått ut.",
@@ -421,8 +420,6 @@
     "Share expire date saved" : "Delningens utgångsdatum sparad",
     "You are not allowed to edit link shares that you don't own" : "Du får inte redigera länkdelningar som du inte äger",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadress som redan har lagts till","{count} e-postadresser som redan har lagts till"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
-    "Share with accounts, teams, federated cloud id" : "Dela med konton, team, federerat moln-id",
-    "Email, federated cloud id" : "E-post, federerat moln-id"
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "Nom de fitxer no vàlid.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "S'ha canviat el nom de «{oldName}» a «{newName}»",
     "Rename file" : "Canvia el nom del fitxer",
-    "Folder" : "Carpeta",
     "Pending" : "Pendent",
     "Unknown date" : "Data desconeguda",
     "Clear filter" : "Esborra el filtre",

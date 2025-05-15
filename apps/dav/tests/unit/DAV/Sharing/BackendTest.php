@@ -214,7 +214,10 @@ class BackendTest extends TestCase {
 			'getResourceId' => 42,
 		]);
 		$remove = [
-			'principal:principals/users/bob',
+			[
+				'href' => 'principal:principals/users/bob',
+				'readOnly' => true,
+			]
 		];
 		$principal = 'principals/users/bob';
 
@@ -226,6 +229,9 @@ class BackendTest extends TestCase {
 		$this->calendarService->expects(self::once())
 			->method('deleteShare')
 			->with($shareable->getResourceId(), $principal);
+		$this->calendarService->expects(self::once())
+			->method('hasGroupShare')
+			->willReturn(false);
 		$this->calendarService->expects(self::never())
 			->method('unshare');
 
@@ -238,7 +244,10 @@ class BackendTest extends TestCase {
 			'getResourceId' => 42,
 		]);
 		$remove = [
-			'principal:principals/users/bob',
+			[
+				'href' => 'principal:principals/users/bob',
+				'readOnly' => true,
+			]
 		];
 		$oldShares = [
 			[
@@ -260,8 +269,13 @@ class BackendTest extends TestCase {
 		$this->calendarService->expects(self::once())
 			->method('deleteShare')
 			->with($shareable->getResourceId(), 'principals/users/bob');
-		$this->calendarService->expects(self::never())
-			->method('unshare');
+		$this->calendarService->expects(self::once())
+			->method('hasGroupShare')
+			->with($oldShares)
+			->willReturn(true);
+		$this->calendarService->expects(self::once())
+			->method('unshare')
+			->with($shareable->getResourceId(), 'principals/users/bob');
 
 		$this->backend->updateShares($shareable, [], $remove, $oldShares);
 	}

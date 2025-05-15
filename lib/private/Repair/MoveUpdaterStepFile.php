@@ -5,7 +5,6 @@
  */
 namespace OC\Repair;
 
-use OCP\Files;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -41,7 +40,7 @@ class MoveUpdaterStepFile implements IRepairStep {
 
 			// cleanup
 			if (file_exists($previousStepFile)) {
-				if (Files::rmdirr($previousStepFile)) {
+				if (\OC_Helper::rmdirr($previousStepFile)) {
 					$output->info('.step-previous-update removed');
 				} else {
 					$output->info('.step-previous-update can\'t be removed - abort move of .step file');

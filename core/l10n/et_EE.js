@@ -277,7 +277,7 @@ OC.L10N.register(
     "Show details" : "Näita üksikasju",
     "Hide details" : "Peida üksikasjad",
     "Rename project" : "Muuda projekti nime",
-    "Failed to rename the project" : "Projekti nime muutmine ei õnnestunud",
+    "Failed to rename the project" : "Projekti ümbernimetamine ebaõnnestus",
     "Failed to create a project" : "Projekti loomine ebaõnnestus",
     "Failed to add the item to the project" : "Objekti lisamine projekti ei õnnestunud",
     "Connect items to a project to make them easier to find" : "Et objekte oleks lihtsam leida, seo nad projektiga",

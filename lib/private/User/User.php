@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
+use OC_Helper;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -569,11 +570,11 @@ class User implements IUser {
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
-			$bytesQuota = \OCP\Util::computerFileSize($quota);
+			$bytesQuota = OC_Helper::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
-			$quota = \OCP\Util::humanFileSize($bytesQuota);
+			$quota = OC_Helper::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);

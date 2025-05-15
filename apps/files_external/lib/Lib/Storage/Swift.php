@@ -288,6 +288,7 @@ class Swift extends Common {
 
 	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
+
 		if ($path === '.') {
 			$path = '';
 		} elseif ($this->is_dir($path)) {
@@ -307,23 +308,22 @@ class Swift extends Common {
 			return false;
 		}
 
-		$mtime = null;
-		if (!empty($object->lastModified)) {
-			$dateTime = \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified);
-			if ($dateTime !== false) {
-				$mtime = $dateTime->getTimestamp();
-			}
+		$dateTime = $object->lastModified ? \DateTime::createFromFormat(\DateTime::RFC1123, $object->lastModified) : false;
+		$mtime = $dateTime ? $dateTime->getTimestamp() : null;
+		$objectMetadata = $object->getMetadata();
+		if (isset($objectMetadata['timestamp'])) {
+			$mtime = $objectMetadata['timestamp'];
 		}
 
-		if (is_numeric($object->getMetadata()['timestamp'] ?? null)) {
-			$mtime = (float)$object->getMetadata()['timestamp'];
+		if (!empty($mtime)) {
+			$mtime = floor($mtime);
 		}
 
-		return [
-			'size' => (int)$object->contentLength,
-			'mtime' => isset($mtime) ? (int)floor($mtime) : null,
-			'atime' => time(),
-		];
+		$stat = [];
+		$stat['size'] = (int)$object->contentLength;
+		$stat['mtime'] = $mtime;
+		$stat['atime'] = time();
+		return $stat;
 	}
 
 	public function filetype(string $path) {

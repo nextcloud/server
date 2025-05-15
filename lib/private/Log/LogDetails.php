@@ -59,10 +59,6 @@ abstract class LogDetails {
 			'userAgent',
 			'version'
 		);
-		$clientReqId = $request->getHeader('X-Request-Id');
-		if ($clientReqId !== '') {
-			$entry['clientReqId'] = $clientReqId;
-		}
 
 		if (is_array($message)) {
 			// Exception messages are extracted and the exception is put into a separate field

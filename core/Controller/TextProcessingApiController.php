@@ -19,7 +19,6 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IL10N;
@@ -37,7 +36,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type CoreTextProcessingTask from ResponseDefinitions
  */
-class TextProcessingApiController extends OCSController {
+class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,

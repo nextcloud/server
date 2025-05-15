@@ -562,7 +562,6 @@ OC.L10N.register(
     "Profile" : "Профиль",
     "Enable or disable profile by default for new accounts." : "Включите или отключите профиль по умолчанию для новых учетных записей.",
     "Failed to save setting" : "Не удалось сохранить параметры",
-    "{app}'s declarative setting field: {name}" : "{app} поле декларативной настройки: {name}",
     "Unable to update server side encryption config" : "Не удалось обновить параметры шифрования на стороне сервера",
     "Server-side encryption" : "Шифрование на стороне сервера",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Шифрование на стороне сервера позволяет шифровать файлы, которые загружаются на этот сервер. Это связано с ограничениями, такими как снижение производительности, поэтому включите его только в случае необходимости.",

@@ -83,12 +83,11 @@ class Coordinator {
 			$appNameSpace = App::buildAppNamespace($appId);
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 			try {
-				if (class_exists($applicationClassName) && is_a($applicationClassName, IBootstrap::class, true)) {
+				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
 					$this->eventLogger->start("bootstrap:register_app:$appId:application", "Load `Application` instance for $appId");
 					try {
-						/** @var IBootstrap&App $application */
-						$application = $this->serverContainer->query($applicationClassName);
-						$apps[$appId] = $application;
+						/** @var IBootstrap|App $application */
+						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
 					} catch (QueryException $e) {
 						// Weird, but ok
 						$this->eventLogger->end("bootstrap:register_app:$appId");

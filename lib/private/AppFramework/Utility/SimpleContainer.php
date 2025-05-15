@@ -153,13 +153,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			return $closure($this);
 		};
 		$name = $this->sanitizeName($name);
-		if (isset($this->container[$name])) {
-			unset($this->container[$name]);
+		if (isset($this[$name])) {
+			unset($this[$name]);
 		}
 		if ($shared) {
-			$this->container[$name] = $wrapped;
+			$this[$name] = $wrapped;
 		} else {
-			$this->container[$name] = $this->container->factory($wrapped);
+			$this[$name] = $this->container->factory($wrapped);
 		}
 	}
 

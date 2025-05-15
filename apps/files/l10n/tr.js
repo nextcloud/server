@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "Dosya adı geçersiz.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" adı \"{newName}\" olarak değiştirildi",
     "Rename file" : "Dosyayı yeniden adlandır",
-    "Folder" : "Klasör",
     "Pending" : "Bekliyor",
     "Unknown date" : "Tarih bilinmiyor",
     "Clear filter" : "Süzgeci temizle",

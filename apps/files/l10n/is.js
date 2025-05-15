@@ -94,7 +94,6 @@ OC.L10N.register(
     "Invalid filename." : "Ógilt skráarheiti.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Endurnefndi \"{oldName}\" sem \"{newName}\"",
     "Rename file" : "Endurnefna skrá",
-    "Folder" : "Mappa",
     "Pending" : "Í bið",
     "Unknown date" : "Óþekkt dagsetning",
     "Clear filter" : "Hreinsa síu",

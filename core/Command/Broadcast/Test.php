@@ -44,11 +44,16 @@ class Test extends Command {
 		$uid = $input->getArgument('uid');
 
 		$event = new class($name, $uid) extends ABroadcastedEvent {
-			public function __construct(
-				private string $name,
-				private string $uid,
-			) {
+			/** @var string */
+			private $name;
+			/** @var string */
+			private $uid;
+
+			public function __construct(string $name,
+				string $uid) {
 				parent::__construct();
+				$this->name = $name;
+				$this->uid = $uid;
 			}
 
 			public function broadcastAs(): string {

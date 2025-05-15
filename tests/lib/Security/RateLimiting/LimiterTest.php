@@ -12,26 +12,21 @@ namespace Test\Security\RateLimiting;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Limiter;
 use OCP\IUser;
-use OCP\Security\RateLimiting\ILimiter;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LimiterTest extends TestCase {
-
-	private IBackend&MockObject $backend;
-	private ILimiter $limiter;
-	private LoggerInterface $logger;
+	/** @var IBackend|\PHPUnit\Framework\MockObject\MockObject */
+	private $backend;
+	/** @var Limiter */
+	private $limiter;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->backend = $this->createMock(IBackend::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->limiter = new Limiter(
-			$this->backend,
-			$this->logger,
+			$this->backend
 		);
 	}
 
@@ -48,8 +43,6 @@ class LimiterTest extends TestCase {
 				'4664f0d9c88dcb7552be47b37bb52ce35977b2e60e1ac13757cf625f31f87050a41f3da064887fa87d49fd042e4c8eb20de8f10464877d3959677ab011b73a47'
 			)
 			->willReturn(101);
-		$this->logger->expects($this->once())
-			->method('info');
 
 		$this->limiter->registerAnonRequest('MyIdentifier', 100, 100, '127.0.0.1');
 	}
@@ -71,8 +64,6 @@ class LimiterTest extends TestCase {
 				'4664f0d9c88dcb7552be47b37bb52ce35977b2e60e1ac13757cf625f31f87050a41f3da064887fa87d49fd042e4c8eb20de8f10464877d3959677ab011b73a47',
 				100
 			);
-		$this->logger->expects($this->never())
-			->method('info');
 
 		$this->limiter->registerAnonRequest('MyIdentifier', 100, 100, '127.0.0.1');
 	}
@@ -96,8 +87,6 @@ class LimiterTest extends TestCase {
 				'ddb2ec50fa973fd49ecf3d816f677c8095143e944ad10485f30fb3dac85c13a346dace4dae2d0a15af91867320957bfd38a43d9eefbb74fe6919e15119b6d805'
 			)
 			->willReturn(101);
-		$this->logger->expects($this->once())
-			->method('info');
 
 		$this->limiter->registerUserRequest('MyIdentifier', 100, 100, $user);
 	}
@@ -126,8 +115,6 @@ class LimiterTest extends TestCase {
 				'ddb2ec50fa973fd49ecf3d816f677c8095143e944ad10485f30fb3dac85c13a346dace4dae2d0a15af91867320957bfd38a43d9eefbb74fe6919e15119b6d805',
 				100
 			);
-		$this->logger->expects($this->never())
-			->method('info');
 
 		$this->limiter->registerUserRequest('MyIdentifier', 100, 100, $user);
 	}

@@ -91,8 +91,6 @@
     "Destination does not exist" : "Cíl neexistuje",
     "Destination is not creatable" : "Cíl není možné vytvořit",
     "Dot files are not allowed" : "Názvy souborů, začínající na tečku nejsou dovolené",
-    "%1$s (renamed)" : "%1$s (přejmenované)",
-    "renamed file" : "přejmenovaný soubor",
     "\"%1$s\" is a forbidden file or folder name." : "„%1$s“ je zakázáno v názvu souboru nebo složky.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "„%1$s“ je zakázaná předpona pro názvy souborů či složek.",
     "\"%1$s\" is not allowed inside a file or folder name." : "„%1$s“ není povoleno v rámci názvu souboru či složky.",

@@ -61,7 +61,6 @@ OC.L10N.register(
     "Favorite" : "Favorit",
     "Filename" : "Nama berkas",
     "Folder name" : "Nama folder",
-    "Folder" : "Folder",
     "Pending" : "Tertunda",
     "Clear filter" : "Bersihkan filter",
     "Modified" : "Dimodifikasi",

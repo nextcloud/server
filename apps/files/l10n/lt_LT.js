@@ -76,7 +76,6 @@ OC.L10N.register(
     "Invalid filename." : "Neteisingas failo pavadinimas.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}“ pervadintas į „{newName}“",
     "Rename file" : "Pervadinti failą",
-    "Folder" : "Aplankas",
     "Pending" : "Laukiantis",
     "Unknown date" : "Nežinoma data",
     "Clear filter" : "Išvalyti filtrą",

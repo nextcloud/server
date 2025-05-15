@@ -21,7 +21,6 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\OCSController;
 use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
@@ -35,7 +34,7 @@ use OCP\TextToImage\Task;
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions
  */
-class TextToImageApiController extends OCSController {
+class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,

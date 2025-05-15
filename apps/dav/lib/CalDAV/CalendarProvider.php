@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\Db\Property;
-use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -22,7 +20,6 @@ class CalendarProvider implements ICalendarProvider {
 		private IL10N $l10n,
 		private IConfig $config,
 		private LoggerInterface $logger,
-		private PropertyMapper $propertyMapper,
 	) {
 	}
 
@@ -38,7 +35,6 @@ class CalendarProvider implements ICalendarProvider {
 
 		$iCalendars = [];
 		foreach ($calendarInfos as $calendarInfo) {
-			$calendarInfo = array_merge($calendarInfo, $this->getAdditionalProperties($calendarInfo['principaluri'], $calendarInfo['uri']));
 			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 			$iCalendars[] = new CalendarImpl(
 				$calendar,
@@ -47,24 +43,5 @@ class CalendarProvider implements ICalendarProvider {
 			);
 		}
 		return $iCalendars;
-	}
-
-	public function getAdditionalProperties(string $principalUri, string $calendarUri): array {
-		$user = str_replace('principals/users/', '', $principalUri);
-		$path = 'calendars/' . $user . '/' . $calendarUri;
-
-		$properties = $this->propertyMapper->findPropertiesByPath($user, $path);
-
-		$list = [];
-		foreach ($properties as $property) {
-			if ($property instanceof Property) {
-				$list[$property->getPropertyname()] = match ($property->getPropertyname()) {
-					'{http://owncloud.org/ns}calendar-enabled' => (bool)$property->getPropertyvalue(),
-					default => $property->getPropertyvalue()
-				};
-			}
-		}
-
-		return $list;
 	}
 }

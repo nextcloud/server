@@ -312,6 +312,7 @@
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Użyj tej metody, aby udostępniać pliki osobom lub organizacjom spoza Twojej organizacji. Pliki i katalogi można udostępniać za pośrednictwem publicznych linków udostępniania i adresów e-mail. Możesz również udostępniać pliki innym kontom Nextcloud hostowanym na różnych instancjach, używając ich identyfikatora Chmury Federacyjnej.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Udostępnienia, które nie są częścią udostępnień wewnętrznych lub zewnętrznych. Mogą to być udostępnienia z aplikacji lub innych źródeł.",
     "Share with accounts and teams" : "Udostępnij kontom i zespołom",
+    "Email, federated cloud id" : "E-mail, identyfikator Chmury Federacyjnej",
     "Unable to load the shares list" : "Nie można pobrać listy udostępnień",
     "Expires {relativetime}" : "Wygasa {relativetime}",
     "this share just expired." : "te udostępnienie właśnie wygasło.",
@@ -419,8 +420,6 @@
     "Share expire date saved" : "Zapisano datę ważności udziału",
     "You are not allowed to edit link shares that you don't own" : "Nie możesz modyfikować udostępnionych odnośników, których nie jesteś właścicielem",
     "_1 email address already added_::_{count} email addresses already added_" : ["Dodano już 1 adres e-mail","Dodano już {count} adresy e-mail","Dodano już {count} adresów e-mail","Dodano już {count} adresów e-mail"],
-    "_1 email address added_::_{count} email addresses added_" : ["Dodano 1 adres e-mail","Dodano {count} adresy e-mail","Dodano {count} adresów e-mail","Dodano {count} adresów e-mail"],
-    "Share with accounts, teams, federated cloud id" : "Udostępnij kontom, zespołom, ID Chmury Federacyjnej",
-    "Email, federated cloud id" : "E-mail, ID Chmury Federacyjnej"
+    "_1 email address added_::_{count} email addresses added_" : ["Dodano 1 adres e-mail","Dodano {count} adresy e-mail","Dodano {count} adresów e-mail","Dodano {count} adresów e-mail"]
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

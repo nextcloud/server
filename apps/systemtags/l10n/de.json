@@ -40,7 +40,7 @@
     "Tags" : "Tags",
     "All tagged %s …" : "Alle Schlagworte %s hinzugefügt …",
     "tagged %s" : "Schlagwort %s hinzugefügt",
-    "Collaborative tags" : "Kollaborative Schlagworte",
+    "Collaborative tags" : "Kollaborative Tags",
     "Collaborative tagging functionality which shares tags among people." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Schlagwort-Funktionalität für die Zusammenarbeit, die das Teilen von Schlagworten unter Benutzern ermöglicht. Sehr gut für Gruppen geeignet.\n\t(In eine Mehrkundeninstallation sollte diese App deaktiviert werden, da sonst die Schlagworte mit allen Kunden geteilt werden.)",
     "Public" : "Öffentlich",

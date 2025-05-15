@@ -8,7 +8,6 @@
 namespace Test\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
-use OC\Files\Cache\Wrapper\CacheWrapper;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
@@ -252,15 +251,5 @@ class CacheJailTest extends CacheTest {
 		$this->assertFalse($this->cache->inCache('bar'));
 		$storage->getWatcher()->update('bar', ['mimetype' => 'text/plain']);
 		$this->assertTrue($this->cache->inCache('bar'));
-	}
-
-	public function testUnJailedRoot(): void {
-		$jail1 = new CacheJail($this->sourceCache, 'foo');
-		$jail2 = new CacheJail($jail1, 'bar');
-		$this->assertEquals('foo/bar', $jail2->getGetUnjailedRoot());
-
-		$middleWrapper = new CacheWrapper($jail1);
-		$jail3 = new CacheJail($middleWrapper, 'bar');
-		$this->assertEquals('foo/bar', $jail3->getGetUnjailedRoot());
 	}
 }

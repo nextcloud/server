@@ -94,7 +94,6 @@ OC.L10N.register(
     "Invalid filename." : "Érvénytelen fájlnév.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "A(z) „{oldName}” átnevezve erre: „{newName}”",
     "Rename file" : "Fájl átnevezése",
-    "Folder" : "Mappa",
     "Pending" : "Függőben",
     "Unknown date" : "Ismeretlen dátum",
     "Clear filter" : "Szűrő törlése",

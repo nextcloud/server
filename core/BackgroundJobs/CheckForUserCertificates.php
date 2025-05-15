@@ -32,7 +32,7 @@ class CheckForUserCertificates extends QueuedJob {
 	 */
 	public function run($arguments): void {
 		$uploadList = [];
-		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList): void {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList) {
 			$userId = $user->getUID();
 			try {
 				\OC_Util::setupFS($userId);

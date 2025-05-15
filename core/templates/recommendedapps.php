@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-\OCP\Util::addScript('core', 'recommendedapps', 'core');
+script('core', 'recommendedapps');
 
 ?>
 

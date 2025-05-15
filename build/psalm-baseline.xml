@@ -966,6 +966,11 @@
       <code><![CDATA[$timestamp]]></code>
     </InvalidArgument>
   </file>
+  <file src="apps/files_versions/appinfo/routes.php">
+    <InvalidScope>
+      <code><![CDATA[$this->create('files_versions_download', 'apps/files_versions/download.php')]]></code>
+    </InvalidScope>
+  </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
       <code><![CDATA[getChild]]></code>
@@ -1260,6 +1265,11 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
+  </file>
+  <file src="lib/autoloader.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->memoryCache]]></code>
+    </RedundantCondition>
   </file>
   <file src="lib/base.php">
     <InvalidArgument>
@@ -2003,6 +2013,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)]]></code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$result]]></code>
     </InvalidReturnStatement>

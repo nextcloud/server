@@ -50,7 +50,7 @@ OC.L10N.register(
     "The default light appearance." : "Das helle Standarddesign.",
     "Legal notice" : "Impressum",
     "Privacy policy" : "Datenschutzerklärung",
-    "Adjust the Nextcloud theme" : "Passen Sie das Design von Nextcloud an",
+    "Adjust the Nextcloud theme" : "Passe das Design von Nextcloud an",
     "Name" : "Name",
     "Web link" : "Internet-Link",
     "a safe home for all your data" : "Ein sicheres Zuhause für Ihre Daten",

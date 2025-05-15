@@ -58,7 +58,6 @@ export interface UserConfig {
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
 	grid_view: boolean
-	show_mime_column: boolean
 }
 export interface UserConfigStore {
 	userConfig: UserConfig

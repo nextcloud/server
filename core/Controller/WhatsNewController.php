@@ -19,7 +19,6 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\PreConditionNotMetException;
 use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
@@ -89,7 +88,7 @@ class WhatsNewController extends OCSController {
 	 * @param string $version Version to dismiss the changes for
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
-	 * @throws PreConditionNotMetException
+	 * @throws \OCP\PreConditionNotMetException
 	 * @throws DoesNotExistException
 	 *
 	 * 200: Changes dismissed

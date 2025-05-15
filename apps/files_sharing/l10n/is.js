@@ -287,6 +287,7 @@ OC.L10N.register(
     "Link shares" : "Sameignartenglar",
     "Shares" : "Sameignir",
     "Share with accounts and teams" : "Deila með notendaaðgöngum og teymum",
+    "Email, federated cloud id" : "Tölvupóstfang, skýjasambandsauðkenni (Federated Cloud ID)",
     "Unable to load the shares list" : "Mistókst aði hlaða inn lista yfir sameignir",
     "Expires {relativetime}" : "Rennur út {relativetime}",
     "this share just expired." : "Þessi sameign var að renna út.",
@@ -392,7 +393,6 @@ OC.L10N.register(
     "Share expire date saved" : "Lokagildistími sameignar vistaður",
     "You are not allowed to edit link shares that you don't own" : "Þú hefur ekki heimild til að breyta tenglum á sameignir sem þú átt ekki.",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 tölvupóstfangi þegar bætt við","{count} tölvupóstföngum þegar bætt við"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 tölvupóstfangi bætt við","{count} tölvupóstföngum bætt við"],
-    "Email, federated cloud id" : "Tölvupóstfang, skýjasambandsauðkenni (Federated Cloud ID)"
+    "_1 email address added_::_{count} email addresses added_" : ["1 tölvupóstfangi bætt við","{count} tölvupóstföngum bætt við"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

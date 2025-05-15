@@ -15,7 +15,6 @@ use OC\Console\TimestampFormatter;
 use OC\Migration\ConsoleOutput;
 use OC\Setup;
 use OC\SystemConfig;
-use OCP\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,7 +51,7 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
-		$setupHelper = Server::get(Setup::class);
+		$setupHelper = \OCP\Server::get(\OC\Setup::class);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {

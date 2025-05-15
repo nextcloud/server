@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Settings;
 
-use OCA\UpdateNotification\AppInfo\Application;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -18,9 +17,9 @@ use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OCP\ServerVersion;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -35,7 +34,6 @@ class Admin implements ISettings {
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
 		private IInitialState $initialState,
-		private ServerVersion $serverVersion,
 	) {
 	}
 
@@ -49,14 +47,14 @@ class Admin implements ISettings {
 			'stable',
 			'production',
 		];
-		$currentChannel = $this->serverVersion->getChannel();
+		$currentChannel = Util::getChannel();
 		if ($currentChannel === 'git') {
 			$channels[] = 'git';
 		}
 
 		$updateState = $this->updateChecker->getUpdateState();
 
-		$notifyGroups = $this->appConfig->getValueArray(Application::APP_NAME, 'notify_groups', ['admin']);
+		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
@@ -114,7 +112,7 @@ class Admin implements ISettings {
 	}
 
 	/**
-	 * @param string[] $groupIds
+	 * @param list<string> $groupIds
 	 * @return list<array{id: string, displayname: string}>
 	 */
 	protected function getSelectedGroups(array $groupIds): array {
@@ -132,12 +130,7 @@ class Admin implements ISettings {
 		return $result;
 	}
 
-	public function getSection(): ?string {
-		if (!$this->config->getSystemValueBool('updatechecker', true)) {
-			// update checker is disabled so we do not show the section at all
-			return null;
-		}
-
+	public function getSection(): string {
 		return 'overview';
 	}
 

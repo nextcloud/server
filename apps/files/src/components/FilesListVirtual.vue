@@ -9,7 +9,6 @@
 		:data-sources="nodes"
 		:grid-mode="userConfig.grid_view"
 		:extra-props="{
-			isMimeAvailable,
 			isMtimeAvailable,
 			isSizeAvailable,
 			nodes,
@@ -40,7 +39,6 @@
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader ref="thead"
 				:files-list-width="fileListWidth"
-				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes" />
@@ -50,7 +48,6 @@
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
 				:files-list-width="fileListWidth"
-				:is-mime-available="isMimeAvailable"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
@@ -158,16 +155,6 @@ export default defineComponent({
 			return this.userConfigStore.userConfig
 		},
 
-		isMimeAvailable() {
-			if (!this.userConfig.show_mime_column) {
-				return false
-			}
-			// Hide mime column on narrow screens
-			if (this.fileListWidth < 1024) {
-				return false
-			}
-			return this.nodes.some(node => node.mime !== undefined || node.mime !== 'application/octet-stream')
-		},
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.fileListWidth < 768) {
@@ -842,12 +829,10 @@ export default defineComponent({
 			margin-inline-end: 7px;
 		}
 
-		.files-list__row-mime,
 		.files-list__row-mtime,
 		.files-list__row-size {
 			color: var(--color-text-maxcontrast);
 		}
-
 		.files-list__row-size {
 			width: calc(var(--row-height) * 1.5);
 			// Right align content/text
@@ -856,10 +841,6 @@ export default defineComponent({
 
 		.files-list__row-mtime {
 			width: calc(var(--row-height) * 2);
-		}
-
-		.files-list__row-mime {
-			width: calc(var(--row-height) * 2.5);
 		}
 
 		.files-list__row-column-custom {

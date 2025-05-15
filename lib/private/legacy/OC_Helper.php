@@ -39,26 +39,75 @@ class OC_Helper {
 	 * Make a human file size
 	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
-	 * @deprecated 4.0.0 replaced with \OCP\Util::humanFileSize
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
 	public static function humanFileSize(int|float $bytes): string {
-		return \OCP\Util::humanFileSize($bytes);
+		if ($bytes < 0) {
+			return '?';
+		}
+		if ($bytes < 1024) {
+			return "$bytes B";
+		}
+		$bytes = round($bytes / 1024, 0);
+		if ($bytes < 1024) {
+			return "$bytes KB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes MB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes GB";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return "$bytes TB";
+		}
+
+		$bytes = round($bytes / 1024, 1);
+		return "$bytes PB";
 	}
 
 	/**
 	 * Make a computer file size
 	 * @param string $str file size in human readable format
 	 * @return false|int|float a file size in bytes
-	 * @deprecated 4.0.0 Use \OCP\Util::computerFileSize
 	 *
 	 * Makes 2kB to 2048.
 	 *
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 */
 	public static function computerFileSize(string $str): false|int|float {
-		return \OCP\Util::computerFileSize($str);
+		$str = strtolower($str);
+		if (is_numeric($str)) {
+			return Util::numericToNumber($str);
+		}
+
+		$bytes_array = [
+			'b' => 1,
+			'k' => 1024,
+			'kb' => 1024,
+			'mb' => 1024 * 1024,
+			'm' => 1024 * 1024,
+			'gb' => 1024 * 1024 * 1024,
+			'g' => 1024 * 1024 * 1024,
+			'tb' => 1024 * 1024 * 1024 * 1024,
+			't' => 1024 * 1024 * 1024 * 1024,
+			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
+			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
+		];
+
+		$bytes = (float)$str;
+
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
+			$bytes *= $bytes_array[$matches[1]];
+		} else {
+			return false;
+		}
+
+		return Util::numericToNumber(round($bytes));
 	}
 
 	/**
@@ -95,10 +144,37 @@ class OC_Helper {
 	 * @param string $dir path to the folder
 	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
-	 * @deprecated 5.0.0 use \OCP\Files::rmdirr instead
 	 */
 	public static function rmdirr($dir, $deleteSelf = true) {
-		return \OCP\Files::rmdirr($dir, $deleteSelf);
+		if (is_dir($dir)) {
+			$files = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			foreach ($files as $fileInfo) {
+				/** @var SplFileInfo $fileInfo */
+				if ($fileInfo->isLink()) {
+					unlink($fileInfo->getPathname());
+				} elseif ($fileInfo->isDir()) {
+					rmdir($fileInfo->getRealPath());
+				} else {
+					unlink($fileInfo->getRealPath());
+				}
+			}
+			if ($deleteSelf) {
+				rmdir($dir);
+			}
+		} elseif (file_exists($dir)) {
+			if ($deleteSelf) {
+				unlink($dir);
+			}
+		}
+		if (!$deleteSelf) {
+			return true;
+		}
+
+		return !file_exists($dir);
 	}
 
 	/**
@@ -120,7 +196,6 @@ class OC_Helper {
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
 	 * @return bool true if executable program found in path
-	 * @deprecated 32.0.0 use the \OCP\IBinaryFinder
 	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set

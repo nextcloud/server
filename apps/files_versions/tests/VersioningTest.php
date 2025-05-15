@@ -83,10 +83,7 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->getMockBuilder(AllConfig::class)
-			->onlyMethods(['getSystemValue'])
-			->setConstructorArgs([Server::get(SystemConfig::class)])
-			->getMock();
+		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {
@@ -430,9 +427,8 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		// move file into the shared folder as recipient
-		$success = Filesystem::rename('/test.txt', '/folder1/test.txt');
+		Filesystem::rename('/test.txt', '/folder1/test.txt');
 
-		$this->assertTrue($success);
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 
@@ -812,7 +808,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$eventDispatcher = Server::get(IEventDispatcher::class);
 		$eventFired = false;
-		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2): void {
+		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2) {
 			$eventFired = true;
 			$this->assertEquals('/sub/test.txt', $event->getVersion()->getVersionPath());
 			$this->assertTrue($event->getVersion()->getRevisionId() > 0);

@@ -312,6 +312,7 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Empregue este método para compartir ficheiros con persoas ou organizacións alleas á súa organización. Os ficheiros e cartafoles pódense compartir mediante ligazóns públicas e enderezos de correo-e. Tamén pode compartir con outras contas de Nextcloud aloxadas en diferentes instancias usando o seu ID de nube federado.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Comparticións que non formen parte das comparticións internas ou externas. Pode tratarse de comparticións desde aplicacións ou outras orixes.",
     "Share with accounts and teams" : "Compartir con contas e equipos",
+    "Email, federated cloud id" : "Correo-e, ID da nube federada",
     "Unable to load the shares list" : "Non é posíbel cargar a lista de comparticións",
     "Expires {relativetime}" : "Caducidades {relativetime}",
     "this share just expired." : "vén de caducar esta compartición",
@@ -419,7 +420,6 @@ OC.L10N.register(
     "Share expire date saved" : "Gardouse a data de caducidade da compartición",
     "You are not allowed to edit link shares that you don't own" : "Vde. non ten permiso para editar as ligazóns compartidas das que non é o propietario",
     "_1 email address already added_::_{count} email addresses already added_" : ["Xa foi engadido 1 enderezo de correo","Xa foron engadidos {count} enderezos de correo"],
-    "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
-    "Email, federated cloud id" : "Correo-e, ID da nube federada"
+    "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -80,8 +80,6 @@
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Il modulo con ID: %s non esiste. Abilitalo nelle impostazioni delle applicazioni o contatta il tuo amministratore.",
     "File is too large to convert" : "Il file è troppo grande per essere convertito",
     "Dot files are not allowed" : "I file con un punto iniziale non sono consentiti",
-    "%1$s (renamed)" : "%1$s (rinominato)",
-    "renamed file" : "file rinominato",
     "File already exists" : "Il file esiste già",
     "Invalid path" : "Percorso non valido",
     "Failed to create file from template" : "Impossibile creare un file dal modello",

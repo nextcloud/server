@@ -11,7 +11,6 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserBackend;
 use OCP\IUserManager;
-use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -97,7 +96,7 @@ class CleanUp extends Command {
 			$node = $this->rootFolder->get($path);
 
 			if ($verbose) {
-				$output->writeln('Deleting <info>' . Util::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln('Deleting <info>' . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
 			}
 			$node->delete();
 			if ($this->rootFolder->nodeExists($path)) {

@@ -6,7 +6,6 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
-use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -85,7 +84,7 @@ class Info extends Base {
 		\OC_Util::setupFS($user->getUID());
 		try {
 			$storage = \OC_Helper::getStorageInfo('/');
-		} catch (NotFoundException $e) {
+		} catch (\OCP\Files\NotFoundException $e) {
 			return [];
 		}
 		return [

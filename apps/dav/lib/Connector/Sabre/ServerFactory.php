@@ -15,7 +15,6 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
-use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
 use OCA\Theming\ThemingDefaults;
 use OCP\Accounts\IAccountManager;
@@ -151,7 +150,7 @@ class ServerFactory {
 				);
 
 				// Mount the share collection at /public.php/dav/shares/<share token>
-				$rootCollection->addChild(new RootCollection(
+				$rootCollection->addChild(new \OCA\DAV\Files\Sharing\RootCollection(
 					$root,
 					$userPrincipalBackend,
 					'principals/shares',

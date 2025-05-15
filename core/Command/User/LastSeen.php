@@ -68,7 +68,7 @@ class LastSeen extends Base {
 			return 1;
 		}
 
-		$this->userManager->callForAllUsers(static function (IUser $user) use ($output): void {
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output) {
 			$lastLogin = $user->getLastLogin();
 			if ($lastLogin === 0) {
 				$output->writeln($user->getUID() . ' has never logged in.');

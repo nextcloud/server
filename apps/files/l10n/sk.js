@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "Chybný názov súboru.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Premenované z \"{oldName}\" na \"{newName}\"",
     "Rename file" : "Premenovať súbor",
-    "Folder" : "Priečinok",
     "Pending" : "Čaká",
     "Unknown date" : "Neznámy dátum",
     "Clear filter" : "Vyčistiť filter",

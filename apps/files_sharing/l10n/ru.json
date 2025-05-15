@@ -297,6 +297,7 @@
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Используйте этот метод для обмена файлами с отдельными лицами или группами в вашей организации. Если получатель уже имеет доступ к ресурсу, но не может его найти, вы можете отправить ему внутреннюю ссылку на ресурс для легкого доступа.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Используйте этот метод для обмена файлами с отдельными лицами или организациями за пределами вашей организации. Файлы и папки можно делить через публичные ссылки и адреса электронной почты. Вы также можете делиться с другими учетными записями Nextcloud, размещенными на разных экземплярах, используя их идентификатор федеративного облака.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Ссылки, которые не являются частью внутренних или внешних ссылок. Это могут быть ссылки из приложений или других источников.",
+    "Email, federated cloud id" : "Электронная почта, идентификатор федеративного облака",
     "Unable to load the shares list" : "Невозможно загрузить список общих ресурсов",
     "Expires {relativetime}" : "Истекает {relativetime}",
     "this share just expired." : "срок действия этого общего ресурса только что истёк.",
@@ -397,7 +398,6 @@
     "No recommendations. Start typing." : "Рекомендации отсутствуют, начните вводить символы",
     "Allow download" : "Разрешить скачивать",
     "Share expire date saved" : "Дата истечения общего доступа установлена",
-    "You are not allowed to edit link shares that you don't own" : "Вам не разрешается редактировать ссылки, которыми вы не владеете",
-    "Email, federated cloud id" : "Электронная почта, идентификатор федеративного облака"
+    "You are not allowed to edit link shares that you don't own" : "Вам не разрешается редактировать ссылки, которыми вы не владеете"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -15,7 +15,6 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\Reference;
@@ -25,7 +24,7 @@ use OCP\IRequest;
  * @psalm-import-type CoreReference from ResponseDefinitions
  * @psalm-import-type CoreReferenceProvider from ResponseDefinitions
  */
-class ReferenceApiController extends OCSController {
+class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	private const LIMIT_MAX = 15;
 
 	public function __construct(

@@ -12,14 +12,13 @@ namespace OCA\Files_External\Lib;
 class MissingDependency {
 
 	/** @var string|null Custom message */
-	private ?string $message = null;
-	private bool $optional = false;
+	private $message = null;
 
 	/**
 	 * @param string $dependency
 	 */
 	public function __construct(
-		private readonly string $dependency,
+		private $dependency,
 	) {
 	}
 
@@ -38,13 +37,5 @@ class MissingDependency {
 	public function setMessage($message) {
 		$this->message = $message;
 		return $this;
-	}
-
-	public function isOptional(): bool {
-		return $this->optional;
-	}
-
-	public function setOptional(bool $optional): void {
-		$this->optional = $optional;
 	}
 }
