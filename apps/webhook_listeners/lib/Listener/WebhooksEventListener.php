@@ -41,7 +41,6 @@ class WebhooksEventListener implements IEventListener {
 			// TODO add group membership to be able to filter on it
 			$data = [
 				'event' => $this->serializeEvent($event),
-				/* Do not remove 'user' from here, see BackgroundJobs/WebhookCall.php */
 				'user' => (is_null($user) ? null : JsonSerializer::serializeUser($user)),
 				'time' => time(),
 			];

@@ -7,7 +7,7 @@
  *
  * @var \OCP\IL10N $l
  */
-\OCP\Util::addScript('core', 'login', 'core');
+script('core', 'login');
 ?>
 <div>
 	<div id="login"></div>

@@ -293,7 +293,7 @@ OC.L10N.register(
     "Invisible" : "Unsichtbar",
     "Delete" : "Löschen",
     "Rename" : "Umbenennen",
-    "Collaborative tags" : "Kollaborative Schlagworte",
+    "Collaborative tags" : "Kollaborative Tags",
     "No tags found" : "Keine Tags gefunden",
     "Clipboard not available, please copy manually" : "Zwischenablage nicht verfügbar, bitte manuell kopieren",
     "Personal" : "Persönlich",

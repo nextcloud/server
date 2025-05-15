@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "無効なファイル名。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" から \"{newName}\" に名前を変更済み",
     "Rename file" : "ファイル名の変更",
-    "Folder" : "フォルダー",
     "Pending" : "保留中",
     "Unknown date" : "不明な日付",
     "Clear filter" : "フィルターをクリア",

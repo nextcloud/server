@@ -15,15 +15,24 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Welcome extends Base {
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var NewUserMailHelper */
+	private $newUserMailHelper;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param NewUserMailHelper $newUserMailHelper
 	 */
 	public function __construct(
-		protected IUserManager $userManager,
-		private NewUserMailHelper $newUserMailHelper,
+		IUserManager $userManager,
+		NewUserMailHelper $newUserMailHelper,
 	) {
 		parent::__construct();
+
+		$this->userManager = $userManager;
+		$this->newUserMailHelper = $newUserMailHelper;
 	}
 
 	/**

@@ -8,7 +8,6 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
-use OC\NotSquareException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -22,11 +21,9 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
-use OCP\Image;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -185,7 +182,7 @@ class AvatarController extends Controller {
 
 			try {
 				$content = $node->getContent();
-			} catch (NotPermittedException $e) {
+			} catch (\OCP\Files\NotPermittedException $e) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l10n->t('The selected file cannot be read.')]],
 					Http::STATUS_BAD_REQUEST
@@ -232,7 +229,7 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$image = new Image();
+			$image = new \OCP\Image();
 			$image->loadFromData($content);
 			$image->readExif($content);
 			$image->fixOrientation();
@@ -303,7 +300,7 @@ class AvatarController extends Controller {
 				Http::STATUS_NOT_FOUND);
 		}
 
-		$image = new Image();
+		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse(
@@ -338,7 +335,7 @@ class AvatarController extends Controller {
 				Http::STATUS_BAD_REQUEST);
 		}
 
-		$image = new Image();
+		$image = new \OCP\Image();
 		$image->loadFromData($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
@@ -347,7 +344,7 @@ class AvatarController extends Controller {
 			// Clean up
 			$this->cache->remove('tmpAvatar');
 			return new JSONResponse(['status' => 'success']);
-		} catch (NotSquareException $e) {
+		} catch (\OC\NotSquareException $e) {
 			return new JSONResponse(['data' => ['message' => $this->l10n->t('Crop is not square')]],
 				Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {

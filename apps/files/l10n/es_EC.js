@@ -65,7 +65,6 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiaste el nombre de \"{oldName}\" a \"{newName}\".",
     "Rename file" : "Renombrar archivo.",
-    "Folder" : "Carpeta",
     "Pending" : "Pendiente",
     "Clear filter" : "Borrar filtro",
     "Modified" : "Modificado",

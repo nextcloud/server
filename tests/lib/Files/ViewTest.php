@@ -25,7 +25,6 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
-use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -519,10 +518,10 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	public function moveBetweenStorages($storage1, $storage2) {
-		Filesystem::mount($storage1, [], '/' . $this->user . '/');
-		Filesystem::mount($storage2, [], '/' . $this->user . '/substorage');
+		Filesystem::mount($storage1, [], '/');
+		Filesystem::mount($storage2, [], '/substorage');
 
-		$rootView = new View('/' . $this->user);
+		$rootView = new View('');
 		$rootView->rename('foo.txt', 'substorage/folder/foo.txt');
 		$this->assertFalse($rootView->file_exists('foo.txt'));
 		$this->assertTrue($rootView->file_exists('substorage/folder/foo.txt'));
@@ -942,16 +941,14 @@ class ViewTest extends \Test\TestCase {
 		$storage = new Temporary([]);
 		$scanner = $storage->getScanner();
 		Filesystem::mount($storage, [], '/test/');
-		$sizeWritten = $storage->file_put_contents('test.part', 'foobar');
+		$storage->file_put_contents('test.part', 'foobar');
 		$scanner->scan('');
 		$view = new View('/test');
 		$info = $view->getFileInfo('test.part');
 
 		$this->assertInstanceOf('\OCP\Files\FileInfo', $info);
 		$this->assertNull($info->getId());
-		$this->assertEquals(6, $sizeWritten);
 		$this->assertEquals(6, $info->getSize());
-		$this->assertEquals('foobar', $view->file_get_contents('test.part'));
 	}
 
 	public static function absolutePathProvider(): array {
@@ -1950,8 +1947,6 @@ class ViewTest extends \Test\TestCase {
 
 		/* Pause trash to avoid the trashbin intercepting rmdir and unlink calls */
 		Server::get(ITrashManager::class)->pauseTrash();
-		/* Same thing with encryption wrapper */
-		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
 
 		Filesystem::mount($storage, [], $this->user . '/');
 
@@ -2102,8 +2097,6 @@ class ViewTest extends \Test\TestCase {
 
 		/* Pause trash to avoid the trashbin intercepting rmdir and unlink calls */
 		Server::get(ITrashManager::class)->pauseTrash();
-		/* Same thing with encryption wrapper */
-		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
 
 		Filesystem::mount($storage, [], $this->user . '/');
 
@@ -2245,9 +2238,6 @@ class ViewTest extends \Test\TestCase {
 		$sourcePath = 'original.txt';
 		$targetPath = 'target.txt';
 
-		/* Disable encryption wrapper to avoid it intercepting mocked call */
-		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
-
 		Filesystem::mount($storage, [], $this->user . '/');
 		$storage->mkdir('files');
 		$view->file_put_contents($sourcePath, 'meh');
@@ -2300,9 +2290,6 @@ class ViewTest extends \Test\TestCase {
 
 		$sourcePath = 'original.txt';
 		$targetPath = 'target.txt';
-
-		/* Disable encryption wrapper to avoid it intercepting mocked call */
-		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
 
 		Filesystem::mount($storage, [], $this->user . '/');
 		$storage->mkdir('files');
@@ -2439,9 +2426,6 @@ class ViewTest extends \Test\TestCase {
 
 		$sourcePath = 'original.txt';
 		$targetPath = 'substorage/target.txt';
-
-		/* Disable encryption wrapper to avoid it intercepting mocked call */
-		Server::get(IStorageFactory::class)->removeStorageWrapper('oc_encryption');
 
 		Filesystem::mount($storage, [], $this->user . '/');
 		Filesystem::mount($storage2, [], $this->user . '/files/substorage');

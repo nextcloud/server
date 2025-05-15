@@ -6,11 +6,9 @@
 namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Lock\LockedException;
 
 class SimpleFile implements ISimpleFile {
 	private File $file;
@@ -50,10 +48,8 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the content
 	 *
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
 	public function getContent(): string {
 		$result = $this->file->getContent();
@@ -69,10 +65,8 @@ class SimpleFile implements ISimpleFile {
 	 * Overwrite the file
 	 *
 	 * @param string|resource $data
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
 	public function putContent($data): void {
 		try {

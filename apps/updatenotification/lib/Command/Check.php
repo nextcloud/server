@@ -17,12 +17,24 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Check extends Command {
 
+	/**
+	 * @var Installer $installer
+	 */
+	private $installer;
+
+	/**
+	 * @var AppManager $appManager
+	 */
+	private $appManager;
+
 	public function __construct(
-		private AppManager $appManager,
+		AppManager $appManager,
 		private UpdateChecker $updateChecker,
-		private Installer $installer,
+		Installer $installer,
 	) {
 		parent::__construct();
+		$this->installer = $installer;
+		$this->appManager = $appManager;
 	}
 
 	protected function configure(): void {

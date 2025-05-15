@@ -69,7 +69,7 @@ OC.L10N.register(
     "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
-    "Twitter" : "X",
+    "Twitter" : "Twitter",
     "Diaspora" : "Diaspora"
 },
 "nplurals=2; plural=(n != 1);");

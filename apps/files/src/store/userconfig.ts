@@ -17,7 +17,6 @@ const initialUserConfig = loadState<UserConfig>('files', 'config', {
 	sort_favorites_first: true,
 	sort_folders_first: true,
 	grid_view: false,
-	show_mime_column: true,
 
 	show_dialog_file_extension: true,
 })

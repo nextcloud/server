@@ -84,7 +84,6 @@ OC.L10N.register(
     "This node is unavailable" : "Нодот е недостапен",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Преименувано \"{oldName}\" во \"{newName}\"",
     "Rename file" : "Преименувај датотека",
-    "Folder" : "Папка",
     "Pending" : "Чека",
     "Clear filter" : "Исчисти филтри",
     "Modified" : "Променето",

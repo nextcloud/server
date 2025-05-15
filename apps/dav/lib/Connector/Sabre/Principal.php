@@ -41,6 +41,9 @@ class Principal implements BackendInterface {
 	/** @var bool */
 	private $hasCircles;
 
+	/** @var ProxyMapper */
+	private $proxyMapper;
+
 	/** @var KnownUserService */
 	private $knownUserService;
 
@@ -51,7 +54,7 @@ class Principal implements BackendInterface {
 		private IShareManager $shareManager,
 		private IUserSession $userSession,
 		private IAppManager $appManager,
-		private ProxyMapper $proxyMapper,
+		ProxyMapper $proxyMapper,
 		KnownUserService $knownUserService,
 		private IConfig $config,
 		private IFactory $languageFactory,
@@ -59,6 +62,7 @@ class Principal implements BackendInterface {
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
+		$this->proxyMapper = $proxyMapper;
 		$this->knownUserService = $knownUserService;
 	}
 

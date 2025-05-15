@@ -86,7 +86,6 @@ OC.L10N.register(
     "Invalid filename." : "ئىناۋەتسىز ھۆججەت ئىسمى.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" غا \"{newName}\" غا ئۆزگەرتىلدى",
     "Rename file" : "ھۆججەتنىڭ نامىنى ئۆزگەرتىش",
-    "Folder" : "قىسقۇچ",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Clear filter" : "سۈزگۈچنى تازىلاش",
     "Modified" : "ئۆزگەرتكەن",

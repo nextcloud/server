@@ -87,7 +87,6 @@ OC.L10N.register(
     "Invalid filename." : "Tên tập tin không hợp lệ.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Đã đổi tên \"{oldName}\" thành \"{newName}\"",
     "Rename file" : "Đổi tên tệp tin",
-    "Folder" : "Thư mục",
     "Pending" : "Đang chờ",
     "Clear filter" : "Xóa bộ lọc",
     "Modified" : "Đã thay đổi vào:",

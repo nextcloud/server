@@ -15,7 +15,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When Dropping file :path with :content
 	 */
-	public function droppingFileWith($path, $content, $nickname = null) {
+	public function droppingFileWith($path, $content, $nickName = null) {
 		$client = new Client();
 		$options = [];
 		if (count($this->lastShareData->data->element) > 0) {
@@ -28,11 +28,11 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$path");
 
 		$options['headers'] = [
-			'X-REQUESTED-WITH' => 'XMLHttpRequest',
+			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
 
-		if ($nickname) {
-			$options['headers']['X-NC-NICKNAME'] = $nickname;
+		if ($nickName) {
+			$options['headers']['X-NC-NICKNAME'] = $nickName;
 		}
 
 		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
@@ -48,15 +48,15 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When Dropping file :path with :content as :nickName
 	 */
-	public function droppingFileWithAs($path, $content, $nickname) {
-		$this->droppingFileWith($path, $content, $nickname);
+	public function droppingFileWithAs($path, $content, $nickName) {
+		$this->droppingFileWith($path, $content, $nickName);
 	}
 
 
 	/**
 	 * @When Creating folder :folder in drop
 	 */
-	public function creatingFolderInDrop($folder, $nickname = null) {
+	public function creatingFolderInDrop($folder) {
 		$client = new Client();
 		$options = [];
 		if (count($this->lastShareData->data->element) > 0) {
@@ -69,25 +69,13 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$folder");
 
 		$options['headers'] = [
-			'X-REQUESTED-WITH' => 'XMLHttpRequest',
+			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
-
-		if ($nickname) {
-			$options['headers']['X-NC-NICKNAME'] = $nickname;
-		}
 
 		try {
 			$this->response = $client->request('MKCOL', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
-	}
-
-
-	/**
-	 * @When Creating folder :folder in drop as :nickName
-	 */
-	public function creatingFolderInDropWithNickname($folder, $nickname) {
-		return $this->creatingFolderInDrop($folder, $nickname);
 	}
 }

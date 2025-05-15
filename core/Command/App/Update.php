@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OC\Core\Command\App;
 
 use OC\Installer;
-use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -65,7 +64,7 @@ class Update extends Command {
 			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
-			} catch (AppPathNotFoundException $e) {
+			} catch (\OCP\App\AppPathNotFoundException $e) {
 				$output->writeln($singleAppId . ' not installed');
 				return 1;
 			}

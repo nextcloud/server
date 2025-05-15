@@ -17,7 +17,6 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\ServerVersion;
-use OCP\Util;
 
 class OCSController extends \OCP\AppFramework\OCSController {
 	public function __construct(
@@ -64,7 +63,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'micro' => $this->serverVersion->getPatchVersion(),
 			'string' => $this->serverVersion->getVersionString(),
 			'edition' => '',
-			'extendedSupport' => Util::hasExtendedSupport()
+			'extendedSupport' => \OCP\Util::hasExtendedSupport()
 		];
 
 		if ($this->userSession->isLoggedIn()) {

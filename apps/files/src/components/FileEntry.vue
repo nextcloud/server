@@ -49,15 +49,6 @@
 			:opened.sync="openedMenu"
 			:source="source" />
 
-		<!-- Mime -->
-		<td v-if="isMimeAvailable"
-			:title="mime"
-			class="files-list__row-mime"
-			data-cy-files-list-row-mime
-			@click="openDetailsIfAvailable">
-			<span>{{ mime }}</span>
-		</td>
-
 		<!-- Size -->
 		<td v-if="!compact && isSizeAvailable"
 			:style="sizeOpacity"
@@ -94,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { FileType, formatFileSize } from '@nextcloud/files'
+import { formatFileSize } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
@@ -132,10 +123,6 @@ export default defineComponent({
 	],
 
 	props: {
-		isMimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,
@@ -199,17 +186,6 @@ export default defineComponent({
 			return this.currentView.columns || []
 		},
 
-		mime() {
-			if (this.source.type === FileType.Folder) {
-				return this.t('files', 'Folder')
-			}
-
-			if (!this.source.mime || this.source.mime === 'application/octet-stream') {
-				return t('files', 'Unknown file type')
-			}
-
-			return this.source.mime
-		},
 		size() {
 			const size = this.source.size
 			if (size === undefined || isNaN(size) || size < 0) {

@@ -312,6 +312,7 @@
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Usa este método para compartir archivos con individuos u organizaciones externas a tu organización. Los archivos y carpetas pueden ser compartidos mediante enlaces públicos y por correo. También puedes compartir con otras cuentas de Nextcloud alojadas en otras instancias utilizando su ID de nube federada.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Recursos compartidos que no son internos o externos. Pueden estar compartidos desde aplicaciones u otras fuentes.",
     "Share with accounts and teams" : "Compartir con cuentas y equipos",
+    "Email, federated cloud id" : "Email, ID de nube federada",
     "Unable to load the shares list" : "No se pudo cargar la lista de recursos compartidos",
     "Expires {relativetime}" : "Caduca en {relativetime}",
     "this share just expired." : "este recurso compartido acaba de caducar.",
@@ -419,8 +420,6 @@
     "Share expire date saved" : "Fecha de caducidad del recurso compartido guardada",
     "You are not allowed to edit link shares that you don't own" : "No tiene permitido editar los enlaces compartidos que no le pertenecen",
     "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
-    "_1 email address added_::_{count} email addresses added_" : ["Se ha añadido una dirección de correo","Se han añadido {count} direcciones de correo","Se han añadido {count} direcciones de correo"],
-    "Share with accounts, teams, federated cloud id" : "Comparta con cuentas, equipos, id de nube federada",
-    "Email, federated cloud id" : "Email, ID de nube federada"
+    "_1 email address added_::_{count} email addresses added_" : ["Se ha añadido una dirección de correo","Se han añadido {count} direcciones de correo","Se han añadido {count} direcciones de correo"]
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -69,7 +69,6 @@ OC.L10N.register(
     "This node is unavailable" : "This node is unavailable",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Rename file" : "Rename file",
-    "Folder" : "Folder",
     "Pending" : "Pending",
     "Clear filter" : "Clear filter",
     "Modified" : "Modified",

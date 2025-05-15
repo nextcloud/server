@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,67 +10,61 @@ namespace Test\Encryption;
 use OC\Encryption\File;
 use OC\Encryption\Update;
 use OC\Encryption\Util;
+use OC\Files\Mount\Manager;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
-use OCP\Files\File as OCPFile;
-use OCP\Files\Folder;
-use OCP\IUser;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateTest extends TestCase {
-	private string $uid;
-	private View&MockObject $view;
-	private Util&MockObject $util;
-	private \OC\Encryption\Manager&MockObject $encryptionManager;
-	private IEncryptionModule&MockObject $encryptionModule;
-	private File&MockObject $fileHelper;
-	private LoggerInterface&MockObject $logger;
+	/** @var \OC\Encryption\Update */
+	private $update;
+
+	/** @var string */
+	private $uid;
+
+	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
+	private $view;
+
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
+	private $util;
+
+	/** @var \OC\Files\Mount\Manager | \PHPUnit\Framework\MockObject\MockObject */
+	private $mountManager;
+
+	/** @var \OC\Encryption\Manager | \PHPUnit\Framework\MockObject\MockObject */
+	private $encryptionManager;
+
+	/** @var \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject */
+	private $encryptionModule;
+
+	/** @var \OC\Encryption\File | \PHPUnit\Framework\MockObject\MockObject */
+	private $fileHelper;
+
+	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
+	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);
 		$this->util = $this->createMock(Util::class);
+		$this->mountManager = $this->createMock(Manager::class);
 		$this->encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
 		$this->fileHelper = $this->createMock(File::class);
 		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->uid = 'testUser1';
-	}
 
-	private function getUserMock(string $uid): IUser&MockObject {
-		$user = $this->createMock(IUser::class);
-		$user->expects(self::any())
-			->method('getUID')
-			->willReturn($uid);
-		return $user;
-	}
-
-	private function getFileMock(string $path, string $owner): OCPFile&MockObject {
-		$node = $this->createMock(OCPFile::class);
-		$node->expects(self::atLeastOnce())
-			->method('getPath')
-			->willReturn($path);
-		$node->expects(self::any())
-			->method('getOwner')
-			->willReturn($this->getUserMock($owner));
-
-		return $node;
-	}
-
-	private function getFolderMock(string $path, string $owner): Folder&MockObject {
-		$node = $this->createMock(Folder::class);
-		$node->expects(self::atLeastOnce())
-			->method('getPath')
-			->willReturn($path);
-		$node->expects(self::any())
-			->method('getOwner')
-			->willReturn($this->getUserMock($owner));
-
-		return $node;
+		$this->update = new Update(
+			$this->view,
+			$this->util,
+			$this->mountManager,
+			$this->encryptionManager,
+			$this->fileHelper,
+			$this->logger,
+			$this->uid);
 	}
 
 	/**
@@ -85,21 +76,18 @@ class UpdateTest extends TestCase {
 	 * @param integer $numberOfFiles
 	 */
 	public function testUpdate($path, $isDir, $allFiles, $numberOfFiles): void {
-		$updateMock = $this->getUpdateMock(['getOwnerPath']);
-		$updateMock->expects($this->once())->method('getOwnerPath')
-			->willReturnCallback(fn (OCPFile|Folder $node) => '/user/' . $node->getPath());
-
 		$this->encryptionManager->expects($this->once())
 			->method('getEncryptionModule')
 			->willReturn($this->encryptionModule);
+
+		$this->view->expects($this->once())
+			->method('is_dir')
+			->willReturn($isDir);
 
 		if ($isDir) {
 			$this->util->expects($this->once())
 				->method('getAllFiles')
 				->willReturn($allFiles);
-			$node = $this->getFolderMock($path, 'user');
-		} else {
-			$node = $this->getFileMock($path, 'user');
 		}
 
 		$this->fileHelper->expects($this->exactly($numberOfFiles))
@@ -110,7 +98,7 @@ class UpdateTest extends TestCase {
 			->method('update')
 			->willReturn(true);
 
-		$updateMock->update($node);
+		$this->update->update($path);
 	}
 
 	/**
@@ -130,26 +118,32 @@ class UpdateTest extends TestCase {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param boolean $encryptionEnabled
 	 */
-	public function testPostRename($source, $target): void {
-		$updateMock = $this->getUpdateMock(['update','getOwnerPath']);
+	public function testPostRename($source, $target, $encryptionEnabled): void {
+		$updateMock = $this->getUpdateMock(['update', 'getOwnerPath']);
 
-		$sourceNode = $this->getFileMock($source, 'user');
-		$targetNode = $this->getFileMock($target, 'user');
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
 
-		if (dirname($source) === dirname($target)) {
+		if (dirname($source) === dirname($target) || $encryptionEnabled === false) {
 			$updateMock->expects($this->never())->method('getOwnerPath');
 			$updateMock->expects($this->never())->method('update');
 		} else {
-			$updateMock->expects($this->once())->method('update')
-				->willReturnCallback(fn (OCPFile|Folder $node) => $this->assertSame(
-					$target,
-					$node->getPath(),
-					'update needs to be executed for the target destination'
-				));
+			$updateMock->expects($this->once())
+				->method('getOwnerPath')
+				->willReturnCallback(function ($path) use ($target) {
+					$this->assertSame(
+						$target,
+						$path,
+						'update needs to be executed for the target destination');
+					return ['owner', $path];
+				});
+			$updateMock->expects($this->once())->method('update');
 		}
 
-		$updateMock->postRename($sourceNode, $targetNode);
+		$updateMock->postRename(['oldpath' => $source, 'newpath' => $target]);
 	}
 
 	/**
@@ -159,35 +153,62 @@ class UpdateTest extends TestCase {
 	 */
 	public function dataTestPostRename() {
 		return [
-			['/test.txt', '/testNew.txt'],
-			['/folder/test.txt', '/testNew.txt'],
-			['/test.txt', '/folder/testNew.txt'],
+			['/test.txt', '/testNew.txt', true],
+			['/test.txt', '/testNew.txt', false],
+			['/folder/test.txt', '/testNew.txt', true],
+			['/folder/test.txt', '/testNew.txt', false],
+			['/folder/test.txt', '/testNew.txt', true],
+			['/test.txt', '/folder/testNew.txt', false],
 		];
 	}
 
-	public function testPostRestore(): void {
+
+	/**
+	 * @dataProvider dataTestPostRestore
+	 *
+	 * @param boolean $encryptionEnabled
+	 */
+	public function testPostRestore($encryptionEnabled): void {
 		$updateMock = $this->getUpdateMock(['update']);
 
-		$updateMock->expects($this->once())->method('update')
-			->willReturnCallback(fn (OCPFile|Folder $node) => $this->assertSame(
-				'/folder/test.txt',
-				$node->getPath(),
-				'update needs to be executed for the target destination'
-			));
+		$this->encryptionManager->expects($this->once())
+			->method('isEnabled')
+			->willReturn($encryptionEnabled);
 
-		$updateMock->postRestore($this->getFileMock('/folder/test.txt', 'user'));
+		if ($encryptionEnabled) {
+			$updateMock->expects($this->once())->method('update');
+		} else {
+			$updateMock->expects($this->never())->method('update');
+		}
+
+		$updateMock->postRestore(['filePath' => '/folder/test.txt']);
+	}
+
+	/**
+	 * test data for testPostRestore()
+	 *
+	 * @return array
+	 */
+	public function dataTestPostRestore() {
+		return [
+			[true],
+			[false],
+		];
 	}
 
 	/**
 	 * create mock of the update method
 	 *
 	 * @param array $methods methods which should be set
+	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected function getUpdateMock(array $methods): Update&MockObject {
-		return  $this->getMockBuilder(Update::class)
+	protected function getUpdateMock($methods) {
+		return  $this->getMockBuilder('\OC\Encryption\Update')
 			->setConstructorArgs(
 				[
+					$this->view,
 					$this->util,
+					$this->mountManager,
 					$this->encryptionManager,
 					$this->fileHelper,
 					$this->logger,

@@ -6,11 +6,10 @@
 namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version14000Date20180626223656 extends SimpleMigrationStep {
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function changeSchema(\OCP\Migration\IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		if (!$schema->hasTable('whats_new')) {

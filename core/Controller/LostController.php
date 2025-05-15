@@ -14,7 +14,6 @@ use OC\Core\Events\PasswordResetEvent;
 use OC\Core\Exception\ResetPasswordException;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
-use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -37,11 +36,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\PreConditionNotMetException;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
-use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -56,6 +52,8 @@ use function reset;
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class LostController extends Controller {
+	protected string $from;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -64,7 +62,7 @@ class LostController extends Controller {
 		private Defaults $defaults,
 		private IL10N $l10n,
 		private IConfig $config,
-		protected string $from,
+		string $defaultMailAddress,
 		private IManager $encryptionManager,
 		private IMailer $mailer,
 		private LoggerInterface $logger,
@@ -75,6 +73,7 @@ class LostController extends Controller {
 		private Limiter $limiter,
 	) {
 		parent::__construct($appName, $request);
+		$this->from = $defaultMailAddress;
 	}
 
 	/**
@@ -159,7 +158,7 @@ class LostController extends Controller {
 			return new JSONResponse($this->error($this->l10n->t('Unsupported email length (>255)')));
 		}
 
-		Util::emitHook(
+		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			['uid' => &$user]
@@ -218,7 +217,7 @@ class LostController extends Controller {
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
-			@Server::get(Session::class)->unsetMagicInCookie();
+			@\OC::$server->getUserSession()->unsetMagicInCookie();
 		} catch (HintException $e) {
 			$response = new JSONResponse($this->error($e->getHint()));
 			$response->throttle();
@@ -234,7 +233,7 @@ class LostController extends Controller {
 
 	/**
 	 * @throws ResetPasswordException
-	 * @throws PreConditionNotMetException
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	protected function sendEmail(string $input): void {
 		$user = $this->findUserByIdOrMail($input);

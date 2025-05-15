@@ -27,7 +27,6 @@ OC.L10N.register(
     "Could not complete login" : "Could not complete login",
     "State token missing" : "State token missing",
     "Your login token is invalid or has expired" : "Your login token is invalid or has expired",
-    "Please use original client" : "Please use original client",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "This community release of Nextcloud is unsupported and push notifications are limited.",
     "Login" : "Login",
     "Unsupported email length (>255)" : "Unsupported email length (>255)",

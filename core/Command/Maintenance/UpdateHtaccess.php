@@ -7,7 +7,6 @@
  */
 namespace OC\Core\Command\Maintenance;
 
-use OC\Setup;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +19,7 @@ class UpdateHtaccess extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if (Setup::updateHtaccess()) {
+		if (\OC\Setup::updateHtaccess()) {
 			$output->writeln('.htaccess has been updated');
 			return 0;
 		} else {

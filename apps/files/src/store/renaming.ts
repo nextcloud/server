@@ -14,7 +14,6 @@ import { defineStore } from 'pinia'
 import logger from '../logger'
 import Vue, { defineAsyncComponent, ref } from 'vue'
 import { useUserConfigStore } from './userconfig'
-import { fetchNode } from '../services/WebdavClient'
 
 export const useRenamingStore = defineStore('renaming', () => {
 	/**
@@ -49,7 +48,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 		}
 		isRenaming.value = true
 
-		let node = renamingNode.value
+		const node = renamingNode.value
 		Vue.set(node, 'status', NodeStatus.LOADING)
 
 		const userConfig = useUserConfigStore()
@@ -86,13 +85,6 @@ export const useRenamingStore = defineStore('renaming', () => {
 					Overwrite: 'F',
 				},
 			})
-
-			// Update mime type if extension changed
-			// as other related informations might have changed
-			// on the backend but it is really hard to know on the front
-			if (oldExtension !== newExtension) {
-				node = await fetchNode(node.path)
-			}
 
 			// Success 🎉
 			emit('files:node:updated', node)

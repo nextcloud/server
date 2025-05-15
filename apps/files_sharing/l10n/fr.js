@@ -312,6 +312,7 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Cette méthode permet de partager des fichiers avec des personnes ou des organisations extérieures à votre organisation. Les fichiers et les dossiers peuvent être partagés via des liens de partage publics et des adresses e-mail. Vous pouvez également partager avec d'autres comptes Nextcloud hébergés sur différentes instances en utilisant leur ID de cloud fédéré.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Partages qui ne font pas partie des partages internes ou externes. Il peut s'agir de partages provenant d'applications ou d'autres sources.",
     "Share with accounts and teams" : "Partager avec des comptes et des équipes",
+    "Email, federated cloud id" : "E-mail, ID de cloud fédéré",
     "Unable to load the shares list" : "Impossible de charger la liste des partages",
     "Expires {relativetime}" : "Expire {relativetime}",
     "this share just expired." : "ce partage vient d'expirer",
@@ -419,7 +420,6 @@ OC.L10N.register(
     "Share expire date saved" : "Le partage expirât à la date enregistrée",
     "You are not allowed to edit link shares that you don't own" : "Vous n'êtes pas autorisé à modifier les liens de partage dont vous n'êtes pas propriétaire",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 adresse mail déjà ajoutée"," {count}adresses email déjà ajoutées","{count} adresses e-mail déjà ajoutées"],
-    "_1 email address added_::_{count} email addresses added_" : [" 1 adresse mail ajoutée","{count} adresses mail ajoutées","{count} adresses mail ajoutées"],
-    "Email, federated cloud id" : "E-mail, ID de cloud fédéré"
+    "_1 email address added_::_{count} email addresses added_" : [" 1 adresse mail ajoutée","{count} adresses mail ajoutées","{count} adresses mail ajoutées"]
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

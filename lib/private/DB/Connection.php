@@ -92,8 +92,6 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected ShardConnectionManager $shardConnectionManager;
 	protected AutoIncrementHandler $autoIncrementHandler;
 	protected bool $isShardingEnabled;
-	protected bool $disableReconnect = false;
-	protected int $lastInsertId = 0;
 
 	public const SHARD_PRESETS = [
 		'filecache' => [
@@ -512,9 +510,9 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * because the underlying database may not even support the notion of AUTO_INCREMENT/IDENTITY
 	 * columns or sequences.
 	 *
-	 * @param ?string $name Name of the sequence object from which the ID should be returned.
+	 * @param string $seqName Name of the sequence object from which the ID should be returned.
 	 *
-	 * @return int the last inserted ID, 0 in case there was no INSERT before or it failed to get the ID
+	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
 	public function lastInsertId($name = null): int {
@@ -528,13 +526,8 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @internal
 	 * @throws Exception
 	 */
-	public function realLastInsertId($seqName = null): int {
-		if ($this->lastInsertId !== 0) {
-			$lastInsertId = $this->lastInsertId;
-			$this->lastInsertId = 0;
-			return $lastInsertId;
-		}
-		return (int)parent::lastInsertId($seqName);
+	public function realLastInsertId($seqName = null) {
+		return parent::lastInsertId($seqName);
 	}
 
 	/**
@@ -903,21 +896,9 @@ class Connection extends PrimaryReadReplicaConnection {
 		if (
 			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
 			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive() ||
-			$this->disableReconnect
+			$this->isTransactionActive()
 		) {
 			return;
-		}
-
-		if ($this->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
-			/**
-			 * Before reconnecting we save the lastInsertId, so that if the reconnect
-			 * happens between the INSERT executeStatement() and the getLastInsertId call
-			 * we are able to return the correct result after all.
-			 */
-			$this->disableReconnect = true;
-			$this->lastInsertId = (int)parent::lastInsertId();
-			$this->disableReconnect = false;
 		}
 
 		try {

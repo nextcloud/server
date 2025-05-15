@@ -9,7 +9,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 
 class Mail implements IDelegatedSettings {
@@ -27,7 +26,7 @@ class Mail implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$finder = Server::get(IBinaryFinder::class);
+		$finder = \OCP\Server::get(IBinaryFinder::class);
 
 		$parameters = [
 			// Mail

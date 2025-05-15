@@ -515,7 +515,7 @@ class User {
 	 * fetch all the user's attributes in one call and use the fetched values in this function.
 	 * The expected value for that parameter is a string describing the quota for the user. Valid
 	 * values are 'none' (unlimited), 'default' (the Nextcloud's default quota), '1234' (quota in
-	 * bytes), '1234 MB' (quota in MB - check the \OCP\Util::computerFileSize method for more info)
+	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
@@ -563,7 +563,7 @@ class User {
 	}
 
 	private function verifyQuotaValue(string $quotaValue): bool {
-		return $quotaValue === 'none' || $quotaValue === 'default' || Util::computerFileSize($quotaValue) !== false;
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
 	/**

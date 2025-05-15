@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-\OCP\Util::addScript('core', 'login/authpicker', 'core');
+script('core', 'login/authpicker');
 style('core', 'login/authpicker');
 
 /** @var array $_ */

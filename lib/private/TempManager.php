@@ -8,7 +8,6 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use OCP\Files;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Security\ISecureRandom;
@@ -100,7 +99,7 @@ class TempManager implements ITempManager {
 		foreach ($files as $file) {
 			if (file_exists($file)) {
 				try {
-					Files::rmdirr($file);
+					\OC_Helper::rmdirr($file);
 				} catch (\UnexpectedValueException $ex) {
 					$this->log->warning(
 						'Error deleting temporary file/folder: {file} - Reason: {error}',

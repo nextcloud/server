@@ -55,7 +55,6 @@
 	</repair-steps>
 
 	<commands>
-		<command>OCA\DAV\Command\ClearCalendarUnshares</command>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\CreateSubscription</command>
@@ -64,7 +63,6 @@
 		<command>OCA\DAV\Command\ExportCalendar</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
 		<command>OCA\DAV\Command\ListAddressbooks</command>
-		<command>OCA\DAV\Command\ListCalendarShares</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
 		<command>OCA\DAV\Command\ListSubscriptions</command>
 		<command>OCA\DAV\Command\MoveCalendar</command>

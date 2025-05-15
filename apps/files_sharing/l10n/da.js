@@ -314,6 +314,7 @@ OC.L10N.register(
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Anvend denne metode til at dele filer med brugere eller organisationer udenfor din organisation. Filer og mapper kan deles via offentlige delingslinks og e-mailadresser. Du kan også dele til andre Nextcloud konti der er hostet på andre instanser ved anvendelse af sammenkoblings cloud ID.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Delinger som ikke er del af de interne eller eksterne delinger. Dette kan være delinger fra apps eller andre kilder.",
     "Share with accounts and teams" : "Deling med konti og teams",
+    "Email, federated cloud id" : "E-mail, sammenkoblings cloud id",
     "Unable to load the shares list" : "Kan ikke indlæse liste med delinger",
     "Expires {relativetime}" : "Udløber {relativetime}",
     "this share just expired." : "denne deling er netop udløbet.",
@@ -421,7 +422,6 @@ OC.L10N.register(
     "Share expire date saved" : "Udløbsdato for deling gemt",
     "You are not allowed to edit link shares that you don't own" : "Du har ikke tilladelse til at redigere link delinger som du ikke ejer",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-mailadresse allerede tilføjet","{count} e-mailadresser allerede tilføjet"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-mailadresse tilføjet","{count} e-mailadresser tilføjet"],
-    "Email, federated cloud id" : "E-mail, sammenkoblings cloud id"
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-mailadresse tilføjet","{count} e-mailadresser tilføjet"]
 },
 "nplurals=2; plural=(n != 1);");

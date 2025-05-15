@@ -27,7 +27,6 @@ OC.L10N.register(
     "Could not complete login" : "No se ha podido completar el inicio de sesión",
     "State token missing" : "No se encontró token de estado",
     "Your login token is invalid or has expired" : "Tu token de login no es válido o ha caducado",
-    "Please use original client" : "Por favor, use el cliente original",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Esta versión comunitaria de Nextcloud ya no está soportada y las notificaciones push están limitadas.",
     "Login" : "Iniciar sesión",
     "Unsupported email length (>255)" : "Longitud de correo electrónico no soportada (>255)",

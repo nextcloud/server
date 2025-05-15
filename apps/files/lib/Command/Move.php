@@ -20,9 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Move extends Command {
-	public function __construct(
-		private FileUtils $fileUtils,
-	) {
+	private FileUtils $fileUtils;
+
+	public function __construct(FileUtils $fileUtils) {
+		$this->fileUtils = $fileUtils;
 		parent::__construct();
 	}
 

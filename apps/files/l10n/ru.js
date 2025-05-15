@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "Недопустимое имя файла.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Переименовано «{oldName}» в \"{newName}\"",
     "Rename file" : "Переименовать файл",
-    "Folder" : "Каталог",
     "Pending" : "Ожидается",
     "Unknown date" : "Неизвестная дата",
     "Clear filter" : "Сбросить фильтр",

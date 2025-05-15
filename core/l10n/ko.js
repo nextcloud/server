@@ -27,7 +27,6 @@ OC.L10N.register(
     "Could not complete login" : "로그인을 완료할 수 없음",
     "State token missing" : "상태 토큰 누락",
     "Your login token is invalid or has expired" : "로그인 토큰이 잘못되었거나 만료되었습니다.",
-    "Please use original client" : "원본 클라이언트를 사용해주십시오.",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "이 Nextcloud 커뮤니티 릴리즈는 지원하지 않는 버전이며, 푸시 알림은 제한됩니다.",
     "Login" : "로그인",
     "Unsupported email length (>255)" : "지원하지 않는 이메일 길이 (255자 초과)",

@@ -107,7 +107,7 @@ class OC_Util {
 		if ($userQuota === 'none') {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
-		return \OCP\Util::computerFileSize($userQuota);
+		return OC_Helper::computerFileSize($userQuota);
 	}
 
 	/**

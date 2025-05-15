@@ -24,14 +24,6 @@
 		<!-- Actions -->
 		<th class="files-list__row-actions" />
 
-		<!-- Mime -->
-		<th v-if="isMimeAvailable"
-			class="files-list__column files-list__row-mime"
-			:class="{ 'files-list__column--sortable': isMimeAvailable }"
-			:aria-sort="ariaSortForMode('mime')">
-			<FilesListTableHeaderButton :name="t('files', 'File type')" mode="mime" />
-		</th>
-
 		<!-- Size -->
 		<th v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size"
@@ -91,10 +83,6 @@ export default defineComponent({
 	],
 
 	props: {
-		isMimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,

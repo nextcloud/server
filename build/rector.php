@@ -52,9 +52,8 @@ class NextcloudNamespaceSkipVoter implements ClassNameImportSkipVoterInterface {
 $config = RectorConfig::configure()
 	->withPaths([
 		$nextcloudDir . '/apps',
-		$nextcloudDir . '/core',
-		$nextcloudDir . '/status.php',
 		// $nextcloudDir . '/config',
+		// $nextcloudDir . '/core',
 		// $nextcloudDir . '/lib',
 		// $nextcloudDir . '/ocs',
 		// $nextcloudDir . '/ocs-provider',

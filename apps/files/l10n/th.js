@@ -62,7 +62,6 @@ OC.L10N.register(
     "Favorite" : "รายการโปรด",
     "Filename" : "ชื่อไฟล์",
     "Folder name" : "ชื่อโฟลเดอร์",
-    "Folder" : "โฟลเดอร์",
     "Pending" : "อยู่ระหว่างดำเนินการ",
     "Modified" : "แก้ไขเมื่อ",
     "Type" : "ประเภท",

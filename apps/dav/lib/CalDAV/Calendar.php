@@ -214,8 +214,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	}
 
 	public function delete() {
-		if ($this->isShared()) {
-			$this->caldavBackend->unshare($this, 'principal:' . $this->getPrincipalURI());
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']) &&
+			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
+			$principal = 'principal:' . parent::getOwner();
+			$this->caldavBackend->updateShares($this, [], [
+				$principal
+			]);
 			return;
 		}
 

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Info;
 
-use OC\User\NoUserException;
 use OCA\Circles\MountManager\CircleMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\SharedMount;
@@ -22,7 +21,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Share\IShare;
 use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,8 +35,8 @@ class FileUtils {
 	/**
 	 * @param FileInfo $file
 	 * @return array<string, Node[]>
-	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OC\User\NoUserException
 	 */
 	public function getFilesByUser(FileInfo $file): array {
 		$id = $file->getId();

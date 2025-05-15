@@ -95,7 +95,6 @@ OC.L10N.register(
     "Invalid filename." : "Ugyldigt filnavn.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Omdøbte \"{oldName}\" til \"{newName}\"",
     "Rename file" : "Omdøb fil",
-    "Folder" : "Mappe",
     "Pending" : "Afventer",
     "Unknown date" : "Ukendt dato",
     "Clear filter" : "Ryd filter",

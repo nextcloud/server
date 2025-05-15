@@ -10,6 +10,7 @@ namespace OCA\AdminAudit\Actions;
 use OC\Files\Node\NonExistingFile;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
@@ -25,6 +26,9 @@ use Psr\Log\LoggerInterface;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
+
+	private array $renamedNodes = [];
+
 	/**
 	 * Logs file read actions
 	 */
@@ -51,13 +55,28 @@ class Files extends Action {
 	/**
 	 * Logs rename actions of files
 	 */
+	public function beforeRename(BeforeNodeRenamedEvent $event): void {
+		try {
+			$source = $event->getSource();
+			$this->renamedNodes[$source->getId()] = $source;
+		} catch (InvalidPathException|NotFoundException $e) {
+			Server::get(LoggerInterface::class)->error(
+				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+	}
+
+	/**
+	 * Logs rename actions of files
+	 */
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
-			$source = $event->getSource();
+			$originalSource = $this->renamedNodes[$target->getId()];
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => $source->getPath(),
+				'oldpath' => $originalSource->getPath(),
 				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {

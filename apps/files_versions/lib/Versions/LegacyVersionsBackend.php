@@ -367,20 +367,16 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	 * @inheritdoc
 	 */
 	public function clearVersionsForFile(IUser $user, Node $source, Node $target): void {
-		$userId = $user->getUID();
-		$userFolder = $this->rootFolder->getUserFolder($userId);
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
 		$relativePath = $userFolder->getRelativePath($source->getPath());
 		if ($relativePath === null) {
 			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
-		$versionFolder = $this->rootFolder->get($userId . '/files_versions');
-		if (!$versionFolder instanceof Folder) {
-			throw new Exception('User versions folder does not exist');
-		}
-
-		$versions = Storage::getVersions($userId, $relativePath);
+		$versions = Storage::getVersions($user->getUID(), $relativePath);
+		/** @var Folder versionFolder */
+		$versionFolder = $this->rootFolder->get('admin/files_versions');
 		foreach ($versions as $version) {
 			$versionFolder->get($version['path'] . '.v' . (int)$version['version'])->delete();
 		}

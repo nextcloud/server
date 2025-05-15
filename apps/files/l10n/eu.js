@@ -91,7 +91,6 @@ OC.L10N.register(
     "Invalid filename." : "Fitxategi-izen baliogabea.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" \"{newName}\"(e)ra berrizendatu da.",
     "Rename file" : "Berrizendatu fitxategia",
-    "Folder" : "Karpeta",
     "Pending" : "Zain",
     "Unknown date" : "Data ezezaguna",
     "Clear filter" : "Garbitu iragazkia",

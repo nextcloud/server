@@ -1107,10 +1107,6 @@ class ManagerTest extends TestCase {
 				$row->getMessage(),
 			];
 		}, $all);
-
-		usort($actual, static fn (array $a, array $b): int => $a[1] <=> $b[1]);
-		usort($expected, static fn (array $a, array $b): int => $a[1] <=> $b[1]);
-
 		$this->assertEqualsCanonicalizing($expected, $actual);
 	}
 

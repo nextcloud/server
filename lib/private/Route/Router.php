@@ -54,9 +54,9 @@ class Router implements IRouter {
 		protected LoggerInterface $logger,
 		IRequest $request,
 		private IConfig $config,
-		protected IEventLogger $eventLogger,
+		private IEventLogger $eventLogger,
 		private ContainerInterface $container,
-		protected IAppManager $appManager,
+		private IAppManager $appManager,
 	) {
 		$baseUrl = \OC::$WEBROOT;
 		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
@@ -116,11 +116,9 @@ class Router implements IRouter {
 			$this->loaded = true;
 			$routingFiles = $this->getRoutingFiles();
 
-			$this->eventLogger->start('route:load:attributes', 'Loading Routes from attributes');
 			foreach (\OC_App::getEnabledApps() as $enabledApp) {
 				$this->loadAttributeRoutes($enabledApp);
 			}
-			$this->eventLogger->end('route:load:attributes');
 		} else {
 			if (isset($this->loadedApps[$app])) {
 				return;
@@ -142,7 +140,6 @@ class Router implements IRouter {
 			}
 		}
 
-		$this->eventLogger->start('route:load:files', 'Loading Routes from files');
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
 				if (!$this->appManager->isAppLoaded($app)) {
@@ -163,7 +160,6 @@ class Router implements IRouter {
 				$this->root->addCollection($collection);
 			}
 		}
-		$this->eventLogger->end('route:load:files');
 
 		if (!isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
@@ -269,7 +265,6 @@ class Router implements IRouter {
 			$this->loadRoutes();
 		}
 
-		$this->eventLogger->start('route:url:match', 'Symfony url matcher call');
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {
 			$parameters = $matcher->match($url);
@@ -288,7 +283,6 @@ class Router implements IRouter {
 				throw $e;
 			}
 		}
-		$this->eventLogger->end('route:url:match');
 
 		$this->eventLogger->end('route:match');
 		return $parameters;

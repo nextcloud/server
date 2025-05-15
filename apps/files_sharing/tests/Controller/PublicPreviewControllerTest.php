@@ -18,7 +18,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\Preview\IMimeIconProvider;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
@@ -53,8 +52,7 @@ class PublicPreviewControllerTest extends TestCase {
 			$this->request,
 			$this->shareManager,
 			$this->createMock(ISession::class),
-			$this->previewManager,
-			$this->createMock(IMimeIconProvider::class),
+			$this->previewManager
 		);
 	}
 
