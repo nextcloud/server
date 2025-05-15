@@ -130,7 +130,12 @@ class Admin implements ISettings {
 		return $result;
 	}
 
-	public function getSection(): string {
+	public function getSection(): ?string {
+		if (!$this->config->getSystemValueBool('updatechecker', true)) {
+			// update checker is disabled so we do not show the section at all
+			return null;
+		}
+
 		return 'overview';
 	}
 

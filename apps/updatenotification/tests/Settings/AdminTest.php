@@ -108,6 +108,11 @@ class AdminTest extends TestCase {
 				['updater.server.url', 'https://updates.nextcloud.com/updater_server/', 'https://updates.nextcloud.com/updater_server/'],
 				['upgrade.disable-web', false, false],
 			]);
+		$this->config
+			->expects(self::any())
+			->method('getSystemValueBool')
+			->with('updatechecker', true)
+			->willReturn(true);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -192,6 +197,11 @@ class AdminTest extends TestCase {
 			->method('getValueInt')
 			->with('core', 'lastupdatedat', 0)
 			->willReturn(12345);
+		$this->config
+			->expects(self::any())
+			->method('getSystemValueBool')
+			->with('updatechecker', true)
+			->willReturn(true);
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -288,6 +298,11 @@ class AdminTest extends TestCase {
 			->with('core', 'lastupdatedat', 0)
 			->willReturn(12345);
 		$this->config
+			->expects(self::any())
+			->method('getSystemValueBool')
+			->with('updatechecker', true)
+			->willReturn(true);
+		$this->config
 			->expects($this->once())
 			->method('getAppValue')
 			->with('updatenotification', 'notify_groups', '["admin"]')
@@ -363,7 +378,23 @@ class AdminTest extends TestCase {
 
 
 	public function testGetSection(): void {
+		$this->config
+			->expects(self::atLeastOnce())
+			->method('getSystemValueBool')
+			->with('updatechecker', true)
+			->willReturn(true);
+
 		$this->assertSame('overview', $this->admin->getSection());
+	}
+
+	public function testGetSectionDisabled(): void {
+		$this->config
+			->expects(self::atLeastOnce())
+			->method('getSystemValueBool')
+			->with('updatechecker', true)
+			->willReturn(false);
+
+		$this->assertNull($this->admin->getSection());
 	}
 
 	public function testGetPriority(): void {
