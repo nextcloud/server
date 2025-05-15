@@ -51,6 +51,7 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAccept;
+use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 
@@ -1213,11 +1214,13 @@ class Manager implements IManager {
 		$shares = [];
 		foreach ($providers as $provider) {
 			if ($isOwnerless) {
-				foreach ($node->getDirectoryListing() as $childNode) {
-					$data = $provider->getSharesByPath($childNode);
-					$fid = $childNode->getId();
-					$shares[$fid] ??= [];
-					$shares[$fid] = array_merge($shares[$fid], $data);
+				// If the provider does not implement the additional interface,
+				// we lack a performant way of querying all shares and therefore ignore the provider.
+				if ($provider instanceof IShareProviderSupportsAllSharesInFolder) {
+					foreach ($provider->getAllSharesInFolder($node) as $fid => $data) {
+						$shares[$fid] ??= [];
+						$shares[$fid] = array_merge($shares[$fid], $data);
+					}
 				}
 			} else {
 				foreach ($provider->getSharesInFolder($userId, $node, $reshares) as $fid => $data) {

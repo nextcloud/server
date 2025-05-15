@@ -827,6 +827,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\IShareHelper' => __DIR__ . '/../../..' . '/lib/public/Share/IShareHelper.php',
         'OCP\\Share\\IShareProvider' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProvider.php',
         'OCP\\Share\\IShareProviderSupportsAccept' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAccept.php',
+        'OCP\\Share\\IShareProviderSupportsAllSharesInFolder' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAllSharesInFolder.php',
         'OCP\\Share\\IShareProviderWithNotification' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderWithNotification.php',
         'OCP\\Share_Backend' => __DIR__ . '/../../..' . '/lib/public/Share_Backend.php',
         'OCP\\Share_Backend_Collection' => __DIR__ . '/../../..' . '/lib/public/Share_Backend_Collection.php',
