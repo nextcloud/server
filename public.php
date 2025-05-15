@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use OC\ServiceUnavailableException;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -88,7 +90,7 @@ try {
 	require_once $file;
 } catch (Exception $ex) {
 	$status = 500;
-	if ($ex instanceof \OC\ServiceUnavailableException) {
+	if ($ex instanceof ServiceUnavailableException) {
 		$status = 503;
 	}
 	//show the user a detailed error page
