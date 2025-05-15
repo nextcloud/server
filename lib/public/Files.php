@@ -105,16 +105,4 @@ class Files {
 	public static function buildNotExistingFileName($path, $filename) {
 		return \OC_Helper::buildNotExistingFileName($path, $filename);
 	}
-
-	/**
-	 * Gets the Storage for an app - creates the needed folder if they are not
-	 * existent
-	 * @param string $app
-	 * @return \OC\Files\View
-	 * @since 5.0.0
-	 * @deprecated 14.0.0 use IAppData instead
-	 */
-	public static function getStorage($app) {
-		return \OC_App::getStorage($app);
-	}
 }

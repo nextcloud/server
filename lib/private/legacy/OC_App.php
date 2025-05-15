@@ -768,28 +768,6 @@ class OC_App {
 		}
 	}
 
-	/**
-	 * @param string $appId
-	 * @return \OC\Files\View|false
-	 */
-	public static function getStorage(string $appId) {
-		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
-				$view = new \OC\Files\View('/' . OC_User::getUser());
-				if (!$view->file_exists($appId)) {
-					$view->mkdir($appId);
-				}
-				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
-			} else {
-				\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ', user not logged in', ['app' => 'core']);
-				return false;
-			}
-		} else {
-			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ' not enabled', ['app' => 'core']);
-			return false;
-		}
-	}
-
 	protected static function findBestL10NOption(array $options, string $lang): string {
 		// only a single option
 		if (isset($options['@value'])) {

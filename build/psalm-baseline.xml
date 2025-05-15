@@ -4711,11 +4711,6 @@
       <code><![CDATA[IteratorAggregate]]></code>
     </MissingTemplateParam>
   </file>
-  <file src="lib/public/Files.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[\OC_App::getStorage($app)]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/public/L10N/ILanguageIterator.php">
     <MissingTemplateParam>
       <code><![CDATA[\Iterator]]></code>
