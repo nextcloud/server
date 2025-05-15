@@ -165,8 +165,7 @@
 						@input="onExpirationChange" />
 					<NcCheckboxRadioSwitch v-if="isPublicShare"
 						:disabled="canChangeHideDownload"
-						:checked.sync="share.hideDownload"
-						@update:checked="queueUpdate('hideDownload')">
+						:checked.sync="share.hideDownload">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-else
@@ -1015,7 +1014,6 @@ export default {
 
 				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
 				this.share._share.id = share.id
-				await this.queueUpdate(...permissionsAndAttributes)
 				// Also a ugly hack to update the updated permissions
 				for (const prop of permissionsAndAttributes) {
 					if (prop in share && prop in this.share) {
@@ -1034,7 +1032,6 @@ export default {
 				// Let's update after creation as some attrs are only available after creation
 				this.$emit('update:share', this.share)
 				emit('update:share', this.share)
-				this.queueUpdate(...permissionsAndAttributes)
 			}
 
 			await this.getNode()
@@ -1114,8 +1111,6 @@ export default {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
 			}
-
-			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 		isValidShareAttribute(value) {
 			if ([null, undefined].includes(value)) {
