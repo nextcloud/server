@@ -4384,7 +4384,6 @@
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->get(IFile::class)]]></code>
       <code><![CDATA[$this->get(IGroupManager::class)]]></code>
-      <code><![CDATA[$this->get(INavigationManager::class)]]></code>
       <code><![CDATA[$this->get(IUserManager::class)]]></code>
       <code><![CDATA[$this->get(IUserSession::class)]]></code>
       <code><![CDATA[$this->get(\OCP\Encryption\IManager::class)]]></code>
@@ -4393,13 +4392,9 @@
       <code><![CDATA[\OC\Encryption\File]]></code>
       <code><![CDATA[\OC\Encryption\Manager]]></code>
       <code><![CDATA[\OC\Group\Manager]]></code>
-      <code><![CDATA[\OC\NavigationManager]]></code>
       <code><![CDATA[\OC\User\Manager]]></code>
       <code><![CDATA[\OC\User\Session]]></code>
     </MoreSpecificReturnType>
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\OCSClient]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/ServerContainer.php">
     <InvalidPropertyAssignmentValue>
