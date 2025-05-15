@@ -1,49 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
-  <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$data]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/CalDAV/CalendarHome.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$data]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/CalDAV/Principal/User.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$data]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBook.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$data]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBookHome.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$principalUri]]></code>
-    </InvalidPropertyAssignmentValue>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$data]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/CardDAV/Card.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$cardData]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/DAV/SimpleCollection.php">
-    <NoValue>
-      <code><![CDATA[$child]]></code>
-      <code><![CDATA[$child]]></code>
-    </NoValue>
-  </file>
-  <file src="3rdparty/sabre/dav/lib/DAVACL/AbstractPrincipalCollection.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
-    </LessSpecificImplementedReturnType>
-  </file>
   <file src="apps/admin_audit/lib/AppInfo/Application.php">
     <DeprecatedClass>
       <code><![CDATA[Share::class]]></code>
