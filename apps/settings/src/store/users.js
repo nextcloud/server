@@ -779,9 +779,8 @@ const actions = {
 
 		try {
 			await api.requireAdmin()
-			const commitValue = value === '' ? '' : value
 			await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-			return context.commit('setUserData', { userid, key, value: commitValue })
+			return context.commit('setUserData', { userid, key, value })
 		} catch (error) {
 			context.commit('API_FAILURE', { userid, error })
 			throw error
