@@ -9,10 +9,7 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework;
 
-use OC\AppFramework\Routing\RouteConfig;
-use OC\Route\Router;
 use OC\ServerContainer;
-use OCP\Route\IRouter;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -94,35 +91,6 @@ class App {
 	 */
 	public function getContainer(): IAppContainer {
 		return $this->container;
-	}
-
-	/**
-	 * This function is to be called to create single routes and restful routes based on the given $routes array.
-	 *
-	 * Example code in routes.php of tasks app (it will register two restful resources):
-	 * $routes = array(
-	 *		'resources' => array(
-	 *		'lists' => array('url' => '/tasklists'),
-	 *		'tasks' => array('url' => '/tasklists/{listId}/tasks')
-	 *	)
-	 *	);
-	 *
-	 * $a = new TasksApp();
-	 * $a->registerRoutes($this, $routes);
-	 *
-	 * @param \OCP\Route\IRouter $router
-	 * @param array $routes
-	 * @since 6.0.0
-	 * @suppress PhanAccessMethodInternal
-	 * @deprecated 20.0.0 Just return an array from your routes.php
-	 */
-	public function registerRoutes(IRouter $router, array $routes) {
-		if (!($router instanceof Router)) {
-			throw new \RuntimeException('Can only setup routes with real router');
-		}
-
-		$routeConfig = new RouteConfig($this->container, $router, $routes);
-		$routeConfig->register();
 	}
 
 	/**

@@ -3491,11 +3491,6 @@
       <code><![CDATA[\OCA\Talk\Controller\PageController]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/private/AppFramework/Routing/RouteConfig.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$action['url-postfix']]]></code>
-    </InvalidArrayOffset>
-  </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$default]]></code>
@@ -4688,11 +4683,6 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
-  </file>
-  <file src="lib/public/AppFramework/App.php">
-    <InternalMethod>
-      <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
-    </InternalMethod>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>
