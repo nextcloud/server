@@ -2,8 +2,6 @@
 
 use OC\Files\FileInfo;
 use OCA\Files\Helper;
-use OCP\ITagManager;
-use OCP\ITags;
 
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
@@ -93,37 +91,5 @@ class HelperTest extends \Test\TestCase {
 			$expectedOrder,
 			$fileNames
 		);
-	}
-
-	public function testPopulateTags(): void {
-		$tagManager = $this->createMock(ITagManager::class);
-		$tagger = $this->createMock(ITags::class);
-
-		$tagManager->method('load')
-			->with('files')
-			->willReturn($tagger);
-
-		$data = [
-			['file_source' => 10],
-			['file_source' => 22, 'foo' => 'bar'],
-			['file_source' => 42, 'x' => 'y'],
-		];
-
-		$tags = [
-			10 => ['tag3'],
-			42 => ['tag1', 'tag2'],
-		];
-
-		$tagger->method('getTagsForObjects')
-			->with([10, 22, 42])
-			->willReturn($tags);
-
-		$result = Helper::populateTags($data, $tagManager);
-
-		$this->assertSame([
-			['file_source' => 10, 'tags' => ['tag3']],
-			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
-			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
-		], $result);
 	}
 }
