@@ -78,6 +78,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatibil)",
     "The following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Already up to date" : "Deja actualizat",
+    "Unknown" : "Necunoscut",
     "Error occurred while checking server setup" : "A apărut o eroare la verificarea configurației serverului",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pentru mai multe detalii vedeți {linkstart}documentația ↗{linkend}.",
     "unknown text" : "text necunoscut",

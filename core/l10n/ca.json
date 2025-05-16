@@ -77,6 +77,8 @@
     "%s (incompatible)" : "%s (no compatible)",
     "The following apps have been disabled: %s" : "S'han inhabilitat les aplicacions següents: %s",
     "Already up to date" : "Ja teniu la versió més recent",
+    "Unknown" : "Desconegut",
+    "PNG image" : "Imatge PNG",
     "Error occurred while checking server setup" : "S'ha produït un error en comprovar la configuració del servidor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Per a conèixer més detalls, consulteu la {linkstart}documentació ↗{linkend}.",
     "unknown text" : "text desconegut",

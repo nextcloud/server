@@ -78,6 +78,7 @@
     "%s (incompatible)" : "%s (pole ühilduv)",
     "The following apps have been disabled: %s" : "Järgmised rakendused lülitati välja: %s",
     "Already up to date" : "On juba ajakohane",
+    "Unknown" : "Teadmata",
     "Error occurred while checking server setup" : "Serveri seadete kontrolimisel tekkis viga",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Lisateavet leiad {linkstart}dokumentatsioonist ↗{linkend}.",
     "unknown text" : "tundmatu tekst",

@@ -66,6 +66,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nekongrua)",
     "The following apps have been disabled: %s" : "La jenaj aplikaĵoj estis malŝatitaj: %s",
     "Already up to date" : "Jam aktuala",
+    "Unknown" : "Nekonata",
     "Error occurred while checking server setup" : "Eraro dum kontrolo de servila agordo",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Por pliaj detaloj, vidu la {linkstart}dokumentaron ↗{linkend}.",
     "unknown text" : "nekonata teksto",

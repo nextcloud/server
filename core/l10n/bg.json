@@ -69,6 +69,7 @@
     "%s (incompatible)" : "%s (несъвместим)",
     "The following apps have been disabled: %s" : "Следните приложения са изключени: %s",
     "Already up to date" : "Актуално",
+    "Unknown" : "Неизвестен",
     "Error occurred while checking server setup" : "Възникна грешка при проверката на настройките на сървъра",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За повече подробности вижте {linkstart}документацията ↗{linkend}.",
     "unknown text" : "непознат текст",

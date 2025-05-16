@@ -485,6 +485,7 @@ OC.L10N.register(
     "Visibility" : "Nähtavus",
     "Show language" : "Näita keelt",
     "Show last login" : "Näita viimast sisselogimist",
+    "Sorting" : "Järjestus",
     "Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list." : "Jõudluse mõttes kehtib järjestus vaid hetkel laaditud gruppidele. Uued grupid lisanduvad sedamööda, kuidas sa loendis edasi liigud.",
     "Send email" : "Saada kiri",
     "Defaults" : "Vaikeväärtused",

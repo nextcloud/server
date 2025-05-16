@@ -77,6 +77,8 @@
     "%s (incompatible)" : "%s (nem kompatibilis)",
     "The following apps have been disabled: %s" : "A következő alkalmazások le lettek tiltva: %s",
     "Already up to date" : "Már naprakész",
+    "Unknown" : "Ismeretlen",
+    "PNG image" : "PNG kép",
     "Error occurred while checking server setup" : "Hiba történt a kiszolgálóbeállítások ellenőrzésekor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "További részletekért lásd a {linkstart}dokumentációt↗{linkend}.",
     "unknown text" : "ismeretlen szöveg",

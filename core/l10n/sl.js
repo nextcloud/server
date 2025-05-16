@@ -80,6 +80,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (neskladno)",
     "The following apps have been disabled: %s" : "Zaradi neskladnosti so onemogočeni naslednji programi: %s.",
     "Already up to date" : "Sistem je že posodobljen",
+    "Unknown" : "Neznano",
+    "PNG image" : "PNG slika",
     "Error occurred while checking server setup" : "Prišlo je do napake med preverjanjem nastavitev strežnika",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Za več podrobnosti preverite {linkstart}dokumentacijo ↗{linkend}.",
     "unknown text" : "neznano besedilo",

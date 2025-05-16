@@ -78,6 +78,8 @@
     "%s (incompatible)" : "%s (inkompatibel)",
     "The following apps have been disabled: %s" : "Följande appar har inaktiverats: %s",
     "Already up to date" : "Redan uppdaterad",
+    "Unknown" : "Okänd",
+    "PNG image" : "PNG-bild",
     "Error occurred while checking server setup" : "Ett fel inträffade när en kontroll av serverns konfiguration utfördes",
     "For more details see the {linkstart}documentation ↗{linkend}." : "För mer detaljer se {linkstart}dokumentationen ↗{linkend}.",
     "unknown text" : "okänd text",

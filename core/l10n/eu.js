@@ -79,6 +79,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (bateraezina)",
     "The following apps have been disabled: %s" : "Hurrengo aplikazioak desgaitu dira: %s",
     "Already up to date" : "Eguneratuta dago dagoeneko",
+    "Unknown" : "Ezezaguna",
+    "PNG image" : "PNG irudia",
     "Error occurred while checking server setup" : "Errorea gertatu da zerbitzariaren konfigurazioa egiaztatzean",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Xehetasun gehiago lortzeko, ikusi {linkstart}dokumentazioa ↗{linkend}.",
     "unknown text" : "testu ezezaguna",

@@ -80,6 +80,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s （不兼容）",
     "The following apps have been disabled: %s" : "以下应用已被禁用：%s",
     "Already up to date" : "已经是最新版本",
+    "Unknown" : "未知",
+    "PNG image" : "PNG 图片",
     "Error occurred while checking server setup" : "检查服务器设置时出错",
     "For more details see the {linkstart}documentation ↗{linkend}." : "了解更多详情，请参见{linkstart}文档 ↗{linkend}。",
     "unknown text" : "未知文字",

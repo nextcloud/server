@@ -78,6 +78,7 @@
     "%s (incompatible)" : "%s (neamh-chomhoiriúnach)",
     "The following apps have been disabled: %s" : "Díchumasaíodh na haipeanna seo a leanas:%s",
     "Already up to date" : "Cheana féin suas chun dáta",
+    "Unknown" : "Anaithnid",
     "Error occurred while checking server setup" : "Tharla earráid agus socrú an fhreastalaí á sheiceáil",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Le haghaidh tuilleadh sonraí féach an {linkstart}doiciméadú ↗{linkend}.",
     "unknown text" : "téacs anaithnid",
