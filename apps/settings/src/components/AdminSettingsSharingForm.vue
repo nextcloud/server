@@ -39,6 +39,10 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.allowPublicUpload">
 					{{ t('settings', 'Allow public uploads') }}
 				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-model="settings.convertSharesForFederation">
+					{{ t('settings', 'Allow public shares to be added to other clouds by federation.') }}
+					{{ t('settings', 'This will add share permissions to all newly created link shares.') }}
+				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Always ask for a password') }}
 				</NcCheckboxRadioSwitch>
@@ -232,6 +236,7 @@ interface IShareSettings {
 	allowPublicUpload: boolean
 	allowResharing: boolean
 	allowShareDialogUserEnumeration: boolean
+	convertSharesForFederation: boolean
 	restrictUserEnumerationToGroup: boolean
 	restrictUserEnumerationToPhone: boolean
 	restrictUserEnumerationFullMatch: boolean

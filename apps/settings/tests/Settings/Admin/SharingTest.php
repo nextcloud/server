@@ -10,6 +10,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -18,37 +19,30 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
-	/** @var Sharing */
-	private $admin;
-	/** @var IConfig&MockObject */
-	private $config;
-	/** @var IL10N&MockObject */
-	private $l10n;
-	/** @var IManager|MockObject */
-	private $shareManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var IInitialState|MockObject */
-	private $initialState;
+	private Sharing $admin;
+
+	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private IL10N&MockObject $l10n;
+	private IManager&MockObject $shareManager;
+	private IAppManager&MockObject $appManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IInitialState&MockObject $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
-		/** @var IManager|MockObject */
-		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
-		/** @var IAppManager|MockObject */
-		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
-		/** @var IURLGenerator|MockObject */
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		/** @var IInitialState|MockObject */
-		$this->initialState = $this->getMockBuilder(IInitialState::class)->getMock();
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Sharing(
 			$this->config,
+			$this->appConfig,
 			$this->l10n,
 			$this->shareManager,
 			$this->appManager,
@@ -59,6 +53,12 @@ class SharingTest extends TestCase {
 	}
 
 	public function testGetFormWithoutExcludedGroups(): void {
+		$this->appConfig
+			->method('getValueBool')
+			->willReturnMap([
+				['core', 'shareapi_convert_shares_for_federation', true, false, true],
+			]);
+
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -114,6 +114,7 @@ class SharingTest extends TestCase {
 				'allowPublicUpload' => true,
 				'allowResharing' => true,
 				'allowShareDialogUserEnumeration' => true,
+				'convertSharesForFederation' => true,
 				'restrictUserEnumerationToGroup' => false,
 				'restrictUserEnumerationToPhone' => false,
 				'restrictUserEnumerationFullMatch' => true,
