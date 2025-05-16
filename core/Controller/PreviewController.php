@@ -67,7 +67,7 @@ class PreviewController extends Controller {
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
-		bool $forceIcon = true,
+		bool $forceIcon = false,
 		string $mode = 'fill',
 		bool $mimeFallback = false): Response {
 		if ($file === '' || $x === 0 || $y === 0) {
@@ -111,7 +111,7 @@ class PreviewController extends Controller {
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
-		bool $forceIcon = true,
+		bool $forceIcon = false,
 		string $mode = 'fill',
 		bool $mimeFallback = false) {
 		if ($fileId === -1 || $x === 0 || $y === 0) {
