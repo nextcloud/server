@@ -10,6 +10,7 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
+use OCP\Files;
 
 \OC::$loader->load('\OC\Files\Filesystem');
 
@@ -35,7 +36,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 

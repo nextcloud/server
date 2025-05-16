@@ -9,6 +9,7 @@ namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Files;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
@@ -37,7 +38,7 @@ class CommonTest extends Storage {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		$this->restoreService(IFilenameValidator::class);
 		parent::tearDown();
 	}
