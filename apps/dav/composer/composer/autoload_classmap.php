@@ -301,6 +301,7 @@ return array(
     'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => $baseDir . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
     'OCA\\DAV\\Migration\\RegenerateBirthdayCalendars' => $baseDir . '/../lib/Migration/RegenerateBirthdayCalendars.php',
     'OCA\\DAV\\Migration\\RegisterBuildReminderIndexBackgroundJob' => $baseDir . '/../lib/Migration/RegisterBuildReminderIndexBackgroundJob.php',
+    'OCA\\DAV\\Migration\\RegisterUpdateCalendarResourcesRoomBackgroundJob' => $baseDir . '/../lib/Migration/RegisterUpdateCalendarResourcesRoomBackgroundJob.php',
     'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => $baseDir . '/../lib/Migration/RemoveClassifiedEventActivity.php',
     'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => $baseDir . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
     'OCA\\DAV\\Migration\\RemoveObjectProperties' => $baseDir . '/../lib/Migration/RemoveObjectProperties.php',
