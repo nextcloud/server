@@ -71,6 +71,7 @@ use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Core\Command\Memcache\RedisCommand;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
+use OC\Core\Command\Router\ListRoutes;
 use OC\Core\Command\Security\BruteforceAttempts;
 use OC\Core\Command\Security\BruteforceResetAttempts;
 use OC\Core\Command\Security\ExportCertificates;
@@ -243,6 +244,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Statistics::class));
 
 	$application->add(Server::get(RedisCommand::class));
+
+	$application->add(Server::get(ListRoutes::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

@@ -478,7 +478,7 @@ class Router implements IRouter {
 	 * @param string $file the route file location to include
 	 * @param string $appName
 	 */
-	private function requireRouteFile(string $file, string $appName): void {
+	protected function requireRouteFile(string $file, string $appName): void {
 		try {
 			$this->setupRoutes(include $file, $appName);
 		} catch (\TypeError) {

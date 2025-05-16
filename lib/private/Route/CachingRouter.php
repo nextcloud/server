@@ -145,7 +145,7 @@ class CachingRouter extends Router {
 		$this->legacyCreatedRoutes = [];
 		parent::requireRouteFile($file, $appName);
 		foreach ($this->legacyCreatedRoutes as $routeName) {
-			$route = $this->collection?->get($routeName);
+			$route = $this->getCollection($appName)->get($routeName);
 			if ($route === null) {
 				/* Should never happen */
 				throw new \Exception("Could not find route $routeName");
