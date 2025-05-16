@@ -491,7 +491,12 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		return \OC_Helper::mb_array_change_key_case($input, $case, $encoding);
+		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$ret = [];
+		foreach ($input as $k => $v) {
+			$ret[mb_convert_case($k, $case, $encoding)] = $v;
+		}
+		return $ret;
 	}
 
 	/**
@@ -505,7 +510,18 @@ class Util {
 	 * @deprecated 15.0.0
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		return \OC_Helper::recursiveArraySearch($haystack, $needle, $index);
+		$aIt = new \RecursiveArrayIterator($haystack);
+		$it = new \RecursiveIteratorIterator($aIt);
+
+		while ($it->valid()) {
+			if (((isset($index) and ($it->key() == $index)) or !isset($index)) and ($it->current() == $needle)) {
+				return $aIt->key();
+			}
+
+			$it->next();
+		}
+
+		return false;
 	}
 
 	/**
@@ -517,7 +533,10 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function maxUploadFilesize(string $dir, int|float|null $free = null): int|float {
-		return \OC_Helper::maxUploadFilesize($dir, $free);
+		if (is_null($free) || $free < 0) {
+			$free = self::freeSpace($dir);
+		}
+		return min($free, self::uploadLimit());
 	}
 
 	/**
@@ -527,7 +546,13 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function freeSpace(string $dir): int|float {
-		return \OC_Helper::freeSpace($dir);
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+			$freeSpace = max($freeSpace, 0);
+			return $freeSpace;
+		} else {
+			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+		}
 	}
 
 	/**
@@ -537,7 +562,16 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function uploadLimit(): int|float {
-		return \OC_Helper::uploadLimit();
+		$ini = Server::get(IniGetWrapper::class);
+		$upload_max_filesize = self::computerFileSize($ini->get('upload_max_filesize')) ?: 0;
+		$post_max_size = self::computerFileSize($ini->get('post_max_size')) ?: 0;
+		if ($upload_max_filesize === 0 && $post_max_size === 0) {
+			return INF;
+		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
+			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			return min($upload_max_filesize, $post_max_size);
+		}
 	}
 
 	/**
