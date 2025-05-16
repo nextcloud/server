@@ -33,6 +33,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
@@ -421,10 +422,21 @@ class Storage {
 				|| $storage2->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
 			) {
 				$source = $storage1->fopen($internalPath1, 'r');
-				$target = $storage2->fopen($internalPath2, 'w');
-				[, $result] = Files::streamCopy($source, $target, true);
-				fclose($source);
-				fclose($target);
+				$result = $source !== false;
+				if ($result) {
+					if ($storage2->instanceOfStorage(IWriteStreamStorage::class)) {
+						/** @var IWriteStreamStorage $storage2 */
+						$storage2->writeStream($internalPath2, $source);
+					} else {
+						$target = $storage2->fopen($internalPath2, 'w');
+						$result = $target !== false;
+						if ($target !== false) {
+							[, $result] = Files::streamCopy($source, $target, true);
+							fclose($target);
+						}
+					}
+					fclose($source);
+				}
 
 				if ($result !== false) {
 					$storage1->unlink($internalPath1);
