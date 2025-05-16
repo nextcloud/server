@@ -31,24 +31,19 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
 class Router implements IRouter {
+	/** @var string[] */
+	protected ?array $routingFiles = null;
 	/** @var RouteCollection[] */
-	protected $collections = [];
-	/** @var null|RouteCollection */
-	protected $collection = null;
-	/** @var null|string */
-	protected $collectionName = null;
-	/** @var null|RouteCollection */
-	protected $root = null;
-	/** @var null|UrlGenerator */
-	protected $generator = null;
-	/** @var string[]|null */
-	protected $routingFiles;
-	/** @var bool */
-	protected $loaded = false;
-	/** @var array */
-	protected $loadedApps = [];
-	/** @var RequestContext */
-	protected $context;
+	protected array $collections = [];
+	protected RouteCollection $root;
+	protected ?UrlGenerator $generator = null;
+	protected bool $loaded = false;
+	/** @var Array<string, bool> */
+	protected array $loadedApps = [];
+	protected RequestContext $context;
+
+	// for legacy reasons - todo: drop
+	protected string $collectionName = 'root';
 
 	public function __construct(
 		protected LoggerInterface $logger,
@@ -98,33 +93,35 @@ class Router implements IRouter {
 	}
 
 	/**
-	 * Loads the routes
-	 *
-	 * @param null|string $app
+	 * Loads the routes.
 	 */
-	public function loadRoutes($app = null) {
+	public function loadRoutes(?string $app = null): void {
 		if (is_string($app)) {
 			$app = $this->appManager->cleanAppId($app);
+			// skip loading if not enabled for user
+			if (!$this->appManager->isEnabledForUser($app)) {
+				return;
+			}
 		}
 
-		$requestedApp = $app;
-		if ($this->loaded) {
+		// already loaded so we skip
+		if ($this->loaded || ($app !== null && in_array($app, $this->loadedApps))) {
 			return;
 		}
+
+		$requestedApp = $app ?? 'all';
 		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
+
 		if (is_null($app)) {
 			$this->loaded = true;
 			$routingFiles = $this->getRoutingFiles();
-
 			$this->eventLogger->start('route:load:attributes', 'Loading Routes from attributes');
 			foreach ($this->appManager->getEnabledApps() as $enabledApp) {
 				$this->loadAttributeRoutes($enabledApp);
 			}
 			$this->eventLogger->end('route:load:attributes');
 		} else {
-			if (isset($this->loadedApps[$app])) {
-				return;
-			}
+			$this->loadAttributeRoutes($app);
 			try {
 				$appPath = $this->appManager->getAppPath($app);
 				$file = $appPath . '/appinfo/routes.php';
@@ -136,59 +133,38 @@ class Router implements IRouter {
 			} catch (AppPathNotFoundException) {
 				$routingFiles = [];
 			}
-
-			if ($this->appManager->isEnabledForUser($app)) {
-				$this->loadAttributeRoutes($app);
-			}
 		}
 
 		$this->eventLogger->start('route:load:files', 'Loading Routes from files');
 		foreach ($routingFiles as $app => $file) {
-			if (!isset($this->loadedApps[$app])) {
-				if (!$this->appManager->isAppLoaded($app)) {
-					// app MUST be loaded before app routes
-					// try again next time loadRoutes() is called
-					$this->loaded = false;
-					continue;
-				}
-				$this->loadedApps[$app] = true;
-				$this->useCollection($app);
-				$this->requireRouteFile($file, $app);
-				$collection = $this->getCollection($app);
-				$this->root->addCollection($collection);
-
-				// Also add the OCS collection
-				$collection = $this->getCollection($app . '.ocs');
-				$collection->addPrefix('/ocsapp');
-				$this->root->addCollection($collection);
+			if (isset($this->loadedApps[$app])) {
+				continue;
 			}
+			if (!$this->appManager->isAppLoaded($app)) {
+				// app MUST be loaded before app routes
+				// try again next time loadRoutes() is called
+				$this->loaded = false;
+				continue;
+			}
+
+			$this->loadedApps[$app] = true;
+			$this->requireRouteFile($file, $app);
 		}
 		$this->eventLogger->end('route:load:files');
 
 		if (!isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
-			$this->useCollection('root');
 			$this->setupRoutes($this->getAttributeRoutes('core'), 'core');
 			$this->requireRouteFile(__DIR__ . '/../../../core/routes.php', 'core');
+		}
 
-			// Also add the OCS collection
-			$collection = $this->getCollection('root.ocs');
-			$collection->addPrefix('/ocsapp');
-			$this->root->addCollection($collection);
-		}
-		if ($this->loaded) {
-			$collection = $this->getCollection('ocs');
-			$collection->addPrefix('/ocs');
-			$this->root->addCollection($collection);
-		}
 		$this->eventLogger->end('route:load:' . $requestedApp);
 	}
 
 	/**
-	 * @param string $name
-	 * @return \Symfony\Component\Routing\RouteCollection
+	 * Get the collection for the specified app
 	 */
-	protected function getCollection($name) {
+	public function getCollection(string $name): RouteCollection {
 		if (!isset($this->collections[$name])) {
 			$this->collections[$name] = new RouteCollection();
 		}
@@ -202,7 +178,6 @@ class Router implements IRouter {
 	 * @return void
 	 */
 	public function useCollection($name) {
-		$this->collection = $this->getCollection($name);
 		$this->collectionName = $name;
 	}
 
@@ -230,7 +205,9 @@ class Router implements IRouter {
 		array $defaults = [],
 		array $requirements = []) {
 		$route = new Route($pattern, $defaults, $requirements);
-		$this->collection->add($name, $route);
+
+		$collection = $this->getCollection($this->collectionName);
+		$collection->add($name, $route);
 		return $route;
 	}
 
@@ -351,11 +328,8 @@ class Router implements IRouter {
 
 	/**
 	 * Get the url generator
-	 *
-	 * @return \Symfony\Component\Routing\Generator\UrlGenerator
-	 *
 	 */
-	public function getGenerator() {
+	public function getGenerator(): UrlGenerator {
 		if ($this->generator !== null) {
 			return $this->generator;
 		}
@@ -368,12 +342,13 @@ class Router implements IRouter {
 	 *
 	 * @param string $name Name of the route to use.
 	 * @param array $parameters Parameters for the route
-	 * @param bool $absolute
 	 * @return string
 	 */
-	public function generate($name,
-		$parameters = [],
-		$absolute = false) {
+	public function generate(
+		string $name,
+		array $parameters = [],
+		bool $absolute = false,
+	): string {
 		$referenceType = UrlGenerator::ABSOLUTE_URL;
 		if ($absolute === false) {
 			$referenceType = UrlGenerator::ABSOLUTE_PATH;
@@ -445,16 +420,7 @@ class Router implements IRouter {
 		if (count($routes) === 0) {
 			return;
 		}
-
-		$this->useCollection($app);
 		$this->setupRoutes($routes, $app);
-		$collection = $this->getCollection($app);
-		$this->root->addCollection($collection);
-
-		// Also add the OCS collection
-		$collection = $this->getCollection($app . '.ocs');
-		$collection->addPrefix('/ocsapp');
-		$this->root->addCollection($collection);
 	}
 
 	/**
@@ -512,33 +478,34 @@ class Router implements IRouter {
 	 * @param string $file the route file location to include
 	 * @param string $appName
 	 */
-	protected function requireRouteFile(string $file, string $appName): void {
-		$this->setupRoutes(include $file, $appName);
+	private function requireRouteFile(string $file, string $appName): void {
+		try {
+			$this->setupRoutes(include $file, $appName);
+		} catch (\TypeError) {
+			$this->logger->debug('Routes should only be registered by returning an array of routes from the routes.php');
+		}
 	}
 
 
 	/**
-	 * If a routes.php file returns an array, try to set up the application and
-	 * register the routes for the app. The application class will be chosen by
-	 * camelcasing the appname, e.g.: my_app will be turned into
-	 * \OCA\MyApp\AppInfo\Application. If that class does not exist, a default
-	 * App will be initialized. This makes it optional to ship an
-	 * appinfo/application.php by using the built in query resolver
+	 * Parse our custom route format and add the routes to the collection.
 	 *
 	 * @param array $routes the application routes
 	 * @param string $appName the name of the app.
 	 */
-	private function setupRoutes($routes, $appName) {
-		if (is_array($routes)) {
-			$routeParser = new RouteParser();
+	private function setupRoutes(array $routes, string $appName): void {
+		$routeParser = new RouteParser();
 
-			$defaultRoutes = $routeParser->parseDefaultRoutes($routes, $appName);
-			$ocsRoutes = $routeParser->parseOCSRoutes($routes, $appName);
+		$defaultCollection = $this->getCollection($appName);
+		$defaultRoutes = $routeParser->parseDefaultRoutes($routes, $appName);
+		$defaultCollection->addCollection($defaultRoutes);
+		$this->root->addCollection($defaultCollection);
 
-			$this->root->addCollection($defaultRoutes);
-			$ocsRoutes->addPrefix('/ocsapp');
-			$this->root->addCollection($ocsRoutes);
-		}
+		$ocsCollection = $this->getCollection("$appName.ocs");
+		$ocsRoutes = $routeParser->parseOCSRoutes($routes, $appName);
+		$ocsCollection->addCollection($ocsRoutes);
+		$ocsCollection->addPrefix('/ocsapp');
+		$this->root->addCollection($ocsCollection);
 	}
 
 	private function getApplicationClass(string $appName) {
