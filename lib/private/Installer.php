@@ -16,14 +16,15 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Archive\TAR;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
+use OC\Files\FilenameValidator;
 use OC_App;
-use OC_Helper;
 use OCP\App\IAppManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -241,6 +242,10 @@ class Installer {
 
 				// Download the release
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
+				if ($tempFile === false) {
+					throw new \RuntimeException('Could not create temporary file for downloading app archive.');
+				}
+
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
 				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
@@ -252,8 +257,11 @@ class Installer {
 				if ($verified === true) {
 					// Seems to match, let's proceed
 					$extractDir = $this->tempManager->getTemporaryFolder();
-					$archive = new TAR($tempFile);
+					if ($extractDir === false) {
+						throw new \RuntimeException('Could not create temporary directory for unpacking app.');
+					}
 
+					$archive = new TAR($tempFile);
 					if (!$archive->extract($extractDir)) {
 						$errorMessage = 'Could not extract app ' . $appId;
 
@@ -328,7 +336,6 @@ class Installer {
 					// Move to app folder
 					if (@mkdir($baseDir)) {
 						$extractDir .= '/' . $folders[0];
-						OC_Helper::copyr($extractDir, $baseDir);
 					}
 					OC_Helper::copyr($extractDir, $baseDir);
 					OC_Helper::rmdirr($extractDir);
@@ -588,6 +595,35 @@ class Installer {
 	private static function includeAppScript(string $script): void {
 		if (file_exists($script)) {
 			include $script;
+		}
+	}
+
+	/**
+	 * Recursive copying of local folders.
+	 *
+	 * @param string $src source folder
+	 * @param string $dest target folder
+	 */
+	private function copyRecursive(string $src, string $dest): void {
+		if (!file_exists($src)) {
+			return;
+		}
+
+		if (is_dir($src)) {
+			if (!is_dir($dest)) {
+				mkdir($dest);
+			}
+			$files = scandir($src);
+			foreach ($files as $file) {
+				if ($file != '.' && $file != '..') {
+					$this->copyRecursive("$src/$file", "$dest/$file");
+				}
+			}
+		} else {
+			$validator = Server::get(FilenameValidator::class);
+			if (!$validator->isForbidden($src)) {
+				copy($src, $dest);
+			}
 		}
 	}
 }
