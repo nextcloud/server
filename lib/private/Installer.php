@@ -241,6 +241,10 @@ class Installer {
 
 				// Download the release
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
+				if ($tempFile === false) {
+					throw new \RuntimeException('Could not create temporary file for downloading app archive.');
+				}
+
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
 				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
@@ -252,8 +256,11 @@ class Installer {
 				if ($verified === true) {
 					// Seems to match, let's proceed
 					$extractDir = $this->tempManager->getTemporaryFolder();
-					$archive = new TAR($tempFile);
+					if ($extractDir === false) {
+						throw new \RuntimeException('Could not create temporary directory for unpacking app.');
+					}
 
+					$archive = new TAR($tempFile);
 					if (!$archive->extract($extractDir)) {
 						$errorMessage = 'Could not extract app ' . $appId;
 
