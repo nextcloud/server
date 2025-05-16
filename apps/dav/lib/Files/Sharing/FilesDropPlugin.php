@@ -5,7 +5,8 @@
  */
 namespace OCA\DAV\Files\Sharing;
 
-use OC\Files\View;
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ServerPlugin;
@@ -17,13 +18,8 @@ use Sabre\HTTP\ResponseInterface;
  */
 class FilesDropPlugin extends ServerPlugin {
 
-	private ?View $view = null;
 	private ?IShare $share = null;
 	private bool $enabled = false;
-
-	public function setView(View $view): void {
-		$this->view = $view;
-	}
 
 	public function setShare(IShare $share): void {
 		$this->share = $share;
@@ -32,7 +28,6 @@ class FilesDropPlugin extends ServerPlugin {
 	public function enable(): void {
 		$this->enabled = true;
 	}
-
 
 	/**
 	 * This initializes the plugin.
@@ -45,7 +40,12 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function onMkcol(RequestInterface $request, ResponseInterface $response) {
-		if (!$this->enabled || $this->share === null || $this->view === null) {
+		if (!$this->enabled || $this->share === null) {
+			return;
+		}
+
+		$node = $this->share->getNode();
+		if (!($node instanceof Folder)) {
 			return;
 		}
 
@@ -57,7 +57,12 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-		if (!$this->enabled || $this->share === null || $this->view === null) {
+		if (!$this->enabled || $this->share === null) {
+			return;
+		}
+
+		$node = $this->share->getNode();
+		if (!($node instanceof Folder)) {
 			return;
 		}
 
@@ -127,45 +132,55 @@ class FilesDropPlugin extends ServerPlugin {
 		}
 
 		// Create the folders along the way
-		$folders = $this->getPathSegments(dirname($relativePath));
-		foreach ($folders as $folder) {
-			if ($folder === '') {
+		$folder = $node;
+		$pathSegments = $this->getPathSegments(dirname($relativePath));
+		foreach ($pathSegments as $pathSegment) {
+			if ($pathSegment === '') {
 				continue;
-			} // skip empty parts
-			if (!$this->view->file_exists($folder)) {
-				$this->view->mkdir($folder);
+			}
+
+			try {
+				// get the current folder
+				$currentFolder = $folder->get($pathSegment);
+				// check target is a folder
+				if ($currentFolder instanceof Folder) {
+					$folder = $currentFolder;
+				} else {
+					// otherwise look in the parent folder if we already create an unique folder name
+					foreach ($folder->getDirectoryListing() as $child) {
+						// we look for folders which match "NAME (SUFFIX)"
+						if ($child instanceof Folder && str_starts_with($child->getName(), $pathSegment)) {
+							$suffix = substr($child->getName(), strlen($pathSegment));
+							if (preg_match('/^ \(\d+\)$/', $suffix)) {
+								// we found the unique folder name and can use it
+								$folder = $child;
+								break;
+							}
+						}
+					}
+					// no folder found so we need to create a new unique folder name
+					if (!isset($child) || $child !== $folder) {
+						$folder = $folder->newFolder($folder->getNonExistingName($pathSegment));
+					}
+				}
+			} catch (NotFoundException) {
+				// the folder does simply not exist so we create it
+				$folder = $folder->newFolder($pathSegment);
 			}
 		}
 
 		// Finally handle conflicts on the end files
-		$noConflictPath = \OC_Helper::buildNotExistingFileNameForView(dirname($relativePath), basename($relativePath), $this->view);
-		$path = '/files/' . $token . '/' . $noConflictPath;
-		$url = $request->getBaseUrl() . str_replace('//', '/', $path);
+		$uniqueName = $folder->getNonExistingName(basename($relativePath));
+		$relativePath = substr($folder->getPath(), strlen($node->getPath()));
+		$path = '/files/' . $token . '/' . $relativePath . '/' . $uniqueName;
+		$url = rtrim($request->getBaseUrl(), '/') . str_replace('//', '/', $path);
 		$request->setUrl($url);
 	}
 
 	private function getPathSegments(string $path): array {
 		// Normalize slashes and remove trailing slash
-		$path = rtrim(str_replace('\\', '/', $path), '/');
+		$path = trim(str_replace('\\', '/', $path), '/');
 
-		// Handle absolute paths starting with /
-		$isAbsolute = str_starts_with($path, '/');
-
-		$segments = explode('/', $path);
-
-		// Add back the leading slash for the first segment if needed
-		$result = [];
-		$current = $isAbsolute ? '/' : '';
-
-		foreach ($segments as $segment) {
-			if ($segment === '') {
-				// skip empty parts
-				continue;
-			}
-			$current = rtrim($current, '/') . '/' . $segment;
-			$result[] = $current;
-		}
-
-		return $result;
+		return explode('/', $path);
 	}
 }
