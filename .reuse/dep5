@@ -342,3 +342,7 @@ License: CC0-1.0
 Files: apps/theming/fonts/OpenDyslexic-Bold.otf apps/theming/fonts/OpenDyslexic-Regular.otf
 Copyright: 2012-2019 Abbie Gonzalez <https://abbiecod.es|support@abbiecod.es>, with Reserved Font Name OpenDyslexic.
 License: OFL-1.1-RFN
+
+Files: .envrc flake.nix flake.lock
+Copyright: 2025 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
