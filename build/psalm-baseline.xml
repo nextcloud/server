@@ -4044,12 +4044,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Group.php">
-    <InvalidArgument>
-      <code><![CDATA[bool]]></code>
-    </InvalidArgument>
-    <InvalidOperand>
-      <code><![CDATA[$hide]]></code>
-    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$users]]></code>
     </LessSpecificReturnStatement>
