@@ -12,15 +12,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityFilterTest extends TestCase {
-
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-
-	/** @var IL10N|MockObject */
-	private $l10n;
-
-	/** @var SecurityFilter */
-	private $filter;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private SecurityFilter $filter;
 
 	protected function setUp(): void {
 		parent::setUp();

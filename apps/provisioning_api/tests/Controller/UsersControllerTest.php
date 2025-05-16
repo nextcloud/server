@@ -46,41 +46,24 @@ use RuntimeException;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var Manager|MockObject */
-	protected $groupManager;
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var UsersController|MockObject */
-	protected $api;
-	/** @var IAccountManager|MockObject */
-	protected $accountManager;
-	/** @var ISubAdmin|MockObject */
-	protected $subAdminManager;
-	/** @var IURLGenerator|MockObject */
-	protected $urlGenerator;
-	/** @var IRequest|MockObject */
-	protected $request;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var NewUserMailHelper|MockObject */
-	private $newUserMailHelper;
-	/** @var ISecureRandom|MockObject */
-	private $secureRandom;
-	/** @var RemoteWipe|MockObject */
-	private $remoteWipe;
-	/** @var KnownUserService|MockObject */
-	private $knownUserService;
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected Manager&MockObject $groupManager;
+	protected IUserSession&MockObject $userSession;
+	protected LoggerInterface&MockObject $logger;
+	protected UsersController&MockObject $api;
+	protected IAccountManager&MockObject $accountManager;
+	protected ISubAdmin&MockObject $subAdminManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected IRequest&MockObject $request;
+	private IFactory&MockObject $l10nFactory;
+	private NewUserMailHelper&MockObject $newUserMailHelper;
+	private ISecureRandom&MockObject $secureRandom;
+	private RemoteWipe&MockObject $remoteWipe;
+	private KnownUserService&MockObject $knownUserService;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private IRootFolder $rootFolder;
-	/** @var IPhoneNumberUtil */
-	private $phoneNumberUtil;
+	private IPhoneNumberUtil $phoneNumberUtil;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -449,10 +432,6 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(2))
 			->method('groupExists')
-			->withConsecutive(
-				['ExistingGroup'],
-				['NonExistingGroup']
-			)
 			->willReturnMap([
 				['ExistingGroup', true],
 				['NonExistingGroup', false]
@@ -798,18 +777,20 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('ExistingGroup')
 			->willReturn($group);
+
+		$calls = [
+			['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']],
+		];
 		$this->logger
 			->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
-		$this->assertTrue(key_exists(
-			'id',
-			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData()
-		));
+		$this->assertArrayHasKey('id', $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
 	}
 
 
@@ -966,11 +947,10 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(2))
 			->method('groupExists')
-			->withConsecutive(
-				['ExistingGroup1'],
-				['ExistingGroup2']
-			)
-			->willReturn(true);
+			->willReturnMap([
+				['ExistingGroup1', true],
+				['ExistingGroup2', true]
+			]);
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -996,24 +976,23 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(4))
 			->method('get')
-			->withConsecutive(
-				['ExistingGroup1'],
-				['ExistingGroup2'],
-				['ExistingGroup1'],
-				['ExistingGroup2']
-			)
 			->willReturnMap([
 				['ExistingGroup1', $existingGroup1],
 				['ExistingGroup2', $existingGroup2]
 			]);
+
+		$calls = [
+			['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup1', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup2', ['app' => 'ocs_api']],
+		];
 		$this->logger
 			->expects($this->exactly(3))
 			->method('info')
-			->withConsecutive(
-				['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup1', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup2', ['app' => 'ocs_api']]
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()->getMock();
 		$this->groupManager
@@ -1023,16 +1002,12 @@ class UsersControllerTest extends TestCase {
 		$subAdminManager
 			->expects($this->exactly(2))
 			->method('isSubAdminOfGroup')
-			->withConsecutive(
-				[$loggedInUser, $existingGroup1],
-				[$loggedInUser, $existingGroup2]
-			)
-			->willReturn(true);
+			->willReturnMap([
+				[$loggedInUser, $existingGroup1, true],
+				[$loggedInUser, $existingGroup2, true],
+			]);
 
-		$this->assertTrue(key_exists(
-			'id',
-			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData()
-		));
+		$this->assertArrayHasKey('id', $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
 	}
 
 
@@ -1541,7 +1516,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
 
-	public function dataSearchByPhoneNumbers(): array {
+	public static function dataSearchByPhoneNumbers(): array {
 		return [
 			'Invalid country' => ['Not a country code', ['12345' => ['NaN']], 400, null, null, []],
 			'No number to search' => ['DE', ['12345' => ['NaN']], 200, null, null, []],
@@ -1556,10 +1531,6 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSearchByPhoneNumbers
-	 * @param string $location
-	 * @param array $search
-	 * @param int $status
-	 * @param array $expected
 	 */
 	public function testSearchByPhoneNumbers(string $location, array $search, int $status, ?array $searchUsers, ?array $userMatches, array $expected): void {
 		$knownTo = 'knownTo';
@@ -1870,7 +1841,7 @@ class UsersControllerTest extends TestCase {
 		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
 
-	public function selfEditChangePropertyProvider() {
+	public static function selfEditChangePropertyProvider(): array {
 		return [
 			[IAccountManager::PROPERTY_TWITTER, '@oldtwitter', '@newtwitter'],
 			[IAccountManager::PROPERTY_FEDIVERSE, '@oldFediverse@floss.social', '@newFediverse@floss.social'],
@@ -2294,7 +2265,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
-	public function dataEditUserSelfEditChangeLanguageButForced() {
+	public static function dataEditUserSelfEditChangeLanguageButForced(): array {
 		return [
 			['de'],
 			[true],
@@ -3942,11 +3913,10 @@ class UsersControllerTest extends TestCase {
 
 		$api->expects($this->exactly(2))
 			->method('getUserData')
-			->withConsecutive(
-				['uid', false],
-				['currentuser', true],
-			)
-			->willReturn($expected);
+			->willReturnMap([
+				['uid', false, $expected],
+				['currentuser', true, $expected],
+			]);
 
 		$this->assertSame($expected, $api->getUser('uid')->getData());
 
@@ -4263,7 +4233,7 @@ class UsersControllerTest extends TestCase {
 	}
 
 
-	public function dataGetEditableFields() {
+	public static function dataGetEditableFields(): array {
 		return [
 			[false, true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_EMAIL,
@@ -4388,10 +4358,6 @@ class UsersControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGetEditableFields
-	 *
-	 * @param bool $allowedToChangeDisplayName
-	 * @param string $userBackend
-	 * @param array $expected
 	 */
 	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $allowedToChangeEmail, string $userBackend, array $expected): void {
 		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => match ($key) {

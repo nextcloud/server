@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -26,11 +28,8 @@ use Test\TestCase;
  * @group DB
  */
 class ApplicationTest extends TestCase {
-	/** @var Application */
-	protected $app;
-
-	/** @var IAppContainer */
-	protected $container;
+	protected Application $app;
+	protected IAppContainer $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +42,7 @@ class ApplicationTest extends TestCase {
 		$this->assertEquals('settings', $this->container->getAppName());
 	}
 
-	public function dataContainerQuery() {
+	public static function dataContainerQuery(): array {
 		return [
 			[AdminSettingsController::class, Controller::class],
 			[AppSettingsController::class, Controller::class],
@@ -59,10 +58,8 @@ class ApplicationTest extends TestCase {
 
 	/**
 	 * @dataProvider dataContainerQuery
-	 * @param string $service
-	 * @param string $expected
 	 */
-	public function testContainerQuery($service, $expected): void {
+	public function testContainerQuery(string $service, string $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}
 }

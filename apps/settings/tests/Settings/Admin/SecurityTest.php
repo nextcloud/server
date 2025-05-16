@@ -16,21 +16,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-	/** @var Security */
-	private $admin;
-	/** @var Manager */
-	private $manager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var MandatoryTwoFactor|MockObject */
-	private $mandatoryTwoFactor;
-	/** @var IInitialState|MockObject */
-	private $initialState;
+	private Manager $manager;
+	private IUserManager $userManager;
+	private MandatoryTwoFactor&MockObject $mandatoryTwoFactor;
+	private IInitialState&MockObject $initialState;
+	private Security $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
+		$this->manager = $this->createMock(Manager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 
@@ -43,10 +38,7 @@ class SecurityTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function encryptionSettingsProvider() {
+	public static function encryptionSettingsProvider(): array {
 		return [
 			[true],
 			[false],
@@ -55,9 +47,8 @@ class SecurityTest extends TestCase {
 
 	/**
 	 * @dataProvider encryptionSettingsProvider
-	 * @param bool $enabled
 	 */
-	public function testGetFormWithOnlyOneBackend($enabled): void {
+	public function testGetFormWithOnlyOneBackend(bool $enabled): void {
 		$this->manager
 			->expects($this->once())
 			->method('isEnabled')

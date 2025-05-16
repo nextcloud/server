@@ -28,24 +28,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AuthSettingsControllerTest extends TestCase {
-
-	/** @var AuthSettingsController */
-	private $controller;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IProvider|MockObject */
-	private $tokenProvider;
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var ISecureRandom|MockObject */
-	private $secureRandom;
-	/** @var IManager|MockObject */
-	private $activityManager;
-	/** @var RemoteWipe|MockObject */
-	private $remoteWipe;
-	private $uid = 'jane';
+	private IRequest&MockObject $request;
+	private IProvider&MockObject $tokenProvider;
+	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
+	private ISecureRandom&MockObject $secureRandom;
+	private IManager&MockObject $activityManager;
+	private RemoteWipe&MockObject $remoteWipe;
+	private string $uid = 'jane';
+	private AuthSettingsController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,7 +48,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
-		/** @var LoggerInterface|MockObject $logger */
+		/** @var LoggerInterface&MockObject $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 
 		$this->controller = new AuthSettingsController(
@@ -214,7 +205,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
-	public function dataRenameToken(): array {
+	public static function dataRenameToken(): array {
 		return [
 			'App password => Other token name' => ['App password', 'Other token name'],
 			'Other token name => App password' => ['Other token name', 'App password'],
@@ -223,9 +214,6 @@ class AuthSettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataRenameToken
-	 *
-	 * @param string $name
-	 * @param string $newName
 	 */
 	public function testUpdateRename(string $name, string $newName): void {
 		$tokenId = 42;
@@ -257,7 +245,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName));
 	}
 
-	public function dataUpdateFilesystemScope(): array {
+	public static function dataUpdateFilesystemScope(): array {
 		return [
 			'Grant filesystem access' => [false, true],
 			'Revoke filesystem access' => [true, false],
@@ -266,9 +254,6 @@ class AuthSettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataUpdateFilesystemScope
-	 *
-	 * @param bool $filesystem
-	 * @param bool $newFilesystem
 	 */
 	public function testUpdateFilesystemScope(bool $filesystem, bool $newFilesystem): void {
 		$tokenId = 42;
