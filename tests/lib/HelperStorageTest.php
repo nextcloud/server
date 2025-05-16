@@ -94,6 +94,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(5, $storageInfo['used']);
 		$this->assertEquals(17, $storageInfo['total']);
 	}
+
 	private function getIncludeExternalStorage(): bool {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
