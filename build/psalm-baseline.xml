@@ -4640,14 +4640,6 @@
       <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="lib/public/Color.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$step]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/public/Preview/BeforePreviewFetchedEvent.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->mode]]></code>
