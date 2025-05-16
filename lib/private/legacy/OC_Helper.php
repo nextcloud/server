@@ -246,49 +246,30 @@ class OC_Helper {
 
 	/**
 	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	 * Based on https://www.php.net/manual/en/function.array-change-key-case.php#107715
 	 *
 	 * @param array $input The array to work on
 	 * @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
 	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	 * @return array
-	 *
-	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
-	 * based on https://www.php.net/manual/en/function.array-change-key-case.php#107715
-	 *
+	 * @deprecated 4.5.0 use \OCP\Util::mb_array_change_key_case instead
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
-		$ret = [];
-		foreach ($input as $k => $v) {
-			$ret[mb_convert_case($k, $case, $encoding)] = $v;
-		}
-		return $ret;
+		return \OCP\Util::mb_array_change_key_case($input, $case, $encoding);
 	}
 
 	/**
-	 * performs a search in a nested array
+	 * Performs a search in a nested array.
+	 * Taken from https://www.php.net/manual/en/function.array-search.php#97645
+	 *
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
 	 * @param mixed $index optional, only search this key name
 	 * @return mixed the key of the matching field, otherwise false
-	 *
-	 * performs a search in a nested array
-	 *
-	 * taken from https://www.php.net/manual/en/function.array-search.php#97645
+	 * @deprecated 4.5.0 - use \OCP\Util::recursiveArraySearch
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		$aIt = new RecursiveArrayIterator($haystack);
-		$it = new RecursiveIteratorIterator($aIt);
-
-		while ($it->valid()) {
-			if (((isset($index) and ($it->key() == $index)) or !isset($index)) and ($it->current() == $needle)) {
-				return $aIt->key();
-			}
-
-			$it->next();
-		}
-
-		return false;
+		return \OCP\Util::recursiveArraySearch($haystack, $needle, $index);
 	}
 
 	/**
@@ -297,12 +278,10 @@ class OC_Helper {
 	 * @param string $dir the current folder where the user currently operates
 	 * @param int|float $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
 	 * @return int|float number of bytes representing
+	 * @deprecated 5.0.0 - use \OCP\Util::maxUploadFilesize
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace) || $freeSpace < 0) {
-			$freeSpace = self::freeSpace($dir);
-		}
-		return min($freeSpace, self::uploadLimit());
+		return \OCP\Util::maxUploadFilesize($dir, $freeSpace);
 	}
 
 	/**
@@ -310,33 +289,20 @@ class OC_Helper {
 	 *
 	 * @param string $dir the current folder where the user currently operates
 	 * @return int|float number of bytes representing
+	 * @deprecated 7.0.0 - use \OCP\Util::freeSpace
 	 */
 	public static function freeSpace($dir) {
-		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
-			$freeSpace = max($freeSpace, 0);
-			return $freeSpace;
-		} else {
-			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
-		}
+		return \OCP\Util::freeSpace($dir);
 	}
 
 	/**
 	 * Calculate PHP upload limit
 	 *
 	 * @return int|float PHP upload file size limit
+	 * @deprecated 7.0.0 - use \OCP\Util::uploadLimit
 	 */
 	public static function uploadLimit() {
-		$ini = \OC::$server->get(IniGetWrapper::class);
-		$upload_max_filesize = Util::computerFileSize($ini->get('upload_max_filesize')) ?: 0;
-		$post_max_size = Util::computerFileSize($ini->get('post_max_size')) ?: 0;
-		if ($upload_max_filesize === 0 && $post_max_size === 0) {
-			return INF;
-		} elseif ($upload_max_filesize === 0 || $post_max_size === 0) {
-			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
-		} else {
-			return min($upload_max_filesize, $post_max_size);
-		}
+		return \OCP\Util::uploadLimit();
 	}
 
 	/**
