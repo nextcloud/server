@@ -42,6 +42,7 @@ $authBackend = new Auth(
 	Server::get(IThrottler::class),
 	'principals/'
 );
+$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $principalBackend = new Principal(
 	Server::get(IUserManager::class),
 	Server::get(IGroupManager::class),
@@ -53,6 +54,7 @@ $principalBackend = new Principal(
 	Server::get(KnownUserService::class),
 	Server::get(IConfig::class),
 	\OC::$server->getL10NFactory(),
+	$authPlugin,
 	'principals/'
 );
 $db = Server::get(IDBConnection::class);
@@ -97,7 +99,7 @@ $server->setBaseUri($baseuri);
 
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+$server->addPlugin($authPlugin);
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
 
 $server->addPlugin(new LegacyDAVACL());

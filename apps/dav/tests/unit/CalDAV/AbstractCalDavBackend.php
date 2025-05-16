@@ -22,7 +22,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
@@ -30,6 +29,7 @@ use OCP\Share\IManager as ShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Xml\Property\Href;
 use Test\TestCase;
 
@@ -70,12 +70,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->groupManager,
 				$this->createMock(IAccountManager::class),
 				$this->createMock(ShareManager::class),
-				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
 				$this->createMock(KnownUserService::class),
 				$this->createMock(IConfig::class),
-				$this->createMock(IFactory::class)
+				$this->createMock(IFactory::class),
+				$this->createMock(AuthPlugin::class),
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();

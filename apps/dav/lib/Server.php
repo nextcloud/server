@@ -117,15 +117,6 @@ class Server {
 		$logger = \OCP\Server::get(LoggerInterface::class);
 		$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
 
-		$root = new RootCollection();
-		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
-
-		// Add maintenance plugin
-		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
-
-		$this->server->addPlugin(new AppleQuirksPlugin());
-
-		// Backends
 		$authBackend = new Auth(
 			\OCP\Server::get(ISession::class),
 			\OCP\Server::get(IUserSession::class),
@@ -133,6 +124,15 @@ class Server {
 			\OCP\Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 			\OCP\Server::get(IThrottler::class)
 		);
+		$authPlugin = new Plugin();
+
+		$root = new RootCollection($authPlugin);
+		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+
+		// Add maintenance plugin
+		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+
+		$this->server->addPlugin(new AppleQuirksPlugin());
 
 		// Set URL explicitly due to reverse-proxy situations
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
@@ -144,7 +144,6 @@ class Server {
 			\OCP\Server::get(ThemingDefaults::class),
 		));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
-		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());
 		$this->server->addPlugin($authPlugin);
 
