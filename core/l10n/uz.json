@@ -77,6 +77,7 @@
     "%s (incompatible)" : "%s (mos kelmaydigan)",
     "The following apps have been disabled: %s" : "Quyidagi ilovalar o'chirilgan:  %s",
     "Already up to date" : "Allaqachon dolzarb",
+    "Unknown" : "Noma'lum",
     "Error occurred while checking server setup" : "Serverni sozlashni tekshirishda xatolik yuz berdi",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Batafsil ma'lumot uchun {linkstart}documentatsiyasini ↗{linkend}qarang.",
     "unknown text" : "noma'lum matn",

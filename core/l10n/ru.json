@@ -77,6 +77,8 @@
     "%s (incompatible)" : "%s (несовместимое)",
     "The following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "Already up to date" : "Не нуждается в обновлении",
+    "Unknown" : "Неизвестно",
+    "PNG image" : "Изображение PNG",
     "Error occurred while checking server setup" : "Произошла ошибка при проверке настроек сервера",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За дополнительными сведениями обратитесь к {linkstart}документации ↗{linkend}.",
     "unknown text" : "неизвестный текст",

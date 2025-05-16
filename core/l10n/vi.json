@@ -77,6 +77,7 @@
     "%s (incompatible)" : "%s (không tương thích)",
     "The following apps have been disabled: %s" : "Những ứng dụng sau đây đã bị tắt: %s",
     "Already up to date" : "Đã được cập nhật bản mới nhất",
+    "Unknown" : "Không xác định",
     "Error occurred while checking server setup" : "Có lỗi xảy ra khi kiểm tra thiết lập máy chủ",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Để biết thêm chi tiết, hãy xem tài liệu ↗ {linkstart} {linkend}.",
     "unknown text" : "văn bản không rõ",

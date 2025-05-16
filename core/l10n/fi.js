@@ -73,6 +73,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (ei yhteensopiva)",
     "The following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",
+    "Unknown" : "Tuntematon",
+    "PNG image" : "PNG-kuva",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Lue lisätietoja {linkstart}dokumentaatiosta ↗{linkend}.",
     "unknown text" : "tuntematon teksti",

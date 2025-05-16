@@ -74,6 +74,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatible)",
     "The following apps have been disabled: %s" : "The following apps have been disabled: %s",
     "Already up to date" : "در حال حاضر بروز است",
+    "Unknown" : "ناشناخته",
+    "PNG image" : "تصویر PNG",
     "Error occurred while checking server setup" : "خطا در هنگام چک کردن راه‌اندازی سرور رخ داده است",
     "For more details see the {linkstart}documentation ↗{linkend}." : "For more details see the {linkstart}documentation ↗{linkend}.",
     "unknown text" : "متن نامعلوم",

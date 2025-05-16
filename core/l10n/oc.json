@@ -57,6 +57,7 @@
     "%s (incompatible)" : "%s (incompatible)",
     "The following apps have been disabled: %s" : "Las aplicacions seguentas son estadas desactivadas : %s",
     "Already up to date" : "Ja a jorn",
+    "Unknown" : "Desconegut",
     "Error occurred while checking server setup" : "Error producha pendent la verificacion de l’installacion del servidor",
     "unknown text" : "tèxt desconegut",
     "Hello world!" : "Adieu monde !",

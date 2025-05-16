@@ -311,7 +311,7 @@ OC.L10N.register(
     "Link shares" : "링크 공유",
     "Shares" : "공유",
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "이 방법을 사용하여 조직 내 개인 또는 팀과 파일을 공유하세요. 수신자가 이미 공유 폴더에 접근할 수 있지만 위치를 찾을 수 없는 경우, 쉽게 접근할 수 있도록 내부 공유 링크를 보낼 수 있습니다.",
-    "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "이 방법을 사용하면 조직 외부의 조직이나 개인과 파일을 공유할 수 있습니다. 파일과 폴더는 공개 공유 링크와 이메일 주소를 통해 공유할 수 있습니다. 또한, 다른 인스턴스에 소속된 다른 Nextcloud 계정과도 연합 클라우드 ID를 사용하여 공유할 수 있습니다.",
+    "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "이 방법을 사용하여 이 조직 외부의 개인이나 조직과 파일을 공유하세요. 파일과 폴더는 공개 공유 링크와 이메일 주소를 통해 공유할 수 있습니다. 다른 인스턴스에 소속된 다른 Nextcloud 계정과도 연합 클라우드 ID를 사용하여 공유할 수 있습니다.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "내부 또는 외부 공유에 포함되지 않은 공유입니다. 앱이나 다른 소스에서 공유된 내용이 여기에 해당할 수 있습니다.",
     "Share with accounts, teams, federated cloud IDs" : "계정, 팀 및 연합 클라우드 ID와 공유",
     "Share with accounts and teams" : "계정 및 팀과 공유",

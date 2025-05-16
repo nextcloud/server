@@ -67,6 +67,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (некомпатибилен)",
     "The following apps have been disabled: %s" : "Следниве апликации се оневозможени: %s",
     "Already up to date" : "Веќе ажурирано",
+    "Unknown" : "Непознат",
     "Error occurred while checking server setup" : "Се случи грешка при проверката на параметрите на серверот",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За повеќе детали погледнете во {linkstart}документацијата ↗{linkend}.",
     "unknown text" : "непознат текст",

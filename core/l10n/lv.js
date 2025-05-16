@@ -76,6 +76,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nesaderīgs)",
     "The following apps have been disabled: %s" : "Sekojošās lietotnes tika atspējotas: %s",
     "Already up to date" : "Jau ir jaunākā",
+    "Unknown" : "Nezināms",
     "Error occurred while checking server setup" : "Servera pārbaudīšanas laikā atgadījās kļūda",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Vairāk informācijas ir skatāma {linkstart}dokumentācijā ↗{linkend}.",
     "unknown text" : "nezināms teksts",

@@ -67,6 +67,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (non cumpatìbile)",
     "The following apps have been disabled: %s" : "Is aplicatziones in fatu sunt istadas disativadas: %s",
     "Already up to date" : "Giai agiornadu",
+    "Unknown" : "Disconnotu",
     "Error occurred while checking server setup" : "Ddoe at àpidu un'errore in su controllu de sa cunfiguratzione de su serbidore",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pro àteros detàllios controlla sa {linkstart}documentatzione ↗{linkend}.",
     "unknown text" : "testu disconnotu",
