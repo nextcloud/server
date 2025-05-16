@@ -661,7 +661,7 @@ class Cache implements ICache {
 
 			$sourceData = $sourceCache->get($sourcePath);
 			if (!$sourceData) {
-				throw new \Exception('Invalid source storage path: ' . $sourcePath);
+				throw new \Exception('Source path not found in cache: ' . $sourcePath);
 			}
 
 			$shardDefinition = $this->connection->getShardDefinition('filecache');
