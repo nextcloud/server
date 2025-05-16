@@ -206,7 +206,7 @@ class OC_Helper {
 		$exts = [''];
 		$check_fn = 'is_executable';
 		// Default check will be done with $path directories :
-		$dirs = explode(PATH_SEPARATOR, $path);
+		$dirs = explode(PATH_SEPARATOR, (string) $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
 		if ($obd != 'none') {
