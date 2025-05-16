@@ -21,8 +21,8 @@ class MailTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = new Mail(
 			$this->config,

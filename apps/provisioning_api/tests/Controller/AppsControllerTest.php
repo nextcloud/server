@@ -24,12 +24,9 @@ use OCP\Server;
  * @package OCA\Provisioning_API\Tests
  */
 class AppsControllerTest extends TestCase {
-	/** @var IAppManager */
-	private $appManager;
-	/** @var AppsController */
-	private $api;
-	/** @var IUserSession */
-	private $userSession;
+	private IAppManager $appManager;
+	private AppsController $api;
+	private IUserSession $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -38,9 +35,7 @@ class AppsControllerTest extends TestCase {
 		$this->groupManager = Server::get(IGroupManager::class);
 		$this->userSession = Server::get(IUserSession::class);
 
-		$request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(IRequest::class);
 
 		$this->api = new AppsController(
 			'provisioning_api',
@@ -96,7 +91,7 @@ class AppsControllerTest extends TestCase {
 		$this->assertEquals(count($disabled), count($data['apps']));
 	}
 
-	
+
 	public function testGetAppsInvalidFilter(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);

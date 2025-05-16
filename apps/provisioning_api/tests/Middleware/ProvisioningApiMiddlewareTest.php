@@ -24,34 +24,29 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		$this->reflector = $this->createMock(IControllerMethodReflector::class);
 	}
 
-	public function dataAnnotation() {
+	public static function dataAnnotation(): array {
 		return [
 			[false, false, false, false, false],
-			[false, false,  true, false, false],
-			[false,  true,  true, false, false],
-			[ true, false, false, false, true],
-			[ true, false,  true, false, false],
-			[ true,  true, false, false, false],
-			[ true,  true,  true, false, false],
+			[false, false, true, false, false],
+			[false, true, true, false, false],
+			[true, false, false, false, true],
+			[true, false, true, false, false],
+			[true, true, false, false, false],
+			[true, true, true, false, false],
 			[false, false, false, true, false],
-			[false, false,  true, true, false],
-			[false,  true,  true, true, false],
-			[ true, false, false, true, false],
-			[ true, false,  true, true, false],
-			[ true,  true, false, true, false],
-			[ true,  true,  true, true, false],
+			[false, false, true, true, false],
+			[false, true, true, true, false],
+			[true, false, false, true, false],
+			[true, false, true, true, false],
+			[true, true, false, true, false],
+			[true, true, true, true, false],
 		];
 	}
 
 	/**
 	 * @dataProvider dataAnnotation
-	 *
-	 * @param bool $subadminRequired
-	 * @param bool $isAdmin
-	 * @param bool $isSubAdmin
-	 * @param bool $shouldThrowException
 	 */
-	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $hasSettingAuthorizationAnnotation, $shouldThrowException): void {
+	public function testBeforeController(bool $subadminRequired, bool $isAdmin, bool $isSubAdmin, bool $hasSettingAuthorizationAnnotation, bool $shouldThrowException): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			$isAdmin,
@@ -80,7 +75,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		}
 	}
 
-	public function dataAfterException() {
+	public static function dataAfterException(): array {
 		return [
 			[new NotSubAdminException(), false],
 			[new \Exception('test', 42), true],
@@ -89,11 +84,8 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 
 	/**
 	 * @dataProvider dataAfterException
-	 *
-	 * @param \Exception $e
-	 * @param bool $forwared
 	 */
-	public function testAfterException(\Exception $exception, $forwared): void {
+	public function testAfterException(\Exception $exception, bool $forwared): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			false,
