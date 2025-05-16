@@ -13,10 +13,12 @@ use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OCP\IUser;
 use OCP\Security\RateLimiting\ILimiter;
+use Psr\Log\LoggerInterface;
 
 class Limiter implements ILimiter {
 	public function __construct(
 		private IBackend $backend,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -32,6 +34,11 @@ class Limiter implements ILimiter {
 	): void {
 		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
+			$this->logger->info('Request blocked because it exceeds the rate limit [method: {method}, limit: {limit}, period: {period}]', [
+				'method' => $methodIdentifier,
+				'limit' => $limit,
+				'period' => $period,
+			]);
 			throw new RateLimitExceededException();
 		}
 
