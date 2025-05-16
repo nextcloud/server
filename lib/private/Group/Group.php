@@ -377,7 +377,7 @@ class Group implements IGroup {
 	 */
 	public function hideFromCollaboration(): bool {
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
-			return $hide | ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
+			return $hide || ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
 		}, false);
 	}
 }
