@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace OC\Share20;
 
 use OC\Share20\Exception\ProviderException;
-use OCA\Circles\ShareByCircleProvider;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
@@ -185,7 +184,7 @@ class ProviderFactory implements IProviderFactory {
 		} elseif ($shareType === IShare::TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
-			$provider = $this->getProvider(ShareByCircleProvider::IDENTIFIER);
+			$provider = $this->getProvider('ocCircleShare');
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
