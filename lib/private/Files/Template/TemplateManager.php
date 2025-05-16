@@ -19,6 +19,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
+use OCP\Files\Template\Field;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -253,6 +254,9 @@ class TemplateManager implements ITemplateManager {
 		return $templates;
 	}
 
+	/*
+	 * @return list<Field>
+	 */
 	private function getTemplateFields(TemplateFileCreator $type, int $fileId): array {
 		$providerTemplates = $this->getProviderTemplates($type);
 		$userTemplates = $this->getUserTemplates($type);
