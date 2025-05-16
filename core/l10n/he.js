@@ -59,6 +59,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (לא תואם)",
     "The following apps have been disabled: %s" : "היישומים הבאים הושבתו: %s",
     "Already up to date" : "כבר עדכני",
+    "Unknown" : "לא ידוע",
     "Error occurred while checking server setup" : "שגיאה אירעה בזמן בדיקת התקנת השרת",
     "unknown text" : "מלל לא מוכר",
     "Hello world!" : "שלום עולם!",

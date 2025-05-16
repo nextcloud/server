@@ -75,6 +75,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (ασύμβατη)",
     "The following apps have been disabled: %s" : "Οι ακόλουθες εφαρμογές έχουν απενεργοποιηθεί: %s",
     "Already up to date" : "Ενημερωμένο ήδη",
+    "Unknown" : "Άγνωστο",
+    "PNG image" : "Εικόνα PNG",
     "Error occurred while checking server setup" : "Παρουσιάστηκε σφάλμα κατά τον έλεγχο των ρυθμίσεων του διακομιστή σας",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Για περισσότερες λεπτομέρειες, ανατρέξτε στη {linkstart}τεκμηρίωση ↗{linkend}.",
     "unknown text" : "άγνωστο κείμενο",

@@ -80,6 +80,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (niekompatybilny)",
     "The following apps have been disabled: %s" : "Następujące aplikacje zostały wyłączone: %s",
     "Already up to date" : "Już zaktualizowano",
+    "Unknown" : "Nieznany",
+    "PNG image" : "obraz PNG",
     "Error occurred while checking server setup" : "Wystąpił błąd podczas sprawdzania konfiguracji serwera",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Więcej informacji można znaleźć w {linkstart}dokumentacji ↗{linkend}.",
     "unknown text" : "nieznany tekst",

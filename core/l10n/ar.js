@@ -79,6 +79,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (غير متوافق)",
     "The following apps have been disabled: %s" : "التطبيقات التاليه غير مفعله: %s",
     "Already up to date" : "محدّثة مسبقاً",
+    "Unknown" : "غير معروف",
+    "PNG image" : "صورة PNG",
     "Error occurred while checking server setup" : "تم العثور على خطأ  اثناء فحص إعدادات الخادم",
     "For more details see the {linkstart}documentation ↗{linkend}." : "للمزيد من التفاصيل، يرجى الإطلاع على {linkstart} الدليل ↗{linkend}.",
     "unknown text" : "النص غير معروف",

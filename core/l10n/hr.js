@@ -60,6 +60,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (nije kompatibilno)",
     "The following apps have been disabled: %s" : "Sljedeće aplikacije su onemogućene: %s",
     "Already up to date" : "Nema potrebe za ažuriranjem",
+    "Unknown" : "Nepoznata pogreška",
     "Error occurred while checking server setup" : "Pogreška prilikom provjere postavki poslužitelja",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Više informacija potražite u {linkstart}dokumentaciji ↗{linkend}.",
     "unknown text" : "nepoznati tekst",

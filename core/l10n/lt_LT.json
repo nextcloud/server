@@ -65,6 +65,8 @@
     "%s (incompatible)" : "%s (nesuderinama)",
     "The following apps have been disabled: %s" : "Šios programėlės buvo išjungtos: %s",
     "Already up to date" : "Naudojama naujausia versija",
+    "Unknown" : "Nežinoma",
+    "PNG image" : "PNG paveikslas",
     "Error occurred while checking server setup" : "Tikrinant serverio sąranką, įvyko klaida",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Išsamesnei informacijai, žiūrėkite {linkstart}dokumentaciją ↗{linkend}.",
     "unknown text" : "nežinomas tekstas",

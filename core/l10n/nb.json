@@ -77,6 +77,8 @@
     "%s (incompatible)" : "%s (ikke kompatibel)",
     "The following apps have been disabled: %s" : "Følgende apper har blitt deaktivert: %s",
     "Already up to date" : "Allerede oppdatert",
+    "Unknown" : "Ukjent",
+    "PNG image" : "PNG-bilde",
     "Error occurred while checking server setup" : "Feil oppsto ved sjekking av server-oppsett",
     "For more details see the {linkstart}documentation ↗{linkend}." : "For mer informasjon se {linkstart}dokumentasjonen ↗{linkend}.",
     "unknown text" : "ukjent tekst",

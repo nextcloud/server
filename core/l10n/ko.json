@@ -78,6 +78,8 @@
     "%s (incompatible)" : "%s(호환 불가)",
     "The following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",
     "Already up to date" : "최신 상태임",
+    "Unknown" : "알 수 없음",
+    "PNG image" : "PNG 이미지",
     "Error occurred while checking server setup" : "서버 설정을 확인하는 중 오류 발생",
     "For more details see the {linkstart}documentation ↗{linkend}." : "더 자세한 사항은 {linkstart}문서 ↗{linkend}를 참조하십시오.",
     "unknown text" : "알 수 없는 텍스트",

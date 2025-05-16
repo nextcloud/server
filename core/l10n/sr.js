@@ -80,6 +80,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (некомпатибилан)",
     "The following apps have been disabled: %s" : "Следеће апликације су искључене: %s",
     "Already up to date" : "Већ је ажурна",
+    "Unknown" : "Непознато",
+    "PNG image" : "ПНГ слика",
     "Error occurred while checking server setup" : "Дошло је до грешке при провери поставки сервера",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За више детаља погледајте {linkstart}документацију ↗{linkend}.",
     "unknown text" : "непознат текст",

@@ -79,6 +79,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (ósamhæft)",
     "The following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
     "Already up to date" : "Allt uppfært nú þegar",
+    "Unknown" : "Óþekkt",
+    "PNG image" : "PNG-mynd",
     "Error occurred while checking server setup" : "Villa kom upp við athugun á uppsetningu þjóns",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Frekari upplýsingar má sjá í {linkstart}hjálparskjölunum ↗{linkend}.",
     "unknown text" : "óþekktur texti",

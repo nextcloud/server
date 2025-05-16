@@ -74,6 +74,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (เข้ากันไม่ได้)",
     "The following apps have been disabled: %s" : "แอปต่อไปนี้ถูกปิดการใช้งาน: %s",
     "Already up to date" : "ล่าสุดแล้ว",
+    "Unknown" : "ไม่ทราบ",
     "Error occurred while checking server setup" : "เกิดข้อผิดพลาดขณะตรวจสอบการติดตั้งเซิร์ฟเวอร์",
     "For more details see the {linkstart}documentation ↗{linkend}." : "สำหรับข้อมูลเพิ่มเติม โปรดดู{linkstart}เอกสารประกอบ ↗{linkend}",
     "unknown text" : "ข้อความที่ไม่รู้จัก",

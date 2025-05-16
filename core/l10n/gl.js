@@ -79,6 +79,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatíbel)",
     "The following apps have been disabled: %s" : "As seguintes aplicacións foron desactivadas: %s",
     "Already up to date" : "Xa está actualizado",
+    "Unknown" : "Descoñecido",
+    "PNG image" : "Imaxe PNG",
     "Error occurred while checking server setup" : "Aconteceu un erro mentras se comprobaba a configuración do servidor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Para obter máis detalles revise a {linkstart}documentación ↗{linkend}.",
     "unknown text" : "texto descoñecido",

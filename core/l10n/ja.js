@@ -80,6 +80,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (非互換)",
     "The following apps have been disabled: %s" : "次のアプリが無効になりました: %s ",
     "Already up to date" : "すべて更新済",
+    "Unknown" : "不明",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
     "For more details see the {linkstart}documentation ↗{linkend}." : "詳細については、{linkstart}ドキュメント↗{linkend}を参照してください。",
     "unknown text" : "不明なテキスト",
