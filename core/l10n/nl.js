@@ -79,6 +79,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (incompatibel)",
     "The following apps have been disabled: %s" : "De volgende apps zijn uitgeschakeld: %s",
     "Already up to date" : "Al bijgewerkt",
+    "Unknown" : "Onbekend",
+    "PNG image" : "PNG afbeelding",
     "Error occurred while checking server setup" : "Een fout trad op bij controleren van serverconfiguratie",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Voor meer informatie word je verwezen naar de {linkstart}documentatie↗{linkend}.",
     "unknown text" : "onbekende tekst",

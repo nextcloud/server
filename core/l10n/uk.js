@@ -80,6 +80,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (несумісне)",
     "The following apps have been disabled: %s" : "Ці застосунки було вимкнено: %s",
     "Already up to date" : "Вже актуально",
+    "Unknown" : "Невідомо",
     "Error occurred while checking server setup" : "При перевірці налаштувань серверу сталася помилка",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Додаткову інформацію див. у {linkstart}документації ↗{linkend}.",
     "unknown text" : "невідомий текст",

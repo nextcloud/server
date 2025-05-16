@@ -76,6 +76,8 @@
     "%s (incompatible)" : "%s (incompatible)",
     "The following apps have been disabled: %s" : "Desactiváronse les aplicaciones siguientes: %s",
     "Already up to date" : "Yá s'anovó",
+    "Unknown" : "Desconocí­u",
+    "PNG image" : "Imaxe PNG",
     "Error occurred while checking server setup" : "Prodúxose un error mentanto se revisaba la configuración del sirvidor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pa consiguir más detalles, consulta la {linkstart}documentación ↗{linkend}.",
     "unknown text" : "testu desconocíu",

@@ -78,6 +78,8 @@
     "%s (incompatible)" : "%s (uyumsuz)",
     "The following apps have been disabled: %s" : "Şu uygulamalar kullanımdan kaldırıldı: %s",
     "Already up to date" : "Zaten güncel",
+    "Unknown" : "Bilinmiyor",
+    "PNG image" : "PNG Görseli",
     "Error occurred while checking server setup" : "Sunucu ayarları denetlenirken sorun çıktı",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Ayrıntılı bilgi almak için {linkstart}belgeler ↗{linkend} bölümüne bakabilirsiniz.",
     "unknown text" : "bilinmeyen metin",

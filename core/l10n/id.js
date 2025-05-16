@@ -61,6 +61,8 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (tidak kompatibel)",
     "The following apps have been disabled: %s" : "Aplikasi berikut telah dinonaktifkan: %s",
     "Already up to date" : "Sudah yang terbaru",
+    "Unknown" : "Tidak diketahui",
+    "PNG image" : "Gambar PNG",
     "Error occurred while checking server setup" : "Kesalahan tidak terduga saat memeriksa setelan server",
     "unknown text" : "teks tidak diketahui",
     "Hello world!" : "Halo dunia!",
