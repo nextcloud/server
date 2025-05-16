@@ -2748,7 +2748,7 @@ $CONFIG = [
  * Enable lazy objects feature from PHP 8.4 to be used in the Dependency Injection.
  * Should improve performances by avoiding buiding unused objects.
  *
- * Defaults to false.
+ * Defaults to true.
  */
-'enable_lazy_objects' => false,
+'enable_lazy_objects' => true,
 ];
