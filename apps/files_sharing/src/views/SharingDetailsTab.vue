@@ -816,8 +816,9 @@ export default {
 				this.advancedSectionAccordionExpanded = true
 			}
 
-			if (this.share.note) {
+			if (this.isValidShareAttribute(this.share.note)) {
 				this.writeNoteToRecipientIsChecked = true
+				this.advancedSectionAccordionExpanded = true
 			}
 
 		},
