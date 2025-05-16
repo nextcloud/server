@@ -1551,6 +1551,7 @@ return array(
     'OC\\Files\\ObjectStore\\AppdataPreviewObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/AppdataPreviewObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\Azure' => $baseDir . '/lib/private/Files/ObjectStore/Azure.php',
     'OC\\Files\\ObjectStore\\HomeObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/HomeObjectStoreStorage.php',
+    'OC\\Files\\ObjectStore\\IObjectStoreMetaData' => $baseDir . '/lib/private/Files/ObjectStore/IObjectStoreMetaData.php',
     'OC\\Files\\ObjectStore\\Mapper' => $baseDir . '/lib/private/Files/ObjectStore/Mapper.php',
     'OC\\Files\\ObjectStore\\ObjectStoreScanner' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
     'OC\\Files\\ObjectStore\\ObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',

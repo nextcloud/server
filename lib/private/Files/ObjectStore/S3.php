@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\Result;
@@ -11,7 +12,7 @@ use Exception;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 
-class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
+class S3 implements IObjectStore, IObjectStoreMultiPartUpload, IObjectStoreMetaData {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
@@ -62,7 +63,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 				'Key' => $urn,
 				'UploadId' => $uploadId,
 				'MaxParts' => 1000,
-				'PartNumberMarker' => $partNumberMarker
+				'PartNumberMarker' => $partNumberMarker,
 			] + $this->getSSECParameters());
 			$parts = array_merge($parts, $result->get('Parts') ?? []);
 			$isTruncated = $result->get('IsTruncated');
@@ -90,7 +91,41 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 		$this->getConnection()->abortMultipartUpload([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-			'UploadId' => $uploadId
+			'UploadId' => $uploadId,
 		]);
+	}
+
+	public function getObjectMetaData(string $urn): array {
+		$object = $this->getConnection()->headObject([
+			'Bucket' => $this->bucket,
+			'Key' => $urn
+		] + $this->getSSECParameters())->toArray();
+		return [
+			'mtime' => $object['LastModified'],
+			'etag' => trim($object['ETag'], '"'),
+			'size' => (int) ($object['Size'] ?? $object['ContentLength']),
+		];
+	}
+
+	public function listObjects(string $prefix = ''): \Iterator {
+		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
+			'Bucket' => $this->bucket,
+			'Prefix' => $prefix,
+		] + $this->getSSECParameters());
+
+		foreach ($results as $result) {
+			if (is_array($result['Contents'])) {
+				foreach ($result['Contents'] as $object) {
+					yield [
+						'urn' => basename($object['Key']),
+						'metadata' => [
+							'mtime' => $object['LastModified'],
+							'etag' => trim($object['ETag'], '"'),
+							'size' => (int) ($object['Size'] ?? $object['ContentLength']),
+						],
+					];
+				}
+			}
+		}
 	}
 }
