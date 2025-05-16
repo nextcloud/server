@@ -44,7 +44,7 @@ class BeforeGetTemplatesEvent extends Event {
 	/**
 	 * @return bool
 	 *
-	 * @since 31.0.0
+	 * @since 32.0.0
 	 */
 	public function shouldGetFields(): bool {
 		return $this->withFields;
