@@ -13,28 +13,24 @@ import RemoteShareDialog from '../components/RemoteShareDialog.vue'
  * @param owner The owner of the share
  * @param remote The remote address
  * @param passwordRequired True if the share is password protected
- * @returns A promise that resolves only when the user accepts.  
- *          The resolved value carries the password if one was provided.
  */
 export function showRemoteShareDialog(
 	name: string,
 	owner: string,
 	remote: string,
 	passwordRequired = false,
-): Promise<{ accepted: true; password?: string }> {
-	const { promise, reject, resolve } = Promise.withResolvers<{ accepted: true; password?: string }>()
+): Promise<string|void> {
+	const { promise, reject, resolve } = Promise.withResolvers<string|void>()
 
-	spawnDialog(
-		RemoteShareDialog,
-		{ name, owner, remote, passwordRequired },
-		(status: boolean, password?: string) => {
-			if (status) {
-				resolve({ accepted: true, password })
-			} else {
-				reject()
-			}
-		},
-	)
+	spawnDialog(RemoteShareDialog, { name, owner, remote, passwordRequired }, (status, password) => {
+		if (passwordRequired && status) {
+			resolve(password as string)
+		} else if (status) {
+			resolve(undefined)
+		} else {
+			reject()
+		}
+	})
 
 	return promise
 }
