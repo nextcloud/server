@@ -1073,6 +1073,7 @@ class ManagerTest extends TestCase {
 	 * @return array<string, IComment>
 	 */
 	private function proccessComments(array $data): array {
+		$this->connection->beginTransaction();
 		/** @var array<string, IComment> $comments */
 		$comments = [];
 		foreach ($data as $comment) {
@@ -1088,6 +1089,7 @@ class ManagerTest extends TestCase {
 			$comment = $this->testSave($message, $actorId, $verb, $parentId, $id);
 			$comments[$comment->getMessage() . '#' . $comment->getActorId()] = $comment;
 		}
+		$this->connection->commit();
 		return $comments;
 	}
 
