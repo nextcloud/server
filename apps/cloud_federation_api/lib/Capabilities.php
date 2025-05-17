@@ -20,7 +20,7 @@ use OCP\OCM\IOCMProvider;
 use Psr\Log\LoggerInterface;
 
 class Capabilities implements ICapability, IInitialStateExcludedCapability {
-	public const API_VERSION = '1.1'; // informative, real version.
+	public const API_VERSION = '1.1.0';
 
 	public function __construct(
 		private IURLGenerator $urlGenerator,
@@ -41,16 +41,19 @@ class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	 *         endPoint: string,
 	 *         publicKey?: array{
 	 *             keyId: string,
-	 *             publicKeyPem: string,
+	 *             publicKeyPem: string
 	 *         },
+	 *         provider: string,
 	 *         resourceTypes: list<array{
 	 *             name: string,
 	 *             shareTypes: list<string>,
 	 *             protocols: array<string, string>
 	 *         }>,
-	 *         version: string
-	 *     }
-	 * }
+	 *         version: string,
+	 *         capabilities: array{
+	 *         }
+	 *    }
+	 * } OCM provider information
 	 * @throws OCMArgumentException
 	 */
 	public function getCapabilities() {
@@ -62,6 +65,8 @@ class Capabilities implements ICapability, IInitialStateExcludedCapability {
 
 		$this->provider->setEnabled(true);
 		$this->provider->setApiVersion(self::API_VERSION);
+		$this->provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
+
 		$this->provider->setEndPoint(substr($url, 0, $pos));
 
 		$resource = $this->provider->createNewResourceType();
