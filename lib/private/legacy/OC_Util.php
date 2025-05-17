@@ -98,6 +98,7 @@ class OC_Util {
 	 *
 	 * @param IUser|null $user
 	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
+	 * @deprecated 9.0.0 - Use \OCP\IUser::getQuota
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
@@ -331,7 +332,7 @@ class OC_Util {
 		}
 
 		// Check if config folder is writable.
-		if (!OC_Helper::isReadOnlyConfigEnabled()) {
+		if (!(bool)$config->getValue('config_is_read_only', false)) {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory.'),

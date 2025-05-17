@@ -196,7 +196,8 @@ class OC {
 
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
-		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
+		$configReadOnly = Server::get(IConfig::class)->getSystemValueBool('config_is_read_only');
+		if (!$configFileWritable && !$configReadOnly
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 			$urlGenerator = Server::get(IURLGenerator::class);
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
