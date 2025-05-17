@@ -91,6 +91,8 @@
     "Destination does not exist" : "宛先が存在しません",
     "Destination is not creatable" : "宛先は作成できません",
     "Dot files are not allowed" : "隠しファイルは許可されていません",
+    "%1$s (renamed)" : "%1$s (リネーム済み)",
+    "renamed file" : "リネーム済みファイル",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\"は禁止されているファイル名またはフォルダー名です。",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\"は、ファイル名やフォルダー名には使用できない接頭辞です。",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\"はファイル名やフォルダー名の中に入れることはできません。",

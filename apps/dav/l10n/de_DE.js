@@ -282,7 +282,7 @@ OC.L10N.register(
     "Saved availability" : "Verfügbarkeit gespeichert",
     "Failed to save availability" : "Verfügbarkeit konnte nicht gespeichert werden",
     "Time zone:" : "Zeitzone:",
-    "to" : "an",
+    "to" : "bis",
     "Delete slot" : "Zeitfenster löschen",
     "No working hours set" : "Keine Arbeitszeiten konfiguriert",
     "Add slot" : "Zeitfenster hinzufügen",
