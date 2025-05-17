@@ -24,12 +24,16 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContentsFread($expected, $nodes): void {
+	public function testGetContentsFread($expected, $nodes, $chunkLength = 3): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$content = '';
 		while (!feof($stream)) {
-			$content .= fread($stream, 3);
+			$chunk = fread($stream, $chunkLength);
+			$content .= $chunk;
+			if ($chunkLength !== 3) {
+				$this->assertEquals($chunkLength, strlen($chunk));
+			}
 		}
 
 		$this->assertEquals($expected, $content);
@@ -102,7 +106,19 @@ class AssemblyStreamTest extends \Test\TestCase {
 				]],
 			'a ton of nodes' => [
 				$tonofdata, $tonofnodes
-			]
+			],
+			'one read over multiple nodes' => [
+				'1234567890', [
+					$this->buildNode('0', '1234'),
+					$this->buildNode('1', '5678'),
+					$this->buildNode('2', '90'),
+				], 10],
+			'two reads over multiple nodes' => [
+				'1234567890', [
+					$this->buildNode('0', '1234'),
+					$this->buildNode('1', '5678'),
+					$this->buildNode('2', '90'),
+				], 5],
 		];
 	}
 
