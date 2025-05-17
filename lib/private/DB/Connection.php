@@ -918,6 +918,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->disableReconnect = true;
 			$this->lastInsertId = (int)parent::lastInsertId();
 			$this->disableReconnect = false;
+			var_dump('reconnecting with mysql fix: ' . $this->lastInsertId);
 		}
 
 		try {
