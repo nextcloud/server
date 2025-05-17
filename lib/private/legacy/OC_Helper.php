@@ -12,6 +12,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IUser;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -34,32 +35,6 @@ class OC_Helper {
 	private static $templateManager;
 	private static ?ICacheFactory $cacheFactory = null;
 	private static ?bool $quotaIncludeExternalStorage = null;
-
-	/**
-	 * Make a human file size
-	 * @param int|float $bytes file size in bytes
-	 * @return string a human readable file size
-	 * @deprecated 4.0.0 replaced with \OCP\Util::humanFileSize
-	 *
-	 * Makes 2048 to 2 kB.
-	 */
-	public static function humanFileSize(int|float $bytes): string {
-		return \OCP\Util::humanFileSize($bytes);
-	}
-
-	/**
-	 * Make a computer file size
-	 * @param string $str file size in human readable format
-	 * @return false|int|float a file size in bytes
-	 * @deprecated 4.0.0 Use \OCP\Util::computerFileSize
-	 *
-	 * Makes 2kB to 2048.
-	 *
-	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
-	 */
-	public static function computerFileSize(string $str): false|int|float {
-		return \OCP\Util::computerFileSize($str);
-	}
 
 	/**
 	 * Recursive copying of folders
@@ -89,17 +64,6 @@ class OC_Helper {
 				copy($src, $dest);
 			}
 		}
-	}
-
-	/**
-	 * Recursive deletion of folders
-	 * @param string $dir path to the folder
-	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
-	 * @return bool
-	 * @deprecated 5.0.0 use \OCP\Files::rmdirr instead
-	 */
-	public static function rmdirr($dir, $deleteSelf = true) {
-		return \OCP\Files::rmdirr($dir, $deleteSelf);
 	}
 
 	/**
@@ -246,73 +210,12 @@ class OC_Helper {
 	}
 
 	/**
-	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
-	 * Based on https://www.php.net/manual/en/function.array-change-key-case.php#107715
-	 *
-	 * @param array $input The array to work on
-	 * @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @return array
-	 * @deprecated 4.5.0 use \OCP\Util::mb_array_change_key_case instead
-	 */
-	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		return \OCP\Util::mb_array_change_key_case($input, $case, $encoding);
-	}
-
-	/**
-	 * Performs a search in a nested array.
-	 * Taken from https://www.php.net/manual/en/function.array-search.php#97645
-	 *
-	 * @param array $haystack the array to be searched
-	 * @param string $needle the search string
-	 * @param mixed $index optional, only search this key name
-	 * @return mixed the key of the matching field, otherwise false
-	 * @deprecated 4.5.0 - use \OCP\Util::recursiveArraySearch
-	 */
-	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		return \OCP\Util::recursiveArraySearch($haystack, $needle, $index);
-	}
-
-	/**
-	 * calculates the maximum upload size respecting system settings, free space and user quota
-	 *
-	 * @param string $dir the current folder where the user currently operates
-	 * @param int|float $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return int|float number of bytes representing
-	 * @deprecated 5.0.0 - use \OCP\Util::maxUploadFilesize
-	 */
-	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		return \OCP\Util::maxUploadFilesize($dir, $freeSpace);
-	}
-
-	/**
-	 * Calculate free space left within user quota
-	 *
-	 * @param string $dir the current folder where the user currently operates
-	 * @return int|float number of bytes representing
-	 * @deprecated 7.0.0 - use \OCP\Util::freeSpace
-	 */
-	public static function freeSpace($dir) {
-		return \OCP\Util::freeSpace($dir);
-	}
-
-	/**
-	 * Calculate PHP upload limit
-	 *
-	 * @return int|float PHP upload file size limit
-	 * @deprecated 7.0.0 - use \OCP\Util::uploadLimit
-	 */
-	public static function uploadLimit() {
-		return \OCP\Util::uploadLimit();
-	}
-
-	/**
 	 * Checks if a function is available
 	 *
 	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
 	 */
 	public static function is_function_enabled(string $function_name): bool {
-		return \OCP\Util::isFunctionEnabled($function_name);
+		return Util::isFunctionEnabled($function_name);
 	}
 
 	/**
@@ -320,7 +223,7 @@ class OC_Helper {
 	 * @deprecated 25.0.0 Use \OC\BinaryFinder directly
 	 */
 	public static function findBinaryPath(string $program): ?string {
-		$result = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($program);
+		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
 		return $result !== false ? $result : null;
 	}
 
@@ -340,7 +243,7 @@ class OC_Helper {
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
-			self::$cacheFactory = \OC::$server->get(ICacheFactory::class);
+			self::$cacheFactory = Server::get(ICacheFactory::class);
 		}
 		$memcache = self::$cacheFactory->createLocal('storage_info');
 

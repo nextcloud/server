@@ -8,6 +8,7 @@
 namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Files;
 
 /**
  * Class LocalTest
@@ -30,7 +31,7 @@ class LocalTest extends Storage {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 

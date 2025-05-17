@@ -23,7 +23,7 @@ require_once __DIR__ . '/../private/Template/functions.php';
  */
 class Template extends \OC_Template implements ITemplate {
 	/**
-	 * Make OC_Helper::imagePath available as a simple function
+	 * Make \OCP\IURLGenerator::imagePath available as a simple function
 	 *
 	 * @see \OCP\IURLGenerator::imagePath
 	 *
@@ -39,7 +39,7 @@ class Template extends \OC_Template implements ITemplate {
 
 
 	/**
-	 * Make OC_Helper::mimetypeIcon available as a simple function
+	 * Make IMimeTypeDetector->mimeTypeIcon available as a simple function
 	 *
 	 * @param string $mimetype
 	 * @return string to the image of this file type.

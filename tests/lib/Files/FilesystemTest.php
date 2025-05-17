@@ -10,6 +10,7 @@ namespace Test\Files;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OC\User\NoUserException;
+use OCP\Files;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
@@ -74,7 +75,7 @@ class FilesystemTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		foreach ($this->tmpDirs as $dir) {
-			\OC_Helper::rmdirr($dir);
+			Files::rmdirr($dir);
 		}
 
 		$this->logout();

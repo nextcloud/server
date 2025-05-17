@@ -334,4 +334,84 @@ class UtilTest extends \Test\TestCase {
 		// each of the characters is 12 bytes
 		$this->assertEquals('🙈', Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
 	}
+
+	/**
+	 * @dataProvider humanFileSizeProvider
+	 */
+	public function testHumanFileSize($expected, $input): void {
+		$result = Util::humanFileSize($input);
+		$this->assertEquals($expected, $result);
+	}
+
+	public static function humanFileSizeProvider(): array {
+		return [
+			['0 B', 0],
+			['1 KB', 1024],
+			['9.5 MB', 10000000],
+			['1.3 GB', 1395864371],
+			['465.7 GB', 500000000000],
+			['454.7 TB', 500000000000000],
+			['444.1 PB', 500000000000000000],
+		];
+	}
+
+	/**
+	 * @dataProvider providesComputerFileSize
+	 */
+	public function testComputerFileSize($expected, $input): void {
+		$result = Util::computerFileSize($input);
+		$this->assertEquals($expected, $result);
+	}
+
+	public static function providesComputerFileSize(): array {
+		return [
+			[0.0, '0 B'],
+			[1024.0, '1 KB'],
+			[1395864371.0, '1.3 GB'],
+			[9961472.0, '9.5 MB'],
+			[500041567437.0, '465.7 GB'],
+			[false, '12 GB etfrhzui']
+		];
+	}
+
+	public function testMb_array_change_key_case(): void {
+		$arrayStart = [
+			'Foo' => 'bar',
+			'Bar' => 'foo',
+		];
+		$arrayResult = [
+			'foo' => 'bar',
+			'bar' => 'foo',
+		];
+		$result = Util::mb_array_change_key_case($arrayStart);
+		$expected = $arrayResult;
+		$this->assertEquals($result, $expected);
+
+		$arrayStart = [
+			'foo' => 'bar',
+			'bar' => 'foo',
+		];
+		$arrayResult = [
+			'FOO' => 'bar',
+			'BAR' => 'foo',
+		];
+		$result = Util::mb_array_change_key_case($arrayStart, MB_CASE_UPPER);
+		$expected = $arrayResult;
+		$this->assertEquals($result, $expected);
+	}
+
+	public function testRecursiveArraySearch(): void {
+		$haystack = [
+			'Foo' => 'own',
+			'Bar' => 'Cloud',
+		];
+
+		$result = Util::recursiveArraySearch($haystack, 'own');
+		$expected = 'Foo';
+		$this->assertEquals($result, $expected);
+
+		$result = Util::recursiveArraySearch($haystack, 'NotFound');
+		$this->assertFalse($result);
+	}
+
 }

@@ -7,6 +7,9 @@
 
 namespace Test\Preview;
 
+use OCP\IBinaryFinder;
+use OCP\Server;
+
 /**
  * Class OfficeTest
  *
@@ -16,10 +19,11 @@ namespace Test\Preview;
  */
 class OfficeTest extends Provider {
 	protected function setUp(): void {
-		$libreofficeBinary = \OC_Helper::findBinaryPath('libreoffice');
-		$openofficeBinary = ($libreofficeBinary) ? null : \OC_Helper::findBinaryPath('openoffice');
+		$binaryFinder = Server::get(IBinaryFinder::class);
+		$libreofficeBinary = $binaryFinder->findBinaryPath('libreoffice');
+		$openofficeBinary = $libreofficeBinary === false ? $binaryFinder->findBinaryPath('openoffice') : false;
 
-		if ($libreofficeBinary || $openofficeBinary) {
+		if ($libreofficeBinary !== false || $openofficeBinary !== false) {
 			parent::setUp();
 
 			$fileName = 'testimage.odt';

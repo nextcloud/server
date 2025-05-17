@@ -7,6 +7,8 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OCP\Files;
+
 class WrapperTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
@@ -22,7 +24,7 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 
