@@ -97,6 +97,7 @@ class KeyManager {
 	 */
 	public function validateMasterKey() {
 		if ($this->util->isMasterKeyEnabled() === false) {
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Skipping master key validation");
 			return;
 		}
 
@@ -104,6 +105,7 @@ class KeyManager {
 		$privateMasterKey = $this->getPrivateMasterKey();
 
 		if (empty($publicMasterKey) && empty($privateMasterKey)) {
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Master key is empty");
 			// There could be a race condition here if two requests would trigger
 			// the generation the second one would enter the key generation as long
 			// as the first one didn't write the key to the keystorage yet
@@ -121,6 +123,7 @@ class KeyManager {
 				$header = $this->crypt->generateHeader();
 				$this->setSystemPrivateKey($this->masterKeyId, $header . $encryptedKey);
 			} catch (\Throwable $e) {
+				\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Throwable", ['exception' => $e]);
 				$this->lockingProvider->releaseLock('encryption-generateMasterKey', ILockingProvider::LOCK_EXCLUSIVE);
 				throw $e;
 			}
@@ -141,6 +144,7 @@ class KeyManager {
 
 		// after the encryption key is available we are ready to go
 		$this->session->setStatus(Session::INIT_SUCCESSFUL);
+		\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Master key init successful");
 	}
 
 	/**
