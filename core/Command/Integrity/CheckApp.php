@@ -40,31 +40,58 @@ class CheckApp extends Base {
 		$this
 			->setName('integrity:check-app')
 			->setDescription('Check integrity of an app using a signature.')
-			->addArgument('appid', InputArgument::REQUIRED, 'Application to check')
-			->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to application. If none is given it will be guessed.');
+			->addArgument('appid', InputArgument::OPTIONAL, 'Application to check')
+			->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to application. If none is given it will be guessed.')
+			->addOption('all', null, InputOption::VALUE_NONE, 'Check integrity of all apps.');
 	}
 
 	/**
 	 * {@inheritdoc }
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$appid = $input->getArgument('appid');
-		$path = (string)$input->getOption('path');
-		if ($path === '') {
-			$path = $this->appLocator->getAppPath($appid);
+		if ($input->getOption('all') && $input->getArgument('appid')) {
+			$output->writeln('<error>Option "--all" cannot be combined with an appid</error>');
+			return 1;
 		}
-		if ($this->appManager->isShipped($appid) || $this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {
-			// Only verify if the application explicitly ships a signature.json file
-			$result = $this->checker->verifyAppSignature($appid, $path, true);
-			$this->writeArrayInOutputFormat($input, $output, $result);
-			if (count($result) > 0) {
-				$output->writeln('<error>' . count($result) . ' errors found</error>', OutputInterface::VERBOSITY_VERBOSE);
-				return 1;
-			}
-			$output->writeln('<info>No errors found</info>', OutputInterface::VERBOSITY_VERBOSE);
+
+		if (!$input->getArgument('appid') && !$input->getOption('all')) {
+			$output->writeln('<error>Please specify an appid, or "--all" to verify all apps</error>');
+			return 1;
+		}
+
+		if ($input->getArgument('appid')) {
+			$appIds = [$input->getArgument('appid')];
 		} else {
-			$output->writeln('<comment>App signature not found, skipping app integrity check</comment>');
+			$appIds = $this->appManager->getAllAppsInAppsFolders();
 		}
-		return 0;
+
+		$errorsFound = false;
+
+		foreach ($appIds as $appId) {
+			$path = (string)$input->getOption('path');
+			if ($path === '') {
+				$path = $this->appLocator->getAppPath($appId);
+			}
+
+			if ($this->appManager->isShipped($appId) || $this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {
+				// Only verify if the application explicitly ships a signature.json file
+				$result = $this->checker->verifyAppSignature($appId, $path, true);
+
+				if (count($result) > 0) {
+					$output->writeln('<error>' . $appId . ': ' . count($result) . ' errors found:</error>');
+					$this->writeArrayInOutputFormat($input, $output, $result);
+					$errorsFound = true;
+				}
+			} else {
+				$output->writeln('<comment>' . $appId . ': ' . 'App signature not found, skipping app integrity check</comment>');
+			}
+		}
+
+		if (!$errorsFound) {
+			$output->writeln('<info>No errors found</info>', OutputInterface::VERBOSITY_VERBOSE);
+			return 0;
+		}
+
+		return 1;
 	}
 }
