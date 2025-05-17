@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,10 +9,12 @@
 namespace OCA\Files_External\Tests\Controller;
 
 use OCA\Files_External\Controller\GlobalStoragesController;
+use OCA\Files_External\Controller\UserStoragesController;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
-
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
@@ -18,33 +22,25 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use PHPUnit\Framework\MockObject\MockObject;
 
-abstract class StoragesControllerTest extends \Test\TestCase {
-
-	/**
-	 * @var GlobalStoragesController
-	 */
-	protected $controller;
-
-	/**
-	 * @var GlobalStoragesService|UserStoragesService|MockObject
-	 */
-	protected $service;
+abstract class StoragesControllerTestCase extends \Test\TestCase {
+	protected GlobalStoragesController|UserStoragesController $controller;
+	protected GlobalStoragesService|UserStoragesService|MockObject $service;
 
 	protected function setUp(): void {
+		parent::setUp();
 		MountConfig::$skipTest = true;
 	}
 
 	protected function tearDown(): void {
 		MountConfig::$skipTest = false;
+		parent::tearDown();
 	}
 
 	/**
-	 * @return \OCA\Files_External\Lib\Backend\Backend|MockObject
+	 * @return \OCA\Files_External\Lib\Backend\Backend&MockObject
 	 */
-	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
-		$backend = $this->getMockBuilder(Backend::class)
-			->disableOriginalConstructor()
-			->getMock();
+	protected function getBackendMock($class = SMB::class, $storageClass = \OCA\Files_External\Lib\Storage\SMB::class) {
+		$backend = $this->createMock(Backend::class);
 		$backend->method('getStorageClass')
 			->willReturn($storageClass);
 		$backend->method('getIdentifier')
@@ -57,10 +53,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	/**
 	 * @return AuthMechanism|MockObject
 	 */
-	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
-		$authMech = $this->getMockBuilder(AuthMechanism::class)
-			->disableOriginalConstructor()
-			->getMock();
+	protected function getAuthMechMock($scheme = 'null', $class = NullMechanism::class) {
+		$authMech = $this->createMock(AuthMechanism::class);
 		$authMech->method('getScheme')
 			->willReturn($scheme);
 		$authMech->method('getIdentifier')
@@ -98,8 +92,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -130,7 +124,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->create(
 			'mount',
 			'local',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -170,8 +164,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -184,7 +178,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals($storageConfig->jsonSerialize(), $data);
 	}
 
-	public function mountPointNamesProvider() {
+	public static function mountPointNamesProvider(): array {
 		return [
 			[''],
 			['/'],
@@ -212,8 +206,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			$mountPoint,
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -226,8 +220,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			1,
 			$mountPoint,
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -250,7 +244,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->create(
 			'mount',
 			'\OC\Files\Storage\InvalidStorage',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -264,7 +258,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			1,
 			'mount',
 			'\OC\Files\Storage\InvalidStorage',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -303,8 +297,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			255,
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],
@@ -354,7 +348,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->getData());
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, true, true],
 			[false, true, false],
@@ -366,7 +360,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateStorageProvider
 	 */
-	public function testValidateStorage($backendValidate, $authMechValidate, $expectSuccess): void {
+	public function testValidateStorage(bool $backendValidate, bool $authMechValidate, bool $expectSuccess): void {
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')
 			->willReturn($backendValidate);
@@ -401,8 +395,8 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
-			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			\OCA\Files_External\Lib\Storage\SMB::class,
+			NullMechanism::class,
 			[],
 			[],
 			[],

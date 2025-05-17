@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,17 +18,10 @@ use Test\TestCase;
  * @group DB
  */
 class DBConfigServiceTest extends TestCase {
-	/**
-	 * @var DBConfigService
-	 */
-	private $dbConfig;
+	private IDBConnection $connection;
+	private DBConfigService $dbConfig;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	private $mounts = [];
+	private array $mounts = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,9 +34,10 @@ class DBConfigServiceTest extends TestCase {
 			$this->dbConfig->removeMount($mount);
 		}
 		$this->mounts = [];
+		parent::tearDown();
 	}
 
-	private function addMount($mountPoint, $storageBackend, $authBackend, $priority, $type) {
+	private function addMount(string $mountPoint, string $storageBackend, string $authBackend, int $priority, int $type) {
 		$id = $this->dbConfig->addMount($mountPoint, $storageBackend, $authBackend, $priority, $type);
 		$this->mounts[] = $id;
 		return $id;

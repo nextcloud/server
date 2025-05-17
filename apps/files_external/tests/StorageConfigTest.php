@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,12 +15,8 @@ use OCA\Files_External\Lib\StorageConfig;
 
 class StorageConfigTest extends \Test\TestCase {
 	public function testJsonSerialization(): void {
-		$backend = $this->getMockBuilder(Backend::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$parameter = $this->getMockBuilder(DefinitionParameter::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$backend = $this->createMock(Backend::class);
+		$parameter = $this->createMock(DefinitionParameter::class);
 		$parameter
 			->expects($this->once())
 			->method('getType')
@@ -30,9 +28,7 @@ class StorageConfigTest extends \Test\TestCase {
 		$backend->method('getIdentifier')
 			->willReturn('storage::identifier');
 
-		$authMech = $this->getMockBuilder(AuthMechanism::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$authMech = $this->createMock(AuthMechanism::class);
 		$authMech->method('getIdentifier')
 			->willReturn('auth::identifier');
 
