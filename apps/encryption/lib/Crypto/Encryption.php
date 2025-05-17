@@ -206,7 +206,12 @@ class Encryption implements IEncryptionModule {
 			}
 			$publicKeys = [];
 			if ($this->useMasterPassword === true) {
-				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
+				$publicMasterKeyId = $this->keyManager->getMasterKeyId();
+				$publicMasterKey = $this->keyManager->getPublicMasterKey();
+
+				if ($publicMasterKeyId !== '' && $publicMasterKey !== '') {
+					$publicKeys[$publicMasterKeyId] = $publicMasterKey;
+				}
 			} else {
 				foreach ($this->accessList['users'] as $uid) {
 					try {
