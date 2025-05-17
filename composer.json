@@ -69,7 +69,7 @@
 			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
 		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
-		"test:db": "@composer run test -- --group DB,SLOWDB",
+		"test:db": "@composer run test -- --group DB,SLOWDB --debug",
 		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml",
 		"rector": "rector --config=build/rector.php && composer cs:fix",
 		"openapi": "./build/openapi-checker.sh"
