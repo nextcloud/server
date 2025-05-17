@@ -136,19 +136,21 @@ class Router implements IRouter {
 		}
 
 		$this->eventLogger->start('route:load:files', 'Loading Routes from files');
-		foreach ($routingFiles as $app => $file) {
-			if (isset($this->loadedApps[$app])) {
+		foreach ($routingFiles as $appId => $file) {
+			if (isset($this->loadedApps[$appId])) {
 				continue;
 			}
-			if (!$this->appManager->isAppLoaded($app)) {
+			if (!$this->appManager->isAppLoaded($appId)) {
 				// app MUST be loaded before app routes
 				// try again next time loadRoutes() is called
 				$this->loaded = false;
 				continue;
 			}
-
-			$this->loadedApps[$app] = true;
-			$this->requireRouteFile($file, $app);
+			$this->requireRouteFile($file, $appId);
+			// mark fully loaded app as loaded (route file + annotation)
+			if ($app === null || $app === $appId) {
+				$this->loadedApps[$appId] = true;
+			}
 		}
 		$this->eventLogger->end('route:load:files');
 
