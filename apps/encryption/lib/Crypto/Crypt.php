@@ -644,6 +644,8 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
+		\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(json_encode('keyFiles', $keyFiles));
+
 		// make sure that there is at least one public key to use
 		if (count($keyFiles) >= 1) {
 			// prepare the encrypted keys
