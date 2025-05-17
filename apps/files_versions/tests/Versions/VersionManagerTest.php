@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\files_versions\tests\Versions;
+namespace OCA\Files_Versions\Tests\Versions;
 
 use OC\Files\Storage\Local;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
@@ -15,6 +15,7 @@ use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\VersionManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class VersionManagerTest extends TestCase {
@@ -25,10 +26,10 @@ class VersionManagerTest extends TestCase {
 		return $backend;
 	}
 
-	private function getStorage(string $class): IStorage {
+	private function getStorage(string $class): IStorage&MockObject {
 		return $this->getMockBuilder($class)
 			->disableOriginalConstructor()
-			->setMethodsExcept(['instanceOfStorage'])
+			->onlyMethods(array_diff(get_class_methods($class), ['instanceOfStorage']))
 			->getMock();
 	}
 
