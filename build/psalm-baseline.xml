@@ -4350,17 +4350,6 @@
       <code><![CDATA[$out]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/Route/Router.php">
-    <InvalidClass>
-      <code><![CDATA[\OC_APP]]></code>
-    </InvalidClass>
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->collectionName]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
