@@ -53,7 +53,7 @@ OC.L10N.register(
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Sie können mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Geben Sie einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
     "Your Federated Cloud ID" : "Ihre Federated-Cloud-ID",
-    "Share it so your friends can share files with you:" : "Teilen Sie es, so dass Ihre Freunde Dateien mit Ihnen teilen können:",
+    "Share it so your friends can share files with you:" : "Teilen Sie es, damit Ihre Freunde Dateien mit Ihnen teilen können:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (früher Twitter)",
     "formerly Twitter" : "früher Twitter",

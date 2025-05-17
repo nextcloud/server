@@ -13,7 +13,7 @@ OC.L10N.register(
     "{actor} unshared {file} from {email} by mail" : "{actor} teilt {file} nicht mehr mit {email} via E-Mail",
     "Password to access {file} was sent to {email}" : "Passwort für den Zugriff auf {file} wurde an {email} versandt ",
     "Password to access {file} was sent to you" : "Passwort für den Zugriff auf {file} wurde an Sie versandt ",
-    "Share by mail" : "Geteilt über eine E-Mail",
+    "Share by mail" : "Teilen per E-Mail",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Freigeben von %1$s ist fehlgeschlagen, da dieses Element schon mit dem Konto %2$s geteilt wurde",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte geben Sie in Ihren persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche Sie es erneut.",
     "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Es wurde eine ungültige E-Mail-Adresse angegeben.",
