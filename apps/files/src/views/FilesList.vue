@@ -24,7 +24,7 @@
 
 					<!-- Uploader -->
 					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
-						allow-folders
+						:allow-folders="canUploadFolders"
 						class="files-list__header-upload-button"
 						:content="getContent"
 						:destination="currentFolder"
@@ -282,6 +282,14 @@ export default defineComponent({
 	},
 
 	computed: {
+		canUploadFolders() {
+			// TODO: Remove this small files_sharing hack when https://github.com/nextcloud/server/issues/15921 is implmented
+			if (this.currentView?.id === 'public-file-drop') {
+				return false
+			}
+			return true
+		},
+
 		/**
 		 * Get a callback function for the uploader to fetch directory contents for conflict resolution
 		 */
