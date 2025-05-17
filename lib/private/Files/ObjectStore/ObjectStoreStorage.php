@@ -710,6 +710,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$cache->remove($to);
 			}
 			$this->mkdir($to);
+			$cacheEntry = $cache->get(($to));
+			$cache->update($cacheEntry->getId(), [
+				'size' => $sourceEntry->getSize(),
+				'mtime' => $sourceEntry->getMTime(),
+			]);
 
 			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
