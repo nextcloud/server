@@ -229,7 +229,7 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
+		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 GMT', $headers['Expires']);
 	}
 
 
@@ -239,7 +239,7 @@ class ResponseTest extends \Test\TestCase {
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
+		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 GMT', $headers['Last-Modified']);
 	}
 
 	public function testChainability(): void {
@@ -257,7 +257,7 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals('world', $headers['hello']);
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->childResponse->getStatus());
 		$this->assertEquals('hi', $this->childResponse->getEtag());
-		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
+		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 GMT', $headers['Last-Modified']);
 		$this->assertEquals('private, max-age=33, must-revalidate',
 			$headers['Cache-Control']);
 	}
