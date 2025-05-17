@@ -473,7 +473,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 		$mount = new MountPoint(new Temporary([]), '/foo/bar');
 		$mountProvider = new DummyMountProvider([self::TEST_FILESYSTEM_USER2 => [$mount]]);
-		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		\OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class)->registerProvider($mountProvider);
 		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 	}
 }

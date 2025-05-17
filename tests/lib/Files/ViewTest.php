@@ -155,7 +155,7 @@ class ViewTest extends \Test\TestCase {
 		$this->userObject->delete();
 		$this->groupObject->delete();
 
-		$mountProviderCollection = \OC::$server->getMountProviderCollection();
+		$mountProviderCollection = \OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class);
 		self::invokePrivate($mountProviderCollection, 'providers', [[]]);
 
 		parent::tearDown();
@@ -1626,7 +1626,7 @@ class ViewTest extends \Test\TestCase {
 			->method('getMountsForUser')
 			->willReturn($mounts);
 
-		$mountProviderCollection = \OC::$server->getMountProviderCollection();
+		$mountProviderCollection = \OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class);
 		$mountProviderCollection->registerProvider($mountProvider);
 
 		return $mounts;
