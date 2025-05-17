@@ -42,7 +42,7 @@
 		<NcAppNavigationList class="account-management__group-list"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
-			<GroupListItem v-for="group in userGroups"
+			<GroupListItem v-for="group in filteredGroups"
 				:id="group.id"
 				ref="groupListItems"
 				:key="group.id"
@@ -96,7 +96,11 @@ const selectedGroup = computed(() => route.params?.selectedGroup)
 /** Current active group - URL decoded  */
 const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURIComponent(selectedGroup.value) : null)
 /** All available groups */
-const groups = computed(() => store.getters.getSortedGroups)
+const groups = computed(() => {
+	return isAdminOrDelegatedAdmin.value
+		? store.getters.getSortedGroups
+		: store.getters.getSubAdminGroups
+})
 /** User groups */
 const { userGroups } = useFormatGroups(groups)
 /** Server settings for current user */
@@ -119,6 +123,14 @@ const loadingGroups = ref(false)
 const offset = ref(0)
 /** Search query for groups */
 const groupsSearchQuery = ref('')
+const filteredGroups = computed(() => {
+	if (isAdminOrDelegatedAdmin.value) {
+		return userGroups.value
+	}
+
+	const substring = groupsSearchQuery.value.toLowerCase()
+	return userGroups.value.filter(group => group.id.toLowerCase().search(substring) !== -1 || group.title.toLowerCase().search(substring) !== -1)
+})
 
 const groupListItems = ref([])
 const lastGroupListItem = computed(() => {
