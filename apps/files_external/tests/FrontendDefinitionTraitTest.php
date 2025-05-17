@@ -16,7 +16,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->getMock();
 		$param->method('getName')->willReturn('foo');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(\OCA\Files_External\Lib\FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters([$param]);
 		$trait->addCustomJs('foo/bar.js');
@@ -32,7 +32,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$this->assertArrayHasKey('foo', $configuration);
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, ['foo' => true, 'bar' => true, 'baz' => true]],
 			[false, ['foo' => true, 'bar' => false]]
@@ -42,7 +42,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 	/**
 	 * @dataProvider validateStorageProvider
 	 */
-	public function testValidateStorage($expectedSuccess, $params): void {
+	public function testValidateStorage(bool $expectedSuccess, array $params): void {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {
 			$param = $this->getMockBuilder(DefinitionParameter::class)
@@ -67,7 +67,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$storageConfig->expects($this->any())
 			->method('setBackendOption');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(\OCA\Files_External\Lib\FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters($backendParams);
 
@@ -98,7 +98,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->method('setBackendOption')
 			->with('param', 'foobar');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(\OCA\Files_External\Lib\FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameter($param);
 

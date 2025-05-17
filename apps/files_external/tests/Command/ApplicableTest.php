@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,12 +11,13 @@ namespace OCA\Files_External\Tests\Command;
 use OCA\Files_External\Command\Applicable;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class ApplicableTest extends CommandTest {
-	private function getInstance($storageService) {
-		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+class ApplicableTest extends CommandTestCase {
+	private function getInstance($storageService): Applicable {
+		/** @var IUserManager&MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
+		/** @var IGroupManager&MockObject $groupManager */
 		$groupManager = $this->createMock(IGroupManager::class);
 
 		$userManager->expects($this->any())
