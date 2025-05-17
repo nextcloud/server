@@ -105,7 +105,7 @@ class Router implements IRouter {
 		}
 
 		// already loaded so we skip
-		if ($this->loaded || ($app !== null && in_array($app, $this->loadedApps))) {
+		if ($this->loaded || ($app !== null && isset($this->loadedApps[$app]))) {
 			return;
 		}
 
@@ -155,9 +155,9 @@ class Router implements IRouter {
 		$this->eventLogger->end('route:load:files');
 
 		if (!isset($this->loadedApps['core'])) {
-			$this->loadedApps['core'] = true;
 			$this->setupRoutes($this->getAttributeRoutes('core'), 'core');
 			$this->requireRouteFile(__DIR__ . '/../../../core/routes.php', 'core');
+			$this->loadedApps['core'] = true;
 		}
 
 		$this->eventLogger->end('route:load:' . $requestedApp);
