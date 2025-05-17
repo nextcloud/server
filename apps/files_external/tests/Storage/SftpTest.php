@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -132,5 +133,38 @@ class SftpTest extends \Test\Files\Storage\Storage {
 				'sftp::someuser@FE80::0202:B3FF:FE1E:8329:8822//remotedir/subdir/',
 			],
 		];
+	}
+
+	public function testAuthenticated(): void {
+		$this->assertTrue($this->instance->getConnection()->isAuthenticated());
+	}
+
+	public function testSymlinks(): void {
+		$this->instance->mkdir('test');
+		$this->instance->touch('notes.txt');
+		$this->assertTrue($this->instance->is_dir('test'));
+		$this->assertTrue($this->instance->is_file('notes.txt'));
+
+		$root = $this->instance->getRoot();
+		$symlinkDir = $root . '/test/slink';
+		$symlinkFile = $root . '/test/foo.txt';
+		$this->instance->getConnection()->symlink($root, $symlinkDir);
+		$this->instance->getConnection()->symlink($root . '/notes.txt', $symlinkFile);
+		$this->assertTrue($this->instance->getConnection()->is_link($symlinkDir), 'Symlink directory was not created');
+		$this->assertTrue($this->instance->getConnection()->is_link($symlinkFile), 'Symlink file was not created');
+
+		$contents = $this->instance->getDirectoryContent('test/slink');
+		$files = [];
+		foreach ($contents as $file) {
+			$files[] = $file['name'];
+		}
+		$this->assertEquals(['test', 'notes.txt'], $files);
+
+		$contents = $this->instance->getDirectoryContent('test/slink/test');
+		$files = [];
+		foreach ($contents as $file) {
+			$files[] = $file['name'];
+		}
+		$this->assertEquals(['foo.txt'], $files, 'Symlink directory must not repeat itself');
 	}
 }
