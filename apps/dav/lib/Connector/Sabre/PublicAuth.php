@@ -14,6 +14,7 @@ namespace OCA\DAV\Connector\Sabre;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -45,6 +46,7 @@ class PublicAuth extends AbstractBasic {
 		private ISession $session,
 		private IThrottler $throttler,
 		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -52,10 +54,6 @@ class PublicAuth extends AbstractBasic {
 	}
 
 	/**
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 *
-	 * @return array
 	 * @throws NotAuthenticated
 	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
@@ -63,6 +61,10 @@ class PublicAuth extends AbstractBasic {
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
+
+			if (!$this->request->passesCSRFCheck()) {
+				throw new NotAuthenticated('CSRF check failed');
+			}
 
 			$auth = new HTTP\Auth\Basic(
 				$this->realm,
@@ -80,6 +82,15 @@ class PublicAuth extends AbstractBasic {
 		} catch (NotAuthenticated|MaxDelayReached $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			throw $e;
+		} catch (NotAuthenticated $e) {
+			$response->setHeader(
+				'Location',
+				$this->urlGenerator->linkToRoute(
+					'files_sharing.share.showShare',
+					[ 'token' => $this->getToken() ],
+				),
+			);
+			throw $e;
 		} catch (\Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
@@ -90,7 +101,6 @@ class PublicAuth extends AbstractBasic {
 
 	/**
 	 * Extract token from request url
-	 * @return string
 	 * @throws NotFound
 	 */
 	private function getToken(): string {
@@ -107,7 +117,7 @@ class PublicAuth extends AbstractBasic {
 
 	/**
 	 * Check token validity
-	 * @return array
+	 *
 	 * @throws NotFound
 	 * @throws NotAuthenticated
 	 */
