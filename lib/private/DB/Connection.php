@@ -529,12 +529,13 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function realLastInsertId($seqName = null): int {
-		if ($this->lastInsertId !== 0) {
-			$lastInsertId = $this->lastInsertId;
-			$this->lastInsertId = 0;
-			return $lastInsertId;
+		$previousLastInsertId = $this->lastInsertId;
+		$lastInsertId = (int)parent::lastInsertId($seqName);
+		if ($lastInsertId === 0 && $previousLastInsertId !== 0) {
+			$lastInsertId = $previousLastInsertId;
 		}
-		return (int)parent::lastInsertId($seqName);
+		$this->lastInsertId = 0;
+		return $lastInsertId;
 	}
 
 	/**
@@ -918,6 +919,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->disableReconnect = true;
 			$this->lastInsertId = (int)parent::lastInsertId();
 			$this->disableReconnect = false;
+			var_dump('reconnecting with mysql fix: ' . $this->lastInsertId);
 		}
 
 		try {

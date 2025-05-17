@@ -1087,6 +1087,7 @@ class ManagerTest extends TestCase {
 			}
 			$comment = $this->testSave($message, $actorId, $verb, $parentId, $id);
 			$comments[$comment->getMessage() . '#' . $comment->getActorId()] = $comment;
+			var_dump($comment->getMessage() . '#' . $comment->getActorId() . ' saved as ' . $comment->getId());
 		}
 		return $comments;
 	}
