@@ -23,6 +23,14 @@ interface IClient {
 	public const DEFAULT_REQUEST_TIMEOUT = 30;
 
 	/**
+	 * Default limit for address book intial sync
+	 *
+	 * @since 31.0.0
+	 */
+
+	public const DEFAULT_ADDRESSBOOK_INITIAL_SYNC_LIMIT = 1;
+
+	/**
 	 * Sends a GET request
 	 * @param string $uri
 	 * @param array $options Array such as
