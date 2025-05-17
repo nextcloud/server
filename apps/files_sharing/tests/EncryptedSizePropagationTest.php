@@ -22,16 +22,16 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		try {
 			$requestId = \OCP\Server::get(\OCP\IRequestId::class)->getId();
-			var_dump($requestId);
+			var_dump('requestId', $requestId);
 		} catch (\Exception) {
-
+			var_dump('requestIdException');
 		}
 	}
 
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
 		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
-		var_dump(compact($tmpFolder, $name, $password));
+		var_dump('setupUser', $tmpFolder, $name, $password);
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
@@ -39,7 +39,7 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 	}
 
 	protected function loginHelper($user, $create = false, $password = false) {
-		var_dump(compact($user, $create, $password));
+		var_dump('loginHelper', $user, $create, $password);
 		$this->setupForUser($user, $password);
 		parent::loginHelper($user, $create, $password);
 	}
