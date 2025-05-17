@@ -95,11 +95,7 @@ class EventTest extends TestCase {
 		if ($link) {
 			$affectedUser = $link['owner'];
 			$generatedLink = [
-				'view' => 'dayGridMonth',
-				'timeRange' => 'now',
-				'mode' => 'sidebar',
 				'objectId' => base64_encode('/remote.php/dav/calendars/' . $link['owner'] . '/' . $link['calendar_uri'] . '/' . $link['object_uri']),
-				'recurrenceId' => 'next'
 			];
 			$this->appManager->expects($this->once())
 				->method('isEnabledForUser')
@@ -110,7 +106,7 @@ class EventTest extends TestCase {
 					->method('getWebroot');
 				$this->url->expects($this->once())
 					->method('linkToRouteAbsolute')
-					->with('calendar.view.indexview.timerange.edit', $generatedLink)
+					->with('calendar.view.indexdirect.edit', $generatedLink)
 					->willReturn('fullLink');
 			}
 		}
@@ -177,11 +173,7 @@ class EventTest extends TestCase {
 	/** @dataProvider generateObjectParameterLinkEncodingDataProvider */
 	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
 		$generatedLink = [
-			'view' => 'dayGridMonth',
-			'timeRange' => 'now',
-			'mode' => 'sidebar',
 			'objectId' => $objectId,
-			'recurrenceId' => 'next'
 		];
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
@@ -191,7 +183,7 @@ class EventTest extends TestCase {
 			->method('getWebroot');
 		$this->url->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('calendar.view.indexview.timerange.edit', $generatedLink)
+			->with('calendar.view.indexdirect.edit', $generatedLink)
 			->willReturn('fullLink');
 		$objectParameter = ['id' => 42, 'name' => 'calendar', 'link' => $link];
 		$result = [
