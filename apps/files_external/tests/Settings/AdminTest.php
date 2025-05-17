@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,19 +14,15 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Encryption\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $encryptionManager;
-	/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject */
-	private $globalStoragesService;
-	/** @var BackendService|\PHPUnit\Framework\MockObject\MockObject */
-	private $backendService;
-	/** @var GlobalAuth|\PHPUnit\Framework\MockObject\MockObject */
-	private $globalAuth;
+	private IManager&MockObject $encryptionManager;
+	private GlobalStoragesService&MockObject $globalStoragesService;
+	private BackendService&MockObject $backendService;
+	private GlobalAuth&MockObject $globalAuth;
+	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();

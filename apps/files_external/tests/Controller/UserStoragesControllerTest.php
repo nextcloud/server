@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,8 +10,10 @@ namespace OCA\Files_External\Tests\Controller;
 
 use OC\User\User;
 use OCA\Files_External\Controller\UserStoragesController;
+use OCA\Files_External\Lib\Storage\SMB;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -19,18 +23,16 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
-class UserStoragesControllerTest extends StoragesControllerTest {
+class UserStoragesControllerTest extends StoragesControllerTestCase {
 
 	/**
 	 * @var array
 	 */
-	private $oldAllowedBackends;
+	private array $oldAllowedBackends;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->service = $this->createMock(UserStoragesService::class);
 
 		$this->service->method('getVisibilityType')
 			->willReturn(BackendService::VISIBILITY_PERSONAL);
@@ -38,7 +40,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$this->controller = $this->createController(true);
 	}
 
-	private function createController($allowCreateLocal = true) {
+	private function createController(bool $allowCreateLocal = true) {
 		$session = $this->createMock(IUserSession::class);
 		$session->method('getUser')
 			->willReturn(new User('test', null, $this->createMock(IEventDispatcher::class)));
@@ -88,7 +90,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
+			SMB::class,
 			'\Auth\Mechanism',
 			[],
 			[],
@@ -102,7 +104,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			'\OCA\Files_External\Lib\Storage\SMB',
+			SMB::class,
 			'\Auth\Mechanism',
 			[],
 			[],

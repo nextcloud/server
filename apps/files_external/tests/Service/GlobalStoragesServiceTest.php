@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,7 +16,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 /**
  * @group DB
  */
-class GlobalStoragesServiceTest extends StoragesServiceTest {
+class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
@@ -44,7 +46,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		]);
 	}
 
-	public function storageDataProvider() {
+	public static function storageDataProvider(): array {
 		return [
 			// all users
 			[
@@ -172,7 +174,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals(0, $newStorage->getStatus());
 	}
 
-	public function hooksAddStorageDataProvider() {
+	public static function hooksAddStorageDataProvider(): array {
 		return [
 			// applicable all
 			[
@@ -301,7 +303,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	public function hooksUpdateStorageDataProvider() {
+	public static function hooksUpdateStorageDataProvider(): array {
 		return [
 			[
 				// nothing to multiple users and groups
@@ -421,11 +423,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	 * @dataProvider hooksUpdateStorageDataProvider
 	 */
 	public function testHooksUpdateStorage(
-		$sourceApplicableUsers,
-		$sourceApplicableGroups,
-		$updatedApplicableUsers,
-		$updatedApplicableGroups,
-		$expectedCalls): void {
+		array $sourceApplicableUsers,
+		array $sourceApplicableGroups,
+		array $updatedApplicableUsers,
+		array $updatedApplicableGroups,
+		array $expectedCalls,
+	): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -532,7 +535,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	public function hooksDeleteStorageDataProvider() {
+	public static function hooksDeleteStorageDataProvider(): array {
 		return [
 			[
 				['user1', 'user2'],
@@ -580,9 +583,10 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	 * @dataProvider hooksDeleteStorageDataProvider
 	 */
 	public function testHooksDeleteStorage(
-		$sourceApplicableUsers,
-		$sourceApplicableGroups,
-		$expectedCalls): void {
+		array $sourceApplicableUsers,
+		array $sourceApplicableGroups,
+		array $expectedCalls,
+	): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
