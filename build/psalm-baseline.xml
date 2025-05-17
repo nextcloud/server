@@ -675,6 +675,12 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/File.php">
+    <DeprecatedClass>
+      <code><![CDATA[Files::streamCopy($data, $target, true)]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[Files::streamCopy($data, $target, true)]]></code>
+    </DeprecatedMethod>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
@@ -1964,14 +1970,13 @@
   </file>
   <file src="apps/files_versions/lib/Storage.php">
     <DeprecatedClass>
+      <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
+      <code><![CDATA[Files::streamCopy($source, $target, true)]]></code>
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
-    <RedundantCondition>
-      <code><![CDATA[$storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')]]></code>
-    </RedundantCondition>
   </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>

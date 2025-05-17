@@ -21,6 +21,7 @@ use OCP\Encryption\Exceptions\InvalidHeaderException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
+use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
@@ -684,7 +685,7 @@ class Encryption extends Wrapper {
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
-				[, $result] = \OC_Helper::streamCopy($source, $target);
+				[, $result] = Files::streamCopy($source, $target, true);
 			} finally {
 				if (is_resource($source)) {
 					fclose($source);
@@ -893,7 +894,7 @@ class Encryption extends Wrapper {
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
-		[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+		[$count, $result] = Files::streamCopy($stream, $target, true);
 		fclose($stream);
 		fclose($target);
 

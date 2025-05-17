@@ -17,6 +17,7 @@ use OC\User\Manager as UserManager;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
+use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
@@ -629,7 +630,7 @@ class View {
 				[$storage, $internalPath] = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					[, $result] = \OC_Helper::streamCopy($data, $target);
+					[, $result] = Files::streamCopy($data, $target, true);
 					fclose($target);
 					fclose($data);
 

@@ -23,6 +23,7 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -32,6 +33,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
@@ -416,12 +418,25 @@ class Storage {
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids
-			if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+			if ($storage1->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
+				|| $storage2->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
+			) {
 				$source = $storage1->fopen($internalPath1, 'r');
-				$target = $storage2->fopen($internalPath2, 'w');
-				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
+				$result = $source !== false;
+				if ($result) {
+					if ($storage2->instanceOfStorage(IWriteStreamStorage::class)) {
+						/** @var IWriteStreamStorage $storage2 */
+						$storage2->writeStream($internalPath2, $source);
+					} else {
+						$target = $storage2->fopen($internalPath2, 'w');
+						$result = $target !== false;
+						if ($target !== false) {
+							[, $result] = Files::streamCopy($source, $target, true);
+							fclose($target);
+						}
+					}
+					fclose($source);
+				}
 
 				if ($result !== false) {
 					$storage1->unlink($internalPath1);
