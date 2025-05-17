@@ -45,7 +45,8 @@ $appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
 foreach ($apps as $app) {
 	try {
 		$dir = $appManager->getAppPath($app);
-		if (is_dir($dir . '/tests')) {
+		$appsDir = basename(dirname($dir));
+		if ($appsDir === 'apps' && is_dir($dir . '/tests')) {
 			loadDirectory($dir . '/tests');
 		}
 	} catch (\OCP\App\AppPathNotFoundException) {
