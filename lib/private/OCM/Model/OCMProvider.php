@@ -221,8 +221,7 @@ class OCMProvider implements IOCMProvider {
 	 *          name: string,
 	 *          shareTypes: list<string>,
 	 *          protocols: array<string, string>
-	 *      }>,
-	 *      version: string
+	 *      }>
 	 *  }
 	 */
 	public function jsonSerialize(): array {
@@ -233,8 +232,7 @@ class OCMProvider implements IOCMProvider {
 
 		return [
 			'enabled' => $this->isEnabled(),
-			'apiVersion' => '1.0-proposal1', // deprecated, but keep it to stay compatible with old version
-			'version' => $this->getApiVersion(), // informative but real version
+			'apiVersion' => '1.0-proposal1',  // Does not reflect reality, but must be kept untill Nextcloud 28 is no longer a concern.
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
 			'resourceTypes' => $resourceTypes
