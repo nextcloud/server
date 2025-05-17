@@ -22,6 +22,7 @@ export default {
 		 *
 		 * @param {object} data destructuring object
 		 * @param {string} data.path  path to the file/folder which should be shared
+		 * @param {string} data.sendMail send a mail to the recipient can be 'true' or 'false'
 		 * @param {number} data.shareType  0 = user; 1 = group; 3 = public link; 6 = federated cloud share
 		 * @param {string} data.shareWith  user/group id with which the file should be shared (optional for shareType > 1)
 		 * @param {boolean} [data.publicUpload]  allow public upload to a public shared folder
@@ -35,9 +36,9 @@ export default {
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
-		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes }) {
+		async createShare({ path, permissions, sendMail, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes }) {
 			try {
-				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes })
+				const request = await axios.post(shareUrl, { path, permissions, sendMail, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes })
 				if (!request?.data?.ocs) {
 					throw request
 				}
