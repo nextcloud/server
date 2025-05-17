@@ -25,16 +25,19 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
-		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
-		var_dump('setupUser', $tmpFolder, $name, $password);
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$this->registerMountForUser($name);
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
 	}
 
+	private function registerMountForUser($user): void {
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->registerMount($user, '\OC\Files\Storage\Local', '/' . $user, ['datadir' => $tmpFolder]);
+	}
+
 	protected function loginHelper($user, $create = false, $password = false) {
-		var_dump('loginHelper', $user, $create, $password);
+		$this->registerMountForUser($user);
 		$this->setupForUser($user, $password);
 		parent::loginHelper($user, $create, $password);
 	}
