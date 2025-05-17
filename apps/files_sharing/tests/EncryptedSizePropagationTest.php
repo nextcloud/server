@@ -19,8 +19,8 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 
 	protected function setUp(): void {
 		\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error($this->getName());
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 		parent::setUp();
+		$this->config->setAppValue('encryption', 'useMasterKey', '0');
 	}
 
 	protected function setupUser($name, $password = '') {
