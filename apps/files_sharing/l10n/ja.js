@@ -313,7 +313,9 @@ OC.L10N.register(
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "組織内の個人またはチームとファイルを共有するには、この方法を使用します。受信者がすでに共有にアクセスできるが、その場所を見つけられない場合は、簡単にアクセスできるように内部共有リンクを送信できます。",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "組織外の個人や組織とファイルを共有するには、この方法を使用します。ファイルやフォルダは、パブリック共有リンクやメールアドレスで共有できます。また、連携クラウドIDを使用して、異なるインスタンスにホストされている他のNextcloudアカウントと共有することもできます。",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "内部または外部共有に含まれない共有。これはアプリや他のソースからの共有になります。",
+    "Share with accounts, teams, federated cloud IDs" : "アカウント、チーム、連携クラウドIDとの共有",
     "Share with accounts and teams" : "アカウントとチームで共有",
+    "Email, federated cloud ID" : "電子メール、連携クラウドID",
     "Unable to load the shares list" : "共有リストを読み込めません",
     "Expires {relativetime}" : "有効期限 {relativetime}",
     "this share just expired." : "この共有は期限切れになりました。",
@@ -422,6 +424,7 @@ OC.L10N.register(
     "You are not allowed to edit link shares that you don't own" : "あなたが所有していない共有リンクを編集することは許可されていません",
     "_1 email address already added_::_{count} email addresses already added_" : ["{count} メールアドレスはすでに追加されています"],
     "_1 email address added_::_{count} email addresses added_" : ["{count} メールアドレスが追加されました"],
+    "Share with accounts, teams, federated cloud id" : "アカウント、チーム、連携クラウドIDで共有",
     "Email, federated cloud id" : "電子メール、連携クラウドID"
 },
 "nplurals=1; plural=0;");
