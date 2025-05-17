@@ -125,6 +125,7 @@ class Storage implements IStorage {
 	 */
 	public function setSystemUserKey($keyId, $key, $encryptionModuleId) {
 		$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, null);
+		\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Saving key at path " . $path);
 		return $this->setKey($path, [
 			'key' => base64_encode($key),
 			'uid' => null,
@@ -328,8 +329,11 @@ class Storage implements IStorage {
 
 		if (is_int($result) && $result > 0) {
 			$this->keyCache[$path] = $key;
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Key saved");
 			return true;
 		}
+
+		\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Saving failed");
 
 		return false;
 	}

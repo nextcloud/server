@@ -66,9 +66,12 @@ class Application extends App implements IBootstrap {
 
 	public function setUp(IManager $encryptionManager) {
 		if ($encryptionManager->isEnabled()) {
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Encryption app enabled");
 			/** @var Setup $setup */
 			$setup = $this->getContainer()->get(Setup::class);
 			$setup->setupSystem();
+		} else {
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error("Encryption app disabled");
 		}
 	}
 
