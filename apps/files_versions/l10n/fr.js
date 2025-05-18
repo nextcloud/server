@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Version restaurée",
     "Could not restore version" : "Impossible de restaurer la version",
     "Could not set version label" : "Impossible de définir l'étiquette de version",
-    "Could not delete version" : "Impossible de supprimer la version"
+    "Could not delete version" : "Impossible de supprimer la version",
+    "File versions" : "Versions des fichiers"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
