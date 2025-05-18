@@ -430,11 +430,17 @@ class Storage {
 					} else {
 						$target = $storage2->fopen($internalPath2, 'w');
 						$result = $target !== false;
-						if ($target !== false) {
+						if ($result) {
 							[, $result] = Files::streamCopy($source, $target, true);
+						}
+						// explicit check as S3 library closes streams already
+						if (is_resource($target)) {
 							fclose($target);
 						}
 					}
+				}
+				// explicit check as S3 library closes streams already
+				if (is_resource($source)) {
 					fclose($source);
 				}
 
