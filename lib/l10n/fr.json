@@ -91,6 +91,8 @@
     "Destination does not exist" : "La destination n'existe pas",
     "Destination is not creatable" : "La destination ne peut pas être créée",
     "Dot files are not allowed" : "Le nom de fichier ne peut pas commencer par un point",
+    "%1$s (renamed)" : "%1$s (renommé)",
+    "renamed file" : "fichier renommé",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" est un nom de fichier ou de dossier interdit.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" est un préfixe interdit pour les noms de fichiers ou de dossiers.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" n'est pas autorisé dans un nom de fichier ou de dossier.",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
     "Generate keys" : "Générer des clés",
     "Error generating key pair" : "Erreur lors de la génération des clés",
+    "Permission denied" : "Autorisation refusée",
     "Forbidden to manage local mounts" : "Interdiction de gérer les montages locaux.",
     "Storage with ID \"%d\" not found" : "Stockage avec l'ID \"%d\" non trouvé",
     "Invalid backend or authentication mechanism class" : "Service ou méthode d'authentification non valable",
