@@ -64,9 +64,14 @@ class UpdateAvailableNotifications extends TimedJob {
 	}
 
 	/**
-	 * Check for ownCloud update
+	 * Check for Nextcloud server update
 	 */
 	protected function checkCoreUpdate() {
+		if (!$this->config->getSystemValueBool('updatechecker', true)) {
+			// update checker is disabled so no core update check!
+			return;
+		}
+
 		if (\in_array($this->serverVersion->getChannel(), ['daily', 'git'], true)) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
