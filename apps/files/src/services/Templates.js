@@ -11,6 +11,11 @@ export const getTemplates = async function() {
 	return response.data.ocs.data
 }
 
+export const getTemplateFields = async function(fileId) {
+	const response = await axios.get(generateOcsUrl(`apps/files/api/v1/templates/fields/${fileId}`))
+	return response.data.ocs.data
+}
+
 /**
  * Create a new file from a specified template
  *
