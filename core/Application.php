@@ -215,6 +215,11 @@ class Application extends App {
 
 			$event->addMissingIndex(
 				'mounts',
+				'mounts_userid',
+				['user_id']
+			);
+			$event->addMissingIndex(
+				'mounts',
 				'mounts_class_index',
 				['mount_provider_class']
 			);
