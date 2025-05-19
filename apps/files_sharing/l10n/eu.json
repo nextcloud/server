@@ -298,6 +298,8 @@
     "Expires {relativetime}" : "Iraungitzea: {relativetime}",
     "this share just expired." : "partekatze hau oraintxe iraungi da.",
     "Shared with you by {owner}" : "{owner} erabiltzaileak zurekin partekatua",
+    "Internal shares" : "Barneko partekatzeak",
+    "External shares" : "Kanpoko sareak",
     "Link to a file" : "Esteka fitxategi batera",
     "_Accept share_::_Accept shares_" : ["Onartu partekatzea","Onartu partekatzeak"],
     "Open in Files" : "Ireki Fitxategiak aplikazioan",
