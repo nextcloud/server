@@ -104,13 +104,12 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		Util::addInitScript(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init-public');
 		Util::addScript('files', 'main');
+		Util::addScript(Application::APP_ID, 'public-file-request');
 
 		// Add file-request script if needed
 		$attributes = $share->getAttributes();
 		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
-		if ($isFileRequest) {
-			Util::addScript(Application::APP_ID, 'public-file-request');
-		}
+		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
 
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {

@@ -211,7 +211,7 @@ export default defineComponent({
 		}
 	}
 
-	// Ensure we do not wast space, as the header menu sets a default width of 350px
+	// Ensure we do not waste space, as the header menu sets a default width of 350px
 	:deep(.header-menu__content) {
 		width: fit-content !important;
 	}
