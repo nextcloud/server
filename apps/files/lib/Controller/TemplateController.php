@@ -60,6 +60,7 @@ class TemplateController extends OCSController {
 	 *
 	 * 200: Fields returned
 	 */
+	#[NoAdminRequired]
 	public function listTemplateFields(int $fileId): DataResponse {
 		$fields = $this->templateManager->listTemplateFields($fileId);
 
