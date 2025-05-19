@@ -1401,7 +1401,6 @@
   </file>
   <file src="apps/files/lib/Helper.php">
     <UndefinedInterfaceMethod>
-      <code><![CDATA[$file]]></code>
       <code><![CDATA[$i]]></code>
       <code><![CDATA[$i]]></code>
       <code><![CDATA[$i]]></code>

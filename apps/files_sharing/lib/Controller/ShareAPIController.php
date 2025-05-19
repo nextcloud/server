@@ -94,6 +94,7 @@ class ShareAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
 		private IMailer $mailer,
+		private ITagManager $tagManager,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -472,7 +473,7 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($include_tags) {
-					$share = Helper::populateTags([$share], Server::get(ITagManager::class));
+					$share = $this->populateTags([$share]);
 				} else {
 					$share = [$share];
 				}
@@ -847,7 +848,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($includeTags) {
-			$formatted = Helper::populateTags($formatted, Server::get(ITagManager::class));
+			$formatted = $this->populateTags($formatted);
 		}
 
 		return $formatted;
@@ -1100,8 +1101,7 @@ class ShareAPIController extends OCSController {
 		$formatted = $this->fixMissingDisplayName($formatted);
 
 		if ($includeTags) {
-			$formatted =
-				Helper::populateTags($formatted, Server::get(ITagManager::class));
+			$formatted = $this->populateTags($formatted);
 		}
 
 		return $formatted;
@@ -2220,5 +2220,42 @@ class ShareAPIController extends OCSController {
 		} catch (ShareTokenException $e) {
 			throw new OCSException($this->l->t('Failed to generate a unique token'));
 		}
+	}
+
+	/**
+	 * Populate the result set with file tags
+	 *
+	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
+	 * @param list<T> $fileList
+	 * @return list<T> file list populated with tags
+	 */
+	private function populateTags(array $fileList): array {
+		$tagger = $this->tagManager->load('files');
+		$tags = $tagger->getTagsForObjects(array_map(static fn (array $fileData) => $fileData['file_source'], $fileList));
+
+		if (!is_array($tags)) {
+			throw new \UnexpectedValueException('$tags must be an array');
+		}
+
+		// Set empty tag array
+		foreach ($fileList as &$fileData) {
+			$fileData['tags'] = [];
+		}
+		unset($fileData);
+
+		if (!empty($tags)) {
+			foreach ($tags as $fileId => $fileTags) {
+				foreach ($fileList as &$fileData) {
+					if ($fileId !== $fileData['file_source']) {
+						continue;
+					}
+
+					$fileData['tags'] = $fileTags;
+				}
+				unset($fileData);
+			}
+		}
+
+		return $fileList;
 	}
 }

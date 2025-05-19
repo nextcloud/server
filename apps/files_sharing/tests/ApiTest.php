@@ -26,6 +26,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
@@ -111,6 +112,7 @@ class ApiTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$providerFactory = $this->createMock(IProviderFactory::class);
 		$mailer = $this->createMock(IMailer::class);
+		$tagManager = $this->createMock(ITagManager::class);
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
@@ -131,6 +133,7 @@ class ApiTest extends TestCase {
 			$logger,
 			$providerFactory,
 			$mailer,
+			$tagManager,
 			$userId,
 		);
 	}
