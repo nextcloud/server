@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@ namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -5137,5 +5139,71 @@ class ShareAPIControllerTest extends TestCase {
 		$node->method('getStorage')->willReturn($storage);
 		$node->method('getId')->willReturn(42);
 		return [$userFolder, $node];
+	}
+
+	public function testCreateShareWithMailNotificationEnabled(): void {
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock('\\OCP\\Files\\Folder');
+	
+		$node->method('getPath')->willReturn('/testfile.txt');
+		$userFolder->method('get')
+			->with('/testfile.txt')
+			->willReturn($node);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+		$this->shareManager->method('newShare')->willReturn($share);
+	
+		$share->expects($this->once())
+			->method('setMailSend')
+			->with(true);
+	
+		$formattedShare = ['id' => '123'];
+		$controller = $this->mockFormatShare();
+		$controller->method('formatShare')
+			->with($share)
+			->willReturn($formattedShare);
+	
+		$result = $controller->createShare(
+			'/testfile.txt', 1, IShare::TYPE_USER, 'recipient',
+			null, '', null, null, '', '', null, 'true'
+		);
+	
+		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
+		$this->assertEquals($formattedShare, $result->getData());
+	}
+	
+	public function testCreateShareWithMailNotificationDisabled(): void {
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock('\\OCP\\Files\\Folder');
+	
+		$node->method('getPath')->willReturn('/testfile.txt');
+		$userFolder->method('get')
+			->with('/testfile.txt')
+			->willReturn($node);
+		$this->rootFolder->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+		$this->shareManager->method('newShare')->willReturn($share);
+	
+		$share->expects($this->once())
+			->method('setMailSend')
+			->with(false);
+	
+		$formattedShare = ['id' => '123'];
+		$controller = $this->mockFormatShare();
+		$controller->method('formatShare')
+			->with($share)
+			->willReturn($formattedShare);
+	
+		$result = $controller->createShare(
+			'/testfile.txt', 1, IShare::TYPE_USER, 'recipient',
+			null, '', null, null, '', '', null, 'false'
+		);
+	
+		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
+		$this->assertEquals($formattedShare, $result->getData());
 	}
 }
