@@ -126,6 +126,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\Attribute\\OpenAPI' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/OpenAPI.php',
         'OCP\\AppFramework\\Http\\Attribute\\PasswordConfirmationRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/PasswordConfirmationRequired.php',
         'OCP\\AppFramework\\Http\\Attribute\\PublicPage' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/PublicPage.php',
+        'OCP\\AppFramework\\Http\\Attribute\\RequestHeader' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/RequestHeader.php',
         'OCP\\AppFramework\\Http\\Attribute\\Route' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/Route.php',
         'OCP\\AppFramework\\Http\\Attribute\\StrictCookiesRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/StrictCookiesRequired.php',
         'OCP\\AppFramework\\Http\\Attribute\\SubAdminRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/SubAdminRequired.php',

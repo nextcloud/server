@@ -85,6 +85,7 @@ return array(
     'OCP\\AppFramework\\Http\\Attribute\\OpenAPI' => $baseDir . '/lib/public/AppFramework/Http/Attribute/OpenAPI.php',
     'OCP\\AppFramework\\Http\\Attribute\\PasswordConfirmationRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/PasswordConfirmationRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\PublicPage' => $baseDir . '/lib/public/AppFramework/Http/Attribute/PublicPage.php',
+    'OCP\\AppFramework\\Http\\Attribute\\RequestHeader' => $baseDir . '/lib/public/AppFramework/Http/Attribute/RequestHeader.php',
     'OCP\\AppFramework\\Http\\Attribute\\Route' => $baseDir . '/lib/public/AppFramework/Http/Attribute/Route.php',
     'OCP\\AppFramework\\Http\\Attribute\\StrictCookiesRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/StrictCookiesRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\SubAdminRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/SubAdminRequired.php',
