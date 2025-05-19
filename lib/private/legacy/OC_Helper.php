@@ -199,7 +199,7 @@ class OC_Helper {
 
 	/**
 	 * Try to find a program
-	 * @deprecated 25.0.0 Use \OC\BinaryFinder directly
+	 * @deprecated 25.0.0 Use \OCP\IBinaryFinder directly
 	 */
 	public static function findBinaryPath(string $program): ?string {
 		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
@@ -415,6 +415,7 @@ class OC_Helper {
 	/**
 	 * Returns whether the config file is set manually to read-only
 	 * @return bool
+	 * @deprecated 32.0.0 use the `config_is_read_only` system config directly
 	 */
 	public static function isReadOnlyConfigEnabled() {
 		return \OC::$server->getConfig()->getSystemValueBool('config_is_read_only', false);
