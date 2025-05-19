@@ -80,7 +80,7 @@ class HookConnectorTest extends TestCase {
 			Filesystem::getMountManager(),
 			$this->view,
 			\OC::$server->getUserManager()->get($this->userId),
-			\OC::$server->getUserMountCache(),
+			\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),

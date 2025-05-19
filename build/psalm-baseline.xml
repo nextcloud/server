@@ -4383,14 +4383,11 @@
   </file>
   <file src="lib/private/Server.php">
     <ImplementedReturnTypeMismatch>
-      <code><![CDATA[\OCP\Calendar\Resource\IManager]]></code>
-      <code><![CDATA[\OCP\Calendar\Room\IManager]]></code>
       <code><![CDATA[\OCP\Files\Folder|null]]></code>
     </ImplementedReturnTypeMismatch>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->get(IFile::class)]]></code>
       <code><![CDATA[$this->get(IGroupManager::class)]]></code>
-      <code><![CDATA[$this->get(INavigationManager::class)]]></code>
       <code><![CDATA[$this->get(IUserManager::class)]]></code>
       <code><![CDATA[$this->get(IUserSession::class)]]></code>
       <code><![CDATA[$this->get(\OCP\Encryption\IManager::class)]]></code>
@@ -4399,13 +4396,9 @@
       <code><![CDATA[\OC\Encryption\File]]></code>
       <code><![CDATA[\OC\Encryption\Manager]]></code>
       <code><![CDATA[\OC\Group\Manager]]></code>
-      <code><![CDATA[\OC\NavigationManager]]></code>
       <code><![CDATA[\OC\User\Manager]]></code>
       <code><![CDATA[\OC\User\Session]]></code>
     </MoreSpecificReturnType>
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\OCSClient]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/ServerContainer.php">
     <InvalidPropertyAssignmentValue>
@@ -4472,39 +4465,13 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[FederatedShareProvider]]></code>
-      <code><![CDATA[ShareByMailProvider]]></code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[$provider]]></code>
       <code><![CDATA[$provider]]></code>
-      <code><![CDATA[$this->shareByCircleProvider]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[getProviderForType]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$shareProviderClass]]></code>
-    </ParamNameMismatch>
-    <UndefinedClass>
-      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
-    </UndefinedClass>
-    <UndefinedDocblockClass>
-      <code><![CDATA[RoomShareProvider]]></code>
-      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
-      <code><![CDATA[\OCA\Talk\Share\RoomShareProvider]]></code>
-      <code><![CDATA[private $roomShareProvider = null;]]></code>
-      <code><![CDATA[private $shareByCircleProvider = null;]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/Share20/Share.php">
     <LessSpecificReturnStatement>
