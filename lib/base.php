@@ -644,9 +644,6 @@ class OC {
 			error_reporting(E_ALL);
 		}
 
-		$systemConfig = Server::get(\OC\SystemConfig::class);
-		self::registerAutoloaderCache($systemConfig);
-
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
 
@@ -680,6 +677,7 @@ class OC {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
 
+		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApps(['session']);
