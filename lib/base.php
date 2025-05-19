@@ -40,10 +40,6 @@ require_once 'public/Constants.php';
  */
 class OC {
 	/**
-	 * Associative array for autoloading. classname => filename
-	 */
-	public static array $CLASSPATH = [];
-	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
 	public static string $SERVERROOT = '';
@@ -72,8 +68,6 @@ class OC {
 	 * check if Nextcloud runs in cli mode
 	 */
 	public static bool $CLI = false;
-
-	public static \OC\Autoloader $loader;
 
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
@@ -597,12 +591,6 @@ class OC {
 
 		// register autoloader
 		$loaderStart = microtime(true);
-		require_once __DIR__ . '/autoloader.php';
-		self::$loader = new \OC\Autoloader([
-			OC::$SERVERROOT . '/lib/private/legacy',
-		]);
-		spl_autoload_register([self::$loader, 'load']);
-		$loaderEnd = microtime(true);
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
@@ -628,6 +616,7 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+		$loaderEnd = microtime(true);
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
@@ -655,9 +644,6 @@ class OC {
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
 			error_reporting(E_ALL);
 		}
-
-		$systemConfig = Server::get(\OC\SystemConfig::class);
-		self::registerAutoloaderCache($systemConfig);
 
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
@@ -692,6 +678,7 @@ class OC {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
 
+		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApps(['session']);
@@ -972,23 +959,6 @@ class OC {
 			$dispatcher->addServiceListener(UserRemovedEvent::class, UserRemovedListener::class);
 			$dispatcher->addServiceListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 			$dispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
-		}
-	}
-
-	protected static function registerAutoloaderCache(\OC\SystemConfig $systemConfig): void {
-		// The class loader takes an optional low-latency cache, which MUST be
-		// namespaced. The instanceid is used for namespacing, but might be
-		// unavailable at this point. Furthermore, it might not be possible to
-		// generate an instanceid via \OC_Util::getInstanceId() because the
-		// config file may not be writable. As such, we only register a class
-		// loader cache if instanceid is available without trying to create one.
-		$instanceId = $systemConfig->getValue('instanceid', null);
-		if ($instanceId) {
-			try {
-				$memcacheFactory = Server::get(\OCP\ICacheFactory::class);
-				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
-			} catch (\Exception $ex) {
-			}
 		}
 	}
 
