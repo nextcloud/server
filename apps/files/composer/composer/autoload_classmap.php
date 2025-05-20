@@ -19,6 +19,7 @@ return array(
     'OCA\\Files\\AdvancedCapabilities' => $baseDir . '/../lib/AdvancedCapabilities.php',
     'OCA\\Files\\App' => $baseDir . '/../lib/App.php',
     'OCA\\Files\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Files\\BackgroundJob\\CacheGarbageCollection' => $baseDir . '/../lib/BackgroundJob/CacheGarbageCollection.php',
     'OCA\\Files\\BackgroundJob\\CleanupDirectEditingTokens' => $baseDir . '/../lib/BackgroundJob/CleanupDirectEditingTokens.php',
     'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => $baseDir . '/../lib/BackgroundJob/CleanupFileLocks.php',
     'OCA\\Files\\BackgroundJob\\DeleteExpiredOpenLocalEditor' => $baseDir . '/../lib/BackgroundJob/DeleteExpiredOpenLocalEditor.php',

@@ -26,14 +26,20 @@ class File implements ICache {
 	 * @throws \OC\ForbiddenException
 	 * @throws \OC\User\NoUserException
 	 */
-	protected function getStorage() {
+	protected function getStorage(?string $userId = null) {
 		if ($this->storage !== null) {
 			return $this->storage;
 		}
-		$session = Server::get(IUserSession::class);
-		if ($session->isLoggedIn()) {
+
+		if ($userId === null) {
+			$session = Server::get(IUserSession::class);
+			if ($session->isLoggedIn()) {
+				$userId = $session->getUser()->getUID();
+			}
+		}
+
+		if ($userId !== null) {
 			$rootView = new View();
-			$userId = $session->getUser()->getUID();
 			Filesystem::initMountPoints($userId);
 			if (!$rootView->file_exists('/' . $userId . '/cache')) {
 				$rootView->mkdir('/' . $userId . '/cache');
@@ -154,8 +160,8 @@ class File implements ICache {
 	 * Runs GC
 	 * @throws \OC\ForbiddenException
 	 */
-	public function gc() {
-		$storage = $this->getStorage();
+	public function gc(?string $userId = null) {
+		$storage = $this->getStorage($userId);
 		if ($storage) {
 			// extra hour safety, in case of stray part chunks that take longer to write,
 			// because touch() is only called after the chunk was finished
