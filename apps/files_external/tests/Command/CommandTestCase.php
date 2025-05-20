@@ -9,21 +9,20 @@ namespace OCA\Files_External\Tests\Command;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Test\TestCase;
 
-abstract class CommandTest extends TestCase {
+abstract class CommandTestCase extends TestCase {
 	/**
 	 * @param StorageConfig[] $mounts
-	 * @return GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject
+	 * @return GlobalStoragesService&MockObject
 	 */
 	protected function getGlobalStorageService(array $mounts = []) {
-		$mock = $this->getMockBuilder('OCA\Files_External\Service\GlobalStoragesService')
-			->disableOriginalConstructor()
-			->getMock();
+		$mock = $this->createMock(GlobalStoragesService::class);
 
 		$this->bindMounts($mock, $mounts);
 
@@ -31,10 +30,10 @@ abstract class CommandTest extends TestCase {
 	}
 
 	/**
-	 * @param \PHPUnit\Framework\MockObject\MockObject $mock
+	 * @param MockObject $mock
 	 * @param StorageConfig[] $mounts
 	 */
-	protected function bindMounts(\PHPUnit\Framework\MockObject\MockObject $mock, array $mounts) {
+	protected function bindMounts(MockObject $mock, array $mounts) {
 		$mock->expects($this->any())
 			->method('getStorage')
 			->willReturnCallback(function ($id) use ($mounts) {
@@ -70,7 +69,7 @@ abstract class CommandTest extends TestCase {
 		return $mount;
 	}
 
-	protected function getInput(Command $command, array $arguments = [], array $options = []) {
+	protected function getInput(Command $command, array $arguments = [], array $options = []): ArrayInput {
 		$input = new ArrayInput([]);
 		$input->bind($command->getDefinition());
 		foreach ($arguments as $key => $value) {
@@ -82,7 +81,7 @@ abstract class CommandTest extends TestCase {
 		return $input;
 	}
 
-	protected function executeCommand(Command $command, Input $input) {
+	protected function executeCommand(Command $command, Input $input): string {
 		$output = new BufferedOutput();
 		$this->invokePrivate($command, 'execute', [$input, $output]);
 		return $output->fetch();

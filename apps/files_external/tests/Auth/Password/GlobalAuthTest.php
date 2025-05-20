@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,26 +10,16 @@ namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\Security\ICredentialsManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
-	/**
-	 * @var IL10N|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $l10n;
-
-	/**
-	 * @var ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $credentialsManager;
-
-	/**
-	 * @var GlobalAuth
-	 */
-	private $instance;
+	private IL10N&MockObject $l10n;
+	private ICredentialsManager&MockObject $credentialsManager;
+	private GlobalAuth $instance;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,7 +29,7 @@ class GlobalAuthTest extends TestCase {
 	}
 
 	private function getStorageConfig($type, $config = []) {
-		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit\Framework\MockObject\MockObject $storageConfig */
+		/** @var \OCA\Files_External\Lib\StorageConfig&MockObject $storageConfig */
 		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')
