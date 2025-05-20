@@ -169,6 +169,40 @@ Feature: webdav-related
 		Then the HTTP status code should be "403"
 		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
+	Scenario: Deleting a file copied from a received share
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And User "user0" uploads file "data/textfile.txt" to "/test.txt"
+		And As an "user0"
+		And creating a share with
+		  | path | /test.txt |
+		  | shareType | 0 |
+		  | shareWith | user1 |
+		And As an "user1"
+		And accepting last share
+		When User "user1" copies file "/test.txt" to "/copied.txt"
+		And User "user1" deletes file "/copied.txt"
+		Then the HTTP status code should be "204"
+
+	Scenario: Deleting a file copied from a received shared folder without delete permission
+		Given using old dav path
+		And user "user0" exists
+		And user "user1" exists
+		And User "user0" created a folder "/Test"
+		And User "user0" uploads file "data/textfile.txt" to "/Test/test.txt"
+		And As an "user0"
+		And creating a share with
+		  | path | /Test |
+		  | shareType | 0 |
+		  | shareWith | user1 |
+		  | permissions | 23 |
+		And As an "user1"
+		And accepting last share
+		When User "user1" copies file "/Test/test.txt" to "/copied.txt"
+		And User "user1" deletes file "/copied.txt"
+		Then the HTTP status code should be "204"
+
 	Scenario: download a file with range
 		Given using old dav path
 		And As an "admin"
