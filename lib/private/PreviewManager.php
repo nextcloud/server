@@ -151,7 +151,7 @@ class PreviewManager implements IPreview {
 		$mimeType = null,
 		bool $cacheResult = true,
 	): ISimpleFile {
-		$this->throwIfPreviewsDisabled();
+		$this->throwIfPreviewsDisabled($file);
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
@@ -175,7 +175,7 @@ class PreviewManager implements IPreview {
 	 * @since 19.0.0
 	 */
 	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
-		$this->throwIfPreviewsDisabled();
+		$this->throwIfPreviewsDisabled($file);
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
@@ -452,8 +452,8 @@ class PreviewManager implements IPreview {
 	/**
 	 * @throws NotFoundException if preview generation is disabled
 	 */
-	private function throwIfPreviewsDisabled(): void {
-		if (!$this->enablePreviews) {
+	private function throwIfPreviewsDisabled(File $file): void {
+		if (!$this->isAvailable($file)) {
 			throw new NotFoundException('Previews disabled');
 		}
 	}
