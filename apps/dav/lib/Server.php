@@ -344,6 +344,7 @@ class Server {
 						\OC::$server->getAppManager()
 					));
 					$lazySearchBackend->setBackend(new FileSearchBackend(
+						$this->server,
 						$this->server->tree,
 						$user,
 						\OC::$server->getRootFolder(),
