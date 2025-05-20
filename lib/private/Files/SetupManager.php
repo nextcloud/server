@@ -34,6 +34,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
@@ -275,9 +276,13 @@ class SetupManager {
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
 			return str_starts_with($mount->getMountPoint(), $userRoot);
 		});
-		$allProviders = array_map(function (IMountProvider $provider) {
+		$allProviders = array_map(function (IMountProvider|IHomeMountProvider|IRootMountProvider $provider) {
 			return get_class($provider);
-		}, $this->mountProviderCollection->getProviders());
+		}, array_merge(
+			$this->mountProviderCollection->getProviders(),
+			$this->mountProviderCollection->getHomeProviders(),
+			$this->mountProviderCollection->getRootProviders(),
+		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
 			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
