@@ -9,6 +9,7 @@ use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarImpl;
+use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\Connector\Sabre\Server;
 use OCP\Calendar\Exceptions\CalendarException;
@@ -219,7 +220,8 @@ class CalendarImplTest extends \Test\TestCase {
 		$authPlugin->expects(self::once())
 			->method('setCurrentPrincipal')
 			->with($this->calendar->getPrincipalURI());
-
+		/** @var \Sabre\DAVACL\Plugin|MockObject $aclPlugin */
+		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 		/** @var \OCA\DAV\CalDAV\Schedule\Plugin|MockObject $schedulingPlugin */
 		$schedulingPlugin = $this->createMock(Plugin::class);
 		$schedulingPlugin->expects(self::once())
@@ -232,13 +234,27 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getPlugin')
 			->willReturnMap([
 				['auth', $authPlugin],
+				['acl', $aclPlugin],
 				['caldav-schedule', $schedulingPlugin]
 			]);
 		$server->expects(self::once())
 			->method('emit')
-			->with('schedule', $iTip);
+			->with('schedule', [$iTip]);
+		
+		$invitationResponseServer = $this->createMock(InvitationResponseServer::class, ['getServer']);
+		$invitationResponseServer->server = $server;
+		$invitationResponseServer->expects($this->any())
+			->method('getServer')
+			->willReturn($server);
+		$calendarImpl = $this->getMockBuilder(CalendarImpl::class)
+			->setConstructorArgs([$this->calendar, $this->calendarInfo, $this->backend])
+			->onlyMethods(['getInvitationResponseServer'])
+			->getMock();
+		$calendarImpl->expects($this->once())
+			->method('getInvitationResponseServer')
+			->willReturn($invitationResponseServer);
 			
-		$this->calendarImpl->handleIMip($vObject);
+		$calendarImpl->handleIMip($vObject);
 	}
 
 }
