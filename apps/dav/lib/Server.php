@@ -341,6 +341,7 @@ class Server {
 						\OC::$server->getAppManager()
 					));
 					$lazySearchBackend->setBackend(new \OCA\DAV\Files\FileSearchBackend(
+						$this->server,
 						$this->server->tree,
 						$user,
 						\OC::$server->getRootFolder(),

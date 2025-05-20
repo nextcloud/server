@@ -120,6 +120,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$this->server = $server;
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
+		$this->server->on('preloadProperties', [$this, 'handlePreloadProperties']);
 	}
 
 	/**
@@ -176,6 +177,24 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
+	 * Prefetches tags for a list of file IDs and caches the results
+	 *
+	 * @param array $fileIds List of file IDs to prefetch tags for
+	 * @return void
+	 */
+	private function prefetchTagsForFileIds(array $fileIds) {
+		$tags = $this->getTagger()->getTagsForObjects($fileIds);
+		if ($tags === false) {
+			// the tags API returns false on error...
+			$tags = [];
+		}
+
+		foreach ($fileIds as $fileId) {
+			$this->cachedTags[$fileId] = $tags[$fileId] ?? [];
+		}
+	}
+
+	/**
 	 * Updates the tags of the given file id
 	 *
 	 * @param int $fileId
@@ -225,22 +244,11 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			)) {
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $node->getChildren();
-			$fileIds[] = (int)$node->getId();
+			$fileIds = [(int) $node->getId()];
 			foreach ($folderContent as $info) {
 				$fileIds[] = (int)$info->getId();
 			}
-			$tags = $this->getTagger()->getTagsForObjects($fileIds);
-			if ($tags === false) {
-				// the tags API returns false on error...
-				$tags = [];
-			}
-
-			$this->cachedTags = $this->cachedTags + $tags;
-			$emptyFileIds = array_diff($fileIds, array_keys($tags));
-			// also cache the ones that were not found
-			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTags[$fileId] = [];
-			}
+			$this->prefetchTagsForFileIds($fileIds);
 		}
 
 		$isFav = null;
@@ -295,5 +303,15 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 
 			return 200;
 		});
+	}
+
+	public function handlePreloadProperties(array $nodes, array $requestProperties): void {
+		if (
+			!in_array(self::FAVORITE_PROPERTYNAME, $requestProperties, true) &&
+			!in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)
+		) {
+			return;
+		}
+		$this->prefetchTagsForFileIds(array_map(fn ($node) => $node->getId(), $nodes));
 	}
 }
