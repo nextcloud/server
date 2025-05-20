@@ -15,6 +15,10 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class MovieTest extends Provider {
+	protected string $fileName = 'testimage.mp4';
+	protected int $width = 560;
+	protected int $height = 320;
+
 	protected function setUp(): void {
 		$avconvBinary = \OC_Helper::findBinaryPath('avconv');
 		$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
@@ -25,10 +29,7 @@ class MovieTest extends Provider {
 			\OC\Preview\Movie::$avconvBinary = $avconvBinary;
 			\OC\Preview\Movie::$ffmpegBinary = $ffmpegBinary;
 
-			$fileName = 'testimage.mp4';
-			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
-			$this->width = 560;
-			$this->height = 320;
+			$this->imgPath = $this->prepareTestFile($this->fileName, \OC::$SERVERROOT . '/tests/data/' . $this->fileName);
 			$this->provider = new \OC\Preview\Movie;
 		} else {
 			$this->markTestSkipped('No Movie provider present');
