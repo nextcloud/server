@@ -252,15 +252,19 @@ class SFTP extends Common {
 
 	public function opendir(string $path) {
 		try {
-			$list = $this->getConnection()->nlist($this->absPath($path));
+			$absPath = $this->absPath($path);
+			$list = $this->getConnection()->rawlist($absPath);
 			if ($list === false) {
 				return false;
 			}
 
 			$id = md5('sftp:' . $path);
 			$dirStream = [];
-			foreach ($list as $file) {
-				if ($file !== '.' && $file !== '..') {
+			foreach ($list as $file => $stat) {
+				$fileAdded = ((int)$stat['type'] === NET_SFTP_TYPE_SYMLINK) &&
+							 str_contains($absPath, '/' . basename($absPath) . '/' . $file . '/');
+
+				if ($file !== '.' && $file !== '..' && !$fileAdded) {
 					$dirStream[] = $file;
 				}
 			}
