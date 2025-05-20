@@ -101,18 +101,17 @@ class IconBuilder {
 	 * Render app icon on themed background color
 	 * fallback to logo
 	 *
-	 * @param $app string app name
-	 * @param $size int size of the icon in px
+	 * @param string $app app name
+	 * @param int $size size of the icon in px
 	 * @return Imagick|false
 	 */
 	public function renderAppIcon($app, $size) {
 		$appIcon = $this->util->getAppIcon($app);
-		if ($appIcon === false) {
-			return false;
-		}
 		if ($appIcon instanceof ISimpleFile) {
 			$appIconContent = $appIcon->getContent();
 			$mime = $appIcon->getMimeType();
+		} elseif (!file_exists($appIcon)) {
+			return false;
 		} else {
 			$appIconContent = file_get_contents($appIcon);
 			$mime = mime_content_type($appIcon);
@@ -198,13 +197,13 @@ class IconBuilder {
 	}
 
 	/**
-	 * @param $app string app name
-	 * @param $image string relative path to svg file in app directory
+	 * @param string $app app name
+	 * @param string $image relative path to svg file in app directory
 	 * @return string|false content of a colorized svg file
 	 */
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
-		if ($imageFile === false || $imageFile === '') {
+		if ($imageFile === false || $imageFile === '' || !file_exists($imageFile)) {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
