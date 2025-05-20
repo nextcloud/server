@@ -15,6 +15,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\ObjectTree;
+use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Files\FileSearchBackend;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -36,6 +37,7 @@ use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
 	private ObjectTree&MockObject $tree;
+	private Server&MockObject $server;
 	private IUser&MockObject $user;
 	private IRootFolder&MockObject $rootFolder;
 	private IManager&MockObject $shareManager;
@@ -53,6 +55,7 @@ class FileSearchBackendTest extends TestCase {
 			->willReturn('test');
 
 		$this->tree = $this->createMock(ObjectTree::class);
+		$this->server = $this->createMock(Server::class);
 		$this->view = $this->createMock(View::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->shareManager = $this->createMock(IManager::class);
@@ -78,7 +81,7 @@ class FileSearchBackendTest extends TestCase {
 
 		$filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
 
-		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
+		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
 	}
 
 	public function testSearchFilename(): void {
@@ -401,5 +404,18 @@ class FileSearchBackendTest extends TestCase {
 		$query->where = $level3Operator;
 		$this->expectException(\InvalidArgumentException::class);
 		$this->search->search($query);
+	}
+
+	public function testPreloadPropertyFor(): void {
+		$node1 = $this->createMock(File::class);
+		$node2 = $this->createMock(Directory::class);
+		$nodes = [$node1, $node2];
+		$requestProperties = ['{DAV:}getcontenttype', '{DAV:}getlastmodified'];
+
+		$this->server->expects($this->once())
+			->method('emit')
+			->with('preloadProperties', [$nodes, $requestProperties]);
+
+		$this->search->preloadPropertyFor($nodes, $requestProperties);
 	}
 }
