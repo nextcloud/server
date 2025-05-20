@@ -206,25 +206,27 @@ class Throttler implements IThrottler {
 	 * {@inheritDoc}
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
-		$attempts = $this->getAttempts($ip, $action, 0.5);
-		if ($attempts > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
-			$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, attempts: {attempts}, ip: {ip}]', [
-				'action' => $action,
-				'ip' => $ip,
-				'attempts' => $attempts,
-			]);
-			// If the ip made too many attempts within the last 30 mins we don't execute anymore
-			throw new MaxDelayReached('Reached maximum delay');
-		}
-
+		$maxAttempts = $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS);
 		$attempts = $this->getAttempts($ip, $action);
-		if ($attempts > 10) {
+		if ($attempts > $maxAttempts) {
+			$attempts30mins = $this->getAttempts($ip, $action, 0.5);
+			if ($attempts30mins > $maxAttempts) {
+				$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, attempts: {attempts}, ip: {ip}]', [
+					'action' => $action,
+					'ip' => $ip,
+					'attempts' => $attempts30mins,
+				]);
+				// If the ip made too many attempts within the last 30 mins we don't execute anymore
+				throw new MaxDelayReached('Reached maximum delay');
+			}
+
 			$this->logger->info('IP address throttled because it reached the attempts limit in the last 12 hours [action: {action}, attempts: {attempts}, ip: {ip}]', [
 				'action' => $action,
 				'ip' => $ip,
 				'attempts' => $attempts,
 			]);
 		}
+
 		if ($attempts > 0) {
 			return $this->calculateDelay($attempts);
 		}
