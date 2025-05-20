@@ -938,7 +938,7 @@ class View {
 
 			try {
 				$exists = $this->file_exists($target);
-				if ($this->shouldEmitHooks()) {
+				if ($this->shouldEmitHooks($target)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
@@ -978,7 +978,7 @@ class View {
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-					if ($this->shouldEmitHooks() && $result !== false) {
+					if ($this->shouldEmitHooks($target) && $result !== false) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
