@@ -111,6 +111,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://nextcloud.org/ns}lock-time',
 		'{http://nextcloud.org/ns}lock-timeout',
 		'{http://nextcloud.org/ns}lock-token',
+		// photos
+		'{http://nextcloud.org/ns}realpath',
+		'{http://nextcloud.org/ns}nbItems',
+		'{http://nextcloud.org/ns}face-detections',
+		'{http://nextcloud.org/ns}face-preview-image',
 	];
 
 	/**
