@@ -15,7 +15,7 @@ use OC\Federation\CloudIdManager;
  *
  * @package OCP\Federation
  *
- * @since 12.0.0
+ * @since 32.0.0
  */
 class CloudId implements ICloudId {
 	public function __construct(
@@ -37,7 +37,8 @@ class CloudId implements ICloudId {
 
 	public function getDisplayId(): string {
 		if ($this->displayName === null) {
-			$cloudIdManager = \OCP\Server::get(CloudIdManager::class);
+			/** @var CloudIdManager $cloudIdManager */
+			$cloudIdManager = \OCP\Server::get(ICloudIdManager::class);
 			$this->displayName = $cloudIdManager->getDisplayNameFromContact($this->getId());
 		}
 

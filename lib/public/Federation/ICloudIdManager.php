@@ -59,14 +59,14 @@ interface ICloudIdManager {
 	/**
 	 * @param ICloudIdResolver $resolver
 	 *
-	 * @since 26.0.0
+	 * @since 32.0.0
 	 */
 	public function registerCloudIdResolver(ICloudIdResolver $resolver);
 
 	/**
 	 * @param ICloudIdResolver $resolver
 	 *
-	 * @since 26.0.0
+	 * @since 32.0.0
 	 */
 	public function unregisterCloudIdResolver(ICloudIdResolver $resolver);
 }
