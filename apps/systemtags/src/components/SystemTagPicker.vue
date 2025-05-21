@@ -241,7 +241,7 @@ export default defineComponent({
 			}
 
 			return this.sortedTags
-				.filter(tag => tag.displayName.normalize().includes(this.input.normalize()))
+				.filter(tag => tag.displayName.normalize().toLowerCase().includes(this.input.normalize().toLowerCase()))
 		},
 
 		hasChanges(): boolean {
