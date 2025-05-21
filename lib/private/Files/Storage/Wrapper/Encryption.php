@@ -8,7 +8,6 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
-use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
@@ -22,6 +21,7 @@ use OCP\Encryption\Exceptions\InvalidHeaderException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
+use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
@@ -50,7 +50,6 @@ class Encryption extends Wrapper {
 		private IFile $fileHelper,
 		private ?string $uid,
 		private IStorage $keyStorage,
-		private Update $update,
 		private Manager $mountManager,
 		private ArrayCache $arrayCache,
 	) {
@@ -65,7 +64,8 @@ class Encryption extends Wrapper {
 
 		$info = $this->getCache()->get($path);
 		if ($info === false) {
-			return false;
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->storage->filesize($path);
 		}
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
@@ -319,7 +319,7 @@ class Encryption extends Wrapper {
 					if (!empty($encryptionModuleId)) {
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = true;
-					} elseif (empty($encryptionModuleId) && $info['encrypted'] === true) {
+					} elseif ($info !== false && $info['encrypted'] === true) {
 						// we come from a old installation. No header and/or no module defined
 						// but the file is encrypted. In this case we need to use the
 						// OC_DEFAULT_MODULE to read the file
@@ -537,10 +537,22 @@ class Encryption extends Wrapper {
 
 		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
 		if ($result) {
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$result = $sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$result = $sourceStorage->unlink($sourceInternalPath);
+			$setPreserveCacheOnDelete = $sourceStorage->instanceOfStorage(ObjectStoreStorage::class) && !$this->instanceOfStorage(ObjectStoreStorage::class);
+			if ($setPreserveCacheOnDelete) {
+				/** @var ObjectStoreStorage $sourceStorage */
+				$sourceStorage->setPreserveCacheOnDelete(true);
+			}
+			try {
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$result = $sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$result = $sourceStorage->unlink($sourceInternalPath);
+				}
+			} finally {
+				if ($setPreserveCacheOnDelete) {
+					/** @var ObjectStoreStorage $sourceStorage */
+					$sourceStorage->setPreserveCacheOnDelete(false);
+				}
 			}
 		}
 		return $result;
@@ -665,7 +677,7 @@ class Encryption extends Wrapper {
 			if (is_resource($dh)) {
 				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename);
+						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime, $isRename);
 					}
 				}
 			}
@@ -673,7 +685,7 @@ class Encryption extends Wrapper {
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
-				[, $result] = \OC_Helper::streamCopy($source, $target);
+				[, $result] = Files::streamCopy($source, $target, true);
 			} finally {
 				if (is_resource($source)) {
 					fclose($source);
@@ -882,7 +894,7 @@ class Encryption extends Wrapper {
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
-		[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+		[$count, $result] = Files::streamCopy($stream, $target, true);
 		fclose($stream);
 		fclose($target);
 
@@ -904,5 +916,17 @@ class Encryption extends Wrapper {
 	 */
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
+	}
+
+	/**
+	 * Check if the on-disk data for a file has a valid encrypted header
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function hasValidHeader(string $path): bool {
+		$firstBlock = $this->readFirstBlock($path);
+		$header = $this->util->parseRawHeader($firstBlock);
+		return (count($header) > 0);
 	}
 }

@@ -46,10 +46,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-	/**
-	 * @return array
-	 */
-	public function renderDataProvider() {
+	public static function renderDataProvider(): array {
 		return [
 			[
 				['test' => 'hi'], '{"test":"hi"}',

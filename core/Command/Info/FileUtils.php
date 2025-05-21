@@ -8,11 +8,13 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Info;
 
+use OC\User\NoUserException;
 use OCA\Circles\MountManager\CircleMount;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\SharedMount;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -21,22 +23,28 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\IDBConnection;
 use OCP\Share\IShare;
 use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @psalm-type StorageInfo array{numeric_id: int, id: string, available: bool, last_checked: ?\DateTime, files: int, mount_id: ?int}
+ */
 class FileUtils {
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IUserMountCache $userMountCache,
+		private IDBConnection $connection,
 	) {
 	}
 
 	/**
 	 * @param FileInfo $file
 	 * @return array<string, Node[]>
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	public function getFilesByUser(FileInfo $file): array {
 		$id = $file->getId();
@@ -217,5 +225,101 @@ class FileUtils {
 			}
 		}
 		return $count;
+	}
+
+	public function getNumericStorageId(string $id): ?int {
+		if (is_numeric($id)) {
+			return (int)$id;
+		}
+		$query = $this->connection->getQueryBuilder();
+		$query->select('numeric_id')
+			->from('storages')
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
+		$result = $query->executeQuery()->fetchOne();
+		return $result ? (int)$result : null;
+	}
+
+	/**
+	 * @param int|null $limit
+	 * @return ?StorageInfo
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getStorage(int $id): ?array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('numeric_id', 's.id', 'available', 'last_checked', 'mount_id')
+			->selectAlias($query->func()->count('fileid'), 'files')
+			->from('storages', 's')
+			->innerJoin('s', 'filecache', 'f', $query->expr()->eq('f.storage', 's.numeric_id'))
+			->leftJoin('s', 'mounts', 'm', $query->expr()->eq('s.numeric_id', 'm.storage_id'))
+			->where($query->expr()->eq('s.numeric_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked', 'mount_id');
+		$row = $query->executeQuery()->fetch();
+		if ($row) {
+			return [
+				'numeric_id' => $row['numeric_id'],
+				'id' => $row['id'],
+				'files' => $row['files'],
+				'available' => (bool)$row['available'],
+				'last_checked' => $row['last_checked'] ? new \DateTime('@' . $row['last_checked']) : null,
+				'mount_id' => $row['mount_id'],
+			];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * @param int|null $limit
+	 * @return \Iterator<StorageInfo>
+	 * @throws \OCP\DB\Exception
+	 */
+	public function listStorages(?int $limit): \Iterator {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('numeric_id', 's.id', 'available', 'last_checked', 'mount_id')
+			->selectAlias($query->func()->count('fileid'), 'files')
+			->from('storages', 's')
+			->innerJoin('s', 'filecache', 'f', $query->expr()->eq('f.storage', 's.numeric_id'))
+			->leftJoin('s', 'mounts', 'm', $query->expr()->eq('s.numeric_id', 'm.storage_id'))
+			->groupBy('s.numeric_id', 's.id', 's.available', 's.last_checked', 'mount_id')
+			->orderBy('files', 'DESC');
+		if ($limit !== null) {
+			$query->setMaxResults($limit);
+		}
+		$result = $query->executeQuery();
+		while ($row = $result->fetch()) {
+			yield [
+				'numeric_id' => $row['numeric_id'],
+				'id' => $row['id'],
+				'files' => $row['files'],
+				'available' => (bool)$row['available'],
+				'last_checked' => $row['last_checked'] ? new \DateTime('@' . $row['last_checked']) : null,
+				'mount_id' => $row['mount_id'],
+			];
+		}
+	}
+
+	/**
+	 * @param StorageInfo $storage
+	 * @return array
+	 */
+	public function formatStorage(array $storage): array {
+		return [
+			'numeric_id' => $storage['numeric_id'],
+			'id' => $storage['id'],
+			'files' => $storage['files'],
+			'available' => $storage['available'] ? 'true' : 'false',
+			'last_checked' => $storage['last_checked']?->format(\DATE_ATOM),
+			'external_mount_id' => $storage['mount_id'],
+		];
+	}
+
+	/**
+	 * @param \Iterator<StorageInfo> $storages
+	 * @return \Iterator
+	 */
+	public function formatStorages(\Iterator $storages): \Iterator {
+		foreach ($storages as $storage) {
+			yield $this->formatStorage($storage);
+		}
 	}
 }

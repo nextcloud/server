@@ -18,10 +18,12 @@ use function array_key_exists;
 /**
  * Class GenericEvent
  *
- * convenience reimplementation of \Symfony\Component\GenericEvent against
+ * convenience re-implementation of \Symfony\Component\GenericEvent against
  * \OCP\EventDispatcher\Event
  *
  * @since 18.0.0
+ * @template-implements ArrayAccess<array-key, mixed>
+ * @template-implements IteratorAggregate<array-key, mixed>
  * @deprecated 22.0.0 use \OCP\EventDispatcher\Event
  */
 class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {

@@ -14,7 +14,7 @@ use OC\User\Manager;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class PreLoginHookCommandTest extends ALoginCommandTest {
+class PreLoginHookCommandTest extends ALoginTestCommand {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 

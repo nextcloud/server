@@ -713,7 +713,9 @@ class CheckerTest extends TestCase {
 	 */
 	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData(): void {
 		$shippedMimetypeAliases = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypealiases.dist.json'));
+		$shippedMimetypeNames = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypenames.dist.json'));
 		$allAliases = array_merge($shippedMimetypeAliases, ['my-custom/mimetype' => 'custom']);
+		$allMimetypeNames = array_merge($shippedMimetypeNames, ['my-custom/mimetype' => 'Custom Document']);
 
 		$this->mimeTypeDetector
 			->method('getOnlyDefaultAliases')
@@ -723,9 +725,14 @@ class CheckerTest extends TestCase {
 			->method('getAllAliases')
 			->willReturn($allAliases);
 
+		$this->mimeTypeDetector
+			->method('getAllNamings')
+			->willReturn($allMimetypeNames);
+
 		$oldMimetypeList = new GenerateMimetypeFileBuilder();
 		$all = $this->mimeTypeDetector->getAllAliases();
-		$newFile = $oldMimetypeList->generateFile($all);
+		$namings = $this->mimeTypeDetector->getAllNamings();
+		$newFile = $oldMimetypeList->generateFile($all, $namings);
 
 		// When updating the mimetype list the test assets need to be updated as well
 		// 1. Update core/js/mimetypelist.js with the new generated js by running the test with the next line uncommented:

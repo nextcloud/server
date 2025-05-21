@@ -215,10 +215,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Time:" : "시간:",
-    "Could not open file" : "파일을 열 수 없음",
-    "Invalid chunk name" : "잘못된 청크 이름",
-    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음"
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },
 "nplurals=1; plural=0;");

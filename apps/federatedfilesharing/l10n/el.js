@@ -35,9 +35,6 @@ OC.L10N.register(
     "Add remote share" : "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
     "Remote share" : "Απομακρυσμένος κοινόχρηστος φάκελος",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
-    "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου",
-    "Clipboard is not available" : "Το πρόχειρο δεν είναι διαθέσιμο",
-    "Your Federated Cloud ID:" : "Το ID σας στο Federated Cloud:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου"
 },
 "nplurals=2; plural=(n != 1);");

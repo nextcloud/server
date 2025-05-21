@@ -10,15 +10,12 @@ namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PredefinedStatusServiceTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var PredefinedStatusService */
-	protected $service;
+	protected IL10N&MockObject $l10n;
+	protected PredefinedStatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -97,9 +94,6 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	/**
-	 * @param string $id
-	 * @param string|null $expectedIcon
-	 *
 	 * @dataProvider getIconForIdDataProvider
 	 */
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
@@ -107,10 +101,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		$this->assertEquals($expectedIcon, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getIconForIdDataProvider(): array {
+	public static function getIconForIdDataProvider(): array {
 		return [
 			['meeting', '📅'],
 			['commuting', '🚌'],
@@ -123,9 +114,6 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	/**
-	 * @param string $id
-	 * @param string|null $expected
-	 *
 	 * @dataProvider getTranslatedStatusForIdDataProvider
 	 */
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
@@ -136,10 +124,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getTranslatedStatusForIdDataProvider(): array {
+	public static function getTranslatedStatusForIdDataProvider(): array {
 		return [
 			['meeting', 'In a meeting'],
 			['commuting', 'Commuting'],
@@ -152,9 +137,6 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	/**
-	 * @param string $id
-	 * @param bool $expected
-	 *
 	 * @dataProvider isValidIdDataProvider
 	 */
 	public function testIsValidId(string $id, bool $expected): void {
@@ -162,10 +144,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function isValidIdDataProvider(): array {
+	public static function isValidIdDataProvider(): array {
 		return [
 			['meeting', true],
 			['commuting', true],

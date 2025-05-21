@@ -12,7 +12,6 @@ OC.L10N.register(
     "Print backup codes" : "Printo kodet rezervë ",
     "Regenerate backup codes" : "Gjenero kodet e kopjuara",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Nëse gjeneroni kode rezervë, automaktikisht ju çaktivizoni kodet e vjetra.",
-    "Submit" : "Dërgo",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Këto janë kodet tuaja rezervë. Ju lutemi ruajini dhe/ose printojini ato pasi nuk do të jeni në gjendje që ti lexoni më vonë"
+    "Submit" : "Dërgo"
 },
 "nplurals=2; plural=(n != 1);");

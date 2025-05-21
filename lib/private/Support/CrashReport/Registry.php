@@ -110,6 +110,7 @@ class Registry implements IRegistry {
 				\OC::$server->get(LoggerInterface::class)->critical('Could not load lazy crash reporter: ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
+				return;
 			}
 			/**
 			 * Try to register the loaded reporter. Theoretically it could be of a wrong

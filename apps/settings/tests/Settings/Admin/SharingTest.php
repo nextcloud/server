@@ -18,34 +18,22 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
-	/** @var Sharing */
-	private $admin;
-	/** @var IConfig&MockObject */
-	private $config;
-	/** @var IL10N&MockObject */
-	private $l10n;
-	/** @var IManager|MockObject */
-	private $shareManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var IInitialState|MockObject */
-	private $initialState;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IManager&MockObject $shareManager;
+	private IAppManager&MockObject $appManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IInitialState&MockObject $initialState;
+	private Sharing $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-
-		/** @var IManager|MockObject */
-		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
-		/** @var IAppManager|MockObject */
-		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
-		/** @var IURLGenerator|MockObject */
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		/** @var IInitialState|MockObject */
-		$this->initialState = $this->getMockBuilder(IInitialState::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Sharing(
 			$this->config,
@@ -104,7 +92,7 @@ class SharingTest extends TestCase {
 			->willReturnCallback(function (string $key) use (&$initialStateCalls): void {
 				$initialStateCalls[$key] = func_get_args();
 			});
-		
+
 		$expectedInitialStateCalls = [
 			'sharingAppEnabled' => false,
 			'sharingDocumentation' => '',

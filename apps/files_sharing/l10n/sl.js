@@ -271,11 +271,9 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Skladnega strežnika na {remote} ni mogoče najti",
     "Invalid server URL" : "Neveljaven naslov URL strežnika",
     "Failed to add the public link to your Nextcloud" : "Dodajanje javne povezave v oblak je spodletelo.",
-    "Files" : "Datoteke",
     "Download all files" : "Prejmi vse datoteke",
+    "_1 email address already added_::_{count} email addresses already added_" : ["{count} elektronski naslov je že dodan","{count} elektronska naslova sta že dodana","{count} elektronski naslovi so že dodani","{count} elektronskih naslovov je že dodanih"],
     "Search for share recipients" : "Iskanje prejemnikov mesta souporabe",
-    "No recommendations. Start typing." : "Ni priporočil; začnite vpisovati",
-    "Allow download" : "Dovoli prejem datotek",
-    "_1 email address already added_::_{count} email addresses already added_" : ["{count} elektronski naslov je že dodan","{count} elektronska naslova sta že dodana","{count} elektronski naslovi so že dodani","{count} elektronskih naslovov je že dodanih"]
+    "No recommendations. Start typing." : "Ni priporočil; začnite vpisovati"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

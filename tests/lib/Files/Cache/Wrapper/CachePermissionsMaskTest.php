@@ -34,7 +34,7 @@ class CachePermissionsMaskTest extends CacheTest {
 		return new \OC\Files\Cache\Wrapper\CachePermissionsMask($this->sourceCache, $mask);
 	}
 
-	public function maskProvider() {
+	public static function maskProvider(): array {
 		return [
 			[Constants::PERMISSION_ALL],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE],

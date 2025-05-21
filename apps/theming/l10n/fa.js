@@ -82,11 +82,6 @@ OC.L10N.register(
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
     "Remove background image" : "برداشتن تصویر پس‌زمینه",
-    "Color" : "رنگ",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و دقیت می‌کنیم تا همه چیز بدون موش‌واره و نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها نیز قابل استفاده باشند. هدف ما این است که مطابق با دستورالعمل {guidelines}راهنماهای دسترس‌پذیری محتوا تحت وب{linkend} نسخه 2.1 در سطح AA، و حتی با زمینه کنتراست بالا در سطح AAA باشیم.",
-    "Background" : "پس‌زمینه",
-    "Set a custom background" : "تنظیم پس‌زمینه‌ای شخصی",
-    "Change color" : "تغییر رنگ",
-    "No background" : "No background"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و دقیت می‌کنیم تا همه چیز بدون موش‌واره و نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها نیز قابل استفاده باشند. هدف ما این است که مطابق با دستورالعمل {guidelines}راهنماهای دسترس‌پذیری محتوا تحت وب{linkend} نسخه 2.1 در سطح AA، و حتی با زمینه کنتراست بالا در سطح AAA باشیم."
 },
 "nplurals=2; plural=(n > 1);");

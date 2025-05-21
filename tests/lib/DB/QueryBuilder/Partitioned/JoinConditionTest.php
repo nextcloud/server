@@ -22,7 +22,7 @@ class JoinConditionTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function platformProvider(): array {
+	public static function platformProvider(): array {
 		return [
 			[IDBConnection::PLATFORM_SQLITE],
 			[IDBConnection::PLATFORM_POSTGRES],

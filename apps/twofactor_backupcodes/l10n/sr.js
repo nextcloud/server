@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ако поново генеришете резервне кодове, стари аутоматски престају да важе.",
     "{name} backup codes" : "{name} резервни кодови",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористите један од резервних кодова које сте сачували када се подешавали двофакторску проверу идентитета.",
-    "Submit" : "Пошаљи",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ово су Ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи да их прочитате."
+    "Submit" : "Пошаљи"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -35,7 +35,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function naturalSortDataProvider() {
+	public static function naturalSortDataProvider(): array {
 		return [
 			// different casing
 			[
@@ -189,7 +189,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function defaultCollatorDataProvider() {
+	public static function defaultCollatorDataProvider(): array {
 		return [
 			// different casing
 			[

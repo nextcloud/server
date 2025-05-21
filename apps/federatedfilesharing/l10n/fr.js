@@ -57,10 +57,6 @@ OC.L10N.register(
     "Remote share" : "Partage distant",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voulez-vous ajouter le partage distant {name} depuis {owner}@{remote} ?",
     "Remote share password" : "Mot de passe du partage distant",
-    "Incoming share could not be processed" : "Le partage entrant n'a pas pu être traité",
-    "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
-    "Your Federated Cloud ID:" : "Votre ID de Cloud Fédéré :",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Le partage entrant n'a pas pu être traité"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

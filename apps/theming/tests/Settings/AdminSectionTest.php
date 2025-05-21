@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,15 +11,13 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Settings\AdminSection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminSectionTest extends TestCase {
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $url;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-	/** @var AdminSection */
-	private $section;
+	private IURLGenerator&MockObject $url;
+	private IL10N&MockObject $l;
+	private AdminSection $section;
 
 	protected function setUp(): void {
 		parent::setUp();

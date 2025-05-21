@@ -199,10 +199,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Моля, свържете се директно с организатора.",
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
-    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "Time:" : "Час:",
-    "Could not open file" : "Файлът не можа да се отвори",
-    "Invalid chunk name" : "Невалидно име на блок",
-    "Could not rename part file assembled from chunks" : "Не можа да се преименува частичен файл, сглобен от блок"
+    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно."
 },
 "nplurals=2; plural=(n != 1);");

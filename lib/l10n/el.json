@@ -231,20 +231,7 @@
     "Summary" : "Σύνοψη",
     "Translate" : "Μετάφραση",
     "Result" : "Αποτέλεσμα",
-    "Education Edition" : "Εκπαιδευτική Έκδοση",
-    "File name is a reserved word" : "Το όνομα αρχείου είναι λέξη που έχει δεσμευτεί",
-    "File name contains at least one invalid character" : "Το όνομα αρχείου περιέχει έναν τουλάχιστον μη έγκυρο χαρακτήρα",
-    "File name is too long" : "Το όνομα αρχείου είναι πολύ μεγάλο",
-    "Users" : "Χρήστες",
-    "%1$s shared »%2$s« with you and wants to add:" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει:",
-    "%1$s shared »%2$s« with you and wants to add" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει",
-    "»%s« added a note to a file shared with you" : "Ο »%s« πρόσθεσε μια σημείωση στο κοινόχρηστο αρχείο",
-    "Open »%s«" : "Άνοιγμα »%s«",
-    "%1$s shared »%2$s« with you" : "Ο/η %1$s διαμοιράστηκε το »%2$s« με εσάς.",
-    "%1$s shared »%2$s« with you." : "Ο/η %1$s διαμοιράστηκε »%2$s« με εσάς.",
-    "Click the button below to open it." : "Κάντε κλικ στο παρακάτω κουμπί για να το ανοίξετε.",
     "File is currently busy, please try again later" : "Το αρχείο χρησιμοποιείται αυτή τη στιγμή, παρακαλούμε προσπαθήστε αργότερα",
-    "Cannot download file" : "Δεν είναι δυνατή η λήψη του αρχείου",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Εξασφαλίστε ότι υπάρχει ένα αρχείο με όνομα \".ocdata\" στον βασικό κατάλογο του καταλόγου δεδομένων."
+    "Cannot download file" : "Δεν είναι δυνατή η λήψη του αρχείου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

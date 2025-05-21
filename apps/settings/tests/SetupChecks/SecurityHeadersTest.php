@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCP\Http\Client\IClientService;
@@ -20,19 +20,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SecurityHeadersTest extends TestCase {
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IClientService|MockObject $clientService;
-	private LoggerInterface|MockObject $logger;
-	private SecurityHeaders|MockObject $setupcheck;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IClientService&MockObject $clientService;
+	private LoggerInterface&MockObject $logger;
+	private SecurityHeaders&MockObject $setupcheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N|MockObject */
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -92,7 +90,7 @@ class SecurityHeadersTest extends TestCase {
 		$this->assertEquals(SetupResult::WARNING, $result->getSeverity());
 	}
 
-	public function dataSuccess(): array {
+	public static function dataSuccess(): array {
 		return [
 			// description => modifiedHeaders
 			'basic' => [[]],
@@ -112,7 +110,7 @@ class SecurityHeadersTest extends TestCase {
 	/**
 	 * @dataProvider dataSuccess
 	 */
-	public function testSuccess($headers): void {
+	public function testSuccess(array $headers): void {
 		$headers = array_merge(
 			[
 				'X-XSS-Protection' => '1; mode=block',
@@ -138,7 +136,7 @@ class SecurityHeadersTest extends TestCase {
 		$this->assertEquals(SetupResult::SUCCESS, $result->getSeverity());
 	}
 
-	public function dataFailure(): array {
+	public static function dataFailure(): array {
 		return [
 			// description => modifiedHeaders
 			'x-robots-none' => [['X-Robots-Tag' => 'none'], "- The `X-Robots-Tag` HTTP header is not set to `noindex,nofollow`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],

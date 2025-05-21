@@ -7,9 +7,11 @@
  */
 namespace OC\Core\Controller;
 
+use OC\IntegrityCheck\Checker;
 use OC\Setup;
 use OCP\IInitialStateService;
 use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -104,13 +106,13 @@ class SetupController {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
-		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
+		Server::get(Checker::class)->runInstanceVerification();
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			$this->templateManager->printGuestPage('', 'installation_incomplete');
 		}
 
-		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
 		exit();
 	}
 

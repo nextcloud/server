@@ -33,8 +33,6 @@ OC.L10N.register(
     "Add remote share" : "Aldoni foran kunhavon",
     "Remote share" : "Foran kunhavo",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ĉu vi volas aldoni la foran kunhavon {name} de {owner}@{remote}?",
-    "Remote share password" : "Pasvorto de fora kunhavo",
-    "Your Federated Cloud ID:" : "Via federnuba identigilo:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "Pasvorto de fora kunhavo"
 },
 "nplurals=2; plural=(n != 1);");

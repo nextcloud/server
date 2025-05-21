@@ -35,8 +35,6 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	private ProfileManager $profileManager;
 
-	private ProfileConfigMapper $configMapper;
-
 	private const PATH_ROOT = Application::APP_ID . '/';
 
 	private const PATH_ACCOUNT_FILE = AccountMigrator::PATH_ROOT . 'account.json';
@@ -49,11 +47,10 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 		private IAccountManager $accountManager,
 		private IAvatarManager $avatarManager,
 		ProfileManager $profileManager,
-		ProfileConfigMapper $configMapper,
+		private ProfileConfigMapper $configMapper,
 		private IL10N $l10n,
 	) {
 		$this->profileManager = $profileManager;
-		$this->configMapper = $configMapper;
 	}
 
 	/**

@@ -10,6 +10,7 @@ namespace Test\Files;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OC\User\NoUserException;
+use OCP\Files;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
@@ -74,7 +75,7 @@ class FilesystemTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		foreach ($this->tmpDirs as $dir) {
-			\OC_Helper::rmdirr($dir);
+			Files::rmdirr($dir);
 		}
 
 		$this->logout();
@@ -100,7 +101,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('folder', $internalPath);
 	}
 
-	public function normalizePathData() {
+	public static function normalizePathData(): array {
 		return [
 			['/', ''],
 			['/', '/'],
@@ -201,7 +202,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
 	}
 
-	public function normalizePathKeepUnicodeData() {
+	public static function normalizePathKeepUnicodeData(): array {
 		$nfdName = 'ümlaut';
 		$nfcName = 'ümlaut';
 		return [
@@ -227,7 +228,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('/' . $nfdName, \OC\Files\Filesystem::normalizePath($nfdName, true, false, true));
 	}
 
-	public function isValidPathData() {
+	public static function isValidPathData(): array {
 		return [
 			['/', true],
 			['/path', true],
@@ -260,7 +261,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
 	}
 
-	public function isFileBlacklistedData() {
+	public static function isFileBlacklistedData(): array {
 		return [
 			['/etc/foo/bar/foo.txt', false],
 			['\etc\foo/bar\foo.txt', false],
@@ -472,7 +473,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 		$mount = new MountPoint(new Temporary([]), '/foo/bar');
 		$mountProvider = new DummyMountProvider([self::TEST_FILESYSTEM_USER2 => [$mount]]);
-		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		\OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class)->registerProvider($mountProvider);
 		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::getMountPoint('/foo/bar'));
 	}
 }

@@ -55,10 +55,6 @@ OC.L10N.register(
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Quere engadir a compartición remota {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasinal da compartición remota",
-    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante",
-    "Clipboard is not available" : "O portapapeis non está dispoñíbel",
-    "Your Federated Cloud ID:" : "ID da súa nube federada:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante"
 },
 "nplurals=2; plural=(n != 1);");

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Print backup codes" : "ბექაფის კოდების ამობეჭდვა",
     "Regenerate backup codes" : "ბექაფის კოდების გენერაცია",
     "If you regenerate backup codes, you automatically invalidate old codes." : "ძველი კოდები, ახალი ბექაფის კოდების რეგენერაციისას დაკარგავენ მოქმდების ძალას.",
-    "Submit" : "გაგზავნა",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "ეს თქვენი ბექაფის კოდებია. გთხოვთ შეინახოთ ან ამობეჭდოთ ისინი, კოდებს მეტი ვეღარ წაიკითხავთ"
+    "Submit" : "გაგზავნა"
 },
 "nplurals=2; plural=(n!=1);");

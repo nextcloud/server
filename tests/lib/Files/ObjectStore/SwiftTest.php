@@ -12,7 +12,7 @@ use OC\Files\ObjectStore\Swift;
 /**
  * @group PRIMARY-swift
  */
-class SwiftTest extends ObjectStoreTest {
+class SwiftTest extends ObjectStoreTestCase {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */

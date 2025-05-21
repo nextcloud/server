@@ -132,7 +132,7 @@ class ShareTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function urls() {
+	public static function urls(): array {
 		return [
 			['http://owncloud.org', 'owncloud.org'],
 			['https://owncloud.org', 'owncloud.org'],
@@ -161,7 +161,7 @@ class ShareTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataProviderTestGroupItems() {
+	public static function dataProviderTestGroupItems(): array {
 		return [
 			// one array with one share
 			[

@@ -64,10 +64,6 @@
     "Remote share" : "リモート共有",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
     "Remote share password" : "リモート共有のパスワード",
-    "Incoming share could not be processed" : "受信した共有を処理できませんでした",
-    "Clipboard is not available" : "クリップボードは利用できません",
-    "Your Federated Cloud ID:" : "あなたのクラウド共有ID：",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "受信した共有を処理できませんでした"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

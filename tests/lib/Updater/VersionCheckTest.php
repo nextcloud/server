@@ -45,7 +45,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
-			->setMethods(['getUrlContent'])
+			->onlyMethods(['getUrlContent'])
 			->setConstructorArgs([
 				$this->serverVersion,
 				$clientService,

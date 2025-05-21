@@ -267,10 +267,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vegye fel a kapcsolatot közvetlenül a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
-    "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
-    "Time:" : "Idő:",
-    "Could not open file" : "A fájl nem nyitható meg",
-    "Invalid chunk name" : "Érvénytelen darabnév",
-    "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt"
+    "Your attendance was updated successfully." : "A részvétele frissítése sikeres."
 },
 "nplurals=2; plural=(n != 1);");

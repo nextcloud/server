@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
     "Remove background image" : "Excluir a imagem de fundo",
-    "Color" : "Cor",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "O acesso universal é muito importante para nós. Seguimos os padrões da web e nos certificamos de tornar tudo utilizável também sem mouse e software auxiliar, como leitores de tela. Nosso objetivo é estar em conformidade com as {guidelines}Diretrizes de Acessibilidade para Conteúdo da Web{linkend} 2.1 no nível AA, com o tema de alto contraste, mesmo no nível AAA.",
-    ". Unable to apply the setting." : ". Não foi possível aplicar a configuração.",
-    "Background" : "Fundo",
-    "Set a custom background" : "Defina um plano de fundo personalizado",
-    "Change color" : "Trocar a cor",
-    "No background" : "Sem fundo"
+    ". Unable to apply the setting." : ". Não foi possível aplicar a configuração."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -94,6 +94,9 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 						HostPort: '8083',
 					}],
 				},
+				// If running the setup tests, let's bind to host
+				// to communicate with the github actions DB services
+				NetworkMode: process.env.SETUP_TESTING === 'true' ? await getGithubNetwork() : undefined,
 			},
 			Env: [
 				`BRANCH=${branch}`,
@@ -105,9 +108,6 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 		// Set proper permissions for the data folder
 		await runExec(container, ['chown', '-R', 'www-data:www-data', '/var/www/html/data'], false, 'root')
 		await runExec(container, ['chmod', '0770', '/var/www/html/data'], false, 'root')
-
-		// Init Nextcloud
-		// await runExec(container, ['initnc.sh'], true, 'root')
 
 		// Get container's IP
 		const ip = await getContainerIP(container)
@@ -182,6 +182,7 @@ export const applyChangesToNextcloud = async function() {
 		'./ocs',
 		'./ocs-provider',
 		'./resources',
+		'./tests',
 		'./console.php',
 		'./cron.php',
 		'./index.php',
@@ -252,6 +253,7 @@ export const getContainerIP = async function(
 			if (err) {
 				throw err
 			}
+
 			if (data?.HostConfig.PortBindings?.['80/tcp']?.[0]?.HostPort) {
 				ip = `localhost:${data.HostConfig.PortBindings['80/tcp'][0].HostPort}`
 			} else {
@@ -334,4 +336,22 @@ const sleep = function(milliseconds: number) {
 
 const getCurrentGitBranch = function() {
 	return execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
+}
+
+/**
+ * Get the network name of the github actions network
+ * This is used to connect to the database services
+ * started by github actions
+ */
+const getGithubNetwork = async function(): Promise<string|undefined> {
+	console.log('├─ Looking for github actions network... 🔍')
+	const networks = await docker.listNetworks()
+	const network = networks.find((network) => network.Name.startsWith('github_network'))
+	if (network) {
+		console.log('│  └─ Found github actions network: ' + network.Name)
+		return network.Name
+	}
+
+	console.log('│  └─ No github actions network found')
+	return undefined
 }

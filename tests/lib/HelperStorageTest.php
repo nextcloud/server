@@ -71,13 +71,13 @@ class HelperStorageTest extends \Test\TestCase {
 	 */
 	private function getStorageMock($freeSpace = 12) {
 		$this->storageMock = $this->getMockBuilder(Temporary::class)
-			->setMethods(['free_space'])
+			->onlyMethods(['free_space'])
 			->setConstructorArgs([[]])
 			->getMock();
 
 		$this->storageMock->expects($this->once())
 			->method('free_space')
-			->willReturn(12);
+			->willReturn($freeSpace);
 		return $this->storageMock;
 	}
 
@@ -94,6 +94,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(5, $storageInfo['used']);
 		$this->assertEquals(17, $storageInfo['total']);
 	}
+
 	private function getIncludeExternalStorage(): bool {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');

@@ -78,8 +78,6 @@
     "Open in Files" : "Otwórz w Plikach",
     "List of tags and their associated files and folders." : "Lista etykiet i związanych z nimi plików i katalogów.",
     "No tags found" : "Nie znaleziono etykiet",
-    "Failed to load tag" : "Nie udało się pobrać etykiety",
-    "This file has the tag {tag}" : "Ten plik posiada etykietę {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ten plik posiada etykiety {firstTags} i {lastTag}"
+    "Failed to load tag" : "Nie udało się pobrać etykiety"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -56,10 +56,6 @@ OC.L10N.register(
     "Remote share" : "Общий ресурс другого сервера",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённый общий каталог {name} из {owner}@{remote}?",
     "Remote share password" : "Пароль общего ресурса другого сервера",
-    "Incoming share could not be processed" : "Не удалось обработать входящий общий доступ",
-    "Clipboard is not available" : "Буфер обмена недоступен",
-    "Your Federated Cloud ID:" : "Ваш ID в федерации облачных хранилищ:",
-    "Twitter" : "Твиттер",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Не удалось обработать входящий общий доступ"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

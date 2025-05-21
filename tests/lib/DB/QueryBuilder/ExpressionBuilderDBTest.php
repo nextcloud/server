@@ -11,6 +11,7 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
@@ -29,8 +30,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$this->prepareTestingTable();
 	}
 
-	public function likeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+	public static function likeProvider(): array {
+		$connection = \OCP\Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -65,8 +66,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$this->assertEquals($match, $column);
 	}
 
-	public function ilikeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+	public static function ilikeProvider(): array {
+		$connection = \OCP\Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],

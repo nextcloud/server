@@ -62,6 +62,8 @@ class ManagerTest extends TestCase {
 	private ServerFactory&MockObject $serverFactory;
 
 	private VCalendar $vCalendar1a;
+	private VCalendar $vCalendar2a;
+	private VCalendar $vCalendar3a;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -92,6 +94,9 @@ class ManagerTest extends TestCase {
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('SUMMARY', 'Test Event');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('TRANSP', 'OPAQUE');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -100,6 +105,45 @@ class ManagerTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
+
+		// construct calendar with a event for reply
+		$this->vCalendar2a = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $this->vCalendar2a->add('VEVENT', []);
+		$vEvent->UID->setValue('dcc733bf-b2b2-41f2-a8cf-550ae4b67aff');
+		$vEvent->add('DTSTART', '20210820');
+		$vEvent->add('DTEND', '20220821');
+		$vEvent->add('SUMMARY', 'berry basket');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('TRANSP', 'OPAQUE');
+		$vEvent->add('ORGANIZER', 'mailto:linus@stardew-tent-living.com', ['CN' => 'admin']);
+		$vEvent->add('ATTENDEE', 'mailto:pierre@general-store.com', [
+			'CN' => 'pierre@general-store.com',
+			'CUTYPE' => 'INDIVIDUAL',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
+		// construct calendar with a event for reply
+		$this->vCalendar3a = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $this->vCalendar3a->add('VEVENT', []);
+		$vEvent->UID->setValue('dcc733bf-b2b2-41f2-a8cf-550ae4b67aff');
+		$vEvent->add('DTSTART', '20210820');
+		$vEvent->add('DTEND', '20220821');
+		$vEvent->add('SUMMARY', 'berry basket');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CANCELLED');
+		$vEvent->add('TRANSP', 'OPAQUE');
+		$vEvent->add('ORGANIZER', 'mailto:linus@stardew-tent-living.com', ['CN' => 'admin']);
+		$vEvent->add('ATTENDEE', 'mailto:pierre@general-store.com', [
+			'CN' => 'pierre@general-store.com',
+			'CUTYPE' => 'INDIVIDUAL',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
 	}
 
 	/**
@@ -159,7 +203,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function searchProvider() {
+	public static function searchProvider(): array {
 		$search1 = [
 			[
 				'id' => 1,
@@ -300,8 +344,9 @@ class ManagerTest extends TestCase {
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
-		// test method
+		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
+    // Assert
 		$this->assertFalse($result);
 	}
 
@@ -333,8 +378,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->remove('VEVENT');
-		// test method
+	  // Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
+    // Assert
 		$this->assertFalse($result);
 	}
 
@@ -366,8 +412,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->VEVENT->remove('UID');
-		// test method
+		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
+    // Assert
 		$this->assertFalse($result);
 	}
 
@@ -407,8 +454,9 @@ class ManagerTest extends TestCase {
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
-		// test method
+		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
+    // Assert
 		$this->assertFalse($result);
 	}
 

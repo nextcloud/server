@@ -9,6 +9,7 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -26,7 +27,7 @@ class TempManagerTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		if ($this->baseDir !== null) {
-			\OC_Helper::rmdirr($this->baseDir);
+			Files::rmdirr($this->baseDir);
 		}
 		$this->baseDir = null;
 		parent::tearDown();

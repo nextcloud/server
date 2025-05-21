@@ -323,10 +323,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте директно организатора.",
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
-    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
-    "Time:" : "Време:",
-    "Could not open file" : "Фајл не може да се отвори",
-    "Invalid chunk name" : "Неисправни назив комада",
-    "Could not rename part file assembled from chunks" : "Име делимичног фајла састављеног од комада не може да се промени"
+    "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

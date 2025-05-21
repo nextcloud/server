@@ -29,7 +29,7 @@ class MapperTest extends \Test\TestCase {
 		$this->mapper = new Mapper($this->user, $this->config);
 	}
 
-	public function dataGetBucket() {
+	public static function dataGetBucket(): array {
 		return [
 			['user', 64, 0, '17'],
 			['USER', 64, 0, '0'],

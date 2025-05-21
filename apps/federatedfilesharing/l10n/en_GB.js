@@ -66,10 +66,6 @@ OC.L10N.register(
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share password" : "Remote share password",
-    "Incoming share could not be processed" : "Incoming share could not be processed",
-    "Clipboard is not available" : "Clipboard is not available",
-    "Your Federated Cloud ID:" : "Your Federated Cloud ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Incoming share could not be processed"
 },
 "nplurals=2; plural=(n != 1);");

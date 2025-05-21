@@ -39,10 +39,6 @@ OC.L10N.register(
     "Add remote share" : "Додади далечинско споделување",
     "Remote share" : "Далечинско споделување",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Дали сакате да додадете далечинско споделување на {name} од {owner}@{remote}?",
-    "Remote share password" : "Лозинка за далечинско споделување",
-    "Clipboard is not available" : "Клипбордот не е достапен",
-    "Your Federated Cloud ID:" : "Вашиот федерален ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Лозинка за далечинско споделување"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -284,10 +284,6 @@
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
-    "Time:" : "Heure :",
-    "Could not open file" : "Impossible d'ouvrir le fichier",
-    "Invalid chunk name" : "Nom de morceau invalide",
-    "Could not rename part file assembled from chunks" : "Impossible de renommer le fichier partiel à partir des morceaux"
+    "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -88,7 +88,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->execute();
 	}
 
-	public function dataFirstResult() {
+	public static function dataFirstResult(): array {
 		return [
 			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
@@ -124,7 +124,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function dataMaxResults() {
+	public static function dataMaxResults(): array {
 		return [
 			[null, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			// Limit 0 gives mixed results: either all entries or none is returned
@@ -161,7 +161,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function dataSelect() {
+	public function dataSelect(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
@@ -229,7 +229,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function dataSelectAlias() {
+	public function dataSelectAlias(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
@@ -338,7 +338,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows('testFirstResult2');
 	}
 
-	public function dataAddSelect() {
+	public function dataAddSelect(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
@@ -408,7 +408,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function dataDelete() {
+	public static function dataDelete(): array {
 		return [
 			['data', null, ['table' => '`*PREFIX*data`', 'alias' => null], '`*PREFIX*data`'],
 			['data', 't', ['table' => '`*PREFIX*data`', 'alias' => 't'], '`*PREFIX*data` t'],
@@ -437,7 +437,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataUpdate() {
+	public static function dataUpdate(): array {
 		return [
 			['data', null, ['table' => '`*PREFIX*data`', 'alias' => null], '`*PREFIX*data`'],
 			['data', 't', ['table' => '`*PREFIX*data`', 'alias' => 't'], '`*PREFIX*data` t'],
@@ -466,7 +466,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataInsert() {
+	public static function dataInsert(): array {
 		return [
 			['data', ['table' => '`*PREFIX*data`'], '`*PREFIX*data`'],
 		];
@@ -493,7 +493,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataFrom() {
+	public function dataFrom(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
@@ -541,7 +541,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataJoin() {
+	public static function dataJoin(): array {
 		return [
 			[
 				'd1', 'data2', null, null,
@@ -622,7 +622,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataLeftJoin() {
+	public static function dataLeftJoin(): array {
 		return [
 			[
 				'd1', 'data2', null, null,
@@ -672,7 +672,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataRightJoin() {
+	public static function dataRightJoin(): array {
 		return [
 			[
 				'd1', 'data2', null, null,
@@ -722,7 +722,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataSet() {
+	public static function dataSet(): array {
 		return [
 			['column1', new Literal('value'), null, null, ['`column1` = value'], '`column1` = value'],
 			['column1', new Parameter(':param'), null, null, ['`column1` = :param'], '`column1` = :param'],
@@ -759,7 +759,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataWhere() {
+	public static function dataWhere(): array {
 		return [
 			[['where1'], new CompositeExpression('AND', ['where1']), 'where1'],
 			[['where1', 'where2'], new CompositeExpression('AND', ['where1', 'where2']), '(where1) AND (where2)'],
@@ -816,7 +816,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataOrWhere() {
+	public static function dataOrWhere(): array {
 		return [
 			[['where1'], new CompositeExpression('OR', ['where1']), 'where1'],
 			[['where1', 'where2'], new CompositeExpression('OR', ['where1', 'where2']), '(where1) OR (where2)'],
@@ -848,7 +848,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataGroupBy() {
+	public static function dataGroupBy(): array {
 		return [
 			[['column1'], ['`column1`'], '`column1`'],
 			[['column1', 'column2'], ['`column1`', '`column2`'], '`column1`, `column2`'],
@@ -880,7 +880,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataAddGroupBy() {
+	public static function dataAddGroupBy(): array {
 		return [
 			[['column2'], ['`column1`', '`column2`'], '`column1`, `column2`'],
 			[['column2', 'column3'], ['`column1`', '`column2`', '`column3`'], '`column1`, `column2`, `column3`'],
@@ -913,7 +913,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataSetValue() {
+	public static function dataSetValue(): array {
 		return [
 			['column', 'value', ['`column`' => 'value'], '(`column`) VALUES(value)'],
 		];
@@ -967,7 +967,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataHaving() {
+	public static function dataHaving(): array {
 		return [
 			[['condition1'], new CompositeExpression('AND', ['condition1']), 'HAVING condition1'],
 			[['condition1', 'condition2'], new CompositeExpression('AND', ['condition1', 'condition2']), 'HAVING (condition1) AND (condition2)'],
@@ -1008,7 +1008,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataAndHaving() {
+	public static function dataAndHaving(): array {
 		return [
 			[['condition2'], new CompositeExpression('AND', ['condition1', 'condition2']), 'HAVING (condition1) AND (condition2)'],
 			[['condition2', 'condition3'], new CompositeExpression('AND', ['condition1', 'condition2', 'condition3']), 'HAVING (condition1) AND (condition2) AND (condition3)'],
@@ -1050,7 +1050,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataOrHaving() {
+	public static function dataOrHaving(): array {
 		return [
 			[['condition2'], new CompositeExpression('OR', ['condition1', 'condition2']), 'HAVING (condition1) OR (condition2)'],
 			[['condition2', 'condition3'], new CompositeExpression('OR', ['condition1', 'condition2', 'condition3']), 'HAVING (condition1) OR (condition2) OR (condition3)'],
@@ -1092,7 +1092,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataOrderBy() {
+	public static function dataOrderBy(): array {
 		return [
 			['column', null, ['`column` ASC'], 'ORDER BY `column` ASC'],
 			['column', 'ASC', ['`column` ASC'], 'ORDER BY `column` ASC'],
@@ -1122,7 +1122,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataAddOrderBy() {
+	public static function dataAddOrderBy(): array {
 		return [
 			['column2', null, null, ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
 			['column2', null, 'ASC', ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
@@ -1197,7 +1197,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataGetTableName() {
+	public function dataGetTableName(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
@@ -1234,7 +1234,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataGetColumnName() {
+	public static function dataGetColumnName(): array {
 		return [
 			['column', '', '`column`'],
 			['column', 'a', '`a`.`column`'],

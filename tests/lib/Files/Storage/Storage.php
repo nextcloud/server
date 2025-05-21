@@ -108,7 +108,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertEquals([], $content);
 	}
 
-	public function fileNameProvider() {
+	public static function fileNameProvider(): array {
 		return [
 			['file.txt'],
 			[' file.txt'],
@@ -119,7 +119,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		return [
 			['folder'],
 			[' folder'],
@@ -130,7 +130,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	public function loremFileProvider() {
+	public static function loremFileProvider(): array {
 		$root = \OC::$SERVERROOT . '/tests/data/';
 		return [
 			// small file
@@ -179,7 +179,7 @@ abstract class Storage extends \Test\TestCase {
 	}
 
 
-	public function copyAndMoveProvider() {
+	public static function copyAndMoveProvider(): array {
 		return [
 			['/source.txt', '/target.txt'],
 			['/source.txt', '/target with space.txt'],
@@ -414,7 +414,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 
-	public function hashProvider() {
+	public static function hashProvider(): array {
 		return [
 			['Foobar', 'md5'],
 			['Foobar', 'sha1'],

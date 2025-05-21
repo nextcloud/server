@@ -117,11 +117,6 @@ OC.L10N.register(
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
     "Remove background image" : "Fjern bakgrunnsbilde",
-    "Color" : "Farge",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universell utforming er viktig for oss. Vi følger web-standarder og tester for full funksjonalitet, både uten mus og med hjelpeprogrammer, slik som skjermlesere. Vi etterstreber å følge {guidelines}Retningslinjer for tilgjengelighet på nettsider{linkend} 2.1 på nivå AA, og med temaet for høy kontrast også nivå AAA.",
-    "Background" : "Bakgrunn",
-    "Set a custom background" : "Angi en egendefinert bakgrunn",
-    "Change color" : "Endre farge",
-    "No background" : "Ingen bakgrunn"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universell utforming er viktig for oss. Vi følger web-standarder og tester for full funksjonalitet, både uten mus og med hjelpeprogrammer, slik som skjermlesere. Vi etterstreber å følge {guidelines}Retningslinjer for tilgjengelighet på nettsider{linkend} 2.1 på nivå AA, og med temaet for høy kontrast også nivå AAA."
 },
 "nplurals=2; plural=(n != 1);");

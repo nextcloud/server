@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+use OC\Route\Router;
+use OC\SystemConfig;
+use OC\User\LoginException;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Server;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,7 +29,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 if (Util::needUpgrade()
-	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
+	|| Server::get(IConfig::class)->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
@@ -42,11 +50,11 @@ try {
 	// side effects in existing apps
 	OC_App::loadApps();
 
-	if (!\OC::$server->getUserSession()->isLoggedIn()) {
-		OC::handleLogin(\OC::$server->getRequest());
+	if (!Server::get(IUserSession::class)->isLoggedIn()) {
+		OC::handleLogin(Server::get(IRequest::class));
 	}
 
-	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp' . \OC::$server->getRequest()->getRawPathInfo());
+	Server::get(Router::class)->match('/ocsapp' . Server::get(IRequest::class)->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
 	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
 } catch (ResourceNotFoundException $e) {
@@ -56,14 +64,14 @@ try {
 } catch (MethodNotAllowedException $e) {
 	ApiHelper::setContentType();
 	http_response_code(405);
-} catch (\OC\User\LoginException $e) {
+} catch (LoginException $e) {
 	ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
 } catch (\Exception $e) {
-	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+	Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 
 	$txt = 'Internal Server Error' . "\n";
 	try {
-		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
+		if (Server::get(SystemConfig::class)->getValue('debug', false)) {
 			$txt .= $e->getMessage();
 		}
 	} catch (\Throwable $e) {

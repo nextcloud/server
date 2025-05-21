@@ -49,7 +49,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesEmptyFiles() {
+	public static function providesEmptyFiles(): array {
 		return [
 			[''],
 			[' '],
@@ -66,7 +66,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesDotFiles() {
+	public static function providesDotFiles(): array {
 		return [
 			['.'],
 			['..'],
@@ -95,7 +95,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesAstralPlane() {
+	public static function providesAstralPlane(): array {
 		return [
 			// this is the monkey emoji - http://en.wikipedia.org/w/index.php?title=%F0%9F%90%B5&redirect=no
 			['🐵'],
@@ -117,7 +117,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function providesValidPosixPaths() {
+	public static function providesValidPosixPaths(): array {
 		return [
 			['simple'],
 			['simple.txt'],

@@ -238,10 +238,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "Time:" : "Время:",
-    "Could not open file" : "Не удалось открыть файл",
-    "Invalid chunk name" : "Недопустимое имя сегмента",
-    "Could not rename part file assembled from chunks" : "Не удалось переименовать временный файл, сформированный из сегментов"
+    "Your attendance was updated successfully." : "Статус участия обновлён."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

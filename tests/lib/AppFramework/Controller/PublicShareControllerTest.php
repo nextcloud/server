@@ -57,7 +57,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 		$this->assertEquals('test', $controller->getToken());
 	}
 
-	public function dataIsAuthenticated() {
+	public static function dataIsAuthenticated(): array {
 		return [
 			[false, 'token1', 'token1', 'hash1', 'hash1',  true],
 			[false, 'token1', 'token1', 'hash1', 'hash2',  true],

@@ -28,7 +28,7 @@ class LanguageIteratorTest extends TestCase {
 		$this->iterator = new LanguageIterator($this->user, $this->config);
 	}
 
-	public function languageSettingsProvider() {
+	public static function languageSettingsProvider(): array {
 		return [
 			// all language settings set
 			[ 'de_DE', 'es_CU', 'zh_TW', ['de_DE', 'de', 'es_CU', 'es', 'zh_TW', 'zh', 'en']],

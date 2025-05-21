@@ -80,7 +80,7 @@ class HookConnectorTest extends TestCase {
 			Filesystem::getMountManager(),
 			$this->view,
 			\OC::$server->getUserManager()->get($this->userId),
-			\OC::$server->getUserMountCache(),
+			\OCP\Server::get(\OCP\Files\Config\IUserMountCache::class),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
@@ -96,7 +96,7 @@ class HookConnectorTest extends TestCase {
 		\OC_Util::tearDownFS();
 	}
 
-	public function viewToNodeProvider() {
+	public static function viewToNodeProvider(): array {
 		return [
 			[function () {
 				Filesystem::file_put_contents('test.txt', 'asd');
@@ -195,7 +195,7 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/test.txt', $newDispatcherNode->getPath());
 	}
 
-	public function viewToNodeProviderCopyRename() {
+	public static function viewToNodeProviderCopyRename(): array {
 		return [
 			[function () {
 				Filesystem::file_put_contents('source', 'asd');

@@ -437,20 +437,7 @@
     "Generate headline" : "Genera un titular",
     "Summarizes text by reducing its length without losing key information." : "Resumeix el text reduint-ne la longitud sense perdre la informació clau.",
     "Extracts topics from a text and outputs them separated by commas." : "Extreu els temes d'un text i els retorna separats per comes.",
-    "Education Edition" : "Edició educativa",
-    "File name is a reserved word" : "El nom del fitxer és una paraula reservada",
-    "File name contains at least one invalid character" : "El nom del fitxer conté almenys un caràcter no vàlid",
-    "File name is too long" : "El nom del fitxer és massa llarg",
-    "Users" : "Usuaris",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha compartit «%2$s» amb vós i vol afegir:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s ha compartit «%2$s» amb vós i vol afegir",
-    "»%s« added a note to a file shared with you" : "%s ha afegit una nota a un fitxer compartit amb vós",
-    "Open »%s«" : "Obre «%s»",
-    "%1$s shared »%2$s« with you" : "%1$s ha compartit «%2$s» amb vós",
-    "%1$s shared »%2$s« with you." : "%1$s ha compartit «%2$s» amb vós.",
-    "Click the button below to open it." : "Feu clic en el botó següent per a obrir-ho.",
     "File is currently busy, please try again later" : "El fitxer està ocupat actualment; torneu-ho a provar més tard",
-    "Cannot download file" : "No es pot baixar el fitxer",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegureu-vos que hi hagi un fitxer anomenat «.ocdata» en l'arrel de la carpeta de dades."
+    "Cannot download file" : "No es pot baixar el fitxer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

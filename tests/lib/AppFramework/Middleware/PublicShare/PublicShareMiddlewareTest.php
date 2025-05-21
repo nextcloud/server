@@ -58,7 +58,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function dataShareApi() {
+	public static function dataShareApi(): array {
 		return [
 			['no', 'no',],
 			['no', 'yes',],

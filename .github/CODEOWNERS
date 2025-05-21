@@ -16,11 +16,9 @@
 *.ts                                          @nextcloud/server-frontend
 
 # dependency management
-package.json                                  @nextcloud/server-dependabot
+package.json                                  @nextcloud/server-dependabot @nextcloud/server-frontend
 package-lock.json                             @nextcloud/server-dependabot
-
-# Compiled assets only - no owner set to not spam on automated dependency updates
-/dist                                         
+/dist                                         @nextcloud/server-dependabot
 
 # App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz

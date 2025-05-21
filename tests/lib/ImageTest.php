@@ -271,7 +271,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(15, $img->height());
 	}
 
-	public static function sampleProvider() {
+	public static function sampleProvider(): array {
 		return [
 			['testimage.png', [200, 100], [100, 100]],
 			['testimage.jpg', [840, 840], [840, 525]],
@@ -294,7 +294,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected[1], $img->height());
 	}
 
-	public static function sampleFilenamesProvider() {
+	public static function sampleFilenamesProvider(): array {
 		return [
 			['testimage.png'],
 			['testimage.jpg'],
@@ -328,7 +328,7 @@ class ImageTest extends \Test\TestCase {
 		);
 	}
 
-	public static function largeSampleProvider() {
+	public static function largeSampleProvider(): array {
 		return [
 			['testimage.png', [200, 100], [100, 100]],
 			['testimage.jpg', [840, 840], [840, 525]],
@@ -351,7 +351,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected[1], $img->height());
 	}
 
-	public function convertDataProvider() {
+	public static function convertDataProvider(): array {
 		return [
 			[ 'image/gif'],
 			[ 'image/jpeg'],

@@ -56,18 +56,13 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::SCOPE_LOCAL, $actualReturn->getScope());
 	}
 
-	public function scopesProvider() {
+	public static function scopesProvider(): array {
 		return [
 			// current values
 			[IAccountManager::SCOPE_PRIVATE, IAccountManager::SCOPE_PRIVATE],
 			[IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_LOCAL],
 			[IAccountManager::SCOPE_FEDERATED, IAccountManager::SCOPE_FEDERATED],
 			[IAccountManager::SCOPE_PUBLISHED, IAccountManager::SCOPE_PUBLISHED],
-			// legacy values
-			[IAccountManager::VISIBILITY_PRIVATE, IAccountManager::SCOPE_LOCAL],
-			[IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::SCOPE_FEDERATED],
-			[IAccountManager::VISIBILITY_PUBLIC, IAccountManager::SCOPE_PUBLISHED],
-			['', IAccountManager::SCOPE_LOCAL],
 			// invalid values
 			['unknown', null],
 			['v2-unknown', null],

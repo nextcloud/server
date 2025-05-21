@@ -23,6 +23,19 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+class Dummy {
+	public function postShare() {
+	}
+	public function preShare() {
+	}
+	public function postFromSelf() {
+	}
+	public function post() {
+	}
+	public function pre() {
+	}
+}
+
 class LegacyHooksTest extends TestCase {
 	/** @var LegacyHooks */
 	private $hooks;
@@ -60,7 +73,7 @@ class LegacyHooksTest extends TestCase {
 			->setTarget('myTarget')
 			->setNodeCacheEntry($info);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['pre'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
 
 		$hookListnerExpectsPre = [
@@ -101,7 +114,7 @@ class LegacyHooksTest extends TestCase {
 			->setTarget('myTarget')
 			->setNodeCacheEntry($info);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
 
 		$hookListnerExpectsPost = [
@@ -155,7 +168,7 @@ class LegacyHooksTest extends TestCase {
 			->setTarget('myTarget')
 			->setNodeCacheEntry($info);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postFromSelf'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['postFromSelf'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', $hookListner, 'postFromSelf');
 
 		$hookListnerExpectsPostFromSelf = [
@@ -212,7 +225,7 @@ class LegacyHooksTest extends TestCase {
 			->setToken('token');
 
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['preShare'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['preShare'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
 
 		$run = true;
@@ -260,7 +273,7 @@ class LegacyHooksTest extends TestCase {
 			->setToken('token');
 
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['preShare'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['preShare'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
 
 		$run = true;
@@ -316,7 +329,7 @@ class LegacyHooksTest extends TestCase {
 			->setToken('token');
 
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postShare'])->getMock();
+		$hookListner = $this->getMockBuilder(Dummy::class)->onlyMethods(['postShare'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'postShare');
 
 		$expected = [

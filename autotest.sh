@@ -146,6 +146,9 @@ function cleanup_config {
 	fi
 	# Remove mysqlmb4.config.php
 	rm -f config/mysqlmb4.config.php
+
+	# restore .htaccess
+	git restore .htaccess
 }
 
 # restore config on exit

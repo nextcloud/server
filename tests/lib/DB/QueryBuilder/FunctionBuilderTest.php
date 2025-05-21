@@ -49,7 +49,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals($return, $column);
 	}
 
-	public function providerTestConcatString(): array {
+	public static function providerTestConcatString(): array {
 		return [
 			'1 column: string param unicode' =>
 				[function ($q) {
@@ -323,7 +323,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertGreaterThan(1, $column);
 	}
 
-	public function octetLengthProvider() {
+	public static function octetLengthProvider(): array {
 		return [
 			['', 0],
 			['foobar', 6],
@@ -348,7 +348,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals($bytes, $column);
 	}
 
-	public function charLengthProvider() {
+	public static function charLengthProvider(): array {
 		return [
 			['', 0],
 			['foobar', 6],

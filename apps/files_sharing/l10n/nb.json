@@ -367,13 +367,11 @@
     "No compatible server found at {remote}" : "Ingen kompatibel server ble funnet på {remote}",
     "Invalid server URL" : "Ugyldig server adresse",
     "Failed to add the public link to your Nextcloud" : "Feil oppsto under oppretting av offentlig lenke til din Nextcloud",
-    "Files" : "Filer",
-    "Download all files" : "Last ned alle filer",
-    "Search for share recipients" : "Søk etter delingsmottakere",
-    "No recommendations. Start typing." : "Ingen forslag. Start skriving.",
-    "Allow download" : "Tillat nedlasting",
     "You are not allowed to edit link shares that you don't own" : "Du har ikke lov til å redigere delte lenker du ikke eier",
+    "Download all files" : "Last ned alle filer",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 e-postadresse allerede lagt til","{count} e-postadresser allerede lagt til"],
-    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"]
+    "_1 email address added_::_{count} email addresses added_" : ["1 e-postadresse lagt til","{count} e-postadresser lagt til"],
+    "Search for share recipients" : "Søk etter delingsmottakere",
+    "No recommendations. Start typing." : "Ingen forslag. Start skriving."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

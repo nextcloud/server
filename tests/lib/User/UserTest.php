@@ -496,7 +496,7 @@ class UserTest extends TestCase {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-	public function dataDeleteHooks() {
+	public static function dataDeleteHooks(): array {
 		return [
 			[true, 2],
 			[false, 1],
@@ -632,7 +632,7 @@ class UserTest extends TestCase {
 			->onlyMethods(['getHome'])
 			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config])
 			->getMock();
-		
+
 		$user->expects(self::atLeastOnce())
 			->method('getHome')
 			->willReturn('/home/path');
@@ -650,7 +650,7 @@ class UserTest extends TestCase {
 		$this->restoreService(\OCP\Comments\ICommentsManager::class);
 	}
 
-	public function dataGetCloudId(): array {
+	public static function dataGetCloudId(): array {
 		return [
 			['https://localhost:8888/nextcloud', 'foo@localhost:8888/nextcloud'],
 			['http://localhost:8888/nextcloud', 'foo@http://localhost:8888/nextcloud'],
@@ -964,7 +964,7 @@ class UserTest extends TestCase {
 				null,
 				$config,
 			])
-			->setMethods(['isEnabled', 'triggerChange'])
+			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
 
 		$user->expects($this->once())
@@ -998,7 +998,7 @@ class UserTest extends TestCase {
 				null,
 				$config,
 			])
-			->setMethods(['isEnabled', 'triggerChange'])
+			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
 
 		$user->expects($this->once())

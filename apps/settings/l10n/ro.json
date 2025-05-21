@@ -262,9 +262,6 @@
     "Save" : "Salvează",
     "Security & setup warnings" : "Alerte de securitate & configurare",
     "All checks passed." : "Toate verificările s-au terminat fără erori.",
-    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Lipsesc indecși din baza de date. Datorită faptului că adăugarea indecșilor la tabelele mari durează mult, aceștia nu au fost adăugați automat. Rulând \"occ db:add-missing-indices\", indecși lipsă pot fi adăugați manual în timp ce instanța rulează în continuare. Odată ce indecșii au fost adăugați, interogările acelor tabele vor fi de obicei mai rapide.",
-    "Username" : "Nume utilizator",
-    "Name your device" : "Numiți dispozitivul dvs."
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

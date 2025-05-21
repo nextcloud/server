@@ -28,7 +28,7 @@ class ConfigTest extends TestCase {
 		if (!empty($mockMethods)) {
 			return $this->getMockBuilder(Config::class)
 				->setConstructorArgs([$this->config])
-				->setMethods($mockMethods)
+				->onlyMethods($mockMethods)
 				->getMock();
 		}
 
@@ -64,7 +64,7 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expected, $gsConfig->onlyInternalFederation());
 	}
 
-	public function dataTestOnlyInternalFederation() {
+	public static function dataTestOnlyInternalFederation(): array {
 		return [
 			[true, 'global', false],
 			[true, 'internal', true],

@@ -27,7 +27,7 @@ class ShareHelperTest extends TestCase {
 		$this->helper = new ShareHelper($this->manager);
 	}
 
-	public function dataGetPathsForAccessList() {
+	public static function dataGetPathsForAccessList(): array {
 		return [
 			[[], [], false, [], [], false, [
 				'users' => [],
@@ -64,7 +64,7 @@ class ShareHelperTest extends TestCase {
 		/** @var ShareHelper|\PHPUnit\Framework\MockObject\MockObject $helper */
 		$helper = $this->getMockBuilder(ShareHelper::class)
 			->setConstructorArgs([$this->manager])
-			->setMethods(['getPathsForUsers', 'getPathsForRemotes'])
+			->onlyMethods(['getPathsForUsers', 'getPathsForRemotes'])
 			->getMock();
 
 		$helper->expects($resolveUsers ? $this->once() : $this->never())
@@ -80,7 +80,7 @@ class ShareHelperTest extends TestCase {
 		$this->assertSame($expected, $helper->getPathsForAccessList($node));
 	}
 
-	public function dataGetPathsForUsers() {
+	public static function dataGetPathsForUsers(): array {
 		return [
 			[[], [23 => 'TwentyThree', 42 => 'FortyTwo'], []],
 			[
@@ -133,7 +133,7 @@ class ShareHelperTest extends TestCase {
 		$this->assertEquals($expected, self::invokePrivate($this->helper, 'getPathsForUsers', [$lastNode, $users]));
 	}
 
-	public function dataGetPathsForRemotes() {
+	public static function dataGetPathsForRemotes(): array {
 		return [
 			[[], [23 => 'TwentyThree', 42 => 'FortyTwo'], []],
 			[
@@ -190,7 +190,7 @@ class ShareHelperTest extends TestCase {
 		$this->assertEquals($expected, self::invokePrivate($this->helper, 'getPathsForRemotes', [$lastNode, $remotes]));
 	}
 
-	public function dataGetMountedPath() {
+	public static function dataGetMountedPath(): array {
 		return [
 			['/admin/files/foobar', '/foobar'],
 			['/admin/files/foo/bar', '/foo/bar'],

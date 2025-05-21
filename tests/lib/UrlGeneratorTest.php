@@ -107,14 +107,14 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public static function provideRoutes() {
+	public static function provideRoutes(): array {
 		return [
 			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
 			['cloud_federation_api.requesthandlercontroller.addShare', 'http://localhost/nextcloud/index.php/ocm/shares'],
 		];
 	}
 
-	public static function provideDocRootAppUrlParts() {
+	public static function provideDocRootAppUrlParts(): array {
 		return [
 			['files_external', 'ajax/oauth2.php', [], '/index.php/apps/files_external/ajax/oauth2.php'],
 			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
@@ -122,7 +122,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
-	public static function provideSubDirAppUrlParts() {
+	public static function provideSubDirAppUrlParts(): array {
 		return [
 			['files_external', 'ajax/oauth2.php', [], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php'],
 			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
@@ -154,7 +154,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	public function provideDocRootURLs() {
+	public static function provideDocRootURLs(): array {
 		return [
 			['index.php', 'http://localhost/index.php'],
 			['/index.php', 'http://localhost/index.php'],
@@ -163,7 +163,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
-	public function provideSubDirURLs() {
+	public static function provideSubDirURLs(): array {
 		return [
 			['', 'http://localhost/nextcloud/'],
 			['/', 'http://localhost/nextcloud/'],
@@ -213,7 +213,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function provideOCSRoutes(): array {
+	public static function provideOCSRoutes(): array {
 		return [
 			['core.OCS.getCapabilities', false, 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
 			['core.OCS.getCapabilities', true, 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
@@ -268,7 +268,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function imagePathProvider(): array {
+	public static function imagePathProvider(): array {
 		return [
 			['core', 'favicon-mask.svg', \OC::$WEBROOT . '/core/img/favicon-mask.svg'],
 			['files', 'folder.svg', \OC::$WEBROOT . '/apps/files/img/folder.svg'],

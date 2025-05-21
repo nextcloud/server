@@ -323,10 +323,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Your attendance was updated successfully." : "出席は正常に更新されました。",
-    "Time:" : "時刻:",
-    "Could not open file" : "ファイルを開くことができませんでした",
-    "Invalid chunk name" : "無効なチャンク名",
-    "Could not rename part file assembled from chunks" : "チャンクから構成されている部分ファイルの名前の変更ができませんでした"
+    "Your attendance was updated successfully." : "出席は正常に更新されました。"
 },
 "nplurals=1; plural=0;");

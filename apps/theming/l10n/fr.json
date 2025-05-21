@@ -115,11 +115,6 @@
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Upload" : "Téléverser",
     "Remove background image" : "Retirer l'image d'arrière-plan",
-    "Color" : "Couleur",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous vérifions que tout est utilisable même sans souris et sans logiciel d'assistance comme les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste.",
-    "Background" : "Arrière-plan",
-    "Set a custom background" : "Définir un arrière-plan personnalisé",
-    "Change color" : "Changer la couleur",
-    "No background" : "Pas d'arrière-plan"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous vérifions que tout est utilisable même sans souris et sans logiciel d'assistance comme les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

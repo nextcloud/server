@@ -28,7 +28,7 @@ class CloudIdTest extends TestCase {
 		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
 	}
 
-	public function dataGetDisplayCloudId(): array {
+	public static function dataGetDisplayCloudId(): array {
 		return [
 			['test@example.com', 'test', 'example.com', 'test@example.com'],
 			['test@http://example.com', 'test', 'http://example.com', 'test@example.com'],

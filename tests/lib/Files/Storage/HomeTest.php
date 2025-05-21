@@ -8,6 +8,7 @@
 namespace Test\Files\Storage;
 
 use OC\User\User;
+use OCP\Files;
 
 class DummyUser extends User {
 	private $home;
@@ -62,7 +63,7 @@ class HomeTest extends Storage {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 

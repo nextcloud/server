@@ -9,7 +9,7 @@ namespace Test\Files\ObjectStore;
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 
-class LocalTest extends ObjectStoreTest {
+class LocalTest extends ObjectStoreTestCase {
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */

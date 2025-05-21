@@ -82,8 +82,6 @@ OC.L10N.register(
     "Missing \"Content-Location\" header" : "Falta la peñera «Content-Location»",
     "Failed to load tags for file" : "Nun se puen cargar les etiquetes pal ficheru",
     "Failed to set tag for file" : "Nun se puen afitar la etiqueta pal ficheru",
-    "Failed to delete tag for file" : "Nun se pue desaniciar la etiqueta pal ficheru",
-    "This file has the tag {tag}" : "Esti ficheru tien la etiqueta «{tag}»",
-    "This file has the tags {firstTags} and {lastTag}" : "Esti ficheru tien les etiquetes «{firstTags}» y «{lastTag}»"
+    "Failed to delete tag for file" : "Nun se pue desaniciar la etiqueta pal ficheru"
 },
 "nplurals=2; plural=(n != 1);");

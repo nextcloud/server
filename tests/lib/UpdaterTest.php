@@ -54,7 +54,7 @@ class UpdaterTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function versionCompatibilityTestData() {
+	public static function versionCompatibilityTestData(): array {
 		return [
 			// Upgrade with invalid version
 			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], false],

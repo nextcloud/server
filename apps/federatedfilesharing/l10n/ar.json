@@ -64,10 +64,6 @@
     "Remote share" : "مُشاركة بعيدة remote",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة بعيدة remote ـ {name} من {owner}@{remote}؟",
     "Remote share password" : "كلمة مرور المشاركة البعيدة remote",
-    "Incoming share could not be processed" : "لا يمكن معالجة المشاركة الواردة",
-    "Clipboard is not available" : "الحافظة غير متوفرة",
-    "Your Federated Cloud ID:" : "معرف السحابة الاتحادية خاصّتُك:",
-    "Twitter" : "تويتر",
-    "Diaspora" : "دياسبورا"
+    "Incoming share could not be processed" : "لا يمكن معالجة المشاركة الواردة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

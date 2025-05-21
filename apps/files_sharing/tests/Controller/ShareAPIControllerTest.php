@@ -28,6 +28,8 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
+use OCP\ITags;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -76,6 +78,7 @@ class ShareAPIControllerTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IProviderFactory&MockObject $factory;
 	private IMailer&MockObject $mailer;
+	private ITagManager&MockObject $tagManager;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -111,6 +114,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->factory = $this->createMock(IProviderFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		$this->tagManager = $this->createMock(ITagManager::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -130,6 +134,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->logger,
 			$this->factory,
 			$this->mailer,
+			$this->tagManager,
 			$this->currentUser,
 		);
 	}
@@ -157,6 +162,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -841,8 +847,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-
 			])
 			->onlyMethods(['canAccessShare'])
 			->getMock();
@@ -1474,6 +1480,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
 			])
 			->onlyMethods(['formatShare'])
@@ -1816,8 +1823,9 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])->onlyMethods(['formatShare'])
 			->getMock();
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
@@ -1913,8 +1921,9 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])->onlyMethods(['formatShare'])
 			->getMock();
 
 		$this->request
@@ -2338,8 +2347,9 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])->onlyMethods(['formatShare'])
 			->getMock();
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
@@ -2408,8 +2418,9 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])->onlyMethods(['formatShare'])
 			->getMock();
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
@@ -2639,8 +2650,9 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
+				$this->tagManager,
 				$this->currentUser,
-			])->setMethods(['formatShare'])
+			])->onlyMethods(['formatShare'])
 			->getMock();
 
 		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
@@ -5137,5 +5149,31 @@ class ShareAPIControllerTest extends TestCase {
 		$node->method('getStorage')->willReturn($storage);
 		$node->method('getId')->willReturn(42);
 		return [$userFolder, $node];
+	}
+
+	public function testPopulateTags(): void {
+		$tagger = $this->createMock(ITags::class);
+		$this->tagManager->method('load')
+			->with('files')
+			->willReturn($tagger);
+		$data = [
+			['file_source' => 10],
+			['file_source' => 22, 'foo' => 'bar'],
+			['file_source' => 42, 'x' => 'y'],
+		];
+		$tags = [
+			10 => ['tag3'],
+			42 => ['tag1', 'tag2'],
+		];
+		$tagger->method('getTagsForObjects')
+			->with([10, 22, 42])
+			->willReturn($tags);
+
+		$result = self::invokePrivate($this->ocs, 'populateTags', [$data]);
+		$this->assertSame([
+			['file_source' => 10, 'tags' => ['tag3']],
+			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
+			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
+		], $result);
 	}
 }

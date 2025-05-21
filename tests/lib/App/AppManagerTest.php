@@ -301,7 +301,7 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
-	public function dataEnableAppForGroupsAllowedTypes() {
+	public static function dataEnableAppForGroupsAllowedTypes(): array {
 		return [
 			[[]],
 			[[
@@ -361,7 +361,7 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
 	}
 
-	public function dataEnableAppForGroupsForbiddenTypes() {
+	public static function dataEnableAppForGroupsForbiddenTypes(): array {
 		return [
 			['filesystem'],
 			['prelogin'],

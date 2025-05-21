@@ -122,7 +122,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$result->closeCursor();
 	}
 
-	public function fileSharePermissionsProvider() {
+	public static function fileSharePermissionsProvider(): array {
 		return [
 			// unchanged for folder
 			[

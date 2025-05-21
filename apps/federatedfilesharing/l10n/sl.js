@@ -49,10 +49,6 @@ OC.L10N.register(
     "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
     "Remote share" : "Oddaljeno mesto za souporabo",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ali želite dodati oddaljeno mesto uporabe {name} uporabnika {owner}@{remote}?",
-    "Remote share password" : "Geslo za oddaljeno souporabo",
-    "Clipboard is not available" : "Odložišče ni na voljo",
-    "Your Federated Cloud ID:" : "ID zveznega oblaka:",
-    "Twitter" : "Račun Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Geslo za oddaljeno souporabo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

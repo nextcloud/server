@@ -54,7 +54,7 @@ class Application extends App {
 		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
-		$eventDispatcher->addListener(AddMissingIndicesEvent::class, function (AddMissingIndicesEvent $event) {
+		$eventDispatcher->addListener(AddMissingIndicesEvent::class, function (AddMissingIndicesEvent $event): void {
 			$event->addMissingIndex(
 				'share',
 				'share_with_index',
@@ -244,7 +244,7 @@ class Application extends App {
 			);
 		});
 
-		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event) {
+		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event): void {
 			$event->addMissingPrimaryKey(
 				'federated_reshares',
 				'federated_res_pk',

@@ -27,7 +27,7 @@ class SearchResultTest extends TestCase {
 		$this->search = new Search($this->container);
 	}
 
-	public function dataAddResultSet() {
+	public static function dataAddResultSet(): array {
 		return [
 			[[], ['exact' => []]],
 			[['users' => ['exact' => null, 'loose' => []]], ['exact' => ['users' => []], 'users' => []]],
@@ -51,7 +51,7 @@ class SearchResultTest extends TestCase {
 		$this->assertEquals($expected, $result->asArray());
 	}
 
-	public function dataHasResult() {
+	public static function dataHasResult(): array {
 		$result = ['value' => ['shareWith' => 'l1']];
 		return [
 			[[],'users', 'n1', false],

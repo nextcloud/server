@@ -23,7 +23,7 @@ class V2ResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->getStatus());
 	}
 
-	public function providesStatusCodes(): array {
+	public static function providesStatusCodes(): array {
 		return [
 			[Http::STATUS_OK, 200],
 			[Http::STATUS_BAD_REQUEST, 104],

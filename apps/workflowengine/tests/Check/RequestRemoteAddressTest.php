@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,19 +11,14 @@ namespace OCA\WorkflowEngine\Tests\Check;
 use OCA\WorkflowEngine\Check\RequestRemoteAddress;
 use OCP\IL10N;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RequestRemoteAddressTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
+	protected IRequest&MockObject $request;
 
-	/**
-	 * @return IL10N|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function getL10NMock() {
-		$l = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
+	protected function getL10NMock(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($string, $args) {
@@ -32,11 +30,10 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
 	}
 
-	public function dataExecuteCheckIPv4() {
+	public static function dataExecuteCheckIPv4(): array {
 		return [
 			['127.0.0.1/32', '127.0.0.1', true],
 			['127.0.0.1/32', '127.0.0.0', false],
@@ -49,11 +46,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataExecuteCheckIPv4
-	 * @param string $value
-	 * @param string $ip
-	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv4($value, $ip, $expected): void {
+	public function testExecuteCheckMatchesIPv4(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -65,11 +59,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataExecuteCheckIPv4
-	 * @param string $value
-	 * @param string $ip
-	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv4($value, $ip, $expected): void {
+	public function testExecuteCheckNotMatchesIPv4(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -79,7 +70,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 		$this->assertEquals(!$expected, $check->executeCheck('!matchesIPv4', $value));
 	}
 
-	public function dataExecuteCheckIPv6() {
+	public static function dataExecuteCheckIPv6(): array {
 		return [
 			['::1/128', '::1', true],
 			['::2/128', '::3', false],
@@ -93,11 +84,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataExecuteCheckIPv6
-	 * @param string $value
-	 * @param string $ip
-	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv6($value, $ip, $expected): void {
+	public function testExecuteCheckMatchesIPv6(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -109,11 +97,8 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataExecuteCheckIPv6
-	 * @param string $value
-	 * @param string $ip
-	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv6($value, $ip, $expected): void {
+	public function testExecuteCheckNotMatchesIPv6(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())

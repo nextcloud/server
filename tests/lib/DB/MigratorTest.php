@@ -261,7 +261,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}
 
-	public function dataNotNullEmptyValuesFailOracle(): array {
+	public static function dataNotNullEmptyValuesFailOracle(): array {
 		return [
 			[ParameterType::BOOLEAN, true, Types::BOOLEAN, false],
 			[ParameterType::BOOLEAN, false, Types::BOOLEAN, true],

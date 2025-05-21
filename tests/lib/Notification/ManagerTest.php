@@ -153,7 +153,7 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -185,7 +185,7 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->never())
@@ -210,7 +210,7 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -236,7 +236,7 @@ class ManagerTest extends TestCase {
 				$this->coordinator,
 				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -246,7 +246,7 @@ class ManagerTest extends TestCase {
 		$manager->getCount($notification);
 	}
 
-	public function dataIsFairUseOfFreePushService(): array {
+	public static function dataIsFairUseOfFreePushService(): array {
 		return [
 			[true, 999, true],
 			[true, 1000, true],

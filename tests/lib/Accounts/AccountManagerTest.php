@@ -499,7 +499,7 @@ class AccountManagerTest extends TestCase {
 		$this->invokePrivate($accountManager, 'updateUser', [$user, $newData, $oldData]);
 	}
 
-	public function dataTrueFalse(): array {
+	public static function dataTrueFalse(): array {
 		return [
 			#$newData | $oldData | $insertNew | $updateExisting
 			[['myProperty' => ['value' => 'newData']], ['myProperty' => ['value' => 'oldData']], false, true],
@@ -896,7 +896,7 @@ class AccountManagerTest extends TestCase {
 		}
 	}
 
-	public function searchDataProvider(): array {
+	public static function searchDataProvider(): array {
 		return [
 			[ #0 Search for an existing name
 				IAccountManager::PROPERTY_DISPLAYNAME,
@@ -948,21 +948,22 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	public function dataCheckEmailVerification(): array {
+	public static function dataCheckEmailVerification(): array {
 		return [
-			[$this->makeUser('steve', 'Steve Smith', 'steve@steve.steve'), null],
-			[$this->makeUser('emma', 'Emma Morales', 'emma@emma.com'), 'emma@morales.com'],
-			[$this->makeUser('sarah@web.org', 'Sarah Foster', 'sarah@web.org'), null],
-			[$this->makeUser('cole@web.org', 'Cole Harrison', 'cole@web.org'), 'cole@example.com'],
-			[$this->makeUser('8d29e358-cf69-4849-bbf9-28076c0b908b', 'Alice McPherson', 'alice@example.com'), 'alice@mcpherson.com'],
-			[$this->makeUser('11da2744-3f4d-4c17-8c13-4c057a379237', 'James Loranger', 'james@example.com'), ''],
+			[['steve', 'Steve Smith', 'steve@steve.steve'], null],
+			[['emma', 'Emma Morales', 'emma@emma.com'], 'emma@morales.com'],
+			[['sarah@web.org', 'Sarah Foster', 'sarah@web.org'], null],
+			[['cole@web.org', 'Cole Harrison', 'cole@web.org'], 'cole@example.com'],
+			[['8d29e358-cf69-4849-bbf9-28076c0b908b', 'Alice McPherson', 'alice@example.com'], 'alice@mcpherson.com'],
+			[['11da2744-3f4d-4c17-8c13-4c057a379237', 'James Loranger', 'james@example.com'], ''],
 		];
 	}
 
 	/**
 	 * @dataProvider dataCheckEmailVerification
 	 */
-	public function testCheckEmailVerification(IUser $user, ?string $newEmail): void {
+	public function testCheckEmailVerification(array $userData, ?string $newEmail): void {
+		$user = $this->makeUser(...$userData);
 		// Once because of getAccount, once because of getUser
 		$this->config->expects($this->exactly(2))->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 		$account = $this->accountManager->getAccount($user);
@@ -988,7 +989,7 @@ class AccountManagerTest extends TestCase {
 		$this->invokePrivate($this->accountManager, 'checkEmailVerification', [$account, $oldData]);
 	}
 
-	public function dataSetDefaultPropertyScopes(): array {
+	public static function dataSetDefaultPropertyScopes(): array {
 		return [
 			[
 				[],

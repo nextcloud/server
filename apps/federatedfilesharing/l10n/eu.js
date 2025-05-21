@@ -55,10 +55,6 @@ OC.L10N.register(
     "Remote share" : "Urruneko partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}(r)en {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
-    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu",
-    "Clipboard is not available" : "Arbela ez dago erabilgarri",
-    "Your Federated Cloud ID:" : "Zure federatutako hodei IDa:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu"
 },
 "nplurals=2; plural=(n != 1);");

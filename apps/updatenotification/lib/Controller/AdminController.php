@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Controller;
@@ -36,8 +37,8 @@ class AdminController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	private function isUpdaterEnabled() {
-		return !$this->config->getSystemValue('upgrade.disable-web', false);
+	private function isUpdaterEnabled(): bool {
+		return !$this->config->getSystemValueBool('upgrade.disable-web');
 	}
 
 	/**

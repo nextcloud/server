@@ -438,21 +438,9 @@
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Тази общностна версия на Nextcloud не се поддържа и не са налични незабавни известия.",
     "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ако използвате приложения на трети страни, за да се свържете с Nextcloud, моля, не забравяйте да създадете и конфигурирате парола за приложение за всяко едно от тях, преди да активирате удостоверяване на втория фактор.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Някои индекси липсват в базата данни. Не са добавени защото процеса може да отнеме доста време. Можете да стартирате процеса ръчно като изпълните командата \"occ db:add-missing-indices\". След добавянето на индексите заявките към изброените таблици ще минават много по-бързо.",
-    "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "Използва се версия на MariaDB „%s “. Nextcloud 21 и по-новите версии вече няма да поддържат тази версия и се изисква MariaDB 10.2 или по-нова версия.",
-    "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "Използва се версия на MySQL „ %s“. Nextcloud 21 и по-новите версии вече няма да поддържат тази версия и се изискват MySQL 8.0 или MariaDB 10.2, или по-нова версия.",
-    "PostgreSQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher." : "Използва се PostgreSQL версия „%s “. Nextcloud 21 и по-новите версии вече няма да поддържат тази версия и се изисква PostgreSQL 9.6 или по-нова версия.",
     "Set default expiration date for shares" : "Задай дата за изтичане по подразбиране за споделянията",
     "Your biography" : "Вашата биография",
     "You are using <strong>{usage}</strong>" : "Използвате <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Използвате <strong>{usage}</strong> от <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "New user" : "Нов потребител",
-    "_{userCount} user_::_{userCount} users_" : ["{userCount} потребители","{userCount} потребители"],
-    "Username" : "Потребител",
-    "User backend" : "Потребителски сървър",
-    "Add user to group" : "Добавяне на потребител към група",
-    "Server error while trying to add WebAuthn device" : "Грешка в сървъра при опит за добавяне на WebAuthn устройство",
-    "Name your device" : "Име на устройството",
-    "Follow us on Twitter" : "Следвайте ни в Twitter"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Използвате <strong>{usage}</strong> от <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

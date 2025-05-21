@@ -31,6 +31,7 @@ use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VFreeBusy;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use Throwable;
@@ -233,10 +234,15 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message could not be processed because user has no calendars');
 			return false;
 		}
-
-		/** @var VCalendar $vObject|null */
-		$vObject = Reader::read($message);
-
+		
+		try {
+			/** @var VCalendar $vObject|null */
+			$calendarObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			return false;
+		}
+    
 		if (!isset($vObject->VEVENT)) {
 			$this->logger->warning('iMip message contains no event');
 			return false;
@@ -265,7 +271,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-
+    
 		$this->logger->warning('iMip message could not be processed because the no corresponding event was found in any calendar');
 		return false;
 	}

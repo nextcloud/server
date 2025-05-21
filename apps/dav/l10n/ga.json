@@ -321,10 +321,6 @@
     "Please contact the organizer directly." : "Téigh i dteagmháil leis an eagraí go díreach le do thoil.",
     "Are you accepting the invitation?" : "An bhfuil tú ag glacadh leis an gcuireadh?",
     "Tentative" : "Sealadach",
-    "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú.",
-    "Time:" : "Am:",
-    "Could not open file" : "Níorbh fhéidir an comhad a oscailt",
-    "Invalid chunk name" : "Ainm smután neamhbhailí",
-    "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután"
+    "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

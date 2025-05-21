@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "백업 코드를 다시 생성하면 이전 코드는 자동으로 무효화됩니다.",
     "{name} backup codes" : "{name} 백업 코드",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "2단계 인증을 설정할 때 저장한 백업 코드를 사용하십시오.",
-    "Submit" : "제출",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "다음은 백업 코드입니다. 이 코드는 나중에 다시 확인할 수 없으므로 저장하거나 인쇄하십시오."
+    "Submit" : "제출"
 },
 "nplurals=1; plural=0;");

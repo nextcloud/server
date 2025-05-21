@@ -102,11 +102,6 @@ OC.L10N.register(
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
     "Remove background image" : "Xóa bỏ ảnh nền",
-    "Color" : "Màu sắc",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sự truy cập đa dạng là rất quan trọng với chúng tôi. Chúng tôi tuân theo các tiêu chuẩn mạng và kiểm tra để khiến mọi thứ đều có thể sử dụng được ngay cả khi không có chuột, và hỗ trợ những phần mềm hỗ trợ như đọc màn hình. Chúng tôi hướng đến sự tương thích với {guidelines}Nguyên Tắc Truy Cập Cho Nội Dung Mạng{linkend} 2.1  ở cấp độ AA, với chế độ tương phản cao là AAA",
-    "Background" : "Nền",
-    "Set a custom background" : "Đặt nền tùy chỉnh",
-    "Change color" : "Thay đổi màu sắc",
-    "No background" : "Không có nền"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sự truy cập đa dạng là rất quan trọng với chúng tôi. Chúng tôi tuân theo các tiêu chuẩn mạng và kiểm tra để khiến mọi thứ đều có thể sử dụng được ngay cả khi không có chuột, và hỗ trợ những phần mềm hỗ trợ như đọc màn hình. Chúng tôi hướng đến sự tương thích với {guidelines}Nguyên Tắc Truy Cập Cho Nội Dung Mạng{linkend} 2.1  ở cấp độ AA, với chế độ tương phản cao là AAA"
 },
 "nplurals=1; plural=0;");

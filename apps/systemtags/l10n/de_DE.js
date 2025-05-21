@@ -89,7 +89,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
     "System admin disabled tag creation. You can only use existing ones." : "Die Systemadministration hat die Erstellung von Schlagworten deaktiviert. Sie können nur vorhandene Schlagworte verwenden.",
-    "Loading collaborative tags …" : "Lade kollaborative Schlagworte …",
+    "Loading collaborative tags …" : "Kollaborative Schlagworte laden…",
     "Search or create collaborative tags" : "Suchen oder erstellen von kollaborativen Schlagworten",
     "No tags to select, type to create a new tag" : "Keine Schlagworte zur Auswahl, geben Sie ein, um ein neues Schlagwort zu erstellen",
     "Unable to update setting" : "Einstellung konnte nicht aktualisiert werden",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Ein Schlagwort mit demselben Namen existiert bereits",
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
-    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}"
+    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden"
 },
 "nplurals=2; plural=(n != 1);");

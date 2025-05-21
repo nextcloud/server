@@ -15,15 +15,12 @@ use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClearNotificationsTest extends TestCase {
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
-
-	/** @var ClearNotifications */
-	private $listener;
+	private IManager&MockObject $notificationManager;
+	private ClearNotifications $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

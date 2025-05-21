@@ -8,7 +8,7 @@
 if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
 
-	$urlGenerator = \OC::$server->getURLGenerator();
+	$urlGenerator = \OCP\Server::get(\OCP\IURLGenerator::class);
 	header('Location: ' . $urlGenerator->getAbsoluteURL('/'));
 	exit;
 }

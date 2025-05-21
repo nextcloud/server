@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Nulstil",
     "Upload" : "Upload",
     "Remove background image" : "Fjern baggrundsbillede",
-    "Color" : "Farve",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universel adgang er meget vigtig for os. Vi følger webstandarder og sikrer os at gøre alt tilgængeligt også uden mus, eller med hjælpesoftware såsom skærmlæsere. Vi stræber etfer at følge {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 og AA niveau, endda med højt kontrast tema på AAA niveau.",
-    ". Unable to apply the setting." : ". Indstillingen kunne ikke anvendes.",
-    "Background" : "Baggrund",
-    "Set a custom background" : "Angiv en brugerdefineret baggrund",
-    "Change color" : "Skift farve",
-    "No background" : "Ingen baggrund"
+    ". Unable to apply the setting." : ". Indstillingen kunne ikke anvendes."
 },
 "nplurals=2; plural=(n != 1);");

@@ -61,10 +61,6 @@ OC.L10N.register(
     "Remote share" : "Condivisione remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
     "Remote share password" : "Password della condivisione remota",
-    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata",
-    "Clipboard is not available" : "Appunti non disponibili",
-    "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

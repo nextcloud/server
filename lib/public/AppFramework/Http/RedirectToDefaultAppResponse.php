@@ -30,8 +30,7 @@ class RedirectToDefaultAppResponse extends RedirectResponse {
 	 * @deprecated 23.0.0 Use RedirectResponse() with IURLGenerator::linkToDefaultPageUrl() instead
 	 */
 	public function __construct(int $status = Http::STATUS_SEE_OTHER, array $headers = []) {
-		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = \OC::$server->get(IURLGenerator::class);
+		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
 		parent::__construct($urlGenerator->linkToDefaultPageUrl(), $status, $headers);
 	}
 }

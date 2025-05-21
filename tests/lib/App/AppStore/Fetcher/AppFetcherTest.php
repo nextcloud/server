@@ -1840,7 +1840,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->registry = $this->createMock(IRegistry::class);
 
 		$this->fetcher = $this->getMockBuilder(AppFetcher::class)
-			->setMethods(['getChannel'])
+			->onlyMethods(['getChannel'])
 			->setConstructorArgs([
 				$factory,
 				$this->clientService,

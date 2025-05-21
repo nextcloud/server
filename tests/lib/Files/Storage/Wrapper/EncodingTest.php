@@ -29,25 +29,25 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		$a = parent::directoryProvider();
 		$a[] = [self::NFC_NAME];
 		return $a;
 	}
 
-	public function fileNameProvider() {
+	public static function fileNameProvider(): array {
 		$a = parent::fileNameProvider();
 		$a[] = [self::NFD_NAME . '.txt'];
 		return $a;
 	}
 
-	public function copyAndMoveProvider() {
+	public static function copyAndMoveProvider(): array {
 		$a = parent::copyAndMoveProvider();
 		$a[] = [self::NFD_NAME . '.txt', self::NFC_NAME . '-renamed.txt'];
 		return $a;
 	}
 
-	public function accessNameProvider() {
+	public static function accessNameProvider(): array {
 		return [
 			[self::NFD_NAME],
 			[self::NFC_NAME],
@@ -110,7 +110,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('nfc', $this->instance->file_get_contents(self::NFC_NAME));
 	}
 
-	public function encodedDirectoriesProvider() {
+	public static function encodedDirectoriesProvider(): array {
 		return [
 			[self::NFD_NAME, self::NFC_NAME],
 			[self::NFD_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME],
@@ -150,7 +150,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('barbaric', $this->instance->file_get_contents('//' . self::NFC_NAME));
 	}
 
-	public function sourceAndTargetDirectoryProvider() {
+	public static function sourceAndTargetDirectoryProvider(): array {
 		return [
 			[self::NFC_NAME . '1', self::NFC_NAME . '2'],
 			[self::NFD_NAME . '1', self::NFC_NAME . '2'],

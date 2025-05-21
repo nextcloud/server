@@ -32,7 +32,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 		$this->controller = $this->createMock(Controller::class);
 	}
 
-	public function dataModified(): array {
+	public static function dataModified(): array {
 		$now = new \DateTime();
 
 		return [

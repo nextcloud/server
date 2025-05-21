@@ -142,6 +142,13 @@ class SetConfig extends Base {
 					'readable-value' => ($value === '') ? 'empty string' : 'string ' . $value,
 				];
 
+			case 'json':
+				$value = json_decode($value, true);
+				return [
+					'value' => $value,
+					'readable-value' => 'json ' . json_encode($value),
+				];
+
 			default:
 				throw new \InvalidArgumentException('Invalid type');
 		}
@@ -183,7 +190,7 @@ class SetConfig extends Base {
 	 */
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'type') {
-			return ['string', 'integer', 'double', 'boolean'];
+			return ['string', 'integer', 'double', 'boolean', 'json', 'null'];
 		}
 		return parent::completeOptionValues($optionName, $context);
 	}

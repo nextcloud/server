@@ -29,59 +29,40 @@ use Test\TestCase;
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var CheckSetupController | \PHPUnit\Framework\MockObject\MockObject */
-	private $checkSetupController;
-	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
-	private $checker;
-	/** @var ISetupCheckManager|MockObject */
-	private $setupCheckManager;
+	private IRequest&MockObject $request;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private LoggerInterface&MockObject $logger;
+	private Checker&MockObject $checker;
+	private ISetupCheckManager&MockObject $setupCheckManager;
+	private CheckSetupController $checkSetupController;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$this->checker = $this->createMock(Checker::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
-		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
-			->setConstructorArgs([
-				'settings',
-				$this->request,
-				$this->config,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->setupCheckManager,
-			])
-			->setMethods([
-				'getCurlVersion',
-				'isPhpOutdated',
-				'isPHPMailerUsed',
-			])->getMock();
+		$this->checkSetupController = new CheckSetupController(
+			'settings',
+			$this->request,
+			$this->config,
+			$this->urlGenerator,
+			$this->l10n,
+			$this->checker,
+			$this->logger,
+			$this->setupCheckManager,
+		);
 	}
 
 	public function testCheck(): void {

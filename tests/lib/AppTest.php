@@ -34,7 +34,7 @@ class AppTest extends \Test\TestCase {
 	public const TEST_GROUP1 = 'group1';
 	public const TEST_GROUP2 = 'group2';
 
-	public function appVersionsProvider() {
+	public static function appVersionsProvider(): array {
 		return [
 			// exact match
 			[
@@ -335,7 +335,7 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * Providers for the app config values
 	 */
-	public function appConfigValuesProvider() {
+	public static function appConfigValuesProvider(): array {
 		return [
 			// logged in user1
 			[
@@ -591,7 +591,7 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * Providers for the app data values
 	 */
-	public function appDataProvider() {
+	public static function appDataProvider(): array {
 		return [
 			[
 				['description' => " \t  This is a multiline \n test with \n \t \n \n some new lines   "],

@@ -38,7 +38,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 				$this->request,
 				$this->session,
 				$this->urlGenerator
-			])->setMethods([
+			])->onlyMethods([
 				'authFailed',
 				'getPasswordHash',
 				'isAuthenticated',
@@ -64,7 +64,9 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->controller->setToken('myToken');
 
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
 		$this->urlGenerator->method('linkToRoute')
 			->willReturn('myLink!');
@@ -107,7 +109,9 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('regenerateId');
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
 		$tokenSet = false;
 		$hashSet = false;

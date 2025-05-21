@@ -308,10 +308,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Time:" : "Noiz:",
-    "Could not open file" : "Ezin izan da fitxategia ireki",
-    "Invalid chunk name" : "Zati izen baliogabea",
-    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako"
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
 },
 "nplurals=2; plural=(n != 1);");

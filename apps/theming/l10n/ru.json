@@ -115,11 +115,6 @@
     "Reset to default" : "Сбросить изменения",
     "Upload" : "Отправить",
     "Remove background image" : "Убрать фоновое изображение ",
-    "Color" : "Цвет",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Доступная среда очень важна для нас. При разработке мы следуем веб-стандартам, контролируя возможность пользования всем сервисом без помощи мыши и с использованием вспомогательных программ, например, выполняющих чтение с экрана. Мы стремимся к выполнению рекомендаций {guidelines}Руководства доступности Веб-Контента{linkend} 2.1 на уровне АА, а при использовании режима высокой контрастности  — даже на уровне ААА.",
-    "Background" : "Фон",
-    "Set a custom background" : "Установить пользовательский фон",
-    "Change color" : "Изменить цвет",
-    "No background" : "Без фона"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Доступная среда очень важна для нас. При разработке мы следуем веб-стандартам, контролируя возможность пользования всем сервисом без помощи мыши и с использованием вспомогательных программ, например, выполняющих чтение с экрана. Мы стремимся к выполнению рекомендаций {guidelines}Руководства доступности Веб-Контента{linkend} 2.1 на уровне АА, а при использовании режима высокой контрастности  — даже на уровне ААА."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

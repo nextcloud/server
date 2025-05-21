@@ -42,7 +42,7 @@ OC.L10N.register(
     "Tags" : "Tags",
     "All tagged %s …" : "Alle Schlagworte %s hinzugefügt …",
     "tagged %s" : "Schlagwort %s hinzugefügt",
-    "Collaborative tags" : "Kollaborative Tags",
+    "Collaborative tags" : "Kollaborative Schlagworte",
     "Collaborative tagging functionality which shares tags among people." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Schlagwort-Funktionalität für die Zusammenarbeit, die das Teilen von Schlagworten unter Benutzern ermöglicht. Sehr gut für Gruppen geeignet.\n\t(In eine Mehrkundeninstallation sollte diese App deaktiviert werden, da sonst die Schlagworte mit allen Kunden geteilt werden.)",
     "Public" : "Öffentlich",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Ein Schlagwort mit demselben Namen existiert bereits",
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
-    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
-    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}."
+    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden"
 },
 "nplurals=2; plural=(n != 1);");

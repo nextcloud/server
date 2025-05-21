@@ -17,10 +17,12 @@ use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
@@ -45,7 +47,7 @@ use stdClass;
  * @psalm-import-type CoreTaskProcessingTask from ResponseDefinitions
  * @psalm-import-type CoreTaskProcessingTaskType from ResponseDefinitions
  */
-class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
+class TaskProcessingApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -306,9 +308,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 404: Task or file not found
 	 */
 	#[NoAdminRequired]
-	#[Http\Attribute\NoCSRFRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContents(int $taskId, int $fileId): DataDownloadResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
 			return $this->getFileContentsInternal($task, $fileId);
@@ -331,7 +333,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContentsExApp(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContentsExApp(int $taskId, int $fileId): DataDownloadResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getTask($taskId);
 			return $this->getFileContentsInternal($task, $fileId);
@@ -384,7 +386,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
-	private function getFileContentsInternal(Task $task, int $fileId): Http\DataDownloadResponse|DataResponse {
+	private function getFileContentsInternal(Task $task, int $fileId): DataDownloadResponse|DataResponse {
 		$ids = $this->extractFileIdsFromTask($task);
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -401,7 +403,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		} elseif (!$node instanceof File) {
 			throw new NotFoundException('Node is not a file');
 		}
-		return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
+		return new DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
 	}
 
 	/**

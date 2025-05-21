@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Не вдається оновити конфігурацію спільного доступу за допомогою пошти",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Дозволяє користувачам надавати персоналізоване посилання на файл або каталог шляхом додавання адреси ел. пошти.",
     "Send password by mail" : "Надіслати пароль поштою",
-    "Reply to initiator" : "Відповідь ініціатору",
-    "%1$s shared »%2$s« with you" : "%1$s надав вам доступ до \"%2$s\"",
-    "%1$s shared »%2$s« with you." : "%1$s надав вам доступ до \"%2$s\".",
-    "Click the button below to open it." : "Для відкриття натисніть кнопку нижче.",
-    "Open »%s«" : "Відкрити \"%s\"",
-    "Password to access »%1$s« shared to you by %2$s" : "Паролем для доступу до %1$s, яким поділив(-ла-)ся з вами %2$s",
-    "Password to access »%s«" : "Пароль для доступу \"%s\"",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s надав(-ла) доступ до \"%2$s\" та хоче додати:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s надав(-ла) доступ до \"%2$s\" та хоче додати",
-    "»%s« added a note to a file shared with you" : "\"%s\" додано примітку до файлу у спільному доступі",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ви щойно надали доступ %2$s до \"%1$s\" . Через політику безпеки, яку визначено адміністратором, кожен спільний ресурс %3$s має бути захищено паролем, а пароль не можна напряму надсилати одержувачу. Будь ласка, надішліть пароль отримувачу вручну.",
-    "Password to access »%1$s« shared by you with %2$s" : "Пароль для доступу до \"%1$s\", яким ви поділилися з %2$s"
+    "Reply to initiator" : "Відповідь ініціатору"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -125,7 +125,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataNoCSRFRequiredPublicPage(): array {
+	public static function dataNoCSRFRequiredPublicPage(): array {
 		return [
 			['testAnnotationNoCSRFRequiredPublicPage'],
 			['testAnnotationNoCSRFRequiredAttributePublicPage'],
@@ -134,21 +134,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	public function dataPublicPage(): array {
+	public static function dataPublicPage(): array {
 		return [
 			['testAnnotationPublicPage'],
 			['testAttributePublicPage'],
 		];
 	}
 
-	public function dataNoCSRFRequired(): array {
+	public static function dataNoCSRFRequired(): array {
 		return [
 			['testAnnotationNoCSRFRequired'],
 			['testAttributeNoCSRFRequired'],
 		];
 	}
 
-	public function dataPublicPageStrictCookieRequired(): array {
+	public static function dataPublicPageStrictCookieRequired(): array {
 		return [
 			['testAnnotationPublicPageStrictCookieRequired'],
 			['testAnnotationStrictCookieRequiredAttributePublicPage'],
@@ -157,28 +157,28 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	public function dataNoCSRFRequiredPublicPageStrictCookieRequired(): array {
+	public static function dataNoCSRFRequiredPublicPageStrictCookieRequired(): array {
 		return [
 			['testAnnotationNoCSRFRequiredPublicPageStrictCookieRequired'],
 			['testAttributeNoCSRFRequiredPublicPageStrictCookiesRequired'],
 		];
 	}
 
-	public function dataNoAdminRequiredNoCSRFRequired(): array {
+	public static function dataNoAdminRequiredNoCSRFRequired(): array {
 		return [
 			['testAnnotationNoAdminRequiredNoCSRFRequired'],
 			['testAttributeNoAdminRequiredNoCSRFRequired'],
 		];
 	}
 
-	public function dataNoAdminRequiredNoCSRFRequiredPublicPage(): array {
+	public static function dataNoAdminRequiredNoCSRFRequiredPublicPage(): array {
 		return [
 			['testAnnotationNoAdminRequiredNoCSRFRequiredPublicPage'],
 			['testAttributeNoAdminRequiredNoCSRFRequiredPublicPage'],
 		];
 	}
 
-	public function dataNoCSRFRequiredSubAdminRequired(): array {
+	public static function dataNoCSRFRequiredSubAdminRequired(): array {
 		return [
 			['testAnnotationNoCSRFRequiredSubAdminRequired'],
 			['testAnnotationNoCSRFRequiredAttributeSubAdminRequired'],
@@ -429,7 +429,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCsrfOcsController(): array {
+	public static function dataCsrfOcsController(): array {
 		return [
 			[NormalController::class, false, false, true],
 			[NormalController::class, false,  true, true],
@@ -659,7 +659,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function exceptionProvider() {
+	public static function exceptionProvider(): array {
 		return [
 			[
 				new AppNotEnabledException(),

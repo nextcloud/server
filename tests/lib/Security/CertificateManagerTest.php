@@ -100,10 +100,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager->addCertificate('InvalidCertificate', 'invalidCertificate');
 	}
 
-	/**
-	 * @return array
-	 */
-	public function dangerousFileProvider() {
+	public static function dangerousFileProvider(): array {
 		return [
 			['.htaccess'],
 			['../../foo.txt'],
@@ -153,7 +150,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
 			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random])
-			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
+			->onlyMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();
 
 		$certificateManager->expects($this->any())->method('getFilemtimeOfCaBundle')
@@ -181,7 +178,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataTestNeedRebundling() {
+	public static function dataTestNeedRebundling(): array {
 		return [
 			//values: CaBundleMtime, targetBundleMtime, targetBundleExists, expected
 

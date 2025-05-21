@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Xa existe outra etiqueta co mesmo nome",
     "Failed to load tags for file" : "Produciuse un fallo ao cargar as etiquetas do ficheiro",
     "Failed to set tag for file" : "Produciuse un fallo ao definir a etiqueta para o ficheiro",
-    "Failed to delete tag for file" : "Produciuse un fallo ao eliminar a etiqueta do ficheiro",
-    "This file has the tag {tag}" : "Este ficheiro ten a etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este ficheiro ten as etiquetas {firstTags} e {lastTag}"
+    "Failed to delete tag for file" : "Produciuse un fallo ao eliminar a etiqueta do ficheiro"
 },
 "nplurals=2; plural=(n != 1);");

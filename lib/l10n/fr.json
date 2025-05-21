@@ -91,6 +91,8 @@
     "Destination does not exist" : "La destination n'existe pas",
     "Destination is not creatable" : "La destination ne peut pas être créée",
     "Dot files are not allowed" : "Le nom de fichier ne peut pas commencer par un point",
+    "%1$s (renamed)" : "%1$s (renommé)",
+    "renamed file" : "fichier renommé",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" est un nom de fichier ou de dossier interdit.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" est un préfixe interdit pour les noms de fichiers ou de dossiers.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" n'est pas autorisé dans un nom de fichier ou de dossier.",
@@ -439,20 +441,7 @@
     "Generate headline" : "Générer un titre",
     "Summarizes text by reducing its length without losing key information." : "Résume un texte en réduisant sa longueur sans perdre d’informations essentielles.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrait les thèmes d'un texte et les restitue séparés par des virgules.",
-    "Education Edition" : "Édition pour l'éducation ",
-    "File name is a reserved word" : "Ce nom de fichier est un mot réservé",
-    "File name contains at least one invalid character" : "Le nom de fichier contient au moins un caractère invalide",
-    "File name is too long" : "Nom de fichier trop long",
-    "Users" : "Utilisateurs",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s a partagé « %2$s » avec vous et souhaite ajouter :",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s a partagé « %2$s » avec vous et souhaite ajouter",
-    "»%s« added a note to a file shared with you" : "« %s » a ajouté une note à un fichier partagé avec vous",
-    "Open »%s«" : "Ouvrir « %s »",
-    "%1$s shared »%2$s« with you" : "%1$s a partagé « %2$s » avec vous",
-    "%1$s shared »%2$s« with you." : "%1$s a partagé « %2$s » avec vous.",
-    "Click the button below to open it." : "Cliquez sur le bouton ci-dessous pour l'ouvrir",
     "File is currently busy, please try again later" : "Le fichier est actuellement utilisé, veuillez réessayer plus tard",
-    "Cannot download file" : "Impossible de télécharger le fichier",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assurez-vous que le répertoire de données contient un fichier \".ocdata\" à sa racine."
+    "Cannot download file" : "Impossible de télécharger le fichier"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -49,7 +49,7 @@ class DeclarativeAdminSettings implements IDeclarativeSettingsFormWithHandlers {
 			'doc_url' => $this->urlGenerator->linkToDocs('admin-windows-compatible-filenames'),
 			'description' => (
 				$this->l->t('Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.')
-				. "\n" . $this->l->t('After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.')
+				. "\n" . $this->l->t('After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.')
 				. "\n" . $this->l->t('It is also possible to migrate files automatically after enabling this setting, please refer to the documentation about the occ command.')
 			),
 

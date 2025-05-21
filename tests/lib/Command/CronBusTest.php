@@ -9,7 +9,10 @@ namespace Test\Command;
 use OC\Command\CronBus;
 use Test\BackgroundJob\DummyJobList;
 
-class CronBusTest extends AsyncBusTest {
+/**
+ * @group DB
+ */
+class CronBusTest extends AsyncBusTestCase {
 	/**
 	 * @var \OCP\BackgroundJob\IJobList
 	 */

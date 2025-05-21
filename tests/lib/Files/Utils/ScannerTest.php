@@ -124,7 +124,7 @@ class ScannerTest extends \Test\TestCase {
 				}
 			});
 
-		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
+		\OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class)->registerProvider($mountProvider);
 		$cache = $storage->getCache();
 
 		$storage->mkdir('folder');
@@ -138,10 +138,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function invalidPathProvider() {
+	public static function invalidPathProvider(): array {
 		return [
 			[
 				'../',

@@ -132,19 +132,11 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);
-		$this->registerTemplates();
 		$this->registerHooks();
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
-	}
-
-	private function registerTemplates(): void {
-		$templateManager = \OC_Helper::getFileTemplateManager();
-		$templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
-		$templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
-		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
 	}
 
 	private function registerHooks(): void {

@@ -18,7 +18,7 @@ use OCP\Authentication\TwoFactorAuth\IProvider as ITwoFactorAuthProvider;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class TwoFactorCommandTest extends ALoginCommandTest {
+class TwoFactorCommandTest extends ALoginTestCommand {
 	/** @var Manager|MockObject */
 	private $twoFactorManager;
 

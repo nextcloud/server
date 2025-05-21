@@ -21,7 +21,7 @@ class IpAddressClassifierTest extends TestCase {
 		$this->classifier = new IpAddressClassifier();
 	}
 
-	public function publicIpAddressData(): array {
+	public static function publicIpAddressData(): array {
 		return [
 			['8.8.8.8'],
 			['8.8.4.4'],
@@ -39,7 +39,7 @@ class IpAddressClassifierTest extends TestCase {
 		self::assertFalse($isLocal);
 	}
 
-	public function localIpAddressData(): array {
+	public static function localIpAddressData(): array {
 		return [
 			['192.168.0.1'],
 			['fe80::200:5aee:feaa:20a2'],

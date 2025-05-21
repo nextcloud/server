@@ -191,7 +191,7 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('test'), $this->container->query('test1'));
 	}
 
-	public function sanitizeNameProvider() {
+	public static function sanitizeNameProvider(): array {
 		return [
 			['ABC\\Foo', 'ABC\\Foo'],
 			['\\ABC\\Foo', '\\ABC\\Foo'],

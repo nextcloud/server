@@ -55,10 +55,6 @@ OC.L10N.register(
     "Remote share" : "Távoli megosztás",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
-    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel",
-    "Clipboard is not available" : "A vágólap nem érhető el",
-    "Your Federated Cloud ID:" : "Az Ön föderált felhőazonosítója:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel"
 },
 "nplurals=2; plural=(n != 1);");

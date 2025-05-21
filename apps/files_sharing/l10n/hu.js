@@ -288,10 +288,8 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Nem található kompatibilis kiszolgáló itt: {remote}",
     "Invalid server URL" : "Érvénytelen kiszolgáló URL",
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudjához",
-    "Files" : "Fájlok",
     "Download all files" : "Összes fájl letöltése",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
-    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
-    "Allow download" : "Letöltés engedélyezése"
+    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni."
 },
 "nplurals=2; plural=(n != 1);");

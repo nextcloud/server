@@ -394,7 +394,7 @@ class ScannerTest extends TestCase {
 		);
 	}
 
-	public function dataTestIsPartialFile() {
+	public static function dataTestIsPartialFile(): array {
 		return [
 			['foo.txt.part', true],
 			['/sub/folder/foo.txt.part', true],

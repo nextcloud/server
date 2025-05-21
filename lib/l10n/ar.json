@@ -439,20 +439,7 @@
     "Generate headline" : "توليد العنوان",
     "Summarizes text by reducing its length without losing key information." : "يُلَخِّص النص بتقليل طوله دون فقدان المعنى.",
     "Extracts topics from a text and outputs them separated by commas." : "يستخلص المواضيع من النص و إخراجها مفصولة بفواصل.",
-    "Education Edition" : "الإصدار التعليمي",
-    "File name is a reserved word" : "اسم الملف كلمة محجوزة",
-    "File name contains at least one invalid character" : "اسم الملف به ، على الأقل ، حرف غير صالح",
-    "File name is too long" : "اسم الملف طويل جداً",
-    "Users" : "المستخدمين",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s شارك »%2$s« معك و يرغب في إضافة:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s شارك »%2$s« معك و يرغب في إضافة",
-    "»%s« added a note to a file shared with you" : "»%s« أضاف ملاحظة لملفٍ سلفت مشاركته معك",
-    "Open »%s«" : "فتح »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s شارك »%2$s« معك",
-    "%1$s shared »%2$s« with you." : "%1$s شَارَكَ »%2$s« معك.",
-    "Click the button below to open it." : "اضغط على الزر الذي تحته ليتم فتحه.",
     "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
-    "Cannot download file" : "لا يمكن تنزيل الملف",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory."
+    "Cannot download file" : "لا يمكن تنزيل الملف"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

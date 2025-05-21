@@ -49,10 +49,6 @@ OC.L10N.register(
     "Add remote share" : "Amestar un elementu compartíu remotu",
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota «{name}» de {owner}@{remote}?",
-    "Remote share password" : "Contraseña de la compartición remota",
-    "Clipboard is not available" : "El cartafueyu nun ta disponible",
-    "Your Federated Cloud ID:" : "La to ID de nube federada:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Contraseña de la compartición remota"
 },
 "nplurals=2; plural=(n != 1);");

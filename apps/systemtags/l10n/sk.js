@@ -99,8 +99,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Štítok s rovnakým menom už existuje",
     "Failed to load tags for file" : "Nepodarilo sa načítať štítky pre súbor",
     "Failed to set tag for file" : "Nepodarilo sa nastaviť štítok pre súbor",
-    "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
-    "This file has the tag {tag}" : "Tento súbor má štítok {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tento súbor má štítky {firstTags} a {lastTag}"
+    "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

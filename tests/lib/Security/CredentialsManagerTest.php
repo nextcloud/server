@@ -50,7 +50,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame($secretsRev, $received);
 	}
 
-	public function credentialsProvider(): array {
+	public static function credentialsProvider(): array {
 		return [
 			[
 				'alice',

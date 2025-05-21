@@ -186,10 +186,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Time:" : "Tijd:",
-    "Could not open file" : "Kan het bestand niet openen",
-    "Invalid chunk name" : "Ongeldige chunknaam",
-    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen"
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
 },
 "nplurals=2; plural=(n != 1);");

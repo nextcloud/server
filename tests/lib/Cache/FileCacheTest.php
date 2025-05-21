@@ -88,7 +88,7 @@ class FileCacheTest extends TestCache {
 
 	private function setupMockStorage() {
 		$mockStorage = $this->getMockBuilder(Local::class)
-			->setMethods(['filemtime', 'unlink'])
+			->onlyMethods(['filemtime', 'unlink'])
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 
@@ -125,7 +125,7 @@ class FileCacheTest extends TestCache {
 		$this->instance->gc();
 	}
 
-	public function lockExceptionProvider() {
+	public static function lockExceptionProvider(): array {
 		return [
 			[new \OCP\Lock\LockedException('key1')],
 			[new \OCP\Files\LockNotAcquiredException('key1', 1)],

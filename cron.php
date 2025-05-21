@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use OC\Files\SetupManager;
+use OC\Session\CryptoWrapper;
+use OC\Session\Memory;
+use OCP\ILogger;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -64,8 +69,8 @@ Options:
 	$verbose = isset($argv[1]) && ($argv[1] === '-v' || $argv[1] === '--verbose');
 
 	// initialize a dummy memory session
-	$session = new \OC\Session\Memory();
-	$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+	$session = new Memory();
+	$cryptoWrapper = Server::get(CryptoWrapper::class);
 	$session = $cryptoWrapper->wrapSession($session);
 	\OC::$server->setSession($session);
 
@@ -177,11 +182,11 @@ Options:
 			$timeSpent = $timeAfter - $timeBefore;
 			if ($timeSpent > $cronInterval) {
 				$logLevel = match (true) {
-					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
-					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
-					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
-					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
-					default => \OCP\ILogger::DEBUG,
+					$timeSpent > $cronInterval * 128 => ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => ILogger::INFO,
+					default => ILogger::DEBUG,
 				};
 				$logger->log(
 					$logLevel,
@@ -206,7 +211,7 @@ Options:
 			}
 
 			// clean up after unclean jobs
-			Server::get(\OC\Files\SetupManager::class)->tearDown();
+			Server::get(SetupManager::class)->tearDown();
 			$tempManager->clean();
 
 			if ($verbose) {

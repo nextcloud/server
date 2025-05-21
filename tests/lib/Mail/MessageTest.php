@@ -27,7 +27,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function mailAddressProvider() {
+	public static function mailAddressProvider(): array {
 		return [
 			[
 				['lukas@owncloud.com' => 'Lukas Reschke'],
@@ -65,8 +65,7 @@ class MessageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->symfonyEmail = $this->getMockBuilder(Email::class)
-			->disableOriginalConstructor()->getMock();
+		$this->symfonyEmail = $this->createMock(Email::class);
 
 		$this->message = new Message($this->symfonyEmail, false);
 	}

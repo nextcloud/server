@@ -69,8 +69,6 @@
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
-    "Translate" : "Tradurre",
-    "Users" : "Utilizaires",
-    "Open »%s«" : "Dobrir « %s »"
+    "Translate" : "Tradurre"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

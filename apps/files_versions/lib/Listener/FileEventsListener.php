@@ -36,6 +36,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -250,7 +251,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * Erase versions of deleted file
 	 *
-	 * This function is connected to the delete signal of OC_Filesystem
+	 * This function is connected to the NodeDeletedEvent event
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public function remove_hook(Node $node): void {
@@ -282,7 +283,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * rename/move versions of renamed/moved files
 	 *
-	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
+	 * This function is connected to the NodeRenamedEvent event and adjust the name and location
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
@@ -301,7 +302,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * copy versions of copied files
 	 *
-	 * This function is connected to the copy signal of OC_Filesystem and copies the
+	 * This function is connected to the NodeCopiedEvent event and copies the
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
@@ -378,7 +379,7 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			$owner = $node->getOwner()?->getUid();
-		} catch (\OCP\Files\NotFoundException) {
+		} catch (NotFoundException) {
 			$owner = null;
 		}
 

@@ -17,22 +17,19 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
 /**
  * @group DB
  */
-class UserStoragesServiceTest extends StoragesServiceTest {
+class UserStoragesServiceTest extends StoragesServiceTestCase {
 	use UserTrait;
 
-	private $user;
+	protected \OC\User\User $user;
 
-	private $userId;
-
-	/**
-	 * @var StoragesService
-	 */
-	protected $globalStoragesService;
+	protected string $userId;
+	protected StoragesService $globalStoragesService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +40,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$this->createUser($this->userId, $this->userId);
 		$this->user = Server::get(IUserManager::class)->get($this->userId);
 
-		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
+		/** @var IUserSession&MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())

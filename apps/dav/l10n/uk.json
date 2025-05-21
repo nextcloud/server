@@ -282,10 +282,6 @@
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
-    "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
-    "Time:" : "Час:",
-    "Could not open file" : "Не вдалося відкрити файл",
-    "Invalid chunk name" : "Недійсна назва блоку",
-    "Could not rename part file assembled from chunks" : "Не вдалося перейменувати файл частини, зібраний із фрагментів"
+    "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

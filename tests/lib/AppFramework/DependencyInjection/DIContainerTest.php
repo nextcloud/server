@@ -29,7 +29,7 @@ class DIContainerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['isAdminUser'])
+			->onlyMethods(['isAdminUser'])
 			->setConstructorArgs(['name'])
 			->getMock();
 	}

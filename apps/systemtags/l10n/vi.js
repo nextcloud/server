@@ -54,8 +54,6 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Các thẻ hợp tác là có sẵn cho tất cả người dùng. Các thẻ giới hạn có thể được người dùng nhìn thấy nhưng không thể được họ phân công. Các thẻ vô hình là dành cho việc sử dụng nội bộ, vì những người dùng không thể thấy hay phân công chúng.",
     "Open in Files" : "Mở trong Tệp",
     "No tags found" : "Không tìm thấy nhãn",
-    "Tags you have created will show up here." : "Thẻ bạn đã tạo sẽ hiển thị ở đây",
-    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}"
+    "Tags you have created will show up here." : "Thẻ bạn đã tạo sẽ hiển thị ở đây"
 },
 "nplurals=1; plural=0;");

@@ -92,8 +92,6 @@
     "A tag with the same name already exists" : "Esiste già un tag con lo stesso nome",
     "Failed to load tags for file" : "Caricamento delle etichette per il file fallito",
     "Failed to set tag for file" : "Impostazione dell'etichetta per il file fallita",
-    "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita",
-    "This file has the tag {tag}" : "Questo file ha l'etichetta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Il file ha le etichette {firstTags} e {lastTag}"
+    "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

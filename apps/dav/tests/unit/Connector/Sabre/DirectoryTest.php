@@ -15,6 +15,7 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\Files_Sharing\External\Storage;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
@@ -286,7 +287,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturnMap([
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', false],
-				[\OCA\Files_Sharing\External\Storage::class, false],
+				[Storage::class, false],
 			]);
 
 		$storage->expects($this->once())
@@ -342,7 +343,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturnMap([
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
-				[\OCA\Files_Sharing\External\Storage::class, false],
+				[Storage::class, false],
 			]);
 
 		$storage->expects($this->once())

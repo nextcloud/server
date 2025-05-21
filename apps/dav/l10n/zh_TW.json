@@ -321,10 +321,6 @@
     "Please contact the organizer directly." : "請直接聯絡主辦者。",
     "Are you accepting the invitation?" : "您要接受邀請嗎？",
     "Tentative" : "考慮接受",
-    "Your attendance was updated successfully." : "您的參與狀態已成功更新。",
-    "Time:" : "時間：",
-    "Could not open file" : "無法開啟檔案",
-    "Invalid chunk name" : "無效的片段名稱",
-    "Could not rename part file assembled from chunks" : "無法重新命名從片段組合成的部份檔案"
+    "Your attendance was updated successfully." : "您的參與狀態已成功更新。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

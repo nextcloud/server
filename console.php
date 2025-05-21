@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use OCP\IConfig;
+use OCP\Server;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -37,7 +40,7 @@ try {
 		exit(1);
 	}
 
-	$config = \OCP\Server::get(\OCP\IConfig::class);
+	$config = Server::get(IConfig::class);
 	set_exception_handler('exceptionHandler');
 
 	if (!function_exists('posix_getuid')) {
@@ -71,10 +74,10 @@ try {
 		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 
-	$eventLogger = \OCP\Server::get(IEventLogger::class);
+	$eventLogger = Server::get(IEventLogger::class);
 	$eventLogger->start('console:build_application', 'Build Application instance and load commands');
 
-	$application = \OCP\Server::get(Application::class);
+	$application = Server::get(Application::class);
 	/* base.php will have removed eventual debug options from argv in $_SERVER */
 	$argv = $_SERVER['argv'];
 	$input = new ArgvInput($argv);
@@ -88,10 +91,10 @@ try {
 
 	$eventLogger->end('console:run');
 
-	$profiler = \OCP\Server::get(IProfiler::class);
+	$profiler = Server::get(IProfiler::class);
 	if ($profiler->isEnabled()) {
 		$eventLogger->end('runtime');
-		$profile = $profiler->collect(\OCP\Server::get(IRequest::class), new Response());
+		$profile = $profiler->collect(Server::get(IRequest::class), new Response());
 		$profile->setMethod('occ');
 		$profile->setUrl(implode(' ', $argv));
 		$profiler->saveProfile($profile);

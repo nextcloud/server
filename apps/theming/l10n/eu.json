@@ -115,11 +115,6 @@
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Igo",
     "Remove background image" : "Kendu atzeko-planoko irudia",
-    "Color" : "Kolorea",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala izatea oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta guztia sagurik gabe erabili ahal izatea bermatzen dugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino betez.",
-    "Background" : "Atzeko planoa",
-    "Set a custom background" : "Ezarri atzeko planoko irudi pertsonalizatua",
-    "Change color" : "Aldatu kolorea",
-    "No background" : "atzeko planorik ez"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala izatea oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta guztia sagurik gabe erabili ahal izatea bermatzen dugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino betez."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -28,17 +28,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Πάροχος διαμοιρασμού που σας επιτρέπει να διαμοιράζεστε αρχεία μέσω mail",
     "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
-    "Reply to initiator" : "Απάντηση στον αποστολέα",
-    "%1$s shared »%2$s« with you" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς.",
-    "%1$s shared »%2$s« with you." : "%1$s διαμοιράστηκε »%2$s« με εσάς.",
-    "Click the button below to open it." : "Κάντε κλικ στο παρακάτω κουμπί για να το ανοίξετε.",
-    "Open »%s«" : "Ανοίξτε »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε μαζί σας μέσω %2$s",
-    "Password to access »%s«" : "Συνθηματικό για πρόσβαση στο »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει:",
-    "%1$s shared »%2$s« with you and wants to add" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει",
-    "»%s« added a note to a file shared with you" : "Ο »%s« πρόσθεσε μια σημείωση στο κοινόχρηστο αρχείο",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Έχετε μόλις διαμοιραστεί »%1$s« με %2$s. Ο διαμοιρασμός έχει ήδη σταλθεί στον παραλήπτη. Βάση των πολιτικών ασφαλείας που έχουν ορισθεί από τον διαχειριστή του %3$s ο κάθε διαμοιρασμός χρειάζεται να προστατεύεται από ένα συνθηματικό και δεν επιτρέπετε να σταλθεί το συνθηματικό απευθείας στον παραλήπτη. Επομένως χρειάζεται να προωθήσετε το συνθηματικό χειροκίνητα στον παραλήπτη.",
-    "Password to access »%1$s« shared by you with %2$s" : "Συνθηματικό για πρόσβαση στο »%1$s« διαμοιράστηκε με %2$s"
+    "Reply to initiator" : "Απάντηση στον αποστολέα"
 },
 "nplurals=2; plural=(n != 1);");

@@ -45,7 +45,7 @@ class PsrLoggerAdapterTest extends TestCase {
 		$this->assertEquals($expectedLevel, PsrLoggerAdapter::logLevelToInt($level));
 	}
 
-	public function dataPsrLoggingLevels(): array {
+	public static function dataPsrLoggingLevels(): array {
 		return [
 			[LogLevel::ALERT, ILogger::ERROR],
 			[LogLevel::CRITICAL, ILogger::ERROR],
@@ -69,7 +69,7 @@ class PsrLoggerAdapterTest extends TestCase {
 		$this->loggerAdapter->log($level, 'valid message');
 	}
 
-	public function dataInvalidLoggingLevel(): array {
+	public static function dataInvalidLoggingLevel(): array {
 		return [
 			// invalid string
 			['this is not a level'],

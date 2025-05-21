@@ -20,7 +20,7 @@ class UtilTest extends TestCase {
 	 *
 	 * @see https://bugs.php.net/bug.php?id=21641
 	 */
-	protected int $headerSize = 8192;
+	protected static int $headerSize = 8192;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
@@ -61,7 +61,7 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $id);
 	}
 
-	public function providesHeadersForEncryptionModule() {
+	public static function providesHeadersForEncryptionModule(): array {
 		return [
 			['', []],
 			['', ['1']],
@@ -80,11 +80,11 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function providesHeaders() {
+	public static function providesHeaders(): array {
 		return [
-			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('HBEGIN:oc_encryption_module:0:HEND', self::$headerSize, '-', STR_PAD_RIGHT)
 				, [], '0'],
-			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', self::$headerSize, '-', STR_PAD_RIGHT)
 				, ['custom_header' => 'foo'], '0'],
 		];
 	}
@@ -120,7 +120,7 @@ class UtilTest extends TestCase {
 		);
 	}
 
-	public function providePathsForTestIsExcluded() {
+	public static function providePathsForTestIsExcluded(): array {
 		return [
 			['/files_encryption', '', true],
 			['files_encryption/foo.txt', '', true],
@@ -152,7 +152,7 @@ class UtilTest extends TestCase {
 		);
 	}
 
-	public function dataTestIsFile() {
+	public static function dataTestIsFile(): array {
 		return [
 			['/user/files/test.txt', true],
 			['/user/files', true],
@@ -175,7 +175,7 @@ class UtilTest extends TestCase {
 			$this->util->stripPartialFileExtension($path));
 	}
 
-	public function dataTestStripPartialFileExtension() {
+	public static function dataTestStripPartialFileExtension(): array {
 		return [
 			['/foo/test.txt', '/foo/test.txt'],
 			['/foo/test.txt.part', '/foo/test.txt'],
@@ -196,17 +196,17 @@ class UtilTest extends TestCase {
 		}
 	}
 
-	public function dataTestParseRawHeader() {
+	public static function dataTestParseRawHeader(): array {
 		return [
-			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('HBEGIN:oc_encryption_module:0:HEND', self::$headerSize, '-', STR_PAD_RIGHT)
 				, [Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
-			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', self::$headerSize, '-', STR_PAD_RIGHT)
 				, ['custom_header' => 'foo', Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
-			[str_pad('HelloWorld', $this->headerSize, '-', STR_PAD_RIGHT), []],
+			[str_pad('HelloWorld', self::$headerSize, '-', STR_PAD_RIGHT), []],
 			['', []],
-			[str_pad('HBEGIN:oc_encryption_module:0', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('HBEGIN:oc_encryption_module:0', self::$headerSize, '-', STR_PAD_RIGHT)
 				, []],
-			[str_pad('oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+			[str_pad('oc_encryption_module:0:HEND', self::$headerSize, '-', STR_PAD_RIGHT)
 				, []],
 		];
 	}
@@ -245,7 +245,7 @@ class UtilTest extends TestCase {
 		);
 	}
 
-	public function dataTestGetFileKeyDir() {
+	public static function dataTestGetFileKeyDir(): array {
 		return [
 			[false, '', '/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
 			[true, '', '/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],

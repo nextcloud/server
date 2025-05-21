@@ -134,7 +134,7 @@ class SearchBuilderTest extends TestCase {
 		return $rows;
 	}
 
-	public function comparisonProvider() {
+	public static function comparisonProvider(): array {
 		return [
 			[new SearchComparison(ISearchComparison::COMPARE_GREATER_THAN, 'mtime', 125), [1]],
 			[new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125), [0]],

@@ -17,7 +17,7 @@ class ContactsManagerTest extends \Test\TestCase {
 		$this->cm = new \OC\ContactsManager();
 	}
 
-	public function searchProvider() {
+	public static function searchProvider(): array {
 		$search1 = [
 			0 => [
 				'N' => [0 => '', 1 => 'Jan', 2 => 'Jansen', 3 => '', 4 => '',],

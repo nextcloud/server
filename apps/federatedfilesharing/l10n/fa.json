@@ -37,10 +37,6 @@
     "Add remote share" : "افزودن هم‌رسانی دوردست",
     "Remote share" : "هم‌رسانی دوردست",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
-    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
-    "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
-    "Your Federated Cloud ID:" : "شناسهٔ ابردی خودگردانتان:",
-    "Twitter" : "توییتر",
-    "Diaspora" : "دیازپورا"
+    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

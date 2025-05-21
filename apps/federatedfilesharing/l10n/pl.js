@@ -56,10 +56,6 @@ OC.L10N.register(
     "Remote share" : "Zdalne udostępnienie",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Czy chcesz dodać zdalne udostępnienie {name} od {owner}@{remote}?",
     "Remote share password" : "Hasło zdalnego udostępnienia",
-    "Incoming share could not be processed" : "Nie można przetworzyć przychodzącego udostępnienia",
-    "Clipboard is not available" : "Schowek jest niedostępny",
-    "Your Federated Cloud ID:" : "Twoje ID Chmury Federacyjnej:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Nie można przetworzyć przychodzącego udostępnienia"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

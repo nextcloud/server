@@ -358,13 +358,10 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
     "Invalid server URL" : "Ongeldig server URL",
     "Failed to add the public link to your Nextcloud" : "Kon de openbare link niet aan je Nextcloud toevoegen",
-    "Files" : "Bestanden",
     "Download all files" : "Download alle bestanden",
-    "Search for share recipients" : "Zoek om mee te delen",
-    "No recommendations. Start typing." : "Geen aanbevelingen. Begin te typen.",
-    "Allow download" : "Downloaden toestaan",
-    "Share expire date saved" : "Share vervaldatum opgeslagen",
     "_1 email address already added_::_{count} email addresses already added_" : ["1 E-mailadres al toegevoegd","Al {count} e-mailadressen toegevoegd"],
-    "_1 email address added_::_{count} email addresses added_" : ["1  E-mailadres toegevoegd","{count} E-mailadressen toegevoegd"]
+    "_1 email address added_::_{count} email addresses added_" : ["1  E-mailadres toegevoegd","{count} E-mailadressen toegevoegd"],
+    "Search for share recipients" : "Zoek om mee te delen",
+    "No recommendations. Start typing." : "Geen aanbevelingen. Begin te typen."
 },
 "nplurals=2; plural=(n != 1);");

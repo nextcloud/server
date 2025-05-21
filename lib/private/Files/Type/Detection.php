@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
+use OCP\IBinaryFinder;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
@@ -23,6 +24,7 @@ use Psr\Log\LoggerInterface;
 class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
+	private const CUSTOM_MIMETYPENAMES = 'mimetypenames.json';
 
 	/** @var array<list{string, string|null}> */
 	protected array $mimeTypes = [];
@@ -31,6 +33,8 @@ class Detection implements IMimeTypeDetector {
 	protected array $mimeTypeIcons = [];
 	/** @var array<string,string> */
 	protected array $mimeTypeAlias = [];
+	/** @var array<string,string> */
+	protected array $mimeTypesNames = [];
 
 	public function __construct(
 		private IURLGenerator $urlGenerator,
@@ -148,6 +152,25 @@ class Detection implements IMimeTypeDetector {
 		return $this->mimeTypes;
 	}
 
+	private function loadNamings(): void {
+		if (!empty($this->mimeTypesNames)) {
+			return;
+		}
+
+		$mimeTypeMapping = json_decode(file_get_contents($this->defaultConfigDir . '/mimetypenames.dist.json'), true);
+		$mimeTypeMapping = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPENAMES, $mimeTypeMapping);
+
+		$this->mimeTypesNames = $mimeTypeMapping;
+	}
+
+	/**
+	 * @return array<string,string>
+	 */
+	public function getAllNamings(): array {
+		$this->loadNamings();
+		return $this->mimeTypesNames;
+	}
+
 	/**
 	 * detect MIME type only based on filename, content of file is not used
 	 *
@@ -225,11 +248,13 @@ class Detection implements IMimeTypeDetector {
 			}
 		}
 
-		if (\OC_Helper::canExecute('file')) {
+		$binaryFinder = \OCP\Server::get(IBinaryFinder::class);
+		$program = $binaryFinder->findBinaryPath('file');
+		if ($program !== false) {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
-			$fp = popen("test -f $path && file -b --mime-type $path", 'r');
+			$fp = popen("test -f $path && $program -b --mime-type $path", 'r');
 			if ($fp !== false) {
 				$mimeType = fgets($fp);
 				pclose($fp);

@@ -210,21 +210,6 @@ Feature: provisioning
       | value | v2-published |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | websiteScope |
-      | value | public |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | displaynameScope |
-      | value | contacts |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | avatarScope |
-      | value | private |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | email |
       | value | no-reply@nextcloud.com |
@@ -253,9 +238,6 @@ Feature: provisioning
       | twitterScope | v2-local |
       | addressScope | v2-federated |
       | emailScope | v2-published |
-      | websiteScope | v2-published |
-      | displaynameScope | v2-federated |
-      | avatarScope | v2-local |
 
   Scenario: Edit a user account multivalue property scopes
     Given user "brand-new-user" exists

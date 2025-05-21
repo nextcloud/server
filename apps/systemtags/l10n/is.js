@@ -92,8 +92,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Merki með sama heiti er þegar til staðar",
     "Failed to load tags for file" : "Mistókst að hlaða inn merkjum af skrá",
     "Failed to set tag for file" : "Mistókst að setja merki á skrá",
-    "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
-    "This file has the tag {tag}" : "Þessi skrá er með merkið {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Þessi skrá er með merkin {firstTags} og {lastTag}"
+    "Failed to delete tag for file" : "Mistókst að eyða merki á skrá"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

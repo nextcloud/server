@@ -13,15 +13,12 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserDeletedListenerTest extends TestCase {
-
-	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var UserDeletedListener */
-	private $listener;
+	private StatusService&MockObject $service;
+	private UserDeletedListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

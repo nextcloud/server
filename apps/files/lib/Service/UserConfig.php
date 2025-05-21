@@ -54,6 +54,12 @@ class UserConfig {
 			'default' => true,
 			'allowed' => [true, false],
 		],
+		[
+			// Whether to show the mime column or not
+			'key' => 'show_mime_column',
+			'default' => false,
+			'allowed' => [true, false],
+		]
 	];
 	protected ?IUser $user = null;
 

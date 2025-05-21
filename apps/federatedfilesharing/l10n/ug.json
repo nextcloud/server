@@ -50,10 +50,6 @@
     "Remote share" : "يىراقتىن ئورتاقلىشىش",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{remote} @ {owner} دىن يىراقتىن ئورتاقلىشىش {name} add نى قوشماقچىمۇ؟",
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
-    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
-    "Clipboard is not available" : "چاپلاش تاختىسى يوق",
-    "Your Federated Cloud ID:" : "فېدېراتسىيە بۇلۇت كىملىكىڭىز:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -22,23 +22,16 @@ use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DarkHighContrastThemeTest extends AccessibleThemeTestCase {
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ImageManager|MockObject */
-	private $imageManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var IAppManager|MockObject */
-	private $appManager;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IUserSession&MockObject $userSession;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ImageManager&MockObject $imageManager;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IAppManager&MockObject $appManager;
 
 	// !! important: Enable WCAG AAA tests
-	protected bool $WCAGaaa = true;
+	protected static bool $WCAGaaa = true;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);

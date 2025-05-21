@@ -16,15 +16,6 @@
     "%1$s shared %2$s with you and wants to add" : "%1$s jagas sinuga %2$s ning soovib lisada",
     "%s added a note to a file shared with you" : "%s jagas koos sulle jagatud failiga ka märget",
     "Could not find share" : "Jagamist ei leitud.",
-    "Send password by mail" : "Saada parool e-postiga",
-    "%1$s shared »%2$s« with you" : "„%1$s“ jagas sinuga „%2$s“",
-    "%1$s shared »%2$s« with you." : "%1$s jagas sinuga „%2$s“ faili.",
-    "Click the button below to open it." : "Vajuta allolevat nuppu, et see avada.",
-    "Open »%s«" : "Ava »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "»%1$s« ligipääsu parool jagati sulle %2$s poolt",
-    "Password to access »%s«" : "Parool ligipääsuks: %s",
-    "%1$s shared »%2$s« with you and wants to add:" : "„%1$s“ jagas sinuga „%2$s“ ning soovib lisada:",
-    "%1$s shared »%2$s« with you and wants to add" : "„%1$s“ jagas sinuga „%2$s“ ning soovib lisada",
-    "»%s« added a note to a file shared with you" : "„%s“ jagas koos sulle jagatud failiga ka märget"
+    "Send password by mail" : "Saada parool e-postiga"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

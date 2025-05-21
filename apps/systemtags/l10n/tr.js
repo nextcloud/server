@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Aynı adlı bir etiket zaten var",
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
-    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
-    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş"
+    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi"
 },
 "nplurals=2; plural=(n > 1);");

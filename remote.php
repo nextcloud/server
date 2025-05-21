@@ -1,5 +1,9 @@
 <?php
 
+use OC\ServiceUnavailableException;
+use OCP\IConfig;
+use OCP\Util;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -35,7 +39,7 @@ function handleException(Exception|Error $e): void {
 				// we shall not log on RemoteException
 				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OCP\Server::get(LoggerInterface::class)));
 			}
-			$server->on('beforeMethod:*', function () use ($e) {
+			$server->on('beforeMethod:*', function () use ($e): void {
 				if ($e instanceof RemoteException) {
 					switch ($e->getCode()) {
 						case 503:
@@ -51,7 +55,7 @@ function handleException(Exception|Error $e): void {
 			$server->exec();
 		} else {
 			$statusCode = 500;
-			if ($e instanceof \OC\ServiceUnavailableException) {
+			if ($e instanceof ServiceUnavailableException) {
 				$statusCode = 503;
 			}
 			if ($e instanceof RemoteException) {
@@ -86,7 +90,7 @@ function resolveService($service) {
 		return $services[$service];
 	}
 
-	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	return \OCP\Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
 try {
@@ -97,13 +101,13 @@ try {
 	// this policy with a softer one if debug mode is enabled.
 	header("Content-Security-Policy: default-src 'none';");
 
-	if (\OCP\Util::needUpgrade()) {
+	if (Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
 		throw new RemoteException('Service unavailable', 503);
 	}
 
-	$request = \OC::$server->getRequest();
+	$request = \OCP\Server::get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new RemoteException('Path not found', 404);

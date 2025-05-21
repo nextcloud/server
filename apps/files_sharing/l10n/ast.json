@@ -298,10 +298,8 @@
     "No compatible server found at {remote}" : "Nun s'atopó nengún sirvidor compatible en «{remote}»",
     "Invalid server URL" : "La URL del sirvidor ye inválida",
     "Failed to add the public link to your Nextcloud" : "Nun se pue amestar l'enllaz públicu a esta instancia de Nextcloud",
-    "Files" : "Ficheros",
     "Download all files" : "Baxar tolos ficheros",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
-    "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
-    "Allow download" : "Permitir la descarga"
+    "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

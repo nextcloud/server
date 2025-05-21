@@ -304,7 +304,7 @@ class Util {
 
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
-				&& in_array($root[2], $this->excludedPaths)) {
+				&& in_array($root[2] ?? '', $this->excludedPaths)) {
 				return true;
 			}
 		}

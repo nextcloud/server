@@ -16,15 +16,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncAccountDataCommand extends Base {
-	protected IUserManager $userManager;
-	protected IAccountManager $accountManager;
-
 	public function __construct(
-		IUserManager $userManager,
-		IAccountManager $accountManager,
+		protected IUserManager $userManager,
+		protected IAccountManager $accountManager,
 	) {
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		parent::__construct();
 	}
 

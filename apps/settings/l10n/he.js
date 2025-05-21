@@ -334,13 +334,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "הרשמה לרשימת הדיוור שלנו",
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "למסד הנתונים חסרים אינדקסים. כיוון שהוספת אינדקסים על טבלאות גדולות היא פעולה שגוזלת זמן רב הם לא נוספים אוטומטית. על ידי הרצת הפקודה „occ db:add-missing-indices” האינדקסים החסרים נוספים ידנית ללא עצירת פעולת העותק. לאחר הוספת האינדקסים השאילתות על הטבלאות האלה מהירות בהרבה.",
-    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים",
-    "New user" : "משתמש חדש",
-    "Username" : "שם משתמש",
-    "User backend" : "מנגנון משתמש",
-    "Server error while trying to add WebAuthn device" : "אירעה שגיאת שרת בעת הניסיון להוספת התקן WebAuthn",
-    "Name your device" : "מתן שם להתקן שלך",
-    "Follow us on Twitter" : "לעקוב אחרינו בטוויטר"
+    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

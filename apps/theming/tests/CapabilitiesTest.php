@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,22 +26,12 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase {
-	/** @var ThemingDefaults|MockObject */
-	protected $theming;
-
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var Util|MockObject */
-	protected $util;
-
+	protected ThemingDefaults&MockObject $theming;
+	protected IURLGenerator&MockObject $url;
+	protected IConfig&MockObject $config;
+	protected Util&MockObject $util;
 	protected IUserSession $userSession;
-
-	/** @var Capabilities */
-	protected $capabilities;
+	protected Capabilities $capabilities;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,7 +50,7 @@ class CapabilitiesTest extends TestCase {
 		);
 	}
 
-	public function dataGetCapabilities() {
+	public static function dataGetCapabilities(): array {
 		return [
 			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', '#fff', '#000', 'http://absolute/', true, [
 				'name' => 'name',
@@ -133,18 +125,9 @@ class CapabilitiesTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGetCapabilities
-	 * @param string $name
-	 * @param string $url
-	 * @param string $slogan
-	 * @param string $color
-	 * @param string $textColor
-	 * @param string $logo
-	 * @param string $background
-	 * @param string $baseUrl
-	 * @param bool $backgroundThemed
-	 * @param string[] $expected
+	 * @param non-empty-array<string, string> $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected): void {
+	public function testGetCapabilities(string $name, string $url, string $slogan, string $color, string $textColor, string $logo, string $background, string $backgroundColor, string $backgroundTextColor, string $baseUrl, bool $backgroundThemed, array $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
