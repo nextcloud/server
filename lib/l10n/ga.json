@@ -448,20 +448,7 @@
     "Generate headline" : "Gin ceannlíne",
     "Summarizes text by reducing its length without losing key information." : "Déanann sé achoimre ar théacs trína fhad a laghdú gan eochairfhaisnéis a chailliúint.",
     "Extracts topics from a text and outputs them separated by commas." : "Sliocht topaicí as téacs agus aschuir iad scartha le camóga.",
-    "Education Edition" : "Eagrán Oideachais",
-    "File name is a reserved word" : "Focal in áirithe is ea ainm comhaid",
-    "File name contains at least one invalid character" : "Tá carachtar neamhbhailí amháin ar a laghad san ainm comhaid",
-    "File name is too long" : "Tá ainm an chomhaid rófhada",
-    "Users" : "Úsáideoirí",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s shared »%2$s« with you and wants to add:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s shared »%2$s« with you and wants to add",
-    "»%s« added a note to a file shared with you" : "»%s« added a note to a file shared with you",
-    "Open »%s«" : "Oscail »%s«",
-    "%1$s shared »%2$s« with you" : "Roinn %1$s »%2$s« leat",
-    "%1$s shared »%2$s« with you." : "Roinn %1$s »%2$s« leat.",
-    "Click the button below to open it." : "Cliceáil ar an gcnaipe thíos chun é a oscailt.",
     "File is currently busy, please try again later" : "Tá an comhad gnóthach faoi láthair, bain triail eile as ar ball le do thoil",
-    "Cannot download file" : "Ní féidir an comhad a íoslódáil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Cinntigh go bhfuil comhad darb ainm \".ocdata\" i bhfréamh an eolaire sonraí."
+    "Cannot download file" : "Ní féidir an comhad a íoslódáil"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

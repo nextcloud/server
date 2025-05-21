@@ -66,10 +66,6 @@ OC.L10N.register(
     "Remote share" : "远程共享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
     "Remote share password" : "远程共享密码",
-    "Incoming share could not be processed" : "无法处理传入共享",
-    "Clipboard is not available" : "剪贴板不可用",
-    "Your Federated Cloud ID:" : "您的联合云 ID：",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "无法处理传入共享"
 },
 "nplurals=1; plural=0;");

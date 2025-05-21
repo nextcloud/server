@@ -64,10 +64,6 @@ OC.L10N.register(
     "Remote share" : "Kaugjagamine",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share password" : "Kaugjagamise parool",
-    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda",
-    "Clipboard is not available" : "Lõikelauda ei ole saadaval",
-    "Your Federated Cloud ID:" : "Sinu liitpilve ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diasporaa"
+    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda"
 },
 "nplurals=2; plural=(n != 1);");

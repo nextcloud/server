@@ -323,10 +323,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "Time:" : "Tid:",
-    "Could not open file" : "Kunde inte öppna fil",
-    "Invalid chunk name" : "Ogiltigt delnamn",
-    "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar"
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
 },
 "nplurals=2; plural=(n != 1);");

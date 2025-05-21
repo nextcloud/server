@@ -93,8 +93,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "ئوخشاش ئىسىمدىكى بەلگە ئاللىبۇرۇن مەۋجۇت",
     "Failed to load tags for file" : "ھۆججەتنىڭ خەتكۈچلىرىنى يۈكلىيەلمىدى",
     "Failed to set tag for file" : "ھۆججەتكە بەلگە بەلگىلەش مەغلۇپ بولدى",
-    "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
-    "This file has the tag {tag}" : "بۇ ھۆججەتنىڭ بەلگىسى {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "بۇ ھۆججەتنىڭ خەتكۈچلىرى {firstTags} ۋە {lastTag}"
+    "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى"
 },
 "nplurals=2; plural=(n != 1);");

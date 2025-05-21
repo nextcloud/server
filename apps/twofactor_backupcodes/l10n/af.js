@@ -12,7 +12,6 @@ OC.L10N.register(
     "Print backup codes" : "Druk rugsteunkodes",
     "Regenerate backup codes" : "Hergenereer rugsteunkodes",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Indien u rugsteunkodes hergenereer maak u outomaties die ou kodes ongeldig.",
-    "Submit" : "Dien in",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit is u rugsteunkodes. Bewaar dit of druk dit af aangesien u later nie hierdie kodes sal kan lees nie"
+    "Submit" : "Dien in"
 },
 "nplurals=2; plural=(n != 1);");

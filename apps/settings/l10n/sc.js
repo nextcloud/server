@@ -376,17 +376,7 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Iscrie·ti a sa lista de messàgios nostra",
     "Use a second factor besides your password to increase security for your account." : "Imprea unu segundu fatore a parte sa crae tua pro crèschere sa seguresa de su contu tuo.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si impreas aplicatziones de sa de tres partes pro ti connètere a Nextcloud, assegura•ti de creare e cunfigurare una crae pro cada aplicatzione antis de ativare su segundu fatore de autenticatzione.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "In sa base de datos mancat calicunu ìnditze. Agiùnghere is ìnditzes a tàulas mannas podet pigare unu pagu de tempus, tando no s'agiunghent de manera automàtica. Impreende  \"occ db:add-missing-indices\" si podent agiùnghere a manu is ìnditzes chi mancant in s'interis chi s'istàntzia est in funtzione. Cando is ìnditzes sunt agiuntos is rechestas a custas tàulas andant giai semper prus a lestru meda.",
     "Set default expiration date for shares" : "Cunfigura sa data de iscadèntzia predefinida pro is cumpartziduras",
-    "Your biography" : "Sa biografia tua",
-    "New user" : "Utèntzia noa",
-    "Add new user" : "Agiunghe utente nou",
-    "_{userCount} user_::_{userCount} users_" : ["{userCount}utente","{userCount} utentes"],
-    "Username" : "Nùmene utente",
-    "User backend" : "Motore utente",
-    "Add user to group" : "Agiunghe un'utente a unu grupu",
-    "Server error while trying to add WebAuthn device" : "Errore de su serbidore chirchende de agiùnghere su dispositivu WebAuthn",
-    "Name your device" : "Nùmena su dispositivu",
-    "Follow us on Twitter" : "Sighi•nosi in Twitter"
+    "Your biography" : "Sa biografia tua"
 },
 "nplurals=2; plural=(n != 1);");

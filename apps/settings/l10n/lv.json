@@ -225,7 +225,6 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ja izmanto trešo pušu lietotnes, lai savienotos ar Nextcloud, lūgums ņemt vērā, ka pirms divpakāpju pieteikšanās iespējošanas katrai no tām ir nepieciešams izveidot un izmantot lietotnes paroli.",
     "Your biography" : "Jūsu biogrāfija",
     "You are using <strong>{usage}</strong>" : "Jūs izmantojat <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jūs izmantojat <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "Username" : "Lietotājvārds"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jūs izmantojat <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

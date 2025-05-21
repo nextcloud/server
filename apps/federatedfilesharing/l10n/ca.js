@@ -56,10 +56,6 @@ OC.L10N.register(
     "Remote share" : "Element compartit remot",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasenya de l'element compartit remot",
-    "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant",
-    "Clipboard is not available" : "El porta-retalls no està disponible",
-    "Your Federated Cloud ID:" : "El vostre ID de núvol federat:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant"
 },
 "nplurals=2; plural=(n != 1);");

@@ -313,14 +313,6 @@ OC.L10N.register(
     "Check out our blog" : "Sellit ouzh hon vlog",
     "Subscribe to our newsletter" : "Koumannantit d'hon kemenadennoù nevesadur",
     "Use a second factor besides your password to increase security for your account." : "Implijour un eil-elfenn d'ho ger-tremen a gwella urentez o c'hont.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Mankout a ra rollioù er roadenn-diaz. Abalamour e kemer amzer ouzhpennañ rollioù e taolennoù bras, n'int ket bet lakaet en un doare otomatek. En ul lakaat da dreiñ \"occ db:add-missing-indices\" eo posupl ouzhpennañ ar rollioù a vank gant an dorn pa vo an azgoulenn o treiñ. Ur wech ar rollioù ouzhpennet, goulennoù savet d'an taolennoù a vo buanaet.",
-    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ",
-    "New user" : "Implijer nevez",
-    "_{userCount} user_::_{userCount} users_" : ["{userCount} implijer","{userCount} implijer","{userCount} implijer","{userCount} implijer","{userCount} implijer"],
-    "Username" : "anv implijer",
-    "User backend" : "Backen implijer",
-    "Server error while trying to add WebAuthn device" : "Ur fazi servijour a zo bet pa oa ouzhpennet an ardivink WebAuthn",
-    "Name your device" : "Anvit o ardivink",
-    "Follow us on Twitter" : "Heuliit ac'henomp war Twitter"
+    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

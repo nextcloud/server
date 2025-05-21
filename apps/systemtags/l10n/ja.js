@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "同じ名前のタグがすでに存在しています",
     "Failed to load tags for file" : "ファイルのタグのロードに失敗しました",
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
-    "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
-    "This file has the tag {tag}" : "このファイルには {tag} タグがあります。",
-    "This file has the tags {firstTags} and {lastTag}" : "このファイルには {firstTags} と {lastTag} というタグがあります"
+    "Failed to delete tag for file" : "ファイルのタグを削除できませんでした"
 },
 "nplurals=1; plural=0;");

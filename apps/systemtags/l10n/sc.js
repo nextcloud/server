@@ -54,8 +54,6 @@ OC.L10N.register(
     "Failed to load tags" : "No at fatu a carrigare is etichetas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Is etichetas collaborativas sunt a disponimentu pro totu is utentes. Is etichetas limitadas podent èssere bidas dae is utentes, chi però no ddas podent assignare. Is etichetas visìbiles sunt pro un'impreu de intro, ca is utentes no ddas podent nen bìdere nen assignare.",
     "Open in Files" : "Aberi in Archìvios",
-    "No tags found" : "Peruna eticheta agatada",
-    "This file has the tag {tag}" : "Custu archìviu tenet s'eticheta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}"
+    "No tags found" : "Peruna eticheta agatada"
 },
 "nplurals=2; plural=(n != 1);");

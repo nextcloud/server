@@ -237,20 +237,7 @@
     "Generate headline" : "Generate headline",
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
-    "Education Edition" : "Education Edition",
-    "File name is a reserved word" : "File name is a reserved word",
-    "File name contains at least one invalid character" : "File name contains at least one invalid character",
-    "File name is too long" : "File name is too long",
-    "Users" : "Users",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s shared »%2$s« with you and wants to add:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s shared »%2$s« with you and wants to add",
-    "»%s« added a note to a file shared with you" : "»%s« added a note to a file shared with you",
-    "Open »%s«" : "Open »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s shared »%2$s« with you",
-    "%1$s shared »%2$s« with you." : "%1$s shared »%2$s« with you.",
-    "Click the button below to open it." : "Click the button below to open it.",
     "File is currently busy, please try again later" : "File is currently busy, please try again later",
-    "Cannot download file" : "Cannot download file",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ensure there is a file called \".ocdata\" in the root of the data directory."
+    "Cannot download file" : "Cannot download file"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

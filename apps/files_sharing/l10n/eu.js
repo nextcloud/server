@@ -390,14 +390,11 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Ez da zerbitzari bateragarririk aurkitu {remote} helbidean",
     "Invalid server URL" : "Zerbitzari URL baliogabea",
     "Failed to add the public link to your Nextcloud" : "Huts egin du esteka publikoa zure Nextcloudera gehitzean",
-    "Files" : "Fitxategiak",
-    "Download all files" : "Deskargatu fitxategi guztiak",
-    "Search for share recipients" : "Bilatu partekatze-hartzaileak",
-    "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten.",
-    "Allow download" : "Baimendu deskarga",
-    "Share expire date saved" : "Partekatzearen iraungitze data gordeta",
     "You are not allowed to edit link shares that you don't own" : "Ezin dituzu editatu zureak ez diren partekatze estekak",
+    "Download all files" : "Deskargatu fitxategi guztiak",
     "_1 email address already added_::_{count} email addresses already added_" : ["Helbide elektroniko 1 gehitu da dagoeneko","{count} helbide elektroniko gehitu dira dagoeneko"],
-    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"]
+    "_1 email address added_::_{count} email addresses added_" : ["Helbide elektroniko 1 gehitu da","{count} helbide elektroniko gehitu dira"],
+    "Search for share recipients" : "Bilatu partekatze-hartzaileak",
+    "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten."
 },
 "nplurals=2; plural=(n != 1);");

@@ -321,10 +321,6 @@
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
-    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
-    "Time:" : "Čas:",
-    "Could not open file" : "Súbor sa nepodarilo otvoriť",
-    "Invalid chunk name" : "Neplatný názov bloku",
-    "Could not rename part file assembled from chunks" : "Nepodarilo sa premenovať dočasný súbor vytvorený z blokov"
+    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

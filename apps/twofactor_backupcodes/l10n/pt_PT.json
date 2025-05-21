@@ -8,7 +8,6 @@
     "Print backup codes" : "Imprimir códigos de segurança",
     "Regenerate backup codes" : "Voltar a gerar os códigos de segurança",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se voltar a gerar os códigos de segurança os seus códigos antigos serão automaticamente invalidados.",
-    "Submit" : "Submeter",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes são os seus códigos de segurança. Por favor, guarde ou imprima-os pois estes códigos não serão possíveis de visualizar novamente."
+    "Submit" : "Submeter"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

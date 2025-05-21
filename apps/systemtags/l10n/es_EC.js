@@ -65,8 +65,6 @@ OC.L10N.register(
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden asignarlas. Las etiquetas invisibles son para uso interno, ya que los usuarios no pueden verlas ni asignarlas.",
     "No tags found" : "No se encontraron etiquetas",
     "Failed to load last used tags" : "Error al cargar las últimas etiquetas utilizadas",
-    "Missing \"Content-Location\" header" : "Falta el encabezado \"Content-Location\"",
-    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}.",
-    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}."
+    "Missing \"Content-Location\" header" : "Falta el encabezado \"Content-Location\""
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

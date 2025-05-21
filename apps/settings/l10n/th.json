@@ -271,12 +271,6 @@
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "ตรวจสอบความปลอดภัยของ Nextcloud ของคุณผ่าน<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">การสแกนความปลอดภัยของเรา ↗</a>",
     "Reasons to use Nextcloud in your organization" : "เหตุผลที่ควรใช้ Nextcloud ในองค์กรของคุณ",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "รุ่นที่ออกโดยชุมชนของ Nextcloud นี้ไม่ได้รับการสนับสนุน และไม่สามารถใช้งานการแจ้งเตือนทันทีได้",
-    "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
-    "New user" : "ผู้ใช้ใหม่",
-    "Username" : "ชื่อผู้ใช้",
-    "User backend" : "แบ็กเอนด์ของผู้ใช้",
-    "Add user to group" : "เพิ่มผู้ใช้เข้ากลุ่ม",
-    "Server error while trying to add WebAuthn device" : "เกิดข้อผิดพลาดเซิร์ฟเวอร์ขณะกำลังพยายามเพิ่มอุปกรณ์ WebAuthn",
-    "Name your device" : "ตั้งชื่ออุปกรณ์ของคุณ"
+    "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

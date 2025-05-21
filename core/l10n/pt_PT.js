@@ -290,7 +290,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
     "You have not added any info yet" : "Ainda não adicionou qualquer informação ",
     "Edit Profile" : "Editar perfil",
-    "Error loading message template: {error}" : "Ocorreu um erro ao carregar o modelo: {error}",
     "Very weak password" : "Palavra-passe muito fraca",
     "Weak password" : "Palavra-passe fraca",
     "So-so password" : "Palavra-passe aceitável",

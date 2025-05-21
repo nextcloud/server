@@ -36,10 +36,6 @@ OC.L10N.register(
     "Add remote share" : "Lisää etäjako",
     "Remote share" : "Etäjako",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
-    "Remote share password" : "Etäjaon salasana",
-    "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Etäjaon salasana"
 },
 "nplurals=2; plural=(n != 1);");

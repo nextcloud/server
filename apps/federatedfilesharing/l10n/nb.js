@@ -49,10 +49,6 @@ OC.L10N.register(
     "Add remote share" : "Legg til ekstern ressurs",
     "Remote share" : "Ekstern ressurs",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
-    "Remote share password" : "Passord for ekstern ressurs",
-    "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
-    "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Passord for ekstern ressurs"
 },
 "nplurals=2; plural=(n != 1);");

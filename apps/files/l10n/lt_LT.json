@@ -301,23 +301,17 @@
     "Direct link was copied (only works for people who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)",
     "Path" : "Kelias",
     "_%n byte_::_%n bytes_" : ["%n baitas","%n baitai","%n baitų","%n baitų"],
-    "Favorited" : "Pažymėtas mėgstamu",
     "Copy direct link (only works for people who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik žmonėms, turintiems prieigą prie šio failo/aplanko)",
     "Upload file" : "Įkelti failą",
-    "Not favorited" : "Nepažymėtas mėgstamu",
     "An error occurred while trying to update the tags" : "Įvyko klaida bandant atnaujinti žymas",
     "Upload (max. %s)" : "Įkelti (maks. %s)",
-    "Storage informations" : "Informacija apie saugyklą",
-    "Go to the previous folder" : "Eiti į ankstesnį aplanką",
-    "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
+    "Filter filenames…" : "Filtruoti failų pavadinimus…",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} aplankas","{folderCount} aplankai","{folderCount} aplankų","{folderCount} aplankas"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} failas","{fileCount} failai","{fileCount} failų","{fileCount} failas"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 failas ir {folderCount} aplankas","1 failas ir {folderCount} aplankai","1 failas ir {folderCount} aplankų","1 failas ir {folderCount} aplankas"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} failas ir 1 aplankas","{fileCount} failai ir 1 aplankas","{fileCount} failų ir 1 aplankas","{fileCount} failas ir 1 aplankas"],
-    "List of favorites files and folders." : "Mėgstamų failų ir aplankų sąrašas.",
     "Personal Files" : "Asmeniniai failai",
     "Text file" : "Tekstinis failas",
-    "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Filter filenames…" : "Filtruoti failų pavadinimus…"
+    "New text file.txt" : "Naujas tekstinis failas.txt"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

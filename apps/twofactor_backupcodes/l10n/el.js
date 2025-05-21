@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Εάν αναδημιουργήσετε εφεδρικούς κωδικούς, οι παλιοί κωδικοί ακυρώνονται αυτόματα.",
     "{name} backup codes" : "{name} εφεδρικοί κωδικοί",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Χρησιμοποιήστε έναν από τους εφεδρικούς κωδικούς που αποθηκεύσατε όταν ρυθμίζετε τον έλεγχο ταυτότητας δύο παραγόντων.",
-    "Submit" : "Υποβολή",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Αυτοί είναι είναι οι εφεδρικοί σας κωδικοί. Παρακαλούμε αποθηκεύστε τους και/ή εκτυπώστε τους καθώς δεν θα είστε σε θέση να τους διαβάσετε ξανά αργότερα."
+    "Submit" : "Υποβολή"
 },
 "nplurals=2; plural=(n != 1);");

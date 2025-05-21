@@ -39,9 +39,6 @@
     "Add remote share" : "원격 공유 추가",
     "Remote share" : "원격 공유",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
-    "Remote share password" : "원격 공유 암호",
-    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
-    "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "원격 공유 암호"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -323,10 +323,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontaktujte organizátora přímo.",
     "Are you accepting the invitation?" : "Přijímáte pozvání?",
     "Tentative" : "Nezávazně",
-    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
-    "Time:" : "Čas:",
-    "Could not open file" : "Nedaří se otevřít soubor",
-    "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
-    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků"
+    "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

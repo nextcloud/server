@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "خەت سەپلىمىسى ئارقىلىق ھەمبەھىرنى يېڭىلاشقا ئامالسىز",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "كىشىلەرنىڭ ئېلېكترونلۇق خەت ئادرېسى ئارقىلىق ھۆججەت ياكى ھۆججەت قىسقۇچقا خاسلاشتۇرۇلغان ئۇلىنىشنى ھەمبەھىرلىشىگە يول قويىدۇ.",
     "Send password by mail" : "خەت ئارقىلىق پارول ئەۋەتىڭ",
-    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ",
-    "%1$s shared »%2$s« with you" : "%1 $ s ئورتاقلاشتى »%2 $ s« سىز بىلەن",
-    "%1$s shared »%2$s« with you." : "%1 $ s ئورتاقلاشتى »%2 $ s« سىز بىلەن.",
-    "Click the button below to open it." : "ئۇنى ئېچىش ئۈچۈن تۆۋەندىكى كۇنۇپكىنى بېسىڭ.",
-    "Open »%s«" : "ئېچىڭ »% s«",
-    "Password to access »%1$s« shared to you by %2$s" : "زىيارەت قىلىش پارولى »%1 $ s«%2 $ s بىلەن ئورتاقلاشتى",
-    "Password to access »%s«" : "زىيارەت قىلىش پارولى »% s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1 $ s ھەمبەھىر »%2 $ s« سىز بىلەن قوشماقچى:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1 $ s ئورتاقلاشتى »%2 $ s« سىز بىلەن قوشماقچى",
-    "»%s« added a note to a file shared with you" : "»% S« سىز بىلەن ئورتاقلاشقان ھۆججەتكە خاتىرە قوشتى",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "سىز پەقەت%2 $ s بىلەن ئورتاقلاشتىڭىز. بۇ ئۈلۈش ئاللىبۇرۇن تاپشۇرۇۋالغۇچىغا ئەۋەتىلگەن. باشقۇرغۇچى تەرىپىدىن بېكىتىلگەن بىخەتەرلىك سىياسىتى سەۋەبىدىن%3 $ s ھەر بىر پاينى مەخپىي نومۇر بىلەن قوغداش كېرەك ، پارولنى تاپشۇرۇۋالغۇچىغا بىۋاسىتە ئەۋەتىشكە بولمايدۇ. شۇڭلاشقا پارولنى تاپشۇرۇۋالغۇچىغا قولدا يوللىشىڭىز كېرەك.",
-    "Password to access »%1$s« shared by you with %2$s" : "زىيارەت قىلىش پارولى »%1 $ s« سىز بىلەن ئورتاقلاشقان%2 $ s"
+    "Reply to initiator" : "تەشەببۇس قىلغۇچىغا جاۋاب قايتۇرۇڭ"
 },
 "nplurals=2; plural=(n != 1);");

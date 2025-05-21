@@ -215,10 +215,8 @@ OC.L10N.register(
     "You can upload into this folder" : "می‌توانید در این پوشه آپلود کنید",
     "Invalid server URL" : "ادرس سرور نامعتبر",
     "Failed to add the public link to your Nextcloud" : "خطا در افزودن ادرس عمومی به نکس کلود شما",
-    "Files" : "فایل‌ها",
     "Download all files" : "دانلود همه فایل ها",
     "Search for share recipients" : "Search for share recipients",
-    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
-    "Allow download" : "Allow download"
+    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید."
 },
 "nplurals=2; plural=(n > 1);");
