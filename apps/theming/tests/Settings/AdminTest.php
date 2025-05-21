@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,17 +17,18 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
 	private Admin $admin;
-	private IConfig $config;
-	private ThemingDefaults $themingDefaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-	private ImageManager $imageManager;
-	private IL10N $l10n;
-	private INavigationManager $navigationManager;
+	private IConfig&MockObject $config;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IInitialState&MockObject $initialState;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ImageManager&MockObject $imageManager;
+	private IL10N&MockObject $l10n;
+	private INavigationManager&MockObject $navigationManager;
 
 	protected function setUp(): void {
 		parent::setUp();

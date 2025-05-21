@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,29 +29,17 @@ class ThemingDefaultsTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IConfig&MockObject $config;
 	private \OC_Defaults $defaults;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cacheFactory;
-	/** @var ThemingDefaults */
-	private $template;
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $util;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
-	private $cache;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $imageManager;
-	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $navigationManager;
-	/** @var BackgroundService|\PHPUnit\Framework\MockObject\MockObject */
-	private $backgroundService;
+	private IL10N|MockObject $l10n;
+	private IUserSession&MockObject $userSession;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ICacheFactory&MockObject $cacheFactory;
+	private Util&MockObject $util;
+	private ICache&MockObject $cache;
+	private IAppManager&MockObject $appManager;
+	private ImageManager&MockObject $imageManager;
+	private INavigationManager&MockObject $navigationManager;
+	private BackgroundService&MockObject $backgroundService;
+	private ThemingDefaults $template;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -186,18 +176,17 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://example.com/', $this->template->getBaseUrl());
 	}
 
-	public function legalUrlProvider() {
+	public static function legalUrlProvider(): array {
 		return [
-			[ '' ],
-			[ 'https://example.com/legal.html']
+			[''],
+			['https://example.com/legal.html'],
 		];
 	}
 
 	/**
-	 * @param $imprintUrl
 	 * @dataProvider legalUrlProvider
 	 */
-	public function testGetImprintURL($imprintUrl): void {
+	public function testGetImprintURL(string $imprintUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -208,10 +197,9 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/**
-	 * @param $privacyUrl
 	 * @dataProvider legalUrlProvider
 	 */
-	public function testGetPrivacyURL($privacyUrl): void {
+	public function testGetPrivacyURL(string $privacyUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -351,7 +339,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
-	public function invalidLegalUrlProvider() {
+	public static function invalidLegalUrlProvider(): array {
 		return [
 			['example.com/legal'],  # missing scheme
 			['https:///legal'],     # missing host
@@ -359,10 +347,9 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/**
-	 * @param $invalidImprintUrl
 	 * @dataProvider invalidLegalUrlProvider
 	 */
-	public function testGetShortFooterInvalidImprint($invalidImprintUrl): void {
+	public function testGetShortFooterInvalidImprint(string $invalidImprintUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -379,10 +366,9 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	/**
-	 * @param $invalidPrivacyUrl
 	 * @dataProvider invalidLegalUrlProvider
 	 */
-	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl): void {
+	public function testGetShortFooterInvalidPrivacy(string $invalidPrivacyUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -428,7 +414,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
 
-	public function dataGetColorPrimary() {
+	public static function dataGetColorPrimary(): array {
 		return [
 			'with fallback default' => [
 				'disableTheming' => false,
@@ -803,7 +789,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
 	}
 
-	public function dataReplaceImagePath() {
+	public static function dataReplaceImagePath(): array {
 		return [
 			['core', 'test.png', false],
 			['core', 'manifest.json'],
@@ -812,8 +798,10 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd'): void {
+	/**
+	 * @dataProvider dataReplaceImagePath
+	 */
+	public function testReplaceImagePath(string $app, string $image, string|bool $result = 'themingRoute?v=1234abcd'): void {
 		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')

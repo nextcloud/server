@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,29 +19,19 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
-use OCP\IConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class IconControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $themingDefaults;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
-	private $iconController;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IconBuilder|\PHPUnit\Framework\MockObject\MockObject */
-	private $iconBuilder;
-	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
-	private $fileAccessHelper;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var ImageManager */
-	private $imageManager;
+	private IRequest&MockObject $request;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private ITimeFactory&MockObject $timeFactory;
+	private IconBuilder&MockObject $iconBuilder;
+	private FileAccessHelper&MockObject $fileAccessHelper;
+	private IAppManager&MockObject $appManager;
+	private ImageManager&MockObject $imageManager;
+	private IconController $iconController;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
