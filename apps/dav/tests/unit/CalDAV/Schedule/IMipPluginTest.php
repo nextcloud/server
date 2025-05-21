@@ -219,6 +219,10 @@ class IMipPluginTest extends TestCase {
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, $oldVEvent)
 			->willReturn($data);
@@ -322,6 +326,88 @@ class IMipPluginTest extends TestCase {
 			->with($room)
 			->willReturn(true);
 		$this->service->expects(self::never())
+			->method('isCircle');
+		$this->service->expects(self::never())
+			->method('buildBodyData');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::never())
+			->method('getFrom');
+		$this->service->expects(self::never())
+			->method('addSubjectAndHeading');
+		$this->service->expects(self::never())
+			->method('addBulletList');
+		$this->service->expects(self::never())
+			->method('getAttendeeRsvpOrReqForParticipant');
+		$this->config->expects(self::never())
+			->method('getValueString');
+		$this->service->expects(self::never())
+			->method('createInvitationToken');
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->service->expects(self::never())
+			->method('addMoreOptionsButton');
+		$this->mailer->expects(self::never())
+			->method('send');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
+	public function testAttendeeIsCircle(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth', ['RSVP' => 'TRUE', 'CN' => 'The Fellowship', 'CUTYPE' => 'GROUP']);
+		$newVevent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE', 'MEMBER' => 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth';
+		$attendees = $newVevent->select('ATTENDEE');
+		$circle = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$circle = $attendee;
+			}
+		}
+		$this->assertNotEmpty($circle, 'Failed to find attendee belonging to the circle');
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => null]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($circle);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($circle)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($circle)
+			->willReturn(true);
+		$this->service->expects(self::never())
 			->method('buildBodyData');
 		$this->user->expects(self::any())
 			->method('getUID')
@@ -420,6 +506,10 @@ class IMipPluginTest extends TestCase {
 			->willReturn($atnd);
 		$this->service->expects(self::once())
 			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())
@@ -554,6 +644,10 @@ class IMipPluginTest extends TestCase {
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
@@ -657,6 +751,10 @@ class IMipPluginTest extends TestCase {
 			->willReturn($attendee);
 		$this->service->expects(self::once())
 			->method('isRoomOrResource')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
 			->with($attendee)
 			->willReturn(false);
 		$this->service->expects(self::once())
@@ -767,6 +865,10 @@ class IMipPluginTest extends TestCase {
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, $oldVEvent)
 			->willReturn($data);
@@ -862,6 +964,10 @@ class IMipPluginTest extends TestCase {
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
 			->method('buildBodyData')
 			->with($newVevent, null)
 			->willReturn($data);
@@ -952,6 +1058,10 @@ class IMipPluginTest extends TestCase {
 			->willReturn($atnd);
 		$this->service->expects(self::once())
 			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
 		$this->service->expects(self::once())

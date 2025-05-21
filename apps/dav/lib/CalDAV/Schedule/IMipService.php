@@ -1155,6 +1155,21 @@ class IMipService {
 		return false;
 	}
 
+	public function isCircle(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if (!$cuType instanceof Parameter) {
+			return false;
+		}
+
+		$uri = $attendee->getValue();
+		if (!$uri) {
+			return false;
+		}
+
+		$cuTypeValue = $cuType->getValue();
+		return $cuTypeValue === 'GROUP' && str_starts_with($uri, 'mailto:circle+');
+	}
+
 	public function minimizeInterval(\DateInterval $dateInterval): array {
 		// evaluate if time interval is in the past
 		if ($dateInterval->invert == 1) {
