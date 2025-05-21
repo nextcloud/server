@@ -346,7 +346,7 @@ class ManagerTest extends TestCase {
 		$calendar->add('METHOD', 'REQUEST');
 		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
-    // Assert
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -378,9 +378,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->remove('VEVENT');
-	  // Act
+		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
-    // Assert
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -414,7 +414,7 @@ class ManagerTest extends TestCase {
 		$calendar->VEVENT->remove('UID');
 		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
-    // Assert
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -456,7 +456,7 @@ class ManagerTest extends TestCase {
 		$calendar->add('METHOD', 'REQUEST');
 		// Act
 		$result = $manager->handleIMip($userId, $calendar->serialize());
-    // Assert
+		// Assert
 		$this->assertFalse($result);
 	}
 

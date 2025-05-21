@@ -237,12 +237,12 @@ class Manager implements IManager {
 		
 		try {
 			/** @var VCalendar $vObject|null */
-			$calendarObject = Reader::read($calendarData);
+			$vObject = Reader::read($message);
 		} catch (ParseException $e) {
 			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
 			return false;
 		}
-    
+	
 		if (!isset($vObject->VEVENT)) {
 			$this->logger->warning('iMip message contains no event');
 			return false;
@@ -271,7 +271,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-    
+	
 		$this->logger->warning('iMip message could not be processed because the no corresponding event was found in any calendar');
 		return false;
 	}
