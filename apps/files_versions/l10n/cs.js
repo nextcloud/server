@@ -12,7 +12,7 @@ OC.L10N.register(
     "Edit version name" : "Upravit název verze",
     "Compare to current version" : "Porovnat se stávající verzí",
     "Restore version" : "Obnovit verzi",
-    "Download version" : "Stáhnout si verzi",
+    "Download version" : "Stáhnout verzi",
     "Delete version" : "Smazat verzi",
     "Cancel" : "Storno",
     "Remove version name" : "Odebrat název verze",

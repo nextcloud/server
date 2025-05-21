@@ -366,20 +366,7 @@
     "Generate headline" : "Generer overskrift",
     "Summarizes text by reducing its length without losing key information." : "Oppsummerer tekst ved å redusere lengden uten å miste nøkkelinformasjon.",
     "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma.",
-    "Education Edition" : "Utdanningsversjon",
-    "File name is a reserved word" : "Filnavnet er et reservert ord",
-    "File name contains at least one invalid character" : "Filnavnet inneholder minst ett ulovlig tegn",
-    "File name is too long" : "Filnavnet er for langt",
-    "Users" : "Brukere",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s delte »%2$s« med deg og vil legge til:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s delte »%2$s« med deg og vil legge til",
-    "»%s« added a note to a file shared with you" : "»%s« la til en melding til en fil delt med deg",
-    "Open »%s«" : "Åpne »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s delte »%2$s« med deg",
-    "%1$s shared »%2$s« with you." : "%1$s delte »%2$s« med deg.",
-    "Click the button below to open it." : "Klikk på knappen nedenfor for å åpne den.",
     "File is currently busy, please try again later" : "Filen er opptatt for øyeblikket, prøv igjen senere",
-    "Cannot download file" : "Kan ikke laste ned fil",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Forsikre deg om at det finnes ei fil kalt \".ocdata\" på rota av datamappa."
+    "Cannot download file" : "Kan ikke laste ned fil"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

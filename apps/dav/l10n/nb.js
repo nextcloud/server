@@ -270,10 +270,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
-    "Time:" : "Tid:",
-    "Could not open file" : "Kunne ikke åpne fil",
-    "Invalid chunk name" : "Ugyldig bitnavn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter"
+    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert."
 },
 "nplurals=2; plural=(n != 1);");

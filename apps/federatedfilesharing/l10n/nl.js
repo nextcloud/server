@@ -37,10 +37,6 @@ OC.L10N.register(
     "Add remote share" : "Toevoegen externe share",
     "Remote share" : "Externe share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Wil je de externe share {name} van {owner}@{remote} toevoegen?",
-    "Remote share password" : "Wachtwoord externe share",
-    "Clipboard is not available" : "Klembord niet beschikbaar",
-    "Your Federated Cloud ID:" : "Je gefedereerde Cloud ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Wachtwoord externe share"
 },
 "nplurals=2; plural=(n != 1);");

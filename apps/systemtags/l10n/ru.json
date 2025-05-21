@@ -86,8 +86,6 @@
     "Missing \"Content-Location\" header" : "Отсутствует заголовок «Content-Location»",
     "Failed to load tags for file" : "Не удалось загрузить метки для файла",
     "Failed to set tag for file" : "Не удалось поставить метку файлу",
-    "Failed to delete tag for file" : "Не удалось удалить метку у файла",
-    "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}"
+    "Failed to delete tag for file" : "Не удалось удалить метку у файла"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

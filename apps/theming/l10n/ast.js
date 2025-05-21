@@ -105,11 +105,6 @@ OC.L10N.register(
     "Reset to default" : "Reafitar los valores",
     "Upload" : "Xunir",
     "Remove background image" : "Quitar la imaxe del fondu",
-    "Color" : "Color",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesu universal ye mui importante pa nós. Siguimos los estándares web y comprobamos que too se pueda usar tamién ensin el mur y con programes d'asistencia, como los llectores de pantalla. Queremos cumplir les {guidelines}Pautes d'accesibilidá del conteníu web{linkend} 2.1 nel nivel AA y col estilu de contraste altu nel nivel AAA.",
-    "Background" : "Fondu",
-    "Set a custom background" : "Afitar un fondu personalizáu",
-    "Change color" : "Camudar el color",
-    "No background" : "Nun hai nengún fondu"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesu universal ye mui importante pa nós. Siguimos los estándares web y comprobamos que too se pueda usar tamién ensin el mur y con programes d'asistencia, como los llectores de pantalla. Queremos cumplir les {guidelines}Pautes d'accesibilidá del conteníu web{linkend} 2.1 nel nivel AA y col estilu de contraste altu nel nivel AAA."
 },
 "nplurals=2; plural=(n != 1);");

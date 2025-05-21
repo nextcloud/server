@@ -15,7 +15,6 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "اگر کدهای پشتیبان را دوباره تولید کنید، به طور خودکار کدهای قدیمی را باطل می کنید.",
     "{name} backup codes" : "کدهای پشتیبان {نام}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "از یکی از کدهای پشتیبان که هنگام تنظیم احراز هویت دو مرحله ای ذخیره کرده اید استفاده کنید.",
-    "Submit" : "ارسال",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "اینها کدهای پشتیبان شما هستند. لطفاً آنها را ذخیره و/یا چاپ کنید زیرا بعداً نمی توانید دوباره کدها را بخوانید."
+    "Submit" : "ارسال"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

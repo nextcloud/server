@@ -228,20 +228,7 @@
     "Translate" : "Prevedi",
     "Target language" : "Ciljni jezik",
     "Result" : "Rezultat",
-    "Education Edition" : "Izobraževalna različica",
-    "File name is a reserved word" : "Ime datoteke je zadržana beseda",
-    "File name contains at least one invalid character" : "Ime datoteke vsebuje vsaj en nedovoljen znak.",
-    "File name is too long" : "Ime datoteke je predolgo",
-    "Users" : "Uporabniki",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
-    "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
-    "Open »%s«" : "Odpri »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
-    "%1$s shared »%2$s« with you." : "%1$s vam omogoča souporabo »%2$s«.",
-    "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
     "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
-    "Cannot download file" : "Datoteke ni mogoče prejeti",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Prepričajte se, da je datoteka ».ocdata« v korenu podatkovne mape."
+    "Cannot download file" : "Datoteke ni mogoče prejeti"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

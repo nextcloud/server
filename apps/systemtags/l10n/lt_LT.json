@@ -73,7 +73,6 @@
     "Tags you have created will show up here." : "Čia bus rodomos jūsų sukurtos žymos.",
     "Failed to load tag" : "Nepavyko įkelti žymos",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
-    "Failed to load tags for file" : "Nepavyko įkelti failo žymų",
-    "This file has the tag {tag}" : "Šis failas turi žymą {tag}"
+    "Failed to load tags for file" : "Nepavyko įkelti failo žymų"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

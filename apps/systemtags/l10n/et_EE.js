@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Sellise nimega silt on juba olemas",
     "Failed to load tags for file" : "Faili silte ei õnnestunud laadida",
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
-    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
-    "This file has the tag {tag}" : "See fail on seotud sildiga „{tag}“",
-    "This file has the tags {firstTags} and {lastTag}" : "See fail on seotud siltidega „{firstTags}“ ja „{lastTag}“"
+    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada"
 },
 "nplurals=2; plural=(n != 1);");

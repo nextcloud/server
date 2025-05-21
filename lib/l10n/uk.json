@@ -352,20 +352,7 @@
     "Generate headline" : "Створити заголовок",
     "Summarizes text by reducing its length without losing key information." : "Викокремлює головне у тексті шляхом зменшення довжини тексту без втрати ключової інформації.",
     "Extracts topics from a text and outputs them separated by commas." : "Виділяє теми, які висвітлює текст, зводить їх у перелік, що розділено комами.",
-    "Education Edition" : "Для навчання",
-    "File name is a reserved word" : "Ім’я файлу є зарезервованим словом",
-    "File name contains at least one invalid character" : "Ім’я файлу містить принаймні один некоректний символ",
-    "File name is too long" : "Ім’я файлу занадто довге",
-    "Users" : "Користувачі",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s надав(-ла) доступ до \"%2$s\" та хоче додати:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s надав(-ла) доступ до \"%2$s\" та хоче додати",
-    "»%s« added a note to a file shared with you" : "\"%s\" додано примітку до файлу у спільному доступі",
-    "Open »%s«" : "Відкрити %s",
-    "%1$s shared »%2$s« with you" : "%1$s надав(-ла) доступ до \"%2$s\"",
-    "%1$s shared »%2$s« with you." : "%1$s надав(-ла) доступ до \"%2$s\".",
-    "Click the button below to open it." : "Щоб відкрити файл, натисніть кнопку нижче.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
-    "Cannot download file" : "Неможливо звантажити файл",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Переконайтеся, що в корені каталогу даних є файл під назвою \".ocdata\"."
+    "Cannot download file" : "Неможливо звантажити файл"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

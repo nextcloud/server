@@ -375,12 +375,9 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "{remote} ماس كېلىدىغان مۇلازىمېتىر تېپىلمىدى",
     "Invalid server URL" : "مۇلازىمېتىر URL ئىناۋەتسىز",
     "Failed to add the public link to your Nextcloud" : "Nextcloud غا ئاممىۋى ئۇلىنىشنى قوشالمىدى",
-    "Files" : "ھۆججەتلەر",
+    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Download all files" : "بارلىق ھۆججەتلەرنى چۈشۈرۈڭ",
     "Search for share recipients" : "ھەمبەھىر تاپشۇرۇۋالغۇچىلارنى ئىزدەڭ",
-    "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ.",
-    "Allow download" : "چۈشۈرۈشكە يول قويۇڭ",
-    "Share expire date saved" : "ئورتاقلىشىش ۋاقتى ساقلاندى",
-    "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ"
+    "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ."
 },
 "nplurals=2; plural=(n != 1);");

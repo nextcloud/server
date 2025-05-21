@@ -267,10 +267,8 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "No compatible server found at {remote}",
     "Invalid server URL" : "Invalid server URL",
     "Failed to add the public link to your Nextcloud" : "Failed to add the public link to your Nextcloud",
-    "Files" : "ფაილები",
     "Download all files" : "Download all files",
     "Search for share recipients" : "Search for share recipients",
-    "No recommendations. Start typing." : "No recommendations. Start typing.",
-    "Allow download" : "Allow download"
+    "No recommendations. Start typing." : "No recommendations. Start typing."
 },
 "nplurals=2; plural=(n!=1);");

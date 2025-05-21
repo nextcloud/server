@@ -426,20 +426,7 @@
     "Generate headline" : "Sortu izenburua",
     "Summarizes text by reducing its length without losing key information." : "Testua laburtzen du bere luzera murrizten informazio baliotsua galdu gabe.",
     "Extracts topics from a text and outputs them separated by commas." : "Gaiak ateratzen ditu testu batetik eta komaz banatuta erakusten ditu.",
-    "Education Edition" : "Hezkuntza edizioa",
-    "File name is a reserved word" : "Fitxategi izena hitz erreserbatua da",
-    "File name contains at least one invalid character" : "Fitxategi izenak karaktere baliogabe bat du gutxienez ",
-    "File name is too long" : "Fitxategi-izena luzeegia da",
-    "Users" : "Erabiltzaileak",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du",
-    "»%s« added a note to a file shared with you" : "»%s« erabiltzaileak ohar bat gehitu du partekatu dizun fitxategi batean",
-    "Open »%s«" : "Ireki »%s«",
-    "%1$s shared »%2$s« with you" : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
-    "%1$s shared »%2$s« with you." : "%1$serabiltzaileak »%2$s« partekatu du zurekin.",
-    "Click the button below to open it." : "Egin klik beheko botoian hura irekitzeko.",
     "File is currently busy, please try again later" : "Fitxategia lanpetuta dago, saiatu berriro geroago",
-    "Cannot download file" : "Ezin da fitxategia deskargatu",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ziurtatu datu direktorioaren erroan \".ocdata\" izeneko fitxategia dagoela."
+    "Cannot download file" : "Ezin da fitxategia deskargatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -220,8 +220,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Palun võta ühendust korraldajaga otse.",
     "Are you accepting the invitation?" : "Kas sa nõustud kutsega?",
     "Tentative" : "Esialgne",
-    "Your attendance was updated successfully." : "Sinu osalemise oleku muutmine õnnestus.",
-    "Time:" : "Aeg:",
-    "Could not open file" : "Ei õnnestunud avada faili"
+    "Your attendance was updated successfully." : "Sinu osalemise oleku muutmine õnnestus."
 },
 "nplurals=2; plural=(n != 1);");

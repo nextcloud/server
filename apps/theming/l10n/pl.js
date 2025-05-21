@@ -104,11 +104,6 @@ OC.L10N.register(
     "Reset to default" : "Przywróć domyślne",
     "Upload" : "Wyślij",
     "Remove background image" : "Usuń obraz tła",
-    "Color" : "Kolor",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalny dostęp jest dla nas bardzo ważny. Przestrzegamy standardów internetowych i sprawdzamy, aby wszystko było użyteczne również bez myszy i oprogramowania pomocniczego, takiego jak czytniki ekranu. Naszym celem jest zgodność z {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na poziomie AA, z motywem o wysokim kontraście nawet na poziomie AAA.",
-    "Background" : "Tło",
-    "Set a custom background" : "Ustaw niestandardowe tło",
-    "Change color" : "Zmień kolor",
-    "No background" : "Bez tła"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalny dostęp jest dla nas bardzo ważny. Przestrzegamy standardów internetowych i sprawdzamy, aby wszystko było użyteczne również bez myszy i oprogramowania pomocniczego, takiego jak czytniki ekranu. Naszym celem jest zgodność z {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na poziomie AA, z motywem o wysokim kontraście nawet na poziomie AAA."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

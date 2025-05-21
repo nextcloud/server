@@ -262,10 +262,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "تەشكىللىگۈچى بىلەن بىۋاسىتە ئالاقىلىشىڭ.",
     "Are you accepting the invitation?" : "تەكلىپنى قوبۇل قىلامسىز؟",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى.",
-    "Time:" : "ۋاقىت:",
-    "Could not open file" : "ھۆججەت ئاچالمىدى",
-    "Invalid chunk name" : "ئىناۋەتسىز",
-    "Could not rename part file assembled from chunks" : "بۆلەكلەردىن يىغىلغان قىسمەن ھۆججەتنىڭ نامىنى ئۆزگەرتەلمىدى"
+    "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى."
 },
 "nplurals=2; plural=(n != 1);");

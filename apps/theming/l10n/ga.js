@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Athshocraigh go réamhshocrú",
     "Upload" : "Uaslódáil",
     "Remove background image" : "Bain íomhá cúlra",
-    "Color" : "Dath",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Is tábhachtach go mór dúinn rochtain uilepháirtíoch a chur ar fáil. Leanaimid na caighdeáin ghréasáin agus déanaimid seiceáil chun gach rud a úsáid a dhéanamh gan luchóg, agus bogearraí chabhrach cosúil le léitheoirí scáileáin. Táimid ag tógáil leis an gcomhlíonadh {guidelines}Treoracha Rochtanaíochta Ábhar Gréasáin{linkend} 2.1 ar leibhéal AA, leis an téama ardshaincheaptha fiú ar leibhéal AAA.",
-    ". Unable to apply the setting." : ". Ní féidir an socrú a chur i bhfeidhm.",
-    "Background" : "Cúlra",
-    "Set a custom background" : "Socraigh cúlra saincheaptha",
-    "Change color" : "Athraigh dath",
-    "No background" : "Gan cúlra"
+    ". Unable to apply the setting." : ". Ní féidir an socrú a chur i bhfeidhm."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -201,8 +201,6 @@
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
     "Tentative" : "Прелиминарно",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Time:" : "Време:",
-    "Could not open file" : "Неможе да се отвори датотеката"
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

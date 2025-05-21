@@ -230,15 +230,10 @@
     "Direct link was copied (only works for people who have access to this file/folder)" : "คัดลอกลิงก์โดยตรงแล้ว (ใช้ได้เฉพาะผู้ใช้ที่มีสิทธิ์เข้าถึงไฟล์/โฟลเดอร์นี้)",
     "Path" : "เส้นทาง",
     "_%n byte_::_%n bytes_" : ["%n ไบต์"],
-    "Favorited" : "เพิ่มในรายการโปรดแล้ว",
     "Copy direct link (only works for people who have access to this file/folder)" : "คัดลอกลิงก์โดยตรง (ใช้ได้เฉพาะผู้ใช้ที่มีสิทธิ์เข้าถึงไฟล์/โฟลเดอร์นี้)",
     "Upload file" : "อัปโหลดไฟล์",
-    "Not favorited" : "ไม่ได้เป็นรายการโปรด",
     "An error occurred while trying to update the tags" : "เกิดข้อผิดพลาดขณะกำลังพยายามอัปเดตแท็ก",
     "Upload (max. %s)" : "อัปโหลด (สูงสุด %s)",
-    "Storage informations" : "ข้อมูลพื้นที่จัดเก็บ",
-    "Open the files app settings" : "เปิดการตั้งค่าแอปไฟล์",
-    "Unable to change the favourite state of the file" : "ไม่สามารถเปลี่ยนสถานะรายการโปรดของไฟล์",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt"
 },"pluralForm" :"nplurals=1; plural=0;"

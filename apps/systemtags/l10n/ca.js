@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Ja existeix una etiqueta amb el mateix nom",
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
-    "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
-    "This file has the tag {tag}" : "Aquest fitxer té l'etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}"
+    "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer"
 },
 "nplurals=2; plural=(n != 1);");

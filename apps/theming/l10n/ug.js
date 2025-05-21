@@ -117,11 +117,6 @@ OC.L10N.register(
     "Reset to default" : "سۈكۈتتىكى ھالىتىگە قايتىڭ",
     "Upload" : "يۈكلە",
     "Remove background image" : "تەگلىك سۈرىتىنى ئۆچۈرۈڭ",
-    "Color" : "رەڭ",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ھەممىباب زىيارەت قىلىش بىز ئۈچۈن ئىنتايىن مۇھىم. بىز تور ئۆلچىمىگە ئەمەل قىلىپ ، مائۇسسىز ۋە ئېكران ئوقۇغۇچ قاتارلىق ياردەمچى يۇمشاق دېتاللارنىڭ ھەممىسىنى ئىشلىتىشكە بولىدىغانلىقىنى تەكشۈرۈپ تۇرىمىز. بىز AA سەۋىيىسىدىكى {guidelines} تور مەزمۇنىنىڭ زىيارەت قىلىش قوللانمىسى {linkend} 2.1 گە ماسلىشىشنى مەقسەت قىلىمىز ، يۇقىرى سېلىشتۇرما تېمىسى ھەتتا AAA سەۋىيىسىدە.",
-    "Background" : "تەگلىك",
-    "Set a custom background" : "ئىختىيارى تەگلىك بەلگىلەڭ",
-    "Change color" : "رەڭنى ئۆزگەرتىش",
-    "No background" : "تەگلىك يوق"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ھەممىباب زىيارەت قىلىش بىز ئۈچۈن ئىنتايىن مۇھىم. بىز تور ئۆلچىمىگە ئەمەل قىلىپ ، مائۇسسىز ۋە ئېكران ئوقۇغۇچ قاتارلىق ياردەمچى يۇمشاق دېتاللارنىڭ ھەممىسىنى ئىشلىتىشكە بولىدىغانلىقىنى تەكشۈرۈپ تۇرىمىز. بىز AA سەۋىيىسىدىكى {guidelines} تور مەزمۇنىنىڭ زىيارەت قىلىش قوللانمىسى {linkend} 2.1 گە ماسلىشىشنى مەقسەت قىلىمىز ، يۇقىرى سېلىشتۇرما تېمىسى ھەتتا AAA سەۋىيىسىدە."
 },
 "nplurals=2; plural=(n != 1);");

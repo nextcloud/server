@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Om du skapar nya återställningsnycklar så kommer de gamla automatiskt att sluta fungera.",
     "{name} backup codes" : "{name} återställningsnycklar",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Använd en av återställningsnycklarna du sparade när du konfigurerar tvåfaktorsautentisering.",
-    "Submit" : "Skicka",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Detta är dina återställningsnycklar. Vänligen spara och/eller skriv ut dem eftersom du inte kommer kunna se dessa nycklar igen."
+    "Submit" : "Skicka"
 },
 "nplurals=2; plural=(n != 1);");

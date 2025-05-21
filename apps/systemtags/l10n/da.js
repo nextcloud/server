@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Et mærke med samme navn findes allerede",
     "Failed to load tags for file" : "Kunne ikke indlæse tags til fil",
     "Failed to set tag for file" : "Failed to set tag for file",
-    "Failed to delete tag for file" : "Failed to delete tag for file",
-    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}"
+    "Failed to delete tag for file" : "Failed to delete tag for file"
 },
 "nplurals=2; plural=(n != 1);");

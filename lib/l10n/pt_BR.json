@@ -448,20 +448,7 @@
     "Generate headline" : "Gerar título",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reduzindo seu comprimento sem perder informações importantes.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrai tópicos de um texto e os gera separados por vírgulas.",
-    "Education Edition" : "Edição Educativa",
-    "File name is a reserved word" : "O nome do arquivo é uma palavra reservada",
-    "File name contains at least one invalid character" : "O nome do arquivo contém pelo menos um caracter inválido",
-    "File name is too long" : "O nome do arquivo é muito longo",
-    "Users" : "Usuários",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartilhou »%2$s« com você e quer adicionar:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartilhou »%2$s« com você e quer adicionar",
-    "»%s« added a note to a file shared with you" : "»%s« adicionou uma anotação num arquivo compartilhado com você",
-    "Open »%s«" : "Abrir »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
-    "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
-    "Click the button below to open it." : "Clique no botão abaixo para abri-lo.",
     "File is currently busy, please try again later" : "O arquivo está ocupado, tente novamente mais tarde",
-    "Cannot download file" : "Não é possível baixar o arquivo",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegure-se que exista um arquivo chamado \".ocdata\" na raiz do diretório \"data\"."
+    "Cannot download file" : "Não é possível baixar o arquivo"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Z osvežitvijo varnostnih kod bo preklicana veljavnost starih.",
     "{name} backup codes" : "Varnostne kode {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uporabite eno izmed varnostnih kod, ki ste jo shranili pri nastavljanju dvostopenjske overitve",
-    "Submit" : "Pošlji",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Varnostne kode je priporočljivo shraniti oziroma natisniti, saj jih v tej obliki prebrati ne bo več mogoče."
+    "Submit" : "Pošlji"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -241,20 +241,7 @@
     "Generate headline" : "Generate headline",
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
-    "Education Edition" : "نگارش آموزشی",
-    "File name is a reserved word" : "این نام فایل جزو کلمات رزرو می‌باشد",
-    "File name contains at least one invalid character" : "نام فایل دارای حداقل یک کاراکتر نامعتبر است",
-    "File name is too long" : "نام فایل خیلی بزرگ است",
-    "Users" : "کاربران",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s به اشتراک گذاشته شده »%2$s« با شماست و می خواهد اضافه کند:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s به اشتراک گذاشته شده »%2$s« با شماست و می خواهد اضافه کند:",
-    "»%s« added a note to a file shared with you" : "»%s« یادداشتی را به پرونده ای که با شما به اشتراک گذاشته شده است اضافه کرد",
-    "Open »%s«" : "باز کن »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s به اشتراک گذاشته » %2$s« با شما",
-    "%1$s shared »%2$s« with you." : "%1$s به اشتراک گذاشته » %2$s« با شما",
-    "Click the button below to open it." : "برای باز کردن آن روی دکمه زیر کلیک کنید.",
     "File is currently busy, please try again later" : "فایل در حال حاضر مشغول است، لطفا مجددا تلاش کنید",
-    "Cannot download file" : "نمی‌توان پرونده را بارگرفت",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "اطمینان حاصل کنید که فایلی به نام \".ocdata\" در ریشه دایرکتوری داده وجود دارد."
+    "Cannot download file" : "نمی‌توان پرونده را بارگرفت"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

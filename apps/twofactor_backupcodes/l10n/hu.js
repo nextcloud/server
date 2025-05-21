@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ha újra előállítja a biztonsági kódokat, akkor a régiek automatikusan érvénytelenítve lesznek.",
     "{name} backup codes" : "{name} biztonsági kódjai",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Használjon egy biztonsági kódot, amikor beállítja a kétlépcsős hitelesítést.",
-    "Submit" : "Küldés",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek."
+    "Submit" : "Küldés"
 },
 "nplurals=2; plural=(n != 1);");

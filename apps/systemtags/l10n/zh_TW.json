@@ -108,8 +108,6 @@
     "A tag with the same name already exists" : "已有相同名稱的標籤",
     "Failed to load tags for file" : "檔案的標籤載入失敗",
     "Failed to set tag for file" : "檔案的標籤設定失敗",
-    "Failed to delete tag for file" : "檔案的標籤刪除失敗",
-    "This file has the tag {tag}" : "此檔案有標籤 {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "此檔案有標籤 {firstTags} 與 {lastTag}"
+    "Failed to delete tag for file" : "檔案的標籤刪除失敗"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

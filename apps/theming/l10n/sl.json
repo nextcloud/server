@@ -94,11 +94,6 @@
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
     "Remove background image" : "Odstrani sliko ozadja",
-    "Color" : "Barva vmesnika",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Enostaven dostop do možnosti je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vmesnik uporaben tudi brez uporabe miške in brez podporne programske opreme, kot so zaslonski bralniki in podobno. Zagotavljamo skladnost s smernicami {guidelines}Dostopnosti spletne vsebine{linkend} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA.",
-    "Background" : "Ozadje",
-    "Set a custom background" : "Nastavi ozadje po meri",
-    "Change color" : "Spremeni barvo",
-    "No background" : "Brez ozadja"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Enostaven dostop do možnosti je za nas zelo pomemben. Sledimo spletnim standardom in preverjamo, da je vmesnik uporaben tudi brez uporabe miške in brez podporne programske opreme, kot so zaslonski bralniki in podobno. Zagotavljamo skladnost s smernicami {guidelines}Dostopnosti spletne vsebine{linkend} 2.1 na ravni AA, pri visoko kontrastni temi pa tudi na ravni AAA."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

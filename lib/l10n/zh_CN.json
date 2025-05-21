@@ -448,20 +448,7 @@
     "Generate headline" : "生成标题",
     "Summarizes text by reducing its length without losing key information." : "总结一段文本以减少长度而不丢失关键信息",
     "Extracts topics from a text and outputs them separated by commas." : "从文本中摘出主题，输出逗号分隔的结果",
-    "Education Edition" : "教育版",
-    "File name is a reserved word" : "文件名包含敏感字符",
-    "File name contains at least one invalid character" : "文件名中存在至少一个非法字符",
-    "File name is too long" : "文件名过长",
-    "Users" : "用户",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s 与您共享了 »%2$s« 并希望添加：",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s 与您共享了 »%2$s« 并希望添加",
-    "»%s« added a note to a file shared with you" : "»%s« 在与你共享的文件中添加了备注",
-    "Open »%s«" : "打开 »%s«",
-    "%1$s shared »%2$s« with you" : "%1$s 对您共享了 »%2$s«",
-    "%1$s shared »%2$s« with you." : "%1$s 对您共享了 »%2$s«。",
-    "Click the button below to open it." : "点击下方按钮可打开它。",
     "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
-    "Cannot download file" : "无法下载文件",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "请确定在根目录下有一个名为\".ocdata\"的文件。"
+    "Cannot download file" : "无法下载文件"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
