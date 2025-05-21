@@ -228,7 +228,6 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 
 				if ($cacheData !== false) {
-					$data['oldSize'] = $cacheData['size'] ?? 0;
 					$data['encrypted'] = $cacheData['encrypted'] ?? false;
 				}
 

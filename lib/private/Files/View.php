@@ -1224,9 +1224,22 @@ class View {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && in_array('create', $hooks, true));
-					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
-					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
+					if ($operation === 'mkdir') {
+						$sizeDifference = 0;
+					} elseif ($operation === 'file_put_contents') {
+						if (in_array('create', $hooks, true)) {
+							$sizeDifference = $result;
+						} elseif (in_array('update', $hooks, true)) {
+							$cacheData = $storage->getCache()->get($path);
+							$sizeDifference = $cacheData === false ? null : $result - $cacheData->getSize();
+						} else {
+							$sizeDifference = null;
+						}
+					} else {
+						$sizeDifference = null;
+					}
+
+					$this->writeUpdate($storage, $internalPath, null, $sizeDifference);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam, 0);
