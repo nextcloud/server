@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Hvis du genererer nye backupkoder, så vil de gamle koder blive ubrugelige.",
     "{name} backup codes" : "{name} backup-koder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Brug en af de backupkoder, du har gemt, når du konfigurerer to-faktor-godkendelse.",
-    "Submit" : "Tilføj",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dett er dine backup koder. Gem eller udskriv dem venligst da det ikke vil være muligt at læse koderne her igen senere."
+    "Submit" : "Tilføj"
 },
 "nplurals=2; plural=(n != 1);");

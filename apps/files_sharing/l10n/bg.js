@@ -244,10 +244,8 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Не беше намерен съвместим сървър на {remote}",
     "Invalid server URL" : "URL адреса на сървъра не е валиден",
     "Failed to add the public link to your Nextcloud" : "Неуспешно добавяне на публичната връзка към вашия Nextcloud",
-    "Files" : "Файлове",
     "Download all files" : "Изтегли всички файлове",
     "Search for share recipients" : "Търсене на получатели на споделяне",
-    "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
-    "Allow download" : "Позволяване на изтегляне/сваляне/"
+    "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете."
 },
 "nplurals=2; plural=(n != 1);");

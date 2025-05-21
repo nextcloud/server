@@ -310,10 +310,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Hafðu samband beint við skipuleggjendurna.",
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
-    "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
-    "Time:" : "Tími:",
-    "Could not open file" : "Gat ekki opnað skrá",
-    "Invalid chunk name" : "Ógilt heiti á bút",
-    "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum"
+    "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -321,10 +321,6 @@
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Daveti kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Time:" : "Zaman:",
-    "Could not open file" : "Dosya açılamadı",
-    "Invalid chunk name" : "Parça adı geçersiz",
-    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı "
+    "Your attendance was updated successfully." : "Katılımınız güncellendi."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -251,15 +251,13 @@
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "A pasta de grupo \"{mountPoint}\" está quase cheia ({usedSpacePercent}%).",
     "Path" : "Caminho",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
-    "Favorited" : "Nos Favoritos",
     "Upload file" : "Enviar ficheiro",
-    "Not favorited" : "Não favorito",
     "An error occurred while trying to update the tags" : "Ocorreu um erro ao tentar atualizar as etiquetas",
     "Upload (max. %s)" : "Envio (máx. %s)",
+    "Submitting fields…" : "Submeter campos…",
     "{fileCount} files and {folderCount} folders" : "{fileCount} ficheiros e {folderCount} pastas",
     "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
-    "New text file.txt" : "Novo texto ficheiro.txt",
-    "Submitting fields…" : "Submeter campos…"
+    "New text file.txt" : "Novo texto ficheiro.txt"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

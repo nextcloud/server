@@ -383,16 +383,7 @@ OC.L10N.register(
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Ovo izdanje Nextclouda nije podržano i nisu dostupne trenutne obavijesti.",
     "Use a second factor besides your password to increase security for your account." : "Koristite se i drugim faktorom pored zaporke kako biste povećali sigurnost svog računa.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ako se za povezivanje s Nextcloudom koristite aplikacijama treće strane, stvorite i konfigurirajte lozinku za svaku aplikaciju prije omogućavanja drugog faktora za provođenje autentifikacije.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "U bazi podataka nedostaju određeni indeksi. Zbog činjenice da bi dodavanje indeksa u velikim tablicama moglo potrajati neko duže vrijeme, isti se ne dodaju automatski. Izvršenjem „occ db:add-missing-indices” se ti indeksi mogu ručno dodati dok instanca radi. Kada se indeksi dodaju, upiti u te tablice obično su mnogo brži.",
     "Set default expiration date for shares" : "Postavi zadani datum isteka dijeljenja",
-    "Your biography" : "Vaša biografija",
-    "New user" : "Novi korisnik",
-    "_{userCount} user_::_{userCount} users_" : ["{userCount} korisnik","{userCount} korisnika","{userCount} korisnika"],
-    "Username" : "Korisničko ime",
-    "User backend" : "Korisnički pozadinski sustav",
-    "Add user to group" : "Dodaj korisnika u grupu",
-    "Server error while trying to add WebAuthn device" : "Pogreška poslužitelja pri dodavanju WebAuthn uređaja",
-    "Name your device" : "Dodijelite naziv svom uređaju",
-    "Follow us on Twitter" : "Pratite nas na Twitteru"
+    "Your biography" : "Vaša biografija"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

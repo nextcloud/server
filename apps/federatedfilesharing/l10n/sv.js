@@ -66,10 +66,6 @@ OC.L10N.register(
     "Remote share" : "Extern delning",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share password" : "Lösenord för extern delning",
-    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas",
-    "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Your Federated Cloud ID:" : "Ditt federerade moln-ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas"
 },
 "nplurals=2; plural=(n != 1);");

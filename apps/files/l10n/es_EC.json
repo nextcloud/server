@@ -244,17 +244,9 @@
     "_matches \"{filter}\"_::_match \"{filter}\"_" : ["coincide con \"{filter}\".","coincide con \"{filter}\".","coincide con \"{filter}\"."],
     "Path" : "Ruta",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
-    "Favorited" : "Marcado como favorito",
     "Upload file" : "Cargar archivo",
-    "Not favorited" : "No es un favorito",
     "An error occurred while trying to update the tags" : "Se presentó un error al intentar actualizar la etiqueta",
     "Upload (max. %s)" : "Cargar (max. %s)",
-    "Storage informations" : "Información de almacenamiento.",
-    "Go to the previous folder" : "Ir a la carpeta anterior.",
-    "Open the files app settings" : "Abrir la configuración de la aplicación de archivos.",
-    "Unable to change the favourite state of the file" : "No se puede cambiar el estado de favorito del archivo.",
-    "Create new templates folder" : "Crear nueva carpeta de plantillas.",
-    "List of favorites files and folders." : "Lista de archivos y carpetas favoritos.",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

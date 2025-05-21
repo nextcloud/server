@@ -321,10 +321,6 @@
     "Please contact the organizer directly." : "يرجى الاتصال بالمنظم مباشرةً",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
-    "Time:" : "الوقت:",
-    "Could not open file" : "تعذّر فتح الملف",
-    "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
-    "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

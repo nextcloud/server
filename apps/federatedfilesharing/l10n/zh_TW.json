@@ -64,10 +64,6 @@
     "Remote share" : "遠端分享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要新增來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share password" : "遠端分享密碼",
-    "Incoming share could not be processed" : "無法處理收到的分享",
-    "Clipboard is not available" : "剪貼簿無法使用",
-    "Your Federated Cloud ID:" : "您的聯邦雲端 ID：",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "無法處理收到的分享"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

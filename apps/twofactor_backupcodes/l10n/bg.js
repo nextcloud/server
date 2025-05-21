@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "При регенерирането на резервния код, стария код автоматично бива анулиран.",
     "{name} backup codes" : "{name} резервни кодове",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Използвайте един от резервните кодове, които сте запазили, когато настройвате двустепенно удостоверяване.",
-    "Submit" : "Изпращане",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Това е вашия резервен код. Моля, запишете го (или го принтирайте) защото по-късно няма да имате възможност да го видите."
+    "Submit" : "Изпращане"
 },
 "nplurals=2; plural=(n != 1);");

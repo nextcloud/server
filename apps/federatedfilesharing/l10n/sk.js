@@ -66,10 +66,6 @@ OC.L10N.register(
     "Remote share" : "Vzdialené úložisko",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
     "Remote share password" : "Heslo k vzdialenému úložisku",
-    "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať",
-    "Clipboard is not available" : "Schránka nie je prístupná",
-    "Your Federated Cloud ID:" : "Váš identifikátor federovaného cloudu:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

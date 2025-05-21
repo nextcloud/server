@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si vi regeneras rezervkodojn, vi aŭtomate senvalidigas la antaŭajn.",
     "{name} backup codes" : "{name} rezervkodoj",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uzu unu el viaj rezervkodoj, kiujn vi konservis dum agordo de dufaza aŭtentigo.",
-    "Submit" : "Sendi",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Jen viaj rezervkodoj. Bv. konservi aŭ presi ilin, ĉar vi ne plu povos vidi tiujn kodojn poste"
+    "Submit" : "Sendi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Umožňuje ľuďom zdieľať prispôsobený odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
-    "Reply to initiator" : "Odpovedať iniciátorovi",
-    "%1$s shared »%2$s« with you" : "%1$s vám sprístupnil »%2$s«",
-    "%1$s shared »%2$s« with you." : "%1$s vám sprístupnil »%2$s«.",
-    "Click the button below to open it." : "Stlačte tlačidlo nižšie pre otvorenie.",
-    "Open »%s«" : "Otvoriť »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Heslo pre prístup k »%1$s« Vám sprístupnil %2$s",
-    "Password to access »%s«" : "Heslo pre prístup k »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s vám sprístupnil »%2$s« s poznámkou:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s vám sprístupnil »%2$s« s poznámkou",
-    "»%s« added a note to a file shared with you" : "»%s« pridal poznámku k súboru ktorý s Vami zdieľa",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Práve ste zdieľali „%1$s“ s %2$s. Zdieľanie už bolo odoslané príjemcovi. Z dôvodu bezpečnostných pravidiel definovaných správcom %3$s musí byť každá zdieľaná položka chránená heslom, ktoré nemôže byť priamo poslané príjemcovi. Preto musíte heslo poslať príjemcovi ručne.",
-    "Password to access »%1$s« shared by you with %2$s" : "Heslo pre prístup k „%1$s“, ktoré zdieľate s %2$s"
+    "Reply to initiator" : "Odpovedať iniciátorovi"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

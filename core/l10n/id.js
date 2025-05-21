@@ -280,7 +280,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Anda belum menambahkan info apa pun",
     "{user} has not added any info yet" : "{user} belum menambahkan info apa pun",
     "Edit Profile" : "Sunting profil",
-    "Error loading message template: {error}" : "Kesalahan memuat templat pesan: {error}",
     "Very weak password" : "Kata sandi sangat lemah",
     "Weak password" : "Kata sandi lemah",
     "So-so password" : "Kata sandi lumayan",

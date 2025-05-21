@@ -106,11 +106,6 @@ OC.L10N.register(
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
-    "Color" : "Litur",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Aðgengi fyrir alla er okkur mikilvægt. Við fylgjum vefstöðlum oggöngum úr skugga um að allt sé nothæft án þess að nota tölvumús, auk þess að hjálpartæki á borð við skjálesara virki. Við miðum að samhæfni við {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 á stigi AA, og höfum meira að segja háskerpuþemað miðað við stig AAA.",
-    "Background" : "Background",
-    "Set a custom background" : "Setja sérsniðinn bakgrunn",
-    "Change color" : "Breyta lit",
-    "No background" : "Enginn bakgrunnur"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Aðgengi fyrir alla er okkur mikilvægt. Við fylgjum vefstöðlum oggöngum úr skugga um að allt sé nothæft án þess að nota tölvumús, auk þess að hjálpartæki á borð við skjálesara virki. Við miðum að samhæfni við {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 á stigi AA, og höfum meira að segja háskerpuþemað miðað við stig AAA."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

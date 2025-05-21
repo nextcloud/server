@@ -439,20 +439,7 @@
     "Generate headline" : "Xerar titular",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reducindo a súa lonxitude sen perder a información clave.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrae temas dun texto e amósaos separados por comas.",
-    "Education Edition" : "Edición para educación",
-    "File name is a reserved word" : "O nome de ficheiro é unha palabra reservada",
-    "File name contains at least one invalid character" : "O nome de ficheiro contén algún carácter incorrecto",
-    "File name is too long" : "O nome de ficheiro é longo de máis",
-    "Users" : "Usuarios",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartiu «%2$s» con Vde. e quere engadir:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartiu «%2$s» con Vde. e quere engadir",
-    "»%s« added a note to a file shared with you" : "«%s» engadiu unha nota a un ficheiro compartido con Vde.",
-    "Open »%s«" : "Abrir «%s»",
-    "%1$s shared »%2$s« with you" : "%1$s compartiu «%2$s» con Vde.",
-    "%1$s shared »%2$s« with you." : "%1$s compartiu «%2$s» con Vde.",
-    "Click the button below to open it." : "Prema no botón de embaixo para abrilo.",
     "File is currently busy, please try again later" : "O ficheiro está ocupado neste momento, ténteo máis adiante.",
-    "Cannot download file" : "Non é posíbel descargar o ficheiro",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrese de que existe un ficheiro chamado «.ocdata» na raíz do directorio de datos."
+    "Cannot download file" : "Non é posíbel descargar o ficheiro"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

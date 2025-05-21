@@ -37,10 +37,6 @@
     "Add remote share" : "Agregar elemento compartido remoto",
     "Remote share" : "Elemento compartido remoto",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
-    "Remote share password" : "Contraseña del elemento compartido remoto",
-    "Clipboard is not available" : "El portapapeles no está disponible",
-    "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Contraseña del elemento compartido remoto"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

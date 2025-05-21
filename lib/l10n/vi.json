@@ -101,10 +101,6 @@
     "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
     "Text" : "Văn bản",
     "Summary" : "Tóm tắt",
-    "Translate" : "Dịch",
-    "Education Edition" : "Bản Giáo dục",
-    "Users" : "Người dùng",
-    "Open »%s«" : "Mở »%s«",
-    "Click the button below to open it." : "Bấm vào nút bên dưới để mở nó."
+    "Translate" : "Dịch"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

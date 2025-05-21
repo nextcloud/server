@@ -26,17 +26,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "ارائه دهنده به شما امکان می دهد پرونده ها را از طریق پست به اشتراک بگذارید",
     "Unable to update share by mail config" : "به‌روزرسانی اشتراک‌گذاری با پیکربندی ایمیل امکان‌پذیر نیست",
     "Send password by mail" : "ارسال رمز عبور از طریق پست",
-    "Reply to initiator" : "پاسخ به آغازگر",
-    "%1$s shared »%2$s« with you" : "%1$s به اشتراک گذاشته » %2$s« با شما",
-    "%1$s shared »%2$s« with you." : "%1$s به اشتراک گذاشته » %2$s« با شما",
-    "Click the button below to open it." : "برای باز کردن آن روی دکمه زیر کلیک کنید.",
-    "Open »%s«" : "باز کن »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "برای دسترسی به رمز عبور »%1$s« توسط شما %2$s به اشتراک گذاشته شده است",
-    "Password to access »%s«" : "برای دسترسی به رمز عبور »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s به اشتراک گذاشته شده »%2$s« با شماست و می خواهد اضافه کند:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s به اشتراک گذاشته شده »%2$s« با شماست و می خواهد اضافه کند:",
-    "»%s« added a note to a file shared with you" : "»%s« یادداشتی را به پرونده ای که با شما به اشتراک گذاشته شده است اضافه کرد",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "شما فقط به اشتراک گذاشته اید »%1$s« با%2$s . سهم قبلاً برای گیرنده ارسال شده بود. با توجه به سیاست های امنیتی تعریف شده توسط سرپرست %3$s هر سهم ، باید با رمز محافظت شود و مجاز نیست رمز عبور را مستقیماً به گیرنده ارسال کنید. بنابراین باید گذرواژه را به صورت دستی به گیرنده ارسال کنید.",
-    "Password to access »%1$s« shared by you with %2$s" : "گذرواژه برای دسترسی »%1$s« به اشتراک گذاشته شده توسط شما %2$s"
+    "Reply to initiator" : "پاسخ به آغازگر"
 },
 "nplurals=2; plural=(n > 1);");

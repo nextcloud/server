@@ -323,11 +323,6 @@ OC.L10N.register(
     "Check out our blog" : "Cek blog kami",
     "Subscribe to our newsletter" : "Berlangganan surat berita kami",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Rilis komunitas Nextcloud ini tidak didukung dan pemberitahuan instan tidak tersedia.",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Pangkalan data kehilangan beberapa indeks. Berdasarkan fakta bahwa menambahkan indeks pada tabel yang besar membutuhkan waktu cukup lama, maka ini tidak dilakukan otomatis. Eksekusi \"occ db: add-missing-indexes\", untuk menambahkan indeks secara manual sementara instance tetap berjalan. Setelah itu dilakukan, maka kueri akan jauh lebih cepat.",
-    "Your biography" : "Biografi Anda",
-    "New user" : "Pengguna baru",
-    "Username" : "Nama pengguna",
-    "User backend" : "Backend pengguna",
-    "Follow us on Twitter" : "Ikuti kami di Twitter"
+    "Your biography" : "Biografi Anda"
 },
 "nplurals=1; plural=0;");

@@ -223,9 +223,6 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "განავითარა {communityopen}Nextcloud საზოგადოებამ{linkclose}, {githubopen}კოდი{linkclose} is ლიცენზირებულია {licenseopen}AGPL ლიცენზიით{linkclose}.",
     "Like our Facebook page" : "მოიწონეთ ჩვენი Facebook გვერდი",
     "Check out our blog" : "იხილეთ ჩვენი ბლოგი",
-    "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები",
-    "Username" : "მომხმარებლის სახელი",
-    "User backend" : "მომხმარებელის ბექენდი",
-    "Follow us on Twitter" : "გამოგვყევით Twitter-ზე"
+    "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები"
 },
 "nplurals=2; plural=(n!=1);");

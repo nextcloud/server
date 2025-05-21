@@ -409,16 +409,12 @@
     "No compatible server found at {remote}" : "Відсутній сумісний сервер за адресою {remote}",
     "Invalid server URL" : "Недійсна адреса сервера URL",
     "Failed to add the public link to your Nextcloud" : "Не вдалося додати публічне посилання до вашого Nextcloud",
-    "Files" : "Файли",
-    "Download all files" : "Звантажити всі файли",
-    "Search for share recipients" : "Виберіть отримувачів",
-    "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
-    "Password field can't be empty" : "Потрібно зазначити пароль",
-    "Allow download" : "Дозволити звантаження",
-    "Share expire date saved" : "Збережено термін доступности спільного ресурсу",
     "You are not allowed to edit link shares that you don't own" : "У вас відсутні права на редагування спільних ресурсів, якими з вами поділилися через посилання, власником яких ви не є",
+    "Download all files" : "Звантажити всі файли",
     "_1 email address already added_::_{count} email addresses already added_" : ["Вже додано 1 адресу ел. пошти","Вже додано {count} адреси ел. пошти","Вже додано {count} адрес ел. пошти","Вже додано {count} адрес ел. пошти"],
     "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
+    "Search for share recipients" : "Виберіть отримувачів",
+    "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
     "Email, federated cloud id" : "Ел.пошта, ідентифікатор об'єднаної хмари"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

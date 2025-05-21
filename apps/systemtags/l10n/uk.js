@@ -94,8 +94,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Мітка з таким ім'ям вже присутня",
     "Failed to load tags for file" : "Не вдалося завантажити мітки для файлу",
     "Failed to set tag for file" : "Не вдалося встановити мітку для файлу",
-    "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
-    "This file has the tag {tag}" : "Цей файл має мітку {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Цей файл має мітку {firstTags} та {lastTag}"
+    "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

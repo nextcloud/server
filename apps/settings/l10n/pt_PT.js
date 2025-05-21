@@ -287,9 +287,6 @@ OC.L10N.register(
     "Check out our blog" : "Veja o nosso blog",
     "Subscribe to our newsletter" : "Subscreva as nossas notícias",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Este lançamento comunitário do Nextcloud não é compatível e as notificações instantâneas não estão disponíveis.",
-    "Your biography" : "Biografia",
-    "Username" : "Nome de utilizador",
-    "User backend" : "Backend do utilizador",
-    "Follow us on Twitter" : "Siga-nos no Twitter"
+    "Your biography" : "Biografia"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

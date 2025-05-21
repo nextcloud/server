@@ -308,10 +308,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente con el organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito.",
-    "Time:" : "Hora:",
-    "Could not open file" : "No se ha podido abrir el archivo",
-    "Invalid chunk name" : "Nombre de trozo inválido",
-    "Could not rename part file assembled from chunks" : "No se ha podido renombrar el archivo parcial formado por los fragmentos"
+    "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

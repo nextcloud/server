@@ -66,10 +66,6 @@ OC.L10N.register(
     "Remote share" : "Externe Freigabe",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Möchten Sie die externe Freigabe {name} von {owner}@{remote} hinzufügen?",
     "Remote share password" : "Passwort für die externe Freigabe",
-    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
-    "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
-    "Your Federated Cloud ID:" : "Ihre Federated-Cloud-ID:",
-    "Twitter" : "X",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden"
 },
 "nplurals=2; plural=(n != 1);");

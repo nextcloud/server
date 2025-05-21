@@ -15,7 +15,6 @@ OC.L10N.register(
     "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
     "{name} backup codes" : "{name} atsarginiai kodai",
-    "Submit" : "Pateikti",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Tai yra jūsų atsarginiai kodai. Įsirašykite ir/arba atspausdinkite juos, nes vėliau nebegalėsite dar kartą jų perskaityti"
+    "Submit" : "Pateikti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
