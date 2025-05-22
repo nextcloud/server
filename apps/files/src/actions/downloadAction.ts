@@ -4,8 +4,10 @@
  */
 import type { Node, View } from '@nextcloud/files'
 import { FileAction, FileType, DefaultType } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { isDownloadable } from '../utils/permissions'
+import { fetchNode } from '../services/WebdavClient.ts'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -44,8 +46,19 @@ function longestCommonPath(first: string, second: string): string {
 	return base
 }
 
-const downloadNodes = function(nodes: Node[]) {
+const downloadNodes = async function(nodes: Node[]) {
 	let url: URL
+
+	try {
+		for (const node of nodes) {
+			await fetchNode(node.path)
+		}
+	} catch (e) {
+		console.error('Unable to find file for download, file might have been deleted or unshared', e)
+		showError(t('files', 'Unable to find file for download'))
+		return
+
+	}
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
@@ -101,12 +114,12 @@ export const action = new FileAction({
 	},
 
 	async exec(node: Node) {
-		downloadNodes([node])
+		await downloadNodes([node])
 		return null
 	},
 
 	async execBatch(nodes: Node[]) {
-		downloadNodes(nodes)
+		await downloadNodes(nodes)
 		return new Array(nodes.length).fill(null)
 	},
 
