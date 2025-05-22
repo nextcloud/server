@@ -261,8 +261,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
@@ -552,8 +556,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);

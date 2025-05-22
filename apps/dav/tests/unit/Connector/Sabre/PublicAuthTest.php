@@ -10,10 +10,12 @@ namespace OCA\DAV\Tests\unit\Connector;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,21 +27,15 @@ use Psr\Log\LoggerInterface;
  */
 class PublicAuthTest extends \Test\TestCase {
 
-	/** @var ISession|MockObject */
-	private $session;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IManager|MockObject */
-	private $shareManager;
-	/** @var PublicAuth */
-	private $auth;
-	/** @var IThrottler|MockObject */
-	private $throttler;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private ISession&MockObject $session;
+	private IRequest&MockObject $request;
+	private IManager&MockObject $shareManager;
+	private PublicAuth $auth;
+	private IThrottler&MockObject $throttler;
+	private LoggerInterface&MockObject $logger;
+	private IURLGenerator&MockObject $urlGenerator;
 
-	/** @var string */
-	private $oldUser;
+	private string $oldUser;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,6 +45,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->auth = new PublicAuth(
 			$this->request,
@@ -56,6 +53,7 @@ class PublicAuthTest extends \Test\TestCase {
 			$this->session,
 			$this->throttler,
 			$this->logger,
+			$this->urlGenerator,
 		);
 
 		// Store current user
@@ -137,7 +135,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
-	
+
 		$result = $this->invokePrivate($this->auth, 'checkToken');
 		$this->assertSame([true, 'principals/GX9HSGQrGE'], $result);
 	}
@@ -158,7 +156,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
-	
+
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->invokePrivate($this->auth, 'checkToken');
 	}
@@ -180,7 +178,7 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
-	
+
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->invokePrivate($this->auth, 'checkToken');
 	}
