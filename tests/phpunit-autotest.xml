@@ -16,7 +16,8 @@
 	<testsuite name="Nextcloud Server">
 		<directory>lib/</directory>
 		<directory>Core/</directory>
-		<file>apps.php</file>
+		<directory>../apps/</directory>
+		<exclude>../apps/user_ldap/tests/Integration</exclude>
 	</testsuite>
 	<coverage>
 		<include>
