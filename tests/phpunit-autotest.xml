@@ -14,8 +14,8 @@
 		 convertDeprecationsToExceptions="true"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
 	<testsuite name="Nextcloud Server">
-		<directory suffix=".php">lib/</directory>
-		<directory suffix=".php">Core/</directory>
+		<directory>lib/</directory>
+		<directory>Core/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<coverage>
