@@ -49,6 +49,7 @@ use OC\Files\Storage\LocalTempFileTrait;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Encryption\Exceptions\InvalidHeaderException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
@@ -56,6 +57,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use Psr\Log\LoggerInterface;
+
 
 class Encryption extends Wrapper {
 	use LocalTempFileTrait;
