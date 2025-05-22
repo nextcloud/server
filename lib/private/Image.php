@@ -738,7 +738,34 @@ class Image implements IImage {
 					if (!$this->checkImageSize($imagePath)) {
 						return false;
 					}
+
 					$this->resource = @imagecreatefromavif($imagePath);
+					
+			        // Check for irot box and apply rotation if needed
+			        if ($this->resource && function_exists('imagerotate')) {
+			            $fp = fopen($imagePath, 'rb');
+			            if ($fp) {
+			                $data = fread($fp, 512);
+			                fclose($fp);
+			
+			                if ($data !== false) {
+			                    $pos = strpos($data, 'irot');
+			                    if ($pos !== false && ($pos + 4 < strlen($data))) {
+			                        $rotationByte = ord($data[$pos + 4]);
+			                        $rotation = match ($rotationByte) {
+			                            1 => 90,
+			                            2 => 180,
+			                            3 => 270,
+			                            default => 0,
+			                        };
+			                        if ($rotation !== 0) {
+			                            $this->resource = imagerotate($this->resource, $rotation, 0);
+			                        }
+			                    }
+			                }
+			            }
+			        }
+					
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
