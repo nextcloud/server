@@ -26,6 +26,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
@@ -53,7 +54,8 @@ $authBackend = new PublicAuth(
 	Server::get(IManager::class),
 	$session,
 	Server::get(IThrottler::class),
-	Server::get(LoggerInterface::class)
+	Server::get(LoggerInterface::class),
+	Server::get(IURLGenerator::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
