@@ -155,6 +155,7 @@ class OC_Helper {
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
 	 * @throws NotFoundException
+	 * @deprecated 33.0.0 use \OCP\Files\IUserFolder::getUserQuota
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
@@ -346,6 +347,9 @@ class OC_Helper {
 		];
 	}
 
+	/**
+	 * @deprecated 33.0.0
+	 */
 	public static function clearStorageInfo(string $absolutePath): void {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
