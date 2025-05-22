@@ -650,7 +650,7 @@ export default {
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
 				showError(t('settings', 'Failed to update line manager'))
-				logger.error('Failed to update manager:', error)
+				logger.error('Failed to update manager:', { error })
 
 				// Revert to the previous manager in the UI on error
 				this.currentManager = previousManager
