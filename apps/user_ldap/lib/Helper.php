@@ -7,9 +7,9 @@
  */
 namespace OCA\User_LDAP;
 
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Server;
 
@@ -52,13 +52,13 @@ class Helper {
 		}
 		return array_values(array_filter(
 			$all,
-			fn (string $prefix): bool => ($this->appConfig->getAppValueString($prefix . 'ldap_configuration_active') === '1')
+			fn (string $prefix): bool => ($this->appConfig->getValueString('user_ldap', $prefix . 'ldap_configuration_active') === '1')
 		));
 	}
 
 	protected function getAllServerConfigurationPrefixes(): array {
 		$unfilled = ['UNFILLED'];
-		$prefixes = $this->appConfig->getAppValueArray('configuration_prefixes', $unfilled);
+		$prefixes = $this->appConfig->getValueArray('user_ldap', 'configuration_prefixes', $unfilled);
 		if ($prefixes !== $unfilled) {
 			return $prefixes;
 		}
@@ -75,7 +75,7 @@ class Helper {
 		}
 		sort($prefixes);
 
-		$this->appConfig->setAppValueArray('configuration_prefixes', $prefixes);
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
 
 		return $prefixes;
 	}
@@ -93,7 +93,7 @@ class Helper {
 		$referenceConfigkey = 'ldap_host';
 		$result = [];
 		foreach ($prefixes as $prefix) {
-			$result[$prefix] = $this->appConfig->getAppValueString($prefix . $referenceConfigkey);
+			$result[$prefix] = $this->appConfig->getValueString('user_ldap', $prefix . $referenceConfigkey);
 		}
 
 		return $result;
@@ -115,14 +115,14 @@ class Helper {
 		}
 
 		$prefixes[] = $prefix;
-		$this->appConfig->setAppValueArray('configuration_prefixes', $prefixes);
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
 		return $prefix;
 	}
 
 	private function getServersConfig(string $value): array {
 		$regex = '/' . $value . '$/S';
 
-		$keys = $this->appConfig->getAppKeys();
+		$keys = $this->appConfig->getKeys('user_ldap');
 		$result = [];
 		foreach ($keys as $key) {
 			if (preg_match($regex, $key) === 1) {
@@ -164,7 +164,7 @@ class Helper {
 		$deletedRows = $query->executeStatement();
 
 		unset($prefixes[$index]);
-		$this->appConfig->setAppValueArray('configuration_prefixes', array_values($prefixes));
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', array_values($prefixes));
 
 		return $deletedRows !== 0;
 	}
@@ -175,7 +175,7 @@ class Helper {
 	public function haveDisabledConfigurations(): bool {
 		$all = $this->getServerConfigurationPrefixes();
 		foreach ($all as $prefix) {
-			if ($this->appConfig->getAppValueString($prefix . 'ldap_configuration_active') !== '1') {
+			if ($this->appConfig->getValueString('user_ldap', $prefix . 'ldap_configuration_active') !== '1') {
 				return true;
 			}
 		}
