@@ -90,7 +90,7 @@ jobs:
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://test:pass@localhost:8081/webdav/
 
       - name: PHPUnit
-        run: composer run test:files_external -- --verbose \
+        run: composer run test:files_external -- \
           apps/files_external/tests/Storage/WebdavTest.php \
           --log-junit junit.xml \
           ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
