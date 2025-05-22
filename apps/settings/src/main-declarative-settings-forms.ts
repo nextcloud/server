@@ -20,6 +20,7 @@ interface DeclarativeFormField {
 	options: Array<unknown>|null,
 	value: unknown,
 	default: unknown,
+	sensitive: boolean,
 }
 
 interface DeclarativeForm {

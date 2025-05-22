@@ -67,6 +67,7 @@ return [
 	],
 	'ocs' => [
 		['name' => 'DeclarativeSettings#setValue', 'url' => '/settings/api/declarative/value', 'verb' => 'POST', 'root' => ''],
+		['name' => 'DeclarativeSettings#setSensitiveValue', 'url' => '/settings/api/declarative/value-sensitive', 'verb' => 'POST', 'root' => ''],
 		['name' => 'DeclarativeSettings#getForms', 'url' => '/settings/api/declarative/forms', 'verb' => 'GET', 'root' => ''],
 	],
 ];
