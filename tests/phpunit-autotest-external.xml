@@ -10,7 +10,7 @@
 		 timeoutForLargeTests="900"
 >
 	<testsuite name='ownCloud files external'>
-		<directory suffix=".php">../apps/files_external/tests</directory>
+		<directory>../apps/files_external/tests</directory>
 		<!-- exclude backends as they are called separately -->
 		<exclude>../apps/files_external/tests/Storage/</exclude>
 	</testsuite>
