@@ -38,17 +38,16 @@
 
 		<div class="dialog-row">
 			<NcButton v-if="showInstallButton && !installingApps"
-				type="tertiary"
-				role="link"
+				data-cy-setup-recommended-apps-skip
 				:href="defaultPageUrl"
-				data-cy-setup-recommended-apps-skip>
+				variant="tertiary">
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
 			<NcButton v-if="showInstallButton"
-				type="primary"
+				data-cy-setup-recommended-apps-install
 				:disabled="installingApps || !isAnyAppSelected"
-				data-cy-setup-recommended-apps-install>
+				variant="primary"
 				@click.stop.prevent="installApps">
 				{{ installingApps ? t('core', 'Installing apps …') : t('core', 'Install recommended apps') }}
 			</NcButton>
