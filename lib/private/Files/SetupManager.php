@@ -23,7 +23,6 @@ use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
 use OC_App;
 use OC_Hook;
-use OC_Util;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
@@ -157,7 +156,7 @@ class SetupManager {
 			if ($mount instanceof HomeMountPoint) {
 				$user = $mount->getUser();
 				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return OC_Util::getUserQuota($user);
+					return $user->getQuotaBytes();
 				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 

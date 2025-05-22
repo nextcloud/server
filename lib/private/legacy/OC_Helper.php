@@ -272,7 +272,7 @@ class OC_Helper {
 			} else {
 				$user = \OC::$server->getUserSession()->getUser();
 			}
-			$quota = OC_Util::getUserQuota($user);
+			$quota = $user?->getQuotaBytes() ?? \OCP\Files\FileInfo::SPACE_UNKNOWN;
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				return self::getGlobalStorageInfo($quota, $user, $mount);
