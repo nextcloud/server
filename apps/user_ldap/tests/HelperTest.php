@@ -6,7 +6,7 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Helper;
-use OCP\AppFramework\Services\IAppConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,16 +30,17 @@ class HelperTest extends \Test\TestCase {
 	}
 
 	public function testGetServerConfigurationPrefixes(): void {
-		$this->appConfig->method('getAppKeys')
+		$this->appConfig->method('getKeys')
+			->with('user_ldap')
 			->willReturn([
 				'foo',
 				'ldap_configuration_active',
 				's1ldap_configuration_active',
 			]);
 
-		$this->appConfig->method('getAppValueArray')
-			->with('configuration_prefixes')
-			-> willReturnArgument(1);
+		$this->appConfig->method('getValueArray')
+			->with('user_ldap', 'configuration_prefixes')
+			-> willReturnArgument(2);
 
 		$result = $this->helper->getServerConfigurationPrefixes(false);
 
@@ -47,19 +48,20 @@ class HelperTest extends \Test\TestCase {
 	}
 
 	public function testGetServerConfigurationPrefixesActive(): void {
-		$this->appConfig->method('getAppKeys')
+		$this->appConfig->method('getKeys')
+			->with('user_ldap')
 			->willReturn([
 				'foo',
 				'ldap_configuration_active',
 				's1ldap_configuration_active',
 			]);
 
-		$this->appConfig->method('getAppValueArray')
-			->with('configuration_prefixes')
-			-> willReturnArgument(1);
+		$this->appConfig->method('getValueArray')
+			->with('user_ldap', 'configuration_prefixes')
+			-> willReturnArgument(2);
 
-		$this->appConfig->method('getAppValueString')
-			->willReturnCallback(function ($key, $default) {
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($key === 's1ldap_configuration_active') {
 					return '1';
 				}
@@ -72,7 +74,8 @@ class HelperTest extends \Test\TestCase {
 	}
 
 	public function testGetServerConfigurationHostFromAppKeys(): void {
-		$this->appConfig->method('getAppKeys')
+		$this->appConfig->method('getKeys')
+			->with('user_ldap')
 			->willReturn([
 				'foo',
 				'ldap_host',
@@ -83,12 +86,12 @@ class HelperTest extends \Test\TestCase {
 				's02ldap_configuration_active',
 			]);
 
-		$this->appConfig->method('getAppValueArray')
-			->with('configuration_prefixes')
-			-> willReturnArgument(1);
+		$this->appConfig->method('getValueArray')
+			->with('user_ldap', 'configuration_prefixes')
+			-> willReturnArgument(2);
 
-		$this->appConfig->method('getAppValueString')
-			->willReturnCallback(function ($key, $default) {
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($key === 'ldap_host') {
 					return 'example.com';
 				}
@@ -110,18 +113,18 @@ class HelperTest extends \Test\TestCase {
 	public function testGetServerConfigurationHost(): void {
 		$this->appConfig
 			->expects(self::never())
-			->method('getAppKeys');
+			->method('getKeys');
 
-		$this->appConfig->method('getAppValueArray')
-			->with('configuration_prefixes')
+		$this->appConfig->method('getValueArray')
+			->with('user_ldap', 'configuration_prefixes')
 			-> willReturn([
 				'',
 				's1',
 				's02',
 			]);
 
-		$this->appConfig->method('getAppValueString')
-			->willReturnCallback(function ($key, $default) {
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($key === 'ldap_host') {
 					return 'example.com';
 				}
