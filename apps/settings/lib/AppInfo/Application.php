@@ -70,6 +70,7 @@ use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\SetupChecks\WellKnownUrls;
@@ -206,6 +207,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 		$context->registerSetupCheck(PushService::class);
