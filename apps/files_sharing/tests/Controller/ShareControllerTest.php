@@ -399,6 +399,8 @@ class ShareControllerTest extends \Test\TestCase {
 			->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
+			->setNote('The note')
+			->setLabel('A label')
 			->setNode($file)
 			->setTarget("/$filename")
 			->setToken('token');
@@ -478,6 +480,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'disclaimer' => 'My disclaimer text',
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
+			'note' => 'The note',
+			'label' => 'A label',
 		];
 
 		$response = $this->shareController->showShare();
@@ -487,9 +491,9 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
-		$expectedResponse->setParams(['pageTitle' => $filename]);
+		$expectedResponse->setParams(['pageTitle' => 'A label']);
 		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($filename);
+		$expectedResponse->setHeaderTitle('A label');
 		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
 		$expectedResponse->setHeaderActions([
 			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'shareUrl'),
