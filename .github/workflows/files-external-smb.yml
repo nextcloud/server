@@ -93,7 +93,7 @@ jobs:
           apps/files_external/tests/env/wait-for-connection 127.0.0.1 445 60
 
       - name: PHPUnit
-        run: composer run test:files_external -- --verbose \
+        run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SmbTest.php \
           --log-junit junit.xml \
           ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
