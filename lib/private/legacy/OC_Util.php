@@ -98,7 +98,7 @@ class OC_Util {
 	 *
 	 * @param IUser|null $user
 	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
-	 * @deprecated 9.0.0 - Use \OCP\IUser::getQuota
+	 * @deprecated 9.0.0 - Use \OCP\IUser::getQuota or \OCP\IUser::getQuotaBytes
 	 */
 	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {

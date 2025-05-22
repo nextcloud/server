@@ -558,6 +558,19 @@ class User implements IUser {
 		return $quota;
 	}
 
+	public function getQuotaBytes(): int|float {
+		$quota = $this->getQuota();
+		if ($quota === 'none') {
+			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+		}
+
+		$bytes = \OCP\Util::computerFileSize($quota);
+		if ($bytes === false) {
+			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+		}
+		return $bytes;
+	}
+
 	/**
 	 * set the users' quota
 	 *
