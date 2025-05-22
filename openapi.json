@@ -3981,6 +3981,9 @@
                                 }
                             }
                         ]
+                    },
+                    "sensitive": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -27068,6 +27071,140 @@
             "post": {
                 "operationId": "settings-declarative_settings-set-value",
                 "summary": "Sets a declarative settings value",
+                "tags": [
+                    "settings/declarative_settings"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "app",
+                                    "formId",
+                                    "fieldId",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "app": {
+                                        "type": "string",
+                                        "description": "ID of the app"
+                                    },
+                                    "formId": {
+                                        "type": "string",
+                                        "description": "ID of the form"
+                                    },
+                                    "fieldId": {
+                                        "type": "string",
+                                        "description": "ID of the field"
+                                    },
+                                    "value": {
+                                        "type": "object",
+                                        "description": "Value to be saved"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Value set successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Not logged in or not an admin user",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid arguments to save value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/settings/api/declarative/value-sensitive": {
+            "post": {
+                "operationId": "settings-declarative_settings-set-sensitive-value",
+                "summary": "Sets a declarative settings value. Password confirmation is required for sensitive values.",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "settings/declarative_settings"
                 ],

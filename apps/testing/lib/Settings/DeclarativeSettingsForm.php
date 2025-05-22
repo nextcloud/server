@@ -169,6 +169,36 @@ class DeclarativeSettingsForm implements IDeclarativeSettingsForm {
 						],
 					],
 				],
+				[
+					'id' => 'test_sensitive_field',
+					'title' => 'Sensitive text field',
+					'description' => 'Set some secure value setting that is stored encrypted',
+					'type' => DeclarativeSettingsTypes::TEXT,
+					'label' => 'Sensitive field',
+					'placeholder' => 'Set secure value',
+					'default' => '',
+					'sensitive' => true, // only for TEXT, PASSWORD types
+				],
+				[
+					'id' => 'test_sensitive_field_2',
+					'title' => 'Sensitive password field',
+					'description' => 'Set some password setting that is stored encrypted',
+					'type' => DeclarativeSettingsTypes::PASSWORD,
+					'label' => 'Sensitive field',
+					'placeholder' => 'Set secure value',
+					'default' => '',
+					'sensitive' => true, // only for TEXT, PASSWORD types
+				],
+				[
+					'id' => 'test_non_sensitive_field',
+					'title' => 'Password field',
+					'description' => 'Set some password setting',
+					'type' => DeclarativeSettingsTypes::PASSWORD,
+					'label' => 'Password field',
+					'placeholder' => 'Set secure value',
+					'default' => '',
+					'sensitive' => false,
+				],
 			],
 		];
 	}
