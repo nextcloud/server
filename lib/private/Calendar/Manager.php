@@ -37,7 +37,6 @@ use Sabre\VObject\ParseException;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
-use Sabre\VObject\Writer;
 use Throwable;
 use function array_map;
 use function array_merge;
