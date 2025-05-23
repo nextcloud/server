@@ -55,7 +55,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		}
 
 		if ($slowCount / $taskCount < self::MAX_SLOW_PERCENTAGE) {
-			return SetupResult::success($this->l10n->t('the task pickup speed has been ok in the last {hours} hours.', ['hours' => self::TIME_SPAN]));
+			return SetupResult::success($this->l10n->t('The task pickup speed has been ok in the last {hours} hours.', ['hours' => self::TIME_SPAN]));
 		} else {
 			return SetupResult::warning($this->l10n->t('The task pickup speed has been slow in the last {hours} hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.', ['hours' => self::TIME_SPAN]), 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed');
 		}
