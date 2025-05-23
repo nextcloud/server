@@ -21,10 +21,10 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
@@ -45,9 +45,6 @@ class PrincipalTest extends TestCase {
 	/** @var IManager | MockObject */
 	private $shareManager;
 
-	/** @var IUserSession | MockObject */
-	private $userSession;
-
 	/** @var IAppManager | MockObject */
 	private $appManager;
 
@@ -61,29 +58,31 @@ class PrincipalTest extends TestCase {
 	/** @var IFactory|MockObject */
 	private $languageFactory;
 
+	private AuthPlugin&MockObject $authPlugin;
+
 	protected function setUp(): void {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->languageFactory = $this->createMock(IFactory::class);
+		$this->authPlugin = $this->createMock(AuthPlugin::class);
 
 		$this->connector = new Principal(
 			$this->userManager,
 			$this->groupManager,
 			$this->accountManager,
 			$this->shareManager,
-			$this->userSession,
 			$this->appManager,
 			$this->proxyMapper,
 			$this->knownUserService,
 			$this->config,
-			$this->languageFactory
+			$this->languageFactory,
+			$this->authPlugin,
 		);
 		parent::setUp();
 	}
@@ -500,8 +499,12 @@ class PrincipalTest extends TestCase {
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
-				$this->userSession->expects($this->atLeastOnce())
-					->method('getUser')
+				$this->authPlugin->expects($this->once())
+					->method('getCurrentPrincipal')
+					->willReturn('principals/users/user');
+				$this->userManager->expects($this->once())
+					->method('get')
+					->with('user')
 					->willReturn($user);
 
 				$getUserGroupIdsReturnMap[] = [$user, ['group1', 'group2', 'group5']];
@@ -753,8 +756,12 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->once())
-			->method('getUser')
+		$this->authPlugin->expects($this->once())
+			->method('getCurrentPrincipal')
+			->willReturn('principals/users/user2');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user2')
 			->willReturn($user2);
 
 		$this->groupManager->expects($this->exactly(4))
@@ -809,8 +816,12 @@ class PrincipalTest extends TestCase {
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
-		$this->userSession->expects($this->once())
-			->method('getUser')
+		$this->authPlugin->expects($this->once())
+			->method('getCurrentPrincipal')
+			->willReturn('principals/users/user2');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user2')
 			->willReturn($user2);
 
 		$this->groupManager->expects($this->exactly(4))
@@ -855,8 +866,12 @@ class PrincipalTest extends TestCase {
 			->willReturn(true);
 
 		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->once())
-			->method('getUser')
+		$this->authPlugin->expects($this->once())
+			->method('getCurrentPrincipal')
+			->willReturn('principals/users/user');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user')
 			->willReturn($user);
 
 		$user2 = $this->createMock(IUser::class);
