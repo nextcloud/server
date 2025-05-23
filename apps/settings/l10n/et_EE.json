@@ -203,6 +203,7 @@
     "Enforce expiration date" : "Sunnitud aegumise kuupäev",
     "Default expiration time of new shares in days" : "Uue jaosmeedia vaikimisi aegumine päevades",
     "Expire shares after x days" : "Jaosmeedia aegub x päeva möödudes",
+    "Privacy settings for sharing" : "Jagamise privaatsusseadistused",
     "This text will be shown on the public link upload page when the file list is hidden." : "Seda teksti näidatakse avaliku lingiga üleslaadimise lehel kui failide loend on peidetud.",
     "Two-Factor Authentication" : "Kaheastmeline autentimine",
     "Two-factor authentication can be enforced for all accounts and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Kaheastmelist autentimist on võimalik teha kohustuslikuks kas kõikidele kasutajakontodele või konkreetsete gruppide kaupa. Kui kaheastmelise autentimise kohustuslikkus on määratud, kuid on kasutajal seadistamata, siis ta ei saa siia serverisse sisse logida.",
