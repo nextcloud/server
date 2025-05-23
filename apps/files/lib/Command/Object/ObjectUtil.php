@@ -23,13 +23,15 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
+use OC\Core\Command\Base;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ObjectUtil {
+class ObjectUtil extends Base {
 	private IConfig $config;
 	private IDBConnection $connection;
 
@@ -105,6 +107,80 @@ class ObjectUtil {
 			}
 		} else {
 			return false;
+		}
+	}
+
+	public function writeIteratorToOutput(InputInterface $input, OutputInterface $output, \Iterator $objects, int $chunkSize): void {
+		$outputType = $input->getOption('output');
+		$humanOutput = $outputType === Base::OUTPUT_FORMAT_PLAIN;
+		$first = true;
+
+		if (!$humanOutput) {
+			$output->writeln('[');
+		}
+
+		foreach ($this->chunkIterator($objects, $chunkSize) as $chunk) {
+			if ($outputType === Base::OUTPUT_FORMAT_PLAIN) {
+				$this->outputChunk($input, $output, $chunk);
+			} else {
+				foreach ($chunk as $object) {
+					if (!$first) {
+						$output->writeln(',');
+					}
+					$row = $this->formatObject($object, $humanOutput);
+					if ($outputType === Base::OUTPUT_FORMAT_JSON_PRETTY) {
+						$output->write(json_encode($row, JSON_PRETTY_PRINT));
+					} else {
+						$output->write(json_encode($row));
+					}
+					$first = false;
+				}
+			}
+		}
+
+		if (!$humanOutput) {
+			$output->writeln("\n]");
+		}
+	}
+
+	private function formatObject(array $object, bool $humanOutput): array {
+		$row = array_merge([
+			'urn' => $object['urn'],
+		], ($object['metadata'] ?? []));
+
+		if ($humanOutput && isset($row['size'])) {
+			$row['size'] = \OC_Helper::humanFileSize($row['size']);
+		}
+		if (isset($row['mtime'])) {
+			$row['mtime'] = $row['mtime']->format(\DateTimeImmutable::ATOM);
+		}
+		return $row;
+	}
+
+	private function outputChunk(InputInterface $input, OutputInterface $output, iterable $chunk): void {
+		$result = [];
+		$humanOutput = $input->getOption('output') === 'plain';
+
+		foreach ($chunk as $object) {
+			$result[] = $this->formatObject($object, $humanOutput);
+		}
+		$this->writeTableInOutputFormat($input, $output, $result);
+	}
+
+	public function chunkIterator(\Iterator $iterator, int $count): \Iterator {
+		$chunk = [];
+
+		for ($i = 0; $iterator->valid(); $i++) {
+			$chunk[] = $iterator->current();
+			$iterator->next();
+			if (count($chunk) == $count) {
+				yield $chunk;
+				$chunk = [];
+			}
+		}
+
+		if (count($chunk)) {
+			yield $chunk;
 		}
 	}
 }
