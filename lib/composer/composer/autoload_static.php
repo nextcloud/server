@@ -1428,6 +1428,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
         'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeMessageLoggedEventListener.php',
         'OC\\Core\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeTemplateRenderedListener.php',
+        'OC\\Core\\Listener\\FeedBackHandler' => __DIR__ . '/../../..' . '/core/Listener/FeedBackHandler.php',
         'OC\\Core\\Middleware\\TwoFactorMiddleware' => __DIR__ . '/../../..' . '/core/Middleware/TwoFactorMiddleware.php',
         'OC\\Core\\Migrations\\Version13000Date20170705121758' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170705121758.php',
         'OC\\Core\\Migrations\\Version13000Date20170718121200' => __DIR__ . '/../../..' . '/core/Migrations/Version13000Date20170718121200.php',
