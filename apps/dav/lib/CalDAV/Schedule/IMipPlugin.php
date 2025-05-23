@@ -156,9 +156,10 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
-		// Don't send emails to things
-		if ($this->imipService->isRoomOrResource($attendee)) {
-			$this->logger->debug('No invitation sent as recipient is room or resource', [
+		// Don't send emails to rooms, resources and circles
+		if ($this->imipService->isRoomOrResource($attendee)
+				|| $this->imipService->isCircle($attendee)) {
+			$this->logger->debug('No invitation sent as recipient is room, resource or circle', [
 				'attendee' => $recipient,
 			]);
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
