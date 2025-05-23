@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Constants;
 
-class CachedSubscriptionImpl implements ICalendar {
+class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled {
 	private CalDavBackend $backend;
 	private CachedSubscription $calendar;
 	/** @var array<string, mixed> */
@@ -88,6 +89,13 @@ class CachedSubscriptionImpl implements ICalendar {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @since 30.0.12
+	 */
+	public function isEnabled(): bool {
+		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
 	}
 
 	public function isDeleted(): bool {
