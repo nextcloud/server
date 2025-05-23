@@ -21,7 +21,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
@@ -44,44 +43,6 @@ $eventSource = Server::get(IEventSourceFactory::class)->create();
 // which will then trigger its own CSRF check and produces its own CSRF error
 // message
 $eventSource->send('success', $l->t('Preparing update'));
-
-class FeedBackHandler {
-	private int $progressStateMax = 100;
-	private int $progressStateStep = 0;
-	private string $currentStep = '';
-
-	public function __construct(
-		private IEventSource $eventSource,
-		private IL10N $l10n,
-	) {
-	}
-
-	public function handleRepairFeedback(Event $event): void {
-		if ($event instanceof RepairStartEvent) {
-			$this->progressStateMax = $event->getMaxStep();
-			$this->progressStateStep = 0;
-			$this->currentStep = $event->getCurrentStepName();
-		} elseif ($event instanceof RepairAdvanceEvent) {
-			$this->progressStateStep += $event->getIncrement();
-			$desc = $event->getDescription();
-			if (empty($desc)) {
-				$desc = $this->currentStep;
-			}
-			$this->eventSource->send('success', $this->l10n->t('[%d / %d]: %s', [$this->progressStateStep, $this->progressStateMax, $desc]));
-		} elseif ($event instanceof RepairFinishEvent) {
-			$this->progressStateMax = $this->progressStateStep;
-			$this->eventSource->send('success', $this->l10n->t('[%d / %d]: %s', [$this->progressStateStep, $this->progressStateMax, $this->currentStep]));
-		} elseif ($event instanceof RepairStepEvent) {
-			$this->eventSource->send('success', $this->l10n->t('Repair step:') . ' ' . $event->getStepName());
-		} elseif ($event instanceof RepairInfoEvent) {
-			$this->eventSource->send('success', $this->l10n->t('Repair info:') . ' ' . $event->getMessage());
-		} elseif ($event instanceof RepairWarningEvent) {
-			$this->eventSource->send('notice', $this->l10n->t('Repair warning:') . ' ' . $event->getMessage());
-		} elseif ($event instanceof RepairErrorEvent) {
-			$this->eventSource->send('error', $this->l10n->t('Repair error:') . ' ' . $event->getMessage());
-		}
-	}
-}
 
 if (Util::needUpgrade()) {
 	$config = Server::get(SystemConfig::class);
@@ -115,7 +76,7 @@ if (Util::needUpgrade()) {
 			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event->getCurrentStep(), $event->getMaxStep(), $event->getSql()]));
 		}
 	);
-	$feedBack = new FeedBackHandler($eventSource, $l);
+	$feedBack = new \OC\Core\Listener\FeedBackHandler($eventSource, $l);
 	$dispatcher->addListener(RepairStartEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairAdvanceEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairFinishEvent::class, [$feedBack, 'handleRepairFeedback']);
