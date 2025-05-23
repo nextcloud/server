@@ -18,8 +18,15 @@ env:
   # Adjust APP_NAME if your repository name is different
   APP_NAME: ${{ github.event.repository.name }}
 
-  # Server requires head_ref instead of base_ref, as we want to test the PR branch
+  # This represents the server branch to checkout.
+  # Usually it's the base branch of the PR, but for pushes it's the branch itself.
+  # e.g. 'main', 'stable27' or 'feature/my-feature'
+  # n.b. server will use head_ref, as we want to test the PR branch.
   BRANCH: ${{ github.head_ref || github.ref_name }}
+
+
+permissions:
+  contents: read
 
 jobs:
   init:
@@ -43,6 +50,7 @@ jobs:
       - name: Checkout server
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           # We need to checkout submodules for 3rdparty
           submodules: true
 
@@ -80,7 +88,7 @@ jobs:
         run: npm run cypress:version
 
       - name: Save context
-        uses: buildjet/cache/save@v4
+        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -148,7 +156,7 @@ jobs:
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@v4
+        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
