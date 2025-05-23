@@ -58,7 +58,7 @@ OC.L10N.register(
     "Primary color" : "Põhivärv",
     "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Põhivärv on mõeldud lehe oluliste elementude rõhutamiseks. Vastavalt valitud üldkujundusele võib see värv ka natuke kohenduda.",
     "Legal notice link" : "Juriidilise teabe link",
-    "Privacy policy link" : "Privaatsusreeglite link",
+    "Privacy policy link" : "Privaatsustingimuste link",
     "Header logo" : "Päiselogo",
     "Upload new header logo" : "Laadi üles uus päiselogo",
     "Favicon" : "Saidi favikon",
