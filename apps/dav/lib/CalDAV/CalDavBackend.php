@@ -1538,25 +1538,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}, $this->db);
 	}
 
-
-	/**
-	 * @param int $calendarObjectId
-	 * @param int $classification
-	 */
-	public function setClassification($calendarObjectId, $classification) {
-		$this->cachedObjects = [];
-		if (!in_array($classification, [
-			self::CLASSIFICATION_PUBLIC, self::CLASSIFICATION_PRIVATE, self::CLASSIFICATION_CONFIDENTIAL
-		])) {
-			throw new \InvalidArgumentException();
-		}
-		$query = $this->db->getQueryBuilder();
-		$query->update('calendarobjects')
-			->set('classification', $query->createNamedParameter($classification))
-			->where($query->expr()->eq('id', $query->createNamedParameter($calendarObjectId)))
-			->executeStatement();
-	}
-
 	/**
 	 * Deletes an existing calendar object.
 	 *
