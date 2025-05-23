@@ -15,13 +15,11 @@ function enableApp($app) {
 	}
 }
 
-enableApp('files_sharing');
-enableApp('files_trashbin');
-enableApp('encryption');
-enableApp('user_ldap');
-enableApp('files_versions');
-enableApp('provisioning_api');
-enableApp('federation');
-enableApp('federatedfilesharing');
-enableApp('admin_audit');
-enableApp('webhook_listeners');
+foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
+	if ($file->isDot()) {
+		continue;
+	}
+	if (!file_exists($file->getPathname() . '/.git')) {
+		enableApp($file->getFilename());
+	}
+}
