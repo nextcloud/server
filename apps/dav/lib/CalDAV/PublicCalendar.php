@@ -21,7 +21,7 @@ class PublicCalendar extends Calendar {
 		if (!$obj) {
 			throw new NotFound('Calendar object not found');
 		}
-		if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {
+		if (in_array($obj['classification'], [CalDavBackend::CLASSIFICATION_PRIVATE, CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE], true)) {
 			throw new NotFound('Calendar object not found');
 		}
 		$obj['acl'] = $this->getChildACL();
@@ -36,7 +36,7 @@ class PublicCalendar extends Calendar {
 		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
-			if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {
+			if (in_array($obj['classification'], [CalDavBackend::CLASSIFICATION_PRIVATE, CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE], true)) {
 				continue;
 			}
 			$obj['acl'] = $this->getChildACL();
@@ -53,13 +53,25 @@ class PublicCalendar extends Calendar {
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
-			if ($obj['classification'] === CalDavBackend::CLASSIFICATION_PRIVATE) {
+			if (in_array($obj['classification'], [CalDavBackend::CLASSIFICATION_PRIVATE, CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE], true)) {
 				continue;
 			}
 			$obj['acl'] = $this->getChildACL();
 			$children[] = new PublicCalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 		}
 		return $children;
+	}
+
+	public function childExists($name) {
+		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
+		if (!$obj) {
+			return false;
+		}
+		if (in_array($obj['classification'], [CalDavBackend::CLASSIFICATION_PRIVATE, CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE], true) && $this->isShared()) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
