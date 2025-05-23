@@ -38,7 +38,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - 60 * 60 * self::TIME_SPAN); // userId: '' means no filter, whereas null would mean guest
 		$taskCount = count($tasks);
 		if ($taskCount === 0) {
-			return SetupResult::success($this->l10n->t('No scheduled tasks in the last {hours} hours.', ['hours' => self::TIME_SPAN]));
+			return SetupResult::success($this->l10n->n('No scheduled tasks in the last %n hours.', 'No scheduled tasks in the last %n hours.', self::TIME_SPAN));
 		}
 		$slowCount = 0;
 		foreach ($tasks as $task) {
@@ -55,9 +55,9 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		}
 
 		if ($slowCount / $taskCount < self::MAX_SLOW_PERCENTAGE) {
-			return SetupResult::success($this->l10n->t('Task pickup speed is ok in the last {hours} hours.', ['hours' => self::TIME_SPAN]));
+			return SetupResult::success($this->l10n->n('The task pickup speed has been ok in the last %n hour.', 'The task pickup speed has been ok in the last %n hours.', self::TIME_SPAN));
 		} else {
-			return SetupResult::warning($this->l10n->t('Task pickup speed is slow in the last {hours} hours. Many tasks took longer than 4 min to get picked up. Consider setting up a worker to process tasks in the background.', ['hours' => self::TIME_SPAN]), 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed');
+			return SetupResult::warning($this->l10n->n('The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.', 'The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background.', self::TIME_SPAN), 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed');
 		}
 	}
 }
