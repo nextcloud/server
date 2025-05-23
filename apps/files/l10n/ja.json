@@ -171,7 +171,7 @@
     "Error during upload: {message}" : "アップロード中にエラーが発生しました: {message}",
     "Error during upload, status code {status}" : "アップロード中のエラー、ステータスコード {status}",
     "Unknown error during upload" : "不明なエラーがアップロード中に発生しました",
-    "\"{displayName}\" action executed successfully" : "\"{displayName}\" アクションは正常に実行された",
+    "\"{displayName}\" action executed successfully" : "\"{displayName}\" アクションは正常に実行されました",
     "Loading current folder" : "現在のフォルダの読み込み中",
     "Retry" : "リトライ",
     "No files in here" : "ファイルがありません",
