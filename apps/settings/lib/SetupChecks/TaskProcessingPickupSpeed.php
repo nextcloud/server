@@ -38,7 +38,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 		$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - 60 * 60 * self::TIME_SPAN); // userId: '' means no filter, whereas null would mean guest
 		$taskCount = count($tasks);
 		if ($taskCount === 0) {
-			return SetupResult::success($this->l10n->t('No scheduled tasks in the last {hours} hours.', ['hours' => self::TIME_SPAN]));
+			return SetupResult::success($this->l10n->n('No scheduled tasks in the last %n hours.', 'No scheduled tasks in the last %n hours.', self::TIME_SPAN));
 		}
 		$slowCount = 0;
 		foreach ($tasks as $task) {
