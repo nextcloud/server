@@ -152,6 +152,7 @@ Vagrantfile
 # Tests - auto-generated files
 /data-autotest
 /results.sarif
+/tests/.phpunit.cache
 /tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
