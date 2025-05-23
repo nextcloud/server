@@ -14,6 +14,7 @@ use OC\Hooks\Emitter;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
@@ -25,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
@@ -592,7 +594,11 @@ class User implements IUser {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
-		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
+
+		// clear the quota cache
+		$root = Server::get(IRootFolder::class);
+		$userFolder = $root->getUserFolder($this->uid);
+		$userFolder->getUserQuota(false);
 	}
 
 	public function getManagerUids(): array {
