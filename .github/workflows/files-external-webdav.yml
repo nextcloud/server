@@ -91,7 +91,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@015f24e6818733317a2da2edd6290ab26238649a # v4.1.1
+        uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
         with:
           files: ./clover.xml
           flags: phpunit-files-external-webdav
