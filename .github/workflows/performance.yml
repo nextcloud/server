@@ -73,7 +73,7 @@ jobs:
           output: before.json
           profiler-branch: master
 
-      - name: Apply PR
+      - name: Apply PR # zizmor: ignore[template-injection]
         run: |
           git remote add pr '${{ github.event.pull_request.head.repo.clone_url }}'
           git fetch pr '${{ github.event.pull_request.head.ref }}'
