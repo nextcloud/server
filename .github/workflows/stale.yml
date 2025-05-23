@@ -17,7 +17,7 @@ jobs:
       issues: write
 
     steps:
-    - uses: actions/stale@v9
+    - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 # v9
       with:
         repo-token: ${{ secrets.COMMAND_BOT_PAT }}
         stale-issue-message: >

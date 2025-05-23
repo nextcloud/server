@@ -35,7 +35,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a # v2.33.0
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
@@ -49,7 +49,7 @@ jobs:
 
           php -S localhost:8080 &
       - name: Apply blueprint
-        uses: icewind1991/blueprint@v0.1.2
+        uses: icewind1991/blueprint@00504403f76cb2a09efd0d16793575055e6f63cb # v0.1.2
         with:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
@@ -98,7 +98,7 @@ jobs:
             before.json
             after.json
 
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
