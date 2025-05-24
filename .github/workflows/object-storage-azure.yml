@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "15 2 * * *"
 
+permissions:
+  contents: read
+
 concurrency:
   group: object-storage-azure-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -54,7 +57,7 @@ jobs:
 
     services:
       azurite:
-        image: mcr.microsoft.com/azure-storage/azurite
+        image: mcr.microsoft.com/azure-storage/azurite@sha256:0a47e12e3693483cef5c71f35468b91d751611f172d2f97414e9c69113b106d9 # v3.34.0
         env:
           AZURITE_ACCOUNTS: nextcloud:bmV4dGNsb3Vk
         ports:
@@ -62,19 +65,20 @@ jobs:
         options: --health-cmd="nc 127.0.0.1 10000 -z" --health-interval=1s --health-retries=30
 
       cache:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         ports:
           - 6379:6379/tcp
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
