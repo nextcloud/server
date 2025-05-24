@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +10,8 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -20,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Setting extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
+		protected IAccountManager $accountManager,
 		protected IConfig $config,
 	) {
 		parent::__construct();
@@ -143,81 +148,134 @@ class Setting extends Base {
 		$app = $input->getArgument('app');
 		$key = $input->getArgument('key');
 
-		if ($key !== '') {
-			$value = $this->config->getUserValue($uid, $app, $key, null);
-			if ($input->getArgument('value') !== null) {
-				if ($input->hasParameterOption('--update-only') && $value === null) {
-					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
-					return 1;
-				}
-
-				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
-					$user = $this->userManager->get($uid);
-					if ($user instanceof IUser) {
-						if ($key === 'email') {
-							$user->setEMailAddress($input->getArgument('value'));
-						} elseif ($key === 'display_name') {
-							if (!$user->setDisplayName($input->getArgument('value'))) {
-								if ($user->getDisplayName() === $input->getArgument('value')) {
-									$output->writeln('<error>New and old display name are the same</error>');
-								} elseif ($input->getArgument('value') === '') {
-									$output->writeln('<error>New display name can\'t be empty</error>');
-								} else {
-									$output->writeln('<error>Could not set display name</error>');
-								}
-								return 1;
-							}
-						}
-						// setEmailAddress and setDisplayName both internally set the value
-						return 0;
-					}
-				}
-
-				$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
-				return 0;
-			} elseif ($input->hasParameterOption('--delete')) {
-				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
-					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
-					return 1;
-				}
-
-				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
-					$user = $this->userManager->get($uid);
-					if ($user instanceof IUser) {
-						if ($key === 'email') {
-							$user->setEMailAddress('');
-							// setEmailAddress already deletes the value
-							return 0;
-						} elseif ($key === 'display_name') {
-							$output->writeln('<error>Display name can\'t be deleted.</error>');
-							return 1;
-						}
-					}
-				}
-
-				$this->config->deleteUserValue($uid, $app, $key);
-				return 0;
-			} elseif ($value !== null) {
-				$output->writeln($value);
-				return 0;
-			} elseif ($input->hasParameterOption('--default-value')) {
-				$output->writeln($input->getOption('default-value'));
-				return 0;
-			} else {
-				if ($app === 'settings' && $key === 'display_name') {
-					$user = $this->userManager->get($uid);
-					$output->writeln($user->getDisplayName());
-					return 0;
-				}
-				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
-				return 1;
-			}
-		} else {
+		if ($key === '') {
 			$settings = $this->getUserSettings($uid, $app);
 			$this->writeArrayInOutputFormat($input, $output, $settings);
 			return 0;
 		}
+
+		$value = $this->getStoredValue($uid, $app, $key);
+		if ($input->getArgument('value') !== null) {
+			if ($input->hasParameterOption('--update-only') && $value === null) {
+				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+				return 1;
+			}
+
+			if ($this->isProfileProperty($app, $key)) {
+				return $this->editProfileProperty($output, $uid, $key, $input->getArgument('value'));
+			} elseif ($this->isSettingProperty($app, $key)) {
+				$returnCode = $this->setSettingsProperty($input, $output, $uid, $key);
+				if ($returnCode !== null) {
+					return $returnCode;
+				}
+			}
+
+			$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
+		} elseif ($input->hasParameterOption('--delete')) {
+			if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
+				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+				return 1;
+			}
+
+			if ($this->isProfileProperty($app, $key)) {
+				return $this->deleteProfileProperty($output, $uid, $key);
+			}
+
+			if ($this->isSettingProperty($app, $key)) {
+				$returnCode = $this->deleteSettingsProperty($output, $uid, $key);
+				if ($returnCode !== null) {
+					return $returnCode;
+				}
+			}
+
+			$this->config->deleteUserValue($uid, $app, $key);
+		} elseif ($value !== null) {
+			$output->writeln($value);
+		} elseif ($input->hasParameterOption('--default-value')) {
+			$output->writeln($input->getOption('default-value'));
+		} elseif ($app === 'settings' && $key === 'display_name') {
+			$user = $this->userManager->get($uid);
+			$output->writeln($user->getDisplayName());
+		} else {
+			$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+			return 1;
+		}
+
+		return 0;
 	}
+
+	/**
+	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
+	 */
+	private function deleteProfileProperty(OutputInterface $output, string $uid, string $key): int {
+		return $this->editProfileProperty($output, $uid, $key, '');
+	}
+
+	/**
+	 * @throws PropertyDoesNotExistException if $key is not a property of the account.
+	 */
+	private function editProfileProperty(OutputInterface $output, string $uid, string $key, string $value): int {
+		$user = $this->userManager->get($uid);
+		if (!$user) {
+			$output->writeln("<error>The user {$uid} must exist to edit this setting.</error>");
+			return 1;
+		}
+		$account = $this->accountManager->getAccount($user);
+		$account->getProperty($key)->setValue($value);
+		$this->accountManager->updateAccount($account);
+		return 0;
+	}
+
+	private function deleteSettingsProperty(OutputInterface $output, string $uid, string $key): ?int {
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			if ($key === 'email') {
+				$user->setEMailAddress('');
+				// setEmailAddress already deletes the value
+				return 0;
+			} elseif ($key === 'display_name') {
+				$output->writeln('<error>Display name can\'t be deleted.</error>');
+				return 1;
+			}
+		}
+
+		return null;
+	}
+
+	private function setSettingsProperty(InputInterface $input, OutputInterface $output, string $uid, string $key): ?int {
+		$user = $this->userManager->get($uid);
+		if ($user instanceof IUser) {
+			if ($key === 'email') {
+				$user->setEMailAddress($input->getArgument('value'));
+			} elseif ($key === 'display_name') {
+				if (!$user->setDisplayName($input->getArgument('value'))) {
+					if ($user->getDisplayName() === $input->getArgument('value')) {
+						$output->writeln('<error>New and old display name are the same</error>');
+					} elseif ($input->getArgument('value') === '') {
+						$output->writeln('<error>New display name can\'t be empty</error>');
+					} else {
+						$output->writeln('<error>Could not set display name</error>');
+					}
+					return 1;
+				}
+			}
+			// setEmailAddress and setDisplayName both internally set the value
+			return 0;
+		}
+		return null;
+	}
+
+	private function getStoredValue(string $uid, string $app, string $key): ?string {
+		if ($app === 'profile') {
+			$user = $this->userManager->get($uid);
+			$account = $this->accountManager->getAccount($user);
+			$property = $account->getProperty($key);
+			return $property->getValue() === '' ? null : $property->getValue();
+		}
+
+		return $this->config->getUserValue($uid, $app, $key, null);
+	}
+
 
 	protected function getUserSettings(string $uid, string $app): array {
 		$settings = $this->config->getAllUserValues($uid);
@@ -229,13 +287,44 @@ class Setting extends Base {
 			}
 		}
 
+		// add user properties that are not stored as settings
+		$settings = array_merge_recursive($settings, $this->getExtraSettings($uid, $app));
+		return $settings;
+	}
+
+	private function getExtraSettings(string $uid, string $app): array {
 		$user = $this->userManager->get($uid);
-		if ($user !== null) {
+		$settings = [];
+		if ($user === null) {
+			return $settings;
+		}
+
+		if (!$app || $app === 'settings') {
 			// Only add the display name if the user exists
 			$settings['settings']['display_name'] = $user->getDisplayName();
 		}
 
+		if (!$app || $app === 'profile') {
+			$userAccount = $this->accountManager->getAccount($user);
+			foreach ($userAccount->getAllProperties() as $property) {
+				if ($property->getValue() !== '' && !in_array($property->getName(), ['email', 'displayname', 'profile_enabled'])) {
+					$settings['profile'][$property->getName()] = $property->getValue();
+				}
+			}
+		}
+
 		return $settings;
+	}
+
+	private function isSettingProperty(string $app, string $key): bool {
+		return $app === 'settings' && in_array($key, ['email', 'display_name']);
+	}
+
+	private function isProfileProperty(string $app, string $key): bool {
+		return $app === 'profile'
+			&& in_array($key, IAccountManager::ALLOWED_PROPERTIES)
+			&& $key !== IAccountManager::PROPERTY_EMAIL
+			&& $key !== IAccountManager::PROPERTY_DISPLAYNAME;
 	}
 
 	/**

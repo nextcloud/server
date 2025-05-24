@@ -8,28 +8,33 @@
 namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Setting;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+
+	protected IAccountManager&MockObject $accountManager;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected IDBConnection&MockObject $connection;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->accountManager = $this->getMockBuilder(IAccountManager::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -49,11 +54,12 @@ class SettingTest extends TestCase {
 
 	public function getCommand(array $methods = []) {
 		if (empty($methods)) {
-			return new Setting($this->userManager, $this->config);
+			return new Setting($this->userManager, $this->accountManager, $this->config);
 		} else {
 			$mock = $this->getMockBuilder(Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
+					$this->accountManager,
 					$this->config,
 				])
 				->onlyMethods($methods)
@@ -235,6 +241,77 @@ class SettingTest extends TestCase {
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
+	public static function dataExecuteDeleteProfileProperty(): array {
+		return [
+			['address', 'Berlin', false, null, 0],
+			['address', 'Berlin', true, null, 0],
+			['address', '', false, null, 0],
+			['address', '', true, '<error>The setting does not exist for user "username".</error>', 1],
+		];
+	}
+
+	/**
+	 * Tests the deletion mechanism on profile settings.
+	 *
+	 * @dataProvider dataExecuteDeleteProfileProperty
+	 *
+	 * @param string $configKey
+	 * @param string|null $value
+	 * @param bool $errorIfNotExists
+	 * @param string $expectedLine
+	 * @param int $expectedReturn
+	 */
+	public function testExecuteDeleteProfileProperty($configKey, $value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
+		$uid = 'username';
+		$appName = 'profile';
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', $uid],
+				['app', $appName],
+				['key', $configKey],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		$mocks = $this->setupProfilePropertiesMock($uid, [$configKey => $value]);
+
+		$this->consoleInput->expects($this->atLeastOnce())
+			->method('hasParameterOption')
+			->willReturnMap([
+				['--delete', false, true],
+				['--error-if-not-exists', false, $errorIfNotExists],
+			]);
+
+		if ($expectedLine === null) {
+			$this->consoleOutput->expects($this->never())
+				->method('writeln');
+			$mocks['profilePropertiesMocks'][0]->expects($this->once())
+				->method('setValue')
+				->with('');
+			$this->accountManager->expects($this->once())
+				->method('updateAccount')
+				->with($mocks['accountMock']);
+		} else {
+			$this->consoleOutput->expects($this->once())
+				->method('writeln')
+				->with($expectedLine);
+			$this->accountManager->expects($this->never())
+				->method('updateAccount');
+		}
+
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+
+		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
 	public static function dataExecuteDelete(): array {
 		return [
 			['config', false, null, 0],
@@ -297,6 +374,48 @@ class SettingTest extends TestCase {
 		}
 
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testExecuteSetProfileProperty() {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+		]);
+
+		$uid = 'username';
+		$appName = 'profile';
+		$propertyKey = 'address';
+		$propertyValue = 'Barcelona';
+
+		$this->consoleInput->expects($this->atLeast(4))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', $uid],
+				['app', $appName],
+				['key', $propertyKey],
+				['value', $propertyValue],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		// profile properties are not stored in user settings
+		$this->config->expects($this->never())
+			->method('getUserValue');
+
+		$mocks = $this->setupProfilePropertiesMock($uid, [$propertyKey => $propertyValue]);
+
+		$mocks['profilePropertiesMocks'][0]->expects($this->once())
+			->method('setValue')
+			->with($propertyValue);
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($mocks['accountMock']);
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
 	public static function dataExecuteSet(): array {
@@ -369,9 +488,12 @@ class SettingTest extends TestCase {
 
 	public static function dataExecuteGet(): array {
 		return [
-			['config', null, 'config', 0],
-			[null, 'config', 'config', 0],
-			[null, null, '<error>The setting does not exist for user "username".</error>', 1],
+			['appname', 'configkey', 'config', null, 'config', 0],
+			['appname', 'configkey', null, 'config', 'config', 0],
+			['appname', 'configkey', null, null, '<error>The setting does not exist for user "username".</error>', 1],
+			['profile', 'configkey', 'config', null, 'config', 0],
+			['profile', 'configkey', '', 'config', 'config', 0],
+			['profile', 'configkey', '', null, '<error>The setting does not exist for user "username".</error>', 1],
 		];
 	}
 
@@ -383,30 +505,35 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
+	public function testExecuteGet($app, $key, $value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
-			'getUserSettings',
 		]);
+
+		$uid = 'username';
 
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap([
-				['uid', 'username'],
-				['app', 'appname'],
-				['key', 'configkey'],
+				['uid', $uid],
+				['app', $app],
+				['key', $key],
 			]);
 
 		$command->expects($this->once())
 			->method('checkInput');
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with('username', 'appname', 'configkey', null)
-			->willReturn($value);
+		if ($app === 'profile') {
+			$this->setupProfilePropertiesMock($uid, [$key => $value]);
+		} else {
+			$this->config->expects($this->once())
+				->method('getUserValue')
+				->with('username', $app, $key, null)
+				->willReturn($value);
+		}
 
-		if ($value === null) {
+		if ($value === null || $value === '') {
 			if ($defaultValue === null) {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
@@ -414,12 +541,7 @@ class SettingTest extends TestCase {
 			} else {
 				$this->consoleInput->expects($this->atLeastOnce())
 					->method('hasParameterOption')
-					->willReturnCallback(function (string|array $config, bool $default = false): bool {
-						if ($config === '--default-value' && $default === false) {
-							return true;
-						}
-						return false;
-					});
+					->willReturnCallback(fn (string|array $values): bool => $values === '--default-value');
 				$this->consoleInput->expects($this->once())
 					->method('getOption')
 					->with('default-value')
@@ -435,30 +557,129 @@ class SettingTest extends TestCase {
 	}
 
 	public function testExecuteList(): void {
+		$uid = 'username';
+		$userDisplayName = 'display name';
+		$profileData = [
+			'pronouns' => 'they/them',
+			'address' => 'Berlin',
+		];
+		$settingsData = ['appname' => [
+			'settings1' => 'value1',
+			'settings2' => 'value2',
+		]];
+
+		$expectedOutputSettings = [
+			'appname' => $settingsData['appname'],
+			'settings' => [
+				'display_name' => $userDisplayName,
+			],
+			'profile' => $profileData
+		];
+
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
-			'getUserSettings',
 		]);
 
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap([
-				['uid', 'username'],
-				['app', 'appname'],
+				['uid', $uid],
+				['app', ''],
 				['key', ''],
 			]);
 
 		$command->expects($this->once())
 			->method('checkInput');
-		$command->expects($this->once())
-			->method('getUserSettings')
-			->willReturn(['settings']);
+
+		$this->config->expects($this->once())
+			->method('getAllUserValues')
+			->with('username')
+			->willReturn($settingsData);
+
+		$mocks = $this->setupProfilePropertiesMock($uid, ['address' => $profileData['address'], 'pronouns' => $profileData['pronouns']]);
+
+		$mocks['userMock']->expects($this->once())
+			->method('getDisplayName')
+			->willReturn($userDisplayName);
+
+
 		$command->expects($this->once())
 			->method('writeArrayInOutputFormat')
-			->with($this->consoleInput, $this->consoleOutput, ['settings']);
+			->with($this->consoleInput, $this->consoleOutput, $expectedOutputSettings);
 
 
 		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	/**
+	 * Helper to avoid boilerplate in tests in this file when mocking objects
+	 * of IAccountProperty type.
+	 *
+	 * @param string $uid
+	 * @param array<string, string> $properties the properties to be set up as key => value
+	 * @return array{
+	 *     userMock: IUser&MockObject,
+	 *     accountMock: IAccount&MockObject,
+	 *     profilePropertiesMocks: IAccountProperty&MockObject[]
+	 * }
+	 */
+	private function setupProfilePropertiesMock(string $uid, array $properties): array {
+		$userMock = $this->getMockForClass(IUser::class);
+		$accountMock = $this->getMockForClass(IAccount::class);
+		$this->userManager->expects($this->atLeastOnce())
+			->method('get')
+			->with($uid)
+			->willReturn($userMock);
+		$this->accountManager->expects($this->atLeastOnce())
+			->method('getAccount')
+			->willReturn($accountMock);
+
+		/** @var IAccountProperty&MockObject[] $propertiesMocks */
+		$propertiesMocks = [];
+		foreach ($properties as $key => $value) {
+			$propertiesMocks[] = $this->getAccountPropertyMock($key, $value);
+		}
+
+		if (count($properties) === 1) {
+			$accountMock->expects($this->atLeastOnce())
+				->method('getProperty')
+				->with(array_keys($properties)[0])
+				->willReturn($propertiesMocks[array_key_first($propertiesMocks)]);
+		} else {
+			$accountMock->expects($this->atLeastOnce())
+				->method('getAllProperties')
+				->willReturnCallback(function () use ($propertiesMocks) {
+					foreach ($propertiesMocks as $property) {
+						yield $property;
+					}
+				});
+		}
+
+		return [
+			'userMock' => $userMock,
+			'accountMock' => $accountMock,
+			'profilePropertiesMocks' => $propertiesMocks,
+		];
+	}
+
+	private function getMockForClass(string $className): MockObject {
+		return $this->getMockBuilder($className)
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
+	private function getAccountPropertyMock(string $name, string $value): IAccountProperty&MockObject {
+		$propertyMock = $this->getMockBuilder(IAccountProperty::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$propertyMock->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+		$propertyMock->expects($this->any())
+			->method('getValue')
+			->willReturn($value);
+
+		return $propertyMock;
 	}
 }
