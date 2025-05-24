@@ -14,44 +14,21 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Test\TestCase;
 
-abstract class AbstractNotificationProviderTest extends TestCase {
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10nFactory;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var AbstractProvider|\PHPUnit\Framework\MockObject\MockObject */
-	protected $provider;
-
-	/**
-	 * @var VCalendar
-	 */
-	protected $vcalendar;
-
-	/**
-	 * @var string
-	 */
-	protected $calendarDisplayName;
-
-	/**
-	 * @var IUser|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $user;
+abstract class AbstractNotificationProviderTestCase extends TestCase {
+	protected LoggerInterface&MockObject $logger;
+	protected L10NFactory&MockObject $l10nFactory;
+	protected IL10N&MockObject $l10n;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected IConfig&MockObject $config;
+	protected AbstractProvider $provider;
+	protected VCalendar $vcalendar;
+	protected string $calendarDisplayName;
+	protected IUser&MockObject $user;
 
 	protected function setUp(): void {
 		parent::setUp();

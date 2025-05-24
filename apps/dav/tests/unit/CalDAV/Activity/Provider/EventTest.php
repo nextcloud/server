@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,11 +8,9 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 
 use InvalidArgumentException;
-use OCA\DAV\CalDAV\Activity\Provider\Base;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
-use OCP\Activity\IProvider;
 use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -21,30 +21,14 @@ use Test\TestCase;
 use TypeError;
 
 class EventTest extends TestCase {
-
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-
-	/** @var IProvider|Base|MockObject */
-	protected $provider;
-
-	/** @var IAppManager|MockObject */
-	protected $appManager;
-
-	/** @var IFactory|MockObject */
-	protected $i10nFactory;
-
-	/** @var IManager|MockObject */
-	protected $activityManager;
-
-	/** @var IEventMerger|MockObject */
-	protected $eventMerger;
+	protected IUserManager&MockObject $userManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IURLGenerator&MockObject $url;
+	protected IAppManager&MockObject $appManager;
+	protected IFactory&MockObject $i10nFactory;
+	protected IManager&MockObject $activityManager;
+	protected IEventMerger&MockObject $eventMerger;
+	protected Event&MockObject $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,11 +49,11 @@ class EventTest extends TestCase {
 				$this->eventMerger,
 				$this->appManager
 			])
-			->setMethods(['parse'])
+			->onlyMethods(['parse'])
 			->getMock();
 	}
 
-	public function dataGenerateObjectParameter() {
+	public static function dataGenerateObjectParameter(): array {
 		$link = [
 			'object_uri' => 'someuuid.ics',
 			'calendar_uri' => 'personal',
@@ -85,10 +69,6 @@ class EventTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGenerateObjectParameter
-	 * @param int $id
-	 * @param string $name
-	 * @param array|null $link
-	 * @param bool $calendarAppEnabled
 	 */
 	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
 		$affectedUser = 'otheruser';
@@ -174,7 +154,9 @@ class EventTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider generateObjectParameterLinkEncodingDataProvider */
+	/**
+	 * @dataProvider generateObjectParameterLinkEncodingDataProvider
+	 */
 	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
 		$generatedLink = [
 			'view' => 'dayGridMonth',
@@ -203,7 +185,7 @@ class EventTest extends TestCase {
 		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, 'sharee']));
 	}
 
-	public function dataGenerateObjectParameterThrows() {
+	public static function dataGenerateObjectParameterThrows(): array {
 		return [
 			['event', TypeError::class],
 			[['name' => 'event']],
@@ -213,10 +195,8 @@ class EventTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGenerateObjectParameterThrows
-	 * @param mixed $eventData
-	 * @param string $exception
 	 */
-	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class): void {
+	public function testGenerateObjectParameterThrows(string|array $eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 
 		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData, 'no_user']);

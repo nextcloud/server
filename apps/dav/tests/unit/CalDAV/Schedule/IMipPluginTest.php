@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -36,54 +38,22 @@ interface IMailServiceMock extends IMailService, IMailMessageSend {
 }
 
 class IMipPluginTest extends TestCase {
-
-	/** @var IMessage|MockObject */
-	private $mailMessage;
-
-	/** @var IMailer|MockObject */
-	private $mailer;
-
-	/** @var IEMailTemplate|MockObject */
-	private $emailTemplate;
-
-	/** @var IAttachment|MockObject */
-	private $emailAttachment;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var IAppConfig|MockObject */
-	private $config;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var IUser|MockObject */
-	private $user;
-
-	/** @var IMipPlugin */
-	private $plugin;
-
-	/** @var IMipService|MockObject */
-	private $service;
-
-	/** @var Defaults|MockObject */
-	private $defaults;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var EventComparisonService|MockObject */
-	private $eventComparisonService;
-
-	/** @var IMailManager|MockObject */
-	private $mailManager;
-
-	/** @var IMailService|IMailMessageSend|MockObject */
-	private $mailService;
-
-	/** @var IMailMessageNew|MockObject */
-	private $mailMessageNew;
+	private IMessage&MockObject $mailMessage;
+	private IMailer&MockObject $mailer;
+	private IEMailTemplate&MockObject $emailTemplate;
+	private IAttachment&MockObject $emailAttachment;
+	private ITimeFactory&MockObject $timeFactory;
+	private IAppConfig&MockObject $config;
+	private IUserSession&MockObject $userSession;
+	private IUser&MockObject $user;
+	private IMipPlugin $plugin;
+	private IMipService&MockObject $service;
+	private Defaults&MockObject $defaults;
+	private LoggerInterface&MockObject $logger;
+	private EventComparisonService&MockObject $eventComparisonService;
+	private IMailManager&MockObject $mailManager;
+	private IMailServiceMock&MockObject $mailService;
+	private IMailMessageNew&MockObject $mailMessageNew;
 
 	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
