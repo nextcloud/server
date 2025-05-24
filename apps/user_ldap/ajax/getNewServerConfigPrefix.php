@@ -2,8 +2,6 @@
 
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Server;
 
 /**
@@ -16,7 +14,7 @@ use OCP\Server;
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+$helper = Server::get(Helper::class);
 $serverConnections = $helper->getServerConfigurationPrefixes();
 sort($serverConnections);
 $lk = array_pop($serverConnections);

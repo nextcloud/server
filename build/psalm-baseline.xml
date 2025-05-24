@@ -2597,14 +2597,6 @@
       <code><![CDATA[$gid]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/user_ldap/lib/Helper.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[getAppKeys]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>

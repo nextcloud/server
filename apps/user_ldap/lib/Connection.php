@@ -11,8 +11,6 @@ use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Util;
@@ -156,7 +154,7 @@ class Connection extends LDAPUtility {
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 		$this->logger = Server::get(LoggerInterface::class);
