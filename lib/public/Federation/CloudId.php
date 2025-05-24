@@ -6,11 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OC\Federation;
+namespace OCP\Federation;
 
-use OCP\Federation\ICloudId;
-use OCP\Federation\ICloudIdManager;
+use OC\Federation\CloudIdManager;
 
+/**
+ * Class CloudId
+ *
+ * @package OCP\Federation
+ *
+ * @since 12.0.0
+ */
 class CloudId implements ICloudId {
 	public function __construct(
 		protected string $id,
@@ -31,8 +37,7 @@ class CloudId implements ICloudId {
 
 	public function getDisplayId(): string {
 		if ($this->displayName === null) {
-			/** @var CloudIdManager $cloudIdManager */
-			$cloudIdManager = \OCP\Server::get(ICloudIdManager::class);
+			$cloudIdManager = \OCP\Server::get(CloudIdManager::class);
 			$this->displayName = $cloudIdManager->getDisplayNameFromContact($this->getId());
 		}
 

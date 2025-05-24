@@ -55,4 +55,18 @@ interface ICloudIdManager {
 	 * @since 30.0.0 - Optional parameter $httpsOnly was added
 	 */
 	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string;
+
+	/**
+	 * @param ICloudIdResolver $resolver
+	 *
+	 * @since 26.0.0
+	 */
+	public function registerCloudIdResolver(ICloudIdResolver $resolver);
+
+	/**
+	 * @param ICloudIdResolver $resolver
+	 *
+	 * @since 26.0.0
+	 */
+	public function unregisterCloudIdResolver(ICloudIdResolver $resolver);
 }
