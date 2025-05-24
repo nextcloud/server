@@ -313,6 +313,7 @@
     "Architecture" : "アーキテクチャ",
     "64-bit" : "64ビット",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "このシステムは32ビット版のPHPで動いているようです。Nextcloudを正常に動かすには64ビット版が必要です。OSとPHPを64ビット版にアップグレードしてください！",
+    "Task Processing pickup speed" : "タスク処理のピックアップ速度",
     "Temporary space available" : "テンポラリ領域が利用可能です",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "PHP のテンポラリパスのチェック中にエラーが発生しました - ディレクトリが正しく設定されていませんでした。返された値：%s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "PHPの関数 \"disk_free_space\"が無効になっており、一時的なディレクトリに十分な空き容量があるかどうかをチェックできません。",
