@@ -601,9 +601,6 @@ class OC {
 		self::$loader = new \OC\Autoloader([
 			OC::$SERVERROOT . '/lib/private/legacy',
 		]);
-		if (defined('PHPUNIT_RUN')) {
-			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
-		}
 		spl_autoload_register([self::$loader, 'load']);
 		$loaderEnd = microtime(true);
 

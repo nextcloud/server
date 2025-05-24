@@ -12,8 +12,6 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OCP\Files;
 
-\OC::$loader->load('\OC\Files\Filesystem');
-
 /**
  * Class QuotaTest
  *
