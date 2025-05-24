@@ -19,23 +19,30 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testPrivateClassification($expectedChildren, $isShared): void {
+	public function testPrivateClassification(int $expectedChildren, bool $isShared): void {
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
+		$calObject3 = ['uri' => 'event-3', 'classification' => CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE];
+		$calObject4 = ['uri' => 'event-4', 'classification' => CalDavBackend::CLASSIFICATION_PUBLISHED_CONFIDENTIAL];
 
 		/** @var MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
-			$calObject0, $calObject1, $calObject2
+			$calObject0, $calObject1, $calObject2, $calObject3, $calObject4
 		]);
 		$backend->expects($this->any())->method('getMultipleCalendarObjects')
-			->with(666, ['event-0', 'event-1', 'event-2'])
+			->with(666, ['event-0', 'event-1', 'event-2', 'event-3', 'event-4'])
 			->willReturn([
-				$calObject0, $calObject1, $calObject2
+				$calObject0, $calObject1, $calObject2, $calObject3, $calObject4
 			]);
-		$backend->expects($this->any())->method('getCalendarObject')
-			->willReturn($calObject2)->with(666, 'event-2');
+		$matcher = $this->exactly(2);
+		$backend->expects($matcher)->method('getCalendarObject')
+			->willReturnCallback(fn (int $key, string $uri) =>
+			match ([$key, $uri]) {
+				[666, 'event-2'] => $calObject2,
+				[666, 'event-3'] => $calObject3,
+			});
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 
 		$calendarInfo = [
@@ -50,11 +57,12 @@ class PublicCalendarTest extends CalendarTest {
 		$logger = $this->createMock(LoggerInterface::class);
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 		$children = $c->getChildren();
-		$this->assertEquals(2, count($children));
-		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
-		$this->assertEquals(2, count($children));
+		$this->assertEquals(3, count($children));
+		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2', 'event-3', 'event-4']);
+		$this->assertEquals(3, count($children));
 
 		$this->assertFalse($c->childExists('event-2'));
+		$this->assertFalse($c->childExists('event-3'));
 	}
 
 	/**
@@ -62,7 +70,7 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testConfidentialClassification($expectedChildren, $isShared): void {
+	public function testConfidentialClassification(int $expectedChildren, bool $isShared): void {
 		$start = '20160609';
 		$end = '20160610';
 
@@ -111,19 +119,26 @@ EOD;
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'calendardata' => $calData];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
+		$calObject3 = ['uri' => 'event-3', 'classification' => CalDavBackend::CLASSIFICATION_PUBLISHED_CONFIDENTIAL, 'calendardata' => $calData];
+		$calObject4 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE];
 
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
-			$calObject0, $calObject1, $calObject2
+			$calObject0, $calObject1, $calObject2, $calObject3, $calObject4
 		]);
 		$backend->expects($this->any())->method('getMultipleCalendarObjects')
-			->with(666, ['event-0', 'event-1', 'event-2'])
+			->with(666, ['event-0', 'event-1', 'event-2', 'event-3', 'event-4'])
 			->willReturn([
-				$calObject0, $calObject1, $calObject2
+				$calObject0, $calObject1, $calObject2, $calObject3, $calObject4
 			]);
-		$backend->expects($this->any())->method('getCalendarObject')
-			->willReturn($calObject1)->with(666, 'event-1');
+		$matcher = $this->exactly(2);
+		$backend->expects($matcher)->method('getCalendarObject')
+			->willReturnCallback(fn (int $key, string $uri) =>
+			match ([$key, $uri]) {
+				[666, 'event-1'] => $calObject1,
+				[666, 'event-3'] => $calObject3,
+			});
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 
 		$calendarInfo = [
@@ -138,10 +153,24 @@ EOD;
 		$logger = $this->createMock(LoggerInterface::class);
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 
-		$this->assertEquals(count($c->getChildren()), 2);
+		$this->assertCount(3, $c->getChildren());
 
 		// test private event
 		$privateEvent = $c->getChild('event-1');
+		$calData = $privateEvent->get();
+		$event = Reader::read($calData);
+
+		$this->assertEquals($start, $event->VEVENT->DTSTART->getValue());
+		$this->assertEquals($end, $event->VEVENT->DTEND->getValue());
+
+		$this->assertEquals('Busy', $event->VEVENT->SUMMARY->getValue());
+		$this->assertArrayNotHasKey('ATTENDEE', $event->VEVENT);
+		$this->assertArrayNotHasKey('LOCATION', $event->VEVENT);
+		$this->assertArrayNotHasKey('DESCRIPTION', $event->VEVENT);
+		$this->assertArrayNotHasKey('ORGANIZER', $event->VEVENT);
+
+		// test published private event
+		$privateEvent = $c->getChild('event-3');
 		$calData = $privateEvent->get();
 		$event = Reader::read($calData);
 
