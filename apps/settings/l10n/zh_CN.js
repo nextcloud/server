@@ -315,6 +315,7 @@ OC.L10N.register(
     "Architecture" : "建筑风格",
     "64-bit" : "64位",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "您似乎正在使用32位的PHP版本。Nextcloud需要64位的PHP版本以便良好运行。请升级您的系统和PHP版本至64位！",
+    "Task Processing pickup speed" : "任务处理拾取速度",
     "Temporary space available" : "可用临时空间",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "检查临时 PHP 路径时出错 - 未正确设置为目录。 返回值: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "PHP 函数 \"disk_free_space\" 被禁用，这会阻止检查临时目录中是否有足够的空间。",
