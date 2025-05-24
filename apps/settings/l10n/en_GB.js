@@ -315,6 +315,7 @@ OC.L10N.register(
     "Architecture" : "Architecture",
     "64-bit" : "64-bit",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!",
+    "Task Processing pickup speed" : "Task Processing pickup speed",
     "Temporary space available" : "Temporary space available",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "The PHP function \"disk_free_space\" is disabled, preventing the system from checking for sufficient space in the temporary directories.",
