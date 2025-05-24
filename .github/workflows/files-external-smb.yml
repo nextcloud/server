@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "5 2 * * *"
 
+permissions:
+  contents: read
+
 concurrency:
   group: files-external-smb-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -50,14 +53,15 @@ jobs:
 
     services:
       samba:
-        image: ghcr.io/nextcloud/continuous-integration-samba:latest
+        image: ghcr.io/nextcloud/continuous-integration-samba:latest # zizmor: ignore[unpinned-images]
         ports:
           - 445:445
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
