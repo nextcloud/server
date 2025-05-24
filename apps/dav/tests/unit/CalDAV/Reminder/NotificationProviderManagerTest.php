@@ -21,9 +21,7 @@ use Test\TestCase;
  * @group DB
  */
 class NotificationProviderManagerTest extends TestCase {
-
-	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $providerManager;
+	private NotificationProviderManager $providerManager;
 
 	/**
 	 * @throws QueryException

@@ -19,20 +19,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RefreshWebcalJobTest extends TestCase {
-
-	/** @var RefreshWebcalService | MockObject */
-	private $refreshWebcalService;
-
-	/** @var IConfig | MockObject */
-	private $config;
-
+	private RefreshWebcalService&MockObject $refreshWebcalService;
+	private IConfig&MockObject $config;
 	private LoggerInterface $logger;
-
-	/** @var ITimeFactory | MockObject */
-	private $timeFactory;
-
-	/** @var IJobList | MockObject */
-	private $jobList;
+	private ITimeFactory&MockObject $timeFactory;
+	private IJobList&MockObject $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -97,10 +88,7 @@ class RefreshWebcalJobTest extends TestCase {
 		$backgroundJob->start($this->jobList);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function runDataProvider():array {
+	public static function runDataProvider():array {
 		return [
 			[0, 100000, true],
 			[100000, 100000, false]

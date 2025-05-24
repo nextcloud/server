@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -42,7 +44,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnCreate(): void {
-		
+
 		// construct calendar and generate event info for newly created event with one attendee
 		$calendar = clone $this->vCalendar1a;
 		$previousEventInfo = [
@@ -61,7 +63,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnModify(): void {
-		
+
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
 		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
@@ -79,7 +81,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnDelete(): void {
-		
+
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
 		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
@@ -96,7 +98,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnStatusCancelled(): void {
-		
+
 		// construct calendar and generate event info for modified event with one attendee
 		$calendar = clone $this->vCalendar1a;
 		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
@@ -114,7 +116,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnAddAttendee(): void {
-		
+
 		// construct calendar and generate event info for modified event with two attendees
 		$calendar = clone $this->vCalendar1a;
 		$previousEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$calendar]);
@@ -141,7 +143,7 @@ class TipBrokerTest extends TestCase {
 	}
 
 	public function testParseEventForOrganizerOnRemoveAttendee(): void {
-		
+
 		// construct calendar and generate event info for modified event with two attendees
 		$calendar = clone $this->vCalendar1a;
 		$calendar->VEVENT->add('ATTENDEE', 'mailto:attendee2@testing.com', [

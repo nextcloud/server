@@ -12,11 +12,12 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CachedSubscriptionImpl;
 use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalDavBackend;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CachedSubscriptionProviderTest extends TestCase {
 
-	private CalDavBackend $backend;
+	private CalDavBackend&MockObject $backend;
 	private CachedSubscriptionProvider $provider;
 
 	protected function setUp(): void {

@@ -13,7 +13,6 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -21,9 +20,9 @@ use Test\TestCase;
 
 class ConnectionTest extends TestCase {
 
-	private IClientService|MockObject $clientService;
-	private IConfig|MockObject $config;
-	private LoggerInterface|MockObject $logger;
+	private IClientService&MockObject $clientService;
+	private IAppConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private Connection $connection;
 
 	public function setUp(): void {

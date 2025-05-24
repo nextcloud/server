@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,8 +30,6 @@ use function time;
  * Class CalDavBackendTest
  *
  * @group DB
- *
- * @package OCA\DAV\Tests\unit\CalDAV
  */
 class CalDavBackendTest extends AbstractCalDavBackend {
 	public function testCalendarOperations(): void {
@@ -59,7 +59,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		self::assertEmpty($calendars);
 	}
 
-	public function providesSharingData() {
+	public static function providesSharingData(): array {
 		return [
 			[true, true, true, false, [
 				[
@@ -458,7 +458,7 @@ EOD;
 		$this->assertNotNull($co);
 	}
 
-	public function providesCalendarQueryParameters() {
+	public static function providesCalendarQueryParameters(): array {
 		return [
 			'all' => [[0, 1, 2, 3], [], []],
 			'only-todos' => [[], ['name' => 'VTODO'], []],
@@ -619,7 +619,7 @@ EOD;
 		$this->assertCount(0, $subscriptions);
 	}
 
-	public function providesSchedulingData() {
+	public static function providesSchedulingData(): array {
 		$data = <<<EOS
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -725,7 +725,7 @@ EOS;
 		}
 	}
 
-	public function providesCalDataForGetDenormalizedData(): array {
+	public static function providesCalDataForGetDenormalizedData(): array {
 		return [
 			'first occurrence before unix epoch starts' => [0, 'firstOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nDTSTART;VALUE=DATE:16040222\r\nDTEND;VALUE=DATE:16040223\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 			'no first occurrence because yearly' => [null, 'firstOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
@@ -980,7 +980,7 @@ EOD;
 		$this->assertCount($count, $result);
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		return [
 			[false, [], 4],
 			[true, ['timerange' => ['start' => new DateTime('2013-09-12 13:00:00'), 'end' => new DateTime('2013-09-12 14:00:00')]], 2],
