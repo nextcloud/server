@@ -170,6 +170,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\Validation\\CardDavValidatePlugin' => __DIR__ . '/..' . '/../lib/CardDAV/Validation/CardDavValidatePlugin.php',
         'OCA\\DAV\\CardDAV\\Xml\\Groups' => __DIR__ . '/..' . '/../lib/CardDAV/Xml/Groups.php',
         'OCA\\DAV\\Command\\ClearCalendarUnshares' => __DIR__ . '/..' . '/../lib/Command/ClearCalendarUnshares.php',
+        'OCA\\DAV\\Command\\ClearContactsPhotoCache' => __DIR__ . '/..' . '/../lib/Command/ClearContactsPhotoCache.php',
         'OCA\\DAV\\Command\\CreateAddressBook' => __DIR__ . '/..' . '/../lib/Command/CreateAddressBook.php',
         'OCA\\DAV\\Command\\CreateCalendar' => __DIR__ . '/..' . '/../lib/Command/CreateCalendar.php',
         'OCA\\DAV\\Command\\CreateSubscription' => __DIR__ . '/..' . '/../lib/Command/CreateSubscription.php',
