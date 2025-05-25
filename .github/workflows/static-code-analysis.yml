@@ -4,6 +4,17 @@ name: Psalm static code analysis
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - stable*
+    paths:
+      - '.github/workflows/static-code-analysis.yml'
+      - '**.php'
+
+permissions:
+  contents: read
 
 concurrency:
   group: static-code-analysis-${{ github.head_ref || github.run_id }}
@@ -13,12 +24,13 @@ jobs:
   static-code-analysis:
     runs-on: ubuntu-latest
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
@@ -49,10 +61,13 @@ jobs:
   static-code-analysis-security:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
@@ -70,17 +85,20 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@ff0a06e83cb2de871e5a09832bc6a81e7276941f # v3
         with:
           sarif_file: results.sarif
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
 
+    if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up php
