@@ -197,7 +197,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Mat eo kaout ur vackup reoliek eus o roadennoù, ha e bezit sur ober ur vackup eus an alrv'hwez sifrañ gant o roadennoù sifret.",
     "This is the final warning: Do you really want to enable encryption?" : "Kemenadenn diwall divezhañ : Sur oc'h aotreañ ar sifrañ ?",
     "Submit" : "Kinnig",
-    "Remove group" : "Lemel strollad",
     "Current password" : "Ger-tremen hiziv",
     "New password" : "Ger-tremen nevez",
     "Change password" : "Cheñch ger-tremen",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "Check out our blog" : "Sellit ouzh hon vlog",
     "Subscribe to our newsletter" : "Koumannantit d'hon kemenadennoù nevesadur",
     "Use a second factor besides your password to increase security for your account." : "Implijour un eil-elfenn d'ho ger-tremen a gwella urentez o c'hont.",
-    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ"
+    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ",
+    "Remove group" : "Lemel strollad"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

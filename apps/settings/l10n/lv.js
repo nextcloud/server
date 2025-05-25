@@ -136,7 +136,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Šis ir pēdējais brīdinājums: vai tiešām iespējot šifrēšanu?",
     "Submit" : "Iesniegt",
     "Rename group" : "Pārdēvēt kopu",
-    "Remove group" : "Noņemt grupu",
     "Current password" : "Pašreizējā parole",
     "New password" : "Jaunā parole",
     "Change password" : "Mainīt paroli",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Izstrādātās {communityopen}Nextcloud kopiena {linkclose},  {githubopen} avota kods {linkclose} licencēts saskaņā ar {licenseopen}AGPL{linkclose}.",
     "Use a second factor besides your password to increase security for your account." : "Vēl viena apliecināšanas līdzekļa izmantošana papildus parolei, lai palielinātu sava konta drošību.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ja izmanto trešo pušu lietotnes, lai savienotos ar Nextcloud, lūgums ņemt vērā, ka pirms divpakāpju pieteikšanās iespējošanas katrai no tām ir nepieciešams izveidot un izmantot lietotnes paroli.",
+    "Remove group" : "Noņemt grupu",
     "Your biography" : "Jūsu biogrāfija",
     "You are using <strong>{usage}</strong>" : "Jūs izmantojat <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jūs izmantojat <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
