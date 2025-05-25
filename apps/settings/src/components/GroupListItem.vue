@@ -13,7 +13,7 @@
 				</h2>
 				<NcNoteCard type="warning"
 					show-alert>
-					{{ t('settings', 'You are about to remove the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
+					{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
 				</NcNoteCard>
 				<div class="modal__button-row">
 					<NcButton type="secondary"
@@ -62,7 +62,7 @@
 					<template #icon>
 						<Delete :size="20" />
 					</template>
-					{{ t('settings', 'Remove group') }}
+					{{ t('settings', 'Delete group') }}
 				</NcActionButton>
 			</template>
 		</NcAppNavigationItem>
@@ -179,7 +179,7 @@ export default {
 				await this.$store.dispatch('removeGroup', this.id)
 				this.showRemoveGroupModal = false
 			} catch (error) {
-				showError(t('settings', 'Failed to remove group "{group}"', { group: this.name }))
+				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))
 			}
 		},
 	},
