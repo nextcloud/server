@@ -22,17 +22,10 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
-
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $accountManager;
-	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
-	private IUserManager|MockObject $userManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
+	private IAccountManager&MockObject $accountManager;
+	private IUserManager&MockObject $userManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -44,7 +37,7 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * @return IAccountProperty|MockObject
+	 * @return IAccountProperty&MockObject
 	 */
 	protected function getAccountPropertyMock(string $name, ?string $value, string $scope) {
 		$property = $this->createMock(IAccountProperty::class);
@@ -77,10 +70,11 @@ class ConverterTest extends TestCase {
 				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_TWITTER, '', IAccountManager::SCOPE_LOCAL);
 			});
 
-		$accountManager = $this->getMockBuilder(IAccountManager::class)
-			->disableOriginalConstructor()->getMock();
+		$accountManager = $this->createMock(IAccountManager::class);
 
-		$accountManager->expects($this->any())->method('getAccount')->willReturn($account);
+		$accountManager->expects($this->any())
+			->method('getAccount')
+			->willReturn($account);
 
 		return $accountManager;
 	}
@@ -126,7 +120,7 @@ class ConverterTest extends TestCase {
 		);
 	}
 
-	protected function compareData($expected, $data) {
+	protected function compareData(array $expected, array $data): void {
 		foreach ($expected as $key => $value) {
 			$found = false;
 			foreach ($data[1] as $d) {
@@ -141,7 +135,7 @@ class ConverterTest extends TestCase {
 		}
 	}
 
-	public function providesNewUsers() {
+	public static function providesNewUsers(): array {
 		return [
 			[
 				null
@@ -197,17 +191,15 @@ class ConverterTest extends TestCase {
 
 	/**
 	 * @dataProvider providesNames
-	 * @param $expected
-	 * @param $fullName
 	 */
-	public function testNameSplitter($expected, $fullName): void {
+	public function testNameSplitter(string $expected, string $fullName): void {
 		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);
 	}
 
-	public function providesNames() {
+	public static function providesNames(): array {
 		return [
 			['Sauron;;;;', 'Sauron'],
 			['Baggins;Bilbo;;;', 'Bilbo Baggins'],
@@ -216,16 +208,13 @@ class ConverterTest extends TestCase {
 	}
 
 	/**
-	 * @param $displayName
-	 * @param $eMailAddress
-	 * @param $cloudId
-	 * @return IUser | \PHPUnit\Framework\MockObject\MockObject
+	 * @return IUser&MockObject
 	 */
 	protected function getUserMock(string $displayName, ?string $eMailAddress, ?string $cloudId) {
-		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
+		$image0 = $this->createMock(IImage::class);
 		$image0->method('mimeType')->willReturn('image/jpeg');
 		$image0->method('data')->willReturn('123456789');
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('12345');
 		$user->method('getDisplayName')->willReturn($displayName);
 		$user->method('getEMailAddress')->willReturn($eMailAddress);

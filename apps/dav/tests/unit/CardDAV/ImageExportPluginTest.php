@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,6 +14,7 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Node;
 use Sabre\DAV\Server;
@@ -22,18 +24,12 @@ use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
-	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $response;
-	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ImageExportPlugin|\PHPUnit\Framework\MockObject\MockObject */
-	private $plugin;
-	/** @var Server */
-	private $server;
-	/** @var Tree|\PHPUnit\Framework\MockObject\MockObject */
-	private $tree;
-	/** @var PhotoCache|\PHPUnit\Framework\MockObject\MockObject */
-	private $cache;
+	private ResponseInterface&MockObject $response;
+	private RequestInterface&MockObject $request;
+	private Server&MockObject $server;
+	private Tree&MockObject $tree;
+	private PhotoCache&MockObject $cache;
+	private ImageExportPlugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,24 +41,20 @@ class ImageExportPluginTest extends TestCase {
 		$this->server->tree = $this->tree;
 		$this->cache = $this->createMock(PhotoCache::class);
 
-		$this->plugin = $this->getMockBuilder(ImageExportPlugin::class)
-			->setMethods(['getPhoto'])
-			->setConstructorArgs([$this->cache])
-			->getMock();
+		$this->plugin = new ImageExportPlugin($this->cache);
 		$this->plugin->initialize($this->server);
 	}
 
 	/**
 	 * @dataProvider providesQueryParams
-	 * @param $param
 	 */
-	public function testQueryParams($param): void {
+	public function testQueryParams(array $param): void {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
 	}
 
-	public function providesQueryParams() {
+	public static function providesQueryParams(): array {
 		return [
 			[[]],
 			[['1']],
@@ -87,7 +79,7 @@ class ImageExportPluginTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function dataTestCard() {
+	public static function dataTestCard(): array {
 		return [
 			[null, false],
 			[null, true],
@@ -98,11 +90,8 @@ class ImageExportPluginTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestCard
-	 *
-	 * @param $size
-	 * @param bool $photo
 	 */
-	public function testCard($size, $photo): void {
+	public function testCard(?int $size, bool $photo): void {
 		$query = ['photo' => null];
 		if ($size !== null) {
 			$query['size'] = $size;
@@ -145,14 +134,18 @@ class ImageExportPluginTest extends TestCase {
 				->with(1, 'card', $size, $card)
 				->willReturn($file);
 
-			$this->response->expects($this->exactly(4))
+			$setHeaderCalls = [
+				['Cache-Control', 'private, max-age=3600, must-revalidate'],
+				['Etag', '"myEtag"'],
+				['Content-Type', 'image/jpeg'],
+				['Content-Disposition', 'attachment; filename=card.jpg'],
+			];
+			$this->response->expects($this->exactly(count($setHeaderCalls)))
 				->method('setHeader')
-				->withConsecutive(
-					['Cache-Control', 'private, max-age=3600, must-revalidate'],
-					['Etag', '"myEtag"'],
-					['Content-Type', 'image/jpeg'],
-					['Content-Disposition', 'attachment; filename=card.jpg'],
-				);
+				->willReturnCallback(function () use (&$setHeaderCalls) {
+					$expected = array_shift($setHeaderCalls);
+					$this->assertEquals($expected, func_get_args());
+				});
 
 			$this->response->expects($this->once())
 				->method('setStatus')
@@ -161,12 +154,16 @@ class ImageExportPluginTest extends TestCase {
 				->method('setBody')
 				->with('imgdata');
 		} else {
-			$this->response->expects($this->exactly(2))
+			$setHeaderCalls = [
+				['Cache-Control', 'private, max-age=3600, must-revalidate'],
+				['Etag', '"myEtag"'],
+			];
+			$this->response->expects($this->exactly(count($setHeaderCalls)))
 				->method('setHeader')
-				->withConsecutive(
-					['Cache-Control', 'private, max-age=3600, must-revalidate'],
-					['Etag', '"myEtag"'],
-				);
+				->willReturnCallback(function () use (&$setHeaderCalls) {
+					$expected = array_shift($setHeaderCalls);
+					$this->assertEquals($expected, func_get_args());
+				});
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)
 				->willThrowException(new NotFoundException());
