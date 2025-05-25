@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,10 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 
 class ExportServiceTest extends \Test\TestCase {
-
-	private ServerVersion|MockObject $serverVersion;
+	private ServerVersion&MockObject $serverVersion;
 	private ExportService $service;
-	private ICalendarExport|MockObject $calendar;
+	private ICalendarExport&MockObject $calendar;
 	private array $mockExportCollection;
 
 	protected function setUp(): void {
@@ -36,7 +37,7 @@ class ExportServiceTest extends \Test\TestCase {
 			yield $entry;
 		}
 	}
-	
+
 	public function testExport(): void {
 		// Arrange
 		// construct calendar with a 1 hour event and same start/end time zones

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,40 +14,22 @@ use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
-abstract class AbstractPrincipalBackendTest extends TestCase {
-	/** @var ResourcePrincipalBackend|RoomPrincipalBackend */
-	protected $principalBackend;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var ProxyMapper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $proxyMapper;
-
-	/** @var string */
-	protected $mainDbTable;
-
-	/** @var string */
-	protected $metadataDbTable;
-
-	/** @var string */
-	protected $foreignKey;
-
-	/** @var string */
-	protected $principalPrefix;
-
-	/** @var string */
-	protected $expectedCUType;
+abstract class AbstractPrincipalBackendTestCase extends TestCase {
+	protected ResourcePrincipalBackend|RoomPrincipalBackend $principalBackend;
+	protected IUserSession&MockObject $userSession;
+	protected IGroupManager&MockObject $groupManager;
+	protected LoggerInterface&MockObject $logger;
+	protected ProxyMapper&MockObject $proxyMapper;
+	protected string $mainDbTable;
+	protected string $metadataDbTable;
+	protected string $foreignKey;
+	protected string $principalPrefix;
+	protected string $expectedCUType;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -59,10 +43,10 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 
-		$query->delete('calendar_resources')->execute();
-		$query->delete('calendar_resources_md')->execute();
-		$query->delete('calendar_rooms')->execute();
-		$query->delete('calendar_rooms_md')->execute();
+		$query->delete('calendar_resources')->executeStatement();
+		$query->delete('calendar_resources_md')->executeStatement();
+		$query->delete('calendar_rooms')->executeStatement();
+		$query->delete('calendar_rooms_md')->executeStatement();
 	}
 
 	public function testGetPrincipalsByPrefix(): void {
@@ -214,38 +198,43 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			->with($this->principalPrefix . '/backend1-res1')
 			->willReturn([]);
 
+		$calls = [
+			function ($proxy) {
+				/** @var Proxy $proxy */
+				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+					return false;
+				}
+				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend1-res2') {
+					return false;
+				}
+				if ($proxy->getPermissions() !== 3) {
+					return false;
+				}
+
+				return true;
+			},
+			function ($proxy) {
+				/** @var Proxy $proxy */
+				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
+					return false;
+				}
+				if ($proxy->getProxyId() !== $this->principalPrefix . '/backend2-res3') {
+					return false;
+				}
+				if ($proxy->getPermissions() !== 3) {
+					return false;
+				}
+
+				return true;
+			}
+		];
 		$this->proxyMapper->expects($this->exactly(2))
 			->method('insert')
-			->withConsecutive(
-				[$this->callback(function ($proxy) {
-					/** @var Proxy $proxy */
-					if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
-						return false;
-					}
-					if ($proxy->getProxyId() !== $this->principalPrefix . '/backend1-res2') {
-						return false;
-					}
-					if ($proxy->getPermissions() !== 3) {
-						return false;
-					}
-
-					return true;
-				})],
-				[$this->callback(function ($proxy) {
-					/** @var Proxy $proxy */
-					if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
-						return false;
-					}
-					if ($proxy->getProxyId() !== $this->principalPrefix . '/backend2-res3') {
-						return false;
-					}
-					if ($proxy->getPermissions() !== 3) {
-						return false;
-					}
-
-					return true;
-				})],
-			);
+			->willReturnCallback(function ($proxy) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertTrue($expected($proxy));
+				return $proxy;
+			});
 
 		$this->principalBackend->setGroupMemberSet($this->principalPrefix . '/backend1-res1/calendar-proxy-write', [$this->principalPrefix . '/backend1-res2', $this->principalPrefix . '/backend2-res3']);
 	}
@@ -281,7 +270,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			$actual);
 	}
 
-	public function dataSearchPrincipals() {
+	public static function dataSearchPrincipals(): array {
 		// data providers are called before we subclass
 		// this class, $this->principalPrefix is null
 		// at that point, so we need this hack

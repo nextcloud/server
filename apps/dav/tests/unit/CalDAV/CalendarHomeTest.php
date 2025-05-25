@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,21 +24,11 @@ use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class CalendarHomeTest extends TestCase {
-
-	/** @var CalDavBackend | MockObject */
-	private $backend;
-
-	/** @var array */
-	private $principalInfo = [];
-
-	/** @var PluginManager */
-	private $pluginManager;
-
-	/** @var CalendarHome */
-	private $calendarHome;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
+	private CalDavBackend&MockObject $backend;
+	private array $principalInfo = [];
+	private PluginManager&MockObject $pluginManager;
+	private LoggerInterface&MockObject $logger;
+	private CalendarHome $calendarHome;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,7 +54,7 @@ class CalendarHomeTest extends TestCase {
 	}
 
 	public function testCreateCalendarValidName(): void {
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$mkCol->method('getResourceType')
@@ -82,7 +74,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('contact_birthdays', $mkCol);
@@ -92,7 +84,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | MockObject $mkCol */
+		/** @var MkCol&MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('app-generated--example--foo-1', $mkCol);

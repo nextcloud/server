@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,15 +9,12 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Outbox;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class OutboxTest extends TestCase {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var Outbox */
-	private $outbox;
+	private IConfig&MockObject $config;
+	private Outbox $outbox;
 
 	protected function setUp(): void {
 		parent::setUp();

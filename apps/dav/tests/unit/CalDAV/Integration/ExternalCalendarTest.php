@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,10 +8,11 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Integration;
 
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ExternalCalendarTest extends TestCase {
-	private $abstractExternalCalendar;
+	private ExternalCalendar&MockObject $abstractExternalCalendar;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,7 +42,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->abstractExternalCalendar->setName('other-name');
 	}
 
-	public function createDirectory():void {
+	public function createDirectory(): void {
 		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'createDirectory');
 		$this->assertTrue($reflectionMethod->isFinal());
@@ -73,7 +76,7 @@ class ExternalCalendarTest extends TestCase {
 		ExternalCalendar::splitAppGeneratedCalendarUri($name);
 	}
 
-	public function splitAppGeneratedCalendarUriDataProvider():array {
+	public static function splitAppGeneratedCalendarUriDataProvider():array {
 		return [
 			['personal'],
 			['foo_shared_by_admin'],

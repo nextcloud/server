@@ -20,21 +20,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PruneOutdatedSyncTokensJobTest extends TestCase {
-	/** @var ITimeFactory | MockObject */
-	private $timeFactory;
-
-	/** @var CalDavBackend | MockObject */
-	private $calDavBackend;
-
-	/** @var CardDavBackend | MockObject */
-	private $cardDavBackend;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
+	private ITimeFactory&MockObject $timeFactory;
+	private CalDavBackend&MockObject $calDavBackend;
+	private CardDavBackend&MockObject $cardDavBackend;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private PruneOutdatedSyncTokensJob $backgroundJob;
 
 	protected function setUp(): void {
@@ -84,7 +74,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob->run(null);
 	}
 
-	public function dataForTestRun(): array {
+	public static function dataForTestRun(): array {
 		return [
 			['100', '2', 100, 7 * 24 * 3600, 2, 3],
 			['100', '14', 100, 14 * 24 * 3600, 2, 3],
