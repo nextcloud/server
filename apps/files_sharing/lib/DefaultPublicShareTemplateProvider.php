@@ -91,6 +91,9 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 				'disclaimer',
 				$this->appConfig->getValueString('core', 'shareapi_public_link_disclaimertext'),
 			);
+			// file drops do not request the root folder so we need to provide label and note if available
+			$this->initialState->provideInitialState('label', $share->getLabel());
+			$this->initialState->provideInitialState('note', $share->getNote());
 		}
 		// Set up initial state
 		$this->initialState->provideInitialState('isPublic', true);
