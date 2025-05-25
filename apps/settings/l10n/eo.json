@@ -194,7 +194,6 @@
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Ĉiam estas bone krei savkopiojn de viaj datumoj. Se tiuj ĉi lastaj estas ĉifritaj, certigu, ke vi savkopias ankaŭ la ĉifroŝlosilon kune kun la datumoj.",
     "This is the final warning: Do you really want to enable encryption?" : "Jen la fina averto: ĉu vi certe volas ŝalti ĉifradon?",
     "Submit" : "Sendi",
-    "Remove group" : "Forigi grupon",
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
@@ -298,6 +297,7 @@
     "Check out our blog" : "Vizitu nian blogon",
     "Subscribe to our newsletter" : "Aboni nian retan bultenon",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
-    "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton."
+    "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
+    "Remove group" : "Forigi grupon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

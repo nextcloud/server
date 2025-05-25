@@ -366,7 +366,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Dit is de laatste waarschuwing: Wil je versleuteling echt inschakelen?",
     "Submit" : "Verwerken",
     "Rename group" : "Hernoem groep",
-    "Remove group" : "Groep verwijderen",
     "Current password" : "Huidig wachtwoord",
     "New password" : "Nieuw wachtwoord",
     "Change password" : "Wijzig wachtwoord",
@@ -635,6 +634,7 @@ OC.L10N.register(
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Als u toepassingen van derden gebruikt om met Nextcloud te verbinden, zorg er dan voor om voor elke app een wachtwoord te maken en te configureren voordat \"tweede factor authenticatie\" wordt geactiveerd.",
     "Logged in account must be a subadmin" : "Aangemeld account moet een subadmin zijn",
     "Set default expiration date for shares" : "Instellen standaard vervaldatum voor deellinks",
+    "Remove group" : "Groep verwijderen",
     "Your biography" : "Jouw biografie",
     "You are using <strong>{usage}</strong>" : "Je gebruikt <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Je gebruikt <strong>{usage}</strong> van <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

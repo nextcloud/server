@@ -258,7 +258,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Esta es la advertencia final: ¿Realmente deseas habilitar la encripción?",
     "Submit" : "Enviar",
     "Rename group" : "Renombrar grupo",
-    "Remove group" : "Eliminar grupo",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
@@ -458,6 +457,7 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Utiliza un segundo factor además de tu contraseña para aumentar la seguridad de tu cuenta.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si utilizas aplicaciones de terceros para conectarte a Nextcloud, asegúrate de crear y configurar una contraseña de aplicación para cada una antes de habilitar la autenticación de segundo factor.",
     "Set default expiration date for shares" : "Establecer fecha de vencimiento predeterminada para los compartidos",
+    "Remove group" : "Eliminar grupo",
     "Your biography" : "Tu biografía",
     "You are using <strong>{usage}</strong>" : "Estás usando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Estás usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
