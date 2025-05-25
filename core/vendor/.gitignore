@@ -42,12 +42,6 @@ jquery/**
 !jquery/dist/jquery.*
 !jquery/MIT-LICENSE.txt
 
-# jquery-ui
-jquery-ui/**
-!jquery-ui/themes/base/jquery-ui.css
-!jquery-ui/jquery-ui.min.js
-!jquery-ui/.bower.json
-
 # jcrop
 jcrop/index.html
 jcrop/demos
