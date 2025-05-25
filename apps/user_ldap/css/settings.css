@@ -217,8 +217,3 @@ select[multiple=multiple] + button {
 #ldapSettings {
 	padding: 0;
 }
-
-ul.ui-multiselect-checkboxes label {
-	display: flex;
-	align-items: center;
-}
