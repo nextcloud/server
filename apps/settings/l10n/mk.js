@@ -257,7 +257,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Ова е последно предупредување: Дали навистина сакате да овозможите енкрипција?",
     "Submit" : "Испрати",
     "Rename group" : "Преименувај група",
-    "Remove group" : "Отстрани група",
     "Current password" : "Моментална лозинка",
     "New password" : "Нова лозинка",
     "Change password" : "Промени лозинка",
@@ -458,6 +457,7 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Користете втор фактор и покрај вашата лозинка за да ја зголемите безбедноста на вашата сметка.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Доколку користите друга апликација за поврзување на Nextcloud, осигурајте се дека имате креирано лозинка за секоја апликација пред да овозможите втор фактор.",
     "Set default expiration date for shares" : "Постави основен рок на траење за споделувањата",
+    "Remove group" : "Отстрани група",
     "Your biography" : "Ваша биографија",
     "You are using <strong>{usage}</strong>" : "Користите <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Користите <strong>{usage}</strong> од <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

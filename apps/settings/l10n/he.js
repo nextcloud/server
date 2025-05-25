@@ -212,7 +212,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "תמיד טוב ליצור גיבוי קבוע למידע , במקרה של הצפנה יש לוודא שגם מפתחות ההצפנה מגובים עם המידע שלך.",
     "This is the final warning: Do you really want to enable encryption?" : "זו הזהרה אחרונה: האם באמת ברצונך להפעיל הצפנה?",
     "Submit" : "שליחה",
-    "Remove group" : "הסרת קבוצה",
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
     "Change password" : "שינוי סיסמא",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "הרשמה לרשימת הדיוור שלנו",
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
-    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים"
+    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים",
+    "Remove group" : "הסרת קבוצה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");
