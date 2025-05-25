@@ -839,12 +839,12 @@ class AccountManagerTest extends TestCase {
 					->willReturn($serverResponse);
 				$client->expects(self::once())
 					->method('get')
-					->with('https://example.com/api/v1/accounts/lookup?acct=foo@example.com')
+					->with('https://example.com/.well-known/webfinger?resource=acct:foo@example.com')
 					->willReturn($response);
 			} else {
 				$client->expects(self::once())
 					->method('get')
-					->with('https://example.com/api/v1/accounts/lookup?acct=foo@example.com')
+					->with('https://example.com/.well-known/webfinger?resource=acct:foo@example.com')
 					->willThrowException(new \Exception('404'));
 			}
 
