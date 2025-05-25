@@ -123,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - webpack
-	- version: 5.99.7
+	- version: 5.99.9
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
