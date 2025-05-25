@@ -57,6 +57,8 @@ if ($config->getSystemValueBool('installed', false)) {
 
 	$application->add(Server::get(Command\Info\File::class));
 	$application->add(Server::get(Command\Info\Space::class));
+	$application->add(Server::get(Command\Info\Storage::class));
+	$application->add(Server::get(Command\Info\Storages::class));
 
 	$application->add(Server::get(Command\Db\ConvertType::class));
 	$application->add(Server::get(Command\Db\ConvertMysqlToMB4::class));
