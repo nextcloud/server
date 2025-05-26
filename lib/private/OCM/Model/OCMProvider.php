@@ -77,22 +77,22 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
-	  * returns the invite accept dialog
-	  *
-	  * @return string
-	  * @since 32.0.0
-	  */
+	 * returns the invite accept dialog
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
 	public function getInviteAcceptDialog(): string {
 		return $this->inviteAcceptDialog;
 	}
 
 	/**
-	  * set the invite accept dialog
-	  *
-	  * @param string $inviteAcceptDialog
-	  *
-	  * @return $this
-	  * @since 32.0.0
+	 * set the invite accept dialog
+	 *
+	 * @param string $inviteAcceptDialog
+	 *
+	 * @return $this
+	 * @since 32.0.0
 	 */
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
 		$this->inviteAcceptDialog = $inviteAcceptDialog;
@@ -298,15 +298,15 @@ class OCMProvider implements IOCMProvider {
 			'resourceTypes' => $resourceTypes
 		];
 
-			$capabilities = $this->getCapabilities();
-			$inviteAcceptDialog = $this->getInviteAcceptDialog();
-			if ($capabilities) {
-				$response['capabilities'] = $capabilities;
-			}
-			if ($inviteAcceptDialog) {
-				$response['inviteAcceptDialog'] = $inviteAcceptDialog;
-			}
-			return $response;
+		$capabilities = $this->getCapabilities();
+		$inviteAcceptDialog = $this->getInviteAcceptDialog();
+		if ($capabilities) {
+			$response['capabilities'] = $capabilities;
+		}
+		if ($inviteAcceptDialog) {
+			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
+		}
+		return $response;
 
 	}
 }

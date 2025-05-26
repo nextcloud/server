@@ -35,8 +35,7 @@ use OCP\DB\Types;
  * @method void setUserId(string $userId)
  */
 
-class FederatedInvite extends Entity
-{
+class FederatedInvite extends Entity {
 	protected bool $accepted;
 	protected ?int $acceptedAt;
 	protected int $createdAt;
@@ -48,8 +47,7 @@ class FederatedInvite extends Entity
 	protected string $token;
 	protected string $userId;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->addType('accepted', Types::BOOLEAN);
 		$this->addType('acceptedAt', Types::BIGINT);
 		$this->addType('createdAt', Types::BIGINT);
