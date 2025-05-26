@@ -741,6 +741,23 @@ class AccountManager implements IAccountManager {
 					if (!is_array($decoded) || ($decoded['subject'] ?? '') !== "acct:{$username}@{$instance}") {
 						throw new InvalidArgumentException();
 					}
+					// check for activitypub link
+					if (is_array($decoded['links']) && isset($decoded['links'])) {
+						$found = false;
+						foreach ($decoded['links'] as $link) {
+							// have application/activity+json or application/ld+json
+							if (isset($link['type']) && (
+								$link['type'] === 'application/activity+json' ||
+								$link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+							)) {
+								$found = true;
+								break;
+							}
+						}
+						if (!$found) {
+							throw new InvalidArgumentException();
+						}
+					}
 				} catch (InvalidArgumentException) {
 					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
 				} catch (\Exception $error) {
