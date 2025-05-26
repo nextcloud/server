@@ -225,7 +225,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Benit semper a bene a creare còpias de seguresa regulares de is datos tuos, in casu de tzifradura assegura•ti de creare còpia de is craes de tzfradura paris cun is datos tuos.",
     "This is the final warning: Do you really want to enable encryption?" : "Custu est s'ùrtimu avisu : a beru boles ativare sa tzifradura?",
     "Submit" : "Imbia",
-    "Remove group" : "Boga·nche grupu",
     "Current password" : "Crae currente",
     "New password" : "Crae noa",
     "Change password" : "Càmbia crae",

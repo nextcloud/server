@@ -159,7 +159,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "การสำรองข้อมูลของคุณเป็นประจำเป็นเรื่องที่ดีเสมอ ในกรณีของการเข้ารหัส อย่าลืมสำรองคีย์เข้ารหัสพร้อมข้อมูลของคุณด้วย",
     "This is the final warning: Do you really want to enable encryption?" : "นี่คือการเตือนครั้งสุดท้าย: คุณต้องการเปิดใช้การเข้ารหัสจริง ๆ หรือไม่?",
     "Submit" : "ส่ง",
-    "Remove group" : "ลบกลุ่ม",
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
     "Change password" : "เปลี่ยนรหัสผ่าน",

@@ -228,7 +228,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Uvijek je dobra ideja redovito izrađivati sigurnosne kopije podataka; ako upotrebljavate šifriranje, obavezno sigurnosno kopirajte ključeve za šifriranje zajedno sa svojim podacima.",
     "This is the final warning: Do you really want to enable encryption?" : "Ovo je posljednje upozorenje: želite li zaista omogućiti šifriranje?",
     "Submit" : "Šalji",
-    "Remove group" : "Ukloni grupu",
     "Current password" : "Trenutna zaporka",
     "New password" : "Nova zaporka",
     "Change password" : "Promijeni zaporku",

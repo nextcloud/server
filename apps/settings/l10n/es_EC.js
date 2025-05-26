@@ -258,7 +258,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Esta es la advertencia final: ¿Realmente deseas habilitar la encripción?",
     "Submit" : "Enviar",
     "Rename group" : "Renombrar grupo",
-    "Remove group" : "Eliminar grupo",
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",

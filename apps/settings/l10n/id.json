@@ -212,7 +212,6 @@
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Alangkah baiknya untuk membuat cadangan data secara rutin, dalam kasus enkripsi, pastikan untuk mencadangkan kunci enkripsi bersama dengan data Anda.",
     "This is the final warning: Do you really want to enable encryption?" : "Ini adalah peringatan terakhir: Apakah Anda yakin ingin mengaktifkan enkripsi?",
     "Rename group" : "Ganti nama grup",
-    "Remove group" : "Hapus grup",
     "Current password" : "Kata sandi saat ini",
     "New password" : "Kata sandi baru",
     "Change password" : "Ubah kata sandi",

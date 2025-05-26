@@ -136,7 +136,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Šis ir pēdējais brīdinājums: vai tiešām iespējot šifrēšanu?",
     "Submit" : "Iesniegt",
     "Rename group" : "Pārdēvēt kopu",
-    "Remove group" : "Noņemt grupu",
     "Current password" : "Pašreizējā parole",
     "New password" : "Jaunā parole",
     "Change password" : "Mainīt paroli",

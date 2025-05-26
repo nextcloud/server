@@ -147,7 +147,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Është gjithmonë ide e mirë të krijohen kopjeruajtje të rregullta të të dhënave tuaja, në rast fshehtëzimi sigurohuni që bëni kopjeruajtje të kyçeve të fshehtëzimit, tok me të dhënat tuaja.",
     "This is the final warning: Do you really want to enable encryption?" : "Ky është sinjalizimi përfundimtar: Doni vërtet të aktivizohet fshehtëzimi?",
     "Submit" : "Dërgo",
-    "Remove group" : "Hiq grupin",
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",

@@ -266,7 +266,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "این آخرین اخطار است: آیا می‌خواهید رمزگذاری را فعال کنید ؟",
     "Submit" : "ارسال",
     "Rename group" : "Rename group",
-    "Remove group" : "برداشتن گروه",
     "Current password" : "گذرواژه کنونی",
     "New password" : "گذرواژه جدید",
     "Change password" : "تغییر گذر واژه",

@@ -210,7 +210,6 @@
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "תמיד טוב ליצור גיבוי קבוע למידע , במקרה של הצפנה יש לוודא שגם מפתחות ההצפנה מגובים עם המידע שלך.",
     "This is the final warning: Do you really want to enable encryption?" : "זו הזהרה אחרונה: האם באמת ברצונך להפעיל הצפנה?",
     "Submit" : "שליחה",
-    "Remove group" : "הסרת קבוצה",
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
     "Change password" : "שינוי סיסמא",

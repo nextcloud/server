@@ -366,7 +366,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Dit is de laatste waarschuwing: Wil je versleuteling echt inschakelen?",
     "Submit" : "Verwerken",
     "Rename group" : "Hernoem groep",
-    "Remove group" : "Groep verwijderen",
     "Current password" : "Huidig wachtwoord",
     "New password" : "Nieuw wachtwoord",
     "Change password" : "Wijzig wachtwoord",

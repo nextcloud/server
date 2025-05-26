@@ -196,7 +196,6 @@ OC.L10N.register(
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Ĉiam estas bone krei savkopiojn de viaj datumoj. Se tiuj ĉi lastaj estas ĉifritaj, certigu, ke vi savkopias ankaŭ la ĉifroŝlosilon kune kun la datumoj.",
     "This is the final warning: Do you really want to enable encryption?" : "Jen la fina averto: ĉu vi certe volas ŝalti ĉifradon?",
     "Submit" : "Sendi",
-    "Remove group" : "Forigi grupon",
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
