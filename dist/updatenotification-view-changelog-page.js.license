@@ -60,7 +60,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - marked
-	- version: 15.0.11
+	- version: 15.0.12
 	- license: MIT
 - process
 	- version: 0.11.10
