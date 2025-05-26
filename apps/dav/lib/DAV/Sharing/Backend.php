@@ -89,14 +89,6 @@ abstract class Backend {
 
 			// Delete any possible direct shares (since the frontend does not separate between them)
 			$this->service->deleteShare($shareable->getResourceId(), $principal);
-
-			// Check if a user has a groupshare that they're trying to free themselves from
-			// If so we need to add a self::ACCESS_UNSHARED row
-			if (!str_contains($principal, 'group')
-				&& $this->service->hasGroupShare($oldShares)
-			) {
-				$this->service->unshare($shareable->getResourceId(), $principal);
-			}
 		}
 	}
 
@@ -202,5 +194,46 @@ abstract class Backend {
 			}
 		}
 		return $acl;
+	}
+
+	public function unshare(IShareable $shareable, string $principalUri): bool {
+		$this->shareCache->clear();
+		
+		$principal = $this->principalBackend->findByUri($principalUri, '');
+		if (empty($principal)) {
+			return false;
+		}
+
+		if ($shareable->getOwner() === $principal) {
+			return false;
+		}
+
+		// Delete any possible direct shares (since the frontend does not separate between them)
+		$this->service->deleteShare($shareable->getResourceId(), $principal);
+
+		$needsUnshare = $this->hasAccessByGroupOrCirclesMembership(
+			$shareable->getResourceId(),
+			$principal
+		);
+
+		if ($needsUnshare) {
+			$this->service->unshare($shareable->getResourceId(), $principal);
+		}
+
+		return true;
+	}
+
+	private function hasAccessByGroupOrCirclesMembership(int $resourceId, string $principal) {
+		$memberships = array_merge(
+			$this->principalBackend->getGroupMembership($principal, true),
+			$this->principalBackend->getCircleMembership($principal)
+		);
+
+		$shares = array_column(
+			$this->service->getShares($resourceId),
+			'principaluri'
+		);
+
+		return count(array_intersect($memberships, $shares)) > 0;
 	}
 }

@@ -44,12 +44,13 @@ class CalendarTest extends TestCase {
 	}
 
 	public function testDelete(): void {
-		/** @var MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
-		$backend->expects($this->once())->method('updateShares');
-		$backend->expects($this->any())->method('getShares')->willReturn([
-			['href' => 'principal:user2']
-		]);
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())
+			->method('updateShares');
+		$backend->expects($this->once())
+			->method('unshare');
+
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
@@ -62,12 +63,13 @@ class CalendarTest extends TestCase {
 
 
 	public function testDeleteFromGroup(): void {
-		/** @var MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
-		$backend->expects($this->once())->method('updateShares');
-		$backend->expects($this->any())->method('getShares')->willReturn([
-			['href' => 'principal:group2']
-		]);
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())
+			->method('updateShares');
+		$backend->expects($this->once())
+			->method('unshare');
+
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
