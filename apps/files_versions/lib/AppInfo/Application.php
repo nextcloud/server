@@ -62,26 +62,6 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerCapability(Capabilities::class);
 
-		/**
-		 * Register $principalBackend for the DAV collection
-		 */
-		$context->registerService('principalBackend', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-			return new Principal(
-				$server->get(IUserManager::class),
-				$server->get(IGroupManager::class),
-				Server::get(IAccountManager::class),
-				$server->get(IShareManager::class),
-				$server->get(IUserSession::class),
-				$server->get(IAppManager::class),
-				$server->get(ProxyMapper::class),
-				$server->get(KnownUserService::class),
-				$server->get(IConfig::class),
-				$server->get(IFactory::class),
-			);
-		});
-
 		$context->registerServiceAlias(IVersionManager::class, VersionManager::class);
 
 		/**

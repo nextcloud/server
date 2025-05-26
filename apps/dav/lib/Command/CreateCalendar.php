@@ -8,6 +8,7 @@
 namespace OCA\DAV\Command;
 
 use OC\KnownUser\KnownUserService;
+use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
@@ -54,6 +55,10 @@ class CreateCalendar extends Command {
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
 		}
+
+		$principalUri = "principals/users/$user";
+		$authPlugin = new CustomPrincipalPlugin();
+		$authPlugin->setCurrentPrincipal($principalUri);
 		$principalBackend = new Principal(
 			$this->userManager,
 			$this->groupManager,
@@ -65,6 +70,7 @@ class CreateCalendar extends Command {
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
 			\OC::$server->getL10NFactory(),
+			$authPlugin,
 		);
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);
@@ -81,7 +87,7 @@ class CreateCalendar extends Command {
 			$config,
 			Server::get(Backend::class),
 		);
-		$caldav->createCalendar("principals/users/$user", $name, []);
+		$caldav->createCalendar($principalUri, $name, []);
 		return self::SUCCESS;
 	}
 }

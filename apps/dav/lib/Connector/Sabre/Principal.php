@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCA\Circles\Model\Circle;
+use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\Accounts\IAccountManager;
@@ -23,9 +24,9 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -49,12 +50,12 @@ class Principal implements BackendInterface {
 		private IGroupManager $groupManager,
 		private IAccountManager $accountManager,
 		private IShareManager $shareManager,
-		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private ProxyMapper $proxyMapper,
 		KnownUserService $knownUserService,
 		private IConfig $config,
-		private IFactory $languageFactory,
+		private IFactory$languageFactory,
+		private AuthPlugin $authPlugin,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = trim($principalPrefix, '/');
@@ -64,6 +65,25 @@ class Principal implements BackendInterface {
 
 	use PrincipalProxyTrait {
 		getGroupMembership as protected traitGetGroupMembership;
+	}
+
+	private function getUserForCurrentPrincipal(): ?IUser {
+		$currentPrincipal = $this->authPlugin->getCurrentPrincipal();
+		if ($currentPrincipal === PublicPrincipalPlugin::PUBLIC_PRINCIPAL) {
+			return null;
+		}
+
+		$parts = explode('/', $currentPrincipal);
+		if (count($parts) !== 3) {
+			return null;
+		}
+
+		[, $collection, $userId] = $parts;
+		if ($collection !== 'users') {
+			return null;
+		}
+
+		return $this->userManager->get($userId);
 	}
 
 	/**
@@ -129,7 +149,7 @@ class Principal implements BackendInterface {
 				return $this->userToPrincipal($user);
 			}
 		} elseif ($prefix === 'principals/circles') {
-			if ($this->userSession->getUser() !== null) {
+			if ($this->getUserForCurrentPrincipal() !== null) {
 				// At the time of writing - 2021-01-19 — a mixed state is possible.
 				// The second condition can be removed when this is fixed.
 				return $this->circleToPrincipal($decodedName)
@@ -233,7 +253,7 @@ class Principal implements BackendInterface {
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
 		$restrictGroups = false;
-		$currentUser = $this->userSession->getUser();
+		$currentUser = $this->getUserForCurrentPrincipal();
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
 			if (!$currentUser instanceof IUser) {
 				return [];
@@ -423,7 +443,7 @@ class Principal implements BackendInterface {
 		// return only members that have groups in common
 		$restrictGroups = false;
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
-			$user = $this->userSession->getUser();
+			$user = $this->getUserForCurrentPrincipal();
 			if (!$user) {
 				return null;
 			}

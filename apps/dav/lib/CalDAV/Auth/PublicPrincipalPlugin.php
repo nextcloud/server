@@ -14,7 +14,9 @@ use Sabre\DAV\Auth\Plugin;
  * Defines the public facing principal option
  */
 class PublicPrincipalPlugin extends Plugin {
+	public const PUBLIC_PRINCIPAL = 'principals/system/public';
+
 	public function getCurrentPrincipal(): ?string {
-		return 'principals/system/public';
+		return self::PUBLIC_PRINCIPAL;
 	}
 }

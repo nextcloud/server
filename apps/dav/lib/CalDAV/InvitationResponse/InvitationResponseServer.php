@@ -40,7 +40,12 @@ class InvitationResponseServer {
 		$logger = Server::get(LoggerInterface::class);
 		$dispatcher = Server::get(IEventDispatcher::class);
 
-		$root = new RootCollection();
+		// allow custom principal uri option
+		if ($public) {
+			$root = new RootCollection(new PublicPrincipalPlugin());
+		} else {
+			$root = new RootCollection(new CustomPrincipalPlugin());
+		}
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
@@ -55,13 +60,6 @@ class InvitationResponseServer {
 			Server::get(ThemingDefaults::class),
 		));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
-
-		// allow custom principal uri option
-		if ($public) {
-			$this->server->addPlugin(new PublicPrincipalPlugin());
-		} else {
-			$this->server->addPlugin(new CustomPrincipalPlugin());
-		}
 
 		// allow setup of additional auth backends
 		$event = new SabrePluginAuthInitEvent($this->server);
