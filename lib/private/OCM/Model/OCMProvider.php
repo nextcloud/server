@@ -15,13 +15,13 @@ use OCP\IConfig;
 use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
-use OCP\OCM\IOCMProvider;
+use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMResource;
 
 /**
  * @since 28.0.0
  */
-class OCMProvider implements IOCMProvider {
+class OCMProvider implements ICapabilityAwareOCMProvider {
 	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';

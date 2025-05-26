@@ -16,7 +16,7 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMArgumentException;
-use OCP\OCM\IOCMProvider;
+use OCP\OCM\ICapabilityAwareOCMProvider;
 use Psr\Log\LoggerInterface;
 
 class Capabilities implements ICapability, IInitialStateExcludedCapability {
@@ -25,7 +25,7 @@ class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	public function __construct(
 		private IURLGenerator $urlGenerator,
 		private IAppConfig $appConfig,
-		private IOCMProvider $provider,
+		private ICapabilityAwareOCMProvider $provider,
 		private readonly OCMSignatoryManager $ocmSignatoryManager,
 		private readonly LoggerInterface $logger,
 	) {
