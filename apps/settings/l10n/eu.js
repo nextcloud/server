@@ -839,9 +839,6 @@ OC.L10N.register(
     "for WebAuthn passwordless login, and SFTP storage" : "WebAuthn pasahitzik gabeko saio-hasiera eta SFTP biltegiratzerako",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL \"%s\" bertsioa detektatu da. PostgreSQL >=12 eta <=16 iradokitzen da Nextcloud-en bertsio honekin errendimendu, egonkortasun eta funtzionalitate onena lortzeko.",
     "Set default expiration date for shares" : "Partekatzeei iraungitze data lehenetsia ezarri",
-    "Failed to remove group \"{group}\"" : "Ezin izan da \"{group}\" taldea kendu",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "\"{group}\" taldea ezabatzera zoaz. Kontuak EZ dira ezabatuko.",
-    "Remove group" : "Ezabatu taldea",
     "Your biography" : "Zure biografia",
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong> erabiltzen ari zara",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "<strong>{usage}</strong>/<strong>{totalSpace}</strong> erabiltzen ari zara (<strong>{usageRelative}%</strong>)"

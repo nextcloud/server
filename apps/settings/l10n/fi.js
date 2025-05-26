@@ -528,9 +528,6 @@ OC.L10N.register(
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Jos yhdistät kolmannen osapuolen ohjelmia Nextcloudiin, määritä niille sovellussalasanat ennen kaksiosaisen todentamismenetelmän käyttöönottoa.",
     "File locking" : "Tiedostolukitus",
     "Set default expiration date for shares" : "Aseta oletusarvoinen vanhenemispäivä jaoille",
-    "Failed to remove group \"{group}\"" : "Ryhmän \"{group}\" poistaminen epäonnistui",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Olet aikeissa poistaa ryhmän \"{group}\". Tilejä EI poisteta.",
-    "Remove group" : "Poista ryhmä",
     "Your biography" : "Sinun elämäkertasi",
     "You are using <strong>{usage}</strong>" : "Käytössäsi on <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Käytössäsi on <strong>{usage}</strong>/<strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

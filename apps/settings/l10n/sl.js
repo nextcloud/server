@@ -692,9 +692,6 @@ OC.L10N.register(
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Zaklepanje datotek je onemogočeno, kar lahko privede do različnih težav. V izogib zapletom je priporočljivo omogočiti možnost »filelocking.enabled« v datoteki config.php.",
     "The PHP memory limit is below the recommended value of %s." : "Omejitev pomnilnika PHP je pod priporočeno mejo %s.",
     "Set default expiration date for shares" : "Nastavi privzeti datuma poteka za mesta souporabe",
-    "Failed to remove group \"{group}\"" : "Odstranjevanje skupine »{group}« je spodlotelo",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Odstranili boste skupino »{group}«. Računi ne bodo izbrisani.",
-    "Remove group" : "Odstrani skupino",
     "Your biography" : "Biografija",
     "You are using <strong>{usage}</strong>" : "Uporabljate <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Uporabljate <strong>{usage}</strong> od <strong>{totalSpace}</strong> (<strong>{usageRelative} %</strong>)"

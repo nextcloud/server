@@ -475,9 +475,6 @@ OC.L10N.register(
     "Subscribe to our newsletter" : "Prenumeruokite mūsų naujienlaiškį",
     "Use a second factor besides your password to increase security for your account." : "Be savo slaptažodžio naudokite ir antrąjį faktorių, kad padidintumėte savo paskyros saugumą.",
     "Set default expiration date for shares" : "Nustatyti viešiniams numatytąją galiojimo pabaigos datą",
-    "Failed to remove group \"{group}\"" : "Nepavyko pašalinti grupės „{group}“",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Jūs ketinate pašalinti grupę „{group}“. Paskyros NEBUS ištrintos.",
-    "Remove group" : "Šalinti grupę",
     "Your biography" : "Jūsų biografija",
     "You are using <strong>{usage}</strong>" : "Jūs naudojate <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jūs naudojate <strong>{usage}</strong> iš <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

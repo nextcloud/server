@@ -882,9 +882,6 @@
     "for WebAuthn passwordless login, and SFTP storage" : "para acceso sen contrasinal de WebAuthn, e almacenamento SFTP",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Detectouse a versión «%s» de PostgreSQL. Suxírese PostgreSQL >=12 e <=16 para un mellor rendemento, estabilidade e funcionalidade con esta versión de Nextcloud.",
     "Set default expiration date for shares" : "Definir a data de caducidade predeterminada das comparticións",
-    "Failed to remove group \"{group}\"" : "Produciuse un fallo ao retirar o grupo «{group}»",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Está a piques de retirar o grupo «{group}». As contas NON van ser eliminadas.",
-    "Remove group" : "Retirar o grupo",
     "Your biography" : "A súa biografía",
     "You are using <strong>{usage}</strong>" : "Está a usar <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Está a usar <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

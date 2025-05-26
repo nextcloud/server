@@ -811,9 +811,6 @@
     "for WebAuthn passwordless login, and SFTP storage" : "WebAuthn پارولسىز كىرىش ۋە SFTP ساقلاش ئۈچۈن",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL نەشرى \"% s\" بايقالدى. PostgreSQL> = 12 ۋە <= 16 Nextcloud نىڭ بۇ نەشرى بىلەن ئەڭ ياخشى ئىقتىدار ، مۇقىملىق ۋە ئىقتىدار ئۈچۈن تەۋسىيە قىلىنىدۇ.",
     "Set default expiration date for shares" : "پاي چېكىنىڭ سۈكۈتتىكى مۇددىتىنى بەلگىلەڭ",
-    "Failed to remove group \"{group}\"" : "«{group}» گۇرۇپپىسىنى ئۆچۈرەلمىدى",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "سىز «{group}» گۇرۇپپىسىنى ئۆچۈرمەكچى بولۇۋاتىسىز. ھېساباتلار ئۆچۈرۈلمەيدۇ.",
-    "Remove group" : "گۇرۇپپىنى ئۆچۈرۈڭ",
     "Your biography" : "تەرجىمىھالىڭىز",
     "You are using <strong>{usage}</strong>" : "سىز <strong> {usage} </strong> نى ئىشلىتىۋاتىسىز",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "سىز <strong> {usage} </strong> نىڭ <strong> {totalSpace} </strong> نى ئىشلىتىۋاتىسىز (<strong> {usageRelative}% </strong>)"

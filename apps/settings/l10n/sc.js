@@ -376,7 +376,6 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Imprea unu segundu fatore a parte sa crae tua pro crèschere sa seguresa de su contu tuo.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si impreas aplicatziones de sa de tres partes pro ti connètere a Nextcloud, assegura•ti de creare e cunfigurare una crae pro cada aplicatzione antis de ativare su segundu fatore de autenticatzione.",
     "Set default expiration date for shares" : "Cunfigura sa data de iscadèntzia predefinida pro is cumpartziduras",
-    "Remove group" : "Boga·nche grupu",
     "Your biography" : "Sa biografia tua"
 },
 "nplurals=2; plural=(n != 1);");

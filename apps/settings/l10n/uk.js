@@ -758,8 +758,6 @@ OC.L10N.register(
     "for WebAuthn passwordless login" : "для безпарольного входу за допомогою WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "для безпарольного входу за допомогою WebAuthn та сховище SFTP",
     "Set default expiration date for shares" : "Встановити типовий термін дії для спільних ресурсів",
-    "Failed to remove group \"{group}\"" : "Не вдалося вилучити групу \"{group}\"",
-    "Remove group" : "Вилучити групу",
     "Your biography" : "Коротко про себе",
     "You are using <strong>{usage}</strong>" : "Ви використовуєте <strong>{usage}",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Ви використовуєте <strong>{usage}</strong> із <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

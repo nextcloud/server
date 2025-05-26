@@ -222,7 +222,6 @@ OC.L10N.register(
     "Check out our blog" : "Donar un còp d’uèlh a nòstre blòg",
     "Subscribe to our newsletter" : "S’abonar a l’infoletra",
     "Set default expiration date for shares" : "Definir una data d’expiracion per defaut pels partatges",
-    "Remove group" : "Suprimir lo grop",
     "Your biography" : "Vòstra biografia"
 },
 "nplurals=2; plural=(n > 1);");

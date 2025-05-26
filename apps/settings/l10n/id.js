@@ -322,7 +322,6 @@ OC.L10N.register(
     "Check out our blog" : "Cek blog kami",
     "Subscribe to our newsletter" : "Berlangganan surat berita kami",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Rilis komunitas Nextcloud ini tidak didukung dan pemberitahuan instan tidak tersedia.",
-    "Remove group" : "Hapus grup",
     "Your biography" : "Biografi Anda"
 },
 "nplurals=1; plural=0;");
