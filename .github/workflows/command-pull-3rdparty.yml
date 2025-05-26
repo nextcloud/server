@@ -61,7 +61,7 @@ jobs:
                 core.exportVariable('server_ref', match[0]);
                 console.log('Setting server_ref to ' + match[0]);
               } else {
-                console.log('Not based on master/main/stable*, so skipping freeze check');
+                console.log('Not based on master/main/stable*, so skipping pull 3rdparty command');
               }
             }
 

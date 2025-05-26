@@ -50,8 +50,9 @@ jobs:
           PREVIOUS_TAG=$(echo "$TAGS" | grep -v 'rc\|beta\|alpha' | sed -n '2p')
           echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_ENV
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" >> $GITHUB_ENV
-          
-      - name: Verify current tag
+
+      # Since this action only runs on nextcloud-releases, ignoring is okay
+      - name: Verify current tag # zizmor: ignore[template-injection]
         run: |
          if [ "${{ github.ref_name }}" != "${{ env.CURRENT_TAG }}" ]; then
            echo "Current tag does not match the release tag. Exiting."
@@ -71,7 +72,8 @@ jobs:
         run: |
           echo '{"username": "github-actions"}' > github_helper/credentials.json
 
-      - name: Generate changelog between ${{ env.PREVIOUS_TAG }} and ${{ github.ref_name }}
+      # Since this action only runs on nextcloud-releases, ignoring is okay
+      - name: Generate changelog between ${{ env.PREVIOUS_TAG }} and ${{ github.ref_name }} # zizmor: ignore[template-injection]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -79,7 +81,8 @@ jobs:
           composer install
           php index.php generate:changelog --no-bots --format=forum server ${{ env.PREVIOUS_TAG }} ${{ github.ref_name }} > changelog.md
 
-      - name: Set changelog to release
+      # Since this action only runs on nextcloud-releases, ignoring is okay
+      - name: Set changelog to release # zizmor: ignore[template-injection]
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

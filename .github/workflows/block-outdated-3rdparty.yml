@@ -56,22 +56,24 @@ jobs:
                 core.exportVariable('server_ref', match[0]);
                 console.log('Setting server_ref to ' + match[0]);
               } else {
-                console.log('Not based on master/main/stable*, so skipping freeze check');
+                console.log('Not based on master/main/stable*, so skipping outdated 3rdparty check');
               }
             }
 
       - name: Last 3rdparty commit on target branch
+        if: ${{ env.server_ref != '' }}
         id: target
         run: |
           echo "commit=$(git ls-remote https://github.com/nextcloud/3rdparty refs/heads/${{ env.server_ref }} | awk '{ print $1}')" >> "$GITHUB_OUTPUT"
 
       - name: Compare if 3rdparty commits are different
+        if: ${{ env.server_ref != '' }}
         run: |
           echo '3rdparty/ seems to not point to the last commit of the dedicated branch:'
           echo 'Branch has: ${{ steps.actual.outputs.commit }}'
           echo '${{ env.server_ref }} has: ${{ steps.target.outputs.commit }}'
 
       - name: Fail if 3rdparty commits are different
-        if: ${{ steps.changes.outputs.src != 'false' && steps.actual.outputs.commit != steps.target.outputs.commit }}
+        if: ${{ env.server_ref != '' && steps.changes.outputs.src != 'false' && steps.actual.outputs.commit != steps.target.outputs.commit }}
         run: |
           exit 1
