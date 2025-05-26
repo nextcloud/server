@@ -5,7 +5,6 @@
 
 <template>
 	<form id="generate-app-token-section"
-		class="row spacing"
 		@submit.prevent="submit">
 		<!-- Port to TextField component when available -->
 		<NcTextField :value.sync="deviceName"
@@ -79,19 +78,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-	.app-name-text-field {
-		height: 44px !important;
-		padding-inline-start: 12px;
-		margin-inline-end: 12px;
-		width: 200px;
-	}
-
-	.row {
+	#generate-app-token-section {
 		display: flex;
-		align-items: center;
-	}
-
-	.spacing {
+		flex-direction: column;
+		gap: 1rem;
+		max-width: 400px;
 		padding-top: 16px;
 	}
 </style>
