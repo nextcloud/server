@@ -272,7 +272,6 @@ OC.L10N.register(
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "ตรวจสอบความปลอดภัยของ Nextcloud ของคุณผ่าน<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">การสแกนความปลอดภัยของเรา ↗</a>",
     "Reasons to use Nextcloud in your organization" : "เหตุผลที่ควรใช้ Nextcloud ในองค์กรของคุณ",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "รุ่นที่ออกโดยชุมชนของ Nextcloud นี้ไม่ได้รับการสนับสนุน และไม่สามารถใช้งานการแจ้งเตือนทันทีได้",
-    "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
-    "Remove group" : "ลบกลุ่ม"
+    "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์"
 },
 "nplurals=1; plural=0;");

@@ -650,8 +650,6 @@ OC.L10N.register(
     "Logged in account must be a subadmin" : "A belépett felhasználónak al-adminnak kell lennie",
     "File locking" : "Fájlzárolás",
     "Set default expiration date for shares" : "A megosztások alapértelmezett lejárati idejének beállítása",
-    "Failed to remove group \"{group}\"" : "Nem sikerült a(z) „{group}” csoport törlése",
-    "Remove group" : "Csoport eltávolítása",
     "Your biography" : "Az Ön életrajza",
     "You are using <strong>{usage}</strong>" : "Ezt használja: <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Jelenleg <strong>{usage}</strong>-ot használ ennyiből: <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

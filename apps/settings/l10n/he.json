@@ -331,7 +331,6 @@
     "Subscribe to our newsletter" : "הרשמה לרשימת הדיוור שלנו",
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
-    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים",
-    "Remove group" : "הסרת קבוצה"
+    "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים"
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"
 }

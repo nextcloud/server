@@ -567,8 +567,6 @@ OC.L10N.register(
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems.",
     "The PHP memory limit is below the recommended value of %s." : "The PHP memory limit is below the recommended value of %s.",
     "Set default expiration date for shares" : "Set default expiration date for shares",
-    "Failed to remove group \"{group}\"" : "Failed to remove group \"{group}\"",
-    "Remove group" : "Remove group",
     "Your biography" : "Your biography",
     "You are using <strong>{usage}</strong>" : "You are using <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

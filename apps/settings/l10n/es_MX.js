@@ -761,9 +761,6 @@ OC.L10N.register(
     "for WebAuthn passwordless login" : "para el inicio de sesión sin contraseña de WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "para el inicio de sesión sin contraseña de WebAuthn y el almacenamiento SFTP",
     "Set default expiration date for shares" : "Establecer fecha de caducidad predeterminada para compartidos",
-    "Failed to remove group \"{group}\"" : "No se pudo eliminar el grupo \"{group}\"",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Está a punto de eliminar el grupo \"{group}\". Los usuarios NO serán eliminados.",
-    "Remove group" : "Eliminar grupo",
     "Your biography" : "Su biografía",
     "You are using <strong>{usage}</strong>" : "Está usando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Está usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

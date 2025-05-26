@@ -529,8 +529,6 @@
     "File locking" : "Bloquéu de ficheros",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "El bloquéu de ficheros transaicional ta desactiváu y esto quiciabes produza problemes con condiciones de carrera. Activa «filelocking.enabled» nel ficheru config.php pa evitar estos problemes.",
     "The PHP memory limit is below the recommended value of %s." : "La llende de memoria de PHP ye inferior al valor aconseyáu de %s.",
-    "Failed to remove group \"{group}\"" : "Nun se pue quitar el grupu «{group}»",
-    "Remove group" : "Quitar el grupu",
     "Your biography" : "Biografía",
     "You are using <strong>{usage}</strong>" : "Tas usando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Tas usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

@@ -823,9 +823,6 @@ OC.L10N.register(
     "for WebAuthn passwordless login, and SFTP storage" : "for WebAuthn-passordfripålogging og SFTP-lagring",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL-versjon \"%s\" oppdaget. PostgreSQL >=12 og <=16 foreslås for best ytelse, stabilitet og funksjonalitet med denne versjonen av Nextcloud.",
     "Set default expiration date for shares" : "Angi standard utløpsdato for delinger",
-    "Failed to remove group \"{group}\"" : "Fjerning av gruppe \"{group}\" feilet",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Du er i ferd med å fjerne gruppen \"{group}\". Kontoene vil IKKE bli slettet.",
-    "Remove group" : "Fjern gruppe",
     "Your biography" : "Din biografi",
     "You are using <strong>{usage}</strong>" : "Du bruker <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Du bruker <strong>{usage}</strong> av <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

@@ -691,8 +691,6 @@
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Il blocco di file transazionale è disattivato, ciò potrebbe comportare problemi di race condition. Attiva \"filelocking.enabled\" nel config.php per evitare questi problemi.",
     "The PHP memory limit is below the recommended value of %s." : "Il limite di memoria di PHP è inferiore al valore consigliato di %s.",
     "Set default expiration date for shares" : "Imposta data di scadenza predefinita per le condivisioni",
-    "Failed to remove group \"{group}\"" : "Rimozione del gruppo \"{group}\" fallita",
-    "Remove group" : "Rimuovi gruppo",
     "Your biography" : "La tua biografia",
     "You are using <strong>{usage}</strong>" : "Stai utilizzando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Stai utilizzando <strong>{usage}</strong> di <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
