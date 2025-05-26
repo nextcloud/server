@@ -300,6 +300,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\DirectEditing\\IToken' => __DIR__ . '/../../..' . '/lib/public/DirectEditing/IToken.php',
         'OCP\\DirectEditing\\RegisterDirectEditorEvent' => __DIR__ . '/../../..' . '/lib/public/DirectEditing/RegisterDirectEditorEvent.php',
         'OCP\\Encryption\\Exceptions\\GenericEncryptionException' => __DIR__ . '/../../..' . '/lib/public/Encryption/Exceptions/GenericEncryptionException.php',
+        'OCP\\Encryption\\Exceptions\\InvalidHeaderException' => __DIR__ . '/../../..' . '/lib/public/Encryption/Exceptions/InvalidHeaderException.php',
         'OCP\\Encryption\\IEncryptionModule' => __DIR__ . '/../../..' . '/lib/public/Encryption/IEncryptionModule.php',
         'OCP\\Encryption\\IFile' => __DIR__ . '/../../..' . '/lib/public/Encryption/IFile.php',
         'OCP\\Encryption\\IManager' => __DIR__ . '/../../..' . '/lib/public/Encryption/IManager.php',
