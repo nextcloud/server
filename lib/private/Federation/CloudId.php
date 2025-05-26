@@ -6,17 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCP\Federation;
+namespace OC\Federation;
 
-use OC\Federation\CloudIdManager;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 
-/**
- * Class CloudId
- *
- * @package OCP\Federation
- *
- * @since 32.0.0
- */
 class CloudId implements ICloudId {
 	public function __construct(
 		protected string $id,

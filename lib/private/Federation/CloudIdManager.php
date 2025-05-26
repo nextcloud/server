@@ -12,7 +12,6 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\CloudId;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\Federation\ICloudIdResolver;
@@ -265,7 +264,22 @@ class CloudIdManager implements ICloudIdManager {
 	}
 
 	/**
+	 * @param string $id,
+	 * @param string $user
+	 * @param string $remote
+	 * @param ?string $displayName
+	 * @return ICloudId
+	 * 
+	 * @since 32.0.0
+	 */
+	public function createCloudId(string $id, string $user, string $remote, ?string $displayName = null): ICloudId {
+		return new CloudId($id, $user, $remote, $displayName);
+	}
+
+	/**
 	 * @param ICloudIdResolver $resolver
+	 * 
+	 * @since 32.0.0
 	 */
 	public function registerCloudIdResolver(ICloudIdResolver $resolver) {
 		array_unshift($this->cloudIdResolvers, $resolver);
@@ -273,6 +287,8 @@ class CloudIdManager implements ICloudIdManager {
 
 	/**
 	 * @param ICloudIdResolver $resolver
+	 * 
+	 * @since 32.0.0
 	 */
 	public function unregisterCloudIdResolver(ICloudIdResolver $resolver) {
 		if (($key = array_search($resolver, $this->cloudIdResolvers)) !== false) {

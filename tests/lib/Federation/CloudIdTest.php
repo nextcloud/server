@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Federation;
 
+use OC\Federation\CloudId;
 use OC\Federation\CloudIdManager;
-use OCP\Federation\CloudId;
 use OCP\Federation\ICloudIdManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
