@@ -728,9 +728,6 @@
     "for WebAuthn passwordless login" : ": WebAuthn 무암호 인증을 위해 사용",
     "for WebAuthn passwordless login, and SFTP storage" : ": WebAuthn 무암호 인증 및 SFTP 저장소를 위해 사용",
     "Set default expiration date for shares" : "공유에 대한 기본 만료 날짜 설정",
-    "Failed to remove group \"{group}\"" : "그룹 \"{group}\"을(를) 삭제할 수 없음",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "그룹 \"{group}\"을(를) 지우려고 합니다. 그룹의 계정은 삭제되지 않습니다.",
-    "Remove group" : "그룹 지우기",
     "Your biography" : "내 소개문구",
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong>를 사용하고 있습니다.",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "전체 <strong>{totalSpace}</strong> 중 <strong>{usage}</strong>(<strong>{usageRelative}%</strong>)를 사용하고 있습니다."

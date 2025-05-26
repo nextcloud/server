@@ -440,7 +440,6 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Ползвайте двустепенно удостоверяване за да повишите сигурността на профила си.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ако използвате приложения на трети страни, за да се свържете с Nextcloud, моля, не забравяйте да създадете и конфигурирате парола за приложение за всяко едно от тях, преди да активирате удостоверяване на втория фактор.",
     "Set default expiration date for shares" : "Задай дата за изтичане по подразбиране за споделянията",
-    "Remove group" : "Премахване на групата",
     "Your biography" : "Вашата биография",
     "You are using <strong>{usage}</strong>" : "Използвате <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Използвате <strong>{usage}</strong> от <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

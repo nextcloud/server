@@ -297,7 +297,6 @@
     "Check out our blog" : "Vizitu nian blogon",
     "Subscribe to our newsletter" : "Aboni nian retan bultenon",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Tiu elkomunuma eldono de Nextcloud ne estas subtenata, kaj tuj-sciigoj ne disponeblas.",
-    "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton.",
-    "Remove group" : "Forigi grupon"
+    "Use a second factor besides your password to increase security for your account." : "Uzu duan fazon krom via pasvorto por plisekurigi vian konton."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -470,7 +470,6 @@
     "Use a second factor besides your password to increase security for your account." : "برای افزایش امنیت حساب کاربری خود ، از یک عامل دوم علاوه بر رمز عبور خود استفاده کنید.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication.",
     "Set default expiration date for shares" : "تاریخ انقضا پیش فرض را برای اشتراک گذاری تعیین کنید",
-    "Remove group" : "برداشتن گروه",
     "Your biography" : "بیوگرافی شما",
     "You are using <strong>{usage}</strong>" : "فضای مورد استفاده: <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "شما در حال استفادهٔ <strong>{usage}</strong> از <strong>{totalSpace}</strong> (<strong>{usageRelative}٪</strong>) فضا هستید"

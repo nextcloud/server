@@ -609,9 +609,6 @@ OC.L10N.register(
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "El bloqueo transaccional de archivos está desactivado, lo que podría ocasionar problemas de race conditions. Habilitá \"filelocking.enabled\" en config.php para evitar estos problemas.",
     "for WebAuthn passwordless login" : "para el inicio de sesión sin contraseña de WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "para el inicio de sesión sin contraseña de WebAuthn y el almacenamiento SFTP",
-    "Failed to remove group \"{group}\"" : "No se pudo eliminar el grupo \"{group}\"",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Vas a eliminar el grupo {group}. Los usuarios NO serán eliminados.",
-    "Remove group" : "Eliminar grupo",
     "Your biography" : "Tu biografía",
     "You are using <strong>{usage}</strong>" : "Estás usando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Estás usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

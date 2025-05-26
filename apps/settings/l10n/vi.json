@@ -462,8 +462,6 @@
     "Checking for system and security issues." : "Kiểm tra các vấn đề về hệ thống và bảo mật.",
     "Use a second factor besides your password to increase security for your account." : "Sử dụng yếu tố thứ hai ngoài mật khẩu để tăng tính bảo mật cho tài khoản của bạn.",
     "Set default expiration date for shares" : "Đặt ngày hết hạn mặc định cho cổ phiếu",
-    "Failed to remove group \"{group}\"" : "Không xóa được nhóm \"{group}\"",
-    "Remove group" : "Xóa nhóm",
     "Your biography" : "Tiểu sử của bạn",
     "You are using <strong>{usage}</strong>" : "Bạn đang sử dụng {usage}",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Bạn đang sử dụng {usage} trên {totalSpace} ({usageRelative}%)"

@@ -711,9 +711,6 @@ OC.L10N.register(
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Transaktionsbaserad fillåsning är inaktiverad, detta kan leda till problem med konflikter. Aktivera \"filelocking.enabled\" i config.php för att undvika dessa problem.",
     "The PHP memory limit is below the recommended value of %s." : "Minnesgränsen för PHP är under det rekommenderade värdet på %s.",
     "Set default expiration date for shares" : "Ställ in standardutgångsdatum för delningar",
-    "Failed to remove group \"{group}\"" : "Det gick inte att ta bort gruppen \"{group}\"",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Du håller på att ta bort gruppen \"{group}\". Kontona kommer INTE att raderas.",
-    "Remove group" : "Ta bort grupp",
     "Your biography" : "Din biografi",
     "You are using <strong>{usage}</strong>" : "Du använder <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Du använder <strong>{usage}</strong> av <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

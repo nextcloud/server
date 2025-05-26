@@ -881,9 +881,6 @@
     "for WebAuthn passwordless login, and SFTP storage" : "για σύνδεση χωρίς συνθηματικό με WebAuthn και αποθήκευση SFTP",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Ανιχνεύθηκε η έκδοση PostgreSQL \"%s\". Προτείνεται PostgreSQL >=12 και <=16 για την καλύτερη απόδοση, σταθερότητα και λειτουργικότητα με αυτήν την έκδοση του Nextcloud.",
     "Set default expiration date for shares" : "Ορισμός προεπιλεγμένης ημερομηνίας λήξης για τα κοινόχρηστα",
-    "Failed to remove group \"{group}\"" : "Αποτυχία κατά την αφαίρεση της ομάδας \"{group}\"",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Πρόκειται να αφαιρέσετε την ομάδα \"{group}\". Οι λογαριασμοί ΔΕΝ θα διαγραφούν.",
-    "Remove group" : "Αφαίρεση ομάδας",
     "Your biography" : "Το βιογραφικό σας",
     "You are using <strong>{usage}</strong>" : "Χρησιμοποιείτε <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Χρησιμοποιείτε <strong>{usage}</strong> από <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"

@@ -217,7 +217,6 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Zhvilluar nga {communityopen}komuniteti Nextcloud {linkclose},  {githubopen}kodi i hapur{linkclose} iështë licensuar sipar {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Pëlqeni faqen tonë në Facebook",
     "Check out our blog" : "Shikoni blogun tonë",
-    "Subscribe to our newsletter" : "Abonohu në gazeten tonë",
-    "Remove group" : "Hiq grupin"
+    "Subscribe to our newsletter" : "Abonohu në gazeten tonë"
 },
 "nplurals=2; plural=(n != 1);");

@@ -696,9 +696,6 @@
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Færslulæsing skráa (transactional file locking) er óvirk, þetta gæti leitt til vandamála út frá forgangsskilyrðum (race conditions). Virkjaðu 'filelocking.enabled' í config.php til að forðast slík vandamál.",
     "The PHP memory limit is below the recommended value of %s." : "Minnismörk PHP eru lægri en gildið sem mælt er með; %s.",
     "Set default expiration date for shares" : "Setja sjálfgefinn gildistíma fyrir sameignir",
-    "Failed to remove group \"{group}\"" : "Mistókst að fjarlægja hópinn \"{group}\"",
-    "You are about to remove the group \"{group}\". The accounts will NOT be deleted." : "Þú er í þann mund að fara að fjarlægja hópinn \"{group}\". Notendaaðgöngunum verður EKKI eytt.",
-    "Remove group" : "Fjarlægja hóp",
     "Your biography" : "Æviágrip þitt",
     "You are using <strong>{usage}</strong>" : "Þú ert að nota <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Þú ert að nota <strong>{usage}</strong> af <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
