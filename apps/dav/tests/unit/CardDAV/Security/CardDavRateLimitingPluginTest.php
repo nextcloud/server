@@ -24,11 +24,11 @@ use Test\TestCase;
 
 class CardDavRateLimitingPluginTest extends TestCase {
 
-	private Limiter|MockObject $limiter;
-	private CardDavBackend|MockObject $cardDavBackend;
-	private IUserManager|MockObject $userManager;
-	private LoggerInterface|MockObject $logger;
-	private IAppConfig|MockObject $config;
+	private Limiter&MockObject $limiter;
+	private CardDavBackend&MockObject $cardDavBackend;
+	private IUserManager&MockObject $userManager;
+	private LoggerInterface&MockObject $logger;
+	private IAppConfig&MockObject $config;
 	private string $userId = 'user123';
 	private CardDavRateLimitingPlugin $plugin;
 

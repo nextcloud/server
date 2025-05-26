@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,20 +22,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
-	/** @var IManager|MockObject */
-	protected $activityManager;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-
-	/** @var IAppManager|MockObject */
-	protected $appManager;
-
-	/** @var IUserManager|MockObject */
-	protected $userManager;
+	protected IManager&MockObject $activityManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserSession&MockObject $userSession;
+	protected IAppManager&MockObject $appManager;
+	protected IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,10 +38,9 @@ class BackendTest extends TestCase {
 	}
 
 	/**
-	 * @param array $methods
 	 * @return Backend|MockObject
 	 */
-	protected function getBackend(array $methods = []) {
+	protected function getBackend(array $methods = []): Backend {
 		if (empty($methods)) {
 			return new Backend(
 				$this->activityManager,
@@ -71,7 +63,7 @@ class BackendTest extends TestCase {
 		}
 	}
 
-	public function dataCallTriggerAddressBookActivity(): array {
+	public static function dataCallTriggerAddressBookActivity(): array {
 		return [
 			['onAddressbookCreate', [['data']], Addressbook::SUBJECT_ADD, [['data'], [], []]],
 			['onAddressbookUpdate', [['data'], ['shares'], ['changed-properties']], Addressbook::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
@@ -95,7 +87,7 @@ class BackendTest extends TestCase {
 		call_user_func_array([$backend, $method], $payload);
 	}
 
-	public function dataTriggerAddressBookActivity(): array {
+	public static function dataTriggerAddressBookActivity(): array {
 		return [
 			// Add addressbook
 			[Addressbook::SUBJECT_ADD, [], [], [], '', '', null, []],
@@ -160,12 +152,6 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTriggerAddressBookActivity
-	 * @param string $action
-	 * @param array $data
-	 * @param array $shares
-	 * @param array $changedProperties
-	 * @param string $currentUser
-	 * @param string $author
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
@@ -219,13 +205,13 @@ class BackendTest extends TestCase {
 				->method('userExists')
 				->willReturn(true);
 
-			$event->expects($this->exactly(sizeof($users)))
+			$event->expects($this->exactly(count($users)))
 				->method('setAffectedUser')
 				->willReturnSelf();
-			$event->expects($this->exactly(sizeof($users)))
+			$event->expects($this->exactly(count($users)))
 				->method('setSubject')
 				->willReturnSelf();
-			$this->activityManager->expects($this->exactly(sizeof($users)))
+			$this->activityManager->expects($this->exactly(count($users)))
 				->method('publish')
 				->with($event);
 		} else {
@@ -261,7 +247,7 @@ class BackendTest extends TestCase {
 		], [], []]);
 	}
 
-	public function dataTriggerCardActivity(): array {
+	public static function dataTriggerCardActivity(): array {
 		$cardData = "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n";
 
 		return [
@@ -330,12 +316,6 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTriggerCardActivity
-	 * @param string $action
-	 * @param array $addressBookData
-	 * @param array $shares
-	 * @param array $cardData
-	 * @param string $currentUser
-	 * @param string $author
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
@@ -385,13 +365,13 @@ class BackendTest extends TestCase {
 				->with($author)
 				->willReturnSelf();
 
-			$event->expects($this->exactly(sizeof($users)))
+			$event->expects($this->exactly(count($users)))
 				->method('setAffectedUser')
 				->willReturnSelf();
-			$event->expects($this->exactly(sizeof($users)))
+			$event->expects($this->exactly(count($users)))
 				->method('setSubject')
 				->willReturnSelf();
-			$this->activityManager->expects($this->exactly(sizeof($users)))
+			$this->activityManager->expects($this->exactly(count($users)))
 				->method('publish')
 				->with($event);
 		} else {
@@ -409,7 +389,7 @@ class BackendTest extends TestCase {
 		$this->assertEmpty($this->invokePrivate($backend, 'triggerCardActivity', [Card::SUBJECT_UPDATE, ['principaluri' => 'principals/system/system'], [], []]));
 	}
 
-	public function dataGetUsersForShares(): array {
+	public static function dataGetUsersForShares(): array {
 		return [
 			[
 				[],
@@ -454,9 +434,6 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @dataProvider dataGetUsersForShares
-	 * @param array $shares
-	 * @param array $groups
-	 * @param array $expected
 	 */
 	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
@@ -498,10 +475,9 @@ class BackendTest extends TestCase {
 	}
 
 	/**
-	 * @param string $uid
 	 * @return IUser|MockObject
 	 */
-	protected function getUserMock(string $uid) {
+	protected function getUserMock(string $uid): IUser {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')

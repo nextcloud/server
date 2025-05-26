@@ -14,44 +14,30 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class CommentsPluginTest extends \Test\TestCase {
-	/** @var \Sabre\DAV\Server */
-	private $server;
-
-	/** @var Tree */
-	private $tree;
-
-	/** @var ICommentsManager */
-	private $commentsManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var CommentsPluginImplementation */
-	private $plugin;
+	private \Sabre\DAV\Server&MockObject $server;
+	private Tree&MockObject $tree;
+	private ICommentsManager&MockObject $commentsManager;
+	private IUserSession&MockObject $userSession;
+	private CommentsPluginImplementation $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tree = $this->createMock(Tree::class);
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
+		$this->server = $this->getMockBuilder(\Sabre\DAV\Server::class)
 			->setConstructorArgs([$this->tree])
-			->setMethods(['getRequestUri'])
+			->onlyMethods(['getRequestUri'])
 			->getMock();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->plugin = new CommentsPluginImplementation($this->commentsManager, $this->userSession);
 	}
@@ -151,7 +137,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateCommentInvalidObject(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -233,7 +219,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateCommentInvalidActor(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -321,7 +307,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateCommentUnsupportedMediaType(): void {
 		$this->expectException(\Sabre\DAV\Exception\UnsupportedMediaType::class);
 
@@ -409,7 +395,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateCommentInvalidPayload(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -503,7 +489,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testCreateCommentMessageTooLong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
@@ -597,7 +583,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	
+
 	public function testOnReportInvalidNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);
 
@@ -620,7 +606,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, [], '/' . $path);
 	}
 
-	
+
 	public function testOnReportInvalidReportName(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);
 
