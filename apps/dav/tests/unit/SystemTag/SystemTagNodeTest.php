@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,39 +16,25 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 
 class SystemTagNodeTest extends \Test\TestCase {
-
-	/**
-	 * @var ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
+	private ISystemTagManager&MockObject $tagManager;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private IUser&MockObject $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->user = $this->createMock(IUser::class);
 	}
 
 	protected function getTagNode($isAdmin = true, $tag = null) {
 		if ($tag === null) {
-			$tag = new SystemTag(1, 'Test', true, true);
+			$tag = new SystemTag('1', 'Test', true, true);
 		}
 		return new SystemTagNode(
 			$tag,
@@ -58,14 +45,14 @@ class SystemTagNodeTest extends \Test\TestCase {
 		);
 	}
 
-	public function adminFlagProvider() {
+	public static function adminFlagProvider(): array {
 		return [[true], [false]];
 	}
 
 	/**
 	 * @dataProvider adminFlagProvider
 	 */
-	public function testGetters($isAdmin): void {
+	public function testGetters(bool $isAdmin): void {
 		$tag = new SystemTag('1', 'Test', true, true);
 		$node = $this->getTagNode($isAdmin, $tag);
 		$this->assertEquals('1', $node->getName());
@@ -79,24 +66,24 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode()->setName('2');
 	}
 
-	public function tagNodeProvider() {
+	public static function tagNodeProvider(): array {
 		return [
 			// admin
 			[
 				true,
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Renamed', true, true, null]
 			],
 			[
 				true,
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Original', false, false, null]
 			],
 			// non-admin
 			[
 				// renaming allowed
 				false,
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Rename', true, true, '0082c9']
 			],
 		];
@@ -105,7 +92,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeProvider
 	 */
-	public function testUpdateTag($isAdmin, ISystemTag $originalTag, $changedArgs): void {
+	public function testUpdateTag(bool $isAdmin, ISystemTag $originalTag, array $changedArgs): void {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($originalTag)
@@ -121,41 +108,41 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->update($changedArgs[0], $changedArgs[1], $changedArgs[2], $changedArgs[3]);
 	}
 
-	public function tagNodeProviderPermissionException() {
+	public static function tagNodeProviderPermissionException(): array {
 		return [
 			[
 				// changing permissions not allowed
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Original', false, true, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing permissions not allowed
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Original', true, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing permissions not allowed
-				new SystemTag(1, 'Original', true, true),
+				new SystemTag('1', 'Original', true, true),
 				['Original', false, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing non-assignable not allowed
-				new SystemTag(1, 'Original', true, false),
+				new SystemTag('1', 'Original', true, false),
 				['Rename', true, false, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// changing non-assignable not allowed
-				new SystemTag(1, 'Original', true, false),
+				new SystemTag('1', 'Original', true, false),
 				['Original', true, true, ''],
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// invisible tag does not exist
-				new SystemTag(1, 'Original', false, false),
+				new SystemTag('1', 'Original', false, false),
 				['Rename', false, false, ''],
 				'Sabre\DAV\Exception\NotFound',
 			],
@@ -165,7 +152,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeProviderPermissionException
 	 */
-	public function testUpdateTagPermissionException(ISystemTag $originalTag, $changedArgs, $expectedException = null): void {
+	public function testUpdateTagPermissionException(ISystemTag $originalTag, array $changedArgs, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($originalTag)
@@ -193,7 +180,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	public function testUpdateTagAlreadyExists(): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
-		$tag = new SystemTag(1, 'tag1', true, true);
+		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -213,7 +200,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	public function testUpdateTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		$tag = new SystemTag(1, 'tag1', true, true);
+		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -232,8 +219,8 @@ class SystemTagNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider adminFlagProvider
 	 */
-	public function testDeleteTag($isAdmin): void {
-		$tag = new SystemTag(1, 'tag1', true, true);
+	public function testDeleteTag(bool $isAdmin): void {
+		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($isAdmin ? $this->once() : $this->never())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -247,16 +234,16 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode($isAdmin, $tag)->delete();
 	}
 
-	public function tagNodeDeleteProviderPermissionException() {
+	public static function tagNodeDeleteProviderPermissionException(): array {
 		return [
 			[
 				// cannot delete invisible tag
-				new SystemTag(1, 'Original', false, true),
+				new SystemTag('1', 'Original', false, true),
 				'Sabre\DAV\Exception\Forbidden',
 			],
 			[
 				// cannot delete non-assignable tag
-				new SystemTag(1, 'Original', true, false),
+				new SystemTag('1', 'Original', true, false),
 				'Sabre\DAV\Exception\Forbidden',
 			],
 		];
@@ -265,7 +252,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeDeleteProviderPermissionException
 	 */
-	public function testDeleteTagPermissionException(ISystemTag $tag, $expectedException): void {
+	public function testDeleteTagPermissionException(ISystemTag $tag, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -281,7 +268,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		$tag = new SystemTag(1, 'tag1', true, true);
+		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
