@@ -17,16 +17,19 @@ use OCP\EventDispatcher\Event;
 class BeforeGetTemplatesEvent extends Event {
 	/** @var array<Template> */
 	private array $templates;
+	/** @var bool */
+	private bool $withFields;
 
 	/**
 	 * @param array<Template> $templates
 	 *
 	 * @since 30.0.0
 	 */
-	public function __construct(array $templates) {
+	public function __construct(array $templates, bool $withFields = false) {
 		parent::__construct();
 
 		$this->templates = $templates;
+		$this->withFields = $withFields;
 	}
 
 	/**
@@ -36,5 +39,14 @@ class BeforeGetTemplatesEvent extends Event {
 	 */
 	public function getTemplates(): array {
 		return $this->templates;
+	}
+
+	/**
+	 * @return bool
+	 *
+	 * @since 32.0.0
+	 */
+	public function shouldGetFields(): bool {
+		return $this->withFields;
 	}
 }
