@@ -582,10 +582,6 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerService(ICache::class, function ($c) {
-			return new Cache\File();
-		});
-
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
 			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
