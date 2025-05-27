@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,22 +9,21 @@
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\DAV\SystemPrincipalBackend;
+use Sabre\DAV\Exception;
 use Test\TestCase;
 
 class SystemPrincipalBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider providesPrefix
-	 * @param $expected
-	 * @param $prefix
 	 */
-	public function testGetPrincipalsByPrefix($expected, $prefix): void {
+	public function testGetPrincipalsByPrefix(array $expected, string $prefix): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalsByPrefix($prefix);
 		$this->assertEquals($expected, $result);
 	}
 
-	public function providesPrefix() {
+	public static function providesPrefix(): array {
 		return [
 			[[], ''],
 			[[[
@@ -40,16 +40,14 @@ class SystemPrincipalBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider providesPath
-	 * @param $expected
-	 * @param $path
 	 */
-	public function testGetPrincipalByPath($expected, $path): void {
+	public function testGetPrincipalByPath(?array $expected, string $path): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalByPath($path);
 		$this->assertEquals($expected, $result);
 	}
 
-	public function providesPath() {
+	public static function providesPath(): array {
 		return [
 			[null, ''],
 			[null, 'principals'],
@@ -63,28 +61,22 @@ class SystemPrincipalBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider providesPrincipalForGetGroupMemberSet
-	 *
-	 * @param string $principal
-	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMemberSetExceptional($principal): void {
-		$this->expectException(\Sabre\DAV\Exception::class);
+	public function testGetGroupMemberSetExceptional(?string $principal): void {
+		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
 
 		$backend = new SystemPrincipalBackend();
 		$backend->getGroupMemberSet($principal);
 	}
 
-	public function providesPrincipalForGetGroupMemberSet() {
+	public static function providesPrincipalForGetGroupMemberSet(): array {
 		return [
 			[null],
 			['principals/system'],
 		];
 	}
 
-	/**
-	 * @throws \Sabre\DAV\Exception
-	 */
 	public function testGetGroupMemberSet(): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getGroupMemberSet('principals/system/system');
@@ -93,27 +85,21 @@ class SystemPrincipalBackendTest extends TestCase {
 
 	/**
 	 * @dataProvider providesPrincipalForGetGroupMembership
-	 *
-	 * @param string $principal
-	 * @throws \Sabre\DAV\Exception
 	 */
-	public function testGetGroupMembershipExceptional($principal): void {
-		$this->expectException(\Sabre\DAV\Exception::class);
+	public function testGetGroupMembershipExceptional(string $principal): void {
+		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
 
 		$backend = new SystemPrincipalBackend();
 		$backend->getGroupMembership($principal);
 	}
 
-	public function providesPrincipalForGetGroupMembership() {
+	public static function providesPrincipalForGetGroupMembership(): array {
 		return [
 			['principals/system/a'],
 		];
 	}
 
-	/**
-	 * @throws \Sabre\DAV\Exception
-	 */
 	public function testGetGroupMembership(): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getGroupMembership('principals/system/system');

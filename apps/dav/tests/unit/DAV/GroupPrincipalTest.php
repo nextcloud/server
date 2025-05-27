@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,20 +20,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IGroupManager | MockObject */
-	private $groupManager;
-
-	/** @var IUserSession | MockObject */
-	private $userSession;
-
-	/** @var IManager | MockObject */
-	private $shareManager;
-
-	/** @var GroupPrincipalBackend */
-	private $connector;
+	private IConfig&MockObject $config;
+	private IGroupManager&MockObject $groupManager;
+	private IUserSession&MockObject $userSession;
+	private IManager&MockObject $shareManager;
+	private GroupPrincipalBackend $connector;
 
 	protected function setUp(): void {
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -201,11 +194,6 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
-	 * @param bool $sharingEnabled
-	 * @param bool $groupSharingEnabled
-	 * @param bool $groupsOnly
-	 * @param string $test
-	 * @param array $result
 	 */
 	public function testSearchPrincipals(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
@@ -264,7 +252,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			['{DAV:}displayname' => 'Foo'], $test));
 	}
 
-	public function searchPrincipalsDataProvider() {
+	public static function searchPrincipalsDataProvider(): array {
 		return [
 			[true, true, false, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
 			[true, true, false, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
@@ -279,11 +267,6 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider findByUriDataProvider
-	 * @param bool $sharingEnabled
-	 * @param bool $groupSharingEnabled
-	 * @param bool $groupsOnly
-	 * @param string $findUri
-	 * @param string|null $result
 	 */
 	public function testFindByUri(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $findUri, ?string $result): void {
 		$this->shareManager->expects($this->once())
@@ -320,7 +303,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertEquals($result, $this->connector->findByUri($findUri, 'principals/groups'));
 	}
 
-	public function findByUriDataProvider() {
+	public static function findByUriDataProvider(): array {
 		return [
 			[false, false, false, 'principal:principals/groups/group1', null],
 			[false, false, false, 'principal:principals/groups/group3', null],
@@ -337,10 +320,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @return Group|MockObject
-	 */
-	private function mockGroup($gid) {
+	private function mockGroup(string $gid): Group&MockObject {
 		$fooGroup = $this->createMock(Group::class);
 		$fooGroup
 			->expects($this->exactly(1))

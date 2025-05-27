@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\DAV\Service;
+namespace OCA\DAV\Tests\unit\DAV\Service;
 
 use DateTimeImmutable;
 use OCA\DAV\CalDAV\UpcomingEventsService;
@@ -22,11 +22,11 @@ use PHPUnit\Framework\TestCase;
 
 class UpcomingEventsServiceTest extends TestCase {
 
-	private MockObject|IManager $calendarManager;
-	private ITimeFactory|MockObject $timeFactory;
-	private IUserManager|MockObject $userManager;
-	private IAppManager|MockObject $appManager;
-	private IURLGenerator|MockObject $urlGenerator;
+	private IManager&MockObject $calendarManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private IUserManager&MockObject $userManager;
+	private IAppManager&MockObject $appManager;
+	private IURLGenerator&MockObject $urlGenerator;
 	private UpcomingEventsService $service;
 
 	protected function setUp(): void {

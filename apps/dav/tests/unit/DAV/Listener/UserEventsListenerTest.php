@@ -51,9 +51,7 @@ class UserEventsListenerTest extends TestCase {
 	}
 
 	public function test(): void {
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
 		$this->defaults->expects($this->once())->method('getColorPrimary')->willReturn('#745bca');
@@ -76,9 +74,7 @@ class UserEventsListenerTest extends TestCase {
 	}
 
 	public function testWithExisting(): void {
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
 		$this->calDavBackend->expects($this->once())->method('getCalendarsForUserCount')->willReturn(1);
@@ -91,9 +87,7 @@ class UserEventsListenerTest extends TestCase {
 	}
 
 	public function testWithBirthdayCalendar(): void {
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
 		$this->defaults->expects($this->once())->method('getColorPrimary')->willReturn('#745bca');
@@ -116,9 +110,7 @@ class UserEventsListenerTest extends TestCase {
 	}
 
 	public function testDeleteCalendar(): void {
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
 		$this->syncService->expects($this->once())

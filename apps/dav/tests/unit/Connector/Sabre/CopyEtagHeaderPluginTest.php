@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,12 +16,8 @@ use Sabre\DAV\Tree;
 use Test\TestCase;
 
 class CopyEtagHeaderPluginTest extends TestCase {
-
-	/** @var CopyEtagHeaderPlugin */
-	private $plugin;
-
-	/** @var Server */
-	private $server;
+	private CopyEtagHeaderPlugin $plugin;
+	private Server $server;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,15 +59,11 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testAfterMove(): void {
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->once())
 			->method('getETag')
 			->willReturn('123456');
-		$tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$tree = $this->createMock(Tree::class);
 		$tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('test.txt')
