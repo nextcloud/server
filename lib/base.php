@@ -883,23 +883,6 @@ class OC {
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
-
-				try {
-					$cache = new \OC\Cache\File();
-					$cache->gc();
-				} catch (\OC\ServerNotAvailableException $e) {
-					// not a GC exception, pass it on
-					throw $e;
-				} catch (\OC\ForbiddenException $e) {
-					// filesystem blocked for this request, ignore
-				} catch (\Exception $e) {
-					// a GC exception should not prevent users from using OC,
-					// so log the exception
-					Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
-						'app' => 'core',
-						'exception' => $e,
-					]);
-				}
 			});
 		}
 	}
