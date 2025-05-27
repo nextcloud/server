@@ -316,6 +316,7 @@ OC.L10N.register(
     "64-bit" : "64 位元",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "您似乎正在執行 32 位元版本的 PHP。Nextcloud 需要 64 位元才能運作良好。請將您的作業系統與 PHP 升級至 64 位元！",
     "Task Processing pickup speed" : "任務處理提取速度",
+    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["最近 %n 小時內沒有預先安排好的的任務。"],
     "_The task pickup speed has been ok in the last %n hour._::_The task pickup speed has been ok in the last %n hours._" : ["在最近 %n 小時內，任務的提取速度正常。"],
     "_The task pickup speed has been slow in the last %n hour. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n hours. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["最近 %n 小時內，任務提取速度較慢。許多任務花了超過4分鐘才被提取。考慮設置一個工作人員在背景中處理任務。"],
     "Temporary space available" : "可用臨時空間",

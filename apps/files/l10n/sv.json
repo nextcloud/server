@@ -453,6 +453,9 @@
     "Personal Files" : "Personliga filer",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
+    "%1$s (renamed)" : "%1$s (omdöpt)",
+    "renamed file" : "omdöpt fil",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "När Windows-kompatibla filnamn har aktiverats kan befintliga filer inte längre ändras, men de kan byta namn till giltiga nya namn av sin ägare.",
     "{count} files could not be converted" : "{count} filer kunde inte konverteras",
     "{count} files successfully converted" : "{count} filer har konverterats"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

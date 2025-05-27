@@ -455,6 +455,8 @@ OC.L10N.register(
     "Personal Files" : "Fichiers personnels",
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
+    "%1$s (renamed)" : "%1$s (renommé)",
+    "renamed file" : "fichier renommé",
     "{count} files could not be converted" : "{count}fichier n'a pas pu être converti",
     "{count} files successfully converted" : "{count}fichier converti avec succès"
 },

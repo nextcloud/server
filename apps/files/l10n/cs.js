@@ -455,6 +455,9 @@ OC.L10N.register(
     "Personal Files" : "Osobní soubory",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
+    "%1$s (renamed)" : "%1$s (přejmenované)",
+    "renamed file" : "přejmenovaný soubor",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Po povolení názvů souborů, kompatibilních s Windows, stávající soubory už nebude možné změnit, ale je možné je přejmenovat na platné nové názvy jejich vlastníkem.",
     "{count} files could not be converted" : "{count} souborů nebylo možné převést",
     "{count} files successfully converted" : "{count} souborů úspěšně převedeno"
 },

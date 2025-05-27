@@ -453,6 +453,9 @@
     "Personal Files" : "个人文件",
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文件.txt",
+    "%1$s (renamed)" : "%1$s（已重命名）",
+    "renamed file" : "已重命名文件",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "启用与 Windows 兼容的文件名后，无法再修改现有文件，但可以由其所有者重命名为有效的新名称。",
     "{count} files could not be converted" : "{count} 个文件无法转换",
     "{count} files successfully converted" : "{count} 个文件已成功转换"
 },"pluralForm" :"nplurals=1; plural=0;"

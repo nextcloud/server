@@ -453,6 +453,9 @@
     "Personal Files" : "Isiklikud Failid",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
+    "%1$s (renamed)" : "%1$s (nimi on muudetud)",
+    "renamed file" : "muudetud nimega fail",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Kui võtad kasutusele Windowsiga ühilduvad failinimed, siis olemasolevad mitteühilduvaid faile ei saa enam muuta, aga faili omanik saab failinime muuta ühilduvaks.",
     "{count} files could not be converted" : "{count} faili ei õnnestunud teisendada",
     "{count} files successfully converted" : "{count} faili teisendamine õnnestus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
