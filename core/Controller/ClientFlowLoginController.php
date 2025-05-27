@@ -43,6 +43,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -240,6 +241,7 @@ class ClientFlowLoginController extends Controller {
 	 * @return Http\RedirectResponse|Response
 	 */
 	#[UseSession]
+	#[PasswordConfirmationRequired(strict: false)]
 	#[FrontpageRoute(verb: 'POST', url: '/login/flow')]
 	public function generateAppPassword(string $stateToken,
 		string $clientIdentifier = '',
