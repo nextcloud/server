@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface IManager
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Consumable;
+
+#[Consumable(since: '9.0.0')]
 interface IManager extends IApp, INotifier {
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a

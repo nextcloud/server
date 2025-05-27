@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface INotifier
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Implementable;
+
+#[Implementable(since: '9.0.0')]
 interface INotifier {
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
