@@ -455,6 +455,9 @@ OC.L10N.register(
     "Personal Files" : "Personal Files",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
+    "%1$s (renamed)" : "%1$s (renamed)",
+    "renamed file" : "renamed file",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.",
     "{count} files could not be converted" : "{count} files could not be converted",
     "{count} files successfully converted" : "{count} files successfully converted"
 },

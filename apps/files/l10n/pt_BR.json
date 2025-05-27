@@ -453,6 +453,9 @@
     "Personal Files" : "Arquivos pessoais",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo arquivo de texto.txt",
+    "%1$s (renamed)" : "%1$s (renomeado)",
+    "renamed file" : "arquivo renomeado",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Depois de ativar os nomes de arquivos compatíveis com o Windows, os arquivos existentes não podem mais ser modificados, mas podem ser renomeados para novos nomes válidos pelo proprietário.",
     "{count} files could not be converted" : "{count} arquivos não puderam ser convertidos",
     "{count} files successfully converted" : "{count} arquivos convertidos com sucesso"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

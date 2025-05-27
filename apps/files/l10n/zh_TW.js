@@ -455,6 +455,9 @@ OC.L10N.register(
     "Personal Files" : "個人檔案",
     "Text file" : "文字檔案",
     "New text file.txt" : "新文字檔案.txt",
+    "%1$s (renamed)" : "%1$s（已重新命名）",
+    "renamed file" : "已重新命名檔案",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "啟用與 Windows 相容的檔案名稱後，無法再修改現有檔案，但可以由其擁有者重新命名為有效的新名稱。",
     "{count} files could not be converted" : "{count} 個檔案無法轉換",
     "{count} files successfully converted" : "{count} 個檔案成功轉換"
 },

@@ -243,6 +243,8 @@
     "Change Tone" : "톤을 변경",
     "Write a text that you want the assistant to rewrite in another tone." : "어시스턴트에 다른 톤으로 다시 쓰고 싶은 텍스트를 쓰기",
     "Desired tone" : "희망하는 톤",
+    "In which tone should your text be rewritten?" : "텍스트를 어떤 어조로 다시 씁니까?",
+    "The rewritten text in the desired tone, written by the assistant:" : "원하는 톤으로 어시스턴트에 의해서 다시 쓴 텍스트:",
     "Chat" : "대화",
     "Generates a possible headline for a text." : "내용에 대한 헤드라인을 생성하십시오.",
     "Text" : "텍스트",

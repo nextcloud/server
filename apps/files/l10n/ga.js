@@ -455,6 +455,8 @@ OC.L10N.register(
     "Personal Files" : "Comhaid Phearsanta",
     "Text file" : "Comhad téacs",
     "New text file.txt" : "Comhad téacs nua.txt",
+    "%1$s (renamed)" : "%1$s (athainmnithe)",
+    "renamed file" : "comhad athainmnithe",
     "{count} files could not be converted" : "{count} níorbh fhéidir comhaid a thiontú",
     "{count} files successfully converted" : "{count} comhaid a thiontú go rathúil"
 },
