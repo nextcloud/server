@@ -68,6 +68,11 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
+		// Preview are disabled, so we skip generating the blurhash.
+		if (!$this->preview->isAvailable($file)) {
+			return;
+		}
+
 		$preview = $this->preview->getPreview($file, 64, 64, cacheResult: false);
 		$image = @imagecreatefromstring($preview->getContent());
 
