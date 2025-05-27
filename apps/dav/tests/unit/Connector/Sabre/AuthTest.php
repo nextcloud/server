@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Files\SetupManager;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
@@ -35,6 +36,7 @@ class AuthTest extends TestCase {
 	private IRequest&MockObject $request;
 	private Manager&MockObject $twoFactorManager;
 	private IThrottler&MockObject $throttler;
+	private SetupManager&MockObject $setupManager;
 	private Auth $auth;
 
 	protected function setUp(): void {
@@ -44,12 +46,14 @@ class AuthTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->twoFactorManager = $this->createMock(Manager::class);
 		$this->throttler = $this->createMock(IThrottler::class);
+		$this->setupManager = $this->createMock(SetupManager::class);
 		$this->auth = new Auth(
 			$this->session,
 			$this->userSession,
 			$this->request,
 			$this->twoFactorManager,
-			$this->throttler
+			$this->throttler,
+			$this->setupManager,
 		);
 	}
 
@@ -579,7 +583,7 @@ class AuthTest extends TestCase {
 			->method('getUID')
 			->willReturn('MyTestUser');
 		$this->userSession
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUser')
 			->willReturn($user);
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
