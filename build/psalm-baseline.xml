@@ -3441,25 +3441,6 @@
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Authentication/WebAuthn/Manager.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[preg_replace('/(:\d+$)/', '', $serverHost)]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="lib/private/Avatar/Avatar.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[$data]]></code>
-    </FalsableReturnStatement>
-  </file>
-  <file src="lib/private/Cache/File.php">
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[bool|mixed]]></code>
-      <code><![CDATA[bool|mixed]]></code>
-    </LessSpecificImplementedReturnType>
-  </file>
   <file src="lib/private/Calendar/Manager.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[array_merge(
