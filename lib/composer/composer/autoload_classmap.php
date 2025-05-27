@@ -1183,7 +1183,6 @@ return array(
     'OC\\BinaryFinder' => $baseDir . '/lib/private/BinaryFinder.php',
     'OC\\Blurhash\\Listener\\GenerateBlurhashMetadata' => $baseDir . '/lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php',
     'OC\\Broadcast\\Events\\BroadcastEvent' => $baseDir . '/lib/private/Broadcast/Events/BroadcastEvent.php',
-    'OC\\Cache\\CappedMemoryCache' => $baseDir . '/lib/private/Cache/CappedMemoryCache.php',
     'OC\\Calendar\\AvailabilityResult' => $baseDir . '/lib/private/Calendar/AvailabilityResult.php',
     'OC\\Calendar\\CalendarEventBuilder' => $baseDir . '/lib/private/Calendar/CalendarEventBuilder.php',
     'OC\\Calendar\\CalendarQuery' => $baseDir . '/lib/private/Calendar/CalendarQuery.php',
