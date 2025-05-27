@@ -792,20 +792,41 @@ class AccountManagerTest extends TestCase {
 				'@foo@example.com',
 				'foo@example.com',
 				true,
-				json_encode(['username' => 'foo']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [
+						[
+							'rel' => 'self',
+							'type' => 'application/activity+json',
+							'href' => 'https://example.com/users/foo',
+						],
+					],
+				]),
 			],
 			'valid response - no at' => [
 				'foo@example.com',
 				'foo@example.com',
 				true,
-				json_encode(['username' => 'foo']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [
+						[
+							'rel' => 'self',
+							'type' => 'application/activity+json',
+							'href' => 'https://example.com/users/foo',
+						],
+					],
+				]),
 			],
 			// failures
 			'invalid response' => [
 				'@foo@example.com',
 				null,
 				true,
-				json_encode(['not found']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [],
+				]),
 			],
 			'no response' => [
 				'@foo@example.com',
@@ -817,7 +838,9 @@ class AccountManagerTest extends TestCase {
 				'@foo@example.com',
 				null,
 				true,
-				json_encode(['username' => 'foo@other.example.com']),
+				json_encode([
+					'links' => [],
+				]),
 			],
 		];
 	}
