@@ -368,6 +368,9 @@ class OC {
 	}
 
 	public static function initSession(): void {
+		if (defined('PHP_PRELOAD')) {
+			return;
+		}
 		$request = Server::get(IRequest::class);
 
 		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
