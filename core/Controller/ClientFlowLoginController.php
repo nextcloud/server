@@ -41,6 +41,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -254,6 +255,7 @@ class ClientFlowLoginController extends Controller {
 	 * @return Http\RedirectResponse|Response
 	 */
 	#[UseSession]
+	#[PasswordConfirmationRequired]
 	public function generateAppPassword(string $stateToken,
 										string $clientIdentifier = '') {
 		if (!$this->isValidToken($stateToken)) {
