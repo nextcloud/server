@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 // Backends
+use OC\Files\SetupManager;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -40,6 +41,7 @@ $authBackend = new Auth(
 	Server::get(IRequest::class),
 	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 	Server::get(IThrottler::class),
+	Server::get(SetupManager::class),
 	'principals/'
 );
 $principalBackend = new Principal(

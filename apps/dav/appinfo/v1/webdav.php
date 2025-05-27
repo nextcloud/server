@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -55,6 +56,7 @@ $authBackend = new Auth(
 	Server::get(IRequest::class),
 	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 	Server::get(IThrottler::class),
+	Server::get(SetupManager::class),
 	'principals/'
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
