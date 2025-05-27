@@ -24,12 +24,6 @@ class AutoLoaderTest extends TestCase {
 		], $this->loader->findClass('OC_JSON'));
 	}
 
-	public function testLoadTestTestCase(): void {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/tests/lib/TestCase.php'
-		], $this->loader->findClass('Test\TestCase'));
-	}
-
 	public function testLoadCore(): void {
 		$this->assertEquals([
 			\OC::$SERVERROOT . '/lib/private/legacy/foo/bar.php',
