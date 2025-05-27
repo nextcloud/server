@@ -66,7 +66,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
 
-	public function mkdir(string $path, bool $force = false): bool {
+	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
 			$this->logger->warning("Tried to create an object store folder that already exists: $path");
@@ -76,7 +76,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$mTime = time();
 		$data = [
 			'mimetype' => 'httpd/unix-directory',
-			'size' => 0,
+			'size' => $metadata['size'] ?? 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
@@ -695,11 +695,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			if ($cache->inCache($to)) {
 				$cache->remove($to);
 			}
-			$this->mkdir($to);
-			$cacheEntry = $cache->get(($to));
-			$cache->update($cacheEntry->getId(), [
-				'size' => $sourceEntry->getSize(),
-			]);
+			$this->mkdir($to, false, ['size' => $sourceEntry->getSize()]);
 
 			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
