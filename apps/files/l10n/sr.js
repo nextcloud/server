@@ -455,6 +455,9 @@ OC.L10N.register(
     "Personal Files" : "Лични фајлови",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
+    "%1$s (renamed)" : "%1$s (преименован)",
+    "renamed file" : "преименован фајл",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Када се укључе windows компатибилна имена фајлова, постојећи фајлови се више неће моћи мењати, али њихов власник може да им промени име на исправно ново име.",
     "{count} files could not be converted" : "Није могло да се конвертује {count} фајлова",
     "{count} files successfully converted" : "Успешно је конвертовано {count} фајлова"
 },

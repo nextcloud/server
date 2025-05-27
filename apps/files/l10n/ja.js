@@ -455,6 +455,8 @@ OC.L10N.register(
     "Personal Files" : "個人ファイル",
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
+    "%1$s (renamed)" : "%1$s (リネーム済み)",
+    "renamed file" : "リネーム済みファイル",
     "{count} files could not be converted" : "{count}個のファイルが変換できませんでした",
     "{count} files successfully converted" : "{count}個のファイルの変換に成功しました"
 },

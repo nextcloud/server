@@ -58,7 +58,7 @@
     "Only from these groups:" : "Ainult neist gruppidest:",
     "Search groups" : "Otsi gruppe",
     "Available groups" : "Saadaolevad grupid",
-    "Selected groups" : "Validut grupid",
+    "Selected groups" : "Valitud grupid",
     "Edit LDAP Query" : "Muuda LDAP päringut",
     "LDAP Filter:" : "LDAP filter:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filter määrab millised LDAP grupid saavad ligipääsu sellele %s instantsile.",
