@@ -808,6 +808,11 @@ export default {
 				this.advancedSectionAccordionExpanded = true
 			}
 
+			if (this.isValidShareAttribute(this.share.note)) {
+				this.writeNoteToRecipientIsChecked = true
+				this.advancedSectionAccordionExpanded = true
+			}
+
 		},
 		handleShareType() {
 			if ('shareType' in this.share) {
