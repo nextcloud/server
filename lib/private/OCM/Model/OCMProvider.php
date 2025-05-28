@@ -224,9 +224,24 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @param array $data
 	 *
-	 * @return $this
+	 * @psalm-return array{
+	 *		apiVersion: '1.0-proposal1',
+	 *     	enabled: bool,
+	 *     	endPoint: string,
+	 *     	publicKey?: array{
+	 *     		keyId: string,
+	 *          publicKeyPem: string
+	 *      },
+	 *     	provider: string,
+	 *     	resourceTypes: list<array{
+	 *     		name: string,
+	 *      	shareTypes: list<string>,
+	 *      	protocols: array<string, string>
+	 *      }>,
+	 *      version: string,
+	 *      capabilities: list<string>
+	 * }
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
-	 * @see self::jsonSerialize()
 	 */
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
@@ -267,21 +282,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	}
 
 	/**
-	 * @return array{
-	 *      enabled: bool,
-	 *      apiVersion: '1.0-proposal1',
-	 *      endPoint: string,
-	 *      publicKey?: array{
-	 *          keyId: string,
-	 *          publicKeyPem: string
-	 *      },
-	 *      resourceTypes: list<array{
-	 *          name: string,
-	 *          shareTypes: list<string>,
-	 *          protocols: array<string, string>
-	 *      }>,
-	 *      version: string
-	 *  }
+	 * @since 28.0.0
 	 */
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
