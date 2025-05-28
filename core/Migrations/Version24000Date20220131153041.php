@@ -30,7 +30,10 @@ class Version24000Date20220131153041 extends SimpleMigrationStep {
 			$table->addColumn('time_sensitive', Types::SMALLINT, [
 				'default' => 1,
 			]);
-			$table->addIndex(['time_sensitive'], 'jobs_time_sensitive');
+			// jobs_time_sensitive replaced by jobs_sensitive_lastcheck_reserved
+			// $table->addIndex(['time_sensitive'], 'jobs_time_sensitive');
+			// Added later on (32 and backported)
+			$table->addIndex(['last_checked', 'time_sensitive', 'reserved_at'], 'jobs_sensitive_lastcheck_reserved');
 			return $schema;
 		}
 		return null;
