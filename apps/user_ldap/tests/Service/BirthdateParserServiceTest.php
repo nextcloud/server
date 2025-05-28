@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\user_ldap\tests\Service;
+namespace OCA\User_LDAP\Tests\Service;
 
 use DateTimeImmutable;
 use OCA\User_LDAP\Service\BirthdateParserService;
@@ -20,7 +21,7 @@ class BirthdateParserServiceTest extends TestCase {
 		$this->service = new BirthdateParserService();
 	}
 
-	public function parseBirthdateDataProvider(): array {
+	public static function parseBirthdateDataProvider(): array {
 		return [
 			['2024-01-01', new DateTimeImmutable('2024-01-01'), false],
 			['20240101', new DateTimeImmutable('2024-01-01'), false],

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,23 +13,15 @@ use OCA\User_LDAP\Migration\UUIDFixInsert;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userMapper;
-
-	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupMapper;
-
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
-	protected $jobList;
-
-	/** @var UUIDFixInsert */
-	protected $job;
+	protected IConfig&MockObject $config;
+	protected UserMapping&MockObject $userMapper;
+	protected GroupMapping&MockObject $groupMapper;
+	protected IJobList&MockObject $jobList;
+	protected UUIDFixInsert $job;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -48,13 +42,12 @@ class UUIDFixInsertTest extends TestCase {
 		$this->assertSame('Insert UUIDFix background job for user and group in batches', $this->job->getName());
 	}
 
-	public function recordProvider() {
+	public static function recordProvider(): array {
 		$record = [
 			'dn' => 'cn=somerecord,dc=somewhere',
 			'name' => 'Something',
 			'uuid' => 'AB12-3456-CDEF7-8GH9'
 		];
-		array_fill(0, 50, $record);
 
 		$userBatches = [
 			0 => array_fill(0, 50, $record),
@@ -71,13 +64,12 @@ class UUIDFixInsertTest extends TestCase {
 		];
 	}
 
-	public function recordProviderTooLongAndNone() {
+	public static function recordProviderTooLongAndNone(): array {
 		$record = [
 			'dn' => 'cn=somerecord,dc=somewhere',
 			'name' => 'Something',
 			'uuid' => 'AB12-3456-CDEF7-8GH9'
 		];
-		array_fill(0, 50, $record);
 
 		$userBatches = [
 			0 => array_fill(0, 50, $record),
@@ -97,7 +89,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProvider
 	 */
-	public function testRun($userBatches, $groupBatches): void {
+	public function testRun(array $userBatches, array $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -105,8 +97,11 @@ class UUIDFixInsertTest extends TestCase {
 
 		$this->userMapper->expects($this->exactly(3))
 			->method('getList')
-			->withConsecutive([0, 50], [50, 50], [100, 50])
-			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2]);
+			->willReturnMap([
+				[0, 50, false, $userBatches[0]],
+				[50, 50, false, $userBatches[1]],
+				[100, 50, false, $userBatches[2]],
+			]);
 
 		$this->groupMapper->expects($this->exactly(1))
 			->method('getList')
@@ -124,7 +119,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProviderTooLongAndNone
 	 */
-	public function testRunWithManyAndNone($userBatches, $groupBatches): void {
+	public function testRunWithManyAndNone(array $userBatches, array $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -132,8 +127,13 @@ class UUIDFixInsertTest extends TestCase {
 
 		$this->userMapper->expects($this->exactly(5))
 			->method('getList')
-			->withConsecutive([0, 50], [0, 40], [0, 32], [32, 32], [64, 32])
-			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2], $userBatches[3], $userBatches[4]);
+			->willReturnMap([
+				[0, 50, false, $userBatches[0]],
+				[0, 40, false, $userBatches[1]],
+				[0, 32, false, $userBatches[2]],
+				[32, 32, false, $userBatches[3]],
+				[64, 32, false, $userBatches[4]],
+			]);
 
 		$this->groupMapper->expects($this->once())
 			->method('getList')

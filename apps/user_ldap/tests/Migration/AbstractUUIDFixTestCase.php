@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,17 +15,18 @@ use OCA\User_LDAP\Migration\UUIDFix;
 use OCA\User_LDAP\Proxy;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-abstract class AbstractUUIDFixTest extends TestCase {
-	protected Helper $helper;
-	protected IConfig $config;
-	protected LDAP $ldap;
+abstract class AbstractUUIDFixTestCase extends TestCase {
+	protected Helper&MockObject $helper;
+	protected IConfig&MockObject $config;
+	protected LDAP&MockObject $ldap;
 	protected AbstractMapping $mapper;
 	protected UUIDFix $job;
 	protected Proxy $proxy;
-	protected Access $access;
-	protected ITimeFactory $time;
+	protected Access&MockObject $access;
+	protected ITimeFactory&MockObject $time;
 	protected bool $isUser = true;
 
 	protected function setUp(): void {
@@ -141,19 +144,23 @@ abstract class AbstractUUIDFixTest extends TestCase {
 
 		$this->access->expects($this->exactly(3))
 			->method('getUUID')
-			->withConsecutive(
-				[$args['records'][0]['dn'], $this->isUser],
-				[$args['records'][1]['dn'], $this->isUser],
-				[$args['records'][2]['dn'], $this->isUser]
-			)
-			->willReturnOnConsecutiveCalls($correctUUIDs[0], $correctUUIDs[1], $correctUUIDs[2]);
+			->willReturnMap([
+				[$args['records'][0]['dn'], $this->isUser, null, $correctUUIDs[0]],
+				[$args['records'][1]['dn'], $this->isUser, null, $correctUUIDs[1]],
+				[$args['records'][2]['dn'], $this->isUser, null, $correctUUIDs[2]],
+			]);
 
+		$calls = [
+			[$correctUUIDs[0], $args['records'][0]['dn']],
+			[$correctUUIDs[2], $args['records'][2]['dn']],
+		];
 		$this->mapper->expects($this->exactly(2))
 			->method('setUUIDbyDN')
-			->withConsecutive(
-				[$correctUUIDs[0], $args['records'][0]['dn']],
-				[$correctUUIDs[2], $args['records'][2]['dn']]
-			);
+			->willReturnCallback(function ($i, $j) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return true;
+			});
 
 		$this->job->run($args);
 	}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,17 +11,15 @@ use OCA\User_LDAP\Helper;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group DB
  */
 class HelperTest extends \Test\TestCase {
+	private IConfig&MockObject $config;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var Helper */
-	private $helper;
+	private Helper $helper;
 
 	protected function setUp(): void {
 		parent::setUp();

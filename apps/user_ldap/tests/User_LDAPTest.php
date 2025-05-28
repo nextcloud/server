@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ namespace OCA\User_LDAP\Tests;
 use OC\User\Backend;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -38,24 +40,15 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class User_LDAPTest extends TestCase {
-	/** @var User_LDAP */
-	protected $backend;
-	/** @var Access|MockObject */
-	protected $access;
-	/** @var OfflineUser|MockObject */
-	protected $offlineUser;
-	/** @var INotificationManager|MockObject */
-	protected $notificationManager;
-	/** @var UserPluginManager|MockObject */
-	protected $pluginManager;
-	/** @var Connection|MockObject */
-	protected $connection;
-	/** @var Manager|MockObject */
-	protected $userManager;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var DeletedUsersIndex|MockObject */
-	protected $deletedUsersIndex;
+	protected Access&MockObject $access;
+	protected OfflineUser&MockObject $offlineUser;
+	protected INotificationManager&MockObject $notificationManager;
+	protected UserPluginManager&MockObject $pluginManager;
+	protected Connection&MockObject $connection;
+	protected Manager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected DeletedUsersIndex&MockObject $deletedUsersIndex;
+	protected User_LDAP $backend;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,7 +56,9 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->clearBackends();
 		Server::get(IGroupManager::class)->clearBackends();
 
-		$this->connection = $this->createMock(Connection::class);
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$this->userManager = $this->createMock(Manager::class);
 
 		$this->access = $this->createMock(Access::class);
@@ -86,7 +81,7 @@ class User_LDAPTest extends TestCase {
 		);
 	}
 
-	private function prepareMockForUserExists() {
+	private function prepareMockForUserExists(): void {
 		$this->access->expects($this->any())
 			->method('username2dn')
 			->willReturnCallback(function ($uid) {
@@ -114,10 +109,8 @@ class User_LDAPTest extends TestCase {
 
 	/**
 	 * Prepares the Access mock for checkPassword tests
-	 * @param bool $noDisplayName
-	 * @return void
 	 */
-	private function prepareAccessForCheckPassword($noDisplayName = false) {
+	private function prepareAccessForCheckPassword(bool $noDisplayName = false): void {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
@@ -347,7 +340,7 @@ class User_LDAPTest extends TestCase {
 			->method('invalidate')
 			->with('uid');
 
-		$this->assertEquals(true, $this->backend->deleteUser('uid'));
+		$this->assertTrue($this->backend->deleteUser('uid'));
 	}
 
 	/**
@@ -404,7 +397,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers();
-		$this->assertEquals(3, count($result));
+		$this->assertCount(3, $result);
 	}
 
 	public function testGetUsersLimitOffset(): void {
@@ -412,7 +405,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('', 1, 2);
-		$this->assertEquals(1, count($result));
+		$this->assertCount(1, $result);
 	}
 
 	public function testGetUsersLimitOffset2(): void {
@@ -420,7 +413,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('', 2, 1);
-		$this->assertEquals(2, count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersSearchWithResult(): void {
@@ -428,7 +421,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('yo');
-		$this->assertEquals(2, count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersSearchEmptyResult(): void {
@@ -436,7 +429,7 @@ class User_LDAPTest extends TestCase {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('nix');
-		$this->assertEquals(0, count($result));
+		$this->assertCount(0, $result);
 	}
 
 	private function getUsers($search = '', $limit = null, $offset = null) {
@@ -453,7 +446,7 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->registerBackend($backend);
 
 		$result = $this->getUsers();
-		$this->assertEquals(3, count($result));
+		$this->assertCount(3, $result);
 	}
 
 	public function testGetUsersViaAPILimitOffset(): void {
@@ -462,7 +455,7 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->registerBackend($backend);
 
 		$result = $this->getUsers('', 1, 2);
-		$this->assertEquals(1, count($result));
+		$this->assertCount(1, $result);
 	}
 
 	public function testGetUsersViaAPILimitOffset2(): void {
@@ -471,7 +464,7 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->registerBackend($backend);
 
 		$result = $this->getUsers('', 2, 1);
-		$this->assertEquals(2, count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersViaAPISearchWithResult(): void {
@@ -480,7 +473,7 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->registerBackend($backend);
 
 		$result = $this->getUsers('yo');
-		$this->assertEquals(2, count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersViaAPISearchEmptyResult(): void {
@@ -489,14 +482,12 @@ class User_LDAPTest extends TestCase {
 		Server::get(IUserManager::class)->registerBackend($backend);
 
 		$result = $this->getUsers('nix');
-		$this->assertEquals(0, count($result));
+		$this->assertCount(0, $result);
 	}
 
 	public function testUserExists(): void {
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
-
-		$user = $this->createMock(User::class);
 
 		$this->userManager->expects($this->never())
 			->method('get');
@@ -1182,8 +1173,6 @@ class User_LDAPTest extends TestCase {
 
 	/**
 	 * Prepares the Access mock for setPassword tests
-	 *
-	 * @param bool $enablePasswordChange
 	 */
 	private function prepareAccessForSetPassword($enablePasswordChange = true) {
 		$this->connection->expects($this->any())
@@ -1328,7 +1317,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($this->backend->setPassword('uid', 'password'), 'result');
 	}
 
-	public function avatarDataProvider() {
+	public static function avatarDataProvider(): array {
 		return [
 			[ 'validImageData', false ],
 			[ 'corruptImageData', true ],
@@ -1336,8 +1325,10 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider avatarDataProvider */
-	public function testCanChangeAvatar($imageData, $expected): void {
+	/**
+	 * @dataProvider avatarDataProvider
+	 */
+	public function testCanChangeAvatar(string|bool $imageData, bool $expected): void {
 		$isValidImage = str_starts_with((string)$imageData, 'valid');
 
 		$user = $this->createMock(User::class);
@@ -1451,9 +1442,9 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($this->backend->createUser('uid', 'password'));
 	}
 
-	public function actionProvider() {
+	public static function actionProvider(): array {
 		return [
-			[ 'ldapUserAvatarRule', 'default', Backend::PROVIDE_AVATAR, true]	,
+			[ 'ldapUserAvatarRule', 'default', Backend::PROVIDE_AVATAR, true],
 			[ 'ldapUserAvatarRule', 'data:selfiePhoto', Backend::PROVIDE_AVATAR, true],
 			[ 'ldapUserAvatarRule', 'none', Backend::PROVIDE_AVATAR, false],
 			[ 'turnOnPasswordChange', 0, Backend::SET_PASSWORD, false],
@@ -1464,7 +1455,7 @@ class User_LDAPTest extends TestCase {
 	/**
 	 * @dataProvider actionProvider
 	 */
-	public function testImplementsAction($configurable, $value, $actionCode, $expected): void {
+	public function testImplementsAction(string $configurable, string|int $value, int $actionCode, bool $expected): void {
 		$this->pluginManager->expects($this->once())
 			->method('getImplementedActions')
 			->willReturn(0);

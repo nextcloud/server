@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ namespace OCA\User_LDAP\Tests;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Test_Connection
@@ -19,19 +21,16 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldap;
-
-	/** @var Connection */
-	protected $connection;
+	protected ILDAPWrapper&MockObject $ldap;
+	protected Connection $connection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
-		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
-			->setMethods(['getFromCache', 'writeToCache'])
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->onlyMethods(['getFromCache', 'writeToCache'])
 			->setConstructorArgs([$this->ldap, '', null])
 			->getMock();
 
