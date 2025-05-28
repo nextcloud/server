@@ -144,6 +144,14 @@ trait CommonSettingsTrait {
 		$this->declarativeSettingsManager->loadSchemas();
 		$declarativeSettings = $this->declarativeSettingsManager->getFormsWithValues($user, $type, $section);
 
+		foreach ($declarativeSettings as &$form) {
+			foreach ($form['fields'] as &$field) {
+				if (isset($field['sensitive']) && $field['sensitive'] === true && !empty($field['value'])) {
+					$field['value'] = 'dummySecret';
+				}
+			}
+		}
+
 		if ($type === 'personal') {
 			$settings = array_values($this->settingsManager->getPersonalSettings($section));
 			if ($section === 'theming') {

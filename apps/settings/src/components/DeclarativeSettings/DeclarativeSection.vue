@@ -119,6 +119,7 @@ import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 
 export default {
 	name: 'DeclarativeSection',
@@ -202,9 +203,19 @@ export default {
 			}
 		},
 
-		updateDeclarativeSettingsValue(formField, value = null) {
+		async updateDeclarativeSettingsValue(formField, value = null) {
 			try {
-				return axios.post(generateOcsUrl('settings/api/declarative/value'), {
+				let url = generateOcsUrl('settings/api/declarative/value')
+				if (formField?.sensitive === true) {
+					url = generateOcsUrl('settings/api/declarative/value-sensitive')
+					try {
+						await confirmPassword()
+					} catch (err) {
+						showError(t('settings', 'Password confirmation is required'))
+						return
+					}
+				}
+				return axios.post(url, {
 					app: this.formApp,
 					formId: this.form.id.replace(this.formApp + '_', ''), // Remove app prefix to send clean form id
 					fieldId: formField.id,

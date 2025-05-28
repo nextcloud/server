@@ -18,6 +18,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\ICrypto;
 use OCP\Settings\DeclarativeSettingsTypes;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
@@ -49,6 +50,9 @@ class DeclarativeManagerTest extends TestCase {
 
 	/** @var LoggerInterface|MockObject */
 	private $logger;
+
+	/** @var ICrypto|MockObject */
+	private $crypto;
 
 	/** @var IUser|MockObject */
 	private $user;
@@ -215,6 +219,36 @@ class DeclarativeManagerTest extends TestCase {
 					],
 				],
 			],
+			[
+				'id' => 'test_sensitive_field',
+				'title' => 'Sensitive text field',
+				'description' => 'Set some secure value setting that is stored encrypted',
+				'type' => DeclarativeSettingsTypes::TEXT,
+				'label' => 'Sensitive field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => true, // only for TEXT, PASSWORD types
+			],
+			[
+				'id' => 'test_sensitive_field_2',
+				'title' => 'Sensitive password field',
+				'description' => 'Set some password setting that is stored encrypted',
+				'type' => DeclarativeSettingsTypes::PASSWORD,
+				'label' => 'Sensitive field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => true, // only for TEXT, PASSWORD types
+			],
+			[
+				'id' => 'test_non_sensitive_field',
+				'title' => 'Password field',
+				'description' => 'Set some password setting',
+				'type' => DeclarativeSettingsTypes::PASSWORD,
+				'label' => 'Password field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => false,
+			],
 		],
 	];
 
@@ -229,6 +263,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 
 		$this->declarativeManager = new DeclarativeManager(
 			$this->eventDispatcher,
@@ -236,7 +271,8 @@ class DeclarativeManagerTest extends TestCase {
 			$this->coordinator,
 			$this->config,
 			$this->appConfig,
-			$this->logger
+			$this->logger,
+			$this->crypto,
 		);
 
 		$this->user = $this->createMock(IUser::class);
