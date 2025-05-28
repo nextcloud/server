@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,28 +14,19 @@ use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
 
-	/** @var DecryptAll */
-	protected $instance;
+	protected DecryptAll $instance;
 
-	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
-	protected $util;
-
-	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject */
-	protected $keyManager;
-
-	/** @var Crypt | \PHPUnit\Framework\MockObject\MockObject */
-	protected $crypt;
-
-	/** @var Session | \PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
-	protected $questionHelper;
+	protected Util&MockObject $util;
+	protected KeyManager&MockObject $keyManager;
+	protected Crypt&MockObject $crypt;
+	protected Session&MockObject $session;
+	protected QuestionHelper&MockObject $questionHelper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -75,6 +68,7 @@ class DecryptAllTest extends TestCase {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';
 		$userKey = 'userKey';
+		$masterKey = 'userKey';
 		$unencryptedKey = 'unencryptedKey';
 
 		$this->keyManager->expects($this->any())->method('getRecoveryKeyId')
@@ -105,7 +99,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function dataTestGetPrivateKey() {
+	public static function dataTestGetPrivateKey() {
 		return [
 			['user1', 'recoveryKey', 'masterKeyId'],
 			['recoveryKeyId', 'recoveryKeyId', 'masterKeyId'],

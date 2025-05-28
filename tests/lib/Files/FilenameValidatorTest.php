@@ -409,7 +409,7 @@ class FilenameValidatorTest extends TestCase {
 		$this->assertEquals($expected, $validator->sanitizeFilename($filename));
 	}
 
-	public function dataSanitizeFilename(): array {
+	public static function dataSanitizeFilename(): array {
 		return [
 			'valid name' => [
 				'a * b.txt', ['.htaccess'], [], [], [], 'a * b.txt'

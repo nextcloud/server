@@ -159,15 +159,15 @@ class AppManagerTest extends TestCase {
 		}
 	}
 
-	public function dataGetAppIcon(): array {
+	public static function dataGetAppIcon(): array {
 		$nothing = function ($appId) {
-			$this->assertEquals('test', $appId);
+			self::assertEquals('test', $appId);
 			throw new \RuntimeException();
 		};
 
 		$createCallback = function ($workingIcons) {
 			return function ($appId, $icon) use ($workingIcons) {
-				$this->assertEquals('test', $appId);
+				self::assertEquals('test', $appId);
 				if (in_array($icon, $workingIcons)) {
 					return '/path/' . $icon;
 				}

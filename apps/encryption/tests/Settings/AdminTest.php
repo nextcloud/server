@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,24 +15,20 @@ use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var IL10N */
-	private $l;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var ISession */
-	private $session;
+
+	protected Admin $admin;
+
+	protected IL10N&MockObject $l;
+	protected LoggerInterface&MockObject $logger;
+	protected IUserSession&MockObject $userSession;
+	protected IConfig&MockObject $config;
+	protected IUserManager&MockObject $userManager;
+	protected ISession&MockObject $session;
 
 	protected function setUp(): void {
 		parent::setUp();
