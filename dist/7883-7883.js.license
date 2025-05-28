@@ -20,7 +20,7 @@ SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
-	- version: 2.4.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
