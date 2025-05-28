@@ -1202,7 +1202,7 @@ return array(
     'OC\\Contacts\\ContactsMenu\\Providers\\EMailProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/EMailProvider.php',
     'OC\\Contacts\\ContactsMenu\\Providers\\LocalTimeProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/LocalTimeProvider.php',
     'OC\\Contacts\\ContactsMenu\\Providers\\ProfileProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/ProfileProvider.php',
-    'OC\\Core\\Application' => $baseDir . '/core/Application.php',
+    'OC\\Core\\AppInfo\\Application' => $baseDir . '/core/AppInfo/Application.php',
     'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => $baseDir . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
     'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => $baseDir . '/core/BackgroundJobs/CheckForUserCertificates.php',
     'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => $baseDir . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
