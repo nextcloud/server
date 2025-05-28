@@ -55,16 +55,6 @@ class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendar
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
-	/**
-	 * @param string $pattern which should match within the $searchProperties
-	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - optional parameters:
-	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param int|null $limit - limit number of search results
-	 * @param int|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
-	 * @since 13.0.0
-	 */
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern, $searchProperties, $options, $limit, $offset);
 	}
