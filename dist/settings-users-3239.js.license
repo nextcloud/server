@@ -9,7 +9,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
+SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
+SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inline-style-parser developers
@@ -33,6 +35,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
@@ -40,7 +43,10 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
@@ -58,8 +64,6 @@ SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -164,6 +168,9 @@ This file is generated from multiple sources. Included packages:
 - blurhash
 	- version: 2.0.5
 	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
@@ -203,11 +210,11 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- events
+	- version: 3.3.0
+	- license: MIT
 - extend
 	- version: 3.0.2
-	- license: MIT
-- fast-xml-parser
-	- version: 4.5.3
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -230,6 +237,9 @@ This file is generated from multiple sources. Included packages:
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
+- inherits
+	- version: 2.0.4
+	- license: ISC
 - inline-style-parser
 	- version: 0.1.1
 	- license: MIT
@@ -359,17 +369,29 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.0
 	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - space-separated-tokens
 	- version: 2.0.2
 	- license: MIT
 - splitpanes
 	- version: 2.4.1
 	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
 - striptags
 	- version: 3.2.0
-	- license: MIT
-- strnum
-	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 4.0.0
@@ -412,6 +434,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - unist-util-visit
 	- version: 5.0.0
+	- license: MIT
+- util-deprecate
+	- version: 1.0.2
 	- license: MIT
 - vfile-message
 	- version: 4.0.2
