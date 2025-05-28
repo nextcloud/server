@@ -161,7 +161,7 @@ OC.L10N.register(
     "When:" : "Wann:",
     "Location:" : "Ort:",
     "Link:" : "Link:",
-    "Occurring:" : "Vorkommend:",
+    "Occurring:" : "Findet statt:",
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
     "More options …" : "Weitere Optionen …",
