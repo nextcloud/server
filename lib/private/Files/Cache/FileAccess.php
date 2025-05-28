@@ -96,24 +96,11 @@ class FileAccess implements IFileAccess {
 		return $this->rowsToEntries($rows);
 	}
 
-	/**
-	 * Retrieves files stored in a specific storage that have a specified ancestor in the file hierarchy.
-	 * Allows filtering by mime types, encryption status, and limits the number of results.
-	 *
-	 * @param int $storageId The ID of the storage to search within.
-	 * @param int $folderId The file ID of the ancestor to base the search on.
-	 * @param int $fileIdCursor The last processed file ID. Only files with a higher ID will be included. Defaults to 0.
-	 * @param int $maxResults The maximum number of results to retrieve. If set to 0, all matching files will be retrieved.
-	 * @param list<int> $mimeTypeIds An array of mime types to filter the results. If empty, no mime type filtering will be applied.
-	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
-	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
-	 * @return \Generator A generator yielding matching files as cache entries.
-	 * @throws \OCP\DB\Exception
-	 */
 	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator {
 		$qb = $this->getQuery();
-		$qb->selectFileCache();
-		$qb->andWhere($qb->expr()->eq('filecache.fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
+		$qb->select('path')
+			->from('filecache');
+		$qb->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		/** @var array{path:string}|false $root */
 		$root = $result->fetch();
@@ -171,17 +158,6 @@ class FileAccess implements IFileAccess {
 		$files->closeCursor();
 	}
 
-	/**
-	 * Retrieves a list of all distinct mounts.
-	 * Allows filtering by specific mount providers and excluding certain mount points.
-	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
-	 *
-	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param bool $excludeTrashbinMounts Whether to exclude mounts that mount directories in a user's trashbin.
-	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
-	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
-	 * @throws \OCP\DB\Exception
-	 */
 	public function getDistinctMounts(array $mountProviders = [], bool $excludeTrashbinMounts = true, bool $rewriteHomeDirectories = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
@@ -212,12 +188,13 @@ class FileAccess implements IFileAccess {
 				// Only crawl files, not cache or trashbin
 				$qb = $this->getQuery();
 				try {
-					$qb->selectFileCache();
+					$qb->select('fileid')
+						->from('filecache');
 					/** @var array|false $root */
 					$root = $qb
-						->andWhere($qb->expr()->eq('filecache.storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-						->andWhere($qb->expr()->eq('filecache.parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
-						->andWhere($qb->expr()->eq('filecache.name', $qb->createNamedParameter('files')))
+						->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
+						->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('files')))
 						->executeQuery()->fetch();
 					if ($root !== false) {
 						$overrideRoot = (int)$root['fileid'];

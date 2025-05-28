@@ -91,8 +91,10 @@ interface IFileAccess {
 	 * @param list<int> $mimeTypeIds An array of mime types to filter the results. If empty, no mime type filtering will be applied.
 	 * @param bool $endToEndEncrypted Whether to include EndToEndEncrypted files
 	 * @param bool $serverSideEncrypted Whether to include ServerSideEncrypted files
-	 * @return \Generator A generator yielding matching files as cache entries.
+	 * @return \Generator<ICacheEntry> A generator yielding matching files as cache entries.
 	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
 	 */
 	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator;
 
@@ -104,7 +106,7 @@ interface IFileAccess {
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
 	 * @param bool $excludeTrashbinMounts Whether to include mounts that mount a directory in a user's trashbin.
 	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
-	 * @return \Generator A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
+	 * @return \Generator<array{storage_id: int, root_id: int, overridden_root: int}> A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
 	 * @throws \OCP\DB\Exception
 	 *
 	 * @since 32.0.0
