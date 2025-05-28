@@ -364,7 +364,7 @@ $comment-padding: 10px;
 
 	&__message {
 		white-space: pre-wrap;
-		word-break: break-word;
+		overflow-wrap: break-word;
 		max-height: 70px;
 		overflow: hidden;
 		margin-top: -6px;
