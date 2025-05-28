@@ -124,8 +124,19 @@ function sharedSetup() {
 	cy.location('pathname', { timeout: 10000 })
 		.should('include', '/core/apps/recommended')
 
+	// See the apps setup
+	cy.get('[data-cy-setup-recommended-apps]')
+		.should('be.visible')
+		.within(() => {
+			cy.findByRole('heading', { name: 'Recommended apps' })
+				.should('be.visible')
+			cy.findByRole('button', { name: 'Skip' })
+				.should('be.visible')
+			cy.findByRole('button', { name: 'Install recommended apps' })
+				.should('be.visible')
+		})
+
 	// Skip the setup apps
-	cy.get('[data-cy-setup-recommended-apps]').should('be.visible')
 	cy.get('[data-cy-setup-recommended-apps-skip]').click()
 
 	// Go to files
