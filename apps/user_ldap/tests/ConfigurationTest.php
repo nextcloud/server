@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,15 +11,14 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\Configuration;
 
 class ConfigurationTest extends \Test\TestCase {
-	/** @var Configuration */
-	protected $configuration;
+	protected Configuration $configuration;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->configuration = new Configuration('t01', false);
 	}
 
-	public function configurationDataProvider() {
+	public static function configurationDataProvider(): array {
 		$inputWithDN = [
 			'cn=someUsers,dc=example,dc=org',
 			'  ',
@@ -89,12 +89,12 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider configurationDataProvider
 	 */
-	public function testSetValue($key, $input, $expected): void {
+	public function testSetValue(string $key, string|array $input, string|array $expected): void {
 		$this->configuration->setConfiguration([$key => $input]);
 		$this->assertSame($this->configuration->$key, $expected);
 	}
 
-	public function avatarRuleValueProvider() {
+	public static function avatarRuleValueProvider(): array {
 		return [
 			['none', []],
 			['data:selfie', ['selfie']],
@@ -108,7 +108,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider avatarRuleValueProvider
 	 */
-	public function testGetAvatarAttributes($setting, $expected): void {
+	public function testGetAvatarAttributes(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		$this->assertSame($expected, $this->configuration->getAvatarAttributes());
 	}
@@ -116,7 +116,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/**
 	 * @dataProvider avatarRuleValueProvider
 	 */
-	public function testResolveRule($setting, $expected): void {
+	public function testResolveRule(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		// so far the only thing that can get resolved :)
 		$this->assertSame($expected, $this->configuration->resolveRule('avatar'));

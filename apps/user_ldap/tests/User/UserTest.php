@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\User;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
@@ -19,6 +21,7 @@ use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -29,33 +32,24 @@ use Psr\Log\LoggerInterface;
  * @package OCA\User_LDAP\Tests\User
  */
 class UserTest extends \Test\TestCase {
-	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
-	protected $access;
-	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
-	protected $image;
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $avatarManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var string */
-	protected $uid = 'alice';
-	/** @var string */
-	protected $dn = 'uid=alice,dc=foo,dc=bar';
-	/** @var User */
-	protected $user;
+	protected Access&MockObject $access;
+	protected Connection&MockObject $connection;
+	protected IConfig&MockObject $config;
+	protected INotificationManager&MockObject $notificationManager;
+	protected IUserManager&MockObject $userManager;
+	protected Image&MockObject $image;
+	protected IAvatarManager&MockObject $avatarManager;
+	protected LoggerInterface&MockObject $logger;
+	protected string $uid = 'alice';
+	protected string $dn = 'uid=alice,dc=foo,dc=bar';
+	protected User $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = $this->createMock(Connection::class);
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 
 		$this->access = $this->createMock(Access::class);
 		$this->access->connection = $this->connection;
@@ -100,9 +94,7 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('email'))
 			->willReturn(['alice@foo.bar']);
 
-		$coreUser = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$coreUser = $this->createMock(IUser::class);
 		$coreUser->expects($this->once())
 			->method('setSystemEMailAddress')
 			->with('alice@foo.bar');
@@ -506,7 +498,7 @@ class UserTest extends \Test\TestCase {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image));
+			->with($this->image);
 
 		$this->avatarManager->expects($this->once())
 			->method('getAvatar')
@@ -617,7 +609,7 @@ class UserTest extends \Test\TestCase {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image));
+			->with($this->image);
 
 		$this->avatarManager->expects($this->once())
 			->method('getAvatar')
@@ -723,7 +715,7 @@ class UserTest extends \Test\TestCase {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->once())
 			->method('set')
-			->with($this->isInstanceOf($this->image))
+			->with($this->image)
 			->willThrowException(new \Exception());
 
 		$this->avatarManager->expects($this->once())
@@ -780,7 +772,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateAvatar();
 	}
 
-	public function extStorageHomeDataProvider() {
+	public static function extStorageHomeDataProvider(): array {
 		return [
 			[ 'myFolder', null ],
 			[ '', null, false ],
@@ -865,7 +857,7 @@ class UserTest extends \Test\TestCase {
 		$this->assertFalse($this->user->getAvatarImage());
 	}
 
-	public function imageDataProvider() {
+	public static function imageDataProvider(): array {
 		return [
 			[ false, false ],
 			[ 'corruptData', false ],
@@ -884,7 +876,7 @@ class UserTest extends \Test\TestCase {
 			'updateExtStorageHome',
 		];
 
-		/** @var User|\PHPUnit\Framework\MockObject\MockObject $userMock */
+		/** @var User&MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
 			->setConstructorArgs([
 				$this->uid,
@@ -897,7 +889,7 @@ class UserTest extends \Test\TestCase {
 				$this->userManager,
 				$this->notificationManager
 			])
-			->setMethods($requiredMethods)
+			->onlyMethods($requiredMethods)
 			->getMock();
 
 		$this->connection->setConfiguration([
@@ -937,7 +929,7 @@ class UserTest extends \Test\TestCase {
 		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
 
-	public function emptyHomeFolderAttributeValueProvider() {
+	public static function emptyHomeFolderAttributeValueProvider(): array {
 		return [
 			'empty' => [''],
 			'prefixOnly' => ['attr:'],
@@ -947,7 +939,7 @@ class UserTest extends \Test\TestCase {
 	/**
 	 * @dataProvider emptyHomeFolderAttributeValueProvider
 	 */
-	public function testGetHomePathNotConfigured($attributeValue): void {
+	public function testGetHomePathNotConfigured(string $attributeValue): void {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
@@ -1011,7 +1003,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->getHomePath();
 	}
 
-	public function displayNameProvider() {
+	public static function displayNameProvider(): array {
 		return [
 			['Roland Deschain', '', 'Roland Deschain', false],
 			['Roland Deschain', '', 'Roland Deschain', true],
@@ -1023,7 +1015,7 @@ class UserTest extends \Test\TestCase {
 	/**
 	 * @dataProvider displayNameProvider
 	 */
-	public function testComposeAndStoreDisplayName($part1, $part2, $expected, $expectTriggerChange): void {
+	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $expectTriggerChange): void {
 		$this->config->expects($this->once())
 			->method('setUserValue');
 		$oldName = $expectTriggerChange ? 'xxGunslingerxx' : null;

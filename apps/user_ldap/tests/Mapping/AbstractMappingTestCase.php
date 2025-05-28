@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,7 +12,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\IDBConnection;
 use OCP\Server;
 
-abstract class AbstractMappingTest extends \Test\TestCase {
+abstract class AbstractMappingTestCase extends \Test\TestCase {
 	abstract public function getMapper(IDBConnection $dbMock);
 
 	/**
@@ -29,8 +30,8 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * returns an array of test entries with dn, name and uuid as keys
 	 * @return array
 	 */
-	protected function getTestData() {
-		$data = [
+	protected static function getTestData(): array {
+		return [
 			[
 				'dn' => 'uid=foobar,dc=example,dc=org',
 				'name' => 'Foobar',
@@ -47,8 +48,6 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 				'uuid' => '3333-CCCC-1234-CDEF',
 			]
 		];
-
-		return $data;
 	}
 
 	/**
@@ -56,7 +55,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * @param AbstractMapping $mapper
 	 * @param array $data
 	 */
-	protected function mapEntries($mapper, $data) {
+	protected function mapEntries(AbstractMapping $mapper, array $data): void {
 		foreach ($data as $entry) {
 			$done = $mapper->map($entry['dn'], $entry['name'], $entry['uuid']);
 			$this->assertTrue($done);
@@ -70,7 +69,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * @return array 0 = \OCA\User_LDAP\Mapping\AbstractMapping, 1 = array of
 	 *               users or groups
 	 */
-	private function initTest() {
+	private function initTest(): array {
 		$dbc = Server::get(IDBConnection::class);
 		$mapper = $this->getMapper($dbc);
 		$data = $this->getTestData();
@@ -157,13 +156,13 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		[$mapper,] = $this->initTest();
 
 		$names = $mapper->getNamesBySearch('oo', '%', '%');
-		$this->assertTrue(is_array($names));
+		$this->assertIsArray($names);
 		$this->assertSame(2, count($names));
-		$this->assertTrue(in_array('Foobar', $names));
-		$this->assertTrue(in_array('Barfoo', $names));
+		$this->assertContains('Foobar', $names);
+		$this->assertContains('Barfoo', $names);
 		$names = $mapper->getNamesBySearch('nada');
-		$this->assertTrue(is_array($names));
-		$this->assertSame(0, count($names));
+		$this->assertIsArray($names);
+		$this->assertCount(0, $names);
 	}
 
 	/**
@@ -250,20 +249,20 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 		// get all entries without specifying offset or limit
 		$results = $mapper->getList();
-		$this->assertSame(3, count($results));
+		$this->assertCount(3, $results);
 
 		// get all-1 entries by specifying offset, and an high limit
 		// specifying only offset without limit will not work by underlying lib
 		$results = $mapper->getList(1, 999);
-		$this->assertSame(count($data) - 1, count($results));
+		$this->assertCount(count($data) - 1, $results);
 
 		// get first 2 entries by limit, but not offset
 		$results = $mapper->getList(0, 2);
-		$this->assertSame(2, count($results));
+		$this->assertCount(2, $results);
 
 		// get 2nd entry by specifying both offset and limit
 		$results = $mapper->getList(1, 1);
-		$this->assertSame(1, count($results));
+		$this->assertCount(1, $results);
 	}
 
 	public function testGetListOfIdsByDn(): void {
@@ -282,6 +281,6 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		}
 
 		$result = $mapper->getListOfIdsByDn($listOfDNs);
-		$this->assertSame(66640 / 20, count($result));
+		$this->assertCount(66640 / 20, $result);
 	}
 }
