@@ -56,7 +56,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
-	- version: 2.4.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.1
@@ -65,7 +65,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.1.1
+	- version: 6.3.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -89,7 +89,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.25.1
+	- version: 8.26.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
