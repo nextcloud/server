@@ -139,8 +139,8 @@ class AppleProvisioningPluginTest extends TestCase {
 		$this->l10n->expects($this->exactly(2))
 			->method('t')
 			->willReturnMap([
-				['Configures a CalDAV account', 'LocalizedConfiguresCalDAV'],
-				['Configures a CardDAV account', 'LocalizedConfiguresCardDAV'],
+				['Configures a CalDAV account', [], 'LocalizedConfiguresCalDAV'],
+				['Configures a CardDAV account', [], 'LocalizedConfiguresCardDAV'],
 			]);
 
 		$this->sabreResponse->expects($this->once())
