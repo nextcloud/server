@@ -316,6 +316,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\RefreshWebcalJobRegistrar' => __DIR__ . '/..' . '/../lib/Migration/RefreshWebcalJobRegistrar.php',
         'OCA\\DAV\\Migration\\RegenerateBirthdayCalendars' => __DIR__ . '/..' . '/../lib/Migration/RegenerateBirthdayCalendars.php',
         'OCA\\DAV\\Migration\\RegisterBuildReminderIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/RegisterBuildReminderIndexBackgroundJob.php',
+        'OCA\\DAV\\Migration\\RegisterUpdateCalendarResourcesRoomBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/RegisterUpdateCalendarResourcesRoomBackgroundJob.php',
         'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => __DIR__ . '/..' . '/../lib/Migration/RemoveClassifiedEventActivity.php',
         'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => __DIR__ . '/..' . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
         'OCA\\DAV\\Migration\\RemoveObjectProperties' => __DIR__ . '/..' . '/../lib/Migration/RemoveObjectProperties.php',
