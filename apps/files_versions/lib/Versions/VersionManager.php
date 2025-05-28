@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Versions;
 
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Events\VersionCreatedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -129,7 +131,16 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	public function createVersionEntity(File $file): void {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
-			$backend->createVersionEntity($file);
+			$versionEntity = $backend->createVersionEntity($file);
+
+			if ($versionEntity instanceof VersionEntity) {
+				foreach ($backend->getVersionsForFile($file->getOwner(), $file) as $version) {
+					if ($version->getRevisionId() === $versionEntity->getTimestamp()) {
+						$this->dispatcher->dispatchTyped(new VersionCreatedEvent($file, $version));
+						break;
+					}
+				}
+			}
 		}
 	}
 
