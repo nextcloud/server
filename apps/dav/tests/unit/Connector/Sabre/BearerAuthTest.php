@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,14 +23,10 @@ use Test\TestCase;
  * @group DB
  */
 class BearerAuthTest extends TestCase {
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var BearerAuth */
-	private $bearerAuth;
+	private IUserSession&MockObject $userSession;
+	private ISession&MockObject $session;
+	private IRequest&MockObject $request;
+	private BearerAuth $bearerAuth;
 
 	private IConfig&MockObject $config;
 
@@ -74,9 +72,9 @@ class BearerAuthTest extends TestCase {
 	}
 
 	public function testChallenge(): void {
-		/** @var \PHPUnit\Framework\MockObject\MockObject|RequestInterface $request */
+		/** @var RequestInterface&MockObject $request */
 		$request = $this->createMock(RequestInterface::class);
-		/** @var \PHPUnit\Framework\MockObject\MockObject|ResponseInterface $response */
+		/** @var ResponseInterface&MockObject $response */
 		$response = $this->createMock(ResponseInterface::class);
 		$result = $this->bearerAuth->challenge($request, $response);
 		$this->assertEmpty($result);

@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\tests\unit\DAV;
+namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use Sabre\DAV\Auth\Backend\BasicCallBack;
@@ -14,7 +16,7 @@ use Sabre\HTTP\Sapi;
 use Test\TestCase;
 
 class AnonymousOptionsTest extends TestCase {
-	private function sendRequest($method, $path, $userAgent = '') {
+	private function sendRequest(string $method, string $path, string $userAgent = '') {
 		$server = new Server();
 		$server->addPlugin(new AnonymousOptionsPlugin());
 		$server->addPlugin(new Plugin(new BasicCallBack(function () {

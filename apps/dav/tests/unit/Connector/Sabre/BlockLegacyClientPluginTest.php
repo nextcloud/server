@@ -83,7 +83,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		}
 
 		/** @var RequestInterface|MockObject $request */
-		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->createMock(RequestInterface::class);
 		$request
 			->expects($this->once())
 			->method('getHeader')

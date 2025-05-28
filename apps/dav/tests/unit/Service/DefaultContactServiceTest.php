@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\Service;
+namespace OCA\DAV\Tests\unit\Service;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Service\DefaultContactService;
@@ -24,12 +24,12 @@ use Symfony\Component\Uid\Uuid;
 use Test\TestCase;
 
 class DefaultContactServiceTest extends TestCase {
-	private DefaultContactService $service;
-	private MockObject|CardDavBackend $cardDav;
-	private MockObject|IAppManager $appManager;
-	private MockObject|IAppDataFactory $appDataFactory;
-	private MockObject|LoggerInterface $logger;
-	private MockObject|IAppConfig $config;
+	protected DefaultContactService $service;
+	protected CardDavBackend&MockObject $cardDav;
+	protected IAppManager&MockObject $appManager;
+	protected IAppDataFactory&MockObject $appDataFactory;
+	protected LoggerInterface&MockObject $logger;
+	protected IAppConfig&MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -84,7 +84,7 @@ class DefaultContactServiceTest extends TestCase {
 		$folder->method('getFile')->willReturn($file);
 		$appData->method('getFolder')->willReturn($folder);
 		$this->appDataFactory->method('get')->willReturn($appData);
-		
+
 		$capturedCardData = null;
 		$this->cardDav->expects($this->once())
 			->method('createCard')
@@ -97,9 +97,9 @@ class DefaultContactServiceTest extends TestCase {
 				}),
 				$this->anything()
 			)->willReturn(null);
-		
+
 		$this->service->createDefaultContact(123);
-		
+
 		$vcard = \Sabre\VObject\Reader::read($capturedCardData);
 		$this->assertNotEquals($originalUid, $vcard->UID->getValue());
 		$this->assertTrue(Uuid::isValid($vcard->UID->getValue()));

@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\ListCalendarShares;

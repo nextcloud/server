@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Listener;
+namespace OCA\DAV\Tests\unit\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
@@ -20,10 +20,8 @@ use Test\TestCase;
 
 class ActivityUpdaterListenerTest extends TestCase {
 
-	/** @var ActivityBackend|MockObject */
-	private $activityBackend;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private ActivityBackend&MockObject $activityBackend;
+	private LoggerInterface&MockObject $logger;
 	private ActivityUpdaterListener $listener;
 
 	protected function setUp(): void {
@@ -55,7 +53,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function dataForTestHandleCalendarObjectDeletedEvent(): array {
+	public static function dataForTestHandleCalendarObjectDeletedEvent(): array {
 		return [
 			[1, [], [], [], true],
 			[1, [], [], ['{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at' => 120], false],
@@ -77,7 +75,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function dataForTestHandleCalendarDeletedEvent(): array {
+	public static function dataForTestHandleCalendarDeletedEvent(): array {
 		return [
 			[1, [], [], true],
 			[1, ['{' . SharingPlugin::NS_NEXTCLOUD . '}deleted-at' => 120], [], false],

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,6 +21,7 @@ use OCP\IRequestId;
 use OCP\ITagManager;
 use OCP\ITempManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -29,11 +31,7 @@ use Test\Traits\UserTrait;
 abstract class RequestTestCase extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
-
-	/**
-	 * @var ServerFactory
-	 */
-	protected $serverFactory;
+	protected ServerFactory $serverFactory;
 
 	protected function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
@@ -52,20 +50,18 @@ abstract class RequestTestCase extends TestCase {
 			\OCP\Server::get(IUserSession::class),
 			\OCP\Server::get(IMountManager::class),
 			\OCP\Server::get(ITagManager::class),
-			$this->getMockBuilder(IRequest::class)
-				->disableOriginalConstructor()
-				->getMock(),
+			$this->createMock(IRequest::class),
 			\OCP\Server::get(IPreview::class),
 			\OCP\Server::get(IEventDispatcher::class),
-			\OC::$server->getL10N('dav')
+			\OCP\Server::get(IFactory::class)->get('dav'),
 		);
 	}
 
-	protected function setupUser($name, $password) {
+	protected function setupUser($name, $password): View {
 		$this->createUser($name, $password);
 		$tmpFolder = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->loginAsUser($name);
+		self::loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
 

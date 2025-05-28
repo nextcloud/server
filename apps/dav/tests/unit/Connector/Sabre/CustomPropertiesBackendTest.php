@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -25,42 +26,21 @@ use Sabre\DAV\Tree;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class CustomPropertiesBackendTest extends \Test\TestCase {
-
-	/**
-	 * @var \Sabre\DAV\Server
-	 */
-	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var CustomPropertiesBackend
-	 */
-	private $plugin;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
-
-	/** @property MockObject|DefaultCalendarValidator */
-	private $defaultCalendarValidator;
+	private \Sabre\DAV\Server $server;
+	private \Sabre\DAV\Tree&MockObject $tree;
+	private IUser&MockObject $user;
+	private DefaultCalendarValidator&MockObject $defaultCalendarValidator;
+	private CustomPropertiesBackend $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->server = new \Sabre\DAV\Server();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tree = $this->createMock(Tree::class);
 
-		$userId = $this->getUniqueID('testcustompropertiesuser');
+		$userId = self::getUniqueID('testcustompropertiesuser');
 
-		$this->user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($userId);
@@ -88,12 +68,12 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			]
 		);
 		$deleteStatement->closeCursor();
+
+		parent::tearDown();
 	}
 
-	private function createTestNode($class) {
-		$node = $this->getMockBuilder($class)
-			->disableOriginalConstructor()
-			->getMock();
+	private function createTestNode(string $class) {
+		$node = $this->createMock($class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn(123);

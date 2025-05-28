@@ -21,9 +21,7 @@ use OCP\Server;
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp(): void {
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {

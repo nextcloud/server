@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -32,7 +33,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class NodeTest extends \Test\TestCase {
-	public function davPermissionsProvider() {
+	public static function davPermissionsProvider(): array {
 		return [
 			[Constants::PERMISSION_ALL, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVW'],
 			[Constants::PERMISSION_ALL, 'dir', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVCK'],
@@ -53,7 +54,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider davPermissionsProvider
 	 */
-	public function testDavPermissions($permissions, $type, $shared, $shareRootPermissions, $mounted, $internalPath, $expected): void {
+	public function testDavPermissions(int $permissions, string $type, bool $shared, int $shareRootPermissions, bool $mounted, string $internalPath, string $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getInternalPath', 'getStorage', 'getMountPoint'])
@@ -94,15 +95,13 @@ class NodeTest extends \Test\TestCase {
 		}
 		$info->method('getStorage')
 			->willReturn($storage);
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->createMock(View::class);
 
 		$node = new  File($view, $info);
 		$this->assertEquals($expected, $node->getDavPermissions());
 	}
 
-	public function sharePermissionsProvider() {
+	public static function sharePermissionsProvider(): array {
 		return [
 			[\OCP\Files\FileInfo::TYPE_FILE, null, 1, 1],
 			[\OCP\Files\FileInfo::TYPE_FILE, null, 3, 3],
@@ -145,18 +144,14 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharePermissionsProvider
 	 */
-	public function testSharePermissions($type, $user, $permissions, $expected): void {
-		$storage = $this->getMockBuilder(IStorage::class)
-			->disableOriginalConstructor()
-			->getMock();
+	public function testSharePermissions(string $type, ?string $user, int $permissions, int $expected): void {
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getPermissions')->willReturn($permissions);
 
-		$mountpoint = $this->getMockBuilder(IMountPoint::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$mountpoint = $this->createMock(IMountPoint::class);
 		$mountpoint->method('getMountPoint')->willReturn('myPath');
-		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
-		$share = $this->getMockBuilder(IShare::class)->disableOriginalConstructor()->getMock();
+		$shareManager = $this->createMock(IManager::class);
+		$share = $this->createMock(IShare::class);
 
 		if ($user === null) {
 			$shareManager->expects($this->never())->method('getShareByToken');
@@ -169,7 +164,7 @@ class NodeTest extends \Test\TestCase {
 
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions'])
+			->onlyMethods(['getStorage', 'getType', 'getMountPoint', 'getPermissions'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
@@ -177,9 +172,7 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getMountPoint')->willReturn($mountpoint);
 		$info->method('getPermissions')->willReturn($permissions);
 
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->createMock(View::class);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -189,11 +182,11 @@ class NodeTest extends \Test\TestCase {
 	public function testShareAttributes(): void {
 		$storage = $this->getMockBuilder(SharedStorage::class)
 			->disableOriginalConstructor()
-			->setMethods(['getShare'])
+			->onlyMethods(['getShare'])
 			->getMock();
 
-		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
-		$share = $this->getMockBuilder(IShare::class)->disableOriginalConstructor()->getMock();
+		$shareManager = $this->createMock(IManager::class);
+		$share = $this->createMock(IShare::class);
 
 		$storage->expects($this->once())
 			->method('getShare')
@@ -214,9 +207,7 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
 		/** @var View&MockObject $view */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->createMock(View::class);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
@@ -224,11 +215,8 @@ class NodeTest extends \Test\TestCase {
 	}
 
 	public function testShareAttributesNonShare(): void {
-		$storage = $this->getMockBuilder(IStorage::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
+		$storage = $this->createMock(IStorage::class);
+		$shareManager = $this->createMock(IManager::class);
 
 		/** @var Folder&MockObject */
 		$info = $this->getMockBuilder(Folder::class)
@@ -240,16 +228,14 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
 		/** @var View&MockObject */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->createMock(View::class);
 
 		$node = new File($view, $info);
 		$this->invokePrivate($node, 'shareManager', [$shareManager]);
 		$this->assertEquals([], $node->getShareAttributes());
 	}
 
-	public function sanitizeMtimeProvider() {
+	public static function sanitizeMtimeProvider(): array {
 		return [
 			[123456789, 123456789],
 			['987654321', 987654321],
@@ -259,7 +245,7 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sanitizeMtimeProvider
 	 */
-	public function testSanitizeMtime($mtime, $expected): void {
+	public function testSanitizeMtime(string|int $mtime, int $expected): void {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -272,7 +258,7 @@ class NodeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function invalidSanitizeMtimeProvider() {
+	public static function invalidSanitizeMtimeProvider(): array {
 		return [
 			[-1337], [0], ['abcdef'], ['-1337'], ['0'], [12321], [24 * 60 * 60 - 1],
 		];
@@ -281,17 +267,13 @@ class NodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider invalidSanitizeMtimeProvider
 	 */
-	public function testInvalidSanitizeMtime($mtime): void {
+	public function testInvalidSanitizeMtime(int|string $mtime): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$info = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->createMock(View::class);
+		$info = $this->createMock(FileInfo::class);
 
 		$node = new File($view, $info);
-		$result = $this->invokePrivate($node, 'sanitizeMtime', [$mtime]);
+		self::invokePrivate($node, 'sanitizeMtime', [$mtime]);
 	}
 }
