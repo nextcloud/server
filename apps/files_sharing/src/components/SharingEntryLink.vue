@@ -820,11 +820,6 @@ export default {
 
 			// reset password state after sync
 			this.$delete(this.share, 'newPassword')
-
-			// only update if valid share.
-			if (this.share.id) {
-				this.queueUpdate('password')
-			}
 		},
 
 		/**
@@ -839,7 +834,6 @@ export default {
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
-				this.queueUpdate('password')
 			}
 		},
 
@@ -855,8 +849,6 @@ export default {
 			if (this.hasUnsavedPassword) {
 				this.share.password = this.share.newPassword.trim()
 			}
-
-			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 
 		/**
