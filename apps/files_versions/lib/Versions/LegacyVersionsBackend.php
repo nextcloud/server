@@ -225,7 +225,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$this->versionsMapper->delete($versionEntity);
 	}
 
-	public function createVersionEntity(File $file): void {
+	public function createVersionEntity(File $file): ?int {
 		$versionEntity = new VersionEntity();
 		$versionEntity->setFileId($file->getId());
 		$versionEntity->setTimestamp($file->getMTime());
@@ -238,7 +238,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			try {
 				$this->versionsMapper->insert($versionEntity);
 				/* No errors, get out of the method */
-				return;
+				return $versionEntity->getTimestamp();
 			} catch (\OCP\DB\Exception $e) {
 				if (!in_array($e->getReason(), [
 					\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
@@ -253,6 +253,8 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 				$this->logger->warning('Constraint violation while inserting version, retrying with increased timestamp', ['exception' => $e]);
 			}
 		}
+
+		return null;
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
