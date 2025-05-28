@@ -6,10 +6,12 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
-use OCP\Files\NotFoundException;
+use OC\User\NoUserException;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -81,20 +83,13 @@ class Info extends Base {
 	 * @return array
 	 */
 	protected function getStorageInfo(IUser $user): array {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user->getUID());
+		$root = Server::get(IRootFolder::class);
 		try {
-			$storage = \OC_Helper::getStorageInfo('/');
-		} catch (NotFoundException $e) {
+			$userFolder = $root->getUserFolder($user->getUID());
+			return $userFolder->getUserQuota();
+		} catch (NoUserException) {
 			return [];
 		}
-		return [
-			'free' => $storage['free'],
-			'used' => $storage['used'],
-			'total' => $storage['total'],
-			'relative' => $storage['relative'],
-			'quota' => $storage['quota'],
-		];
 	}
 
 	/**
