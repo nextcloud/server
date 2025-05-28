@@ -240,7 +240,7 @@ class RequestHandlerController extends Controller {
 	 * @param string $email The email address of the recipient
 	 * @param string $name The display name of the recipient
 	 *
-    * @return JSONResponse<Http::STATUS_OK, array{userID: string, email: string, name: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{message: string, error: true}, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{userID: string, email: string, name: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{message: string, error: true}, array{}>
 	 *
 	 * Note: Not implementing 404 Invitation token does not exist, instead using 400
 	 * 200: Invitation accepted
@@ -252,7 +252,7 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'inviteAccepted')]
 	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
- $this->logger->debug('Processing share invitation for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+		$this->logger->debug('Processing share invitation for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
 
@@ -293,7 +293,7 @@ class RequestHandlerController extends Controller {
 		}
 		
 		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
-		if($sharedFromEmail === null) {
+		if ($sharedFromEmail === null) {
 			$response = ['message' => 'Invalid or non existing token', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
 			$response = new JSONResponse($response, $status);
