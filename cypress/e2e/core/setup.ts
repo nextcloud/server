@@ -130,7 +130,7 @@ function sharedSetup() {
 		.within(() => {
 			cy.findByRole('heading', { name: 'Recommended apps' })
 				.should('be.visible')
-			cy.findByRole('link', { name: 'Skip' })
+			cy.findByRole('button', { name: 'Skip' })
 				.should('be.visible')
 			cy.findByRole('button', { name: 'Install recommended apps' })
 				.should('be.visible')
