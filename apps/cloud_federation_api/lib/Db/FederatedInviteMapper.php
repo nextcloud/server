@@ -23,8 +23,7 @@ class FederatedInviteMapper extends QBMapper {
 		parent::__construct($db, self::TABLE_NAME);
 	}
 
-	public function findByToken(string $token): ?FederatedInvite {
-		/** @var IQueryBuilder $qb */
+	public function findByToken(string $token): FederatedInvite {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from('federated_invites')

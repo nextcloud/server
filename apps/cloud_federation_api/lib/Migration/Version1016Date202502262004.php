@@ -24,8 +24,6 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
-
-
 		$schema = $schemaClosure();
 		$table_name = 'federated_invites';
 
@@ -81,12 +79,10 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 				'notnull' => false,
 			]);
 
-
 			$table->setPrimaryKey(['id']);
 			return $schema;
 		}
 
 		return null;
-
 	}
 }

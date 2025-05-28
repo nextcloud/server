@@ -50,8 +50,7 @@ class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	 *             protocols: array<string, string>
 	 *         }>,
 	 *         version: string,
-	 *         capabilities: array{
-	 *         }
+	 *         capabilities: list<string>
 	 *    }
 	 * } OCM provider information
 	 * @throws OCMArgumentException

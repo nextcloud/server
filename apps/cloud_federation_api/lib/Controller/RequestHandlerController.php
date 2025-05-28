@@ -232,6 +232,7 @@ class RequestHandlerController extends Controller {
 	 * for shares created following an OCM invitation, the user id MAY be hashed,
 	 * and recipients implementing the OCM invitation workflow MAY refuse to process
 	 * shares coming from unknown parties.
+	 * @link https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
 	 *
 	 * @param string $recipientProvider The address of the recipent's provider
 	 * @param string $token The token used for the invitation
@@ -239,20 +240,19 @@ class RequestHandlerController extends Controller {
 	 * @param string $email The email address of the recipient
 	 * @param string $name The display name of the recipient
 	 *
-	 * @return JSONResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{email?: null|string, error?: true, message?: string, name?: string, userID?: string}, array{}>
+    * @return JSONResponse<Http::STATUS_OK, array{userID: string, email: string, name: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_BAD_REQUEST|Http::STATUS_CONFLICT, array{message: string, error: true}, array{}>
 	 *
 	 * Note: Not implementing 404 Invitation token does not exist, instead using 400
 	 * 200: Invitation accepted
 	 * 400: Invalid token
 	 * 403: Invitation token does not exist
 	 * 409: User is already known by the OCM provider
-	 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'inviteAccepted')]
 	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
-		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+ $this->logger->debug('Processing share invitation for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
 
@@ -261,6 +261,7 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		}
+
 		try {
 			$invitation = $this->federatedInviteMapper->findByToken($token);
 		} catch (DoesNotExistException) {
@@ -270,19 +271,18 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		}
+		
 		if ($invitation->isAccepted() === true) {
 			$response = ['message' => 'Invite already accepted', 'error' => true];
 			$status = Http::STATUS_CONFLICT;
 			return new JSONResponse($response, $status);
 		}
 
-		if (!empty($invitation->getExpiredAt()) && $updated > $invitation->getExpiredAt()) {
+		if ($invitation->getExpiredAt() !== null && $updated > $invitation->getExpiredAt()) {
 			$response = ['message' => 'Invitation expired', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
 			return new JSONResponse($response, $status);
 		}
-
-
 		$localUser = $this->userManager->get($invitation->getUserId());
 		if ($localUser === null) {
 			$response = ['message' => 'Invalid or non existing token', 'error' => true];
@@ -291,12 +291,19 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		}
+		
 		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
+		if($sharedFromEmail === null) {
+			$response = ['message' => 'Invalid or non existing token', 'error' => true];
+			$status = Http::STATUS_BAD_REQUEST;
+			$response = new JSONResponse($response, $status);
+			$response->throttle();
+			return $response;
+		}
 		$sharedFromDisplayName = $localUser->getDisplayName();
 
 		$response = ['userID' => $localUser->getUID(), 'email' => $sharedFromEmail, 'name' => $sharedFromDisplayName];
 		$status = Http::STATUS_OK;
-
 
 		$invitation->setAccepted(true);
 		$invitation->setRecipientEmail($email);

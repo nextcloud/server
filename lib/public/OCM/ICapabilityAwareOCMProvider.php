@@ -21,6 +21,7 @@ interface ICapabilityAwareOCMProvider extends IOCMProvider {
 	 * @since 32.0.0
 	 */
 	public function getCapabilities(): array;
+	
 	/**
 	 * get the provider name
 	 *
@@ -28,6 +29,7 @@ interface ICapabilityAwareOCMProvider extends IOCMProvider {
 	 * @since 32.0.0
 	 */
 	public function getProvider(): string;
+	
 	/**
 	 * returns the invite accept dialog
 	 *
@@ -35,6 +37,7 @@ interface ICapabilityAwareOCMProvider extends IOCMProvider {
 	 * @since 32.0.0
 	 */
 	public function getInviteAcceptDialog(): string;
+	
 	/**
 	 * set the capabilities
 	 *
