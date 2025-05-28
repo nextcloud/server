@@ -25,10 +25,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\Image;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,11 +39,12 @@ use Psr\Log\LoggerInterface;
  * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
+	protected ICache $cache;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		protected IAvatarManager $avatarManager,
-		protected ICache $cache,
 		protected IL10N $l10n,
 		protected IUserManager $userManager,
 		protected IRootFolder $rootFolder,
@@ -50,6 +53,7 @@ class AvatarController extends Controller {
 		protected TimeFactory $timeFactory,
 		protected GuestAvatarController $guestAvatarController,
 	) {
+		$this->cache = Server::get(ICacheFactory::class)->createDistributed();
 		parent::__construct($appName, $request);
 	}
 
@@ -202,8 +206,7 @@ class AvatarController extends Controller {
 						Http::STATUS_BAD_REQUEST
 					);
 				}
-				$this->cache->set('avatar_upload', file_get_contents($files['tmp_name'][0]), 7200);
-				$content = $this->cache->get('avatar_upload');
+				$content = file_get_contents($files['tmp_name'][0]);
 				unlink($files['tmp_name'][0]);
 			} else {
 				$phpFileUploadErrors = [
