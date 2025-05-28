@@ -1,7 +1,6 @@
 <?php
 /**
- * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -18,25 +17,22 @@ use Test\TestCase;
  * @group DB
  */
 class FileAccessTest extends TestCase {
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var FileAccess */
-	private $fileAccess;
+	private IDBConnection $dbConnection;
+	private FileAccess $fileAccess;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		// Setup the actual database connection (assume the database is configured properly in PHPUnit setup)
-		$this->dbConnection = \OC::$server->get(IDBConnection::class);
+		$this->dbConnection = \OCP\Server::get(IDBConnection::class);
 
 		// Ensure FileAccess is instantiated with the real connection
 		$this->fileAccess = new FileAccess(
 			$this->dbConnection,
-			\OC::$server->get(\OC\SystemConfig::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(\OC\FilesMetadata\FilesMetadataManager::class),
-			\OC::$server->get(\OCP\Files\IMimeTypeLoader::class)
+			\OCP\Server::get(\OC\SystemConfig::class),
+			\OCP\Server::get(LoggerInterface::class),
+			\OCP\Server::get(\OC\FilesMetadata\FilesMetadataManager::class),
+			\OCP\Server::get(\OCP\Files\IMimeTypeLoader::class)
 		);
 
 		// Clear and prepare `filecache` table for tests
