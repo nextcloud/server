@@ -3885,14 +3885,6 @@
       <code><![CDATA[wrap]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Mount/ObjectHomeMountProvider.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[\OCP\Files\Mount\IMountPoint]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Node/File.php">
     <InvalidReturnStatement>
       <code><![CDATA[$this->view->hash($type, $this->path, $raw)]]></code>
