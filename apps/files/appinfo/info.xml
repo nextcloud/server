@@ -33,6 +33,7 @@
 		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
 		<job>OCA\Files\BackgroundJob\CleanupDirectEditingTokens</job>
 		<job>OCA\Files\BackgroundJob\DeleteExpiredOpenLocalEditor</job>
+		<job>OCA\Files\BackgroundJob\CacheGarbageCollection</job>
 	</background-jobs>
 
 	<commands>

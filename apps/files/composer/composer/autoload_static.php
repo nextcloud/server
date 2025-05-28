@@ -34,6 +34,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\AdvancedCapabilities' => __DIR__ . '/..' . '/../lib/AdvancedCapabilities.php',
         'OCA\\Files\\App' => __DIR__ . '/..' . '/../lib/App.php',
         'OCA\\Files\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Files\\BackgroundJob\\CacheGarbageCollection' => __DIR__ . '/..' . '/../lib/BackgroundJob/CacheGarbageCollection.php',
         'OCA\\Files\\BackgroundJob\\CleanupDirectEditingTokens' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupDirectEditingTokens.php',
         'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => __DIR__ . '/..' . '/../lib/BackgroundJob/CleanupFileLocks.php',
         'OCA\\Files\\BackgroundJob\\DeleteExpiredOpenLocalEditor' => __DIR__ . '/..' . '/../lib/BackgroundJob/DeleteExpiredOpenLocalEditor.php',
