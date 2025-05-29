@@ -120,7 +120,7 @@
     "webdav": "^5.8.0"
   },
   "devDependencies": {
-    "@babel/node": "^7.26.0",
+    "@babel/node": "^7.27.1",
     "@babel/plugin-transform-private-methods": "^7.25.9",
     "@babel/preset-typescript": "^7.27.0",
     "@codecov/webpack-plugin": "^1.9.0",
