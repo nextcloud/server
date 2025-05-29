@@ -351,6 +351,7 @@
     "AJAX" : "AJAX",
     "Webcron" : "Webcron",
     "Profile" : "Profiel",
+    "Password confirmation is required" : "Wachtwoordbevestiging vereist",
     "Server-side encryption" : "Server-side versleuteling",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Server-side versleuteling maakt het mogelijk om bestanden te versleutelen die worden geüploaded. Dit betekent wel enig prestatieverlies, dus schakel het alleen in als het nodig is.",
     "Enable server-side encryption" : "Server-side versleuteling inschakelen",

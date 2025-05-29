@@ -315,6 +315,7 @@
     "Unable to update profile default setting" : "Nun ye posible anovar la opción predeterminada del sirvidor",
     "Profile" : "Perfil",
     "Enable or disable profile by default for new accounts." : "Des/activa'l perfil predetermináu pa les cuentes nueves.",
+    "Password confirmation is required" : "Ríquese la contraseña de confirmación",
     "Failed to save setting" : "Nun se pue guardar la opción",
     "Unable to update server side encryption config" : "Nun ye posible anovar la configuración del cifráu del sirvidor",
     "Server-side encryption" : "Cifráu de llau del sirvidor",

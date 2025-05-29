@@ -447,6 +447,7 @@ OC.L10N.register(
     "Cron (Recommended)" : "Cron (Consigliato)",
     "Unable to update profile default setting" : "Impossibile aggiornare l'impostazione predefinita del profilo",
     "Profile" : "Profilo",
+    "Password confirmation is required" : "La conferma della password è richiesta",
     "Unable to update server side encryption config" : "Impossibile aggiornare la configurazione della crittografia lato server",
     "Server-side encryption" : "Cifratura lato server",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "La cifratura lato server rende possibile cifrare i file caricati sul server. Ciò presenta dei limiti, come una riduzione delle prestazioni, perciò abilita questa funzione solo se necessario.",

@@ -558,6 +558,7 @@
     "Unable to update profile default setting" : "Nie je možné aktualizovať predvolené nastavenie profilu",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Predvolene povoliť alebo zakázať profil pre nové účty.",
+    "Password confirmation is required" : "Vyžaduje sa overenie heslom",
     "Failed to save setting" : "Nepodarilo sa uložiť nastavenie",
     "{app}'s declarative setting field: {name}" : "Pole deklaratívneho nastavenia aplikácie {app}: {name}",
     "Unable to update server side encryption config" : "Nedá sa aktualizovať konfigurácia šifrovania na strane servera",

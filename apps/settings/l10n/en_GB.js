@@ -565,6 +565,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Unable to update profile default setting",
     "Profile" : "Profile",
     "Enable or disable profile by default for new accounts." : "Enable or disable profile by default for new accounts.",
+    "Password confirmation is required" : "Password confirmation is required",
     "Failed to save setting" : "Failed to save setting",
     "{app}'s declarative setting field: {name}" : "{app}'s declarative setting field: {name}",
     "Unable to update server side encryption config" : "Unable to update server side encryption config",

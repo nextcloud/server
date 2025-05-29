@@ -286,12 +286,12 @@
     "Cancelled move or copy operation" : "Opération de déplacement ou de copie annulée",
     "Open folder {displayName}" : "Ouvrir le dossier {displayName}",
     "Open in Files" : "Ouvrir dans Fichiers",
+    "Open locally" : "Ouvrir localement",
+    "Failed to redirect to client" : "Échec de la redirection vers le client",
     "Open file locally" : "Ouvrir le fichier localement",
     "The file should now open on your device. If it doesn't, please check that you have the desktop app installed." : "Le fichier devrait maintenant s'ouvrir sur votre appareil. Si ce n'est pas le cas, vérifiez que vous avez installé l'application de bureau.",
     "Retry and close" : "Réessayer et fermer",
     "Open online" : "Ouvrir en ligne",
-    "Failed to redirect to client" : "Échec de la redirection vers le client",
-    "Open locally" : "Ouvrir localement",
     "Rename" : "Renommer",
     "Open details" : "Ouvrir les détails",
     "View in folder" : "Afficher dans le dossier",
@@ -455,6 +455,7 @@
     "New text file.txt" : "Nouveau fichier texte.txt",
     "%1$s (renamed)" : "%1$s (renommé)",
     "renamed file" : "fichier renommé",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Après avoir activé les noms de fichiers compatibles Windows, les fichiers existants ne peuvent plus être modifiés, mais peuvent être renommés avec des noms valides par leur propriétaire.",
     "{count} files could not be converted" : "{count}fichier n'a pas pu être converti",
     "{count} files successfully converted" : "{count}fichier converti avec succès"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

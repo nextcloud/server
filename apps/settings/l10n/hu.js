@@ -385,6 +385,7 @@ OC.L10N.register(
     "Cron (Recommended)" : "Cron (ajánlott)",
     "Unable to update profile default setting" : "A profil alapértelmezett beállítása nem frissíthető",
     "Profile" : "Profil",
+    "Password confirmation is required" : "Jelszó megerősítés szükséges",
     "Unable to update server side encryption config" : "A kiszolgálóoldali titkosítás beállításai nem frissíthetők",
     "Server-side encryption" : "Kiszolgálóoldali titkosítás",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "A kiszolgálóoldali titkosítás segítségével a tárolt fájlok titkosítva lesznek tárolva a kiszolgálón. Ez korlátozásokkal jár, például teljesítménycsökkenést okoz, így csak akkor kapcsolja be, ha szükséges.",

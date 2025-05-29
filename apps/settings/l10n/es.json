@@ -559,6 +559,7 @@
     "Unable to update profile default setting" : "No se pudo actualizar la configuración por defecto del perfil",
     "Profile" : "Perfil",
     "Enable or disable profile by default for new accounts." : "Habilitar o deshabilitar el perfil por defecto para nuevas cuentas.",
+    "Password confirmation is required" : "Se requiere confirmar la contraseña",
     "Failed to save setting" : "No se pudo guardar la configuración",
     "{app}'s declarative setting field: {name}" : "Campo de configuración declarativa de {app}: {name}",
     "Unable to update server side encryption config" : "No ha sido posible actualizar la configuración de cifrado del lado del servidor",
