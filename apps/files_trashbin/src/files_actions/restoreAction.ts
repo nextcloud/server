@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
@@ -52,6 +53,9 @@ export const restoreAction = new FileAction({
 			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
+			if (error.response?.status === 507) {
+				showError(t('files_trashbin', 'Not enough free space to restore the file/folder'))
+			}
 			logger.error('Failed to restore node', { error, node })
 			return false
 		}
