@@ -143,6 +143,7 @@ OC.L10N.register(
     "Create new app password" : "ახალი აპლიკაციის პაროლის შექმნა",
     "Login" : "ლოგინი",
     "Password" : "პაროლი",
+    "Password confirmation is required" : "საჭიროა პაროლის დამოწმება",
     "Server-side encryption" : "სერვერული-მხარის შიფრაცია",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "სერვერული-მხარის შიფრაცია იძლევა სერვერზე ატვირთული ფაილების შიფრაციის საშუალებას. ეს ფუნქცია ლიმიტს აწესებს მოქმედებაზე, ასე რომ გააქტიურედ მხოლოდ აუცილებლობისას.",
     "Enable server-side encryption" : "სერვერული-მხარის შიფრაციის ამოქმედება",

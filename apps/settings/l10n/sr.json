@@ -559,6 +559,7 @@
     "Unable to update profile default setting" : "Подразумевано подешавање профила не може да се ажурира",
     "Profile" : "Профил",
     "Enable or disable profile by default for new accounts." : "Профил нових налога се подразумевано укључује или искључује.",
+    "Password confirmation is required" : "Потребна је потврда лозинке",
     "Failed to save setting" : "Није успело чување подешавања",
     "{app}'s declarative setting field: {name}" : "поље декларативног подешавања апликације {app}: {name}",
     "Unable to update server side encryption config" : "Конфигурација енкрипције на страни сервера не може да се ажурира",

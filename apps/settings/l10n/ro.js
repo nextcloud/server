@@ -183,6 +183,7 @@ OC.L10N.register(
     "Create new app password" : "Crează o nouă parolă pentru aplicație",
     "Login" : "Autentificare",
     "Password" : "Parolă",
+    "Password confirmation is required" : "Confirmarea parolei este necesară",
     "Server-side encryption" : "Criptare la nivel de server",
     "Enable server-side encryption" : "Activează criptarea pe server",
     "Select default encryption module:" : "Selectează modulul implicit de criptare:",

@@ -124,6 +124,7 @@
     "Password" : "Parole",
     "Show QR code for mobile apps" : "Parādīt kvadrātkodu tālruņa lietotnēm",
     "Profile" : "Profils",
+    "Password confirmation is required" : "Nepieciešams paroles apstiprinājums",
     "Server-side encryption" : "Servera šifrēšana",
     "Enable server-side encryption" : "Ieslēgt servera šifrēšanu",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Nav ielādēts šifrēšanas moduļis, lūdzu, aktivizējiet šifrēšanas moduli lietotņu izvēlnē.",

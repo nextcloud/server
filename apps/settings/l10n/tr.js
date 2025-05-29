@@ -561,6 +561,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Profil varsayılan ayarı güncellenemedi",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Bu seçenek kullanıma alındığında, profil yeni hesaplar için varsayılan olur.",
+    "Password confirmation is required" : "Parola onayının yazılması zorunludur",
     "Failed to save setting" : "Ayar kaydedilemedi",
     "{app}'s declarative setting field: {name}" : "{app} uygulamasının bildirdiği ayar alanı: {name}",
     "Unable to update server side encryption config" : "Sunucu tarafı şifreleme yapılandırması güncellenemedi",

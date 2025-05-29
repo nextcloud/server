@@ -136,6 +136,7 @@
     "Create new app password" : "Crear una nueva contraseña de aplicación",
     "Login" : "Iniciar sesión",
     "Password" : "Contraseña",
+    "Password confirmation is required" : "Se requiere la confirmación de la contraseña",
     "Server-side encryption" : "Encripción del lado del servidor",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "La encripción del lado del servidor hace posible encriptar archivos que serán cargados a este servidor. Esto trae consigo algunas limitaciónes como penalizaciones en el desemeño, asi que habilítalo sólo si es necesario. ",
     "Enable server-side encryption" : "Habilitar encripción del lado del servidor",

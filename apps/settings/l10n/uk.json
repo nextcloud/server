@@ -455,6 +455,7 @@
     "Unable to update profile default setting" : "Не вдалося оновити стандартні налаштування профілю",
     "Profile" : "Профіль",
     "Enable or disable profile by default for new accounts." : "Увімкнути або вимкнути стандартний профіль для нових акаунтів.",
+    "Password confirmation is required" : "Необхідне підтвердження паролем",
     "Failed to save setting" : "Не вдалося зберегти налаштування",
     "Unable to update server side encryption config" : "Не вдалося оновити конфігурацію шифрування на стороні сервера",
     "Server-side encryption" : "Шифрування на сервері",

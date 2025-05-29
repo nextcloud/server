@@ -266,7 +266,6 @@
     "A valid Login must be provided" : "Palun sisesta korrektne kasutajanimi",
     "Login contains whitespace at the beginning or at the end" : "Kasutajanime alguses või lõpus on tühik",
     "Login must not consist of dots only" : "Kasutajanimi ei tohi koosneda ainult punktidest",
-    "Login is too long" : "Kasutajanimi on liiga pikk",
     "Login is invalid because files already exist for this user" : "See kasutajanimi ei sobi, kuna sellise kasutaja faile on juba olemas",
     "Account disabled" : "Konto pole kasutusel",
     "Login canceled by app" : "Rakendus katkestas sisselogimise",
@@ -399,6 +398,7 @@
     "Result" : "Tulemus",
     "The translated text" : "Tõlgitud tekst",
     "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti",
-    "Cannot download file" : "Faili pole võimalik alla laadida"
+    "Cannot download file" : "Faili pole võimalik alla laadida",
+    "Login is too long" : "Kasutajanimi on liiga pikk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

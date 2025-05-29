@@ -561,6 +561,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Kan ikke opdatere profilens standardindstilling",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Aktiver eller deaktiver profil som standard for nye konti.",
+    "Password confirmation is required" : "Password beskæftigelse er påkrævet",
     "Failed to save setting" : "Kunne ikke gemme indstillingerne",
     "{app}'s declarative setting field: {name}" : "{app}'s deklarative indstillingsfelt: {name}",
     "Unable to update server side encryption config" : "Kan ikke opdatere krypteringskonfigurationen på serversiden",

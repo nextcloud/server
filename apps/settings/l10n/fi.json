@@ -287,6 +287,7 @@
     "Cron (Recommended)" : "Cron (suositeltu)",
     "Unable to update profile default setting" : "Profiilin oletusasetuksen päivittäminen ei onnistunut",
     "Profile" : "Profiili",
+    "Password confirmation is required" : "Salasanavahvistus vaaditaan",
     "Server-side encryption" : "Palvelinpään salaus",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Palvelimelle ladatut tiedostot voidaan salata. Salaus aiheuttaa muun muassa palvelimen suorituskyvyn laskua, joten ota salaus käyttöön vain tarvittaessa.",
     "Enable server-side encryption" : "Käytä palvelinpään salausta",

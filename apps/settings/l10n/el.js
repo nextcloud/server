@@ -556,6 +556,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Δεν είναι δυνατή η ενημέρωση της προεπιλεγμένης ρύθμισης προφίλ",
     "Profile" : "Προφίλ",
     "Enable or disable profile by default for new accounts." : "Ενεργοποίηση ή απενεργοποίηση του προφίλ από προεπιλογή για νέους λογαριασμούς.",
+    "Password confirmation is required" : "Απαιτείται επιβεβαίωση συνθηματικού",
     "Failed to save setting" : "Αποτυχία αποθήκευσης ρύθμισης",
     "{app}'s declarative setting field: {name}" : "Δηλωτικό πεδίο ρύθμισης της {app}: {name}",
     "Unable to update server side encryption config" : "Δεν είναι δυνατή η ενημέρωση της διαμόρφωσης κρυπτογράφησης από τον διακομιστή",

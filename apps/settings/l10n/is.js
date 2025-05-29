@@ -399,6 +399,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Tókst ekki að uppfæra sjálfgefna stillingu notandasniðs",
     "Profile" : "Notandasnið",
     "Enable or disable profile by default for new accounts." : "Virkja eða gera notandasnið óvirkt sjálfgefið fyrir nýja notendaaðganga.",
+    "Password confirmation is required" : "Þörf á staðfestingu lykilorðs",
     "Failed to save setting" : "Mistókst að vista stillingu",
     "Unable to update server side encryption config" : " Get ekki uppfært uppsetningu fyrir dulritun á þjóni",
     "Server-side encryption" : "Dulritun á þjóni",
