@@ -7,6 +7,7 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
@@ -39,6 +40,7 @@ SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
@@ -54,6 +56,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 6.1.1
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
@@ -272,6 +277,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.2.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
 	- license: MIT
 - typescript-event-target
 	- version: 1.1.1
