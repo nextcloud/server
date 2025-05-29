@@ -180,7 +180,6 @@ export default {
 				this.isSuccess = true
 				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
-				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
 				this.hasError = true
 				setTimeout(() => { this.hasError = false }, 2000)
