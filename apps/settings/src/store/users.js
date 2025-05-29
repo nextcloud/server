@@ -2,9 +2,6 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-// comment for shits and giggles
-
 import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'

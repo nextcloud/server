@@ -8,8 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-//  comment for shits and giggles
-
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
