@@ -222,6 +222,7 @@ async function openFilePickerForAction(
 			// We don't want to show the current nodes in the file picker
 			return !fileIDs.includes(n.fileid)
 		})
+		.setFilter((n: Node) => (n.permissions & Permission.CREATE) === Permission.CREATE)
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
