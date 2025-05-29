@@ -3,14 +3,20 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<!-- comment for shits and giggles -->
+
 <template>
 	<Fragment>
+
 		<NewUserDialog v-if="showConfig.showNewUserForm"
-			:loading="loading"
-			:new-user="newUser"
-			:quota-options="quotaOptions"
-			@reset="resetForm"
-			@closing="closeDialog" />
+                        :loading="loading"
+                        :new-user="newUser"
+                        :quota-options="quotaOptions"
+                        @reset="resetForm"
+                        @closing="closeDialog" />
+		<AddExistingUserDialog v-if="showConfig.showAddExistingUserForm"
+				:group="currentGroup"
+				@closing="closeAddExistingDialog" />
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
@@ -70,6 +76,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import VirtualList from './Users/VirtualList.vue'
 import NewUserDialog from './Users/NewUserDialog.vue'
+import AddExistingUserDialog from './Users/AddExistingUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
@@ -101,6 +108,7 @@ export default {
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NewUserDialog,
+		AddExistingUserDialog,
 		UserListFooter,
 		UserListHeader,
 		VirtualList,
@@ -171,8 +179,16 @@ export default {
 		},
 
 		groups() {
-			return this.$store.getters.getSortedGroups
-				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+                        return this.$store.getters.getSortedGroups
+                                .filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		},
+
+		currentGroup() {
+				const gid = this.selectedGroup
+				if (!gid) {
+						return null
+				}
+				return this.groups.find(g => g.id === gid) || null
 		},
 
 		quotaOptions() {
@@ -309,10 +325,17 @@ export default {
 		},
 
 		closeDialog() {
-			this.$store.commit('setShowConfig', {
-				key: 'showNewUserForm',
-				value: false,
-			})
+                       this.$store.commit('setShowConfig', {
+                               key: 'showNewUserForm',
+                               value: false,
+                       })
+		},
+
+		closeAddExistingDialog() {
+				this.$store.commit('setShowConfig', {
+						key: 'showAddExistingUserForm',
+						value: false,
+				})
 		},
 
 		async search({ query }) {

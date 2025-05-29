@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+// comment for shits and giggles
+
 import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'
@@ -53,6 +55,7 @@ const state = {
 		showFirstLogin: localStorage.getItem('account_settings__showFirstLogin') === 'true',
 		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
 		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+		showAddExistingUserForm: localStorage.getItem('account_settings__showAddExistingUserForm') === 'true',
 		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},
 }
@@ -106,6 +109,13 @@ const mutations = {
 	addUserGroup(state, { userid, gid }) {
 		const group = state.groups.find(groupSearch => groupSearch.id === gid)
 		const user = state.users.find(user => user.id === userid)
+		
+		// Safety check: ensure user exists
+		if (!user) {
+			console.warn(`Cannot add user ${userid} to group ${gid}: user not found in store`)
+			return
+		}
+		
 		// increase count if user is enabled
 		if (group && user.enabled && state.userCount > 0) {
 			group.usercount++
@@ -331,12 +341,31 @@ const actions = {
 	searchUsers(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : ''
 
-		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search })).catch((error) => {
-			if (!axios.isCancel(error)) {
-				context.commit('API_FAILURE', error)
-			}
-		})
+		const isAdmin = usersSettings.isAdmin || usersSettings.isDelegatedAdmin
+		const endpoint = isAdmin ? 'cloud/users/details' : 'cloud/users/search'
+
+		return api.get(generateOcsUrl(`${endpoint}?offset={offset}&limit={limit}&search={search}`, { offset, limit, search }))
+				.then((response) => {
+						if (!isAdmin) {
+								const normalized = {}
+								const users = response.data.ocs.data.users
+								Object.keys(users).forEach((id) => {
+										normalized[id] = {
+												id,
+												displayname: users[id],
+										}
+								})
+								response.data.ocs.data.users = normalized
+						}
+						return response
+				})
+				.catch((error) => {
+						if (!axios.isCancel(error)) {
+								context.commit('API_FAILURE', error)
+						}
+				})
 	},
+
 
 	/**
 	 * Get user details

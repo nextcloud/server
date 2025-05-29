@@ -5,6 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+//  comment for shits and giggles
 return [
 	'ocs' => [
 		// Apps
@@ -27,6 +29,7 @@ return [
 		// Users
 		['root' => '/cloud', 'name' => 'Users#getUsers', 'url' => '/users', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getUsersDetails', 'url' => '/users/details', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#searchAllUsers', 'url' => '/users/search', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getDisabledUsersDetails', 'url' => '/users/disabled', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getLastLoggedInUsers', 'url' => '/users/recent', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#searchByPhoneNumbers', 'url' => '/users/search/by-phone', 'verb' => 'POST'],

@@ -8,6 +8,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+//  comment for shits and giggles
+
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
@@ -336,6 +338,45 @@ class UsersController extends AUserDataOCSController {
 		return new DataResponse([
 			'users' => $usersDetails
 		]);
+	}
+
+
+	/**
+	* Search all users by id or display name
+	*
+	* Allows subadmins to look up existing users that are not yet part of
+	* their groups so they can add them.
+	*
+	* @param string $search Text to search for
+	* @param ?int $limit Limit the amount of users returned
+	* @param int $offset Offset for searching for users
+	* @return DataResponse<Http::STATUS_OK, array{users: array<string, string>}, array{}>
+	*
+	* 200: Users returned
+	*/
+	#[NoAdminRequired]
+	public function searchAllUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
+			$currentUser = $this->userSession->getUser();
+
+			$uid = $currentUser->getUID();
+			$subAdminManager = $this->groupManager->getSubAdmin();
+			$isAdmin = $this->groupManager->isAdmin($uid);
+			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+
+			if ($isAdmin || $isDelegatedAdmin || $subAdminManager->isSubAdmin($currentUser)) {
+					$users = $this->userManager->searchDisplayName($search, $limit, $offset);
+					$result = [];
+					foreach ($users as $user) {
+							/** @var IUser $user */
+							$result[$user->getUID()] = $user->getDisplayName();
+					}
+
+					return new DataResponse([
+							'users' => $result,
+					]);
+			}
+
+			throw new OCSForbiddenException();
 	}
 
 
