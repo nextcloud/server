@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,17 +10,12 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TokenHandlerTest extends \Test\TestCase {
-
-	/** @var TokenHandler */
-	private $tokenHandler;
-
-	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-
-	/** @var int */
-	private $expectedTokenLength = 15;
+	private TokenHandler $tokenHandler;
+	private ISecureRandom&MockObject $secureRandom;
+	private int $expectedTokenLength = 15;
 
 	protected function setUp(): void {
 		parent::setUp();
