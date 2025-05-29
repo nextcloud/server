@@ -18,6 +18,7 @@ class AdvancedCapabilitiesTest extends TestCase {
 	protected AdvancedCapabilities $capabilities;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->service = $this->createMock(SettingsService::class);
 		$this->capabilities = new AdvancedCapabilities($this->service);
 	}

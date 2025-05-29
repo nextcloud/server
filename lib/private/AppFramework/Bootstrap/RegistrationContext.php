@@ -157,7 +157,7 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
 	private array $fileConversionProviders = [];
-	
+
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
 
