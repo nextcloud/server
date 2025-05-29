@@ -556,6 +556,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Non é posíbel actualizar a configuración predeterminada do perfil",
     "Profile" : "Perfil",
     "Enable or disable profile by default for new accounts." : "Activar ou desactivar o perfil predeterminado para as novas contas.",
+    "Password confirmation is required" : "Requírese a confirmación do contrasinal",
     "Failed to save setting" : "Produciuse un fallo ao gardar o axuste",
     "{app}'s declarative setting field: {name}" : "Campo de axuste declarativo de {app}: {name}",
     "Unable to update server side encryption config" : "Non é posíbel actualizar a configuración de cifrado do servidor",

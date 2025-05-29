@@ -198,6 +198,7 @@
     "Show QR code for mobile apps" : "הצגת קוד QR ליישומונים לניידים",
     "Use system cron service to call the cron.php file every 5 minutes." : "להשתמש בשירות ה־cron של המערכת כדי לקרוא לקובץ cron.php כל 5 דקות.",
     "Profile" : "פרופיל",
+    "Password confirmation is required" : "נדרש אימות ססמה",
     "Server-side encryption" : "הצפנת צד שרת",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "הצפנה בצד השרת מאפשרת להצפין קבצים שנשלחים לשרת. לתכונה זו יש מגבלות כגון ירידה בביצועים, מומלץ להפעיל רק אם יש צורך.",
     "Enable server-side encryption" : "הפעלת הצפנה בצד שרת",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "You created two-factor backup codes for your account" : "Jūs izveidojāt divpakāpju dublējumu kodus savam kontam",
+    "You created two-factor backup codes for your account" : "Tu savam kontam izveidoji divpakāpju rezerves kopiju kodus",
     "Second-factor backup codes" : "Second-factor dublēšanas kodi",
     "Generate backup codes" : "Izveidot rezerves kodus",
     "Backup code" : "Dublēšanas kods",

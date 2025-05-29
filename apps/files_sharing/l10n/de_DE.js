@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "Dateiablage",
     "Upload files to {foldername}." : "Dateien hochladen nach {foldername}.",
     "By uploading files, you agree to the terms of service." : "Durch das Hochladen von Dateien stimmen Sie den Nutzungsbedingungen zu.",
+    "Successfully uploaded files" : "Dateien wurden hochgeladen",
     "View terms of service" : "Nutzungsbedingungen anzeigen",
     "Terms of service" : "Nutzungsbedingungen",
     "Upload files to {folder}" : "Dateien hochladen nach {folder}",

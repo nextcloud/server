@@ -240,6 +240,7 @@
     "Cron (Recommended)" : "Cron (recomendado)",
     "Unable to update profile default setting" : "No se pudo actualizar la configuración predeterminada del perfil",
     "Profile" : "Perfil",
+    "Password confirmation is required" : "Se requiere la confirmación de la contraseña",
     "Unable to update server side encryption config" : "No se pudo actualizar la configuración de cifrado en el servidor",
     "Server-side encryption" : "Encripción del lado del servidor",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "La encripción del lado del servidor hace posible encriptar archivos que serán cargados a este servidor. Esto trae consigo algunas limitaciónes como penalizaciones en el desemeño, asi que habilítalo sólo si es necesario. ",

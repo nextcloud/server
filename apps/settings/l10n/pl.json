@@ -453,6 +453,7 @@
     "Unable to update profile default setting" : "Nie można zaktualizować domyślnych ustawień profilu",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Włącz lub wyłącz profil domyślnie dla nowych kont.",
+    "Password confirmation is required" : "Wymagane jest potwierdzenie hasła",
     "Failed to save setting" : "Nie udało się zapisać ustawienia",
     "{app}'s declarative setting field: {name}" : "Pole ustawień deklaratywnych aplikacji {app}: {name}",
     "Unable to update server side encryption config" : "Nie można zaktualizować konfiguracji szyfrowania po stronie serwera",

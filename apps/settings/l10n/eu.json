@@ -520,6 +520,7 @@
     "Unable to update profile default setting" : "Ezin izan da eguneratu profilaren ezarpen lehenetsia",
     "Profile" : "Profila",
     "Enable or disable profile by default for new accounts." : "Gaitu edo desgaitu profila lehenespenez kontu berrientzat.",
+    "Password confirmation is required" : "Pasahitza konfirmatzea beharrezkoa da",
     "Failed to save setting" : "Ezarpena gordetzeak huts egin du",
     "{app}'s declarative setting field: {name}" : "{app}-ren ezarpen deklaratiboaren eremua: {name}",
     "Unable to update server side encryption config" : "Ezin izan da zerbitzariaren aldeko zifratzearen konfigurazioa eguneratu",

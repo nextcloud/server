@@ -554,6 +554,7 @@
     "Unable to update profile default setting" : "No s'ha pogut actualitzar els paràmetres predeterminats del perfil",
     "Profile" : "Perfil",
     "Enable or disable profile by default for new accounts." : "Habilita o deshabilita el perfil de manera predeterminada per als comptes nous.",
+    "Password confirmation is required" : "Cal una confirmació de la contrasenya",
     "Failed to save setting" : "No s'ha pogut desar el paràmetre",
     "{app}'s declarative setting field: {name}" : "Camp de paràmetre declaratiu de {app}: {name}",
     "Unable to update server side encryption config" : "No es pot actualitzar la configuració del xifratge de la banda del servidor",

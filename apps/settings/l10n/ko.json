@@ -465,6 +465,7 @@
     "Unable to update profile default setting" : "프로필 기본 설정을 업데이트 할 수 없음",
     "Profile" : "프로필",
     "Enable or disable profile by default for new accounts." : "신규 계정에 대한 프로필 기본 사용 여부를 설정하십시오.",
+    "Password confirmation is required" : "암호 확인이 필요합니다",
     "Failed to save setting" : "설정 저장 실패",
     "Unable to update server side encryption config" : "서버 측 암호화 설정을 갱신할 수 없음",
     "Server-side encryption" : "서버 측 암호화",

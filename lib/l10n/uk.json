@@ -271,7 +271,6 @@
     "A valid Login must be provided" : "Зазначте дійсне ім'я користувача",
     "Login contains whitespace at the beginning or at the end" : "Ім'я користувача містить символ пробілу на початку або наприкінці",
     "Login must not consist of dots only" : "Ім'я користувача не може складатися лише з крапок",
-    "Login is too long" : "Ім'я користувача для авторизації задовге",
     "Login is invalid because files already exist for this user" : "Недійсне ім'я облікового запису, оскільки файли для цього користувача вже присутні",
     "Account disabled" : "Обліковий запис вимкнено",
     "Login canceled by app" : "Вхід скасовано застосунком",
@@ -353,6 +352,7 @@
     "Summarizes text by reducing its length without losing key information." : "Викокремлює головне у тексті шляхом зменшення довжини тексту без втрати ключової інформації.",
     "Extracts topics from a text and outputs them separated by commas." : "Виділяє теми, які висвітлює текст, зводить їх у перелік, що розділено комами.",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
-    "Cannot download file" : "Неможливо звантажити файл"
+    "Cannot download file" : "Неможливо звантажити файл",
+    "Login is too long" : "Ім'я користувача для авторизації задовге"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
