@@ -37,6 +37,8 @@ class SyncLivePhotosListener implements IEventListener {
 	private array $pendingRenames = [];
 	/** @var Array<int, bool> */
 	private array $pendingDeletion = [];
+	/** @var Array<int> */
+	private array $pendingCopies = [];
 
 	public function __construct(
 		private ?Folder $userFolder,
@@ -153,7 +155,6 @@ class SyncLivePhotosListener implements IEventListener {
 		$targetName = $targetFile->getName();
 		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
-
 		if ($targetParent->nodeExists($peerTargetName)) {
 			// If the copy was a folder copy, then the peer file already exists.
 			$targetPeerFile = $targetParent->get($peerTargetName);
@@ -225,6 +226,11 @@ class SyncLivePhotosListener implements IEventListener {
 				$this->handleCopyRecursive($event, $sourceChild, $targetChild);
 			}
 		} elseif ($sourceNode instanceof File && $targetNode instanceof File) {
+			// in case the copy was initiated from this listener, we stop right now
+			if (in_array($sourceNode->getId(), $this->pendingCopies)) {
+				return;
+			}
+
 			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($sourceNode->getId());
 			if ($peerFileId === null) {
 				return;
@@ -234,11 +240,13 @@ class SyncLivePhotosListener implements IEventListener {
 				return;
 			}
 
+			$this->pendingCopies[] = $peerFileId;
 			if ($event instanceof BeforeNodeCopiedEvent) {
 				$this->runMoveOrCopyChecks($sourceNode, $targetNode, $peerFile);
 			} elseif ($event instanceof NodeCopiedEvent) {
 				$this->handleCopy($sourceNode, $targetNode, $peerFile);
 			}
+			$this->pendingCopies = array_diff($this->pendingCopies, [$peerFileId]);
 		} else {
 			throw new Exception('Source and target type are not matching');
 		}

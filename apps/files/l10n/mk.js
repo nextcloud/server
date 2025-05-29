@@ -218,6 +218,7 @@ OC.L10N.register(
     "Videos" : "Видеа",
     "Created new folder \"{name}\"" : "Креирана нова папка \"{name}\"",
     "Unable to initialize the templates directory" : "Не може да се иницијализира папка за шаблони",
+    "Create templates folder" : "Креирај папка за шаблони",
     "Templates" : "Шаблони",
     "One of the dropped files could not be processed" : "Една од испуштените датотеки неможе да се процесоира",
     "Some files could not be moved" : "Некои датотеки не можат да се преместат",

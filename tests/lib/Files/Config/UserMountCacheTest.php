@@ -10,6 +10,7 @@ namespace Test\Files\Config;
 
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Config\UserMountCache;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\User\Manager;
@@ -17,6 +18,9 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\Event\UserMountAddedEvent;
+use OCP\Files\Config\Event\UserMountRemovedEvent;
+use OCP\Files\Config\Event\UserMountUpdatedEvent;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -30,28 +34,19 @@ use Test\Util\User\Dummy;
  * @group DB
  */
 class UserMountCacheTest extends TestCase {
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @var \OC\Files\Config\UserMountCache
-	 */
-	private $cache;
-
-	private $fileIds = [];
+	private IDBConnection $connection;
+	private IUserManager $userManager;
+	private IEventDispatcher $eventDispatcher;
+	private UserMountCache $cache;
+	private array $fileIds = [];
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->fileIds = [];
+
 		$this->connection = \OC::$server->getDatabaseConnection();
+
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -63,13 +58,22 @@ class UserMountCacheTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnArgument(2);
+
 		$this->userManager = new Manager($config, $this->createMock(ICacheFactory::class), $this->createMock(IEventDispatcher::class), $this->createMock(LoggerInterface::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class), $this->createMock(IEventLogger::class));
+
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
+		$this->cache = new UserMountCache($this->connection,
+			$this->userManager,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IEventLogger::class),
+			$this->eventDispatcher,
+		);
 	}
 
 	protected function tearDown(): void {
@@ -124,7 +128,12 @@ class UserMountCacheTest extends TestCase {
 		return $mount->getStorageRootId().'::'.$mount->getMountPoint();
 	}
 
-	public function testNewMounts() {
+	public function testNewMounts(): void {
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (UserMountAddedEvent $event) => $event->mountPoint->getMountPoint() === '/asd/'));
+
 		$user = $this->userManager->get('u1');
 
 		[$storage] = $this->getStorage(10);
@@ -144,7 +153,12 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals($storage->getStorageCache()->getNumericId(), $cachedMount->getStorageId());
 	}
 
-	public function testSameMounts() {
+	public function testSameMounts(): void {
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->callback(fn (UserMountAddedEvent $event) => $event->mountPoint->getMountPoint() === '/asd/'));
+
 		$user = $this->userManager->get('u1');
 
 		[$storage] = $this->getStorage(10);
@@ -168,7 +182,19 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals($storage->getStorageCache()->getNumericId(), $cachedMount->getStorageId());
 	}
 
-	public function testRemoveMounts() {
+	public function testRemoveMounts(): void {
+		$operation = 0;
+		$this->eventDispatcher
+			->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
+				return match(++$operation) {
+					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/asd/',
+					2 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/asd/',
+					default => false,
+				};
+			}));
+
 		$user = $this->userManager->get('u1');
 
 		[$storage] = $this->getStorage(10);
@@ -187,7 +213,20 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(0, $cachedMounts);
 	}
 
-	public function testChangeMounts() {
+	public function testChangeMounts(): void {
+		$operation = 0;
+		$this->eventDispatcher
+			->expects($this->exactly(3))
+			->method('dispatchTyped')
+			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
+				return match(++$operation) {
+					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/bar/',
+					2 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
+					3 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/bar/',
+					default => false,
+				};
+			}));
+
 		$user = $this->userManager->get('u1');
 
 		[$storage] = $this->getStorage(10);
@@ -210,7 +249,19 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals('/foo/', $cachedMount->getMountPoint());
 	}
 
-	public function testChangeMountId() {
+	public function testChangeMountId(): void {
+		$operation = 0;
+		$this->eventDispatcher
+			->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->with($this->callback(function (UserMountAddedEvent|UserMountUpdatedEvent $event) use (&$operation) {
+				return match(++$operation) {
+					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
+					2 => $event instanceof UserMountUpdatedEvent && $event->oldMountPoint->getMountId() === null && $event->newMountPoint->getMountId() === 1,
+					default => false,
+				};
+			}));
+
 		$user = $this->userManager->get('u1');
 
 		[$storage] = $this->getStorage(10);

@@ -2089,6 +2089,8 @@ class ShareAPIController extends OCSController {
 				$hideDownload = $hideDownload && $originalShare->getHideDownload();
 				// allow download if already allowed by previous share or when the current share allows downloading
 				$canDownload = $canDownload || $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+			} elseif ($node->getStorage()->instanceOfStorage(Storage::class)) {
+				$canDownload = true; // in case of federation storage, we can expect the download to be activated by default
 			}
 		}
 

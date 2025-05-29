@@ -16,6 +16,7 @@
 
 		<!-- Decorative image, should not be aria documented -->
 		<img v-else-if="previewUrl && backgroundFailed !== true"
+			:key="source.fileid"
 			ref="previewImg"
 			alt=""
 			class="files-list__row-icon-preview"
@@ -132,6 +133,17 @@ export default Vue.extend({
 
 			if (this.backgroundFailed === true) {
 				return null
+			}
+
+			if (this.source.attributes['has-preview'] !== true
+				&& this.source.mime !== undefined
+				&& this.source.mime !== 'application/octet-stream'
+			) {
+				const previewUrl = generateUrl('/core/mimeicon?mime={mime}', {
+					mime: this.source.mime,
+				})
+				const url = new URL(window.location.origin + previewUrl)
+				return url.href
 			}
 
 			try {

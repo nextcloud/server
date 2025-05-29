@@ -11,6 +11,7 @@ namespace OCA\Files_Trashbin\Sabre;
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\INode;
@@ -34,10 +35,15 @@ class TrashbinPlugin extends ServerPlugin {
 	/** @var IPreview */
 	private $previewManager;
 
+	/** @var View */
+	private $view;
+
 	public function __construct(
-		IPreview $previewManager
+		IPreview $previewManager,
+		View $view
 	) {
 		$this->previewManager = $previewManager;
+		$this->view = $view;
 	}
 
 	public function initialize(Server $server) {
