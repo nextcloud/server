@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -77,12 +78,9 @@ class GetSharedSecretTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestExecute
-	 *
-	 * @param bool $isTrustedServer
-	 * @param bool $retainBackgroundJob
 	 */
 	public function testExecute(bool $isTrustedServer, bool $retainBackgroundJob): void {
-		/** @var GetSharedSecret |\PHPUnit\Framework\MockObject\MockObject $getSharedSecret */
+		/** @var GetSharedSecret&MockObject $getSharedSecret */
 		$getSharedSecret = $this->getMockBuilder(GetSharedSecret::class)
 			->setConstructorArgs(
 				[
@@ -95,8 +93,10 @@ class GetSharedSecretTest extends TestCase {
 					$this->timeFactory,
 					$this->config,
 				]
-			)->setMethods(['parentStart'])->getMock();
-		$this->invokePrivate($getSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
+			)
+			->onlyMethods(['parentStart'])
+			->getMock();
+		self::invokePrivate($getSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
 
 		$this->trustedServers->expects($this->once())->method('isTrustedServer')
 			->with('url')->willReturn($isTrustedServer);
@@ -105,7 +105,7 @@ class GetSharedSecretTest extends TestCase {
 		} else {
 			$getSharedSecret->expects($this->never())->method('parentStart');
 		}
-		$this->invokePrivate($getSharedSecret, 'retainJob', [$retainBackgroundJob]);
+		self::invokePrivate($getSharedSecret, 'retainJob', [$retainBackgroundJob]);
 		$this->jobList->expects($this->once())->method('remove');
 
 		$this->timeFactory->method('getTime')->willReturn(42);
@@ -128,7 +128,7 @@ class GetSharedSecretTest extends TestCase {
 		$getSharedSecret->start($this->jobList);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			[true, true],
 			[true, false],
@@ -138,10 +138,8 @@ class GetSharedSecretTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestRun
-	 *
-	 * @param int $statusCode
 	 */
-	public function testRun($statusCode): void {
+	public function testRun(int $statusCode): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -181,18 +179,18 @@ class GetSharedSecretTest extends TestCase {
 			$this->trustedServers->expects($this->never())->method('addSharedSecret');
 		}
 
-		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
+		self::invokePrivate($this->getSharedSecret, 'run', [$argument]);
 		if (
 			$statusCode !== Http::STATUS_OK
 			&& $statusCode !== Http::STATUS_FORBIDDEN
 		) {
-			$this->assertTrue($this->invokePrivate($this->getSharedSecret, 'retainJob'));
+			$this->assertTrue(self::invokePrivate($this->getSharedSecret, 'retainJob'));
 		} else {
-			$this->assertFalse($this->invokePrivate($this->getSharedSecret, 'retainJob'));
+			$this->assertFalse(self::invokePrivate($this->getSharedSecret, 'retainJob'));
 		}
 	}
 
-	public function dataTestRun() {
+	public static function dataTestRun(): array {
 		return [
 			[Http::STATUS_OK],
 			[Http::STATUS_FORBIDDEN],
@@ -227,7 +225,7 @@ class GetSharedSecretTest extends TestCase {
 				TrustedServers::STATUS_FAILURE
 			);
 
-		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
+		self::invokePrivate($this->getSharedSecret, 'run', [$argument]);
 	}
 
 	public function testRunConnectionError(): void {
@@ -263,8 +261,8 @@ class GetSharedSecretTest extends TestCase {
 
 		$this->trustedServers->expects($this->never())->method('addSharedSecret');
 
-		$this->invokePrivate($this->getSharedSecret, 'run', [$argument]);
+		self::invokePrivate($this->getSharedSecret, 'run', [$argument]);
 
-		$this->assertTrue($this->invokePrivate($this->getSharedSecret, 'retainJob'));
+		$this->assertTrue(self::invokePrivate($this->getSharedSecret, 'retainJob'));
 	}
 }
