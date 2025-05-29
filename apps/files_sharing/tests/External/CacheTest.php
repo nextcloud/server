@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,6 +19,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Cache
@@ -26,26 +29,11 @@ use OCP\IUserManager;
  * @package OCA\Files_Sharing\Tests\External
  */
 class CacheTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/**
-	 * @var Storage
-	 **/
-	private $storage;
-
-	/**
-	 * @var Cache
-	 */
-	private $cache;
-
-	/**
-	 * @var string
-	 */
-	private $remoteUser;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
+	protected IManager&MockObject $contactsManager;
+	private Storage $storage;
+	private Cache $cache;
+	private string $remoteUser;
+	private ICloudIdManager $cloudIdManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,9 +49,7 @@ class CacheTest extends TestCase {
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->storage = $this->createMock(\OCA\Files_Sharing\External\Storage::class);
 		$this->storage
 			->expects($this->any())
 			->method('getId')
@@ -127,7 +113,7 @@ class CacheTest extends TestCase {
 		);
 
 		$results = $this->cache->getFolderContentsById($dirId);
-		$this->assertEquals(1, count($results));
+		$this->assertCount(1, $results);
 		$this->assertEquals(
 			$this->remoteUser . '@example.com/owncloud',
 			$results[0]['displayname_owner']

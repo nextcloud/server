@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,22 +10,20 @@ namespace OCA\Files_Sharing\Tests\Middleware;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @package OCA\Files_Sharing\Middleware\SharingCheckMiddleware
  */
 class OCSShareAPIMiddlewareTest extends \Test\TestCase {
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var IL10N */
-	private $l;
-	/** @var OCSShareAPIMiddleware */
-	private $middleware;
+	private IManager&MockObject $shareManager;
+	private IL10N&MockObject $l;
+	private OCSShareAPIMiddleware $middleware;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,35 +36,35 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		$this->middleware = new OCSShareAPIMiddleware($this->shareManager, $this->l);
 	}
 
-	public function dataBeforeController() {
+	public static function dataBeforeController(): array {
 		return [
 			[
-				$this->createMock(Controller::class),
+				Controller::class,
 				false,
 				false
 			],
 			[
-				$this->createMock(Controller::class),
+				Controller::class,
 				true,
 				false
 			],
 			[
-				$this->createMock(OCSController::class),
+				OCSController::class,
 				false,
 				false
 			],
 			[
-				$this->createMock(OCSController::class),
+				OCSController::class,
 				true,
 				false
 			],
 			[
-				$this->createMock(ShareAPIController::class),
+				ShareAPIController::class,
 				false,
 				true
 			],
 			[
-				$this->createMock(ShareAPIController::class),
+				ShareAPIController::class,
 				true,
 				false
 			],
@@ -73,13 +73,10 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataBeforeController
-	 *
-	 * @param Controller $controller
-	 * @param bool $enabled
-	 * @param bool $exception
 	 */
-	public function testBeforeController(Controller $controller, $enabled, $exception): void {
+	public function testBeforeController(string $controllerClass, bool $enabled, bool $exception): void {
 		$this->shareManager->method('shareApiEnabled')->willReturn($enabled);
+		$controller = $this->createMock($controllerClass);
 
 		try {
 			$this->middleware->beforeController($controller, 'foo');
@@ -89,34 +86,24 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataAfterController() {
+	public static function dataAfterController(): array {
 		return [
-			[
-				$this->createMock(Controller::class),
-			],
-			[
-				$this->createMock(OCSController::class),
-			],
-			[
-				$this->createMock(ShareAPIController::class),
-			],
+			[Controller::class],
+			[OCSController::class],
+			[ShareAPIController::class],
 		];
 	}
 
 	/**
 	 * @dataProvider dataAfterController
-	 *
-	 * @param Controller $controller
-	 * @param bool $called
 	 */
-	public function testAfterController(Controller $controller): void {
+	public function testAfterController(string $controllerClass): void {
+		$controller = $this->createMock($controllerClass);
 		if ($controller instanceof ShareAPIController) {
 			$controller->expects($this->once())->method('cleanup');
 		}
 
-		$response = $this->getMockBuilder('OCP\AppFramework\Http\Response')
-			->disableOriginalConstructor()
-			->getMock();
+		$response = $this->createMock(Response::class);
 		$this->middleware->afterController($controller, 'foo', $response);
 		$this->addToAssertionCount(1);
 	}

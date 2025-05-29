@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,15 +17,12 @@ use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ShareInfoControllerTest extends TestCase {
-
-	/** @var ShareInfoController */
-	private $controller;
-
-	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
+	private ShareInfoController $controller;
+	private ShareManager|MockObject $shareManager;
 
 
 	protected function setUp(): void {
@@ -37,7 +36,7 @@ class ShareInfoControllerTest extends TestCase {
 				$this->createMock(IRequest::class),
 				$this->shareManager
 			])
-			->setMethods(['addROWrapper'])
+			->onlyMethods(['addROWrapper'])
 			->getMock();
 	}
 

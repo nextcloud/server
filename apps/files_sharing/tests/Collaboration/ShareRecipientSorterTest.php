@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,17 +14,14 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ShareRecipientSorterTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	protected $rootFolder;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-	/** @var ShareRecipientSorter */
-	protected $sorter;
+	protected IManager&MockObject $shareManager;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IUserSession&MockObject $userSession;
+	protected ShareRecipientSorter $sorter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -36,12 +35,11 @@ class ShareRecipientSorterTest extends TestCase {
 
 	/**
 	 * @dataProvider sortDataProvider
-	 * @param $data
 	 */
-	public function testSort($data): void {
+	public function testSort(array $context, ?array $accessList, array $input, array $expected): void {
 		$node = $this->createMock(Node::class);
 
-		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
+		/** @var Folder&MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -52,20 +50,20 @@ class ShareRecipientSorterTest extends TestCase {
 			->method('getUID')
 			->willReturn('yvonne');
 
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
+		if ($context['itemType'] === 'files') {
+			$this->userSession->expects($this->once())
+				->method('getUser')
+				->willReturn($user);
 
-		if ($data['context']['itemType'] === 'files') {
 			$folder->expects($this->once())
 				->method('getFirstNodeById')
-				->with($data['context']['itemId'])
+				->with($context['itemId'])
 				->willReturn($node);
 
 			$this->shareManager->expects($this->once())
 				->method('getAccessList')
 				->with($node)
-				->willReturn($data['accessList']);
+				->willReturn($accessList);
 		} else {
 			$folder->expects($this->never())
 				->method('getFirstNodeById');
@@ -73,14 +71,14 @@ class ShareRecipientSorterTest extends TestCase {
 				->method('getAccessList');
 		}
 
-		$workArray = $data['input'];
-		$this->sorter->sort($workArray, $data['context']);
+		$workArray = $input;
+		$this->sorter->sort($workArray, $context);
 
-		$this->assertEquals($data['expected'], $workArray);
+		$this->assertEquals($expected, $workArray);
 	}
 
 	public function testSortNoNodes(): void {
-		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
+		/** @var Folder&MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -114,8 +112,8 @@ class ShareRecipientSorterTest extends TestCase {
 		$this->assertEquals($originalArray, $workArray);
 	}
 
-	public function sortDataProvider() {
-		return [[
+	public static function sortDataProvider(): array {
+		return [
 			[
 				#0 – sort properly and otherwise keep existing order
 				'context' => ['itemType' => 'files', 'itemId' => '42'],
@@ -191,7 +189,7 @@ class ShareRecipientSorterTest extends TestCase {
 				],
 			],
 			[
-				#2 – unsupported item  type
+				#2 – unsupported item type
 				'context' => ['itemType' => 'announcements', 'itemId' => '42'],
 				'accessList' => null, // not needed
 				'input' => [
@@ -234,6 +232,6 @@ class ShareRecipientSorterTest extends TestCase {
 				'input' => [],
 				'expected' => [],
 			],
-		]];
+		];
 	}
 }

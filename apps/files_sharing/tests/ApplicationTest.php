@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,16 +21,13 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ApplicationTest extends TestCase {
 	private Application $application;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IRootFolder */
-	private $rootFolder;
+	private IUserSession&MockObject $userSession;
+	private IRootFolder&MockObject $rootFolder;
 
 
 	protected function setUp(): void {

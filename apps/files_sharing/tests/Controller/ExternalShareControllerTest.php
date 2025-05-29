@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,33 +22,20 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package OCA\Files_Sharing\Controllers
  */
 class ExternalShareControllerTest extends \Test\TestCase {
-	/** @var IRequest */
-	private $request;
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
+	private IRequest $request;
+	private Manager $externalManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
-		$this->clientService = $this->createMock(IClientService::class);
-		$this->config = $this->createMock(IConfig::class);
 	}
 
-	/**
-	 * @return ExternalSharesController
-	 */
-	public function getExternalShareController() {
+	public function getExternalShareController(): ExternalSharesController {
 		return new ExternalSharesController(
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService,
-			$this->config,
 		);
 	}
 

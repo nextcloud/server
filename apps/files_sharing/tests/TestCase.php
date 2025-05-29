@@ -22,7 +22,9 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\MountProviderTrait;
 
 /**
@@ -55,8 +57,7 @@ abstract class TestCase extends \Test\TestCase {
 	public $folder;
 	public $subfolder;
 
-	/** @var \OCP\Share\IManager */
-	protected $shareManager;
+	protected IManager $shareManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -105,7 +107,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testShareNoDownload() {
+	public function testShareNoDownload(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -127,7 +129,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testShareNoDownloadButPreviewHeader() {
+	public function testShareNoDownloadButPreviewHeader(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -167,7 +169,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testShareWithAttributes() {
+	public function testShareWithAttributes(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -207,7 +209,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testPreviewFile() {
+	public function testPreviewFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))

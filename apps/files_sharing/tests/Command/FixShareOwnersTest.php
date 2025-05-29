@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -7,6 +9,7 @@ namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\FixShareOwners;
 use OCA\Files_Sharing\OrphanHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -17,15 +20,8 @@ use Test\TestCase;
  * @package OCA\Files_Sharing\Tests\Command
  */
 class FixShareOwnersTest extends TestCase {
-	/**
-	 * @var FixShareOwners
-	 */
-	private $command;
-
-	/**
-	 * @var OrphanHelper|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $orphanHelper;
+	private FixShareOwners $command;
+	private OrphanHelper&MockObject $orphanHelper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -34,7 +30,7 @@ class FixShareOwnersTest extends TestCase {
 		$this->command = new FixShareOwners($this->orphanHelper);
 	}
 
-	public function testExecuteNoSharesDetected() {
+	public function testExecuteNoSharesDetected(): void {
 		$this->orphanHelper->expects($this->once())
 			->method('getAllShares')
 			->willReturn([
@@ -54,7 +50,7 @@ class FixShareOwnersTest extends TestCase {
 		$this->command->execute($input, $output);
 	}
 
-	public function testExecuteSharesDetected() {
+	public function testExecuteSharesDetected(): void {
 		$this->orphanHelper->expects($this->once())
 			->method('getAllShares')
 			->willReturn([
@@ -82,7 +78,7 @@ class FixShareOwnersTest extends TestCase {
 		$this->command->execute($input, $output);
 	}
 
-	public function testExecuteSharesDetectedDryRun() {
+	public function testExecuteSharesDetectedDryRun(): void {
 		$this->orphanHelper->expects($this->once())
 			->method('getAllShares')
 			->willReturn([

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,15 +15,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Share\IManager as ShareManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ShareInfoMiddlewareTest extends TestCase {
-
-	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var ShareInfoMiddleware */
-	private $middleware;
+	private ShareManager&MockObject $shareManager;
+	private ShareInfoMiddleware $middleware;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,26 +21,19 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @package OCA\Files_Sharing\Middleware\SharingCheckMiddleware
  */
 class SharingCheckMiddlewareTest extends \Test\TestCase {
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var SharingCheckMiddleware */
-	private $sharingCheckMiddleware;
-	/** @var Controller|\PHPUnit\Framework\MockObject\MockObject */
-	private $controllerMock;
-	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
-	private $reflector;
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
-	private $request;
+	private IConfig&MockObject $config;
+	private IAppManager&MockObject $appManager;
+	private SharingCheckMiddleware $sharingCheckMiddleware;
+	private Controller&MockObject $controllerMock;
+	private IControllerMethodReflector&MockObject $reflector;
+	private IManager&MockObject $shareManager;
+	private IRequest&MockObject $request;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -79,7 +74,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
-	public function externalSharesChecksDataProvider() {
+	public static function externalSharesChecksDataProvider(): array {
 		$data = [];
 
 		foreach ([false, true] as $annIn) {
@@ -117,7 +112,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @dataProvider externalSharesChecksDataProvider
 	 */
-	public function testExternalSharesChecks($annotations, $config, $expectedResult): void {
+	public function testExternalSharesChecks(array $annotations, array $config, bool $expectedResult): void {
 		$this->reflector
 			->expects($this->atLeastOnce())
 			->method('hasAnnotation')
@@ -133,7 +128,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @dataProvider externalSharesChecksDataProvider
 	 */
-	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException): void {
+	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled(array $annotations, array $config, bool $noException): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -163,8 +158,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testBeforeControllerWithShareControllerWithSharingEnabled(): void {
-		$share = $this->createMock(IShare::class);
-
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')

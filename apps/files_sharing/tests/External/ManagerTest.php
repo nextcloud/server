@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -33,6 +35,7 @@ use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
@@ -46,42 +49,19 @@ use Test\Traits\UserTrait;
 class ManagerTest extends TestCase {
 	use UserTrait;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
-	private $manager;
-
-	/** @var \OC\Files\Mount\Manager */
-	private $mountManager;
-
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	private $clientService;
-
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IGroupManager */
-	private $groupManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	private $uid;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
+	protected IManager&MockObject $contactsManager;
+	private Manager&MockObject $manager;
+	private \OC\Files\Mount\Manager $mountManager;
+	private IClientService&MockObject $clientService;
+	private ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
+	private ICloudFederationFactory&MockObject $cloudFederationFactory;
+	private IGroupManager&MockObject $groupManager;
+	private IUserManager&MockObject $userManager;
+	private LoggerInterface$logger;
+	private string $uid;
+	private IUser $user;
 	private $testMountProvider;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -89,8 +69,7 @@ class ManagerTest extends TestCase {
 		$this->uid = $this->getUniqueID('user');
 		$this->user = $this->createUser($this->uid, '');
 		$this->mountManager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
-		$this->clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()->getMock();
+		$this->clientService = $this->createMock(IClientService::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -129,17 +108,16 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
 		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1, $group2]);
 		$this->groupManager->expects($this->any())->method(('get'))
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['group1', $group1],
 				['group2', $group2],
-			]));
+			]);
 	}
 
 	protected function tearDown(): void {
 		// clear the share external table to avoid side effects
-		$query = Server::get(IDBConnection::class)->prepare('DELETE FROM `*PREFIX*share_external`');
-		$result = $query->execute();
-		$result->closeCursor();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder()->delete('share_external');
+		$query->executeStatement();
 
 		parent::tearDown();
 	}
@@ -169,10 +147,12 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 				]
-			)->setMethods(['tryOCMEndPoint'])->getMock();
+			)
+			->onlyMethods(['tryOCMEndPoint'])
+			->getMock();
 	}
 
-	private function setupMounts() {
+	private function setupMounts(): void {
 		$this->clearMounts();
 		$mounts = $this->testMountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
@@ -180,7 +160,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	private function clearMounts() {
+	private function clearMounts(): void {
 		$this->mountManager->clear();
 		$this->mountManager->addMount(new MountPoint(Temporary::class, '', []));
 	}
@@ -223,13 +203,10 @@ class ManagerTest extends TestCase {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
 			$this->manager->method('tryOCMEndPoint')
-				->withConsecutive(
-					['http://localhost', 'token1', '2342', 'accept'],
-					['http://localhost', 'token3', '2342', 'decline'],
-				)->willReturnOnConsecutiveCalls(
-					false,
-					false,
-				);
+				->willReturnMap([
+					['http://localhost', 'token1', '2342', 'accept', false],
+					['http://localhost', 'token3', '2342', 'decline', false],
+				]);
 		}
 
 		// Add a share for "user"

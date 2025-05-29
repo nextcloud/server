@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +11,7 @@ namespace OCA\Files_Sharing\Tests\External;
 use OC\Files\Cache\Cache;
 use OCA\Files_Sharing\External\Scanner;
 use OCA\Files_Sharing\External\Storage;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -16,20 +19,14 @@ use Test\TestCase;
  */
 class ScannerTest extends TestCase {
 	protected Scanner $scanner;
-	/** @var Storage|\PHPUnit\Framework\MockObject\MockObject */
-	protected $storage;
-	/** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cache;
+	protected Storage&MockObject $storage;
+	protected Cache&MockObject $cache;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->storage = $this->createMock(Storage::class);
+		$this->cache = $this->createMock(Cache::class);
 		$this->storage->expects($this->any())
 			->method('getCache')
 			->willReturn($this->cache);

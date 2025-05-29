@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
@@ -11,6 +13,7 @@ use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -23,23 +26,11 @@ use Test\TestCase;
  * @package OCA\Files_Sharing\Tests\Command
  */
 class CleanupRemoteStoragesTest extends TestCase {
+	private CleanupRemoteStorages $command;
+	private IDBConnection $connection;
+	private ICloudIdManager&MockObject $cloudIdManager;
 
-	/**
-	 * @var CleanupRemoteStorages
-	 */
-	private $command;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $cloudIdManager;
-
-	private $storages = [
+	private array $storages = [
 		['id' => 'shared::7b4a322b22f9d0047c38d77d471ce3cf', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e1', 'remote' => 'https://hostname.tld/owncloud1', 'user' => 'user1'],
 		['id' => 'shared::efe3b456112c3780da6155d3a9b9141c', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e2', 'remote' => 'https://hostname.tld/owncloud2', 'user' => 'user2'],
 		['notExistingId' => 'shared::33323d9f4ca416a9e3525b435354bc6f', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e3', 'remote' => 'https://hostname.tld/owncloud3', 'user' => 'user3'],
@@ -77,7 +68,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 		foreach ($this->storages as &$storage) {
 			if (isset($storage['id'])) {
 				$storageQuery->setParameter('id', $storage['id']);
-				$storageQuery->execute();
+				$storageQuery->executeStatement();
 				$storage['numeric_id'] = $storageQuery->getLastInsertId();
 			}
 
@@ -134,7 +125,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 		parent::tearDown();
 	}
 
-	private function doesStorageExist($numericId) {
+	private function doesStorageExist(int $numericId): bool  {
 		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->select('*')
 			->from('storages')
@@ -166,27 +157,29 @@ class CleanupRemoteStoragesTest extends TestCase {
 	 * Test cleanup of orphaned storages
 	 */
 	public function testCleanup(): void {
-		$input = $this->getMockBuilder(InputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$output = $this->getMockBuilder(OutputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$input = $this->createMock(InputInterface::class);
+		$output = $this->createMock(OutputInterface::class);
 
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
-
+		$calls = [
+			'5 remote storage(s) need(s) to be checked',
+			'5 remote share(s) exist',
+			null,
+		];
 		$output
 			->expects($this->any())
 			->method('writeln')
-			->withConsecutive(
-				['5 remote storage(s) need(s) to be checked'],
-				['5 remote share(s) exist'],
-			);
+			->willReturnCallback(function ($output) use (&$calls) {
+				$expected = array_shift($calls);
+				if ($expected !== null) {
+					$this->assertEquals($expected, $output);
+				}
+			});
 
 		$this->cloudIdManager
 			->expects($this->any())
 			->method('getCloudId')
-			->will($this->returnCallback(function (string $user, string $remote) {
+			->willReturnCallback(function (string $user, string $remote) {
 				$cloudIdMock = $this->createMock(ICloudId::class);
 
 				// The remotes are already sanitized in the original data, so
@@ -197,7 +190,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 					->willReturn($remote);
 
 				return $cloudIdMock;
-			}));
+			});
 
 		$this->command->execute($input, $output);
 

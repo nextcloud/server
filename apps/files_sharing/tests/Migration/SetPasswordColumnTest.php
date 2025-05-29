@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -13,6 +15,7 @@ use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class SetPasswordColumnTest
@@ -20,15 +23,9 @@ use OCP\Share\IShare;
  * @group DB
  */
 class SetPasswordColumnTest extends TestCase {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var SetPasswordColumn */
-	private $migration;
+	private IDBConnection $connection;
+	private IConfig&MockObject $config;
+	private SetPasswordColumn $migration;
 
 	private $table = 'share';
 
@@ -43,13 +40,13 @@ class SetPasswordColumnTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		parent::tearDown();
 		$this->cleanDB();
+		parent::tearDown();
 	}
 
-	private function cleanDB() {
+	private function cleanDB(): void {
 		$query = $this->connection->getQueryBuilder();
-		$query->delete($this->table)->execute();
+		$query->delete($this->table)->executeStatement();
 	}
 
 	public function testAddPasswordColumn(): void {

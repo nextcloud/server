@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -55,7 +57,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ShareControllerTest extends \Test\TestCase {
 
 	private string $user;
-	private string $oldUser;
+	private string|false $oldUser;
 	private string $appName = 'files_sharing';
 	private ShareController $shareController;
 
@@ -164,7 +166,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
-		\OC_Util::setupFS($this->oldUser);
+		if ($this->oldUser !== false) {
+			\OC_Util::setupFS($this->oldUser);
+		}
 		parent::tearDown();
 	}
 
@@ -643,11 +647,11 @@ class ShareControllerTest extends \Test\TestCase {
 		$filename = 'file1.txt';
 		$this->shareController->setToken('token');
 
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner = $this->createMock(IUser::class);
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
 		$owner->method('getUID')->willReturn('ownerUID');
 
-		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$file = $this->createMock(File::class);
 		$file->method('getName')->willReturn($filename);
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
@@ -688,7 +692,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testDownloadShareWithCreateOnlyShare(): void {
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share
 			->expects($this->once())
@@ -738,7 +742,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testDisabledOwner(): void {
 		$this->shareController->setToken('token');
 
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner = $this->createMock(IUser::class);
 		$owner->method('isEnabled')->willReturn(false);
 
 		$initiator = $this->createMock(IUser::class);
@@ -779,7 +783,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testDisabledInitiator(): void {
 		$this->shareController->setToken('token');
 
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner = $this->createMock(IUser::class);
 		$owner->method('isEnabled')->willReturn(false);
 
 		$initiator = $this->createMock(IUser::class);
