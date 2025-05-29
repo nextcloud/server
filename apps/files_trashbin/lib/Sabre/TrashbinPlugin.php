@@ -8,8 +8,12 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OC\Files\FileInfo;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -31,10 +35,15 @@ class TrashbinPlugin extends ServerPlugin {
 	/** @var IPreview */
 	private $previewManager;
 
+	/** @var View */
+	private $view;
+
 	public function __construct(
-		IPreview $previewManager
+		IPreview $previewManager,
+		View $view
 	) {
 		$this->previewManager = $previewManager;
+		$this->view = $view;
 	}
 
 	public function initialize(Server $server) {
@@ -42,6 +51,7 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$this->server->on('propFind', [$this, 'propFind']);
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('beforeMove', [$this, 'beforeMove']);
 	}
 
 
@@ -122,5 +132,48 @@ class TrashbinPlugin extends ServerPlugin {
 		if ($node instanceof ITrash) {
 			$response->addHeader('Content-Disposition', 'attachment; filename="' . $node->getFilename() . '"');
 		}
+	}
+
+	/**
+	 * Check if a user has available space before attempting to
+	 * restore from trashbin unless they have unlimited quota.
+	 *
+	 * @param string $sourcePath
+	 * @param string $destinationPath
+	 * @return bool
+	 */
+	public function beforeMove(string $sourcePath, string $destinationPath): bool {
+		try {
+			$node = $this->server->tree->getNodeForPath($sourcePath);
+			$destinationNodeParent = $this->server->tree->getNodeForPath(dirname($destinationPath));
+		} catch (\Sabre\DAV\Exception $e) {
+			\OCP\Server::get(LoggerInterface::class)
+				->error($e->getMessage(), ['app' => 'files_trashbin', 'exception' => $e]);
+			return true;
+		}
+
+		// Check if a file is being restored before proceeding
+		if (!$node instanceof ITrash || !$destinationNodeParent instanceof RestoreFolder) {
+			return true;
+		}
+
+		$fileInfo = $node->getFileInfo();
+		if (!$fileInfo instanceof ITrashItem) {
+			return true;
+		}
+		$restoreFolder = dirname($fileInfo->getOriginalLocation());
+		$freeSpace = $this->view->free_space($restoreFolder);
+		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED ||
+			$freeSpace === FileInfo::SPACE_UNKNOWN ||
+			$freeSpace === FileInfo::SPACE_UNLIMITED) {
+			return true;
+		}
+		$filesize = $fileInfo->getSize();
+		if ($freeSpace < $filesize) {
+			$this->server->httpResponse->setStatus(507);
+			return false;
+		}
+
+		return true;
 	}
 }
