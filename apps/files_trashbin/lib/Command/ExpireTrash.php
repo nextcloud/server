@@ -45,8 +45,9 @@ class ExpireTrash extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$minAge = $this->expiration->getMinAgeAsTimestamp();
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
-		if (!$maxAge) {
+		if ($minAge === false && $maxAge === false) {
 			$output->writeln('Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)');
 			return 1;
 		}
