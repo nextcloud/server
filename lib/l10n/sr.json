@@ -273,6 +273,7 @@
     "A valid Login must be provided" : "Морате да унесете исправно име за пријаву",
     "Login contains whitespace at the beginning or at the end" : "Име за пријаву садржи белине на почетку или на крају",
     "Login must not consist of dots only" : "Име за пријаву не може да се састоји само од тачака",
+    "Username is too long" : "Корисничко име је сувише дугачко",
     "Login is invalid because files already exist for this user" : "Име за пријаву није исправно пошто већ постоје фајлови овог корисника",
     "Account disabled" : "Налог је искључен",
     "Login canceled by app" : "Пријава отказана од стране апликације",

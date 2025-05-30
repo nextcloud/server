@@ -14,7 +14,6 @@
     "Hello, {name}" : "Ola, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Feliz aniversario 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz aniversario, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "«icona {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
     "Get more widgets from the App Store" : "Obter máis trebellos na tenda de aplicacións",
@@ -22,6 +21,7 @@
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para a súa privacidade, o servidor de Nextcloud solicita os datos meteorolóxicos no seu nome para que o servizo meteorolóxico non reciba información persoal.",
     "Weather data from Met.no" : "Datos meteorolóxicos de Met.no",
     "geocoding with Nominatim" : "xeocodificación con Nominatim",
-    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData"
+    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData",
+    "\"{title} icon\"" : "«icona {title}»"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

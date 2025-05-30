@@ -273,6 +273,7 @@
     "A valid Login must be provided" : "必須提供有效帳號",
     "Login contains whitespace at the beginning or at the end" : "帳號的開頭或結尾有空白",
     "Login must not consist of dots only" : "帳號不能只包含小數點",
+    "Username is too long" : "使用者名稱太長了",
     "Login is invalid because files already exist for this user" : "帳號無效，因為使用者的檔案已經存在",
     "Account disabled" : "帳號已停用",
     "Login canceled by app" : "應用程式取消了登入",

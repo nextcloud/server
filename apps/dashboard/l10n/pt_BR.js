@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Olá, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Feliz Aniversário 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz Aniversário, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"ícone de {title} \"",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
     "Get more widgets from the App Store" : "Obtenha mais widgets na Loja de Aplicativos",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, as informações de Tempo são solicitadas pelo servidor Nextcloud de forma que o serviço de Tempo não receba suas informações pessoais.",
     "Weather data from Met.no" : "Dados de Tempo do Met.no",
     "geocoding with Nominatim" : "geocodificado com Nominatim",
-    "elevation data from OpenTopoData" : "dados topográficos de OpenTopoData"
+    "elevation data from OpenTopoData" : "dados topográficos de OpenTopoData",
+    "\"{title} icon\"" : "\"ícone de {title} \""
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

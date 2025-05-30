@@ -365,7 +365,7 @@ OC.L10N.register(
     "Last job ran {relativeTime}." : "Viimane käivitus kestis {relativeTime}.",
     "Unable to update profile default setting" : "Profiili vaikimisi seadistuste uuendamine ei õnnestu",
     "Profile" : "Profiil",
-    "Password confirmation is required" : "Parooli kinnitus on vajalik",
+    "Password confirmation is required" : "Salasõna kinnitamine on vajalik",
     "Failed to save setting" : "Seadistuse salvestamine ei õnnestunud",
     "Unable to update server side encryption config" : "Serveripoolse krüptimise seadistusi ei õnnestu uuendada",
     "Server-side encryption" : "Serveripoolne krüptimine",
