@@ -49,6 +49,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use function OCP\Log\logger;
 
 /**
  * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
