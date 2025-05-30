@@ -40,7 +40,7 @@ class OCI extends AbstractDatabase {
 		return $errors;
 	}
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		try {
 			$this->connect();
 		} catch (\Exception $e) {

@@ -16,10 +16,9 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @param string $username
 	 * @throws \OC\DatabaseSetupException
 	 */
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -46,7 +45,7 @@ class PostgreSQL extends AbstractDatabase {
 					//use the admin login data for the new database user
 
 					//add prefix to the postgresql user name to prevent collisions
-					$this->dbUser = 'oc_' . strtolower($username);
+					$this->dbUser = 'oc_admin';
 					//create a new password so we don't need to store the admin config in the config file
 					$this->dbPassword = \OC::$server->get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
