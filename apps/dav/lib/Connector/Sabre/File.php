@@ -210,7 +210,7 @@ class File extends Node implements IFile {
 						/** @var IWriteStreamStorage $partStorage */
 						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
 					} catch (GenericFileException $e) {
-						$logger = Server::get(LoggerInterface::class);
+						$logger = \OCP\Server::get(LoggerInterface::class);
 						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
 						$result = $isEOF;
 						if (is_resource($wrappedData)) {
