@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Upload;
 
+use OCP\Files\IRootFolder;
+use OCP\IUserSession;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
@@ -28,7 +30,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @inheritdoc
 	 */
 	public function getChildForPrincipal(array $principalInfo): UploadHome {
-		return new UploadHome($principalInfo, $this->cleanupService);
+		return new UploadHome($principalInfo, $this->cleanupService, $this->rootFolder, $this->userSession);
 	}
 
 	/**
