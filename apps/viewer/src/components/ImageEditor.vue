@@ -422,6 +422,10 @@ export default {
 	margin-left: 6px !important;
 }
 
+.FIE_tabs_toggle_btn{
+	display: none !important;
+}
+
 // Tabs
 .FIE_tabs {
 	padding: 6px !important;
@@ -555,15 +559,6 @@ export default {
 			stroke: var(--color-main-text);
 			fill: var(--color-main-text);
 		}
-	}
-}
-
-// Close editor button fixes
-.FIE_topbar-close-button {
-	svg path {
-		// The path viewbox is weird and
-		// not correct, this fixes it
-		transform: scale(1.6);
 	}
 }
 
