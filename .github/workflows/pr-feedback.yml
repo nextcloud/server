@@ -51,5 +51,5 @@ jobs:
             (If you believe you should not receive this message, you can add yourself to the [blocklist](https://github.com/nextcloud/.github/blob/master/non-community-usernames.txt).)
           days-before-feedback: 14
           start-date: '2024-04-30'
-          exempt-authors: '${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot'
+          exempt-authors: '${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }}'
           exempt-bots: true
