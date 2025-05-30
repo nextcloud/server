@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   phpunit-32bits:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 

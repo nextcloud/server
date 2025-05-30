@@ -30,7 +30,7 @@ permissions:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     outputs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
@@ -94,7 +94,7 @@ jobs:
           path: ./
 
   cypress:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: init
 
     strategy:
@@ -182,7 +182,7 @@ jobs:
           path: data.tar
 
   summary:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [init, cypress]
 
     if: always()

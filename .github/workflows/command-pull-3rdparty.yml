@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   rebase:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     permissions:
       contents: none
 

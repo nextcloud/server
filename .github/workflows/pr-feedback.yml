@@ -22,7 +22,7 @@ permissions:
 jobs:
   pr-feedback:
     if: ${{ github.repository_owner == 'nextcloud' }}
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     steps:
       - name: The get-github-handles-from-website action
         uses: marcelklehr/get-github-handles-from-website-action@06b2239db0a48fe1484ba0bfd966a3ab81a08308 # v1.0.1

@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -37,7 +37,7 @@ jobs:
               - '**.php'
 
   files-external-ftp:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -115,7 +115,7 @@ jobs:
           docker logs ftp
 
   ftp-summary:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, files-external-ftp]
 
     if: always()

@@ -25,7 +25,7 @@ concurrency:
 jobs:
   auto-approve-merge:
     if: github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]'
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     permissions:
       # for hmarr/auto-approve-action to approve PRs
       pull-requests: write

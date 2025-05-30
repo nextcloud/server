@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -41,7 +41,7 @@ jobs:
               - '**.php'
 
   s3-primary-tests-minio:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -127,7 +127,7 @@ jobs:
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
   s3-primary-summary:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes,s3-primary-tests-minio]
 
     if: always()

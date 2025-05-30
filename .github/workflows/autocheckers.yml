@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src }}
@@ -38,7 +38,7 @@ jobs:
               - '**.php'
 
   autoloader:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -73,7 +73,7 @@ jobs:
         run: bash ./build/autoloaderchecker.sh
 
   autocheckers:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       matrix:
@@ -113,7 +113,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, autoloader, autocheckers]
 
     if: always()

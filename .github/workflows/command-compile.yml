@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     # On pull requests and if the comment starts with `/compile`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')
@@ -92,7 +92,7 @@ jobs:
           reactions: '-1'
 
   process:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: init
 
     steps:

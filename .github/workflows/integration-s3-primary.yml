@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -37,7 +37,7 @@ jobs:
               - 'composer.lock'
 
   integration-s3-primary:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
@@ -113,7 +113,7 @@ jobs:
   s3-primary-integration-summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, integration-s3-primary]
 
     if: always()

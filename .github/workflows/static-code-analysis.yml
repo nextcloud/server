@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   static-code-analysis:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -53,7 +53,7 @@ jobs:
         run: git diff --exit-code -- . ':!lib/composer'
 
   static-code-analysis-security:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -88,7 +88,7 @@ jobs:
           sarif_file: results.sarif
 
   static-code-analysis-ocp:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 
@@ -119,7 +119,7 @@ jobs:
         run: git diff --exit-code -- . ':!lib/composer'
 
   static-code-analysis-ncu:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     if: ${{ github.event_name != 'push' && github.repository_owner != 'nextcloud-gmbh' }}
 

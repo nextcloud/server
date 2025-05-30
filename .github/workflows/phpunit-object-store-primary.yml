@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -41,7 +41,7 @@ jobs:
               - '**.php'
 
   object-store-primary-tests-minio:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -115,7 +115,7 @@ jobs:
 
 
   object-store-primary-summary:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes,object-store-primary-tests-minio]
 
     if: always()

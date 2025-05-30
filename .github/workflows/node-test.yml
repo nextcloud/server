@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     permissions:
       contents: read
       pull-requests: read
@@ -51,7 +51,7 @@ jobs:
               - '**.vue'
 
   versions:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -74,7 +74,7 @@ jobs:
           fallbackNpm: '^10'
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [versions, changes]
 
     if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
@@ -111,7 +111,7 @@ jobs:
           files: ./coverage/lcov.info
 
   jsunit:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [versions, changes]
 
     if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
@@ -140,7 +140,7 @@ jobs:
         run: npm run test:jsunit
 
   handlebars:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [versions, changes]
 
     if: ${{ needs.versions.result != 'failure' && needs.changes.outputs.src != 'false' }}
@@ -172,7 +172,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, test, jsunit, handlebars]
 
     if: always()
