@@ -341,6 +341,9 @@ class Installer {
 					// otherwise we just copy the outer directory
 					$this->copyRecursive($extractDir, $baseDir);
 					Files::rmdirr($extractDir);
+					if (function_exists('opcache_reset')) {
+						opcache_reset();
+					}
 					return;
 				}
 				// Signature does not match
