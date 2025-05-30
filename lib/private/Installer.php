@@ -332,6 +332,9 @@ class Installer {
 					}
 					OC_Helper::copyr($extractDir, $baseDir);
 					OC_Helper::rmdirr($extractDir);
+					if (function_exists('opcache_reset')) {
+						opcache_reset();
+					}
 					return;
 				}
 				// Signature does not match
