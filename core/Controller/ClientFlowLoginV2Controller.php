@@ -35,6 +35,8 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
+use function OCP\Log\logger;
 
 /**
  * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
@@ -95,6 +97,11 @@ class ClientFlowLoginV2Controller extends Controller {
 		}
 
 		$this->session->set(self::TOKEN_NAME, $token);
+		logger('core')->debug('Client login flow state token set on landing page', [
+			'sessionId' => $this->session->getId(),
+			'sessionToken' => $token,
+			'user' => $user,
+		]);
 
 		return new RedirectResponse(
 			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user, 'direct' => $direct])
@@ -120,6 +127,11 @@ class ClientFlowLoginV2Controller extends Controller {
 			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+		logger('core')->debug('Client login flow state token set on auth picker page', [
+			'sessionId' => $this->session->getId(),
+			'sessionToken' => $stateToken,
+			'user' => $user,
+		]);
 
 		return new StandaloneTemplateResponse(
 			$this->appName,
@@ -309,9 +321,22 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function isValidStateToken(string $stateToken): bool {
 		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($stateToken) || !is_string($currentToken)) {
+			logger('core')->error('Client login flow state token is not set', [
+				'sessionId' => $this->session->getId(),
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+			]);
 			return false;
 		}
-		return hash_equals($currentToken, $stateToken);
+		$hashEquals = hash_equals($currentToken, $stateToken);
+		if (!$hashEquals) {
+			logger('core')->error('Client login flow state token does not match', [
+				'sessionId' => $this->session->getId(),
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+			]);
+		}
+		return $hashEquals;
 	}
 
 	private function stateTokenMissingResponse(): StandaloneTemplateResponse {
