@@ -273,7 +273,7 @@
     "A valid Login must be provided" : "Ein gültiger Anmeldename muss eingegeben werden.",
     "Login contains whitespace at the beginning or at the end" : "Anmeldename enthält Leerzeichen am Anfang oder am Ende",
     "Login must not consist of dots only" : "Der Anmeldename darf nicht nur aus Punkten bestehen",
-    "Login is too long" : "Die Anmeldung dauert zu lange",
+    "Username is too long" : "Benutzername ist zu lang",
     "Login is invalid because files already exist for this user" : "Der Anmeldename ist ungültig, da bereits Dateien von diesem Konto existieren",
     "Account disabled" : "Konto deaktiviert",
     "Login canceled by app" : "Anmeldung durch die App abgebrochen",
@@ -449,6 +449,7 @@
     "Summarizes text by reducing its length without losing key information." : "Fasst Text zusammen, indem die Länge reduziert wird, ohne dass wichtige Informationen verloren gehen.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrahiert Themen aus einem Text und gibt sie durch Kommas getrennt aus.",
     "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte versuche es später noch einmal",
-    "Cannot download file" : "Datei kann nicht heruntergeladen werden."
+    "Cannot download file" : "Datei kann nicht heruntergeladen werden.",
+    "Login is too long" : "Die Anmeldung dauert zu lange"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

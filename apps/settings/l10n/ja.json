@@ -560,6 +560,7 @@
     "Unable to update profile default setting" : "プロフィールのデフォルト設定を更新できませんでした",
     "Profile" : "プロフィール",
     "Enable or disable profile by default for new accounts." : "新しいアカウントの場合、デフォルトでプロフィールを有効または無効にします。",
+    "Password confirmation is required" : "パスワードの確認が必要です",
     "Failed to save setting" : "設定の保存に失敗しました",
     "{app}'s declarative setting field: {name}" : "{app}の宣言的設定フィールド： {name}",
     "Unable to update server side encryption config" : "サーバー側暗号化の設定を更新できませんでした",

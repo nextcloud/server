@@ -133,6 +133,7 @@
     "Create new app password" : "Krijoni fjalëkalim aplikacioni të ri",
     "Login" : "Hyrje",
     "Password" : "Fjalëkalim",
+    "Password confirmation is required" : "Kërkohet konfirmimi i fjalëkalimit",
     "Server-side encryption" : "Fshehtëzim më anë shërbyesi",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Enkriptimi nga ana e serverit bën të mundur enkriptimin e skedarëve të ngarkuar në këtë server. Kjo vjen me kufizime si një ndëshkim për performancën, prandaj e lejoni këtë vetëm nëse është e nevojshme.",
     "Enable server-side encryption" : "Aktivizo fshehtëzim më anë të shërbyesit",

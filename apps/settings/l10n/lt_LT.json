@@ -255,6 +255,7 @@
     "Webcron" : "„Webcron“",
     "Cron (Recommended)" : "„Cron“ (Rekomenduojama)",
     "Profile" : "Profilis",
+    "Password confirmation is required" : "Reikalingas slaptažodžio patvirtinimas",
     "Failed to save setting" : "Nepavyko įrašyti nustatymo",
     "Server-side encryption" : "Šifravimas serverio pusėje",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Šifravimas serverio pusėje leidžia užšifruoti failus, kurie yra įkelti į serverį. Įjungti tik ik būtinais atvejais.",

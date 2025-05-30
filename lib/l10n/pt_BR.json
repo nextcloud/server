@@ -273,7 +273,6 @@
     "A valid Login must be provided" : "Um Login válido deve ser fornecido",
     "Login contains whitespace at the beginning or at the end" : "O login contém espaços em branco no início ou no final",
     "Login must not consist of dots only" : "O login não deve consistir apenas de pontos",
-    "Login is too long" : "Login é muito longo",
     "Login is invalid because files already exist for this user" : "O login é inválido porque já existem arquivos para este usuário",
     "Account disabled" : "Conta desativada",
     "Login canceled by app" : "Login cancelado pelo aplicativo",
@@ -449,6 +448,7 @@
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reduzindo seu comprimento sem perder informações importantes.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrai tópicos de um texto e os gera separados por vírgulas.",
     "File is currently busy, please try again later" : "O arquivo está ocupado, tente novamente mais tarde",
-    "Cannot download file" : "Não é possível baixar o arquivo"
+    "Cannot download file" : "Não é possível baixar o arquivo",
+    "Login is too long" : "Login é muito longo"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

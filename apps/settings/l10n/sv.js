@@ -404,6 +404,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "Det gick inte att uppdatera profilens standardinställning",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Aktivera eller inaktivera profil som standard för nya konton.",
+    "Password confirmation is required" : "Lösenordsbekräftelse krävs",
     "Failed to save setting" : "Kunde inte spara inställning",
     "Unable to update server side encryption config" : "Kunde inte uppdatera serversidans krypteringskonfiguration",
     "Server-side encryption" : "Serverkryptering",

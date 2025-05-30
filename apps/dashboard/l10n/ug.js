@@ -14,7 +14,6 @@ OC.L10N.register(
     "Good evening, {name}" : "خەيرلىك كەچ ، {name}",
     "Hello" : "ياخشىمۇسىز",
     "Hello, {name}" : "ياخشىمۇسىز ، {name}",
-    "\"{title} icon\"" : "\"{title} سىنبەلگىسى\"",
     "Customize" : "Customize",
     "Edit widgets" : "كىچىك قوراللارنى تەھرىرلەش",
     "Get more widgets from the App Store" : "ئەپ دۇكىنىدىن تېخىمۇ كۆپ كىچىك قوراللارغا ئېرىشىڭ",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "شەخسىي مەخپىيەتلىكىڭىز ئۈچۈن ھاۋارايى سانلىق مەلۇماتلىرىڭىزنى Nextcloud مۇلازىمېتىرىڭىز تەلەپ قىلىدۇ ، شۇڭا ھاۋارايى مۇلازىمىتى ھېچقانداق شەخسىي ئۇچۇرغا ئېرىشەلمەيدۇ.",
     "Weather data from Met.no" : "Met.no دىن كەلگەن ھاۋارايى سانلىق مەلۇماتلىرى",
     "geocoding with Nominatim" : "Nominatim بىلەن جۇغراپىيىلىك كودلاش",
-    "elevation data from OpenTopoData" : "OpenTopoData دىن ئېگىزلىك سانلىق مەلۇماتلىرى"
+    "elevation data from OpenTopoData" : "OpenTopoData دىن ئېگىزلىك سانلىق مەلۇماتلىرى",
+    "\"{title} icon\"" : "\"{title} سىنبەلگىسى\""
 },
 "nplurals=2; plural=(n != 1);");

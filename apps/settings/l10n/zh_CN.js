@@ -565,6 +565,7 @@ OC.L10N.register(
     "Unable to update profile default setting" : "无法更新个人资料默认设置",
     "Profile" : "个人资料",
     "Enable or disable profile by default for new accounts." : "默认情况下为新账号启用或禁用配置文件。",
+    "Password confirmation is required" : "需要密码确认",
     "Failed to save setting" : "保存设置失败",
     "{app}'s declarative setting field: {name}" : "{app} 的声明性设置字段：{name}",
     "Unable to update server side encryption config" : "无法更新服务端加密设置",

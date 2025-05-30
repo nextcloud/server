@@ -184,6 +184,7 @@ OC.L10N.register(
     "Password" : "Pasvorto",
     "Show QR code for mobile apps" : "Montri rapidrespondan (QR) kodon por porteblaj aplikaĵoj",
     "Use system cron service to call the cron.php file every 5 minutes." : "Uzu la sisteman „cron“-servon por voki cron.php ĉiujn 5 minutojn.",
+    "Password confirmation is required" : "Konfirmo per pasvorto estas bezonata",
     "Server-side encryption" : "Ĉeservila ĉifrado",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Ĉeservila ĉifrado elbigas ĉifri ĉiujn alŝutitajn dosierojn al la servilo. Tio havas kelkajn limigojn kiel pli malbonan rendimenton, do ŝaltu tion nur se necese.",
     "Enable server-side encryption" : "Ŝalti ĉeservilan ĉifradon",
