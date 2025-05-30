@@ -375,7 +375,7 @@ class Setup {
 		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
-			$dbSetup->setupDatabase($username);
+			$dbSetup->setupDatabase();
 		} catch (\OC\DatabaseSetupException $e) {
 			$error[] = [
 				'error' => $e->getMessage(),
