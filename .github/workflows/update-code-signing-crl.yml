@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['master', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
+        branches: ['master', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
 
     name: update-code-signing-crl-${{ matrix.branches }}
 
