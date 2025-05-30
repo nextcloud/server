@@ -14,7 +14,6 @@
     "Hello, {name}" : "你好， {name}",
     "Happy birthday 🥳🤩🎂🎉" : "生日快乐 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快乐，{name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "{title} 图标",
     "Customize" : "自定义",
     "Edit widgets" : "编辑小部件",
     "Get more widgets from the App Store" : "从应用商店获取更多小部件",
@@ -22,6 +21,7 @@
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "为了您的隐私，天气数据由您的 Nextcloud 服务器为您获取，这样天气服务就无法获得您的个人信息。",
     "Weather data from Met.no" : "天气数据来自 Met.no",
     "geocoding with Nominatim" : "使用 Nominatim 地理编码",
-    "elevation data from OpenTopoData" : "海拔数据来自 OpenTopoData"
+    "elevation data from OpenTopoData" : "海拔数据来自 OpenTopoData",
+    "\"{title} icon\"" : "{title} 图标"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

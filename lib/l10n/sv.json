@@ -273,6 +273,7 @@
     "A valid Login must be provided" : "En giltig inloggning måste anges",
     "Login contains whitespace at the beginning or at the end" : "Inloggningen innehåller blanksteg i början eller slutet",
     "Login must not consist of dots only" : "Inloggningen får inte innehålla enbart punkter",
+    "Username is too long" : "Användarnamnet är för långt",
     "Login is invalid because files already exist for this user" : "Inloggningen är ogiltigt eftersom det redan finns filer för den här användaren",
     "Account disabled" : "Konto inaktiverat",
     "Login canceled by app" : "Inloggningen avbruten av appen",
