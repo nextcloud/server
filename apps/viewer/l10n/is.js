@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Villa við að hlaða inn {name}",
     "Image saved" : "Mynd vistuð",
     "Error saving image" : "Villa við að vista mynd",
-    "Unsaved changes" : "Óvistaðar breytingar",
-    "Drop changes" : "Henda breytingum",
     "Play the live photo" : "Spila lifandi mynd",
     "LIVE" : "BEINT",
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",

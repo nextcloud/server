@@ -6,7 +6,6 @@ OC.L10N.register(
     "Your browser does not support audio." : "Je browser ondersteunt geen audio.",
     "Error loading {name}" : "Fout bij laden van {name}",
     "Image saved" : "Afbeelding opgeslagen",
-    "Unsaved changes" : "Niet opgeslagen veranderingen",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "There is no plugin available to display this file type" : "Er is geen plug-in beschikbaar om dit bestandstype weer te geven",

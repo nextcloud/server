@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Error al cargar {name}",
     "Image saved" : "Imagen guardada",
     "Error saving image" : "Error al guardar la imagen",
-    "Unsaved changes" : "Cambios no guardados",
-    "Drop changes" : "Descartar cambios",
     "Play the live photo" : "Reproducir la fotografía en vivo",
     "LIVE" : "EN VIVO",
     "Your browser does not support videos." : "Su navegador no soporta videos.",

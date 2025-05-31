@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Błąd podczas ładowania {name}",
     "Image saved" : "Zapisano obraz",
     "Error saving image" : "Błąd podczas zapisywania obrazu",
-    "Unsaved changes" : "Niezapisane zmiany",
-    "Drop changes" : "Odrzuć zmiany",
     "LIVE" : "NA ŻYWO",
     "Your browser does not support videos." : "Twoja przeglądarka nie obsługuje wideo.",
     "This file no longer exists" : "Ten plik nie istnieje",

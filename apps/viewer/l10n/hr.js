@@ -6,7 +6,6 @@ OC.L10N.register(
     "Your browser does not support audio." : "Vaš preglednik ne podržava zvuk.",
     "Error loading {name}" : "Pogreška pri učitavanju {name}",
     "Image saved" : "Slika je spremljena",
-    "Unsaved changes" : "Nespremljene promjene",
     "Your browser does not support videos." : "Vaš preglednik ne podržava videozapise.",
     "There is no plugin available to display this file type" : "Nema dostupnog dodatka za prikazivanje ove vrste datoteke",
     "Edit" : "Uredi",

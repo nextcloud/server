@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
     "Image saved" : "Görsel kaydedildi",
     "Error saving image" : "Görsel kaydedilirken sorun çıktı",
-    "Unsaved changes" : "Kaydedilmemiş değişiklikler",
-    "Drop changes" : "Değişiklikleri yok say",
     "Play the live photo" : "Live Photo oynat",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Tarayıcınız görüntüleri desteklemiyor.",

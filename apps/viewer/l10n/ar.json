@@ -6,8 +6,6 @@
     "Error loading {name}" : "خطأ في تحميل {name}",
     "Image saved" : "تمّ حفظ الصورة",
     "Error saving image" : "خطأ في حفظ الصور",
-    "Unsaved changes" : "تغييرات لم يتم حفظها",
-    "Drop changes" : "تجاهل التغييرات",
     "Play the live photo" : "شغِّل الفيديو الحي",
     "LIVE" : "مُباشِر",
     "Your browser does not support videos." : "متصفحك لا يدعم مقاطع الفيديو.",

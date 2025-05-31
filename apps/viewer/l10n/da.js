@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Fejl ved indlæsning af {name}",
     "Image saved" : "Billede gemt",
     "Error saving image" : "Fejl ved lagring af billede",
-    "Unsaved changes" : "Ikke gemte ændringer",
-    "Drop changes" : "Fortryd ændringer",
     "Play the live photo" : "Afspil live foto",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Din browser understøtter ikke videoer.",

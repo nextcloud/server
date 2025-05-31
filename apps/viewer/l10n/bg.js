@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Грешка при зареждането на {name}",
     "Image saved" : "Изображението е записано",
     "Error saving image" : "Грешка при запазване на изображение",
-    "Unsaved changes" : "Незаписани промени",
-    "Drop changes" : "Игнориране на промените",
     "Your browser does not support videos." : "Вашият браузър не поддържа видеоклипове.",
     "This file no longer exists" : "Този файл вече не съществува",
     "There is no plugin available to display this file type" : "Няма налична добавка за показване на този тип файл",

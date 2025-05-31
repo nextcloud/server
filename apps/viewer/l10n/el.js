@@ -6,7 +6,6 @@ OC.L10N.register(
     "Your browser does not support audio." : "Το πρόγραμμα περιήγησής σας δεν υποστηρίζει ήχο.",
     "Error loading {name}" : "Σφάλμα φόρτωσης {name}",
     "Image saved" : "Η εικόνα αποθηκεύτηκε",
-    "Unsaved changes" : "Μη αποθηκευμένες αλλαγές",
     "Your browser does not support videos." : "Ο περιηγητής σας δεν υποστηρίζει βίντεο.",
     "There is no plugin available to display this file type" : "Δεν υπάρχει διαθέσιμο πρόσθετο για την προβολή αυτού του τύπου αρχείου",
     "Edit" : "Επεξεργασία",

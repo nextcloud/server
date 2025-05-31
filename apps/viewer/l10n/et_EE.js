@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Viga {name} laadimisel",
     "Image saved" : "Pilt salvestatud",
     "Error saving image" : "Viga pildi salvestamisel",
-    "Unsaved changes" : "Salvestamata muutused",
-    "Drop changes" : "Tühista muudatused",
     "Play the live photo" : "Mängi liikuvat pilti",
     "LIVE" : "OTSE",
     "Your browser does not support videos." : "Su brauser ei toeta videoid.",

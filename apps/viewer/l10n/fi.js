@@ -7,8 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Virhe ladatessa {name}",
     "Image saved" : "Kuva tallennettu",
     "Error saving image" : "Virhe kuvaa tallentaessa",
-    "Unsaved changes" : "Tallentamattomia muutoksia",
-    "Drop changes" : "Hylkää muutokset",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "This file no longer exists" : "Tätä tiedostoa ei ole olemassa",

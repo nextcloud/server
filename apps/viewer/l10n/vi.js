@@ -6,7 +6,6 @@ OC.L10N.register(
     "Your browser does not support audio." : "Trình duyệt của bạn không hỗ trợ âm thanh.",
     "Error loading {name}" : "Lỗi khi tải {name}",
     "Image saved" : "Đã lưu hình ảnh",
-    "Unsaved changes" : "Thay đổi chưa được lưu",
     "Your browser does not support videos." : "Trình duyệt của bạn không hỗ trợ video.",
     "There is no plugin available to display this file type" : "Không có plugin nào để hiển thị loại tệp này",
     "Edit" : "Chỉnh sửa",

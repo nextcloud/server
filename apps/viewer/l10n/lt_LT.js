@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Klaida įkeliant {name}",
     "Image saved" : "Paveikslas įrašytas",
     "Error saving image" : "Klaida įrašant paveikslą",
-    "Unsaved changes" : "Neįrašyti pakeitimai",
-    "Drop changes" : "Atmesti pakeitimus",
     "Your browser does not support videos." : "Jūsų naršyklė nepalaiko vaizdo įrašų. ",
     "This file no longer exists" : "Šio failo daugiau nebėra",
     "There is no plugin available to display this file type" : "Nėra prieinamo įskiepio, skirto atvaizduoti šį failo tipą",

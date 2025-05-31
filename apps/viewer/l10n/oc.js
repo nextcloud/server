@@ -5,7 +5,6 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Visionador de fichièrs simples amb diaporama pels mèdias",
     "Your browser does not support audio." : "Vòstre navigador pren pas encarga l’àudio.",
     "Error loading {name}" : "Error en cargant {name}",
-    "Unsaved changes" : "Modificacions pas enregistradas",
     "Your browser does not support videos." : "Vòstre navigador pren pas encarga las vidèos.",
     "There is no plugin available to display this file type" : "I a pas cap d’extension per afichar aqueste tipe de fichièr",
     "Edit" : "Modificar",

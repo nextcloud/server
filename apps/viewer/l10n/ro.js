@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Eroare la încărcare {name}",
     "Image saved" : "Imagine salvată",
     "Error saving image" : "Eroare la salvarea imaginii",
-    "Unsaved changes" : "Modificări nesalvate",
-    "Drop changes" : "Elimină modificările",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Browser-ul tău nu suportă video.",
     "This file no longer exists" : "Acest fișier nu mai există",

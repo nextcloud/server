@@ -6,8 +6,6 @@
     "Error loading {name}" : "Prišlo je do napake med nalaganjem {name}",
     "Image saved" : "Slika je shranjena.",
     "Error saving image" : "Napaka shranjevanja slike",
-    "Unsaved changes" : "Neshranjene spremembe",
-    "Drop changes" : "Opusti spremembe",
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "This file no longer exists" : "Ta datoteka ne obstaja",
     "There is no plugin available to display this file type" : "Ni vstavka, ki omogoča prikaz te vrste datotek",

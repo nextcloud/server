@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "يۈكلەشتە خاتالىق {name}",
     "Image saved" : "رەسىم ساقلاندى",
     "Error saving image" : "رەسىمنى ساقلاشتا خاتالىق",
-    "Unsaved changes" : "ساقلانمىغان ئۆزگەرتىش",
-    "Drop changes" : "ئۆزگەرتىشلەرنى تاشلاڭ",
     "Play the live photo" : "نەق مەيدان سۈرىتىنى قويۇڭ",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "توركۆرگۈڭىز سىنلارنى قوللىمايدۇ.",

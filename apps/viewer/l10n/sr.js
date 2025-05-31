@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Грешка при учитавању {name}",
     "Image saved" : "Слика сачувана.",
     "Error saving image" : "Грешка прикиком чувања слике",
-    "Unsaved changes" : "Несачуване измене",
-    "Drop changes" : "Откажи измене",
     "Play the live photo" : "Пусти фотографију уживо",
     "LIVE" : "УЖИВО",
     "Your browser does not support videos." : "Ваш веб читач не подржава видео записе.",

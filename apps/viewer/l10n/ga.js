@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Earráid agus {name} á lódáil",
     "Image saved" : "Sábháladh an íomhá",
     "Error saving image" : "Earráid agus íomhá á sábháil",
-    "Unsaved changes" : "Athruithe gan sábháil",
-    "Drop changes" : "Athruithe titim",
     "Play the live photo" : "Seinn an grianghraf beo",
     "LIVE" : "BEO",
     "Your browser does not support videos." : "Ní thacaíonn do bhrabhsálaí le físeáin.",

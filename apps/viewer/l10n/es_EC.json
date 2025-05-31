@@ -6,8 +6,6 @@
     "Error loading {name}" : "Error al cargar {name}",
     "Image saved" : "Imagen guardada",
     "Error saving image" : "Error al guardar la imagen",
-    "Unsaved changes" : "Cambios no guardados",
-    "Drop changes" : "Descartar cambios",
     "Your browser does not support videos." : "Tu navegador no admite videos.",
     "This file no longer exists" : "Este archivo ya no existe",
     "There is no plugin available to display this file type" : "No hay un complemento disponible para mostrar este tipo de archivo",

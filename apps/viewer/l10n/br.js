@@ -4,7 +4,6 @@ OC.L10N.register(
     "Viewer" : "Gweller",
     "Simple file viewer with slideshow for media" : "Ur seller restroù simpl gant un diaporama evit ar mediaoù",
     "Error loading {name}" : "Ur fazi zo bet en ur kargañ {name}",
-    "Unsaved changes" : "Kemmoù n'int ket bet enrollet",
     "LIVE" : "WAR-EEUN",
     "Your browser does not support videos." : "Ne doug ket ho furcher ar videoioù.",
     "Edit" : "Cheñch",

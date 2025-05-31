@@ -7,8 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Kesalahan saat memuat {name}",
     "Image saved" : "Gambar disimpan",
     "Error saving image" : "Kesalahan saat menyimpan citra",
-    "Unsaved changes" : "Perubahan belum disimpan",
-    "Drop changes" : "Buang perubahan",
     "Your browser does not support videos." : "Peramban Anda tidak mendukung video.",
     "This file no longer exists" : "Berkas ini tidak ada lagi",
     "There is no plugin available to display this file type" : "Tidak tersedia plugin untuk menampilkan tipe berkas ini",

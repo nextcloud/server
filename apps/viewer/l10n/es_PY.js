@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Viewer" : "Visor",
     "Error loading {name}" : "Se presentó un error al cargar {name}",
-    "Unsaved changes" : "Cambios no guardados",
     "Your browser does not support videos." : "Tu navegador no soporta videos.",
     "Edit" : "Editar",
     "Open sidebar" : "Abrir barra lateral",

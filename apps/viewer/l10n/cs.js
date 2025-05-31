@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Chyba načítání {name}",
     "Image saved" : "Obrázek uložen",
     "Error saving image" : "Chyb při ukládání obrázku",
-    "Unsaved changes" : "Neuložené změny",
-    "Drop changes" : "Zahodit změny",
     "Play the live photo" : "Přehrát živé video",
     "LIVE" : "ŽIVĚ",
     "Your browser does not support videos." : "Vámi používaný webový prohlížeč nepodporuje videa.",

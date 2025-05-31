@@ -8,8 +8,6 @@ OC.L10N.register(
     "Error loading {name}" : "Error loading {name}",
     "Image saved" : "تصویر ذخیره شد",
     "Error saving image" : "Error saving image",
-    "Unsaved changes" : "Unsaved changes",
-    "Drop changes" : "Drop changes",
     "LIVE" : "LIVE",
     "Your browser does not support videos." : "Your browser does not support videos.",
     "This file no longer exists" : "This file no longer exists",

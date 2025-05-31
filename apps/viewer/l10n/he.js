@@ -6,7 +6,6 @@ OC.L10N.register(
     "Your browser does not support audio." : "הדפדפן שלך אינו תומך בשמע.",
     "Error loading {name}" : "שגיאה בטעינת {name}",
     "Image saved" : "תמונה נשמרה",
-    "Unsaved changes" : "שינויים שלא נשמרו",
     "Your browser does not support videos." : "הדפדפן שלך לא תומך בסרטונים.",
     "There is no plugin available to display this file type" : "אין תוסף זמין להצגת סוג הקובץ הזה",
     "Edit" : "עריכה",

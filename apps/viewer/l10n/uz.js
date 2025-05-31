@@ -1,7 +1,6 @@
 OC.L10N.register(
     "viewer",
     {
-    "Unsaved changes" : "Saqlanmagan o'zgarishlar",
     "Edit" : "Tahrirlash",
     "Download" : "Download",
     "Delete" : "Delete",
