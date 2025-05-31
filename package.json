@@ -78,7 +78,7 @@
     "core-js": "^3.42.0",
     "davclient.js": "nextcloud-deps/davclient.js#59d7777d7fe290c5f1fd74a58e7eb529b63e153d",
     "debounce": "^2.1.0",
-    "dompurify": "^3.2.5",
+    "dompurify": "^3.2.6",
     "escape-html": "^1.0.3",
     "focus-trap": "^7.6.5",
     "handlebars": "^4.7.7",
