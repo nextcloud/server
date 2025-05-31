@@ -1675,8 +1675,11 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->onlyMethods(['canAccessShare'])
+			// This is not possible anymore with PHPUnit 10+
+			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder(\stdClass::class)
+				->addMethods(['canAccessShare'])
 				->getMock();
 			$helper->method('canAccessShare')
 				->with($share, $this->currentUser)
@@ -2492,8 +2495,11 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-			->onlyMethods(['createShare'])
+		// This is not possible anymore with PHPUnit 10+
+		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder(\stdClass::class)
+			->addMethods(['createShare'])
 			->getMock();
 		$helper->method('createShare')
 			->with(
@@ -2598,7 +2604,10 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		// This is not possible anymore with PHPUnit 10+
+		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder(\stdClass::class)
 			->addMethods(['createShare'])
 			->getMock();
 		$helper->method('createShare')
@@ -5093,8 +5102,11 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->onlyMethods(['formatShare', 'canAccessShare'])
+			// This is not possible anymore with PHPUnit 10+
+			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder(\stdClass::class)
+				->addMethods(['formatShare', 'canAccessShare'])
 				->getMock();
 			$helper->method('formatShare')
 				->with($share)
