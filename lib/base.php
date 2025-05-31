@@ -785,7 +785,7 @@ class OC {
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApp('settings');
 			/* Build core application to make sure that listeners are registered */
-			Server::get(\OC\Core\Application::class);
+			$bootstrapCoordinator->runLazyRegistration('core');
 		}
 
 		//make sure temporary files are cleaned up

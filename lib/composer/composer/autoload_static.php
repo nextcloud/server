@@ -1426,6 +1426,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Exception\\LoginFlowV2ClientForbiddenException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2ClientForbiddenException.php',
         'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => __DIR__ . '/../../..' . '/core/Exception/LoginFlowV2NotFoundException.php',
         'OC\\Core\\Exception\\ResetPasswordException' => __DIR__ . '/../../..' . '/core/Exception/ResetPasswordException.php',
+        'OC\\Core\\Listener\\AddMissingIndicesListener' => __DIR__ . '/../../..' . '/core/Listener/AddMissingIndicesListener.php',
+        'OC\\Core\\Listener\\AddMissingPrimaryKeyListener' => __DIR__ . '/../../..' . '/core/Listener/AddMissingPrimaryKeyListener.php',
         'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeMessageLoggedEventListener.php',
         'OC\\Core\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/../../..' . '/core/Listener/BeforeTemplateRenderedListener.php',
         'OC\\Core\\Listener\\FeedBackHandler' => __DIR__ . '/../../..' . '/core/Listener/FeedBackHandler.php',
