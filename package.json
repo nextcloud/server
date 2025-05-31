@@ -60,7 +60,7 @@
     "@nextcloud/paths": "^2.2.1",
     "@nextcloud/router": "^3.0.1",
     "@nextcloud/sharing": "^0.2.4",
-    "@nextcloud/upload": "^1.9.0",
+    "@nextcloud/upload": "^1.10.0",
     "@nextcloud/vue": "^8.27.0",
     "@simplewebauthn/browser": "^12.0.0",
     "@vue/web-component-wrapper": "^1.3.0",
