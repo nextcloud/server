@@ -154,7 +154,7 @@ class PreviewManager implements IPreview {
 		$mimeType = null,
 		bool $cacheResult = true,
 	): ISimpleFile {
-		$this->throwIfPreviewsDisabled($file);
+		$this->throwIfPreviewsDisabled($file, $mimeType);
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
@@ -178,7 +178,7 @@ class PreviewManager implements IPreview {
 	 * @since 19.0.0
 	 */
 	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
-		$this->throwIfPreviewsDisabled($file);
+		$this->throwIfPreviewsDisabled($file, $mimeType);
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
@@ -213,13 +213,15 @@ class PreviewManager implements IPreview {
 	/**
 	 * Check if a preview can be generated for a file
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+	public function isAvailable(\OCP\Files\FileInfo $file, ?string $mimeType = null): bool {
 		if (!$this->enablePreviews) {
 			return false;
 		}
 
+		$fileMimeType = $mimeType ?? $file->getMimeType();
+
 		$this->registerCoreProviders();
-		if (!$this->isMimeSupported($file->getMimetype())) {
+		if (!$this->isMimeSupported($fileMimeType)) {
 			return false;
 		}
 
@@ -229,7 +231,7 @@ class PreviewManager implements IPreview {
 		}
 
 		foreach ($this->providers as $supportedMimeType => $providers) {
-			if (preg_match($supportedMimeType, $file->getMimetype())) {
+			if (preg_match($supportedMimeType, $fileMimeType)) {
 				foreach ($providers as $providerClosure) {
 					$provider = $this->helper->getProvider($providerClosure);
 					if (!($provider instanceof IProviderV2)) {
@@ -455,8 +457,8 @@ class PreviewManager implements IPreview {
 	/**
 	 * @throws NotFoundException if preview generation is disabled
 	 */
-	private function throwIfPreviewsDisabled(File $file): void {
-		if (!$this->isAvailable($file)) {
+	private function throwIfPreviewsDisabled(File $file, ?string $mimeType = null): void {
+		if (!$this->isAvailable($file, $mimeType)) {
 			throw new NotFoundException('Previews disabled');
 		}
 	}
