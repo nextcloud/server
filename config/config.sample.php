@@ -88,6 +88,14 @@ $CONFIG = [
     '[2001:db8::1]'
   ],
 
+/**
+ * The validity domain for cookies, for example '' (cookies will be sent only
+ * the domain that defined it, e.g. 'demo.example.org'), 'demo.example.org'
+ * (cookies will be valid for the domain and all subdomains), ...
+ *
+ * Defaults to '' (safe option)
+ */
+'cookie_domain' => '',
 
 /**
  * Where user files are stored. The SQLite database is also stored here, when
