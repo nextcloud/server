@@ -9,6 +9,7 @@
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -43,20 +44,15 @@ class AppTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', []);
+		$this->controllerName = 'Controller';
 		$this->controller = $this->createMock(Controller::class);
 		$this->dispatcher = $this->createMock(Dispatcher::class);
 		$this->io = $this->createMock(Http\IOutput::class);
+		$this->container = $this->getContainer('test');
 
 		$this->headers = ['key' => 'value'];
 		$this->output = 'hi';
-		$this->controllerName = 'Controller';
 		$this->controllerMethod = 'method';
-
-		$this->container[$this->controllerName] = $this->controller;
-		$this->container['Dispatcher'] = $this->dispatcher;
-		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
 		$infoXmlPath = $this->appPath . '/appinfo/info.xml';
@@ -70,6 +66,14 @@ class AppTest extends \Test\TestCase {
 		file_put_contents($infoXmlPath, $xml);
 	}
 
+	private function getContainer(string $appsId) {
+		$container = new DIContainer($appsId, []);
+		$container[$this->controllerName] = $this->controller;
+		$container['Dispatcher'] = $this->dispatcher;
+		$container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
+		$container['urlParams'] = ['_route' => 'not-profiler'];
+		return $container;
+	}
 
 	public function testControllerNameAndMethodAreBeingPassed(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
@@ -166,9 +170,9 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testCoreApp(): void {
-		$this->container['AppName'] = 'core';
-		$this->container['OC\Core\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		$container = $this->getContainer('core');
+		$container['OC\Core\Controller\Foo'] = $this->controller;
+		$container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -180,13 +184,13 @@ class AppTest extends \Test\TestCase {
 		$this->io->expects($this->never())
 			->method('setOutput');
 
-		App::main('Foo', $this->controllerMethod, $this->container);
+		App::main('Foo', $this->controllerMethod, $container);
 	}
 
 	public function testSettingsApp(): void {
-		$this->container['AppName'] = 'settings';
-		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		$container = $this->getContainer('settings');
+		$container['OCA\Settings\Controller\Foo'] = $this->controller;
+		$container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -198,13 +202,13 @@ class AppTest extends \Test\TestCase {
 		$this->io->expects($this->never())
 			->method('setOutput');
 
-		App::main('Foo', $this->controllerMethod, $this->container);
+		App::main('Foo', $this->controllerMethod, $container);
 	}
 
 	public function testApp(): void {
-		$this->container['AppName'] = 'bar';
-		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
-		$this->container['urlParams'] = ['_route' => 'not-profiler'];
+		$container = $this->getContainer('bar');
+		$container['OCA\Bar\Controller\Foo'] = $this->controller;
+		$container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
@@ -216,6 +220,6 @@ class AppTest extends \Test\TestCase {
 		$this->io->expects($this->never())
 			->method('setOutput');
 
-		App::main('Foo', $this->controllerMethod, $this->container);
+		App::main('Foo', $this->controllerMethod, $container);
 	}
 }
