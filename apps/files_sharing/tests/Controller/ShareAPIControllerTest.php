@@ -21,6 +21,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroup;
@@ -70,6 +71,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IURLGenerator&MockObject $urlGenerator;
 	private IL10N&MockObject $l;
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private IAppManager&MockObject $appManager;
 	private ContainerInterface&MockObject $serverContainer;
 	private IUserStatusManager&MockObject $userStatusManager;
@@ -102,6 +104,7 @@ class ShareAPIControllerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
@@ -126,6 +129,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->urlGenerator,
 			$this->l,
 			$this->config,
+			$this->appConfig,
 			$this->appManager,
 			$this->serverContainer,
 			$this->userStatusManager,
@@ -154,6 +158,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -839,6 +844,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -1472,6 +1478,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -1815,6 +1822,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -1913,6 +1921,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -2339,6 +2348,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -2410,6 +2420,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
@@ -2642,6 +2653,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->l,
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->serverContainer,
 				$this->userStatusManager,
