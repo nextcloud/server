@@ -734,7 +734,7 @@ class AccountManager implements IAccountManager {
 
 				try {
 					// try the public account lookup API of mastodon
-					$response = $client->get("https://{$instance}/api/v1/accounts/lookup?acct={$username}@{$instance}");
+					$response = $client->get("https://{$instance}/.well-known/webfinger?resource=acct:{$username}@{$instance}");
 					// should be a json response with account information
 					$data = $response->getBody();
 					if (is_resource($data)) {
@@ -743,8 +743,25 @@ class AccountManager implements IAccountManager {
 					$decoded = json_decode($data, true);
 					// ensure the username is the same the user passed
 					// in this case we can assume this is a valid fediverse server and account
-					if (!is_array($decoded) || ($decoded['username'] ?? '') !== $username) {
+					if (!is_array($decoded) || ($decoded['subject'] ?? '') !== "acct:{$username}@{$instance}") {
 						throw new InvalidArgumentException();
+					}
+					// check for activitypub link
+					if (is_array($decoded['links']) && isset($decoded['links'])) {
+						$found = false;
+						foreach ($decoded['links'] as $link) {
+							// have application/activity+json or application/ld+json
+							if (isset($link['type']) && (
+								$link['type'] === 'application/activity+json' ||
+								$link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+							)) {
+								$found = true;
+								break;
+							}
+						}
+						if (!$found) {
+							throw new InvalidArgumentException();
+						}
 					}
 				} catch (InvalidArgumentException) {
 					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
