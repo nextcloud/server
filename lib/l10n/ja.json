@@ -273,6 +273,7 @@
     "A valid Login must be provided" : "ログイン名を提供する必要があります",
     "Login contains whitespace at the beginning or at the end" : "ログイン名の最初か最後に空白が含まれています",
     "Login must not consist of dots only" : "ログイン名はドットのみで構成されてはいけません",
+    "Username is too long" : "ユーザー名が長すぎます",
     "Login is invalid because files already exist for this user" : "このユーザのファイルが既に存在するため、このログイン名は使用できません",
     "Account disabled" : "アカウントは無効",
     "Login canceled by app" : "アプリによりログインが中止されました",
