@@ -202,10 +202,12 @@ select[multiple=multiple] + button {
 	width: 16px;
 	vertical-align: text-bottom;
 }
+
 .ldap_config_state_indicator_sign.success {
 	background: #37ce02;
 	border-radius: 8px;
 }
+
 .ldap_config_state_indicator_sign.error {
 	background: #ce3702;
 }
