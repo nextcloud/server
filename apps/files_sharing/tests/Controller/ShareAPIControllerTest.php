@@ -1676,7 +1676,7 @@ class ShareAPIControllerTest extends TestCase {
 				->willReturn(true);
 
 			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->setMethods(['canAccessShare'])
+				->onlyMethods(['canAccessShare'])
 				->getMock();
 			$helper->method('canAccessShare')
 				->with($share, $this->currentUser)
@@ -2493,7 +2493,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn(true);
 
 		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-			->setMethods(['createShare'])
+			->onlyMethods(['createShare'])
 			->getMock();
 		$helper->method('createShare')
 			->with(
@@ -5094,7 +5094,7 @@ class ShareAPIControllerTest extends TestCase {
 				->willReturn(true);
 
 			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->setMethods(['formatShare', 'canAccessShare'])
+				->onlyMethods(['formatShare', 'canAccessShare'])
 				->getMock();
 			$helper->method('formatShare')
 				->with($share)
