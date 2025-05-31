@@ -33,6 +33,7 @@ use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
@@ -46,42 +47,19 @@ use Test\Traits\UserTrait;
 class ManagerTest extends TestCase {
 	use UserTrait;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
-	private $manager;
-
-	/** @var \OC\Files\Mount\Manager */
-	private $mountManager;
-
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	private $clientService;
-
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IGroupManager */
-	private $groupManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	private $uid;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
-	private $testMountProvider;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
+	protected string $uid;
+	protected IUser $user;
+	protected MountProvider $testMountProvider;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
+	protected \OC\Files\Mount\Manager $mountManager;
+	protected IManager&MockObject $contactsManager;
+	protected Manager&MockObject $manager;
+	protected IClientService&MockObject $clientService;
+	protected ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
+	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -169,7 +147,7 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 				]
-			)->setMethods(['tryOCMEndPoint'])->getMock();
+			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
 
 	private function setupMounts() {
@@ -222,14 +200,12 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
-			$this->manager->method('tryOCMEndPoint')
-				->withConsecutive(
-					['http://localhost', 'token1', '2342', 'accept'],
-					['http://localhost', 'token3', '2342', 'decline'],
-				)->willReturnOnConsecutiveCalls(
-					false,
-					false,
-				);
+			$this->manager->expects(self::atLeast(2))
+				->method('tryOCMEndPoint')
+				->willReturnMap([
+					['http://localhost', 'token1', '2342', 'accept', false],
+					['http://localhost', 'token3', '2342', 'decline', false],
+				]);
 		}
 
 		// Add a share for "user"
