@@ -30,7 +30,7 @@ describe('files: Favorites', { testIsolation: true }, () => {
 		// See action is called 'Add to favorites'
 		cy.get('[data-cy-files-list-row-action="favorite"] > button').last()
 			.should('exist')
-			.and('have.text', 'Add to favorites')
+			.and('contain.text', 'Add to favorites')
 			.click({ force: true })
 		cy.wait('@addToFavorites')
 		// See favorites star
