@@ -10,6 +10,7 @@
 /__mocks__                                    @nextcloud/server-frontend
 /__tests__                                    @nextcloud/server-frontend
 /cypress                                      @nextcloud/server-frontend
+**/css                                        @nextcloud/server-frontend
 **/js                                         @nextcloud/server-frontend
 **/src                                        @nextcloud/server-frontend
 *.js                                          @nextcloud/server-frontend
@@ -92,11 +93,11 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend
 
 # Groupware
-/build/integration/dav_features/caldav.feature		@st3iny @SebastianKrupinski @tcitworld
-/build/integration/dav_features/carddav.feature		@hamza221 @SebastianKrupinski
-/lib/public/Calendar					@st3iny @SebastianKrupinski @tcitworld
-/lib/public/Contacts					@hamza221 @SebastianKrupinski
+/build/integration/dav_features/caldav.feature   @st3iny @SebastianKrupinski @tcitworld
+/build/integration/dav_features/carddav.feature  @hamza221 @SebastianKrupinski
+/lib/public/Calendar                             @st3iny @SebastianKrupinski @tcitworld
+/lib/public/Contacts                             @hamza221 @SebastianKrupinski
 
 # Personal interest
-*/Activity/*                        @nickvergessen @nextcloud/server-backend
-*/Notifications/*                   @nickvergessen @nextcloud/talk-backend
+*/Activity/*                                     @nickvergessen @nextcloud/server-backend
+*/Notifications/*                                @nickvergessen @nextcloud/talk-backend
