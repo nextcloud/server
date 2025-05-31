@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "ファイルを転送",
     "Upload files to {foldername}." : "{foldername}にファイルをアップロード",
     "By uploading files, you agree to the terms of service." : "ファイルをアップロードすることで、利用規約に同意したことになります。",
+    "Successfully uploaded files" : "ファイルのアップロードに成功しました",
     "View terms of service" : "利用規約を見る",
     "Terms of service" : "サービス利用規約",
     "Upload files to {folder}" : "{folder}にファイルをアップロード",
