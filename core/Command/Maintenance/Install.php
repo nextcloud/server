@@ -44,8 +44,9 @@ class Install extends Command {
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
-			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
-			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
+			->addOption('disable-admin-user', null, InputOption::VALUE_OPTIONAL, 'Disable the creation of an admin user when set to 1', '0')
+			->addOption('admin-user', null, InputOption::VALUE_OPTIONAL, 'Login of the admin account', 'admin')
+			->addOption('admin-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data');
 	}
@@ -120,9 +121,21 @@ class Install extends Command {
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string)$input->getOption('database-pass');
 		}
-		$adminLogin = $input->getOption('admin-user');
-		$adminPassword = $input->getOption('admin-pass');
-		$adminEmail = $input->getOption('admin-email');
+		$disableAdminUser = $input->getOption('disable-admin-user') === '1';
+		$adminLogin = (string)($input->getOption('admin-user') ?? '');
+		$adminPassword = (string)($input->getOption('admin-pass') ?? '');
+		$adminEmail = (string)($input->getOption('admin-email') ?? '');
+
+		if (!$disableAdminUser) {
+			if ($adminLogin === '') {
+				throw new InvalidArgumentException('The admin username was not provided. To disable the creation of an admin user use --disable-admin-user.');
+			}
+			if ($adminPassword === '') {
+				throw new InvalidArgumentException('The admin password was not provided. To disable the creation of an admin user use --disable-admin-user.');
+			}
+			// Email is not required, so no error here.
+		}
+
 		$dataDir = $input->getOption('data-dir');
 
 		if ($db !== 'sqlite') {
@@ -142,7 +155,7 @@ class Install extends Command {
 			}
 		}
 
-		if (is_null($adminPassword)) {
+		if (!$disableAdminUser && $adminPassword === '') {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new Question('What is the password you like to use for the admin account <' . $adminLogin . '>?');
@@ -151,7 +164,7 @@ class Install extends Command {
 			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
-		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+		if (!$disableAdminUser && $adminEmail !== '' && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
 		}
 
@@ -161,6 +174,7 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
+			'admindisable' => $disableAdminUser,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,

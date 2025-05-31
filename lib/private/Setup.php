@@ -304,11 +304,15 @@ class Setup {
 		$error = [];
 		$dbType = $options['dbtype'];
 
-		if (empty($options['adminlogin'])) {
-			$error[] = $l->t('Set an admin Login.');
-		}
-		if (empty($options['adminpass'])) {
-			$error[] = $l->t('Set an admin password.');
+		$disableAdminUser = (bool)($options['admindisable'] ?? false);
+
+		if (!$disableAdminUser) {
+			if (empty($options['adminlogin'])) {
+				$error[] = $l->t('Set an admin Login.');
+			}
+			if (empty($options['adminpass'])) {
+				$error[] = $l->t('Set an admin password.');
+			}
 		}
 		if (empty($options['directory'])) {
 			$options['directory'] = \OC::$SERVERROOT . '/data';
@@ -318,8 +322,6 @@ class Setup {
 			$dbType = 'sqlite';
 		}
 
-		$username = htmlspecialchars_decode($options['adminlogin']);
-		$password = htmlspecialchars_decode($options['adminpass']);
 		$dataDir = htmlspecialchars_decode($options['directory']);
 
 		$class = self::$dbSetupClasses[$dbType];
@@ -375,7 +377,7 @@ class Setup {
 		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
-			$dbSetup->setupDatabase($username);
+			$dbSetup->setupDatabase();
 		} catch (\OC\DatabaseSetupException $e) {
 			$error[] = [
 				'error' => $e->getMessage(),
@@ -405,19 +407,22 @@ class Setup {
 			return $error;
 		}
 
-		$this->outputDebug($output, 'Create admin account');
-
-		// create the admin account and group
 		$user = null;
-		try {
-			$user = Server::get(IUserManager::class)->createUser($username, $password);
-			if (!$user) {
-				$error[] = "Account <$username> could not be created.";
+		if (!$disableAdminUser) {
+			$username = htmlspecialchars_decode($options['adminlogin']);
+			$password = htmlspecialchars_decode($options['adminpass']);
+			$this->outputDebug($output, 'Create admin account');
+
+			try {
+				$user = Server::get(IUserManager::class)->createUser($username, $password);
+				if (!$user) {
+					$error[] = "Account <$username> could not be created.";
+					return $error;
+				}
+			} catch (Exception $exception) {
+				$error[] = $exception->getMessage();
 				return $error;
 			}
-		} catch (Exception $exception) {
-			$error[] = $exception->getMessage();
-			return $error;
 		}
 
 		$config = Server::get(IConfig::class);
@@ -432,7 +437,7 @@ class Setup {
 		}
 
 		$group = Server::get(IGroupManager::class)->createGroup('admin');
-		if ($group instanceof IGroup) {
+		if ($user !== null && $group instanceof IGroup) {
 			$group->addUser($user);
 		}
 
@@ -464,26 +469,28 @@ class Setup {
 		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
-		// Create a session token for the newly created user
-		// The token provider requires a working db, so it's not injected on setup
-		/** @var \OC\User\Session $userSession */
-		$userSession = Server::get(IUserSession::class);
-		$provider = Server::get(PublicKeyTokenProvider::class);
-		$userSession->setTokenProvider($provider);
-		$userSession->login($username, $password);
-		$user = $userSession->getUser();
-		if (!$user) {
-			$error[] = 'No account found in session.';
-			return $error;
-		}
-		$userSession->createSessionToken($request, $user->getUID(), $username, $password);
+		if (!$disableAdminUser) {
+			// Create a session token for the newly created user
+			// The token provider requires a working db, so it's not injected on setup
+			/** @var \OC\User\Session $userSession */
+			$userSession = Server::get(IUserSession::class);
+			$provider = Server::get(PublicKeyTokenProvider::class);
+			$userSession->setTokenProvider($provider);
+			$userSession->login($username, $password);
+			$user = $userSession->getUser();
+			if (!$user) {
+				$error[] = 'No account found in session.';
+				return $error;
+			}
+			$userSession->createSessionToken($request, $user->getUID(), $username, $password);
 
-		$session = $userSession->getSession();
-		$session->set('last-password-confirm', Server::get(ITimeFactory::class)->getTime());
+			$session = $userSession->getSession();
+			$session->set('last-password-confirm', Server::get(ITimeFactory::class)->getTime());
 
-		// Set email for admin
-		if (!empty($options['adminemail'])) {
-			$user->setSystemEMailAddress($options['adminemail']);
+			// Set email for admin
+			if (!empty($options['adminemail'])) {
+				$user->setSystemEMailAddress($options['adminemail']);
+			}
 		}
 
 		return $error;
