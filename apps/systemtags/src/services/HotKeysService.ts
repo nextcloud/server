@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { useHotKey } from '@nextcloud/vue/dist/Composables/useHotKey.js'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 
 import { action as manageTagAction } from '../files_actions/bulkSystemTagsAction.ts'
 import { executeAction } from '../../../files/src/utils/actionUtils.ts'
