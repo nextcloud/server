@@ -131,7 +131,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.4
+	- version: 7.6.5
 	- license: MIT
 - for-each
 	- version: 0.3.5

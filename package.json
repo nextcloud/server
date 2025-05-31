@@ -76,7 +76,7 @@
     "debounce": "^2.2.0",
     "dompurify": "^3.2.6",
     "escape-html": "^1.0.3",
-    "focus-trap": "^7.6.4",
+    "focus-trap": "^7.6.5",
     "handlebars": "^4.7.7",
     "is-svg": "^5.0.1",
     "jquery": "~3.7",
