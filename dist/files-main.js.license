@@ -111,7 +111,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.9.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.26.1
+	- version: 8.27.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
