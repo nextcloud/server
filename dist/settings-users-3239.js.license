@@ -36,6 +36,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
@@ -145,7 +146,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.26.1
+	- version: 8.27.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -255,6 +256,9 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
 - escape-string-regexp
 	- version: 5.0.0
 	- license: MIT
@@ -368,6 +372,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - remark-rehype
 	- version: 11.1.0
+	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
