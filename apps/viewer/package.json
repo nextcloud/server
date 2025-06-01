@@ -85,7 +85,7 @@
     "cypress": "^13.17.0",
     "cypress-split": "^1.24.17",
     "cypress-visual-regression": "^5.3.0",
-    "dockerode": "^4.0.4",
+    "dockerode": "^4.0.6",
     "eslint-plugin-cypress": "^3.6.0",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
