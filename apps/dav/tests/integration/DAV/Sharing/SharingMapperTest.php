@@ -7,6 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+namespace OCA\DAV\Tests\integration\DAV\Sharing;
+
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\IDBConnection;
 use OCP\Server;

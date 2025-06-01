@@ -108,4 +108,28 @@ class SharingMapper {
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
 			->executeStatement();
 	}
+
+	public function getSharesByPrincipals(array $principals, string $resourceType): array {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['id', 'principaluri', 'type', 'access', 'resourceid'])
+			->from('dav_shares')
+			->where($query->expr()->in('principaluri', $query->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
+			->orderBy('id')
+			->executeQuery();
+
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
+	}
+
+	public function deleteUnsharesByPrincipal(string $principal, string $resourceType): void {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
+			->andWhere($query->expr()->eq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+	}
 }
