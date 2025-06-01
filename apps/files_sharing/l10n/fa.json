@@ -13,6 +13,7 @@
     "You removed yourself" : "شما خدتان را حذف کردید",
     "Share for {user} expired" : "اشتراک برای {user} منقضی شده است",
     "Share expired" : "اشتراک منقضی شد",
+    "{actor} shared {file} with you" : "{actor} {file} را با شما به اشتراک گذاشت",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "یک پرونده یا پوشه به اشتراک گذاشته شده از طریق پست یا از طریق لینک عمومی بارگیری شد",
     "A file or folder was shared from <strong>another server</strong>" : "یک پرونده یا پوشه از سرور دیگر به اشتراک گذاشته شد",
     "Sharing" : "اشتراک گذاری",
