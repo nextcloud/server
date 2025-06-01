@@ -91,6 +91,8 @@
     "Destination does not exist" : "Призначення відсутнє",
     "Destination is not creatable" : "Неможливо створити призначення",
     "Dot files are not allowed" : "Файли які починаються з крапки не допустимі",
+    "%1$s (renamed)" : "%1$s (перейменовано)",
+    "renamed file" : "перейменовано файл",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" є недозволеним ім'ям файлів або каталогів.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" є недозволеним префіксом у іменах файлів або каталоів.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" не дозволено всередині імени файлів або каталогів.",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "درخواست اشتراک فدرال ارسال شد، یک دعوت نامه دریافت خواهید کرد. اعلان های خود را بررسی کنید.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "نمی‌توان یک اشتراک فدرال ایجاد کرد، به نظر می‌رسد سروری که باید با آن فدرال شود خیلی قدیمی است (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "ارسال اشتراک های گروه فدرال از این سرور مجاز نیست.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "اشتراک‌گذاری %1$s ناموفق بود، زیرا این مورد قبلاً با حساب %2$s به اشتراک گذاشته شده است",
     "Federated shares require read permissions" : "سهام فدرال به مجوز خواندن نیاز دارد",
     "File is already shared with %s" : "فایل قبلاً با به اشتراک گذاشته شده است%s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "اشتراک‌گذاری %1$s انجام نشد، پیدا نشد%2$s، شاید سرور در حال حاضر غیرقابل دسترسی باشد یا از گواهی امضا شده استفاده می‌کند.",
