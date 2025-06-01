@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "timezone": "Europe/Berlin",
   "schedule": [
@@ -12,7 +12,7 @@
   ],
   "labels": [
     "dependencies",
-	"3. to review"
+    "3. to review"
   ],
   "rangeStrategy": "bump",
   "rebaseWhen": "conflicted",
@@ -36,16 +36,16 @@
   "packageRules": [
     {
       "groupName": "cypress",
-      "matchPackagePatterns": [
-        "^@cypress/",
-        "cypress",
-        "eslint-plugin-cypress"
+      "matchPackageNames": [
+        "/^@cypress//",
+        "/cypress/",
+        "/eslint-plugin-cypress/"
       ]
     },
     {
       "groupName": "nextcloud",
-      "matchPackagePatterns": [
-        "^@nextcloud/"
+      "matchPackageNames": [
+        "/^@nextcloud//"
       ]
     },
     {
