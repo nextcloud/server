@@ -427,7 +427,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -438,6 +439,7 @@
                             "type": "integer",
                             "format": "int64",
                             "nullable": true,
+                            "default": null,
                             "minimum": 0
                         }
                     },

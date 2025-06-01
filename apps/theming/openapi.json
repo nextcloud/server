@@ -701,6 +701,7 @@
                                     "color": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Color for the background"
                                     }
                                 }

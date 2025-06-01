@@ -847,12 +847,14 @@
                                     "editorId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the editor"
                                     },
                                     "fileId": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the file"
                                     }
                                 }
@@ -1032,6 +1034,7 @@
                                     "templateId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the template"
                                     }
                                 }
@@ -2366,6 +2369,7 @@
                                     "destination": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The target path of the converted file. Written to a temporary file if left empty"
                                     }
                                 }
