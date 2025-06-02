@@ -165,9 +165,6 @@ class FileAccess implements IFileAccess {
 		if (count($mountProviders) > 0) {
 			$qb->where($qb->expr()->in('mount_provider_class', $qb->createPositionalParameter($mountProviders, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
-		if ($excludeTrashbinMounts === true) {
-			$qb->andWhere($qb->expr()->notLike('mount_point', $qb->createPositionalParameter('/%/files_trashbin/%')));
-		}
 		$qb->orderBy('root_id', 'ASC');
 		$result = $qb->executeQuery();
 
@@ -190,12 +187,15 @@ class FileAccess implements IFileAccess {
 				try {
 					$qb->select('fileid')
 						->from('filecache');
-					/** @var array|false $root */
-					$root = $qb
-						->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+					$qb->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
-						->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('files')))
-						->executeQuery()->fetch();
+						->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('files')));
+					if ($excludeTrashbinMounts === true) {
+						$qb->andWhere($qb->expr()->notLike('path', $qb->createPositionalParameter('files_trashbin/%')))
+							->andWhere($qb->expr()->notLike('path', $qb->createPositionalParameter('__groupfolders/trash/%')));
+					}
+					/** @var array|false $root */
+					$root = $qb->executeQuery()->fetch();
 					if ($root !== false) {
 						$overrideRoot = (int)$root['fileid'];
 					}
