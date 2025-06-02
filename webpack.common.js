@@ -230,6 +230,7 @@ const config = {
 		codecovWebpackPlugin({
 			enableBundleAnalysis: !isDev && !isTesting,
 			bundleName: 'nextcloud',
+			telemetry: false,
 		}),
 	],
 	externals: {
