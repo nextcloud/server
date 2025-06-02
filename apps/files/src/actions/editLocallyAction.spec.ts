@@ -122,6 +122,7 @@ describe('Edit locally action execute tests', () => {
 		jest.spyOn(axios, 'post').mockImplementation(async () => ({
 			data: { ocs: { data: { token: 'foobar' } } },
 		}))
+		const windowOpenSpy = jest.spyOn(window, 'open')
 		const mockedShowError = jest.mocked(showError)
 		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
 
@@ -142,7 +143,7 @@ describe('Edit locally action execute tests', () => {
 		expect(axios.post).toBeCalledTimes(1)
 		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
 		expect(mockedShowError).toBeCalledTimes(0)
-		expect(window.location.href).toBe('nc://open/test@localhost/foobar.txt?token=foobar')
+		expect(windowOpenSpy).toBeCalledWith('nc://open/test@localhost/foobar.txt?token=foobar', '_self')
 	})
 
 	test('Edit locally fails and shows error', async () => {
