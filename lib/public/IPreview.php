@@ -92,10 +92,12 @@ interface IPreview {
 	 * Check if a preview can be generated for a file
 	 *
 	 * @param \OCP\Files\FileInfo $file
+	 * @param string|null $mimeType To force a given mimetype for the file
 	 * @return bool
 	 * @since 8.0.0
+	 * @since 32.0.0 - isAvailable($mimeType) added the $mimeType argument to the signature
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file);
+	public function isAvailable(\OCP\Files\FileInfo $file, ?string $mimeType = null);
 
 	/**
 	 * Generates previews of a file
