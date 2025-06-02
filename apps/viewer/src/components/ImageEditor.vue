@@ -9,7 +9,7 @@
 import { basename, dirname, extname, join } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { Node } from '@nextcloud/files'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess, DialogBuilder } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
 import logger from '../services/logger.js'
@@ -149,7 +149,23 @@ export default {
 			window.removeEventListener('keydown', this.handleKeydown, true)
 			this.$emit('close')
 		},
-
+		/**
+		 * Check if a file exists at the given URL
+		 * @param {string} url The URL to check
+		 * @return {Promise<boolean>} True if the file exists, false otherwise
+		 */
+		 async fileExists(url) {
+			try {
+				await axios.head(url, { validateStatus: status => status === 200 || status === 404 })
+				const response = await axios.head(url)
+				return response.status === 200
+			} catch (error) {
+				if (error.response?.status === 404) {
+					return false
+				}
+				throw error
+			}
+		},
 		/**
 		 * User saved the image
 		 *
@@ -164,6 +180,51 @@ export default {
 			const { origin, pathname } = new URL(this.src)
 			const putUrl = origin + join(dirname(pathname), fullName)
 			logger.debug('Saving image...', { putUrl, src: this.src, fullName })
+
+			const fileExists = await this.fileExists(putUrl)
+			logger.debug('File exists', { fileExists })
+			if (fileExists) {
+				logger.debug('File exists, showing confirmation dialog')
+				try {
+					const isOriginal = fullName === basename(this.src)
+					const message = isOriginal
+						? t('viewer', 'You are about to overwrite the original file. Are you sure you want to continue?')
+						: t('viewer', 'A file with this name already exists. Do you want to overwrite it?')
+
+					let confirmed = false
+					const dialog = (new DialogBuilder())
+						.setName(t('viewer', 'Confirm overwrite'))
+						.setText(message)
+						.setButtons([
+							{
+								label: t('viewer', 'Cancel'),
+								type: 'secondary',
+								callback: () => {
+									confirmed = false
+								},
+							},
+							{
+								label: t('viewer', 'Overwrite'),
+								type: 'error',
+								callback: () => {
+									confirmed = true
+								},
+							},
+						])
+						.build()
+
+					await dialog.show()
+
+					if (!confirmed) {
+						logger.debug('User cancelled overwrite')
+						return
+					}
+				} catch (error) {
+					logger.error('Error showing confirmation dialog', { error })
+					showError(t('viewer', 'An error occurred while trying to confirm the file overwrite.'))
+					return
+				}
+			}
 
 			// toBlob is not very smart...
 			mimeType = mimeType.replace('jpg', 'jpeg')
