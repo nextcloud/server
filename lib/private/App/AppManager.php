@@ -135,6 +135,7 @@ class AppManager implements IAppManager {
 	 */
 	private function getEnabledAppsValues(): array {
 		if (!$this->enabledAppsCache) {
+			/** @var array<string,string> */
 			$values = $this->getAppConfig()->searchValues('enabled', false, IAppConfig::VALUE_STRING);
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
