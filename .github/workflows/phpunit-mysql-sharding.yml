@@ -54,6 +54,7 @@ jobs:
     if: needs.changes.outputs.src != 'false'
 
     strategy:
+      fail-fast: false
       matrix:
         php-versions: ['8.1']
         mysql-versions: ['8.4']
