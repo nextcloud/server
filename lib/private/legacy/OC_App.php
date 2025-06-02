@@ -316,6 +316,8 @@ class OC_App {
 		$appId = self::cleanAppId($appId);
 		if ($appId === '') {
 			return false;
+		} elseif ($appId === 'core') {
+			return __DIR__ . '/../../../core';
 		}
 
 		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {

@@ -2873,12 +2873,6 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Application.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getServer]]></code>
-      <code><![CDATA[registerService]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
