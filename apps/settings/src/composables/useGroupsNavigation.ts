@@ -17,14 +17,12 @@ function formatGroupMenu(group?: IGroup) {
 		return null
 	}
 
-	const item = {
+	return {
 		id: group.id,
 		title: group.name,
-		usercount: group.usercount,
-		count: Math.max(0, group.usercount - group.disabled),
+		usercount: group.usercount ?? 0,
+		count: Math.max(0, (group.usercount ?? 0) - (group.disabled ?? 0)),
 	}
-
-	return item
 }
 
 export const useFormatGroups = (groups: Ref<IGroup[]>|ComputedRef<IGroup[]>) => {
