@@ -4,6 +4,10 @@
 -->
 <template>
 	<div id="workflowengine">
+		<NcNoteCard v-if="contextChatPlusFilesAccessControl"
+			type="warning">
+			{{ t('workflowengine', 'The "Context chat" and "File access control" apps are enabled. Keep in mind that Context Chat is not affected by the File access control rules and will index files which access is denied by a rule.') }}
+		</NcNoteCard>
 		<NcSettingsSection :name="t('workflowengine', 'Available flows')"
 			:doc-url="workflowDocUrl">
 			<p v-if="isAdminScope" class="settings-hint">
@@ -69,6 +73,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -89,6 +94,7 @@ export default {
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcSettingsSection,
+		NcNoteCard,
 		Operation,
 		Rule,
 	},
@@ -97,6 +103,7 @@ export default {
 			showMoreOperations: false,
 			appstoreUrl: generateUrl('settings/apps/workflow'),
 			workflowDocUrl: loadState('workflowengine', 'doc-url'),
+			contextChatPlusFilesAccessControl: loadState('workflowengine', 'context-chat-files_acesscontrol'),
 			WorkflowOffSvg,
 		}
 	},

@@ -10,6 +10,7 @@ namespace OCA\WorkflowEngine\Settings;
 
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Manager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -34,6 +35,7 @@ abstract class ASettings implements ISettings {
 		private IInitialState $initialStateService,
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -81,6 +83,11 @@ abstract class ASettings implements ISettings {
 		$this->initialStateService->provideInitialState(
 			'doc-url',
 			$this->urlGenerator->linkToDocs('admin-workflowengine')
+		);
+
+		$this->initialStateService->provideInitialState(
+			'context-chat-files_acesscontrol',
+			$this->appManager->isEnabledForAnyone('context_chat') && $this->appManager->isEnabledForAnyone('files_accesscontrol')
 		);
 
 		return new TemplateResponse(Application::APP_ID, 'settings', [], 'blank');
