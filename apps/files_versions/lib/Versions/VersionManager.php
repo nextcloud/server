@@ -130,6 +130,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			if ($revision !== null) {
 				$this->dispatcher->dispatchTyped(new VersionCreatedEvent($file, $revision));
 			}
+
+			return $revision;
 		}
 
 		return null;
