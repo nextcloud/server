@@ -50,7 +50,7 @@ jobs:
           - php-versions: '8.2'
             coverage: ${{ github.event_name != 'pull_request' }}
 
-    name: php${{ matrix.php-versions }}-s3
+    name: php${{ matrix.php-versions }}-s3-minio
 
     services:
       minio:
@@ -132,9 +132,9 @@ jobs:
         php-versions: ['8.1', '8.2', '8.3']
         include:
           - php-versions: '8.3'
-            coverage: true
+            coverage: ${{ github.event_name != 'pull_request' }}
 
-    name: php${{ matrix.php-versions }}-s3
+    name: php${{ matrix.php-versions }}-s3-localstack
 
     services:
       localstack:
