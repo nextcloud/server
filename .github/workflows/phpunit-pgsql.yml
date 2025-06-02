@@ -57,6 +57,7 @@ jobs:
     if: needs.changes.outputs.src != 'false'
 
     strategy:
+      fail-fast: false
       matrix:
         php-versions: ['8.1']
         # To keep the matrix smaller we ignore PostgreSQL versions in between as we already test the minimum and the maximum

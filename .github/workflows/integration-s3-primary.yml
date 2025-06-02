@@ -43,7 +43,6 @@ jobs:
     if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
 
     strategy:
-      # do not stop on another job's failure
       fail-fast: false
       matrix:
         php-versions: ['8.1']
