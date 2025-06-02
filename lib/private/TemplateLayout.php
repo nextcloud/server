@@ -201,7 +201,7 @@ class TemplateLayout {
 
 		if ($this->config->getSystemValueBool('installed', false)) {
 			if (empty(self::$versionHash)) {
-				$v = $this->appManager->getAppInstalledVersions();
+				$v = $this->appManager->getAppInstalledVersions(true);
 				$v['core'] = implode('.', $this->serverVersion->getVersion());
 				self::$versionHash = substr(md5(implode(',', $v)), 0, 8);
 			}

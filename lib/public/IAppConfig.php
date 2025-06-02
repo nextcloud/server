@@ -514,5 +514,5 @@ interface IAppConfig {
 	 * @return array<string, string>
 	 * @since 32.0.0
 	 */
-	public function getAppInstalledVersions(): array;
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
 }
