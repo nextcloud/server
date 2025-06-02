@@ -346,7 +346,7 @@ export default {
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				quota = formatFileSize(parseFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				this.newUser.quota = { id: quota, label: quota }
 				return this.newUser.quota
 			}
