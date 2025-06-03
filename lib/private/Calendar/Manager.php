@@ -290,7 +290,7 @@ class Manager implements IManager {
 			if (!empty($calendar->search('', [], ['uid' => $vObject->VEVENT->UID->getValue()]))) {
 				try {
 					if ($calendar instanceof ICalendarHandleImip) {
-						$calendar->handleIMip($vObject);
+						$calendar->handleIMip($vObject->serialize());
 					}
 					return true;
 				} catch (CalendarException $e) {

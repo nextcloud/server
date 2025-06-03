@@ -27,6 +27,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
@@ -212,9 +213,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @deprecated 32.0.0 Use handleIMip() instead
 	 */
 	public function handleIMipMessage(string $name, string $calendarData): void {
-		/** @var VCalendar $vObject */
-		$vObject = Reader::read($calendarData);
-		$this->handleIMip($vObject);
+		$this->handleIMip($calendarData);
 	}
 
 	/**
@@ -224,8 +223,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 *
 	 * @throws CalendarException
 	 */
-	public function handleIMip(VCalendar $vObject): void {
+	public function handleIMip(string $message): void {
 
+		try {
+			/** @var VCalendar $vObject|null */
+			$vObject = Reader::read($message);
+		} catch (ParseException $e) {
+			throw new CalendarException('iMip message could not be processed because an error occurred while parsing the iMip message', 0, $e);
+		}
 		// validate the iMip message
 		if (!isset($vObject->METHOD)) {
 			throw new CalendarException('iMip message contains no valid method');

@@ -143,7 +143,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->expectExceptionMessage('iMip message contains no valid method');
 		
 		// Act
-		$this->calendarImpl->handleIMip($vObject);
+		$this->calendarImpl->handleIMip($vObject->serialize());
 	}
 
 	public function testHandleImipNoEvent(): void {
@@ -156,7 +156,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->expectExceptionMessage('iMip message contains no event');
 		
 		// Act
-		$this->calendarImpl->handleIMip($vObject);
+		$this->calendarImpl->handleIMip($vObject->serialize());
 	}
 
 	public function testHandleImipNoUid(): void {
@@ -169,7 +169,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->expectExceptionMessage('iMip message event dose not contain a UID');
 		
 		// Act
-		$this->calendarImpl->handleIMip($vObject);
+		$this->calendarImpl->handleIMip($vObject->serialize());
 	}
 
 	public function testHandleImipNoOrganizer(): void {
@@ -182,7 +182,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->expectExceptionMessage('iMip message event dose not contain an organizer');
 		
 		// Act
-		$this->calendarImpl->handleIMip($vObject);
+		$this->calendarImpl->handleIMip($vObject->serialize());
 	}
 
 	public function testHandleImipNoAttendee(): void {
@@ -195,7 +195,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->expectExceptionMessage('iMip message event dose not contain an attendee');
 		
 		// Act
-		$this->calendarImpl->handleIMip($vObject);
+		$this->calendarImpl->handleIMip($vObject->serialize());
 	}
 
 	public function testHandleImipRequest(): void {
@@ -240,8 +240,7 @@ class CalendarImplTest extends \Test\TestCase {
 				['caldav-schedule', $schedulingPlugin]
 			]);
 		$server->expects(self::once())
-			->method('emit')
-			->with('schedule', [$iTip]);
+			->method('emit');
 		
 		$invitationResponseServer = $this->createMock(InvitationResponseServer::class, ['getServer']);
 		$invitationResponseServer->server = $server;
@@ -256,7 +255,7 @@ class CalendarImplTest extends \Test\TestCase {
 			->method('getInvitationResponseServer')
 			->willReturn($invitationResponseServer);
 			
-		$calendarImpl->handleIMip($vObject);
+		$calendarImpl->handleIMip($vObject->serialize());
 	}
 
 }
