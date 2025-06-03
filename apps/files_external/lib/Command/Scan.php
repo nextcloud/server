@@ -53,6 +53,11 @@ class Scan extends StorageAuthBase {
 				InputOption::VALUE_OPTIONAL,
 				'The path in the storage to scan',
 				''
+			)->addOption(
+				'unscanned',
+				'',
+				InputOption::VALUE_NONE,
+				'only scan files which are marked as not fully scanned'
 			);
 		parent::configure();
 	}
@@ -82,7 +87,15 @@ class Scan extends StorageAuthBase {
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->scan($path);
+		if ($input->getOption('unscanned')) {
+			if ($path !== '') {
+				$output->writeln('<error>--unscanned is mutually exclusive with --path</error>');
+				return 1;
+			}
+			$scanner->backgroundScan();
+		} else {
+			$scanner->scan($path);
+		}
 
 		$this->presentStats($output);
 
