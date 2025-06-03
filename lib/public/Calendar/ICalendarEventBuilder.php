@@ -28,6 +28,13 @@ use OCP\Calendar\Exceptions\CalendarException;
  */
 interface ICalendarEventBuilder {
 	/**
+	 * Get the uid of the event.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getUid(): string;
+
+	/**
 	 * Set the start date, time and time zone.
 	 * This property is required!
 	 *

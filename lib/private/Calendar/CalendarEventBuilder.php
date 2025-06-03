@@ -34,6 +34,10 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 	) {
 	}
 
+	public function getUid(): string {
+		return $this->uid;
+	}
+
 	public function setStartDate(DateTimeInterface $start): ICalendarEventBuilder {
 		$this->startDate = $start;
 		return $this;

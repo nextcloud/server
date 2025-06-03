@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Service\ExampleEventService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -16,21 +17,40 @@ use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class ExampleContentSettings implements ISettings {
-
 	public function __construct(
-		private IConfig $config,
-		private IInitialState $initialState,
-		private IAppManager $appManager,
+		private readonly IConfig $config,
+		private readonly IInitialState $initialState,
+		private readonly IAppManager $appManager,
+		private readonly ExampleEventService $exampleEventService,
 	) {
 	}
 
 	public function getForm(): TemplateResponse {
-		$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no');
-		$this->initialState->provideInitialState('enableDefaultContact', $enableDefaultContact);
+		$calendarEnabled = $this->appManager->isEnabledForUser('calendar');
+		$contactsEnabled = $this->appManager->isEnabledForUser('contacts');
+		$this->initialState->provideInitialState('calendarEnabled', $calendarEnabled);
+		$this->initialState->provideInitialState('contactsEnabled', $contactsEnabled);
+
+		if ($calendarEnabled) {
+			$enableDefaultEvent = $this->exampleEventService->shouldCreateExampleEvent();
+			$this->initialState->provideInitialState('create_example_event', $enableDefaultEvent);
+			$this->initialState->provideInitialState(
+				'has_custom_example_event',
+				$this->exampleEventService->hasCustomExampleEvent(),
+			);
+		}
+
+		if ($contactsEnabled) {
+			$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no');
+			$this->initialState->provideInitialState('enableDefaultContact', $enableDefaultContact);
+		}
+
 		return new TemplateResponse(Application::APP_ID, 'settings-example-content');
 	}
+
 	public function getSection(): ?string {
-		if (!$this->appManager->isEnabledForUser('contacts')) {
+		if (!$this->appManager->isEnabledForUser('contacts')
+				&& !$this->appManager->isEnabledForUser('calendar')) {
 			return null;
 		}
 
@@ -40,5 +60,4 @@ class ExampleContentSettings implements ISettings {
 	public function getPriority(): int {
 		return 10;
 	}
-
 }
