@@ -9,14 +9,14 @@
 		class="example-content-setting"
 		:description="$t('dav', 'Set example content to be created on new user first login.')">
 		<ExampleContactSettings v-if="hasContactsApp" />
-		<ExampleCalendarSettings v-if="hasCalendarApp" />
+		<ExampleEventSettings v-if="hasCalendarApp" />
 	</NcSettingsSection>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { NcSettingsSection } from '@nextcloud/vue'
-import ExampleCalendarSettings from '../components/ExampleCalendarSettings.vue'
+import ExampleEventSettings from '../components/ExampleEventSettings.vue'
 import ExampleContactSettings from '../components/ExampleContactSettings.vue'
 
 export default {
@@ -24,7 +24,7 @@ export default {
 	components: {
 		NcSettingsSection,
 		ExampleContactSettings,
-		ExampleCalendarSettings,
+		ExampleEventSettings,
 	},
 	computed: {
 		hasContactsApp() {

@@ -60,12 +60,7 @@
 </template>
 
 <script>
-import {
-	NcSettingsSection,
-	NcCheckboxRadioSwitch,
-	NcDialog,
-	NcButton,
-} from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
 import IconDelete from 'vue-material-design-icons/Delete.vue'
@@ -76,9 +71,8 @@ import logger from '../service/logger.js'
 export default {
 	name: 'ExampleEventSettings',
 	components: {
-		NcSettingsSection,
-		NcCheckboxRadioSwitch,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcDialog,
 		IconUpload,
 		IconDelete,

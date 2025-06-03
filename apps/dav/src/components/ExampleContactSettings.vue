@@ -50,12 +50,13 @@
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import { NcDialog, NcButton, NcSettingsSection, NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import { NcDialog, NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconCheck from '@mdi/svg/svg/check.svg?raw'
+import logger from '../service/logger.js'
 
 const enableDefaultContact = loadState('dav', 'enableDefaultContact') === 'yes'
 
@@ -64,7 +65,6 @@ export default {
 	components: {
 		NcDialog,
 		NcButton,
-		NcSettingsSection,
 		NcCheckboxRadioSwitch,
 		IconUpload,
 		IconRestore,
@@ -112,7 +112,7 @@ export default {
 					showSuccess(this.$t('dav', 'Contact reset successfully'))
 				})
 				.catch((error) => {
-					console.error('Error importing contact:', error)
+					logger.error('Error importing contact:', { error })
 					showError(this.$t('dav', 'Error while resetting contact'))
 				})
 				.finally(() => {
@@ -131,7 +131,7 @@ export default {
 					await axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'), { contactData: reader.result })
 					showSuccess(this.$t('dav', 'Contact imported successfully'))
 				} catch (error) {
-					console.error('Error importing contact:', error)
+					logger.error('Error importing contact:', { error })
 					showError(this.$t('dav', 'Error while importing contact'))
 				} finally {
 					this.loading = false

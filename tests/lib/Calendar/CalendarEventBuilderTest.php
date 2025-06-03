@@ -148,12 +148,4 @@ class CalendarEventBuilderTest extends TestCase {
 		$this->expectExceptionMessageMatches('/organizer/i');
 		$this->calendarEventBuilder->toIcs();
 	}
-
-	public function testGetUid(): void {
-		$uid = 'foobar-123';
-		$calendarEventBuilder = new CalendarEventBuilder($uid, $this->timeFactory);
-
-		$this->assertEquals($uid, $calendarEventBuilder->getUid());
-		$this->assertStringContainsString("UID:$uid", $calendarEventBuilder->toIcs());
-	}
 }
