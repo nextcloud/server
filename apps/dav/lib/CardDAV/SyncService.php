@@ -244,9 +244,10 @@ class SyncService {
 		// automatically disable the system addressbook if the limit is reached
 		if ($this->appConfig->getAppValueBool('system_addressbook_exposed', true)) {
 			$limit = $this->appConfig->getAppValueInt('system_addressbook_limit', 5000);
-			// we use
+			// We use count seen because getting a user count from the backend can be very slow
 			if ($this->userManager->countSeenUsers() >= $limit) {
 				$this->appConfig->setAppValueBool('system_addressbook_exposed', false);
+				$this->logger->warning('System address book disabled because user limit reached', ['app' => 'dav']);
 			}
 		}
 
