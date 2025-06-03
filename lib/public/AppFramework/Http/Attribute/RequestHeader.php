@@ -29,22 +29,4 @@ class RequestHeader {
 		protected string $description,
 	) {
 	}
-
-	/**
-	 * @return string The name of the request header.
-	 *
-	 * @since 32.0.0
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-
-	/**
-	 * @return string The description of the request header.
-	 *
-	 * @since 32.0.0
-	 */
-	public function getDescription(): string {
-		return $this->description;
-	}
 }
