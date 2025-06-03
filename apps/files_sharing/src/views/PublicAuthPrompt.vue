@@ -42,7 +42,7 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-import { getFilenameValidity } from '../../../files/src/utils/filenameValidity'
+import { getGuestNameValidity } from '../services/GuestNameValidity'
 
 export default defineComponent({
 	name: 'PublicAuthPrompt',
@@ -112,7 +112,7 @@ export default defineComponent({
 				return
 			}
 
-			const validity = getFilenameValidity(newName)
+			const validity = getGuestNameValidity(newName)
 			input.setCustomValidity(validity)
 			input.reportValidity()
 		},

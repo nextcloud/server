@@ -8,6 +8,7 @@ namespace OCA\DAV\Files\Sharing;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -71,13 +72,12 @@ class FilesDropPlugin extends ServerPlugin {
 			? trim(urldecode($request->getHeader('X-NC-Nickname')))
 			: null;
 
-		//
 		if ($request->getMethod() !== 'PUT') {
 			// If uploading subfolders we need to ensure they get created
 			// within the nickname folder
 			if ($request->getMethod() === 'MKCOL') {
 				if (!$nickname) {
-					throw new MethodNotAllowed('A nickname header is required when uploading subfolders');
+					throw new BadRequest('A nickname header is required when uploading subfolders');
 				}
 			} else {
 				throw new MethodNotAllowed('Only PUT is allowed on files drop');
@@ -113,7 +113,7 @@ class FilesDropPlugin extends ServerPlugin {
 
 		// We need a valid nickname for file requests
 		if ($isFileRequest && !$nickname) {
-			throw new MethodNotAllowed('A nickname header is required for file requests');
+			throw new BadRequest('A nickname header is required for file requests');
 		}
 
 		// We're only allowing the upload of
@@ -121,12 +121,24 @@ class FilesDropPlugin extends ServerPlugin {
 		// This prevents confusion when uploading files and help
 		// classify them by uploaders.
 		if (!$nickname && !$isRootUpload) {
-			throw new MethodNotAllowed('A nickname header is required when uploading subfolders');
+			throw new BadRequest('A nickname header is required when uploading subfolders');
 		}
 
-		// If we have a nickname, let's put everything inside
 		if ($nickname) {
-			// Put all files in the subfolder
+			try {
+				$node->verifyPath($nickname);
+			} catch (\Exception $e) {
+				// If the path is not valid, we throw an exception
+				throw new BadRequest('Invalid nickname: ' . $nickname);
+			}
+
+			// Forbid nicknames starting with a dot
+			if (str_starts_with($nickname, '.')) {
+				throw new BadRequest('Invalid nickname: ' . $nickname);
+			}
+
+			// If we have a nickname, let's put
+			// all files in the subfolder
 			$relativePath = '/' . $nickname . '/' . $relativePath;
 			$relativePath = str_replace('//', '/', $relativePath);
 		}

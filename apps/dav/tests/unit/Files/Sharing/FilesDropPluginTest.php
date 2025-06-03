@@ -13,7 +13,7 @@ use OCP\Files\NotFoundException;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -119,7 +119,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
 
-		$this->expectException(MethodNotAllowed::class);
+		$this->expectException(BadRequest::class);
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
