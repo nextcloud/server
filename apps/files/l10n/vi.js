@@ -362,8 +362,6 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Đã xảy ra lỗi khi cố gắng cập nhật tags",
     "Upload (max. %s)" : "Tải lên (tối đa %s)",
     "Filter filenames…" : "Lọc tên tệp…",
-    "Edit file locally" : "Chỉnh sửa tập tin ngoại tuyến",
-    "Edit online" : "Chỉnh sửa trực tuyến",
     "_{folderCount} folder_::_{folderCount} folders_" : ["thư mục {folderCount}"],
     "_{fileCount} file_::_{fileCount} files_" : ["tệp {fileCount}"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 tệp và thư mục {folderCount}"],

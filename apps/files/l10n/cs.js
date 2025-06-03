@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Nahrát (max. %s)",
     "Submitting fields…" : "Odesílání kolonek…",
     "Filter filenames…" : "Filtrovat názvy souborů…",
-    "Edit file locally" : "Upravit soubor lokálně",
-    "Edit online" : "Upravit online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} složka","{folderCount} složky","{folderCount} složek","{folderCount} složky"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} soubor","{fileCount} soubory","{fileCount} souborů","{fileCount} soubory"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 soubor a {folderCount} složka","1 soubor a {folderCount} složky","1 soubor a {folderCount} složek","1 soubor a {folderCount} složky"],

@@ -443,8 +443,6 @@
     "Upload (max. %s)" : "Uaslódáil (%s ar a mhéad)",
     "Submitting fields…" : "Réimsí á gcur isteach…",
     "Filter filenames…" : "Scag ainmneacha comhaid…",
-    "Edit file locally" : "Cuir an comhad in eagar go háitiúil",
-    "Edit online" : "Cuir in eagar ar líne",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} fillteán","{folderCount} fillteáin","{folderCount} fillteáin","{folderCount} fillteáin","{folderCount} fillteáin"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} comhad","{fileCount} comhaid","{fileCount} comhaid","{fileCount} comhaid","{fileCount} comhaid"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 chomhad agus {folderCount} fillteán","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin","1 chomhad agus {folderCount} fillteáin"],
@@ -455,6 +453,7 @@
     "New text file.txt" : "Comhad téacs nua.txt",
     "%1$s (renamed)" : "%1$s (athainmnithe)",
     "renamed file" : "comhad athainmnithe",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Tar éis na hainmneacha comhad atá comhoiriúnach le Windows a chumasú, ní féidir comhaid atá ann cheana a mhodhnú a thuilleadh ach is féidir lena n-úinéir iad a athainmniú go hainmneacha nua bailí.",
     "{count} files could not be converted" : "{count} níorbh fhéidir comhaid a thiontú",
     "{count} files successfully converted" : "{count} comhaid a thiontú go rathúil"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"

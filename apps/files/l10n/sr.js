@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Отпремање (макс. %s)",
     "Submitting fields…" : "Поља се подносе…",
     "Filter filenames…" : "Филтрирање имена фајлова…",
-    "Edit file locally" : "Уреди фајл локално",
-    "Edit online" : "Уреди на мрежи",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} фолдер","{folderCount} фолдера","{folderCount} фолдера"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} фајл","{fileCount} фајла","{fileCount} фајлова"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 фајл и {folderCount} фолдер","1 фајл и {folderCount} фолдера","1 фајл и {folderCount} фолдера"],

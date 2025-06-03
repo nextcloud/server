@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "Titim comhad",
     "Upload files to {foldername}." : "Uaslódáil comhaid go {foldername}.",
     "By uploading files, you agree to the terms of service." : "Trí chomhaid a uaslódáil, aontaíonn tú leis na téarmaí seirbhíse.",
+    "Successfully uploaded files" : "Uaslódáileadh na comhaid go rathúil",
     "View terms of service" : "Féach ar théarmaí seirbhíse",
     "Terms of service" : "Tearmaí Seirbhís",
     "Upload files to {folder}" : "Uaslódáil comhaid go {folder}",

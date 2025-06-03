@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Üleslaadimine (max. %s)",
     "Submitting fields…" : "Saadan välju…",
     "Filter filenames…" : "Otsi failinimesid…",
-    "Edit file locally" : "Muuda faili kohalikus seadmes",
-    "Edit online" : "Muuda võrgus",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} kaust","{folderCount} kausta"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fail","{fileCount} faili"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fail ja {folderCount} kaust","1 fail ja {folderCount} kausta"],

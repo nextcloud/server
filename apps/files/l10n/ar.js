@@ -435,8 +435,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Submitting fields…" : "إرسال الحقول...",
     "Filter filenames…" : "تصفية باسم الملف...",
-    "Edit file locally" : "تحرير الملف محلياً",
-    "Edit online" : "التحرير عبر الإنترنت",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} مجلد","{folderCount} مجلد","{folderCount} مجلد","{folderCount} مجلدات","{folderCount} مجلد","{folderCount} مجلد"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} ملف","{fileCount} ملف","{fileCount} ملف","{fileCount} ملفات","{fileCount} ملف","{fileCount} ملف"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد","1 ملف و{folderCount} مجلدات","1 ملف و {folderCount} مجلد","1 ملف و {folderCount} مجلد"],

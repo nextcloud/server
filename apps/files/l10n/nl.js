@@ -433,8 +433,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (max. %s)",
     "Submitting fields…" : "Verzenden velden ...",
     "Filter filenames…" : "Filter bestandsnamen...",
-    "Edit file locally" : "Bestand lokaal bewerken",
-    "Edit online" : "Bewerk online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} map","{folderCount} mappen"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} bestand","{fileCount} bestanden"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 bestand en {folderCount} map","1 bestand en {folderCount} mappen"],

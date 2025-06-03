@@ -434,8 +434,6 @@
     "Upload (max. %s)" : "Pošiljanje (omejitev %s)",
     "Submitting fields…" : "Poteka objavljanje vsebine polj ...",
     "Filter filenames…" : "Filtriraj imena datotek ...",
-    "Edit file locally" : "Uredi datoteko krajevno",
-    "Edit online" : "Uredi na spletu",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mapa","{folderCount} mapi","{folderCount} mape","{folderCount} map"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} datoteka","{fileCount} datoteki","{fileCount} datoteke","{fileCount} datotek"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 datoteka in {folderCount} mapa","1 datoteka in {folderCount} mapi","1 datoteka in {folderCount} mape","1 datoteka in {folderCount} map"],

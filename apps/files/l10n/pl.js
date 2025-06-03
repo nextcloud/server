@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Wysyłanie (maks. %s)",
     "Submitting fields…" : "Przesyłanie pól…",
     "Filter filenames…" : "Filtruj nazwy plików…",
-    "Edit file locally" : "Edytuj plik lokalnie",
-    "Edit online" : "Edycja online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} katalog","{folderCount} katalogi","{folderCount} katalogów","{folderCount} katalogów"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} plik","{fileCount} pliki","{fileCount} plików","{fileCount} plików"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 plik i {folderCount} katalog","1 plik i {folderCount} katalogi","1 plik i {folderCount} katalogów","1 plik i {folderCount} katalogów"],

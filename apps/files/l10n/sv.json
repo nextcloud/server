@@ -443,8 +443,6 @@
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "Submitting fields…" : "Skickar fält...",
     "Filter filenames…" : "Filtrera filnamn...",
-    "Edit file locally" : "Redigera filen lokalt",
-    "Edit online" : "Redigera online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mapp","{folderCount} mappar"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fil","{fileCount} filer"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil och {folderCount} mapp","1 fil och {folderCount} mappar"],
