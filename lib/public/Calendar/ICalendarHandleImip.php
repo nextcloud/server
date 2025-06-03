@@ -23,5 +23,5 @@ interface ICalendarHandleImip extends ICalendar {
 	 *
 	 * @throws CalendarException on validation failure or calendar write error
 	 */
-	public function handleIMip(VCalendar $vObject): void;
+	public function handleIMip(string $message): void;
 }
