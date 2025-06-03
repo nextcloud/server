@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Hochladen (max. %s)",
     "Submitting fields…" : "Felder werden übermittelt…",
     "Filter filenames…" : "Dateinamen filtern…",
-    "Edit file locally" : "Datei lokal bearbeiten",
-    "Edit online" : "Online bearbeiten",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} Ordner","{folderCount} Ordner"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} Datei","{fileCount} Dateien"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 Datei und {folderCount} Ordner","1 Datei und {folderCount} Ordner"],

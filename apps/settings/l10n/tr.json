@@ -1,6 +1,6 @@
 { "translations": {
     "Private" : "Kişisel",
-    "Only visible to people matched via phone number integration through Talk on mobile" : "Yalnızca mobil aygıt üzerinde Konuş uygulaması telefon numarası bütünleştirmesi ile eşleşen kişiler görebilir",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Yalnızca mobil aygıt üzerinde Talk uygulaması telefon numarası bütünleştirmesi ile eşleşen kişiler görebilir",
     "Local" : "Yerel",
     "Only visible to people on this instance and guests" : "Yalnızca bu kopyadaki kişiler ve konuklar görebilir",
     "Federated" : "Birleşik",
@@ -509,8 +509,8 @@
     "Google Chrome for Android" : "Android için Google Chrome",
     "{productName} iOS app" : "{productName} iOS uygulaması",
     "{productName} Android app" : "{productName} Android uygulaması",
-    "{productName} Talk for iOS" : "{productName} iOS için Konuş",
-    "{productName} Talk for Android" : "{productName} Android için Konuş",
+    "{productName} Talk for iOS" : "iOS için {productName} Talk",
+    "{productName} Talk for Android" : "Android için {productName} Talk",
     "Sync client" : "İstemciyi eşitle",
     "This session" : "Bu oturum",
     "{client} - {version} ({system})" : "{client} - {version} ({system})",

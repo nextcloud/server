@@ -435,8 +435,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (max. %s)",
     "Submitting fields…" : "Sender felter...",
     "Filter filenames…" : "Filtrer filnavne...",
-    "Edit file locally" : "Rediger fil lokalt",
-    "Edit online" : "Rediger online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mappe","{folderCount} mapper"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fil","{fileCount} filer"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil og {folderCount} mapper","1 fil og {folderCount} mapper"],

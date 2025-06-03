@@ -431,8 +431,6 @@
     "Upload (max. %s)" : "Envío (máx. %s)",
     "Submitting fields…" : "Enviando os campos...",
     "Filter filenames…" : "Filtrar os nomes de ficheiro…",
-    "Edit file locally" : "Editar o ficheiro localmente",
-    "Edit online" : "Editar en liña",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} cartafol","{folderCount} cartafoles"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} ficheiro","{fileCount} ficheiros"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ficheiro e {folderCount} cartafol","1 ficheiro e {folderCount} cartafoles"],

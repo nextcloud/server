@@ -273,6 +273,7 @@
     "A valid Login must be provided" : "Ní mór Logáil Isteach bailí a sholáthar",
     "Login contains whitespace at the beginning or at the end" : "Tá spás bán sa logáil isteach ag an tús nó ag an deireadh",
     "Login must not consist of dots only" : "Níor cheart go gcuimseodh logáil isteach poncanna amháin",
+    "Username is too long" : "Tá an t-ainm úsáideora rófhada",
     "Login is invalid because files already exist for this user" : "Tá logáil isteach neamhbhailí toisc go bhfuil comhaid ann cheana don úsáideoir seo",
     "Account disabled" : "Díchumasaíodh an cuntas",
     "Login canceled by app" : "Cealaíodh logáil isteach ag an aip",

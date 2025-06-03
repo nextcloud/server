@@ -319,7 +319,6 @@ OC.L10N.register(
     "Upload file" : "Прикачи датотека",
     "An error occurred while trying to update the tags" : "Се случи грешка додека се обидувавте да ги освежите таговите",
     "Upload (max. %s)" : "Префрлање (макс. %s)",
-    "Edit file locally" : "Уреди ја датотеката локално",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} папка","{folderCount} папки"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} датотека","{fileCount} датотеки"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 датотека и {folderCount} папки","1 датотека и {folderCount} папки"],

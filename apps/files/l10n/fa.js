@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "آپلود (بیشترین سایز %s)",
     "Submitting fields…" : "Submitting fields…",
     "Filter filenames…" : "Filter filenames…",
-    "Edit file locally" : "Edit file locally",
-    "Edit online" : "Edit online",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} پوشه","{folderCount} پوشه"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} پرونده","{fileCount} پرونده"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 file and {folderCount} folder","1 file and {folderCount} folders"],

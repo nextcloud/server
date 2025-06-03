@@ -401,8 +401,6 @@
     "Upload (max. %s)" : "Opplasting (maks %s)",
     "Submitting fields…" : "Sender inn felt...",
     "Filter filenames…" : "Filtrer filnavn...",
-    "Edit file locally" : "Rediger fil lokalt",
-    "Edit online" : "Rediger på nett",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mappe","{folderCount} mapper"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fil","{fileCount} filer"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil og {folderCount} mappe","1 fil og {folderCount} mapper"],

@@ -401,7 +401,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "Submitting fields…" : "Lähetetään tietoja...",
     "Filter filenames…" : "Suodata tiedostonimiä...",
-    "Edit file locally" : "Muokkaa tiedostoa paikallisesti",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} kansio","{folderCount} kansiota"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} tiedosto","{fileCount} tiedostoa"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 tiedosto ja {folderCount} kansio","1 tiedosto ja {folderCount} kansiota"],

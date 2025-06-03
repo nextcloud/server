@@ -433,8 +433,6 @@
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "Submitting fields…" : "Alanlar gönderiliyor…",
     "Filter filenames…" : "Dosya adlarını süz…",
-    "Edit file locally" : "Dosyayı yerel olarak düzenle",
-    "Edit online" : "Çevrim içi düzenle",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} klasör","{folderCount} klasör"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} dosya","{fileCount} dosya"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 dosya ve {folderCount} klasör","1 dosya ve {folderCount} klasör"],
