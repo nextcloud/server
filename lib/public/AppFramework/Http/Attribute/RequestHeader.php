@@ -23,10 +23,12 @@ class RequestHeader {
 	/**
 	 * @param lowercase-string $name The name of the request header
 	 * @param non-empty-string $description The description of the request header
+	 * @param bool $indirect Allow indirect usage of the header for example in a middleware. Enabling this turns off the check which ensures that the header must be referenced in the controller method.
 	 */
 	public function __construct(
 		protected string $name,
 		protected string $description,
+		protected bool $indirect = false,
 	) {
 	}
 }
