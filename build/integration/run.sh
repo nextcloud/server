@@ -53,14 +53,8 @@ PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
 
-# Output filtered php server logs
-tail -f phpserver.log | grep --line-buffered -v -E ":[0-9]+ Accepted$" | grep --line-buffered -v -E ":[0-9]+ Closing$" &
-LOGPID=$!
-echo $LOGPID
-
 function cleanup() {
     kill $PHPPID
-    kill $LOGPID
 }
 trap cleanup EXIT
 
