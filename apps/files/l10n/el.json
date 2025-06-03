@@ -333,7 +333,6 @@
     "An error occurred while trying to update the tags" : "Ένα σφάλμα προέκυψε κατά τη διάρκεια ενημέρωσης των ετικετών",
     "Upload (max. %s)" : "Μεταφόρτωση (max. %s)",
     "Filter filenames…" : "Φιλτράρετε τα ονόματα αρχείων...",
-    "Edit file locally" : "Επεξεργασία αρχείου τοπικά",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} φάκελος","{folderCount} φακέλοι"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} αρχείο","{fileCount} αρχεία"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 αρχείο και {folderCount} φάκελος","1 αρχείο και {folderCount} φακέλοι"],

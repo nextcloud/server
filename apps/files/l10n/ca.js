@@ -435,8 +435,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Puja (màx. %s)",
     "Submitting fields…" : "S'estan enviant camps…",
     "Filter filenames…" : "Filtra els noms de fitxer…",
-    "Edit file locally" : "Edició del fitxer localment",
-    "Edit online" : "Edició en remot",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} carpeta","{folderCount} carpetes"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fitxer","{fileCount} fitxers"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fitxer i {folderCount} carpeta","1 fitxer i {folderCount} carpetes"],

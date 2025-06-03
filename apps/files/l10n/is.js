@@ -416,8 +416,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Senda inn (hám. %s)",
     "Submitting fields…" : "Sendi inn gögn úr reitum…",
     "Filter filenames…" : "Sía skráaheiti…",
-    "Edit file locally" : "Breyta skrá á tölvunni",
-    "Edit online" : "Breyta á netinu",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mappa","{folderCount} möppur"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} skrá","{fileCount} skrár"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 skrá og {folderCount} mappa","1 skrá og {folderCount} möppur"],

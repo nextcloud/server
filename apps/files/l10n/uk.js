@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Завантаження (макс. %s)",
     "Submitting fields…" : "Поля для надсилання...",
     "Filter filenames…" : "Вибрати файли за ім'ям ...",
-    "Edit file locally" : "Редагувати файл на пристрої",
-    "Edit online" : "Відкрити онлайн",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} каталог","{folderCount} каталоги","{folderCount} каталогів","{folderCount} каталогів"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} файл","{fileCount} файли","{fileCount} файлів","{fileCount} файлів"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 файл та {folderCount} каталог","1 файл та {folderCount} каталоги","1 файл та {folderCount} каталогів","1 файл та {folderCount} каталогів"],

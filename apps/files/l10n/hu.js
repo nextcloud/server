@@ -419,8 +419,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "Feltöltés (legfeljebb %s)",
     "Submitting fields…" : "Mezők beküldése…",
     "Filter filenames…" : "Fájlnevek szűrése…",
-    "Edit file locally" : "Fájl helyi szerkesztése",
-    "Edit online" : "Online szerkesztés",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mappa","{folderCount} mappa"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} fájl","{fileCount} fájl"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fájl és {folderCount} mappa","1 fájl és {folderCount} mappa"],

@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "アップロード ( 最大 %s )",
     "Submitting fields…" : "フィールドを送信中…",
     "Filter filenames…" : "ファイルネームフィルター…",
-    "Edit file locally" : "ファイルをローカルで編集",
-    "Edit online" : "オンラインで編集",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} フォルダ"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} ファイル"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ファイルと {folderCount} フォルダ"],

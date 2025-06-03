@@ -365,8 +365,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "يۈكلەش (max.% S)",
     "Submitting fields…" : "يول يوللاش…",
     "Filter filenames…" : "ھۆججەت نامىنى سۈزۈڭ…",
-    "Edit file locally" : "ھۆججەتنى يەرلىكتە تەھرىرلەڭ",
-    "Edit online" : "توردا تەھرىرلەڭ",
     "{fileCount} files and {folderCount} folders" : "{fileCount} ھۆججەتلىرى ۋە {folderCount} ھۆججەت قىسقۇچلىرى",
     "Personal Files" : "شەخسىي ھۆججەتلەر",
     "Text file" : "تېكىست ھۆججەت",

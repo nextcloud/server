@@ -445,8 +445,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "上傳（最多 %s）",
     "Submitting fields…" : "正在遞交欄位……",
     "Filter filenames…" : "篩選檔案名稱……",
-    "Edit file locally" : "本機編輯檔案",
-    "Edit online" : "線上編輯",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} 個資料夾"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} 個檔案"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 個檔案與 {folderCount} 個資料夾"],

@@ -404,8 +404,6 @@
     "Upload (max. %s)" : "Igo (%s gehienez)",
     "Submitting fields…" : "Eremuak bidaltzen…",
     "Filter filenames…" : "Iragazi fitxategi-izenak...",
-    "Edit file locally" : "Editatu fitxategia lokalean",
-    "Edit online" : "Editatu sarean",
     "_{folderCount} folder_::_{folderCount} folders_" : ["Karpeta {folderCount}","{folderCount} karpeta"],
     "_{fileCount} file_::_{fileCount} files_" : ["Fitxategi {fileCount}","{fileCount} fitxategi"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["Fitxategi 1 eta karpeta {folderCount}","Fitxategi 1 eta {folderCount} karpeta"],

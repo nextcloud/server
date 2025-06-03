@@ -443,8 +443,6 @@
     "Upload (max. %s)" : "上傳（上限 %s）",
     "Submitting fields…" : "正在遞交欄位 …",
     "Filter filenames…" : "過濾檔案名 ...",
-    "Edit file locally" : "在近端編輯檔案",
-    "Edit online" : "在線編輯",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} 個資料夾"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} 個檔案"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 個檔案與 {folderCount} 個資料夾"],

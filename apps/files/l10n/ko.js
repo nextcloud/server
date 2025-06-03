@@ -422,8 +422,6 @@ OC.L10N.register(
     "Upload (max. %s)" : "업로드(최대 %s)",
     "Submitting fields…" : "입력란 제출중...",
     "Filter filenames…" : "파일 이름 필터...",
-    "Edit file locally" : "로컬에서 파일 편집",
-    "Edit online" : "온라인으로 편집",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount}개 폴더"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount}개 파일"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1개 파일과 {folderCount}개 폴더"],
