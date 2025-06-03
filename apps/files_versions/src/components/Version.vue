@@ -135,7 +135,7 @@ import { Permission, formatFileSize } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { joinPaths } from '@nextcloud/paths'
-import { getRootUrl, generateUrl } from '@nextcloud/router'
+import { getRootUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 
 import axios from '@nextcloud/axios'
@@ -216,7 +216,6 @@ export default defineComponent({
 			previewLoaded: false,
 			previewErrored: false,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
-			versionAuthor: '' as string | null,
 		}
 	},
 
@@ -305,24 +304,6 @@ export default defineComponent({
 			await this.$nextTick()
 			await this.$nextTick()
 			this.$emit('delete', this.version)
-		},
-
-		async fetchDisplayName() {
-			this.versionAuthor = null
-			if (!this.version.author) {
-				return
-			}
-
-			if (this.version.author === getCurrentUser()?.uid) {
-				this.versionAuthor = t('files_versions', 'You')
-			} else {
-				try {
-					const { data } = await axios.post(generateUrl('/displaynames'), { users: [this.version.author] })
-					this.versionAuthor = data.users[this.version.author]
-				} catch (error) {
-					logger.warn('Could not load user display name', { error })
-				}
-			}
 		},
 
 		click() {
