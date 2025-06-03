@@ -74,6 +74,7 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
+		$this->logger->warning('✅ registerApp(' . $appClass . ')');
 		// other apps may want to rely on the 'main' notification app so make it deterministic that
 		// the 'main' notification app adds it's notifications first and removes it's notifications last
 		if ($appClass === \OCA\Notifications\App::class) {
@@ -107,6 +108,7 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerNotifierService(string $notifierService): void {
+		$this->logger->warning('✅ registerNotifierService(' . $notifierService . ')');
 		$this->notifierClasses[] = $notifierService;
 	}
 
@@ -298,6 +300,8 @@ class Manager implements IManager {
 	 * {@inheritDoc}
 	 */
 	public function notify(INotification $notification): void {
+		$this->logger->warning('✅ notify(' . $notification->getApp() . ')');
+		$this->logger->warning('notify::hasNotifiers' . json_encode($this->hasNotifiers()));
 		if (!$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
 		}
@@ -340,7 +344,9 @@ class Manager implements IManager {
 	 * {@inheritDoc}
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
+		$this->logger->warning('prepare::hasNotifiers' . json_encode($this->hasNotifiers()));
 		$notifiers = $this->getNotifiers();
+		$this->logger->warning('prepare::getNotifiers' . count($notifiers));
 
 		foreach ($notifiers as $notifier) {
 			try {

@@ -528,6 +528,7 @@ class RegistrationContext {
 	}
 
 	public function registerNotifierService(string $appId, string $class): void {
+		$this->logger->warning('✅ RegistrationContext::registerNotifierService(' . $appId . ', ' . $class . ')');
 		$this->notifierServices[] = new ServiceRegistration($appId, $class);
 	}
 
