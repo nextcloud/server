@@ -3,10 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { RawLocation, Route } from 'vue-router'
+
 import { generateUrl } from '@nextcloud/router'
+import { relative } from 'path'
 import queryString from 'query-string'
 import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
+
+import { useFilesStore } from '../store/files'
+import { useNavigation } from '../composables/useNavigation'
+import { usePathsStore } from '../store/paths'
 import logger from '../logger'
 
 Vue.use(Router)
@@ -66,6 +72,62 @@ const router = new Router({
 		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
 		return result ? ('?' + result) : ''
 	},
+})
+
+// If navigating back from a folder to a parent folder,
+// we need to keep the current dir fileid so it's highlighted
+// and scrolled into view.
+router.beforeEach((to, from, next) => {
+	if (to.params?.parentIntercept) {
+		delete to.params.parentIntercept
+		next()
+		return
+	}
+
+	const fromDir = (from.query?.dir || '/') as string
+	const toDir = (to.query?.dir || '/') as string
+
+	// We are going back to a parent directory
+	if (relative(fromDir, toDir) === '..') {
+		const { currentView } = useNavigation()
+		const { getNode } = useFilesStore()
+		const { getPath } = usePathsStore()
+
+		if (!currentView.value?.id) {
+			logger.error('No current view id found, cannot navigate to parent directory', { fromDir, toDir })
+			return next()
+		}
+
+		// Get the previous parent's file id
+		const fromSource = getPath(currentView.value?.id, fromDir)
+		if (!fromSource) {
+			logger.error('No source found for the parent directory', { fromDir, toDir })
+			return next()
+		}
+
+		const fileId = getNode(fromSource)?.fileid
+		if (!fileId) {
+			logger.error('No fileid found for the parent directory', { fromDir, toDir, fromSource })
+			return next()
+		}
+
+		logger.debug('Navigating back to parent directory', { fromDir, toDir, fileId })
+		next({
+			name: 'filelist',
+			query: to.query,
+			params: {
+				...to.params,
+				fileid: String(fileId),
+				// Prevents the beforeEach from being called again
+				parentIntercept: 'true',
+			},
+			// Replace the current history entry
+			replace: true,
+		})
+	}
+
+	// else, we just continue
+	next()
 })
 
 export default router
