@@ -154,6 +154,12 @@ class Setting extends Base {
 			return 0;
 		}
 
+		// prevent reading or editing of "profile" app properties exposed via the "settings" app
+		if ($this->isOverlappingSettingProperty($app, $key)) {
+			$output->writeln("<error>Setting '{$key}' belongs to the settings app.</error>");
+			return 1;
+		}
+
 		$value = $this->getStoredValue($uid, $app, $key);
 		$inputValue = $input->getArgument('value');
 		if ($inputValue !== null) {
@@ -324,6 +330,10 @@ class Setting extends Base {
 			&& in_array($key, IAccountManager::ALLOWED_PROPERTIES)
 			&& $key !== IAccountManager::PROPERTY_EMAIL
 			&& $key !== IAccountManager::PROPERTY_DISPLAYNAME;
+	}
+
+	private function isOverlappingSettingProperty(string $app, string $key): bool {
+		return $app === 'profile' && in_array($key, ['email', 'display_name', 'displayname']);
 	}
 
 	/**
