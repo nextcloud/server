@@ -72,7 +72,6 @@ class OwnershipTransferService {
 		?OutputInterface $output = null,
 		bool $move = false,
 		bool $firstLogin = false,
-		bool $transferIncomingShares = false,
 	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
@@ -157,28 +156,26 @@ class OwnershipTransferService {
 		$sizeDifference = $sourceSize - $view->getFileInfo($finalTarget)->getSize();
 
 		// transfer the incoming shares
-		if ($transferIncomingShares === true) {
-			$sourceShares = $this->collectIncomingShares(
-				$sourceUid,
-				$output,
-				$sourcePath,
-			);
-			$destinationShares = $this->collectIncomingShares(
-				$destinationUid,
-				$output,
-				null,
-			);
-			$this->transferIncomingShares(
-				$sourceUid,
-				$destinationUid,
-				$sourceShares,
-				$destinationShares,
-				$output,
-				$path,
-				$finalTarget,
-				$move
-			);
-		}
+		$sourceShares = $this->collectIncomingShares(
+			$sourceUid,
+			$output,
+			$sourcePath,
+		);
+		$destinationShares = $this->collectIncomingShares(
+			$destinationUid,
+			$output,
+			null,
+		);
+		$this->transferIncomingShares(
+			$sourceUid,
+			$destinationUid,
+			$sourceShares,
+			$destinationShares,
+			$output,
+			$path,
+			$finalTarget,
+			$move
+		);
 
 		$destinationPath = $finalTarget . '/' . $path;
 		// restore the shares
