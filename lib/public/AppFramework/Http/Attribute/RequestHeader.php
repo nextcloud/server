@@ -21,8 +21,8 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class RequestHeader {
 	/**
-	 * @param string $name The name of the request header
-	 * @param string $description The description of the request header
+	 * @param lowercase-string $name The name of the request header
+	 * @param non-empty-string $description The description of the request header
 	 */
 	public function __construct(
 		protected string $name,
