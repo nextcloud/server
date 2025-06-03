@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "বাতির",
     "Edit" : "সম্পাদনা",
     "Download" : "ডাউনলোড",
     "Delete" : "মুছে",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "সংরক্ষণ",
     "Back" : "পেছনে যাও",
     "Reset" : "পূণঃনির্ধানণ",
-    "Cancel" : "বাতির",
     "Warning" : "সতর্কবাণী",
     "Size" : "আকার"
 },

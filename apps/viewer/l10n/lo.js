@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "ຍົກເລີກ",
     "Edit" : "ແກ້ໄຂ",
     "Open sidebar" : "ເປີດແທບດ້ານຂ້າງ",
     "Download" : "ດາວໂຫລດ",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Save" : "ບັນທຶກ",
     "Back" : "ຫຼັງ",
     "Loading …" : "ກຳລັງໂຫຼດ",
-    "Cancel" : "ຍົກເລີກ",
     "Confirm" : "ຢືນຢັນ",
     "Original" : "ຕົ້ນສະບັບ",
     "Size" : "ຂະຫນາດ"

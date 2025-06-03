@@ -1,4 +1,5 @@
 { "translations": {
+    "Cancel" : "Dayandır",
     "Edit" : "Dəyişiklik et",
     "Download" : "Yüklə",
     "Delete" : "Sil",
@@ -6,7 +7,6 @@
     "Save" : "Saxla",
     "Back" : "Geri",
     "Reset" : "Sıfırla",
-    "Cancel" : "Dayandır",
     "Warning" : "Xəbərdarlıq",
     "Confirm" : "Təsdiq edin",
     "Size" : "Həcm",

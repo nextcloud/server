@@ -1,12 +1,12 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "ընդհատել",
     "Edit" : "մշակել",
     "Download" : "Ներբեռնել",
     "Delete" : "հեռացնել",
     "Name" : "Անուն",
     "Save" : "Պահպանել",
-    "Cancel" : "ընդհատել",
     "Warning" : "Զգուշացում",
     "Size" : "Չափս"
 },

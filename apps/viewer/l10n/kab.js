@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Sefsex",
     "Edit" : "Ẓreg",
     "Download" : "Sider",
     "Delete" : "Kkes",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "Sekles",
     "Back" : "Retour",
     "Loading …" : "Asali ...",
-    "Cancel" : "Sefsex",
     "Warning" : "Alɣu",
     "Confirm" : "Serggeg",
     "Size" : "Teɣzi"

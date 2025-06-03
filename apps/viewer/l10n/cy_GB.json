@@ -1,4 +1,5 @@
 { "translations": {
+    "Cancel" : "Diddymu",
     "Edit" : "Golygu",
     "Open sidebar" : "Agor y bar ochr",
     "Download" : "Llwytho i lawr",
@@ -8,7 +9,6 @@
     "Save" : "Cadw",
     "Back" : "Nôl",
     "Loading …" : "Yn llwytho …",
-    "Cancel" : "Diddymu",
     "Warning" : "Rhybudd",
     "Confirm" : "Cadarnhau",
     "Undo" : "Dadwneud",

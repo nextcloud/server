@@ -1,4 +1,5 @@
 { "translations": {
+    "Cancel" : "Cancelar",
     "Image saved" : "Imagen guardada",
     "Edit" : "Editar",
     "Download" : "Descargar",
@@ -8,7 +9,6 @@
     "Back" : "Atrás",
     "Loading …" : "Cargando …",
     "Reset" : "Restablecer",
-    "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
     "Warning" : "Advertencia",
     "Confirm" : "Confirmar",

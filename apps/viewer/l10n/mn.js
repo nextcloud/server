@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "болиулах",
     "Edit" : "засварлах",
     "Download" : "Татах",
     "Delete" : "Устгах",
@@ -9,7 +10,6 @@ OC.L10N.register(
     "Back" : "буцах",
     "Loading …" : "Уншиж байна...",
     "Reset" : "тохируулах",
-    "Cancel" : "болиулах",
     "Apply" : "хэрэглэх",
     "Confirm" : "Батлах",
     "Undo" : "буцах",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Cancelar",
     "Edit" : "Editar",
     "Download" : "Descargar",
     "Delete" : "Borrar",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Back" : "Atrás",
     "Reset" : "Restablecer",
-    "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
     "Warning" : "Advertencia",
     "Confirm" : "Confirmar",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Dayandır",
     "Edit" : "Dəyişiklik et",
     "Download" : "Yüklə",
     "Delete" : "Sil",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "Saxla",
     "Back" : "Geri",
     "Reset" : "Sıfırla",
-    "Cancel" : "Dayandır",
     "Warning" : "Xəbərdarlıq",
     "Confirm" : "Təsdiq edin",
     "Size" : "Həcm",

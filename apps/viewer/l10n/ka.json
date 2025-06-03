@@ -1,4 +1,5 @@
 { "translations": {
+    "Cancel" : "Cancel",
     "LIVE" : "LIVE",
     "Edit" : "Edit",
     "Open sidebar" : "Open sidebar",
@@ -10,7 +11,6 @@
     "Back" : "Back",
     "Loading …" : "Loading …",
     "Reset" : "Reset",
-    "Cancel" : "Cancel",
     "Warning" : "Warning",
     "Confirm" : "Confirm",
     "Discard changes" : "Discard changes",

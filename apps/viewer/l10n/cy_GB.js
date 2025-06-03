@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Diddymu",
     "Edit" : "Golygu",
     "Open sidebar" : "Agor y bar ochr",
     "Download" : "Llwytho i lawr",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Save" : "Cadw",
     "Back" : "Nôl",
     "Loading …" : "Yn llwytho …",
-    "Cancel" : "Diddymu",
     "Warning" : "Rhybudd",
     "Confirm" : "Cadarnhau",
     "Undo" : "Dadwneud",

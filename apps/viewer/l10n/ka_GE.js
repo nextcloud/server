@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "უარყოფა",
     "Edit" : "შეცვლა",
     "Download" : "ჩამოტვირთვა",
     "Delete" : "წაშლა",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "შენახვა",
     "Back" : "უკან",
     "Reset" : "საწყის მდოგმარეობაში დაბრუნება",
-    "Cancel" : "უარყოფა",
     "Apply" : "გამოყენება",
     "Warning" : "გაფრთხილება",
     "Confirm" : "დადასტურება",

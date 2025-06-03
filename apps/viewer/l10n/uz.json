@@ -1,4 +1,5 @@
 { "translations": {
+    "Cancel" : "Cancel",
     "Edit" : "Tahrirlash",
     "Download" : "Download",
     "Delete" : "Delete",
@@ -6,7 +7,6 @@
     "Save" : "Save",
     "Back" : "Orqaga",
     "Reset" : "Qayta tiklash",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirm",
     "Undo" : "Bekor qilish",
     "Custom" : "Boshqa",

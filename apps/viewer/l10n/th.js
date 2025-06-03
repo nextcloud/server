@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "ยกเลิก",
     "Edit" : "แก้ไข",
     "Open sidebar" : "เปิดแถบด้านข้าง",
     "Download" : "ดาวน์โหลด",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Save" : "บันทึก",
     "Back" : "ย้อนกลับ",
     "Reset" : "รีเซ็ต",
-    "Cancel" : "ยกเลิก",
     "Apply" : "นำไปใช้",
     "Warning" : "คำเตือน",
     "Confirm" : "ยืนยัน",

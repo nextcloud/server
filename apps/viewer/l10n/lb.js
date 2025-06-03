@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Ofbriechen",
     "Edit" : "Änneren",
     "Download" : "Eroflueden",
     "Delete" : "Läschen",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Save" : "Späicheren",
     "Back" : "Zeréck",
     "Reset" : "Zeréck setzen",
-    "Cancel" : "Ofbriechen",
     "Apply" : "Uwenden",
     "Warning" : "Warnung",
     "Confirm" : "Konfirméieren",

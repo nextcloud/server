@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Anullo",
     "Image saved" : "Imazhi u ruajt",
     "Edit" : "Përpuno",
     "Open sidebar" : "Hapni sidebar-in",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Save" : "Ruaj",
     "Back" : "Prapa",
     "Reset" : "Rivendos",
-    "Cancel" : "Anullo",
     "Apply" : "Apliko",
     "Warning" : "Kujdes",
     "Confirm" : "Konfirmo",

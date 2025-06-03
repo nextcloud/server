@@ -1,12 +1,12 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Otkaži",
     "Edit" : "Izmjeni",
     "Download" : "Preuzmi",
     "Delete" : "Obriši",
     "Name" : "Ime",
     "Save" : "Spremi",
-    "Cancel" : "Otkaži",
     "Warning" : "Upozorenje",
     "Size" : "Veličina"
 },

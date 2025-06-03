@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Otkaži",
     "Image saved" : "Slika sačuvana.",
     "Edit" : "Izmeni",
     "Open sidebar" : "Otvori bočnu traku",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Save" : "Sačuvaj",
     "Back" : "Nazad",
     "Loading …" : "Učitavanje...",
-    "Cancel" : "Otkaži",
     "Warning" : "Upozorenje",
     "Undo" : "Opozovi"
 },

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Avbryt",
     "Edit" : "Rediger",
     "Open sidebar" : "Opne sidestolpe",
     "Download" : "Last ned",
@@ -8,7 +9,6 @@ OC.L10N.register(
     "Name" : "Namn",
     "Save" : "Lagre",
     "Back" : "Tilbake",
-    "Cancel" : "Avbryt",
     "Apply" : "Anvend",
     "Warning" : "Åtvaring",
     "Value" : "Verdi",

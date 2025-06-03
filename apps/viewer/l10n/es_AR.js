@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Cancel" : "Cancelar",
     "LIVE" : "EN VIVO",
     "Edit" : "Editar",
     "Open sidebar" : "Abrir barra lateral",
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Loading …" : "Cargando …",
     "Reset" : "Restablecer",
-    "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
     "Warning" : "Advertencia",
     "Confirm" : "Confirmar",
