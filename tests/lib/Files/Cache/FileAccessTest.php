@@ -141,7 +141,8 @@ class FileAccessTest extends TestCase {
 				'storage' => $queryBuilder->createNamedParameter(4, IQueryBuilder::PARAM_INT),
 				'parent' => $queryBuilder->createNamedParameter(40),
 				'name' => $queryBuilder->createNamedParameter('files'),
-				'path_hash' => $queryBuilder->createNamedParameter(md5('/home/user/files')),
+				'path' => $queryBuilder->createNamedParameter('files'),
+				'path_hash' => $queryBuilder->createNamedParameter(md5('files')),
 			])
 			->executeStatement();
 
