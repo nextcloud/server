@@ -19,11 +19,11 @@ use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
@@ -54,6 +54,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		private ?string $userId,
 		private IRootFolder $rootFolder,
 		private IAppData $appData,
+		private IMimeTypeDetector $mimeTypeDetector,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -300,7 +301,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
@@ -308,12 +309,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[NoAdminRequired]
 	#[Http\Attribute\NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContents(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -324,19 +327,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContentsExApp(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContentsExApp(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getTask($taskId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -379,12 +384,11 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
-	 * @throws GenericFileException
 	 * @throws LockedException
 	 *
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
-	private function getFileContentsInternal(Task $task, int $fileId): Http\DataDownloadResponse|DataResponse {
+	private function getFileContentsInternal(Task $task, int $fileId): StreamResponse|DataResponse {
 		$ids = $this->extractFileIdsFromTask($task);
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -401,7 +405,25 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		} elseif (!$node instanceof File) {
 			throw new NotFoundException('Node is not a file');
 		}
-		return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
+
+		$contentType = $node->getMimeType();
+		if (function_exists('mime_content_type')) {
+			$mimeType = mime_content_type($node->fopen('rb'));
+			if ($mimeType !== false) {
+				$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					$contentType = $mimeType;
+				}
+			}
+		}
+
+		$response = new StreamResponse($node->fopen('rb'));
+		$response->addHeader(
+			'Content-Disposition',
+			'attachment; filename="' . rawurldecode($node->getName()) . '"'
+		);
+		$response->addHeader('Content-Type', $contentType);
+		return $response;
 	}
 
 	/**
