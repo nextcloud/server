@@ -255,16 +255,17 @@
 					data-cy-user-list-input-manager
 					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
-					:close-on-select="true"
 					:disabled="isLoadingField"
-					:append-to-body="false"
 					:loading="loadingPossibleManagers || loading.manager"
-					label="displayname"
 					:options="possibleManagers"
 					:placeholder="managerLabel"
+					label="displayname"
+					:filterable="false"
+					:internal-search="false"
+					:clearable="true"
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager" />
+					@update:model-value="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -514,7 +515,6 @@ export default {
 			return this.languages[0].languages.concat(this.languages[1].languages)
 		},
 	},
-
 	async beforeMount() {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
@@ -635,11 +635,12 @@ export default {
 			})
 		},
 
-		async updateUserManager(manager) {
-			if (manager === null) {
-				this.currentManager = ''
-			}
+		async updateUserManager() {
 			this.loading.manager = true
+
+			// Store the current manager before making changes
+			const previousManager = this.user.manager
+
 			try {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
@@ -649,7 +650,10 @@ export default {
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
 				showError(t('settings', 'Failed to update line manager'))
-				console.error(error)
+				logger.error('Failed to update manager:', { error })
+
+				// Revert to the previous manager in the UI on error
+				this.currentManager = previousManager
 			} finally {
 				this.loading.manager = false
 			}
