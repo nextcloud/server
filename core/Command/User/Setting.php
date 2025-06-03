@@ -155,22 +155,23 @@ class Setting extends Base {
 		}
 
 		$value = $this->getStoredValue($uid, $app, $key);
-		if ($input->getArgument('value') !== null) {
+		$inputValue = $input->getArgument('value');
+		if ($inputValue !== null) {
 			if ($input->hasParameterOption('--update-only') && $value === null) {
 				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 				return 1;
 			}
 
 			if ($this->isProfileProperty($app, $key)) {
-				return $this->editProfileProperty($output, $uid, $key, $input->getArgument('value'));
+				return $this->editProfileProperty($output, $uid, $key, $inputValue);
 			} elseif ($this->isSettingProperty($app, $key)) {
-				$returnCode = $this->setSettingsProperty($input, $output, $uid, $key);
+				$returnCode = $this->setSettingsProperty($output, $uid, $key, $inputValue);
 				if ($returnCode !== null) {
 					return $returnCode;
 				}
 			}
 
-			$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
+			$this->config->setUserValue($uid, $app, $key, $inputValue);
 		} elseif ($input->hasParameterOption('--delete')) {
 			if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
@@ -242,16 +243,16 @@ class Setting extends Base {
 		return null;
 	}
 
-	private function setSettingsProperty(InputInterface $input, OutputInterface $output, string $uid, string $key): ?int {
+	private function setSettingsProperty(OutputInterface $output, string $uid, string $key, string $value): ?int {
 		$user = $this->userManager->get($uid);
 		if ($user instanceof IUser) {
 			if ($key === 'email') {
-				$user->setEMailAddress($input->getArgument('value'));
+				$user->setEMailAddress($value);
 			} elseif ($key === 'display_name') {
-				if (!$user->setDisplayName($input->getArgument('value'))) {
-					if ($user->getDisplayName() === $input->getArgument('value')) {
+				if (!$user->setDisplayName($value)) {
+					if ($user->getDisplayName() === $value) {
 						$output->writeln('<error>New and old display name are the same</error>');
-					} elseif ($input->getArgument('value') === '') {
+					} elseif ($value === '') {
 						$output->writeln('<error>New display name can\'t be empty</error>');
 					} else {
 						$output->writeln('<error>Could not set display name</error>');
