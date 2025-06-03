@@ -11,6 +11,7 @@ import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { joinPaths, encodePath } from '@nextcloud/paths'
 import moment from '@nextcloud/moment'
+import axios from '@nextcloud/axios'
 
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
@@ -20,6 +21,7 @@ export interface Version {
 	fileId: string, // The id of the file associated to the version.
 	label: string, // 'Current version' or ''
 	author: string|null, // UID for the author of the version
+	authorName: string|null, // Display name of the author
 	filename: string, // File name relative to the version DAV endpoint
 	basename: string, // A base name generated from the mtime
 	mime: string, // Empty for the current version, else the actual mime type of the version
@@ -30,7 +32,7 @@ export interface Version {
 	permissions: string, // Only readable: 'R'
 	previewUrl: string, // Preview URL of the version
 	url: string, // Download URL of the version
-	source: string, // The WebDAV endpoint of the ressource
+	source: string, // The WebDAV endpoint of the resource
 	fileVersion: string|null, // The version id, null for the current version
 }
 
@@ -43,10 +45,22 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 			details: true,
 		}) as ResponseDataDetailed<FileStat[]>
 
-		return response.data
+		const versions = response.data
 			// Filter out root
 			.filter(({ mime }) => mime !== '')
 			.map(version => formatVersion(version, fileInfo))
+
+		const authorIds = new Set(versions.map(version => version.author))
+		const authors = await axios.post(generateUrl('/displaynames'), { users: [...authorIds] })
+
+		for (const version of versions) {
+			const author = authors.data.users[version.author]
+			if (author) {
+				version.authorName = author
+			}
+		}
+
+		return versions
 	} catch (exception) {
 		logger.error('Could not fetch version', { exception })
 		throw exception
@@ -93,6 +107,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
 		label: version.props['version-label'] && String(version.props['version-label']),
 		author: version.props['version-author'] ?? null,
+		authorName: null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
 		mime: version.mime,
