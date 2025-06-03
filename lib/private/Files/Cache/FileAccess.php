@@ -99,8 +99,8 @@ class FileAccess implements IFileAccess {
 	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator {
 		$qb = $this->getQuery();
 		$qb->select('path')
-			->from('filecache');
-		$qb->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
+			->from('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($folderId, IQueryBuilder::PARAM_INT)));
 		$result = $qb->executeQuery();
 		/** @var array{path:string}|false $root */
 		$root = $result->fetch();
@@ -116,7 +116,7 @@ class FileAccess implements IFileAccess {
 
 		$qb->selectDistinct('*')
 			->from('filecache', 'f')
-			->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($path . '%')))
+			->where($qb->expr()->like('f.path', $qb->createNamedParameter($this->connection->escapeLikeParameter($path) . '%')))
 			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
 			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)));
 
@@ -168,7 +168,6 @@ class FileAccess implements IFileAccess {
 		$qb->orderBy('root_id', 'ASC');
 		$result = $qb->executeQuery();
 
-
 		while (
 			/** @var array{storage_id:int, root_id:int,mount_provider_class:string} $row */
 			$row = $result->fetch()
@@ -186,13 +185,13 @@ class FileAccess implements IFileAccess {
 				$qb = $this->getQuery();
 				try {
 					$qb->select('fileid')
-						->from('filecache');
-					$qb->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->from('filecache')
+						->where($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
 						->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('files')));
 					if ($excludeTrashbinMounts === true) {
-						$qb->andWhere($qb->expr()->notLike('path', $qb->createPositionalParameter('files_trashbin/%')))
-							->andWhere($qb->expr()->notLike('path', $qb->createPositionalParameter('__groupfolders/trash/%')));
+						$qb->andWhere($qb->expr()->notLike('path', $qb->createNamedParameter('files_trashbin/%')))
+							->andWhere($qb->expr()->notLike('path', $qb->createNamedParameter('__groupfolders/trash/%')));
 					}
 					/** @var array|false $root */
 					$root = $qb->executeQuery()->fetch();
