@@ -401,6 +401,24 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
+		try {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+					'fileid' => $node->getId(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				]
+			]);
+		} catch (NotFoundException) {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+				]
+			]);
+		}
 		return null;
 	}
 }
