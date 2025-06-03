@@ -254,3 +254,13 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    routing:
+      paths:
+        - "%paths.base%/../routing_features"
+      contexts:
+        - RoutingContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
