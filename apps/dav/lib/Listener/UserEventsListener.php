@@ -154,7 +154,7 @@ class UserEventsListener implements IEventListener {
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
-		} else if ($shouldCreateExampleEvent) {
+		} elseif ($shouldCreateExampleEvent) {
 			// Should not happen in practice but just use the first existing calendar
 			$calendars = $this->calDav->getCalendarsForUser($principal);
 			$calendarId = $calendars[0]['id'];
