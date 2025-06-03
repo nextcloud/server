@@ -64,16 +64,6 @@ class FileAccessTest extends TestCase {
 
 		$queryBuilder->insert('mounts')
 			->values([
-				'storage_id' => $queryBuilder->createNamedParameter(2, IQueryBuilder::PARAM_INT),
-				'root_id' => $queryBuilder->createNamedParameter(20, IQueryBuilder::PARAM_INT),
-				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass2'),
-				'mount_point' => $queryBuilder->createNamedParameter('/foobar/files_trashbin/test'),
-				'user_id' => $queryBuilder->createNamedParameter('test'),
-			])
-			->executeStatement();
-
-		$queryBuilder->insert('mounts')
-			->values([
 				'storage_id' => $queryBuilder->createNamedParameter(3, IQueryBuilder::PARAM_INT),
 				'root_id' => $queryBuilder->createNamedParameter(30, IQueryBuilder::PARAM_INT),
 				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass1'),
@@ -123,33 +113,6 @@ class FileAccessTest extends TestCase {
 			'root_id' => 30,
 			'overridden_root' => 30,
 		], $result[1]);
-	}
-
-	/**
-	 * Test that getDistinctMounts excludes certain mount points
-	 */
-	public function testGetDistinctMountsWithExclusionFilter(): void {
-		$result = iterator_to_array($this->fileAccess->getDistinctMounts([], false));
-
-		$this->assertCount(3, $result);
-
-		$this->assertEquals([
-			'storage_id' => 1,
-			'root_id' => 10,
-			'overridden_root' => 10,
-		], $result[0]);
-
-		$this->assertEquals([
-			'storage_id' => 2,
-			'root_id' => 20,
-			'overridden_root' => 20,
-		], $result[1]);
-
-		$this->assertEquals([
-			'storage_id' => 3,
-			'root_id' => 30,
-			'overridden_root' => 30,
-		], $result[2]);
 	}
 
 	/**

@@ -100,16 +100,15 @@ interface IFileAccess {
 
 	/**
 	 * Retrieves a list of all distinct mounts.
-	 * Allows filtering by specific mount providers and excluding certain mount points.
+	 * Allows filtering by specific mount providers.
 	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
 	 *
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param bool $excludeTrashbinMounts Whether to include mounts that mount a directory in a user's trashbin.
 	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
 	 * @return \Generator<array{storage_id: int, root_id: int, overridden_root: int}> A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
 	 * @throws \OCP\DB\Exception
 	 *
 	 * @since 32.0.0
 	 */
-	public function getDistinctMounts(array $mountProviders = [], bool $excludeTrashbinMounts = true, bool $rewriteHomeDirectories = true): \Generator;
+	public function getDistinctMounts(array $mountProviders = [], bool $rewriteHomeDirectories = true): \Generator;
 }

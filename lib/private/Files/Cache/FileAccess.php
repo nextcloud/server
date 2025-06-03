@@ -158,7 +158,7 @@ class FileAccess implements IFileAccess {
 		$files->closeCursor();
 	}
 
-	public function getDistinctMounts(array $mountProviders = [], bool $excludeTrashbinMounts = true, bool $rewriteHomeDirectories = true): \Generator {
+	public function getDistinctMounts(array $mountProviders = [], bool $rewriteHomeDirectories = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
 			->from('mounts');
@@ -188,11 +188,7 @@ class FileAccess implements IFileAccess {
 						->from('filecache')
 						->where($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($rootId, IQueryBuilder::PARAM_INT)))
-						->andWhere($qb->expr()->eq('name', $qb->createNamedParameter('files')));
-					if ($excludeTrashbinMounts === true) {
-						$qb->andWhere($qb->expr()->notLike('path', $qb->createNamedParameter('files_trashbin/%')))
-							->andWhere($qb->expr()->notLike('path', $qb->createNamedParameter('__groupfolders/trash/%')));
-					}
+						->andWhere($qb->expr()->eq('path', $qb->createNamedParameter('files')));
 					/** @var array|false $root */
 					$root = $qb->executeQuery()->fetch();
 					if ($root !== false) {
