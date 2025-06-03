@@ -166,9 +166,9 @@ class Setting extends Base {
 				return $this->editProfileProperty($output, $uid, $key, $inputValue);
 			} elseif ($this->isSettingProperty($app, $key)) {
 				return $this->setSettingsProperty($output, $uid, $key, $inputValue);
+			} else {
+				$this->config->setUserValue($uid, $app, $key, $inputValue);
 			}
-
-			$this->config->setUserValue($uid, $app, $key, $inputValue);
 		} elseif ($input->hasParameterOption('--delete')) {
 			if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 				$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
@@ -179,9 +179,9 @@ class Setting extends Base {
 				return $this->deleteProfileProperty($output, $uid, $key);
 			} elseif ($this->isSettingProperty($app, $key)) {
 				return $this->deleteSettingsProperty($output, $uid, $key);
+			} else {
+				$this->config->deleteUserValue($uid, $app, $key);
 			}
-
-			$this->config->deleteUserValue($uid, $app, $key);
 		} elseif ($value !== null) {
 			$output->writeln($value);
 		} elseif ($input->hasParameterOption('--default-value')) {
