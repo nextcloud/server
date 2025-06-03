@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -28,15 +29,18 @@ use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
 
-	protected CardDavBackend $backend;
-	protected IUserManager $userManager;
-	protected IDBConnection $dbConnection;
+	protected CardDavBackend&MockObject $backend;
+	protected IUserManager&MockObject $userManager;
+	protected IDBConnection&MockObject $dbConnection;
 	protected LoggerInterface $logger;
-	protected Converter $converter;
-	protected IClient $client;
-	protected IConfig $config;
+	protected Converter&MockObject $converter;
+	protected IClient&MockObject $client;
+	protected IConfig&MockObject $config;
 	protected SyncService $service;
+
 	public function setUp(): void {
+		parent::setUp();
+
 		$addressBook = [
 			'id' => 1,
 			'uri' => 'system',
@@ -293,8 +297,8 @@ END:VCARD';
 	}
 
 	public function testEnsureSystemAddressBookExists(): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
-		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->createMock(CardDavBackend::class);
 		$backend->expects($this->exactly(1))->method('createAddressBook');
 		$backend->expects($this->exactly(2))
 			->method('getAddressBooksByUri')
@@ -303,10 +307,9 @@ END:VCARD';
 				[],
 			);
 
-		/** @var IUserManager $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
@@ -315,7 +318,7 @@ END:VCARD';
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
-	public function dataActivatedUsers() {
+	public static function dataActivatedUsers(): array {
 		return [
 			[true, 1, 1, 1],
 			[false, 0, 0, 3],
@@ -324,15 +327,9 @@ END:VCARD';
 
 	/**
 	 * @dataProvider dataActivatedUsers
-	 *
-	 * @param boolean $activated
-	 * @param integer $createCalls
-	 * @param integer $updateCalls
-	 * @param integer $deleteCalls
-	 * @return void
 	 */
-	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
+	public function testUpdateAndDeleteUser(bool $activated, int $createCalls, int $updateCalls, int $deleteCalls): void {
+		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
@@ -348,12 +345,9 @@ END:VCARD';
 			->with('principals/system/system', 'system')
 			->willReturn(['id' => -1]);
 
-		/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-
-		/** @var IUser | \PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
@@ -475,7 +469,7 @@ END:VCARD';
 		);
 	}
 
-	public function providerUseAbsoluteUriReport(): array {
+	public static function providerUseAbsoluteUriReport(): array {
 		return [
 			['https://server.internal', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
 			['https://server.internal/', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],

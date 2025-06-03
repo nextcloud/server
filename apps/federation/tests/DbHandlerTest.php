@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,30 +13,23 @@ use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class DbHandlerTest extends TestCase {
-
-	/** @var DbHandler */
-	private $dbHandler;
-
-	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
-	private $il10n;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var string */
-	private $dbTable = 'trusted_servers';
+	private DbHandler $dbHandler;
+	private IL10N&MockObject $il10n;
+	private IDBConnection $connection;
+	private string $dbTable = 'trusted_servers';
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
-		$this->il10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->il10n = $this->createMock(IL10N::class);
 
 		$this->dbHandler = new DbHandler(
 			$this->connection,
@@ -44,16 +38,17 @@ class DbHandlerTest extends TestCase {
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 		$this->assertEmpty($result, 'we need to start with a empty trusted_servers table');
 	}
 
 	protected function tearDown(): void {
-		parent::tearDown();
 		$query = $this->connection->getQueryBuilder()->delete($this->dbTable);
-		$query->execute();
+		$query->executeStatement()
+		;
+		parent::tearDown();
 	}
 
 	/**
@@ -63,7 +58,7 @@ class DbHandlerTest extends TestCase {
 	 * @param string $expectedUrl the url we expect to be written to the db
 	 * @param string $expectedHash the hash value we expect to be written to the db
 	 */
-	public function testAddServer($url, $expectedUrl, $expectedHash): void {
+	public function testAddServer(string $url, string $expectedUrl, string $expectedHash): void {
 		$id = $this->dbHandler->addServer($url);
 
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
@@ -71,14 +66,14 @@ class DbHandlerTest extends TestCase {
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame($expectedUrl, $result[0]['url']);
 		$this->assertSame($id, (int)$result[0]['id']);
 		$this->assertSame($expectedHash, $result[0]['url_hash']);
 		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
 	}
 
-	public function dataTestAddServer() {
+	public static function dataTestAddServer(): array {
 		return [
 			['http://owncloud.org', 'http://owncloud.org', sha1('owncloud.org')],
 			['https://owncloud.org', 'https://owncloud.org', sha1('owncloud.org')],
@@ -95,7 +90,7 @@ class DbHandlerTest extends TestCase {
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(2, count($result));
+		$this->assertCount(2, $result);
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame('server2', $result[1]['url']);
 		$this->assertSame($id1, (int)$result[0]['id']);
@@ -107,7 +102,7 @@ class DbHandlerTest extends TestCase {
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame($id1, (int)$result[0]['id']);
 	}
@@ -135,19 +130,15 @@ class DbHandlerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestServerExists
-	 *
-	 * @param string $serverInTable
-	 * @param string $checkForServer
-	 * @param bool $expected
 	 */
-	public function testServerExists($serverInTable, $checkForServer, $expected): void {
+	public function testServerExists(string $serverInTable, string $checkForServer, bool $expected): void {
 		$this->dbHandler->addServer($serverInTable);
 		$this->assertSame($expected,
 			$this->dbHandler->serverExists($checkForServer)
 		);
 	}
 
-	public function dataTestServerExists() {
+	public static function dataTestServerExists(): array {
 		return [
 			['server1', 'server1', true],
 			['server1', 'http://server1', true],
@@ -159,18 +150,18 @@ class DbHandlerTest extends TestCase {
 		$this->dbHandler->addServer('server1');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame(null, $result[0]['token']);
 		$this->dbHandler->addToken('http://server1', 'token');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame('token', $result[0]['token']);
 	}
 
@@ -189,7 +180,7 @@ class DbHandlerTest extends TestCase {
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame(null, $result[0]['shared_secret']);
 		$this->dbHandler->addSharedSecret('http://server1', 'secret');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
@@ -197,7 +188,7 @@ class DbHandlerTest extends TestCase {
 		$qResult = $query->execute();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame('secret', $result[0]['shared_secret']);
 	}
 
@@ -213,18 +204,18 @@ class DbHandlerTest extends TestCase {
 		$this->dbHandler->addServer('server1');
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame(TrustedServers::STATUS_PENDING, (int)$result[0]['status']);
 		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK);
 		$query = $this->connection->getQueryBuilder()->select('*')->from($this->dbTable);
 
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
-		$this->assertSame(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertSame(TrustedServers::STATUS_OK, (int)$result[0]['status']);
 	}
 
@@ -245,17 +236,14 @@ class DbHandlerTest extends TestCase {
 	 * hash should always be computed with the normalized URL
 	 *
 	 * @dataProvider dataTestHash
-	 *
-	 * @param string $url
-	 * @param string $expected
 	 */
-	public function testHash($url, $expected): void {
+	public function testHash(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'hash', [$url])
 		);
 	}
 
-	public function dataTestHash() {
+	public static function dataTestHash(): array {
 		return [
 			['server1', sha1('server1')],
 			['http://server1', sha1('server1')],
@@ -266,17 +254,14 @@ class DbHandlerTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestNormalizeUrl
-	 *
-	 * @param string $url
-	 * @param string $expected
 	 */
-	public function testNormalizeUrl($url, $expected): void {
+	public function testNormalizeUrl(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'normalizeUrl', [$url])
 		);
 	}
 
-	public function dataTestNormalizeUrl() {
+	public static function dataTestNormalizeUrl(): array {
 		return [
 			['owncloud.org', 'owncloud.org'],
 			['http://owncloud.org', 'owncloud.org'],
@@ -289,7 +274,7 @@ class DbHandlerTest extends TestCase {
 	/**
 	 * @dataProvider providesAuth
 	 */
-	public function testAuth($expectedResult, $user, $password): void {
+	public function testAuth(bool $expectedResult, string $user, string $password): void {
 		if ($expectedResult) {
 			$this->dbHandler->addServer('url1');
 			$this->dbHandler->addSharedSecret('url1', $password);
@@ -298,7 +283,7 @@ class DbHandlerTest extends TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	public function providesAuth() {
+	public static function providesAuth(): array {
 		return [
 			[false, 'foo', ''],
 			[true, 'system', '123456789'],

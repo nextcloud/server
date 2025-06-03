@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Kaixo, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Zorionak 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Zorionak, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} ikonoa\"",
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",
     "Get more widgets from the App Store" : "Lortu trepeta (widget) gehiago Aplikazioen Dendatik",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zure pribatutasunaren mesedetan, eguraldiaren datuak  Nextcloud zerbitzariak eskatzen ditu zure izenean, eguraldi zerbitzuak informazio pertsonalik ez jasotzeko.",
     "Weather data from Met.no" : "Met.no-ko eguraldiaren datuak",
     "geocoding with Nominatim" : "geokodetzea Nominatim-ekin",
-    "elevation data from OpenTopoData" : "altitude datuak OpenTopoData-tik"
+    "elevation data from OpenTopoData" : "altitude datuak OpenTopoData-tik",
+    "\"{title} icon\"" : "\"{title} ikonoa\""
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,62 +9,45 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
 
 class CommentsPropertiesPluginTest extends \Test\TestCase {
-
-	/** @var CommentPropertiesPluginImplementation */
-	protected $plugin;
-	protected $commentsManager;
-	protected $userSession;
-	protected $server;
+	protected CommentPropertiesPluginImplementation $plugin;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IUserSession&MockObject $userSession;
+	protected Server&MockObject $server;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->server = $this->createMock(Server::class);
 
 		$this->plugin = new CommentPropertiesPluginImplementation($this->commentsManager, $this->userSession);
 		$this->plugin->initialize($this->server);
 	}
 
-	public function nodeProvider() {
-		$mocks = [];
-		foreach (['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
-			$mocks[] = $this->getMockBuilder($class)
-				->disableOriginalConstructor()
-				->getMock();
-		}
-
+	public static function nodeProvider(): array {
 		return [
-			[$mocks[0], true],
-			[$mocks[1], true],
-			[$mocks[2], false]
+			[File::class, true],
+			[Directory::class, true],
+			[\Sabre\DAV\INode::class, false]
 		];
 	}
 
 	/**
 	 * @dataProvider nodeProvider
-	 * @param $node
-	 * @param $expectedSuccessful
 	 */
-	public function testHandleGetProperties($node, $expectedSuccessful): void {
-		$propFind = $this->getMockBuilder(PropFind::class)
-			->disableOriginalConstructor()
-			->getMock();
+	public function testHandleGetProperties(string $class, bool $expectedSuccessful): void {
+		$propFind = $this->createMock(PropFind::class);
 
 		if ($expectedSuccessful) {
 			$propFind->expects($this->exactly(3))
@@ -73,10 +57,11 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 				->method('handle');
 		}
 
+		$node = $this->createMock($class);
 		$this->plugin->handleGetProperties($propFind, $node);
 	}
 
-	public function baseUriProvider() {
+	public static function baseUriProvider(): array {
 		return [
 			['owncloud/remote.php/webdav/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
 			['owncloud/remote.php/files/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
@@ -86,14 +71,9 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider baseUriProvider
-	 * @param $baseUri
-	 * @param $fid
-	 * @param $expectedHref
 	 */
-	public function testGetCommentsLink($baseUri, $fid, $expectedHref): void {
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+	public function testGetCommentsLink(string $baseUri, string $fid, ?string $expectedHref): void {
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn($fid);
@@ -106,29 +86,25 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 		$this->assertSame($expectedHref, $href);
 	}
 
-	public function userProvider() {
+	public static function userProvider(): array {
 		return [
-			[
-				$this->getMockBuilder(IUser::class)
-					->disableOriginalConstructor()
-					->getMock()
-			],
+			[IUser::class],
 			[null]
 		];
 	}
 
 	/**
 	 * @dataProvider userProvider
-	 * @param $user
 	 */
-	public function testGetUnreadCount($user): void {
-		$node = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
+	public function testGetUnreadCount(?string $user): void {
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())
 			->method('getId')
 			->willReturn('4567');
 
+		if ($user !== null) {
+			$user = $this->createMock($user);
+		}
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);

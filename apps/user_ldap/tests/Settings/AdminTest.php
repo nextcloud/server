@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,13 +22,12 @@ use Test\TestCase;
  */
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
-
 	private ITemplateManager $templateManager;
 	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->templateManager = Server::get(ITemplateManager::class);
 
 		$this->admin = new Admin(
@@ -35,9 +36,6 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @UseDB
-	 */
 	public function testGetForm(): void {
 		$prefixes = ['s01'];
 		$hosts = ['s01' => ''];

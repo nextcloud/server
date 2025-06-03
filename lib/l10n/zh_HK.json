@@ -273,7 +273,7 @@
     "A valid Login must be provided" : "必須提供有效帳戶",
     "Login contains whitespace at the beginning or at the end" : "帳戶的開頭或結尾有空白",
     "Login must not consist of dots only" : "帳戶不能只包含小數點",
-    "Login is too long" : "帳號太長了",
+    "Username is too long" : "用戶名稱太長",
     "Login is invalid because files already exist for this user" : "帳戶無效，因為此用戶的檔案已經存在",
     "Account disabled" : "帳戶已停用",
     "Login canceled by app" : "登入已被應用程式取消",
@@ -449,6 +449,7 @@
     "Summarizes text by reducing its length without losing key information." : "通過減少文字長度來總結而不丟失關鍵資訊。",
     "Extracts topics from a text and outputs them separated by commas." : "從文字中提取主題並輸出，並用逗號分隔。",
     "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
-    "Cannot download file" : "無法下載檔案"
+    "Cannot download file" : "無法下載檔案",
+    "Login is too long" : "帳號太長了"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

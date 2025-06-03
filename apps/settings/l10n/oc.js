@@ -131,7 +131,6 @@ OC.L10N.register(
     "Enable encryption" : "Activar lo chiframent",
     "Submit" : "Transmetre",
     "Rename group" : "Renomenar lo grop",
-    "Remove group" : "Suprimir lo grop",
     "Current password" : "Senhal actual",
     "New password" : "Senhal novèl",
     "Change password" : "Cambiar de senhal",

@@ -98,6 +98,7 @@ class GroupsController extends AUserDataOCSController {
 	 */
 	#[NoAdminRequired]
 	#[AuthorizedAdminSetting(settings: Sharing::class)]
+	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_values(array_map(function ($group) {

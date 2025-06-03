@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\AddressHandler;
+use OCA\FederatedFileSharing\BackgroundJob\RetryJob;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -19,38 +21,22 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NotificationsTest extends \Test\TestCase {
-	/** @var AddressHandler|MockObject */
-	private $addressHandler;
-
-	/** @var IClientService|MockObject */
-	private $httpClientService;
-
-	/** @var IDiscoveryService|MockObject */
-	private $discoveryService;
-
-	/** @var IJobList|MockObject */
-	private $jobList;
-
-	/** @var ICloudFederationProviderManager|MockObject */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationFactory|MockObject */
-	private $cloudFederationFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private AddressHandler&MockObject $addressHandler;
+	private IClientService&MockObject $httpClientService;
+	private IDiscoveryService&MockObject $discoveryService;
+	private IJobList&MockObject $jobList;
+	private ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
+	private ICloudFederationFactory&MockObject $cloudFederationFactory;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->getMockBuilder('OCP\BackgroundJob\IJobList')->getMock();
-		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
-		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
-			->disableOriginalConstructor()->getMock();
+		$this->jobList = $this->createMock(IJobList::class);
+		$this->discoveryService = $this->createMock(IDiscoveryService::class);
+		$this->httpClientService = $this->createMock(IClientService::class);
+		$this->addressHandler = $this->createMock(AddressHandler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
@@ -58,14 +44,11 @@ class NotificationsTest extends \Test\TestCase {
 	}
 
 	/**
-	 * get instance of Notifications class
-	 *
-	 * @param array $mockedMethods methods which should be mocked
-	 * @return Notifications | \PHPUnit\Framework\MockObject\MockObject
+	 * @return Notifications|MockObject
 	 */
 	private function getInstance(array $mockedMethods = []) {
 		if (empty($mockedMethods)) {
-			$instance = new Notifications(
+			return new Notifications(
 				$this->addressHandler,
 				$this->httpClientService,
 				$this->discoveryService,
@@ -75,34 +58,30 @@ class NotificationsTest extends \Test\TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 			);
-		} else {
-			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
-				->setConstructorArgs(
-					[
-						$this->addressHandler,
-						$this->httpClientService,
-						$this->discoveryService,
-						$this->jobList,
-						$this->cloudFederationProviderManager,
-						$this->cloudFederationFactory,
-						$this->eventDispatcher,
-						$this->logger,
-					]
-				)->setMethods($mockedMethods)->getMock();
 		}
 
-		return $instance;
+		return $this->getMockBuilder(Notifications::class)
+			->setConstructorArgs(
+				[
+					$this->addressHandler,
+					$this->httpClientService,
+					$this->discoveryService,
+					$this->jobList,
+					$this->cloudFederationProviderManager,
+					$this->cloudFederationFactory,
+					$this->eventDispatcher,
+					$this->logger,
+				]
+			)
+			->onlyMethods($mockedMethods)
+			->getMock();
 	}
 
 
 	/**
 	 * @dataProvider dataTestSendUpdateToRemote
-	 *
-	 * @param int $try
-	 * @param array $httpRequestResult
-	 * @param bool $expected
 	 */
-	public function testSendUpdateToRemote($try, $httpRequestResult, $expected): void {
+	public function testSendUpdateToRemote(int $try, array $httpRequestResult, bool $expected): void {
 		$remote = 'http://remote';
 		$id = 42;
 		$timestamp = 63576;
@@ -120,7 +99,7 @@ class NotificationsTest extends \Test\TestCase {
 		if ($try === 0 && $expected === false) {
 			$this->jobList->expects($this->once())->method('add')
 				->with(
-					'OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+					RetryJob::class,
 					[
 						'remote' => $remote,
 						'remoteId' => $id,
@@ -141,7 +120,7 @@ class NotificationsTest extends \Test\TestCase {
 	}
 
 
-	public function dataTestSendUpdateToRemote() {
+	public static function dataTestSendUpdateToRemote(): array {
 		return [
 			// test if background job is added correctly
 			[0, ['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 200]]])], true],

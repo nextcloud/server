@@ -15,7 +15,6 @@ OC.L10N.register(
     "Hello, {name}" : "Sveiki, {name},",
     "Happy birthday 🥳🤩🎂🎉" : "Su gimtadieniu 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Su gimtadieniu, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} piktograma“",
     "Customize" : "Tinkinti",
     "Edit widgets" : "Taisyti valdiklius",
     "Get more widgets from the App Store" : "Parsisiųsti įskiepių iš App Store",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Dėl jūsų privatumo, orų duomenys yra jūsų vardu užklausiami jūsų Nextcloud serverio, todėl orų tarnyba negauna jokios asmeninės informacijos.",
     "Weather data from Met.no" : "Orų duomenys iš Met.no",
     "geocoding with Nominatim" : "geografinis kodavimas naudojant Nominatim",
-    "elevation data from OpenTopoData" : "aukščio duomenys iš OpenTopoData"
+    "elevation data from OpenTopoData" : "aukščio duomenys iš OpenTopoData",
+    "\"{title} icon\"" : "„{title} piktograma“"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

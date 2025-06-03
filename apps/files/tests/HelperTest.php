@@ -1,15 +1,17 @@
 <?php
 
-use OC\Files\FileInfo;
-use OCA\Files\Helper;
-
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use OC\Files\FileInfo;
+use OCA\Files\Helper;
+
 class HelperTest extends \Test\TestCase {
-	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
+	private static function makeFileInfo($name, $size, $mtime, $isDir = false): FileInfo {
 		return new FileInfo(
 			'/' . $name,
 			null,
@@ -28,7 +30,7 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * Returns a file list for testing
 	 */
-	private function getTestFileList() {
+	private static function getTestFileList(): array {
 		return [
 			self::makeFileInfo('a.txt', 4, 2.3 * pow(10, 9)),
 			self::makeFileInfo('q.txt', 5, 150),
@@ -39,7 +41,7 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	public function sortDataProvider() {
+	public static function sortDataProvider(): array {
 		return [
 			[
 				'name',

@@ -20,29 +20,21 @@ use OCP\IUserManager;
 use OCP\Share\IAttributes as IShareAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
  */
 class MountProviderTest extends \Test\TestCase {
-	/** @var MountProvider */
-	private $provider;
 
-	/** @var IConfig|MockObject */
-	private $config;
+	protected MountProvider $provider;
 
-	/** @var IUser|MockObject */
-	private $user;
-
-	/** @var IStorageFactory|MockObject */
-	private $loader;
-
-	/** @var IManager|MockObject */
-	private $shareManager;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	protected IUser&MockObject $user;
+	protected IConfig&MockObject $config;
+	protected IManager&MockObject $shareManager;
+	protected IStorageFactory&MockObject $loader;
+	protected LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -144,38 +136,34 @@ class MountProviderTest extends \Test\TestCase {
 		];
 		// tests regarding circles and sciencemesh are made in the apps themselves.
 		$circleShares = [];
-		$sciencemeshShares = [];
+		$scienceMeshShares = [];
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('user1');
 		$this->shareManager->expects($this->exactly(6))
 			->method('getSharedWith')
-			->withConsecutive(
-				['user1', IShare::TYPE_USER],
-				['user1', IShare::TYPE_GROUP, null, -1],
-				['user1', IShare::TYPE_CIRCLE, null, -1],
-				['user1', IShare::TYPE_ROOM, null, -1],
-				['user1', IShare::TYPE_DECK, null, -1],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1],
-			)->willReturnOnConsecutiveCalls(
-				$userShares,
-				$groupShares,
-				$circleShares,
-				$roomShares,
-				$deckShares,
-				$sciencemeshShares
-			);
+			->willReturnMap([
+				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
+				['user1', IShare::TYPE_GROUP, null, -1, 0, $groupShares],
+				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
+				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
+				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
+				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
+			]);
+
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
 				return new Share($rootFolder, $userManager);
 			});
+
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
+		/** @var OCA\Files_Sharing\SharedMount[] $mounts */
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -204,7 +192,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertEquals(31, $mountedShare4->getPermissions());
 	}
 
-	public function mergeSharesDataProvider() {
+	public static function mergeSharesDataProvider(): array {
 		// note: the user in the specs here is the shareOwner not recipient
 		// the recipient is always "user1"
 		return [
@@ -368,24 +356,18 @@ class MountProviderTest extends \Test\TestCase {
 		$circleShares = [];
 		$roomShares = [];
 		$deckShares = [];
-		$sciencemeshShares = [];
+		$scienceMeshShares = [];
 		$this->shareManager->expects($this->exactly(6))
 			->method('getSharedWith')
-			->withConsecutive(
-				['user1', IShare::TYPE_USER],
-				['user1', IShare::TYPE_GROUP, null, -1],
-				['user1', IShare::TYPE_CIRCLE, null, -1],
-				['user1', IShare::TYPE_ROOM, null, -1],
-				['user1', IShare::TYPE_DECK, null, -1],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1],
-			)->willReturnOnConsecutiveCalls(
-				$userShares,
-				$groupShares,
-				$circleShares,
-				$roomShares,
-				$deckShares,
-				$sciencemeshShares
-			);
+			->willReturnMap([
+				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
+				['user1', IShare::TYPE_GROUP, null, -1, 0, $groupShares],
+				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
+				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
+				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
+				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
+			]);
+
 		$this->shareManager->expects($this->any())
 			->method('newShare')
 			->willReturnCallback(function () use ($rootFolder, $userManager) {
@@ -407,6 +389,7 @@ class MountProviderTest extends \Test\TestCase {
 			$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
 
 			// supershare
+			/** @var OCA\Files_Sharing\SharedMount $mount */
 			$share = $mount->getShare();
 
 			$this->assertEquals($expectedShare[0], $share->getId());

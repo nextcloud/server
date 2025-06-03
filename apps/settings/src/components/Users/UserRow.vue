@@ -255,16 +255,17 @@
 					data-cy-user-list-input-manager
 					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
-					:close-on-select="true"
 					:disabled="isLoadingField"
-					:append-to-body="false"
 					:loading="loadingPossibleManagers || loading.manager"
-					label="displayname"
 					:options="possibleManagers"
 					:placeholder="managerLabel"
+					label="displayname"
+					:filterable="false"
+					:internal-search="false"
+					:clearable="true"
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager" />
+					@update:model-value="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -410,6 +411,18 @@ export default {
 			return encodeURIComponent(this.user.id + this.rand)
 		},
 
+		availableGroups() {
+			const groups = (this.settings.isAdmin || this.settings.isDelegatedAdmin)
+				? this.$store.getters.getSortedGroups
+				: this.$store.getters.getSubAdminGroups
+
+			return groups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		},
+
+		availableSubAdminGroups() {
+			return this.availableGroups.filter(group => group.id !== 'admin')
+		},
+
 		userGroupsLabels() {
 			return this.userGroups
 				.map(group => group.name ?? group.id)
@@ -502,7 +515,6 @@ export default {
 			return this.languages[0].languages.concat(this.languages[1].languages)
 		},
 	},
-
 	async beforeMount() {
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
@@ -559,7 +571,11 @@ export default {
 			this.loading.groupsDetails = true
 			try {
 				const groups = await loadUserGroups({ userId: this.user.id })
-				this.availableGroups = this.availableGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
+				this.selectedGroups = this.selectedGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load groups with details'), { error })
 			}
@@ -572,7 +588,11 @@ export default {
 			this.loading.subAdminGroupsDetails = true
 			try {
 				const groups = await loadUserSubAdminGroups({ userId: this.user.id })
-				this.availableSubAdminGroups = this.availableSubAdminGroups.map(availableGroup => groups.find(group => group.id === availableGroup.id) ?? availableGroup)
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
+				this.selectedSubAdminGroups = this.selectedSubAdminGroups.map(selectedGroup => groups.find(group => group.id === selectedGroup.id) ?? selectedGroup)
 			} catch (error) {
 				logger.error(t('settings', 'Failed to load sub admin groups with details'), { error })
 			}
@@ -595,8 +615,10 @@ export default {
 					limit: 25,
 				})
 				const groups = await this.promise
-				this.availableGroups = groups
-				this.availableSubAdminGroups = groups.filter(group => group.id !== 'admin')
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
@@ -613,11 +635,12 @@ export default {
 			})
 		},
 
-		async updateUserManager(manager) {
-			if (manager === null) {
-				this.currentManager = ''
-			}
+		async updateUserManager() {
 			this.loading.manager = true
+
+			// Store the current manager before making changes
+			const previousManager = this.user.manager
+
 			try {
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
@@ -627,7 +650,10 @@ export default {
 			} catch (error) {
 				// TRANSLATORS This string describes a line manager in the context of an organization
 				showError(t('settings', 'Failed to update line manager'))
-				console.error(error)
+				logger.error('Failed to update manager:', { error })
+
+				// Revert to the previous manager in the UI on error
+				this.currentManager = previousManager
 			} finally {
 				this.loading.manager = false
 			}
@@ -753,8 +779,6 @@ export default {
 			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				this.availableGroups.push({ id: gid, name: gid })
-				this.availableSubAdminGroups.push({ id: gid, name: gid })
 				const userid = this.user.id
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 				this.userGroups.push({ id: gid, name: gid })

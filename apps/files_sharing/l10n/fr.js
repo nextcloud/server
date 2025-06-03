@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "Dépôt de fichier",
     "Upload files to {foldername}." : "Téléverser les fichiers vers {foldername}.",
     "By uploading files, you agree to the terms of service." : "En téléversant des fichiers, vous acceptez les conditions d'utilisation du service.",
+    "Successfully uploaded files" : "Fichiers téléversés avec succès",
     "View terms of service" : "Voir les conditions d'utilisation du service",
     "Terms of service" : "Conditions d'utilisation",
     "Upload files to {folder}" : "Téléverser les fichiers dans {folder}",

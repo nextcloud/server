@@ -118,7 +118,7 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->eventDispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
 			$this->serverContainer,
-			\OC::$server->get(LoggerInterface::class),
+			\OCP\Server::get(LoggerInterface::class),
 		);
 
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
@@ -176,11 +176,11 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->manager = new Manager(
 			$this->serverContainer,
 			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
+			\OCP\Server::get(LoggerInterface::class),
 			$this->jobList,
 			$this->taskMapper,
 			$config,
-			\OC::$server->get(\OCP\TaskProcessing\IManager::class),
+			$this->createMock(\OCP\TaskProcessing\IManager::class),
 		);
 	}
 
@@ -239,7 +239,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			\OCP\Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->eventDispatcher,
 		);
@@ -314,7 +314,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 		// run background job
 		$bgJob = new TaskBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			\OCP\Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->eventDispatcher,
 		);
@@ -343,9 +343,9 @@ class TextProcessingTest extends \Test\TestCase {
 		$this->currentTime = $this->currentTime->add(new \DateInterval('P1Y'));
 		// run background job
 		$bgJob = new RemoveOldTasksBackgroundJob(
-			\OC::$server->get(ITimeFactory::class),
+			\OCP\Server::get(ITimeFactory::class),
 			$this->taskMapper,
-			\OC::$server->get(LoggerInterface::class),
+			\OCP\Server::get(LoggerInterface::class),
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);

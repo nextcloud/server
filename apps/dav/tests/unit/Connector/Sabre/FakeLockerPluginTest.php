@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,8 +23,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class FakeLockerPluginTest extends TestCase {
-	/** @var FakeLockerPlugin */
-	private $fakeLockerPlugin;
+	private FakeLockerPlugin $fakeLockerPlugin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -32,18 +32,19 @@ class FakeLockerPluginTest extends TestCase {
 
 	public function testInitialize(): void {
 		/** @var Server $server */
-		$server = $this->getMockBuilder(Server::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$server
-			->expects($this->exactly(4))
+		$server = $this->createMock(Server::class);
+		$calls = [
+			['method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1],
+			['method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1],
+			['propFind', [$this->fakeLockerPlugin, 'propFind'], 100],
+			['validateTokens', [$this->fakeLockerPlugin, 'validateTokens'], 100],
+		];
+		$server->expects($this->exactly(count($calls)))
 			->method('on')
-			->withConsecutive(
-				['method:LOCK', [$this->fakeLockerPlugin, 'fakeLockProvider'], 1],
-				['method:UNLOCK', [$this->fakeLockerPlugin, 'fakeUnlockProvider'], 1],
-				['propFind', [$this->fakeLockerPlugin, 'propFind']],
-				['validateTokens', [$this->fakeLockerPlugin, 'validateTokens']],
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->fakeLockerPlugin->initialize($server);
 	}
@@ -64,24 +65,24 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testPropFind(): void {
-		$propFind = $this->getMockBuilder(PropFind::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$node = $this->getMockBuilder(INode::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$propFind = $this->createMock(PropFind::class);
+		$node = $this->createMock(INode::class);
 
-		$propFind->expects($this->exactly(2))
+		$calls = [
+			'{DAV:}supportedlock',
+			'{DAV:}lockdiscovery',
+		];
+		$propFind->expects($this->exactly(count($calls)))
 			->method('handle')
-			->withConsecutive(
-				['{DAV:}supportedlock'],
-				['{DAV:}lockdiscovery'],
-			);
+			->willReturnCallback(function ($propertyName) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $propertyName);
+			});
 
 		$this->fakeLockerPlugin->propFind($propFind, $node);
 	}
 
-	public function tokenDataProvider() {
+	public static function tokenDataProvider(): array {
 		return [
 			[
 				[
@@ -120,21 +121,15 @@ class FakeLockerPluginTest extends TestCase {
 
 	/**
 	 * @dataProvider tokenDataProvider
-	 * @param array $input
-	 * @param array $expected
 	 */
 	public function testValidateTokens(array $input, array $expected): void {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
 		$this->fakeLockerPlugin->validateTokens($request, $input);
 		$this->assertSame($expected, $input);
 	}
 
 	public function testFakeLockProvider(): void {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
 		$response = new Response();
 		$server = $this->getMockBuilder(Server::class)
 			->getMock();
@@ -152,12 +147,8 @@ class FakeLockerPluginTest extends TestCase {
 	}
 
 	public function testFakeUnlockProvider(): void {
-		$request = $this->getMockBuilder(RequestInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(RequestInterface::class);
+		$response = $this->createMock(ResponseInterface::class);
 
 		$response->expects($this->once())
 			->method('setStatus')

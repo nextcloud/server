@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,40 +14,27 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Server;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class AppleProvisioningPluginTest extends TestCase {
-	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
-	protected $server;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-
-	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
-	protected $themingDefaults;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $sabreRequest;
-
-	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $sabreResponse;
-
-	/** @var AppleProvisioningPlugin */
-	protected $plugin;
+	protected Server&MockObject $server;
+	protected IUserSession&MockObject $userSession;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected ThemingDefaults&MockObject $themingDefaults;
+	protected IRequest&MockObject $request;
+	protected IL10N&MockObject $l10n;
+	protected RequestInterface&MockObject $sabreRequest;
+	protected ResponseInterface&MockObject $sabreResponse;
+	protected AppleProvisioningPlugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->createMock(\Sabre\DAV\Server::class);
+		$this->server = $this->createMock(Server::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
@@ -62,12 +51,12 @@ class AppleProvisioningPluginTest extends TestCase {
 			}
 		);
 
-		$this->sabreRequest = $this->createMock(\Sabre\HTTP\RequestInterface::class);
-		$this->sabreResponse = $this->createMock(\Sabre\HTTP\ResponseInterface::class);
+		$this->sabreRequest = $this->createMock(RequestInterface::class);
+		$this->sabreResponse = $this->createMock(ResponseInterface::class);
 	}
 
 	public function testInitialize(): void {
-		$server = $this->createMock(\Sabre\DAV\Server::class);
+		$server = $this->createMock(Server::class);
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
@@ -149,24 +138,25 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$this->l10n->expects($this->exactly(2))
 			->method('t')
-			->withConsecutive(
-				['Configures a CalDAV account'],
-				['Configures a CardDAV account'],
-			)
-			->willReturnOnConsecutiveCalls(
-				'LocalizedConfiguresCalDAV',
-				'LocalizedConfiguresCardDAV',
-			);
+			->willReturnMap([
+				['Configures a CalDAV account', [], 'LocalizedConfiguresCalDAV'],
+				['Configures a CardDAV account', [], 'LocalizedConfiguresCardDAV'],
+			]);
 
 		$this->sabreResponse->expects($this->once())
 			->method('setStatus')
 			->with(200);
+
+		$calls = [
+			['Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"'],
+			['Content-Type', 'application/xml; charset=utf-8'],
+		];
 		$this->sabreResponse->expects($this->exactly(2))
 			->method('setHeader')
-			->withConsecutive(
-				['Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"'],
-				['Content-Type', 'application/xml; charset=utf-8'],
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->sabreResponse->expects($this->once())
 			->method('setBody')
 			->with(<<<EOF

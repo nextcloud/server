@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "文件拖放",
     "Upload files to {foldername}." : "将文件上传到 {foldername}。",
     "By uploading files, you agree to the terms of service." : "上传文件即表示您同意服务条款。",
+    "Successfully uploaded files" : "已成功上传文件",
     "View terms of service" : "查看服务条款",
     "Terms of service" : "服务条款",
     "Upload files to {folder}" : "将文件上传到 {folder}",

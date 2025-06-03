@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
@@ -10,40 +11,24 @@ namespace OCA\DAV\Tests\unit\Upload;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\FutureFile;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class ChunkingPluginTest extends TestCase {
-	/**
-	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree | \PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $tree;
-
-	/**
-	 * @var ChunkingPlugin
-	 */
-	private $plugin;
-	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ResponseInterface | \PHPUnit\Framework\MockObject\MockObject */
-	private $response;
+	private \Sabre\DAV\Server&MockObject $server;
+	private \Sabre\DAV\Tree&MockObject $tree;
+	private ChunkingPlugin $plugin;
+	private RequestInterface&MockObject $request;
+	private ResponseInterface&MockObject $response;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->server = $this->createMock('\Sabre\DAV\Server');
+		$this->tree = $this->createMock('\Sabre\DAV\Tree');
 
 		$this->server->tree = $this->tree;
 		$this->plugin = new ChunkingPlugin();
@@ -78,14 +63,10 @@ class ChunkingPluginTest extends TestCase {
 
 		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->withConsecutive(
-				['source'],
-				['target'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$sourceNode,
-				$targetNode,
-			);
+			->willReturnMap([
+				['source', $sourceNode],
+				['target', $targetNode],
+			]);
 		$this->response->expects($this->never())
 			->method('setStatus');
 
@@ -98,16 +79,20 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(4);
 
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+		];
 		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->withConsecutive(
-				['source'],
-				['target'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$sourceNode,
-				$this->throwException(new NotFound()),
-			);
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -132,17 +117,21 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(4);
 
-
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+		];
 		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->withConsecutive(
-				['source'],
-				['target'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$sourceNode,
-				$this->throwException(new NotFound()),
-			);
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
+
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -175,17 +164,21 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(3);
 
-
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+		];
 		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->withConsecutive(
-				['source'],
-				['target'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$sourceNode,
-				$this->throwException(new NotFound()),
-			);
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
+
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')

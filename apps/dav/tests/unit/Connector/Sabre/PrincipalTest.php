@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -30,38 +32,21 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
-	/** @var IUserManager | MockObject */
-	private $userManager;
-
-	/** @var Principal */
-	private $connector;
-
-	/** @var IGroupManager | MockObject */
-	private $groupManager;
-
-	/** @var IAccountManager|MockObject */
-	private $accountManager;
-
-	/** @var IManager | MockObject */
-	private $shareManager;
-
-	/** @var IUserSession | MockObject */
-	private $userSession;
-
-	/** @var IAppManager | MockObject */
-	private $appManager;
-
-	/** @var ProxyMapper | MockObject */
-	private $proxyMapper;
-
-	/** @var KnownUserService|MockObject */
-	private $knownUserService;
-	/** @var IConfig | MockObject */
-	private $config;
-	/** @var IFactory|MockObject */
-	private $languageFactory;
+	private IUserManager&MockObject $userManager;
+	private IGroupManager&MockObject $groupManager;
+	private IAccountManager&MockObject $accountManager;
+	private IManager&MockObject $shareManager;
+	private IUserSession&MockObject $userSession;
+	private IAppManager&MockObject $appManager;
+	private ProxyMapper&MockObject $proxyMapper;
+	private KnownUserService&MockObject $knownUserService;
+	private IConfig&MockObject $config;
+	private IFactory&MockObject $languageFactory;
+	private Principal $connector;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
@@ -85,7 +70,6 @@ class PrincipalTest extends TestCase {
 			$this->config,
 			$this->languageFactory
 		);
-		parent::setUp();
 	}
 
 	public function testGetPrincipalsByPrefixWithoutPrefix(): void {
@@ -125,13 +109,14 @@ class PrincipalTest extends TestCase {
 		$this->languageFactory
 			->expects($this->exactly(2))
 			->method('getUserLanguage')
-			->withConsecutive([$fooUser], [$barUser])
-			->willReturnOnConsecutiveCalls('de', 'en');
+			->willReturnMap([
+				[$fooUser, 'de'],
+				[$barUser, 'en'],
+			]);
 
 		$fooAccountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
 		$fooAccountPropertyCollection->expects($this->once())
 			->method('getProperties')
-			->with()
 			->willReturn([]);
 		$fooAccount = $this->createMock(IAccount::class);
 		$fooAccount->expects($this->once())
@@ -142,18 +127,15 @@ class PrincipalTest extends TestCase {
 		$emailPropertyOne = $this->createMock(IAccountProperty::class);
 		$emailPropertyOne->expects($this->once())
 			->method('getValue')
-			->with()
 			->willReturn('alias@nextcloud.com');
 		$emailPropertyTwo = $this->createMock(IAccountProperty::class);
 		$emailPropertyTwo->expects($this->once())
 			->method('getValue')
-			->with()
 			->willReturn('alias2@nextcloud.com');
 
 		$barAccountPropertyCollection = $this->createMock(IAccountPropertyCollection::class);
 		$barAccountPropertyCollection->expects($this->once())
 			->method('getProperties')
-			->with()
 			->willReturn([$emailPropertyOne, $emailPropertyTwo]);
 		$barAccount = $this->createMock(IAccount::class);
 		$barAccount->expects($this->once())
@@ -164,8 +146,10 @@ class PrincipalTest extends TestCase {
 		$this->accountManager
 			->expects($this->exactly(2))
 			->method('getAccount')
-			->withConsecutive([$fooUser], [$barUser])
-			->willReturnOnConsecutiveCalls($fooAccount, $barAccount);
+			->willReturnMap([
+				[$fooUser, $fooAccount],
+				[$barUser, $barAccount],
+			]);
 
 		$expectedResponse = [
 			0 => [
@@ -482,7 +466,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
 	 */
-	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result): void {
+	public function testSearchPrincipals(bool $sharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn($sharingEnabled);
@@ -556,7 +540,7 @@ class PrincipalTest extends TestCase {
 				'{DAV:}displayname' => 'User 12'], $test));
 	}
 
-	public function searchPrincipalsDataProvider(): array {
+	public static function searchPrincipalsDataProvider(): array {
 		return [
 			[true, false, 'allof', ['principals/users/user3']],
 			[true, false, 'anyof', ['principals/users/user2', 'principals/users/user3', 'principals/users/user4']],
@@ -845,7 +829,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider findByUriWithGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithGroupRestriction($uri, $email, $expects): void {
+	public function testFindByUriWithGroupRestriction(string $uri, string $email, ?string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->willReturn(true);
@@ -872,31 +856,23 @@ class PrincipalTest extends TestCase {
 		if ($email === 'user2@foo.bar') {
 			$this->groupManager->expects($this->exactly(2))
 				->method('getUserGroupIds')
-				->withConsecutive(
-					[$user],
-					[$user2],
-				)
-				->willReturnOnConsecutiveCalls(
-					['group1', 'group2'],
-					['group1', 'group3'],
-				);
+				->willReturnMap([
+					[$user, ['group1', 'group2']],
+					[$user2, ['group1', 'group3']],
+				]);
 		} else {
 			$this->groupManager->expects($this->exactly(2))
 				->method('getUserGroupIds')
-				->withConsecutive(
-					[$user],
-					[$user3],
-				)
-				->willReturnOnConsecutiveCalls(
-					['group1', 'group2'],
-					['group3', 'group3'],
-				);
+				->willReturnMap([
+					[$user, ['group1', 'group2']],
+					[$user3, ['group3', 'group3']],
+				]);
 		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}
 
-	public function findByUriWithGroupRestrictionDataProvider(): array {
+	public static function findByUriWithGroupRestrictionDataProvider(): array {
 		return [
 			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
 			['mailto:user3@foo.bar', 'user3@foo.bar', null],
@@ -906,7 +882,7 @@ class PrincipalTest extends TestCase {
 	/**
 	 * @dataProvider findByUriWithoutGroupRestrictionDataProvider
 	 */
-	public function testFindByUriWithoutGroupRestriction($uri, $email, $expects): void {
+	public function testFindByUriWithoutGroupRestriction(string $uri, string $email, string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
 			->willReturn(true);
@@ -928,7 +904,7 @@ class PrincipalTest extends TestCase {
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}
 
-	public function findByUriWithoutGroupRestrictionDataProvider(): array {
+	public static function findByUriWithoutGroupRestrictionDataProvider(): array {
 		return [
 			['mailto:user2@foo.bar', 'user2@foo.bar', 'principals/users/user2'],
 			['mailto:user3@foo.bar', 'user3@foo.bar', 'principals/users/user3'],

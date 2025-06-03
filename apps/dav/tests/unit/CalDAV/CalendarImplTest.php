@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,6 +27,8 @@ class CalendarImplTest extends \Test\TestCase {
 	private CalendarImpl|MockObject $calendarImpl;
 	private array $calendarInfo;
 	private VCalendar $vCalendar1a;
+	private Calendar&MockObject $calendar;
+	private array $mockExportCollection;
 
 	protected function setUp(): void {
 		parent::setUp();

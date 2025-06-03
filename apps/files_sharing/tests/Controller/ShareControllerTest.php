@@ -261,8 +261,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
@@ -395,6 +399,8 @@ class ShareControllerTest extends \Test\TestCase {
 			->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
+			->setNote('The note')
+			->setLabel('A label')
 			->setNode($file)
 			->setTarget("/$filename")
 			->setToken('token');
@@ -474,6 +480,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'disclaimer' => 'My disclaimer text',
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
+			'note' => 'The note',
+			'label' => 'A label',
 		];
 
 		$response = $this->shareController->showShare();
@@ -483,9 +491,9 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
-		$expectedResponse->setParams(['pageTitle' => $filename]);
+		$expectedResponse->setParams(['pageTitle' => 'A label']);
 		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($filename);
+		$expectedResponse->setHeaderTitle('A label');
 		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
 		$expectedResponse->setHeaderActions([
 			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'shareUrl'),
@@ -552,8 +560,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);

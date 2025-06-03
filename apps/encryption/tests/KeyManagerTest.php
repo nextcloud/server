@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,41 +30,19 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
-	/**
-	 * @var KeyManager
-	 */
-	private $instance;
-	/**
-	 * @var string
-	 */
-	private $userId;
 
-	/** @var string */
-	private $systemKeyId;
+	protected KeyManager $instance;
 
-	/** @var \OCP\Encryption\Keys\IStorage|\PHPUnit\Framework\MockObject\MockObject */
-	private $keyStorageMock;
-
-	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
-	private $cryptMock;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userMock;
-
-	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-	private $sessionMock;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logMock;
-
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $utilMock;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $configMock;
-
-	/** @var ILockingProvider|MockObject */
-	private $lockingProviderMock;
+	protected string $userId;
+	protected string $systemKeyId;
+	protected IStorage&MockObject $keyStorageMock;
+	protected Crypt&MockObject $cryptMock;
+	protected IUserSession&MockObject $userMock;
+	protected Session&MockObject $sessionMock;
+	protected LoggerInterface&MockObject $logMock;
+	protected Util&MockObject $utilMock;
+	protected IConfig&MockObject $configMock;
+	protected ILockingProvider&MockObject $lockingProviderMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -201,7 +181,7 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	public function dataTestUserHasKeys() {
+	public static function dataTestUserHasKeys(): array {
 		return [
 			['key', true],
 			['', false]
@@ -246,7 +226,7 @@ class KeyManagerTest extends TestCase {
 	 * @param bool $useMasterKey
 	 */
 	public function testInit($useMasterKey): void {
-		/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
+		/** @var KeyManager&MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -259,17 +239,18 @@ class KeyManagerTest extends TestCase {
 					$this->utilMock,
 					$this->lockingProviderMock
 				]
-			)->setMethods(['getMasterKeyId', 'getMasterKeyPassword', 'getSystemPrivateKey', 'getPrivateKey'])
+			)->onlyMethods(['getMasterKeyId', 'getMasterKeyPassword', 'getSystemPrivateKey', 'getPrivateKey'])
 			->getMock();
 
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($useMasterKey);
 
-		$this->sessionMock->expects($this->exactly(2))->method('setStatus')
-			->withConsecutive(
-				[Session::INIT_EXECUTED],
-				[Session::INIT_SUCCESSFUL],
-			);
+		$sessionSetStatusCalls = [];
+		$this->sessionMock->expects($this->exactly(2))
+			->method('setStatus')
+			->willReturnCallback(function (string $status) use (&$sessionSetStatusCalls) {
+				$sessionSetStatusCalls[] = $status;
+			});
 
 		$instance->expects($this->any())->method('getMasterKeyId')->willReturn('masterKeyId');
 		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
@@ -290,9 +271,13 @@ class KeyManagerTest extends TestCase {
 			->with('key');
 
 		$this->assertTrue($instance->init($this->userId, 'pass'));
+		self::assertEquals([
+			Session::INIT_EXECUTED,
+			Session::INIT_SUCCESSFUL,
+		], $sessionSetStatusCalls);
 	}
 
-	public function dataTestInit() {
+	public static function dataTestInit(): array {
 		return [
 			[true],
 			[false]
@@ -349,7 +334,7 @@ class KeyManagerTest extends TestCase {
 		$this->assertTrue($this->instance->getEncryptedFileKey('/'));
 	}
 
-	public function dataTestGetFileKey() {
+	public static function dataTestGetFileKey(): array {
 		return [
 			['user1', false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			['user1', false, 'privateKey', '', 'multiKeyDecryptResult'],
@@ -395,14 +380,10 @@ class KeyManagerTest extends TestCase {
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getFileKey')
-			->withConsecutive(
-				[$path, 'fileKey', 'OC_DEFAULT_MODULE'],
-				[$path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$encryptedFileKey,
-				'fileKey',
-			);
+			->willReturnMap([
+				[$path, 'fileKey', 'OC_DEFAULT_MODULE', $encryptedFileKey],
+				[$path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE', 'fileKey'],
+			]);
 
 		$this->utilMock->expects($this->any())->method('isMasterKeyEnabled')
 			->willReturn($isMasterKeyEnabled);
@@ -515,7 +496,7 @@ class KeyManagerTest extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function dataTestAddSystemKeys() {
+	public static function dataTestAddSystemKeys(): array {
 		return [
 			[['public' => true],[], 'user1', ['publicShareKey', 'recoveryKey']],
 			[['public' => false], [], 'user1', ['recoveryKey']],
@@ -563,7 +544,7 @@ class KeyManagerTest extends TestCase {
 	 * @param $masterKey
 	 */
 	public function testValidateMasterKey($masterKey): void {
-		/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
+		/** @var KeyManager&MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -576,7 +557,7 @@ class KeyManagerTest extends TestCase {
 					$this->utilMock,
 					$this->lockingProviderMock
 				]
-			)->setMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
+			)->onlyMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
 
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
@@ -611,20 +592,19 @@ class KeyManagerTest extends TestCase {
 	}
 
 	public function testValidateMasterKeyLocked(): void {
-		/** @var KeyManager|\PHPUnit_Framework_MockObject_MockObject $instance */
+		/** @var KeyManager&MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
-			->setConstructorArgs(
-				[
-					$this->keyStorageMock,
-					$this->cryptMock,
-					$this->configMock,
-					$this->userMock,
-					$this->sessionMock,
-					$this->logMock,
-					$this->utilMock,
-					$this->lockingProviderMock
-				]
-			)->setMethods(['getPublicMasterKey', 'getPrivateMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
+			->setConstructorArgs([
+				$this->keyStorageMock,
+				$this->cryptMock,
+				$this->configMock,
+				$this->userMock,
+				$this->sessionMock,
+				$this->logMock,
+				$this->utilMock,
+				$this->lockingProviderMock
+			])
+			->onlyMethods(['getPublicMasterKey', 'getPrivateMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
 
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
@@ -646,7 +626,7 @@ class KeyManagerTest extends TestCase {
 		$instance->validateMasterKey();
 	}
 
-	public function dataTestValidateMasterKey() {
+	public static function dataTestValidateMasterKey(): array {
 		return [
 			['masterKey'],
 			['']

@@ -13,20 +13,15 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCP\IConfig;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class OfflineUserTest extends TestCase {
-
-	/** @var OfflineUser */
-	protected $offlineUser;
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapping;
-	/** @var string */
-	protected $uid;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected UserMapping&MockObject $mapping;
+	protected string $uid;
+	protected IConfig&MockObject $config;
+	protected IManager&MockObject $shareManager;
+	protected OfflineUser $offlineUser;
 
 	public function setUp(): void {
 		$this->uid = 'deborah';
@@ -42,7 +37,7 @@ class OfflineUserTest extends TestCase {
 		);
 	}
 
-	public function shareOwnerProvider(): array {
+	public static function shareOwnerProvider(): array {
 		return [
 			[[], false],
 			[[IShare::TYPE_USER], true],

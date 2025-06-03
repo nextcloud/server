@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,19 +22,18 @@ use Test\TestCase;
 class SettingsControllerTest extends TestCase {
 	private SettingsController $controller;
 
-	private MockObject&IRequest $request;
-	private MockObject&IL10N $l10n;
-	private MockObject&TrustedServers $trustedServers;
-	private MockObject&LoggerInterface $logger;
+	private IRequest&MockObject $request;
+	private IL10N&MockObject $l10n;
+	private TrustedServers&MockObject $trustedServers;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
-			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->trustedServers = $this->createMock(TrustedServers::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->controller = new SettingsController(
 			'SettingsControllerTest',
@@ -56,7 +57,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(true);
 
 		$result = $this->controller->addServer('url');
-		$this->assertTrue($result instanceof DataResponse);
+		$this->assertInstanceOf(DataResponse::class, $result);
 
 		$data = $result->getData();
 		$this->assertSame(200, $result->getStatus());
@@ -110,7 +111,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->assertNull(
-			$this->invokePrivate($this->controller, 'checkServer', ['url'])
+			self::invokePrivate($this->controller, 'checkServer', ['url'])
 		);
 	}
 
@@ -136,14 +137,11 @@ class SettingsControllerTest extends TestCase {
 		}
 
 		$this->assertTrue(
-			$this->invokePrivate($this->controller, 'checkServer', ['url'])
+			self::invokePrivate($this->controller, 'checkServer', ['url'])
 		);
 	}
 
-	/**
-	 * Data to simulate checkServer fails
-	 */
-	public function checkServerFails(): array {
+	public static function checkServerFails(): array {
 		return [
 			[true, true],
 			[false, false]

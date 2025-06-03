@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,38 +15,26 @@ use OCP\Comments\MessageTooLongException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
-
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-
-	protected $comment;
-	protected $node;
-	protected $userManager;
-	protected $logger;
-	protected $userSession;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IComment&MockObject $comment;
+	protected IUserManager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected IUserSession&MockObject $userSession;
+	protected CommentNode $node;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->comment = $this->getMockBuilder(IComment::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->comment = $this->createMock(IComment::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->node = new CommentNode(
 			$this->commentsManager,
@@ -57,10 +46,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	}
 
 	public function testDelete(): void {
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('alice');
@@ -92,10 +78,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	public function testDeleteForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('mallory');
@@ -144,10 +127,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	public function testUpdateComment(): void {
 		$msg = 'Hello Earth';
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('alice');
@@ -182,10 +162,7 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$msg = null;
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('alice');
@@ -221,10 +198,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('alice');
@@ -261,10 +235,7 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$msg = 'HaXX0r';
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('mallory');
@@ -296,10 +267,7 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$msg = 'HaXX0r';
 
-		$user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->never())
 			->method('getUID');
 
@@ -344,10 +312,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	}
 
 	public function testPropPatch(): void {
-		$propPatch = $this->getMockBuilder(PropPatch::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$propPatch = $this->createMock(PropPatch::class);
 		$propPatch->expects($this->once())
 			->method('handle')
 			->with('{http://owncloud.org/ns}message');
@@ -396,11 +361,10 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$this->commentsManager->expects($this->exactly(2))
 			->method('resolveDisplayName')
-			->withConsecutive(
-				[$this->equalTo('user'), $this->equalTo('alice')],
-				[$this->equalTo('user'), $this->equalTo('bob')]
-			)
-			->willReturnOnConsecutiveCalls('Alice Al-Isson', 'Unknown user');
+			->willReturnMap([
+				['user', 'alice', 'Alice Al-Isson'],
+				['user', 'bob', 'Unknown user']
+			]);
 
 		$this->comment->expects($this->once())
 			->method('getId')
@@ -491,7 +455,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertTrue(empty($expected));
 	}
 
-	public function readCommentProvider() {
+	public static function readCommentProvider(): array {
 		$creationDT = new \DateTime('2016-01-19 18:48:00');
 		$diff = new \DateInterval('PT2H');
 		$readDT1 = clone $creationDT;
@@ -507,9 +471,8 @@ class CommentsNodeTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider readCommentProvider
-	 * @param $expected
 	 */
-	public function testGetPropertiesUnreadProperty($creationDT, $readDT, $expected): void {
+	public function testGetPropertiesUnreadProperty(\DateTime $creationDT, ?\DateTime $readDT, string $expected): void {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')
 			->willReturn($creationDT);

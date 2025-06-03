@@ -56,6 +56,7 @@ form #selectPartStatForm label span {
   display: block;
   line-height: normal;
 }
+
 form #selectPartStatForm label.ui-state-hover,
 form #selectPartStatForm label.ui-state-active {
   color:#000;

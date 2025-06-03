@@ -273,7 +273,7 @@
     "A valid Login must be provided" : "ログイン名を提供する必要があります",
     "Login contains whitespace at the beginning or at the end" : "ログイン名の最初か最後に空白が含まれています",
     "Login must not consist of dots only" : "ログイン名はドットのみで構成されてはいけません",
-    "Login is too long" : "ログインが長すぎます",
+    "Username is too long" : "ユーザー名が長すぎます",
     "Login is invalid because files already exist for this user" : "このユーザのファイルが既に存在するため、このログイン名は使用できません",
     "Account disabled" : "アカウントは無効",
     "Login canceled by app" : "アプリによりログインが中止されました",
@@ -449,6 +449,7 @@
     "Summarizes text by reducing its length without losing key information." : "重要な情報を失わずにテキストの長さを要約して短縮する。",
     "Extracts topics from a text and outputs them separated by commas." : "テキストからトピックを抽出し、カンマ区切りで出力します。",
     "File is currently busy, please try again later" : "現在ファイルはビジーです。後でもう一度試してください。",
-    "Cannot download file" : "ファイルをダウンロードできません"
+    "Cannot download file" : "ファイルをダウンロードできません",
+    "Login is too long" : "ログインが長すぎます"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

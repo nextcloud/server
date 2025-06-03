@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,7 +18,7 @@ class ExpirationTest extends \Test\TestCase {
 
 	public const FAKE_TIME_NOW = 1000000;
 
-	public function expirationData() {
+	public static function expirationData(): array {
 		$today = 100 * self::SECONDS_PER_DAY;
 		$back10Days = (100 - 10) * self::SECONDS_PER_DAY;
 		$back20Days = (100 - 20) * self::SECONDS_PER_DAY;
@@ -82,14 +84,8 @@ class ExpirationTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider expirationData
-	 *
-	 * @param string $retentionObligation
-	 * @param int $timeNow
-	 * @param int $timestamp
-	 * @param bool $quotaExceeded
-	 * @param string $expectedResult
 	 */
-	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult): void {
+	public function testExpiration(string $retentionObligation, int $timeNow, int $timestamp, bool $quotaExceeded, bool $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
 
@@ -100,7 +96,7 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 
-	public function timestampTestData(): array {
+	public static function timestampTestData(): array {
 		return [
 			[ 'disabled', false],
 			[ 'auto', false ],
@@ -116,11 +112,8 @@ class ExpirationTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider timestampTestData
-	 *
-	 * @param string $configValue
-	 * @param int $expectedMaxAgeTimestamp
 	 */
-	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp): void {
+	public function testGetMaxAgeAsTimestamp(string $configValue, bool|int $expectedMaxAgeTimestamp): void {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(
 			self::FAKE_TIME_NOW
@@ -132,10 +125,9 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @param int $time
 	 * @return ITimeFactory|MockObject
 	 */
-	private function getMockedTimeFactory($time) {
+	private function getMockedTimeFactory(int $time) {
 		$mockedTimeFactory = $this->createMock(ITimeFactory::class);
 		$mockedTimeFactory->expects($this->any())
 			->method('getTime')
@@ -145,10 +137,9 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @param string $returnValue
 	 * @return IConfig|MockObject
 	 */
-	private function getMockedConfig($returnValue) {
+	private function getMockedConfig(string $returnValue) {
 		$mockedConfig = $this->createMock(IConfig::class);
 		$mockedConfig->expects($this->any())
 			->method('getSystemValue')

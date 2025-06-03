@@ -2873,12 +2873,6 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Application.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getServer]]></code>
-      <code><![CDATA[registerService]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
@@ -3884,14 +3878,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[wrap]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Files/Mount/ObjectHomeMountProvider.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[\OCP\Files\Mount\IMountPoint]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Node/File.php">
     <InvalidReturnStatement>

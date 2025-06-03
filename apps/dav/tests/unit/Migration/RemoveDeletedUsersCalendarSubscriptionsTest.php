@@ -22,23 +22,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
-	/**
-	 * @var IDBConnection|MockObject
-	 */
-	private $dbConnection;
-	/**
-	 * @var IUserManager|MockObject
-	 */
-	private $userManager;
-
-	/**
-	 * @var IOutput|MockObject
-	 */
-	private $output;
-	/**
-	 * @var RemoveDeletedUsersCalendarSubscriptions
-	 */
-	private $migration;
+	private IDBConnection&MockObject $dbConnection;
+	private IUserManager&MockObject $userManager;
+	private IOutput&MockObject $output;
+	private RemoveDeletedUsersCalendarSubscriptions $migration;
 
 
 	protected function setUp(): void {
@@ -60,10 +47,6 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestRun
-	 * @param array $subscriptions
-	 * @param array $userExists
-	 * @param int $deletions
-	 * @throws \Exception
 	 */
 	public function testRun(array $subscriptions, array $userExists, int $deletions): void {
 		$qb = $this->createMock(IQueryBuilder::class);
@@ -132,21 +115,28 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		$this->migration->run($this->output);
 	}
 
-	public function dataTestRun(): array {
+	public static function dataTestRun(): array {
 		return [
 			[[], [], 0],
-			[[[
-				'id' => 1,
-				'principaluri' => 'users/principals/foo1',
-			],
+			[
 				[
-					'id' => 2,
-					'principaluri' => 'users/principals/bar1',
+					[
+						'id' => 1,
+						'principaluri' => 'users/principals/foo1',
+					],
+					[
+						'id' => 2,
+						'principaluri' => 'users/principals/bar1',
+					],
+					[
+						'id' => 3,
+						'principaluri' => 'users/principals/bar1',
+					],
+					[],
 				],
-				[
-					'id' => 3,
-					'principaluri' => 'users/principals/bar1',
-				]], ['foo1' => true, 'bar1' => false], 2]
+				['foo1' => true, 'bar1' => false],
+				2
+			],
 		];
 	}
 }

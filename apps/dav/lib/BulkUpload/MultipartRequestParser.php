@@ -57,7 +57,13 @@ class MultipartRequestParser {
 	 */
 	private function parseBoundaryFromHeaders(string $contentType): string {
 		try {
+			if (!str_contains($contentType, ';')) {
+				throw new \InvalidArgumentException('No semicolon in header');
+			}
 			[$mimeType, $boundary] = explode(';', $contentType);
+			if (!str_contains($boundary, '=')) {
+				throw new \InvalidArgumentException('No equal in boundary header');
+			}
 			[$boundaryKey, $boundaryValue] = explode('=', $boundary);
 		} catch (\Exception $e) {
 			throw new BadRequest('Error while parsing boundary in Content-Type header.', Http::STATUS_BAD_REQUEST, $e);

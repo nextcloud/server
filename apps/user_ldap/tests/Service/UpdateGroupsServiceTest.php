@@ -6,17 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\user_ldap\tests\Service;
+namespace OCA\User_LDAP\Tests\Service;
 
 use OCA\User_LDAP\Db\GroupMembership;
 use OCA\User_LDAP\Db\GroupMembershipMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Service\UpdateGroupsService;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -26,23 +24,12 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UpdateGroupsServiceTest extends TestCase {
-	/** @var Group_Proxy|MockObject */
-	protected $groupBackend;
-	/** @var IEventDispatcher|MockObject */
-	protected $dispatcher;
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var GroupMembershipMapper|MockObject */
-	protected $groupMembershipMapper;
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var ITimeFactory|MockObject */
-	protected $timeFactory;
-
+	protected Group_Proxy&MockObject $groupBackend;
+	protected IEventDispatcher&MockObject $dispatcher;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserManager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected GroupMembershipMapper&MockObject $groupMembershipMapper;
 	protected UpdateGroupsService $updateGroupsService;
 
 	public function setUp(): void {
@@ -52,8 +39,6 @@ class UpdateGroupsServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->groupMembershipMapper = $this->createMock(GroupMembershipMapper::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->updateGroupsService = new UpdateGroupsService(
 			$this->groupBackend,
@@ -62,8 +47,6 @@ class UpdateGroupsServiceTest extends TestCase {
 			$this->userManager,
 			$this->logger,
 			$this->groupMembershipMapper,
-			$this->config,
-			$this->timeFactory
 		);
 	}
 

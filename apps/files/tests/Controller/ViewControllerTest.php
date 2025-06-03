@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -192,7 +193,7 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function dataTestShortRedirect(): array {
+	public static function dataTestShortRedirect(): array {
 		// openfile is true by default
 		// opendetails is undefined by default
 		// both will be evaluated as truthy
@@ -212,7 +213,7 @@ class ViewControllerTest extends TestCase {
 	/**
 	 * @dataProvider dataTestShortRedirect
 	 */
-	public function testShortRedirect($openfile, $opendetails, $result) {
+	public function testShortRedirect(?string $openfile, ?string $opendetails, string $result): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->with('files')
@@ -239,7 +240,7 @@ class ViewControllerTest extends TestCase {
 			->with(123456)
 			->willReturn($node);
 
-		$response = $this->viewController->showFile(123456, $opendetails, $openfile);
+		$response = $this->viewController->showFile('123456', $opendetails, $openfile);
 		$this->assertStringContainsString($result, $response->getHeaders()['Location']);
 	}
 
@@ -248,13 +249,13 @@ class ViewControllerTest extends TestCase {
 			->method('isEnabledForUser')
 			->willReturn(true);
 
-		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
+		$parentNode = $this->createMock(Folder::class);
 		$parentNode->expects($this->once())
 			->method('getPath')
 			->willReturn('testuser1/files_trashbin/files/test.d1462861890/sub');
 
-		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
-		$baseFolderTrash = $this->getMockBuilder(Folder::class)->getMock();
+		$baseFolderFiles = $this->createMock(Folder::class);
+		$baseFolderTrash = $this->createMock(Folder::class);
 
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -270,7 +271,7 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->willReturn(null);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->once())
 			->method('getParent')
 			->willReturn($parentNode);

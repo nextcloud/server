@@ -14,6 +14,7 @@ use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
@@ -834,8 +835,8 @@ class UserTest extends TestCase {
 		$config->method('getAppValue')
 			->will($this->returnValueMap($appValueMap));
 
-		$quota = $user->getQuota();
-		$this->assertEquals('none', $quota);
+		$this->assertEquals('none', $user->getQuota());
+		$this->assertEquals(FileInfo::SPACE_UNLIMITED, $user->getQuotaBytes());
 	}
 
 	public function testGetDefaultUnlimitedQuotaForbidden(): void {
@@ -868,8 +869,8 @@ class UserTest extends TestCase {
 		$config->method('getAppValue')
 			->will($this->returnValueMap($appValueMap));
 
-		$quota = $user->getQuota();
-		$this->assertEquals('1 GB', $quota);
+		$this->assertEquals('1 GB', $user->getQuota());
+		$this->assertEquals(1024 * 1024 * 1024, $user->getQuotaBytes());
 	}
 
 	public function testSetQuotaAddressNoChange(): void {

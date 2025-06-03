@@ -160,6 +160,10 @@ class LazyUser implements IUser {
 		return $this->getUser()->getQuota();
 	}
 
+	public function getQuotaBytes(): int|float {
+		return $this->getUser()->getQuotaBytes();
+	}
+
 	public function setQuota($quota) {
 		$this->getUser()->setQuota($quota);
 	}

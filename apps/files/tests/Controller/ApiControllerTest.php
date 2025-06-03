@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -31,6 +32,7 @@ use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -40,41 +42,25 @@ use Test\TestCase;
  * @package OCA\Files\Controller
  */
 class ApiControllerTest extends TestCase {
-	/** @var string */
-	private $appName = 'files';
-	/** @var IUser */
-	private $user;
-	/** @var IRequest */
-	private $request;
-	/** @var TagService */
-	private $tagService;
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
-	private $preview;
-	/** @var ApiController */
-	private $apiController;
-	/** @var \OCP\Share\IManager */
-	private $shareManager;
-	/** @var IConfig */
-	private $config;
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
-	private $userFolder;
-	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $userConfig;
-	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewConfig;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
+	private string $appName = 'files';
+	private IUser $user;
+	private IRequest $request;
+	private TagService $tagService;
+	private IPreview&MockObject $preview;
+	private ApiController $apiController;
+	private IManager $shareManager;
+	private IConfig $config;
+	private Folder&MockObject $userFolder;
+	private UserConfig&MockObject $userConfig;
+	private ViewConfig&MockObject $viewConfig;
+	private IL10N&MockObject $l10n;
+	private IRootFolder&MockObject $rootFolder;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -83,19 +69,11 @@ class ApiControllerTest extends TestCase {
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$this->tagService = $this->getMockBuilder(TagService::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->preview = $this->getMockBuilder(IPreview::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->tagService = $this->createMock(TagService::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->preview = $this->createMock(IPreview::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->userFolder = $this->getMockBuilder(Folder::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userFolder = $this->createMock(Folder::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);

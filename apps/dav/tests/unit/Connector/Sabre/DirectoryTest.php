@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCA\DAV\Tests\Unit\Connector\Sabre;
+namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
@@ -21,6 +22,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\StorageNotAvailableException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
 class TestViewDirectory extends View {
@@ -43,7 +45,7 @@ class TestViewDirectory extends View {
 		return $this->deletables[$path];
 	}
 
-	public function rename($path1, $path2, array $options = []) {
+	public function rename($source, $target, array $options = []) {
 		return $this->canRename;
 	}
 
@@ -59,16 +61,14 @@ class TestViewDirectory extends View {
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
-	private $view;
-	/** @var FileInfo|\PHPUnit\Framework\MockObject\MockObject */
-	private $info;
+	private View&MockObject $view;
+	private FileInfo&MockObject $info;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->view = $this->createMock('OC\Files\View');
-		$this->info = $this->createMock('OC\Files\FileInfo');
+		$this->view = $this->createMock(View::class);
+		$this->info = $this->createMock(FileInfo::class);
 		$this->info->method('isReadable')
 			->willReturn(true);
 		$this->info->method('getType')
@@ -81,7 +81,7 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(Constants::PERMISSION_READ);
 	}
 
-	private function getDir($path = '/') {
+	private function getDir(string $path = '/'): Directory {
 		$this->view->expects($this->once())
 			->method('getRelativePath')
 			->willReturn($path);
@@ -174,12 +174,8 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetChildren(): void {
-		$info1 = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$info2 = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$info1 = $this->createMock(FileInfo::class);
+		$info2 = $this->createMock(FileInfo::class);
 		$info1->method('getName')
 			->willReturn('first');
 		$info1->method('getPath')
@@ -214,7 +210,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = new Directory($this->view, $this->info);
 		$nodes = $dir->getChildren();
 
-		$this->assertEquals(2, count($nodes));
+		$this->assertCount(2, $nodes);
 
 		// calling a second time just returns the cached values,
 		// does not call getDirectoryContents again
@@ -273,12 +269,10 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoUnlimited(): void {
-		self::createUser('user', 'password');
+		$this->createUser('user', 'password');
 		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
-		$storage = $this->getMockBuilder(Quota::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(Quota::class);
 		$mountPoint->method('getStorage')
 			->willReturn($storage);
 
@@ -329,12 +323,10 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoSpecific(): void {
-		self::createUser('user', 'password');
+		$this->createUser('user', 'password');
 		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
-		$storage = $this->getMockBuilder(Quota::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(Quota::class);
 		$mountPoint->method('getStorage')
 			->willReturn($storage);
 
@@ -384,7 +376,7 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveFailedProvider
 	 */
-	public function testMoveFailed($source, $destination, $updatables, $deletables): void {
+	public function testMoveFailed(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
@@ -393,7 +385,7 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveSuccessProvider
 	 */
-	public function testMoveSuccess($source, $destination, $updatables, $deletables): void {
+	public function testMoveSuccess(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->addToAssertionCount(1);
 	}
@@ -401,19 +393,19 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveFailedInvalidCharsProvider
 	 */
-	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables): void {
+	public function testMoveFailedInvalidChars(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(InvalidPath::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
-	public function moveFailedInvalidCharsProvider() {
+	public static function moveFailedInvalidCharsProvider(): array {
 		return [
 			['a/valid', "a/i\nvalid", ['a' => true, 'a/valid' => true, 'a/c*' => false], []],
 		];
 	}
 
-	public function moveFailedProvider() {
+	public static function moveFailedProvider(): array {
 		return [
 			['a/b', 'a/c', ['a' => false, 'a/b' => false, 'a/c' => false], []],
 			['a/b', 'b/b', ['a' => false, 'a/b' => false, 'b' => false, 'b/b' => false], []],
@@ -424,7 +416,7 @@ class DirectoryTest extends \Test\TestCase {
 		];
 	}
 
-	public function moveSuccessProvider() {
+	public static function moveSuccessProvider(): array {
 		return [
 			['a/b', 'b/b', ['a' => true, 'a/b' => true, 'b' => true, 'b/b' => false], ['a/b' => true]],
 			// older files with special chars can still be renamed to valid names
@@ -432,12 +424,7 @@ class DirectoryTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param $source
-	 * @param $destination
-	 * @param $updatables
-	 */
-	private function moveTest($source, $destination, $updatables, $deletables): void {
+	private function moveTest(string $source, string $destination, array $updatables, array $deletables): void {
 		$view = new TestViewDirectory($updatables, $deletables);
 
 		$sourceInfo = new FileInfo($source, null, null, [
@@ -449,7 +436,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
-			->setMethods(['childExists'])
+			->onlyMethods(['childExists'])
 			->setConstructorArgs([$view, $targetInfo])
 			->getMock();
 		$targetNode->expects($this->any())->method('childExists')

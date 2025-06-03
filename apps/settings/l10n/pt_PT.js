@@ -179,6 +179,7 @@ OC.L10N.register(
     "Login" : "Iniciar Sessão",
     "Password" : "Palavra-passe",
     "Profile" : "Perfil",
+    "Password confirmation is required" : "Confirmação de senha necessária",
     "Server-side encryption" : "Atualizar App",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "A cifra do lado do servidor possibilita cifrar os ficheiros que serão enviados para este servidor. Isto implica um impacto no desempenho e só deverá ser ativo quando necessário.",
     "Enable server-side encryption" : "Ativar encriptação do lado do servidor",

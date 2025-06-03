@@ -215,7 +215,7 @@
     "Toggle list of others with access to this directory" : "Preklopi seznam drugih z dostopom do te mape",
     "Toggle list of others with access to this file" : "Preklopi seznam drugih z dostopom do te datoteke",
     "Unable to fetch inherited shares" : "Ni mogoče pridobiti podedovanih mest souporabe",
-    "Shares" : "‧ V Souporabi",
+    "Shares" : "V souporabi",
     "Unable to load the shares list" : "Ni mogoče naložiti seznama predmetov v souporabi",
     "Expires {relativetime}" : "Preteče {relativetime}",
     "this share just expired." : "to mesto souporabe je ravnokar preteklo.",

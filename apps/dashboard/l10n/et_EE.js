@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Tere, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Palju õnne sünnipäevaks 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Palju õnne, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} ikoon“",
     "Customize" : "Kohanda",
     "Edit widgets" : "Muuda vidinaid",
     "Get more widgets from the App Store" : "Hangi rohkem vidinaid Rakenduste Poest",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Sinu privaatsuse huvides küsib su nimel ilmaandmeid Nextcloudi server, nii et ilmateenistus ei saa isiklikku teavet.",
     "Weather data from Met.no" : "Ilmaandmed Met.no-st",
     "geocoding with Nominatim" : "geoprogrammeerimine Nominatimiga",
-    "elevation data from OpenTopoData" : "kõrgusandmed OpenTopoDatast"
+    "elevation data from OpenTopoData" : "kõrgusandmed OpenTopoDatast",
+    "\"{title} icon\"" : "„{title} ikoon“"
 },
 "nplurals=2; plural=(n != 1);");

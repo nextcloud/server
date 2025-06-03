@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Group\Database;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -70,12 +72,7 @@ abstract class TestCase extends \Test\TestCase {
 		parent::tearDownAfterClass();
 	}
 
-	/**
-	 * @param string $user
-	 * @param bool $create
-	 * @param bool $password
-	 */
-	protected static function loginHelper($user, $create = false, $password = false) {
+	protected static function loginHelper(string $user, bool $create = false, bool $password = false) {
 		if ($password === false) {
 			$password = $user;
 		}
@@ -96,7 +93,7 @@ abstract class TestCase extends \Test\TestCase {
 		Server::get(IUserSession::class)->setUser(null);
 		Filesystem::tearDown();
 		Server::get(IUserSession::class)->login($user, $password);
-		\OC::$server->getUserFolder($user);
+		\OCP\Server::get(IRootFolder::class)->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
 	}

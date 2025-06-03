@@ -273,7 +273,7 @@
     "A valid Login must be provided" : "Ní mór Logáil Isteach bailí a sholáthar",
     "Login contains whitespace at the beginning or at the end" : "Tá spás bán sa logáil isteach ag an tús nó ag an deireadh",
     "Login must not consist of dots only" : "Níor cheart go gcuimseodh logáil isteach poncanna amháin",
-    "Login is too long" : "Tá logáil isteach ró-fhada",
+    "Username is too long" : "Tá an t-ainm úsáideora rófhada",
     "Login is invalid because files already exist for this user" : "Tá logáil isteach neamhbhailí toisc go bhfuil comhaid ann cheana don úsáideoir seo",
     "Account disabled" : "Díchumasaíodh an cuntas",
     "Login canceled by app" : "Cealaíodh logáil isteach ag an aip",
@@ -449,6 +449,7 @@
     "Summarizes text by reducing its length without losing key information." : "Déanann sé achoimre ar théacs trína fhad a laghdú gan eochairfhaisnéis a chailliúint.",
     "Extracts topics from a text and outputs them separated by commas." : "Sliocht topaicí as téacs agus aschuir iad scartha le camóga.",
     "File is currently busy, please try again later" : "Tá an comhad gnóthach faoi láthair, bain triail eile as ar ball le do thoil",
-    "Cannot download file" : "Ní féidir an comhad a íoslódáil"
+    "Cannot download file" : "Ní féidir an comhad a íoslódáil",
+    "Login is too long" : "Tá logáil isteach ró-fhada"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

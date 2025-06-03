@@ -24,14 +24,14 @@ use Test\TestCase;
 
 class BackendTest extends TestCase {
 
-	private IDBConnection|MockObject $db;
-	private IUserManager|MockObject $userManager;
-	private IGroupManager|MockObject $groupManager;
-	private MockObject|Principal $principalBackend;
-	private MockObject|ICache $shareCache;
-	private LoggerInterface|MockObject $logger;
-	private MockObject|ICacheFactory $cacheFactory;
-	private Service|MockObject $calendarService;
+	private IDBConnection&MockObject $db;
+	private IUserManager&MockObject $userManager;
+	private IGroupManager&MockObject $groupManager;
+	private Principal&MockObject $principalBackend;
+	private ICache&MockObject $shareCache;
+	private LoggerInterface&MockObject $logger;
+	private ICacheFactory&MockObject $cacheFactory;
+	private Service&MockObject $calendarService;
 	private CalendarSharingBackend $backend;
 
 	protected function setUp(): void {

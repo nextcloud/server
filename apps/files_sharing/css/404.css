@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 #body-login .error-broken-link{
- text-align:left;color:#fff;
+ text-align:start;color:#fff;
 }
 
 #body-login .error-broken-link ul{

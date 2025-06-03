@@ -24,13 +24,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.25.1
+	- version: 8.27.0
 	- license: AGPL-3.0-or-later
 - css-loader
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.2.5
+	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3

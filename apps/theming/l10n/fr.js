@@ -76,6 +76,7 @@ OC.L10N.register(
     "Advanced options" : "Options avancées",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installez l'extension PHP ImageMagick qui prend en charge les images SVG pour générer automatiquement des favicons à partir du logo téléversé et de la couleur indiquée.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si vous rencontrez des problèmes, n'hésitez pas à les signaler sur {issuetracker}notre outil de suivi des problèmes{linkend}. Et si vous voulez vous impliquer, venez rejoindre {designteam}notre équipe de design{linkend} !",
+    "Unable to apply the setting." : "Impossible d'appliquer le réglage.",
     "Appearance and accessibility settings" : "Paramètres d’apparence et d’accessibilité",
     "Misc accessibility options" : "Diverses options d'accessibilité",
     "Enable blur background filter (may increase GPU load)" : "Activer le filtre flou de l'arrière-plan (peut augmenter la charge du GPU)",
@@ -117,6 +118,7 @@ OC.L10N.register(
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Upload" : "Téléverser",
     "Remove background image" : "Retirer l'image d'arrière-plan",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous vérifions que tout est utilisable même sans souris et sans logiciel d'assistance comme les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste."
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accès universel est très important pour nous. Nous suivons les standards du web et nous vérifions que tout est utilisable même sans souris et sans logiciel d'assistance comme les lecteurs d'écran. Nous visons à respecter les {guidelines}Règles pour l'accessibilité des contenus Web{linkend} 2.1 de niveau AA et même de niveau AAA avec le thème à fort contraste.",
+    ". Unable to apply the setting." : ". Impossible d'appliquer le réglage."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

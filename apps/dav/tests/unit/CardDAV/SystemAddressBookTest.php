@@ -30,15 +30,15 @@ use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class SystemAddressBookTest extends TestCase {
-	private MockObject|BackendInterface $cardDavBackend;
+	private BackendInterface&MockObject $cardDavBackend;
 	private array $addressBookInfo;
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
 	private IUserSession $userSession;
-	private IRequest|MockObject $request;
+	private IRequest&MockObject $request;
 	private array $server;
-	private TrustedServers|MockObject $trustedServers;
-	private IGroupManager|MockObject $groupManager;
+	private TrustedServers&MockObject $trustedServers;
+	private IGroupManager&MockObject $groupManager;
 	private SystemAddressbook $addressBook;
 
 	protected function setUp(): void {

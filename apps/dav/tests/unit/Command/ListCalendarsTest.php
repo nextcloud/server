@@ -1,14 +1,17 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\ListCalendars;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -18,15 +21,9 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Command
  */
 class ListCalendarsTest extends TestCase {
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
-	private $userManager;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
-	private $calDav;
-
-	/** @var ListCalendars */
-	private $command;
+	private IUserManager&MockObject $userManager;
+	private CalDavBackend&MockObject $calDav;
+	private ListCalendars $command;
 
 	public const USERNAME = 'username';
 
@@ -75,7 +72,7 @@ class ListCalendarsTest extends TestCase {
 		$this->assertStringContainsString('User <' . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute() {
+	public static function dataExecute(): array {
 		return [
 			[false, '✓'],
 			[true, 'x']

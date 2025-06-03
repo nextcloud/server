@@ -203,7 +203,7 @@ export default {
 
 			try {
 				await restoreVersion(version)
-				if (version.label !== '') {
+				if (version.label) {
 					showSuccess(t('files_versions', `${version.label} restored`))
 				} else if (version.mtime === this.initialVersionMtime) {
 					showSuccess(t('files_versions', 'Initial version restored'))

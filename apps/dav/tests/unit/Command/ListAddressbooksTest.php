@@ -5,7 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Command\ListAddressbooks;
@@ -20,9 +20,8 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Command
  */
 class ListAddressbooksTest extends TestCase {
-
-	private IUserManager|MockObject $userManager;
-	private CardDavBackend|MockObject $cardDavBackend;
+	private IUserManager&MockObject $userManager;
+	private CardDavBackend&MockObject $cardDavBackend;
 	private ListAddressbooks $command;
 
 	public const USERNAME = 'username';
@@ -72,7 +71,7 @@ class ListAddressbooksTest extends TestCase {
 		$this->assertStringContainsString('User <' . self::USERNAME . "> has no addressbooks\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute() {
+	public static function dataExecute(): array {
 		return [
 			[false, '✓'],
 			[true, 'x']

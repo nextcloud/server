@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,7 +24,7 @@ use Test\Traits\EncryptionTrait;
 class EncryptionMasterKeyUploadTest extends UploadTest {
 	use EncryptionTrait;
 
-	protected function setupUser($name, $password) {
+	protected function setupUser($name, $password): View {
 		$this->createUser($name, $password);
 		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);

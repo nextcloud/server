@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -41,36 +43,25 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class AccessTest extends TestCase {
-	/** @var UserMapping|MockObject */
-	protected $userMapper;
-	/** @var IManager|MockObject */
-	protected $shareManager;
-	/** @var GroupMapping|MockObject */
-	protected $groupMapper;
-	/** @var Connection|MockObject */
-	private $connection;
-	/** @var LDAP|MockObject */
-	private $ldap;
-	/** @var Manager|MockObject */
-	private $userManager;
-	/** @var Helper|MockObject */
-	private $helper;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IUserManager|MockObject */
-	private $ncUserManager;
-
+	protected UserMapping&MockObject $userMapper;
+	protected IManager&MockObject $shareManager;
+	protected GroupMapping&MockObject $groupMapper;
+	private Connection&MockObject $connection;
+	private LDAP&MockObject $ldap;
+	private Manager&MockObject $userManager;
+	private Helper&MockObject $helper;
+	private IConfig&MockObject $config;
+	private IUserManager&MockObject $ncUserManager;
 	private LoggerInterface&MockObject $logger;
-
 	private IAppConfig&MockObject $appConfig;
-
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
+	private IEventDispatcher&MockObject $dispatcher;
 	private Access $access;
 
 	protected function setUp(): void {
-		$this->connection = $this->createMock(Connection::class);
 		$this->ldap = $this->createMock(LDAP::class);
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->ldap])
+			->getMock();
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -126,19 +117,19 @@ class AccessTest extends TestCase {
 
 	public function testEscapeFilterPartValidChars(): void {
 		$input = 'okay';
-		$this->assertTrue($input === $this->access->escapeFilterPart($input));
+		$this->assertSame($input, $this->access->escapeFilterPart($input));
 	}
 
 	public function testEscapeFilterPartEscapeWildcard(): void {
 		$input = '*';
 		$expected = '\\2a';
-		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
+		$this->assertSame($expected, $this->access->escapeFilterPart($input));
 	}
 
 	public function testEscapeFilterPartEscapeWildcard2(): void {
 		$input = 'foo*bar';
 		$expected = 'foo\\2abar';
-		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
+		$this->assertSame($expected, $this->access->escapeFilterPart($input));
 	}
 
 	/**
@@ -151,7 +142,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($sidExpected, $this->access->convertSID2Str($sidBinary));
 	}
 
-	public function convertSID2StrSuccessData() {
+	public static function convertSID2StrSuccessData(): array {
 		return [
 			[
 				[
@@ -209,55 +200,53 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
 	}
 
-	public function dnInputDataProvider() {
-		return  [[
+	public static function dnInputDataProvider(): array {
+		return [
 			[
-				'input' => 'foo=bar,bar=foo,dc=foobar',
-				'interResult' => [
+				'foo=bar,bar=foo,dc=foobar',
+				[
 					'count' => 3,
 					0 => 'foo=bar',
 					1 => 'bar=foo',
 					2 => 'dc=foobar'
 				],
-				'expectedResult' => true
+				true
 			],
 			[
-				'input' => 'foobarbarfoodcfoobar',
-				'interResult' => false,
-				'expectedResult' => false
+				'foobarbarfoodcfoobar',
+				false,
+				false
 			]
-		]];
+		];
 	}
 
 	/**
 	 * @dataProvider dnInputDataProvider
-	 * @param array $case
 	 */
-	public function testStringResemblesDN($case): void {
+	public function testStringResemblesDN(string $input, array|bool $interResult, bool $expectedResult): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|MockObject $config */
+		/** @var IConfig&MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
-			->willReturnCallback(function ($dn) use ($case) {
-				if ($dn === $case['input']) {
-					return $case['interResult'];
+			->willReturnCallback(function ($dn) use ($input, $interResult) {
+				if ($dn === $input) {
+					return $interResult;
 				}
 				return null;
 			});
 
-		$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
+		$this->assertSame($expectedResult, $access->stringResemblesDN($input));
 	}
 
 	/**
 	 * @dataProvider dnInputDataProvider
-	 * @param $case
 	 */
-	public function testStringResemblesDNLDAPmod($case): void {
+	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|MockObject $config */
+		/** @var IConfig&MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
 		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
@@ -266,7 +255,7 @@ class AccessTest extends TestCase {
 			$this->markTestSkipped('LDAP Module not available');
 		}
 
-		$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
+		$this->assertSame($expectedResult, $access->stringResemblesDN($input));
 	}
 
 	public function testCacheUserHome(): void {
@@ -290,7 +279,7 @@ class AccessTest extends TestCase {
 			->method('getAttributes')
 			->willReturn(['displayname' => ['bar', 'count' => 1]]);
 
-		/** @var UserMapping|MockObject $mapperMock */
+		/** @var UserMapping&MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -335,7 +324,7 @@ class AccessTest extends TestCase {
 	}
 
 	public function testBatchApplyUserAttributesSkipped(): void {
-		/** @var UserMapping|MockObject $mapperMock */
+		/** @var UserMapping&MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -376,7 +365,7 @@ class AccessTest extends TestCase {
 	}
 
 	public function testBatchApplyUserAttributesDontSkip(): void {
-		/** @var UserMapping|MockObject $mapperMock */
+		/** @var UserMapping&MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
@@ -416,7 +405,7 @@ class AccessTest extends TestCase {
 		$this->access->batchApplyUserAttributes($data);
 	}
 
-	public function dNAttributeProvider() {
+	public static function dNAttributeProvider(): array {
 		// corresponds to Access::resemblesDN()
 		return [
 			'dn' => ['dn'],
@@ -428,11 +417,10 @@ class AccessTest extends TestCase {
 
 	/**
 	 * @dataProvider dNAttributeProvider
-	 * @param $attribute
 	 */
-	public function testSanitizeDN($attribute): void {
+	public function testSanitizeDN(string $attribute): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		/** @var IConfig|MockObject $config */
+		/** @var IConfig&MockObject $config */
 		$config = $this->createMock(IConfig::class);
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
@@ -628,7 +616,7 @@ class AccessTest extends TestCase {
 		$this->userMapper->expects($this->exactly($fakeLdapEntries['count']))
 			->method('getNameByDN')
 			->willReturnCallback(function ($fdn) {
-				$parts = ldap_explode_dn($fdn, false);
+				$parts = ldap_explode_dn($fdn, 0);
 				return $parts[0];
 			});
 
@@ -676,7 +664,7 @@ class AccessTest extends TestCase {
 		$this->assertSame('Another Good Team', $groups[1]['cn'][0]);
 	}
 
-	public function intUsernameProvider() {
+	public static function intUsernameProvider(): array {
 		return [
 			['alice', 'alice'],
 			['b/ob', 'bob'],
@@ -694,7 +682,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	public function groupIDCandidateProvider() {
+	public static function groupIDCandidateProvider(): array {
 		return [
 			['alice', 'alice'],
 			['b/ob', 'b/ob'],
@@ -713,11 +701,8 @@ class AccessTest extends TestCase {
 
 	/**
 	 * @dataProvider intUsernameProvider
-	 *
-	 * @param $name
-	 * @param $expected
 	 */
-	public function testSanitizeUsername($name, $expected): void {
+	public function testSanitizeUsername(string $name, ?string $expected): void {
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}
@@ -752,7 +737,7 @@ class AccessTest extends TestCase {
 			->with('detta')
 			->willReturnOnConsecutiveCalls($offlineUserMock, $regularUserMock);
 
-		/** @var UserMapping|MockObject $mapperMock */
+		/** @var UserMapping&MockObject $mapperMock */
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')

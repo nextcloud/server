@@ -273,7 +273,7 @@
     "A valid Login must be provided" : "Морате да унесете исправно име за пријаву",
     "Login contains whitespace at the beginning or at the end" : "Име за пријаву садржи белине на почетку или на крају",
     "Login must not consist of dots only" : "Име за пријаву не може да се састоји само од тачака",
-    "Login is too long" : "Име за пријаву је сувише дугачко",
+    "Username is too long" : "Корисничко име је сувише дугачко",
     "Login is invalid because files already exist for this user" : "Име за пријаву није исправно пошто већ постоје фајлови овог корисника",
     "Account disabled" : "Налог је искључен",
     "Login canceled by app" : "Пријава отказана од стране апликације",
@@ -449,6 +449,7 @@
     "Summarizes text by reducing its length without losing key information." : "Резимира текст тако што га скраћује без губитка кључних информација.",
     "Extracts topics from a text and outputs them separated by commas." : "Издваја теме из текста и исписује их раздвојене запетама.",
     "File is currently busy, please try again later" : "Фајл је тренутно заузет, покушајте поново касније",
-    "Cannot download file" : "Фајл не може да се преузме"
+    "Cannot download file" : "Фајл не може да се преузме",
+    "Login is too long" : "Име за пријаву је сувише дугачко"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "嗨，{name}",
     "Happy birthday 🥳🤩🎂🎉" : "生日快樂 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "生日快樂，{name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "「{title} 圖示」",
     "Customize" : "自訂",
     "Edit widgets" : "編輯小工具",
     "Get more widgets from the App Store" : "從應用程式商店取得更多小工具",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "為了保護您的隱私，Nextcloud 伺服器會代您請求氣象資料，因此天氣服務不會收到您的個人資訊。",
     "Weather data from Met.no" : "氣象資訊來自 Met.no",
     "geocoding with Nominatim" : "地理編碼使用 Nominatim",
-    "elevation data from OpenTopoData" : "海拔資料來自 OpenTopoData"
+    "elevation data from OpenTopoData" : "海拔資料來自 OpenTopoData",
+    "\"{title} icon\"" : "「{title} 圖示」"
 },
 "nplurals=1; plural=0;");

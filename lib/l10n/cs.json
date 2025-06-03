@@ -273,7 +273,6 @@
     "A valid Login must be provided" : "Je třeba zadat platné přihlašovací jméno",
     "Login contains whitespace at the beginning or at the end" : "Přihlašovací jméno je chybné – na jeho začátku či konci se nachází prázdný znak (mezera, tabulátor, atp.)",
     "Login must not consist of dots only" : "Přihlašovací jméno se nemůže skládat pouze ze samých teček",
-    "Login is too long" : "Přihlašovací jméno je příliš dlouhé",
     "Login is invalid because files already exist for this user" : "Přihlašovací jméno není platné, protože protože pro tohoto uživatele už existují soubory",
     "Account disabled" : "Účet znepřístupněn",
     "Login canceled by app" : "Přihlášení zrušeno aplikací",
@@ -449,6 +448,7 @@
     "Summarizes text by reducing its length without losing key information." : "Vytvoří stručný souhrn textu tím, že zkrátí jeho délku aniž by byly ztraceny klíčové informace",
     "Extracts topics from a text and outputs them separated by commas." : "Vyzíská témata z textu a vypíše je oddělované čárkami.",
     "File is currently busy, please try again later" : "Soubor je nyní používán, zkuste to později",
-    "Cannot download file" : "Soubor se nedaří stáhnout"
+    "Cannot download file" : "Soubor se nedaří stáhnout",
+    "Login is too long" : "Přihlašovací jméno je příliš dlouhé"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

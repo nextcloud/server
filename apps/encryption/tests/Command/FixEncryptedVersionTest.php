@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2019 ownCloud GmbH
@@ -16,6 +18,7 @@ use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
@@ -34,16 +37,13 @@ class FixEncryptedVersionTest extends TestCase {
 	use EncryptionTrait;
 	use UserTrait;
 
-	private $userId;
+	private string $userId;
 
-	/** @var FixEncryptedVersion */
-	private $fixEncryptedVersion;
+	private FixEncryptedVersion $fixEncryptedVersion;
 
-	/** @var CommandTester */
-	private $commandTester;
+	private CommandTester $commandTester;
 
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	protected $util;
+	protected Util&MockObject $util;
 
 	public function setUp(): void {
 		parent::setUp();

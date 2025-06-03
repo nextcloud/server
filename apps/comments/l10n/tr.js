@@ -19,7 +19,7 @@ OC.L10N.register(
     "New comment" : "Yorum ekle",
     "Write a comment …" : "Bir yorum yazın…",
     "Post comment" : "Yorum gönder",
-    "@ for mentions, : for emoji, / for smart picker" : "Anmalar için @, emojiler için :, akıllı seçici için /",
+    "@ for mentions, : for emoji, / for smart picker" : "Bahsetmeler için @, emojiler için :, akıllı seçici için /",
     "Could not reload comments" : "Yorumlar yeniden yüklenemedi",
     "Failed to mark comments as read" : "Yorumlar okunmuş olarak işaretlenemedi",
     "Unable to load the comments list" : "Yorum listesi yüklenemedi",

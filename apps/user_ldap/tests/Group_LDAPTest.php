@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -34,10 +35,10 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class Group_LDAPTest extends TestCase {
-	private MockObject|Access $access;
-	private MockObject|GroupPluginManager $pluginManager;
-	private MockObject|IConfig $config;
-	private MockObject|IUserManager $ncUserManager;
+	private Access&MockObject $access;
+	private GroupPluginManager&MockObject $pluginManager;
+	private IConfig&MockObject $config;
+	private IUserManager&MockObject $ncUserManager;
 	private GroupLDAP $groupBackend;
 
 	public function setUp(): void {
@@ -96,30 +97,19 @@ class Group_LDAPTest extends TestCase {
 	 * @return MockObject|Access
 	 */
 	private function getAccessMock() {
-		static $conMethods;
-		static $accMethods;
-
-		if (is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods(Connection::class);
-			$accMethods = get_class_methods(Access::class);
-		}
 		$lw = $this->createMock(ILDAPWrapper::class);
-
 		$connector = $this->getMockBuilder(Connection::class)
-			->setMethods($conMethods)
 			->setConstructorArgs([$lw, '', null])
 			->getMock();
 
 		$this->access = $this->createMock(Access::class);
-
 		$this->access->connection = $connector;
-
 		$this->access->userManager = $this->createMock(Manager::class);
 
 		return $this->access;
 	}
 
-	private function enableGroups() {
+	private function enableGroups(): void {
 		$this->access->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
@@ -179,7 +169,7 @@ class Group_LDAPTest extends TestCase {
 	public function testCountUsersWithPlugin(): void {
 		/** @var GroupPluginManager|MockObject $pluginManager */
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'countUsersInGroup'])
+			->onlyMethods(['implementsActions', 'countUsersInGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -470,7 +460,7 @@ class Group_LDAPTest extends TestCase {
 		$this->groupBackend->inGroup($uid, $gid);
 	}
 
-	public function groupWithMembersProvider() {
+	public static function groupWithMembersProvider(): array {
 		return [
 			[
 				'someGroup',
@@ -574,7 +564,7 @@ class Group_LDAPTest extends TestCase {
 		$memberUids = [];
 		$userRecords = [];
 		foreach ($memberDNs as $dn) {
-			$memberUids[] = ldap_explode_dn($dn, false)[0];
+			$memberUids[] = ldap_explode_dn($dn, 0)[0];
 			$userRecords[] = ['dn' => [$dn]];
 		}
 
@@ -876,8 +866,8 @@ class Group_LDAPTest extends TestCase {
 		$this->initBackend();
 		$returnedGroups = $this->groupBackend->getUserGroups('userX');
 		$this->assertCount(2, $returnedGroups);
-		$this->assertTrue(in_array('groupB', $returnedGroups));
-		$this->assertTrue(in_array('groupF', $returnedGroups));
+		$this->assertContains('groupB', $returnedGroups);
+		$this->assertContains('groupF', $returnedGroups);
 	}
 
 	/**
@@ -903,8 +893,8 @@ class Group_LDAPTest extends TestCase {
 		$this->initBackend();
 		$returnedGroups = $this->groupBackend->getUserGroups('userX');
 		$this->assertCount(2, $returnedGroups);
-		$this->assertTrue(in_array('groupB', $returnedGroups));
-		$this->assertTrue(in_array('groupF', $returnedGroups));
+		$this->assertContains('groupB', $returnedGroups);
+		$this->assertContains('groupF', $returnedGroups);
 	}
 
 	public function testGetUserGroupsUnrecognizedOfflineUser(): void {
@@ -946,11 +936,11 @@ class Group_LDAPTest extends TestCase {
 		$this->initBackend();
 		$returnedGroups = $this->groupBackend->getUserGroups('userX');
 		$this->assertCount(2, $returnedGroups);
-		$this->assertTrue(in_array('groupB', $returnedGroups));
-		$this->assertTrue(in_array('groupF', $returnedGroups));
+		$this->assertContains('groupB', $returnedGroups);
+		$this->assertContains('groupF', $returnedGroups);
 	}
 
-	public function nestedGroupsProvider(): array {
+	public static function nestedGroupsProvider(): array {
 		return [
 			[true],
 			[false],
@@ -1076,7 +1066,7 @@ class Group_LDAPTest extends TestCase {
 
 	public function testCreateGroupWithPlugin(): void {
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'createGroup'])
+			->onlyMethods(['implementsActions', 'createGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1090,7 +1080,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn('result');
 
 		$this->initBackend();
-		$this->assertEquals($this->groupBackend->createGroup('gid'), true);
+		$this->assertTrue($this->groupBackend->createGroup('gid'));
 	}
 
 
@@ -1098,7 +1088,7 @@ class Group_LDAPTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'createGroup'])
+			->onlyMethods(['implementsActions', 'createGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1112,7 +1102,7 @@ class Group_LDAPTest extends TestCase {
 
 	public function testDeleteGroupWithPlugin(): void {
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'deleteGroup'])
+			->onlyMethods(['implementsActions', 'deleteGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1126,7 +1116,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn(true);
 
 		$mapper = $this->getMockBuilder(GroupMapping::class)
-			->setMethods(['unmap'])
+			->onlyMethods(['unmap'])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -1143,7 +1133,7 @@ class Group_LDAPTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'deleteGroup'])
+			->onlyMethods(['implementsActions', 'deleteGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1157,7 +1147,7 @@ class Group_LDAPTest extends TestCase {
 
 	public function testAddToGroupWithPlugin(): void {
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'addToGroup'])
+			->onlyMethods(['implementsActions', 'addToGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1171,7 +1161,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn('result');
 
 		$this->initBackend();
-		$this->assertEquals($this->groupBackend->addToGroup('uid', 'gid'), 'result');
+		$this->assertEquals('result', $this->groupBackend->addToGroup('uid', 'gid'));
 	}
 
 
@@ -1179,7 +1169,7 @@ class Group_LDAPTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'addToGroup'])
+			->onlyMethods(['implementsActions', 'addToGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1193,7 +1183,7 @@ class Group_LDAPTest extends TestCase {
 
 	public function testRemoveFromGroupWithPlugin(): void {
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'removeFromGroup'])
+			->onlyMethods(['implementsActions', 'removeFromGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1207,7 +1197,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn('result');
 
 		$this->initBackend();
-		$this->assertEquals($this->groupBackend->removeFromGroup('uid', 'gid'), 'result');
+		$this->assertEquals('result', $this->groupBackend->removeFromGroup('uid', 'gid'));
 	}
 
 
@@ -1215,7 +1205,7 @@ class Group_LDAPTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'removeFromGroup'])
+			->onlyMethods(['implementsActions', 'removeFromGroup'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1230,7 +1220,7 @@ class Group_LDAPTest extends TestCase {
 	public function testGetGroupDetailsWithPlugin(): void {
 		/** @var GroupPluginManager|MockObject $pluginManager */
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'getGroupDetails'])
+			->onlyMethods(['implementsActions', 'getGroupDetails'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1244,14 +1234,14 @@ class Group_LDAPTest extends TestCase {
 			->willReturn('result');
 
 		$this->initBackend();
-		$this->assertEquals($this->groupBackend->getGroupDetails('gid'), 'result');
+		$this->assertEquals('result', $this->groupBackend->getGroupDetails('gid'));
 	}
 
 	public function testGetGroupDetailsFailing(): void {
 		$this->expectException(\Exception::class);
 
 		$this->pluginManager = $this->getMockBuilder(GroupPluginManager::class)
-			->setMethods(['implementsActions', 'getGroupDetails'])
+			->onlyMethods(['implementsActions', 'getGroupDetails'])
 			->getMock();
 
 		$this->pluginManager->expects($this->once())
@@ -1263,7 +1253,7 @@ class Group_LDAPTest extends TestCase {
 		$this->groupBackend->getGroupDetails('gid');
 	}
 
-	public function groupMemberProvider() {
+	public static function groupMemberProvider(): array {
 		$base = 'dc=species,dc=earth';
 
 		$birdsDn = [
@@ -1332,10 +1322,9 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	/**
-	 * @param string[] $expectedMembers
 	 * @dataProvider groupMemberProvider
 	 */
-	public function testGroupMembers(array $expectedResult, ?array $groupsInfo = null): void {
+	public function testGroupMembers(array $expectedResult, array $groupsInfo): void {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($group) use ($groupsInfo) {
@@ -1360,11 +1349,13 @@ class Group_LDAPTest extends TestCase {
 		foreach ($expectedResult as $groupDN => $expectedMembers) {
 			$resultingMembers = $this->invokePrivate($this->groupBackend, '_groupMembers', [$groupDN]);
 
-			$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+			sort($expectedMembers);
+			sort($resultingMembers);
+			$this->assertEquals($expectedMembers, $resultingMembers);
 		}
 	}
 
-	public function displayNameProvider() {
+	public static function displayNameProvider(): array {
 		return [
 			['Graphic Novelists', ['Graphic Novelists']],
 			['', false],
@@ -1374,7 +1365,7 @@ class Group_LDAPTest extends TestCase {
 	/**
 	 * @dataProvider displayNameProvider
 	 */
-	public function testGetDisplayName(string $expected, $ldapResult): void {
+	public function testGetDisplayName(string $expected, bool|array $ldapResult): void {
 		$gid = 'graphic_novelists';
 
 		$this->access->expects($this->atLeastOnce())

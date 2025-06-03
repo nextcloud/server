@@ -256,7 +256,6 @@ OC.L10N.register(
     "This is the final warning: Do you really want to enable encryption?" : "Това е последно предупреждение: Наистина ли искате да активирате криптирането?",
     "Submit" : "Изпращане",
     "Rename group" : "Преименуване на група",
-    "Remove group" : "Премахване на групата",
     "Current password" : "Текуща парола",
     "New password" : "Нова парола",
     "Change password" : "Промени паролата",

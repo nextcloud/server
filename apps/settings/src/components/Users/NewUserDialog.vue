@@ -86,7 +86,7 @@
 					:input-label="t('settings', 'Admin of the following groups')"
 					:placeholder="t('settings', 'Set account as admin for …')"
 					:disabled="loading.groups || loading.all"
-					:options="subAdminsGroups"
+					:options="availableGroups"
 					:close-on-select="false"
 					:multiple="true"
 					label="name"
@@ -179,7 +179,6 @@ export default {
 
 	data() {
 		return {
-			availableGroups: [],
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerInputLabel: t('settings', 'Manager'),
@@ -210,9 +209,12 @@ export default {
 			return this.$store.getters.getPasswordPolicyMinLength
 		},
 
-		subAdminsGroups() {
-			// data provided php side
-			return this.availableGroups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+		availableGroups() {
+			const groups = (this.settings.isAdmin || this.settings.isDelegatedAdmin)
+				? this.$store.getters.getSortedGroups
+				: this.$store.getters.getSubAdminGroups
+
+			return groups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 		},
 
 		languages() {
@@ -236,13 +238,6 @@ export default {
 	},
 
 	mounted() {
-		// admins also can assign the system groups
-		if (this.isAdmin || this.isDelegatedAdmin) {
-			this.availableGroups = this.$store.getters.getSortedGroups.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-		} else {
-			this.availableGroups = [...this.$store.getters.getSubAdminGroups]
-		}
-
 		this.$refs.username?.focus?.()
 	},
 
@@ -281,7 +276,7 @@ export default {
 		},
 
 		async searchGroups(query, toggleLoading) {
-			if (!this.isAdmin && !this.isDelegatedAdmin) {
+			if (!this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
 				// managers cannot search for groups
 				return
 			}
@@ -297,7 +292,10 @@ export default {
 					limit: 25,
 				})
 				const groups = await this.promise
-				this.availableGroups = groups
+				// Populate store from server request
+				for (const group of groups) {
+					this.$store.commit('addGroup', group)
+				}
 			} catch (error) {
 				logger.error(t('settings', 'Failed to search groups'), { error })
 			}
@@ -315,7 +313,6 @@ export default {
 			this.loading.groups = true
 			try {
 				await this.$store.dispatch('addGroup', gid)
-				this.availableGroups.push({ id: gid, name: gid })
 				this.newUser.groups.push({ id: gid, name: gid })
 			} catch (error) {
 				logger.error(t('settings', 'Failed to create group'), { error })
@@ -349,7 +346,7 @@ export default {
 			const validQuota = OC.Util.computerFileSize(quota)
 			if (validQuota !== null && validQuota >= 0) {
 				// unify format output
-				quota = formatFileSize(parseFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				this.newUser.quota = { id: quota, label: quota }
 				return this.newUser.quota
 			}

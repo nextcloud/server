@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\Response;
 
@@ -15,18 +17,16 @@ class BrowserErrorPagePluginTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesExceptions
-	 * @param $expectedCode
-	 * @param $exception
 	 */
-	public function test($expectedCode, $exception): void {
-		/** @var BrowserErrorPagePlugin | \PHPUnit\Framework\MockObject\MockObject $plugin */
-		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
+	public function test(int $expectedCode, \Throwable $exception): void {
+		/** @var BrowserErrorPagePlugin&MockObject $plugin */
+		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->onlyMethods(['sendResponse', 'generateBody'])->getMock();
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');
 		$plugin->expects($this->once())->method('sendResponse');
-		/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject $server */
-		$server = $this->getMockBuilder('Sabre\DAV\Server')->disableOriginalConstructor()->getMock();
+		/** @var \Sabre\DAV\Server&MockObject $server */
+		$server = $this->createMock('Sabre\DAV\Server');
 		$server->expects($this->once())->method('on');
-		$httpResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+		$httpResponse = $this->createMock(Response::class);
 		$httpResponse->expects($this->once())->method('addHeaders');
 		$httpResponse->expects($this->once())->method('setStatus')->with($expectedCode);
 		$httpResponse->expects($this->once())->method('setBody')->with(':boom:');
@@ -35,7 +35,7 @@ class BrowserErrorPagePluginTest extends \Test\TestCase {
 		$plugin->logException($exception);
 	}
 
-	public function providesExceptions() {
+	public static function providesExceptions(): array {
 		return [
 			[ 404, new NotFound()],
 			[ 500, new \RuntimeException()],

@@ -1542,84 +1542,129 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected, $result->getData());
 	}
 
-	public function testCanAccessShare(): void {
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+	public function testCanAccessShareAsOwner(): void {
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	}
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+	public function testCanAccessShareAsSharer(): void {
+		$share = $this->createMock(IShare::class);
 		$share->method('getSharedBy')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	}
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+	public function testCanAccessShareAsSharee(): void {
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	}
 
-		$file = $this->getMockBuilder(File::class)->getMock();
+	public function testCannotAccessLinkShare(): void {
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getNodeId')->willReturn(42);
 
-		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
+		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
+		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	}
+
+	/**
+	 * @dataProvider dataCanAccessShareWithPermissions
+	 */
+	public function testCanAccessShareWithPermissions(int $permissions, bool $expected): void {
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getSharedWith')->willReturn($this->createMock(IUser::class));
+		$share->method('getNodeId')->willReturn(42);
+
+		$file = $this->createMock(File::class);
+
+		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
 		$userFolder->method('getFirstNodeById')
 			->with($share->getNodeId())
 			->willReturn($file);
 		$userFolder->method('getById')
 			->with($share->getNodeId())
 			->willReturn([$file]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 
 		$file->method('getPermissions')
-			->will($this->onConsecutiveCalls(Constants::PERMISSION_SHARE, Constants::PERMISSION_READ));
+			->willReturn($permissions);
 
-		// getPermissions -> share
-		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
-		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
-		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		if ($expected) {
+			$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		} else {
+			$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		}
+	}
 
-		// getPermissions -> read
-		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
-		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
-		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	public static function dataCanAccessShareWithPermissions(): array {
+		return [
+			[Constants::PERMISSION_SHARE, true],
+			[Constants::PERMISSION_READ, false],
+			[Constants::PERMISSION_READ | Constants::PERMISSION_SHARE, true],
+		];
+	}
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+	/**
+	 * @dataProvider dataCanAccessShareAsGroupMember
+	 */
+	public function testCanAccessShareAsGroupMember(string $group, bool $expected): void {
+		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
-		$share->method('getSharedWith')->willReturn('group');
+		$share->method('getSharedWith')->willReturn($group);
+		$share->method('getNodeId')->willReturn(42);
+
+		$file = $this->createMock(File::class);
+
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getFirstNodeById')
+			->with($share->getNodeId())
+			->willReturn($file);
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$file]);
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturn($userFolder);
 
 		$user = $this->createMock(IUser::class);
 		$this->userManager->method('get')
 			->with($this->currentUser)
 			->willReturn($user);
 
-		$group = $this->getMockBuilder(IGroup::class)->getMock();
+		$group = $this->createMock(IGroup::class);
 		$group->method('inGroup')->with($user)->willReturn(true);
-		$group2 = $this->getMockBuilder(IGroup::class)->getMock();
+		$group2 = $this->createMock(IGroup::class);
 		$group2->method('inGroup')->with($user)->willReturn(false);
 
 		$this->groupManager->method('get')->willReturnMap([
 			['group', $group],
 			['group2', $group2],
-			['groupnull', null],
+			['group-null', null],
 		]);
-		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
-		$share->method('getSharedWith')->willReturn('group2');
-		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		if ($expected) {
+			$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		} else {
+			$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+		}
+	}
 
-		// null group
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
-		$share->method('getSharedWith')->willReturn('groupnull');
-		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
-
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
+	public static function dataCanAccessShareAsGroupMember(): array {
+		return [
+			['group', true],
+			['group2', false],
+			['group-null', false],
+		];
 	}
 
 	public function dataCanAccessRoomShare() {
@@ -1675,8 +1720,11 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->setMethods(['canAccessShare'])
+			// This is not possible anymore with PHPUnit 10+
+			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder(\stdClass::class)
+				->addMethods(['canAccessShare'])
 				->getMock();
 			$helper->method('canAccessShare')
 				->with($share, $this->currentUser)
@@ -2492,8 +2540,11 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-			->setMethods(['createShare'])
+		// This is not possible anymore with PHPUnit 10+
+		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder(\stdClass::class)
+			->addMethods(['createShare'])
 			->getMock();
 		$helper->method('createShare')
 			->with(
@@ -2598,7 +2649,10 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		// This is not possible anymore with PHPUnit 10+
+		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+		$helper = $this->getMockBuilder(\stdClass::class)
 			->addMethods(['createShare'])
 			->getMock();
 		$helper->method('createShare')
@@ -5093,8 +5147,11 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->setMethods(['formatShare', 'canAccessShare'])
+			// This is not possible anymore with PHPUnit 10+
+			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
+			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
+			$helper = $this->getMockBuilder(\stdClass::class)
+				->addMethods(['formatShare', 'canAccessShare'])
 				->getMock();
 			$helper->method('formatShare')
 				->with($share)

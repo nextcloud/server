@@ -399,7 +399,8 @@
                         "description": "location/URL to filter by",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {

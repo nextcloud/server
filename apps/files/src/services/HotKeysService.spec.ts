@@ -61,6 +61,7 @@ describe('HotKeysService testing', () => {
 		activeStore.setActiveNode(file)
 
 		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
+		// We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock, params: {}, query: {} } } }
 
 		initialState = document.createElement('input')
@@ -73,26 +74,26 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing d should open the sidebar once', () => {
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }))
+		dispatchEvent({ key: 'd', code: 'KeyD' })
 
 		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD', ctrlKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD', altKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD', shiftKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD', metaKey: true }))
+		dispatchEvent({ key: 'd', code: 'KeyD', ctrlKey: true })
+		dispatchEvent({ key: 'd', code: 'KeyD', altKey: true })
+		dispatchEvent({ key: 'd', code: 'KeyD', shiftKey: true })
+		dispatchEvent({ key: 'd', code: 'KeyD', metaKey: true })
 
 		expect(sidebarAction.enabled).toHaveReturnedWith(true)
 		expect(sidebarAction.exec).toHaveBeenCalledOnce()
 	})
 
 	it('Pressing F2 should rename the file', () => {
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'F2', code: 'F2' }))
+		dispatchEvent({ key: 'F2', code: 'F2' })
 
 		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'F2', code: 'F2', ctrlKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'F2', code: 'F2', altKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'F2', code: 'F2', shiftKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'F2', code: 'F2', metaKey: true }))
+		dispatchEvent({ key: 'F2', code: 'F2', ctrlKey: true })
+		dispatchEvent({ key: 'F2', code: 'F2', altKey: true })
+		dispatchEvent({ key: 'F2', code: 'F2', shiftKey: true })
+		dispatchEvent({ key: 'F2', code: 'F2', metaKey: true })
 
 		expect(renameAction.enabled).toHaveReturnedWith(true)
 		expect(renameAction.exec).toHaveBeenCalledOnce()
@@ -100,29 +101,29 @@ describe('HotKeysService testing', () => {
 
 	it('Pressing s should toggle favorite', () => {
 		vi.spyOn(axios, 'post').mockImplementationOnce(() => Promise.resolve())
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }))
+		dispatchEvent({ key: 's', code: 'KeyS' })
 
 		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS', ctrlKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS', altKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS', shiftKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS', metaKey: true }))
+		dispatchEvent({ key: 's', code: 'KeyS', ctrlKey: true })
+		dispatchEvent({ key: 's', code: 'KeyS', altKey: true })
+		dispatchEvent({ key: 's', code: 'KeyS', shiftKey: true })
+		dispatchEvent({ key: 's', code: 'KeyS', metaKey: true })
 
 		expect(favoriteAction.enabled).toHaveReturnedWith(true)
 		expect(favoriteAction.exec).toHaveBeenCalledOnce()
 	})
 
 	it('Pressing Delete should delete the file', async () => {
-		// @ts-expect-error mocking private field
+		// @ts-expect-error unit testing
 		vi.spyOn(deleteAction._action, 'exec').mockResolvedValue(() => true)
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete' }))
+		dispatchEvent({ key: 'Delete', code: 'Delete' })
 
 		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', ctrlKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', altKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', shiftKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', code: 'Delete', metaKey: true }))
+		dispatchEvent({ key: 'Delete', code: 'Delete', ctrlKey: true })
+		dispatchEvent({ key: 'Delete', code: 'Delete', altKey: true })
+		dispatchEvent({ key: 'Delete', code: 'Delete', shiftKey: true })
+		dispatchEvent({ key: 'Delete', code: 'Delete', metaKey: true })
 
 		expect(deleteAction.enabled).toHaveReturnedWith(true)
 		expect(deleteAction.exec).toHaveBeenCalledOnce()
@@ -132,7 +133,7 @@ describe('HotKeysService testing', () => {
 		expect(goToRouteMock).toHaveBeenCalledTimes(0)
 		window.OCP.Files.Router.query = { dir: '/foo/bar' }
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp', altKey: true }))
+		dispatchEvent({ key: 'ArrowUp', code: 'ArrowUp', altKey: true })
 
 		expect(goToRouteMock).toHaveBeenCalledOnce()
 		expect(goToRouteMock.mock.calls[0][2].dir).toBe('/foo')
@@ -145,9 +146,7 @@ describe('HotKeysService testing', () => {
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }))
-		await nextTick()
-
+		dispatchEvent({ key: 'v', code: 'KeyV' })
 		expect(userConfigStore.userConfig.grid_view).toBe(true)
 	})
 
@@ -164,9 +163,19 @@ describe('HotKeysService testing', () => {
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV', [modifier]: true }))
+		dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV', [modifier]: true }))
+
 		await nextTick()
 
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 	})
 })
+
+/**
+ * Helper to dispatch the correct event.
+ *
+ * @param init - KeyboardEvent options
+ */
+function dispatchEvent(init: KeyboardEventInit) {
+	document.body.dispatchEvent(new KeyboardEvent('keydown', { ...init, bubbles: true }))
+}

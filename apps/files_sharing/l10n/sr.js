@@ -257,6 +257,7 @@ OC.L10N.register(
     "File drop" : "Место за упуштање фајлова",
     "Upload files to {foldername}." : "Отпреми фајлове у {foldername}.",
     "By uploading files, you agree to the terms of service." : "Отпремањем фајлова, слажете се са условима коришћења.",
+    "Successfully uploaded files" : "Фајлови су успешно отпремљени",
     "View terms of service" : "Прикажи услове коришћења",
     "Terms of service" : "Услови коришћења",
     "Upload files to {folder}" : "Отпреми фајлове у {folder}",

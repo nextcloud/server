@@ -14,7 +14,6 @@
     "Hello, {name}" : "Hej, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Grattis på födelsedagen 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Grattis på födelsedagen, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title}-ikon\"",
     "Customize" : "Anpassa",
     "Edit widgets" : "Ändra widgetar",
     "Get more widgets from the App Store" : "Hämta fler widgetar från Appstore",
@@ -22,6 +21,7 @@
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "För din integritet skull hämtas väderdata av din Nextcloud-server på dina vägnar så att vädertjänsten inte får någon personlig information.",
     "Weather data from Met.no" : "Väderdata från Met.no",
     "geocoding with Nominatim" : "geokodning med Nominatim",
-    "elevation data from OpenTopoData" : "höjddata från OpenTopoData"
+    "elevation data from OpenTopoData" : "höjddata från OpenTopoData",
+    "\"{title} icon\"" : "\"{title}-ikon\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -6,17 +6,17 @@
 <template>
 	<div id="system-tags-creation-control">
 		<h4 class="inlineblock">
-			{{ t('settings', 'System tag management') }}
+			{{ t('systemtags', 'System tag management') }}
 		</h4>
 
 		<p class="settings-hint">
-			{{ t('settings', 'If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.') }}
+			{{ t('systemtags', 'If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.') }}
 		</p>
 
 		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="systemTagsCreationRestrictedToAdmin"
 			@update:checked="updateSystemTagsDefault">
-			{{ t('settings', 'Restrict tag creation and editing to administrators') }}
+			{{ t('systemtags', 'Restrict tag creation and editing to administrators') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>
@@ -47,7 +47,7 @@ export default {
 	data() {
 		return {
 			// By default, system tags creation is not restricted to admins
-			systemTagsCreationRestrictedToAdmin: loadState('settings', 'restrictSystemTagsCreationToAdmin', false),
+			systemTagsCreationRestrictedToAdmin: loadState('systemtags', 'restrictSystemTagsCreationToAdmin', false),
 		}
 	},
 	methods: {
@@ -61,7 +61,7 @@ export default {
 				})
 			} catch (e) {
 				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update setting'),
+					errorMessage: t('systemtags', 'Unable to update setting'),
 					error: e,
 				})
 			}
@@ -71,8 +71,8 @@ export default {
 			if (status === 'ok') {
 				this.systemTagsCreationRestrictedToAdmin = isRestricted
 				showSuccess(isRestricted
-					? t('settings', 'System tag creation is now restricted to administrators')
-					: t('settings', 'System tag creation is now allowed for everybody'),
+					? t('systemtags', 'System tag creation is now restricted to administrators')
+					: t('systemtags', 'System tag creation is now allowed for everybody'),
 				)
 				return
 			}

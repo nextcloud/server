@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -53,16 +54,9 @@ class FileTest extends TestCase {
 	use MountProviderTrait;
 	use UserTrait;
 
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var IRequestId|MockObject */
-	protected $requestId;
+	private string $user;
+	protected IConfig&MockObject $config;
+	protected IRequestId&MockObject $requestId;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -72,7 +66,7 @@ class FileTest extends TestCase {
 		$this->user = 'test_user';
 		$this->createUser($this->user, 'pass');
 
-		$this->loginAsUser($this->user);
+		self::loginAsUser($this->user);
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->requestId = $this->createMock(IRequestId::class);
@@ -86,9 +80,7 @@ class FileTest extends TestCase {
 	}
 
 	private function getMockStorage(): MockObject&IStorage {
-		$storage = $this->getMockBuilder(IStorage::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')
 			->willReturn('home::someuser');
 		return $storage;
@@ -102,7 +94,7 @@ class FileTest extends TestCase {
 	}
 
 
-	public function fopenFailuresProvider() {
+	public static function fopenFailuresProvider(): array {
 		return [
 			[
 				// return false
@@ -161,14 +153,14 @@ class FileTest extends TestCase {
 	/**
 	 * @dataProvider fopenFailuresProvider
 	 */
-	public function testSimplePutFails($thrownException, $expectedException, $checkPreviousClass = true): void {
+	public function testSimplePutFails(?\Throwable $thrownException, string $expectedException, bool $checkPreviousClass = true): void {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
 			->onlyMethods(['writeStream'])
 			->setConstructorArgs([['datadir' => Server::get(ITempManager::class)->getTemporaryFolder()]])
 			->getMock();
 		Filesystem::mount($storage, [], $this->user . '/');
-		/** @var View | MockObject $view */
+		/** @var View&MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath', 'resolvePath'])
 			->getMock();
@@ -221,12 +213,12 @@ class FileTest extends TestCase {
 	 * Simulate putting a file to the given path.
 	 *
 	 * @param string $path path to put the file into
-	 * @param string $viewRoot root to use for the view
+	 * @param ?string $viewRoot root to use for the view
 	 * @param null|Request $request the HTTP request
 	 *
 	 * @return null|string of the PUT operation which is usually the etag
 	 */
-	private function doPut($path, $viewRoot = null, ?Request $request = null) {
+	private function doPut(string $path, ?string $viewRoot = null, ?Request $request = null) {
 		$view = Filesystem::getView();
 		if (!is_null($viewRoot)) {
 			$view = new View($viewRoot);
@@ -245,7 +237,7 @@ class FileTest extends TestCase {
 			null
 		);
 
-		/** @var File|MockObject $file */
+		/** @var File&MockObject $file */
 		$file = $this->getMockBuilder(File::class)
 			->setConstructorArgs([$view, $info, null, $request])
 			->onlyMethods(['header'])
@@ -269,55 +261,55 @@ class FileTest extends TestCase {
 		$this->assertNotEmpty($this->doPut('/foo.txt'));
 	}
 
-	public function legalMtimeProvider() {
+	public static function legalMtimeProvider(): array {
 		return [
 			'string' => [
-				'HTTP_X_OC_MTIME' => 'string',
-				'expected result' => null
+				'requestMtime' => 'string',
+				'resultMtime' => null
 			],
 			'castable string (int)' => [
-				'HTTP_X_OC_MTIME' => '987654321',
-				'expected result' => 987654321
+				'requestMtime' => '987654321',
+				'resultMtime' => 987654321
 			],
 			'castable string (float)' => [
-				'HTTP_X_OC_MTIME' => '123456789.56',
-				'expected result' => 123456789
+				'requestMtime' => '123456789.56',
+				'resultMtime' => 123456789
 			],
 			'float' => [
-				'HTTP_X_OC_MTIME' => 123456789.56,
-				'expected result' => 123456789
+				'requestMtime' => 123456789.56,
+				'resultMtime' => 123456789
 			],
 			'zero' => [
-				'HTTP_X_OC_MTIME' => 0,
-				'expected result' => null
+				'requestMtime' => 0,
+				'resultMtime' => null
 			],
 			'zero string' => [
-				'HTTP_X_OC_MTIME' => '0',
-				'expected result' => null
+				'requestMtime' => '0',
+				'resultMtime' => null
 			],
 			'negative zero string' => [
-				'HTTP_X_OC_MTIME' => '-0',
-				'expected result' => null
+				'requestMtime' => '-0',
+				'resultMtime' => null
 			],
 			'string starting with number following by char' => [
-				'HTTP_X_OC_MTIME' => '2345asdf',
-				'expected result' => null
+				'requestMtime' => '2345asdf',
+				'resultMtime' => null
 			],
 			'string castable hex int' => [
-				'HTTP_X_OC_MTIME' => '0x45adf',
-				'expected result' => null
+				'requestMtime' => '0x45adf',
+				'resultMtime' => null
 			],
 			'string that looks like invalid hex int' => [
-				'HTTP_X_OC_MTIME' => '0x123g',
-				'expected result' => null
+				'requestMtime' => '0x123g',
+				'resultMtime' => null
 			],
 			'negative int' => [
-				'HTTP_X_OC_MTIME' => -34,
-				'expected result' => null
+				'requestMtime' => -34,
+				'resultMtime' => null
 			],
 			'negative float' => [
-				'HTTP_X_OC_MTIME' => -34.43,
-				'expected result' => null
+				'requestMtime' => -34.43,
+				'resultMtime' => null
 			],
 		];
 	}
@@ -326,7 +318,7 @@ class FileTest extends TestCase {
 	 * Test putting a file with string Mtime
 	 * @dataProvider legalMtimeProvider
 	 */
-	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime): void {
+	public function testPutSingleFileLegalMtime(mixed $requestMtime, ?int $resultMtime): void {
 		$request = new Request([
 			'server' => [
 				'HTTP_X_OC_MTIME' => (string)$requestMtime,
@@ -482,7 +474,7 @@ class FileTest extends TestCase {
 	 */
 	public function testSimplePutFailsSizeCheck(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['rename', 'getRelativePath', 'filesize'])
 			->getMock();
@@ -569,7 +561,7 @@ class FileTest extends TestCase {
 	 */
 	public function testSimplePutInvalidChars(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])
 			->getMock();
@@ -609,7 +601,7 @@ class FileTest extends TestCase {
 		$this->expectException(InvalidPath::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])
 			->getMock();
@@ -630,7 +622,7 @@ class FileTest extends TestCase {
 
 	public function testUploadAbort(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['rename', 'getRelativePath', 'filesize'])
 			->getMock();
@@ -680,7 +672,7 @@ class FileTest extends TestCase {
 
 	public function testDeleteWhenAllowed(): void {
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
@@ -704,7 +696,7 @@ class FileTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
@@ -724,7 +716,7 @@ class FileTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
@@ -749,7 +741,7 @@ class FileTest extends TestCase {
 		$this->expectException(Forbidden::class);
 
 		// setup
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
@@ -923,7 +915,7 @@ class FileTest extends TestCase {
 	public function testGetFopenFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();
@@ -945,7 +937,7 @@ class FileTest extends TestCase {
 	public function testGetFopenThrows(): void {
 		$this->expectException(Forbidden::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();
@@ -967,7 +959,7 @@ class FileTest extends TestCase {
 	public function testGetThrowsIfNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		/** @var View|MockObject */
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['fopen'])
 			->getMock();

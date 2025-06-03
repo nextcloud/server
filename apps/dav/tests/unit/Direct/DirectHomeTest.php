@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Direct;
+namespace OCA\DAV\Tests\unit\Direct;
 
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
@@ -18,33 +18,20 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\IThrottler;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Test\TestCase;
 
 class DirectHomeTest extends TestCase {
-
-	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $directMapper;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var DirectHome */
-	private $directHome;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private DirectMapper&MockObject $directMapper;
+	private IRootFolder&MockObject $rootFolder;
+	private ITimeFactory&MockObject $timeFactory;
+	private IThrottler&MockObject $throttler;
+	private IRequest&MockObject $request;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private DirectHome $directHome;
 
 	protected function setUp(): void {
 		parent::setUp();

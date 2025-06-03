@@ -272,6 +272,7 @@
     "A valid Login must be provided" : "Un identifiant valide doit être saisi",
     "Login contains whitespace at the beginning or at the end" : "L'identifiant contient des espaces au début ou à la fin",
     "Login must not consist of dots only" : "L'identifiant ne doit pas être composé uniquement de points",
+    "Username is too long" : "Le nom d'utilisateur est trop long",
     "Login is invalid because files already exist for this user" : "L’identifiant n'est pas valide car des fichiers existent déjà pour cet utilisateur",
     "Account disabled" : "Compte désactivé",
     "Login canceled by app" : "L'authentification a été annulée par l'application",

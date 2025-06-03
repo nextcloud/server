@@ -72,9 +72,9 @@ class ErrorHandler {
 
 	private static function errnoToLogLevel(int $errno): int {
 		return match ($errno) {
-			E_USER_WARNING => ILogger::WARN,
+			E_WARNING, E_USER_WARNING => ILogger::WARN,
 			E_DEPRECATED, E_USER_DEPRECATED => ILogger::DEBUG,
-			E_USER_NOTICE => ILogger::INFO,
+			E_NOTICE, E_USER_NOTICE => ILogger::INFO,
 			default => ILogger::ERROR,
 		};
 	}

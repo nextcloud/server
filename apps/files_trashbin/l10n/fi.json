@@ -2,6 +2,7 @@
     "restored" : "palautettu",
     "Deleted files" : "Poistetut tiedostot",
     "Restore" : "Palauta",
+    "Not enough free space to restore the file/folder" : "Tiedoston/kansion palauttamiseksi ei ole riittävästi vapaata tilaa",
     "Empty deleted files" : "Tyhjennä poistetut tiedostot",
     "Confirm permanent deletion" : "Vahvista lopullinen poistaminen",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Haluatko varmasti poistaa pysyvästi kaikki roskakorissa olevat tiedostot ja kansiot? Tätä ei voi perua.",

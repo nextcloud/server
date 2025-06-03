@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Files\Sharing;
+namespace OCA\DAV\Tests\unit\Files\Sharing;
 
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCP\Files\Folder;
@@ -205,7 +207,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getHeader')
 			->with('X-NC-Nickname')
 			->willReturn('nickname');
-		
+
 		$this->request->method('getPath')
 			->willReturn('/files/token/folder/subfolder/file.txt');
 		$this->request->method('getBaseUrl')

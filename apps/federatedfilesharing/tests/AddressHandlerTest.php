@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,31 +17,20 @@ use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AddressHandlerTest extends \Test\TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
-	private $il10n;
-
-	/** @var CloudIdManager */
-	private $cloudIdManager;
+	protected IManager&MockObject $contactsManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $il10n;
+	private CloudIdManager $cloudIdManager;
+	private AddressHandler $addressHandler;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->getMock();
-		$this->il10n = $this->getMockBuilder(IL10N::class)
-			->getMock();
-
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->il10n = $this->createMock(IL10N::class);
 		$this->contactsManager = $this->createMock(IManager::class);
 
 		$this->cloudIdManager = new CloudIdManager(
@@ -54,7 +44,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}
 
-	public function dataTestSplitUserRemote() {
+	public static function dataTestSplitUserRemote(): array {
 		$userPrefix = ['user@name', 'username'];
 		$protocols = ['', 'http://', 'https://'];
 		$remotes = [
@@ -92,12 +82,8 @@ class AddressHandlerTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataTestSplitUserRemote
-	 *
-	 * @param string $remote
-	 * @param string $expectedUser
-	 * @param string $expectedUrl
 	 */
-	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
+	public function testSplitUserRemote(string $remote, string $expectedUser, string $expectedUrl): void {
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->willReturn([]);
@@ -107,7 +93,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->assertSame($expectedUrl, $remoteUrl);
 	}
 
-	public function dataTestSplitUserRemoteError() {
+	public static function dataTestSplitUserRemoteError(): array {
 		return [
 			// Invalid path
 			['user@'],
@@ -127,10 +113,8 @@ class AddressHandlerTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataTestSplitUserRemoteError
-	 *
-	 * @param string $id
 	 */
-	public function testSplitUserRemoteError($id): void {
+	public function testSplitUserRemoteError(string $id): void {
 		$this->expectException(HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
@@ -138,20 +122,14 @@ class AddressHandlerTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataTestCompareAddresses
-	 *
-	 * @param string $user1
-	 * @param string $server1
-	 * @param string $user2
-	 * @param string $server2
-	 * @param bool $expected
 	 */
-	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected): void {
+	public function testCompareAddresses(string $user1, string $server1, string $user2, string $server2, bool $expected): void {
 		$this->assertSame($expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
 		);
 	}
 
-	public function dataTestCompareAddresses() {
+	public static function dataTestCompareAddresses(): array {
 		return [
 			['user1', 'http://server1', 'user1', 'http://server1', true],
 			['user1', 'https://server1', 'user1', 'http://server1', true],
@@ -173,35 +151,29 @@ class AddressHandlerTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataTestRemoveProtocolFromUrl
-	 *
-	 * @param string $url
-	 * @param string $expectedResult
 	 */
-	public function testRemoveProtocolFromUrl($url, $expectedResult): void {
+	public function testRemoveProtocolFromUrl(string $url, string $expectedResult): void {
 		$result = $this->addressHandler->removeProtocolFromUrl($url);
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function dataTestRemoveProtocolFromUrl() {
+	public static function dataTestRemoveProtocolFromUrl(): array {
 		return [
-			['http://owncloud.org', 'owncloud.org'],
-			['https://owncloud.org', 'owncloud.org'],
-			['owncloud.org', 'owncloud.org'],
+			['http://example.tld', 'example.tld'],
+			['https://example.tld', 'example.tld'],
+			['example.tld', 'example.tld'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataTestUrlContainProtocol
-	 *
-	 * @param string $url
-	 * @param bool $expectedResult
 	 */
-	public function testUrlContainProtocol($url, $expectedResult): void {
+	public function testUrlContainProtocol(string $url, bool $expectedResult): void {
 		$result = $this->addressHandler->urlContainProtocol($url);
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function dataTestUrlContainProtocol() {
+	public static function dataTestUrlContainProtocol(): array {
 		return [
 			['http://nextcloud.com', true],
 			['https://nextcloud.com', true],

@@ -271,7 +271,6 @@
     "A valid Login must be provided" : "Et gyldigt login skal angives",
     "Login contains whitespace at the beginning or at the end" : "Login indeholder mellemrum i begyndelsen eller slutningen",
     "Login must not consist of dots only" : "Login må ikke kun bestå af prikker",
-    "Login is too long" : "Login er for lang",
     "Login is invalid because files already exist for this user" : "Login er ugyldigt, fordi filer allerede eksisterer for denne bruger",
     "Account disabled" : "Konto deaktiveret",
     "Login canceled by app" : "Login annulleret af app",
@@ -442,6 +441,7 @@
     "Summarizes text by reducing its length without losing key information." : "Opsummerer tekst ved at reducere dens længde uden at miste nøgleinformation.",
     "Extracts topics from a text and outputs them separated by commas." : "Uddrager emner fra en tekst og skriver dem adskilt af kommaer.",
     "File is currently busy, please try again later" : "Filen er i øjeblikket optaget - forsøg igen senere",
-    "Cannot download file" : "Kan ikke downloade filen"
+    "Cannot download file" : "Kan ikke downloade filen",
+    "Login is too long" : "Login er for lang"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -255,6 +255,7 @@
     "File drop" : "Filinkast",
     "Upload files to {foldername}." : "Ladda upp filer till {foldername}.",
     "By uploading files, you agree to the terms of service." : "Genom att ladda upp filer godkänner du användarvillkoren.",
+    "Successfully uploaded files" : "Filer har laddats upp",
     "View terms of service" : "Visa användarvillkoren",
     "Terms of service" : "Användarvillkor",
     "Upload files to {folder}" : "Ladda upp filer till {folder}",

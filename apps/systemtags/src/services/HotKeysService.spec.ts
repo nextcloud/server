@@ -42,15 +42,24 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing t should open the tag management dialog', () => {
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 't', code: 'KeyT' }))
+		dispatchEvent({ key: 't', code: 'KeyT' })
 
 		// Modifier keys should not trigger the action
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 't', code: 'KeyT', ctrlKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 't', code: 'KeyT', altKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 't', code: 'KeyT', shiftKey: true }))
-		window.dispatchEvent(new KeyboardEvent('keydown', { key: 't', code: 'KeyT', metaKey: true }))
+		dispatchEvent({ key: 't', code: 'KeyT', ctrlKey: true })
+		dispatchEvent({ key: 't', code: 'KeyT', altKey: true })
+		dispatchEvent({ key: 't', code: 'KeyT', shiftKey: true })
+		dispatchEvent({ key: 't', code: 'KeyT', metaKey: true })
 
 		expect(bulkSystemTagsAction.enabled).toHaveReturnedWith(true)
 		expect(bulkSystemTagsAction.exec).toHaveBeenCalledOnce()
 	})
 })
+
+/**
+ * Helper to dispatch the correct event.
+ *
+ * @param init - KeyboardEvent options
+ */
+function dispatchEvent(init: KeyboardEventInit) {
+	document.body.dispatchEvent(new KeyboardEvent('keydown', { ...init, bubbles: true }))
+}

@@ -53,6 +53,7 @@ OC.L10N.register(
     "Update" : "به روز رسانی",
     "Delete" : "حذف",
     "Reset" : "ریست",
+    "Loading …" : "در حال بارگذاری...",
     "Manage tags" : "مدیریت برچسب ها",
     "Cancel" : "منصرف شدن",
     "Failed to load tags" : "بارگیری برچسب ها انجام نشد",

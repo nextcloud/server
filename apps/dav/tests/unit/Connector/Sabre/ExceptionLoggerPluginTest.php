@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,21 +12,16 @@ use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Exception\ServerMaintenanceMode;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Test\TestCase;
 
 class ExceptionLoggerPluginTest extends TestCase {
-
-	/** @var Server */
-	private $server;
-
-	/** @var ExceptionLoggerPlugin */
-	private $plugin;
-
-	/** @var LoggerInterface | \PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
+	private Server $server;
+	private ExceptionLoggerPlugin $plugin;
+	private LoggerInterface&MockObject $logger;
 
 	private function init(): void {
 		$config = $this->createMock(SystemConfig::class);
@@ -59,7 +55,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 		$this->plugin->logException($e);
 	}
 
-	public function providesExceptions() {
+	public static function providesExceptions(): array {
 		return [
 			['debug', new NotFound()],
 			['debug', new ServerMaintenanceMode('System is in maintenance mode.')],

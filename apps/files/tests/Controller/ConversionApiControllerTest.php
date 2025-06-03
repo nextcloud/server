@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -60,12 +61,12 @@ class ConversionApiControllerTest extends TestCase {
 		);
 	}
 
-	public function testThrowsNotFoundException() {
+	public function testThrowsNotFoundException(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->conversionApiController->convert(42, 'image/png');
 	}
 
-	public function testThrowsOcsException() {
+	public function testThrowsOcsException(): void {
 		$this->userFolder->method('getFirstNodeById')->with(42)->willReturn($this->file);
 		$this->fileConversionManager->method('convert')->willThrowException(new \Exception());
 
@@ -73,7 +74,7 @@ class ConversionApiControllerTest extends TestCase {
 		$this->conversionApiController->convert(42, 'image/png');
 	}
 
-	public function testConvert() {
+	public function testConvert(): void {
 		$convertedFileAbsolutePath = $this->user . '/files/test.png';
 
 		$this->userFolder->method('getFirstNodeById')->with(42)->willReturn($this->file);

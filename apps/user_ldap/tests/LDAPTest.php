@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,20 +8,20 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\LDAP;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class LDAPTest extends TestCase {
-	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
-	private $ldap;
+	private LDAP&MockObject $ldap;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->ldap = $this->getMockBuilder(LDAP::class)
-			->setMethods(['invokeLDAPMethod'])
+			->onlyMethods(['invokeLDAPMethod'])
 			->getMock();
 	}
 
-	public function errorProvider() {
+	public static function errorProvider(): array {
 		return [
 			[
 				'ldap_search(): Partial search results returned: Sizelimit exceeded at /srv/http/nextcloud/master/apps/user_ldap/lib/LDAP.php#292',
@@ -32,8 +34,6 @@ class LDAPTest extends TestCase {
 	}
 
 	/**
-	 * @param string $errorMessage
-	 * @param bool $passThrough
 	 * @dataProvider errorProvider
 	 */
 	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough): void {

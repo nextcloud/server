@@ -14,7 +14,6 @@
     "Hello, {name}" : "Üdv {name}!",
     "Happy birthday 🥳🤩🎂🎉" : "Boldog születésnapot 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Boldog születésnapot, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} ikon”",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",
@@ -22,6 +21,7 @@
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Az adatvédelem érdekében az információt a Nextcloud kiszolgáló kéri le az Ön nevében, így az Ön személyes adatai nem kerülnek az időjárási adatok szolgáltatójához.",
     "Weather data from Met.no" : "Időjárási adatok a Met.no-tól",
     "geocoding with Nominatim" : "geokódolás a Nominatimmal",
-    "elevation data from OpenTopoData" : "magassági adatok az OpenTopoDatától"
+    "elevation data from OpenTopoData" : "magassági adatok az OpenTopoDatától",
+    "\"{title} icon\"" : "„{title} ikon”"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

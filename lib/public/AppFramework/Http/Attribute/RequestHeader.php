@@ -21,30 +21,14 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class RequestHeader {
 	/**
-	 * @param string $name The name of the request header
-	 * @param string $description The description of the request header
+	 * @param lowercase-string $name The name of the request header
+	 * @param non-empty-string $description The description of the request header
+	 * @param bool $indirect Allow indirect usage of the header for example in a middleware. Enabling this turns off the check which ensures that the header must be referenced in the controller method.
 	 */
 	public function __construct(
 		protected string $name,
 		protected string $description,
+		protected bool $indirect = false,
 	) {
-	}
-
-	/**
-	 * @return string The name of the request header.
-	 *
-	 * @since 32.0.0
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-
-	/**
-	 * @return string The description of the request header.
-	 *
-	 * @since 32.0.0
-	 */
-	public function getDescription(): string {
-		return $this->description;
 	}
 }

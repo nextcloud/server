@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\Listener;
+namespace OCA\DAV\Tests\unit\Listener;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
@@ -27,7 +27,6 @@ use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
 use OCP\User\IOutOfOfficeData;
-use OCP\UserStatus\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
@@ -42,11 +41,10 @@ use Test\TestCase;
  */
 class OutOfOfficeListenerTest extends TestCase {
 
-	private ServerFactory|MockObject $serverFactory;
-	private IConfig|MockObject $appConfig;
-	private LoggerInterface|MockObject $loggerInterface;
-	private MockObject|TimezoneService $timezoneService;
-	private IManager|MockObject $manager;
+	private ServerFactory&MockObject $serverFactory;
+	private IConfig&MockObject $appConfig;
+	private LoggerInterface&MockObject $loggerInterface;
+	private TimezoneService&MockObject $timezoneService;
 	private OutOfOfficeListener $listener;
 
 	protected function setUp(): void {
@@ -56,14 +54,12 @@ class OutOfOfficeListenerTest extends TestCase {
 		$this->appConfig = $this->createMock(IConfig::class);
 		$this->timezoneService = $this->createMock(TimezoneService::class);
 		$this->loggerInterface = $this->createMock(LoggerInterface::class);
-		$this->manager = $this->createMock(IManager::class);
 
 		$this->listener = new OutOfOfficeListener(
 			$this->serverFactory,
 			$this->appConfig,
 			$this->timezoneService,
 			$this->loggerInterface,
-			$this->manager
 		);
 	}
 
@@ -453,8 +449,6 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getPlugin')
 			->with('caldav')
 			->willReturn($caldavPlugin);
-		$this->manager->expects(self::never())
-			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -483,8 +477,6 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getNodeForPath')
 			->with('/home/calendar')
 			->willThrowException(new NotFound('nope'));
-		$this->manager->expects(self::never())
-			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -522,8 +514,6 @@ class OutOfOfficeListenerTest extends TestCase {
 			->method('getChild')
 			->with('personal-1')
 			->willThrowException(new NotFound('nope'));
-		$this->manager->expects(self::never())
-			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);
@@ -565,8 +555,6 @@ class OutOfOfficeListenerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('getChild')
 			->willThrowException(new NotFound());
-		$this->manager->expects(self::never())
-			->method('revertUserStatus');
 		$event = new OutOfOfficeClearedEvent($data);
 
 		$this->listener->handle($event);

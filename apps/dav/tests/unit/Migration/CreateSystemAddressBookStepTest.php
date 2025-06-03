@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\Migration;
+namespace OCA\DAV\Tests\unit\Migration;
 
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Migration\CreateSystemAddressBookStep;
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class CreateSystemAddressBookStepTest extends TestCase {
 
-	private SyncService|MockObject $syncService;
+	private SyncService&MockObject $syncService;
 	private CreateSystemAddressBookStep $step;
 
 	protected function setUp(): void {

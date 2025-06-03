@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,6 +20,7 @@ use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -29,40 +31,18 @@ use Psr\Log\LoggerInterface;
  * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
-	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
-	protected $access;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $avatarManager;
-
-	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
-	protected $image;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dbc;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ncUserManager;
-
-	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-
-	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldapWrapper;
-
-	/** @var Connection */
-	protected $connection;
-
-	/** @var Manager */
-	protected $manager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected Access&MockObject $access;
+	protected IConfig&MockObject $config;
+	protected LoggerInterface&MockObject $logger;
+	protected IAvatarManager&MockObject $avatarManager;
+	protected Image&MockObject $image;
+	protected IDBConnection&MockObject $dbc;
+	protected IUserManager&MockObject $ncUserManager;
+	protected INotificationManager&MockObject $notificationManager;
+	protected ILDAPWrapper&MockObject $ldapWrapper;
+	protected Connection $connection;
+	protected IManager&MockObject $shareManager;
+	protected Manager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -97,7 +77,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager->setLdapAccess($this->access);
 	}
 
-	public function dnProvider() {
+	public static function dnProvider(): array {
 		return [
 			['cn=foo,dc=foobar,dc=bar'],
 			['uid=foo,o=foobar,c=bar'],
@@ -197,7 +177,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($user);
 	}
 
-	public function attributeRequestProvider() {
+	public static function attributeRequestProvider(): array {
 		return [
 			[false],
 			[true],
@@ -217,10 +197,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes($minimal);
 
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes));
-		$this->assertTrue(!in_array($this->access->getConnection()->ldapEmailAttribute, $attributes)); #cases check
-		$this->assertFalse(in_array('', $attributes));
+		$this->assertContains('dn', $attributes);
+		$this->assertContains(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes);
+		$this->assertNotContains($this->access->getConnection()->ldapEmailAttribute, $attributes); #cases check
+		$this->assertNotContains('', $attributes);
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
 		$valueCounts = array_count_values($attributes);

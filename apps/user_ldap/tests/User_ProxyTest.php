@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,22 +19,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class User_ProxyTest extends TestCase {
-	/** @var Helper|MockObject */
-	protected $helper;
-	/** @var ILDAPWrapper|MockObject */
-	private $ldapWrapper;
-	/** @var AccessFactory|MockObject */
-	private $accessFactory;
-	/** @var INotificationManager|MockObject */
-	private $notificationManager;
-	/** @var User_Proxy|MockObject */
-	private $proxy;
-	/** @var UserPluginManager|MockObject */
-	private $userPluginManager;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var DeletedUsersIndex|MockObject */
-	protected $deletedUsersIndex;
+	protected Helper&MockObject $helper;
+	private ILDAPWrapper&MockObject $ldapWrapper;
+	private AccessFactory&MockObject $accessFactory;
+	private INotificationManager&MockObject $notificationManager;
+	private User_Proxy&MockObject $proxy;
+	private UserPluginManager&MockObject $userPluginManager;
+	protected LoggerInterface&MockObject $logger;
+	protected DeletedUsersIndex&MockObject $deletedUsersIndex;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,7 +48,7 @@ class User_ProxyTest extends TestCase {
 				$this->logger,
 				$this->deletedUsersIndex,
 			])
-			->setMethods(['handleRequest'])
+			->onlyMethods(['handleRequest'])
 			->getMock();
 	}
 

@@ -64,7 +64,7 @@ class LostController extends Controller {
 		private Defaults $defaults,
 		private IL10N $l10n,
 		private IConfig $config,
-		protected string $from,
+		protected string $defaultMailAddress,
 		private IManager $encryptionManager,
 		private IMailer $mailer,
 		private LoggerInterface $logger,
@@ -281,7 +281,7 @@ class LostController extends Controller {
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setTo([$email => $user->getDisplayName()]);
-			$message->setFrom([$this->from => $this->defaults->getName()]);
+			$message->setFrom([$this->defaultMailAddress => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);
 		} catch (Exception $e) {

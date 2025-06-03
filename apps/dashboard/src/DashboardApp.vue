@@ -24,20 +24,10 @@
 					class="panel">
 					<div class="panel--header">
 						<h2>
-							<img v-if="apiWidgets[panels[panelId].id].icon_url"
-								:alt="apiWidgets[panels[panelId].id].title + ' icon'"
-								:src="apiWidgets[panels[panelId].id].icon_url"
-								aria-hidden="true">
-							<span v-else
-								:aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
-								aria-hidden="true"
-								:class="apiWidgets[panels[panelId].id].icon_class"
-								role="img" />
+							<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
+							<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
 							{{ apiWidgets[panels[panelId].id].title }}
 						</h2>
-						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually">
-							{{ t('dashboard', '"{title} icon"', { title: apiWidgets[panels[panelId].id].title }) }}
-						</span>
 					</div>
 					<div class="panel--content">
 						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
@@ -48,13 +38,9 @@
 				<div v-else :key="panels[panelId].id" class="panel">
 					<div class="panel--header">
 						<h2>
-							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
-								aria-hidden="true"
-								:class="panels[panelId].iconClass"
-								role="img" />
+							<span :class="panels[panelId].iconClass" aria-hidden="true" />
 							{{ panels[panelId].title }}
 						</h2>
-						<span :id="`panel-${panels[panelId].id}--header--icon--description`" class="hidden-visually"> {{ t('dashboard', '"{title} icon"', { title: panels[panelId].title }) }} </span>
 					</div>
 					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
@@ -102,10 +88,7 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<img v-if="panel.iconUrl"
-								:alt="panel.title + ' icon'"
-								:src="panel.iconUrl"
-								aria-hidden="true">
+							<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
 							<span v-else :class="panel.iconClass" aria-hidden="true" />
 							{{ panel.title }}
 						</label>
