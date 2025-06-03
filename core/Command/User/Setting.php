@@ -165,10 +165,7 @@ class Setting extends Base {
 			if ($this->isProfileProperty($app, $key)) {
 				return $this->editProfileProperty($output, $uid, $key, $inputValue);
 			} elseif ($this->isSettingProperty($app, $key)) {
-				$returnCode = $this->setSettingsProperty($output, $uid, $key, $inputValue);
-				if ($returnCode !== null) {
-					return $returnCode;
-				}
+				return $this->setSettingsProperty($output, $uid, $key, $inputValue);
 			}
 
 			$this->config->setUserValue($uid, $app, $key, $inputValue);
@@ -180,13 +177,8 @@ class Setting extends Base {
 
 			if ($this->isProfileProperty($app, $key)) {
 				return $this->deleteProfileProperty($output, $uid, $key);
-			}
-
-			if ($this->isSettingProperty($app, $key)) {
-				$returnCode = $this->deleteSettingsProperty($output, $uid, $key);
-				if ($returnCode !== null) {
-					return $returnCode;
-				}
+			} elseif ($this->isSettingProperty($app, $key)) {
+				return $this->deleteSettingsProperty($output, $uid, $key);
 			}
 
 			$this->config->deleteUserValue($uid, $app, $key);
@@ -227,43 +219,49 @@ class Setting extends Base {
 		return 0;
 	}
 
-	private function deleteSettingsProperty(OutputInterface $output, string $uid, string $key): ?int {
+	private function deleteSettingsProperty(OutputInterface $output, string $uid, string $key): int {
 		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			if ($key === 'email') {
-				$user->setEMailAddress('');
-				// setEmailAddress already deletes the value
-				return 0;
-			} elseif ($key === 'display_name') {
-				$output->writeln('<error>Display name can\'t be deleted.</error>');
+		if (!($user instanceof IUser)) {
+			$output->writeln("<error>The user {$uid} must exist to delete this setting.</error>");
+			return 1;
+		}
+
+		if ($key === 'email') {
+			$user->setEMailAddress('');
+			// setEmailAddress already deletes the value
+			return 0;
+		} elseif ($key === 'display_name') {
+			$output->writeln('<error>Display name can\'t be deleted.</error>');
+			return 1;
+		}
+
+		$output->writeln("<error>Unknown setting: {$key}</error>");
+		return 1;
+	}
+
+	private function setSettingsProperty(OutputInterface $output, string $uid, string $key, string $value): int {
+		$user = $this->userManager->get($uid);
+		if (!($user instanceof IUser)) {
+			$output->writeln("<error>The user {$uid} must exist to set this setting.</error>");
+			return 1;
+		}
+
+		if ($key === 'email') {
+			$user->setEMailAddress($value);
+		} elseif ($key === 'display_name') {
+			if (!$user->setDisplayName($value)) {
+				if ($user->getDisplayName() === $value) {
+					$output->writeln('<error>New and old display name are the same</error>');
+				} elseif ($value === '') {
+					$output->writeln('<error>New display name can\'t be empty</error>');
+				} else {
+					$output->writeln('<error>Could not set display name</error>');
+				}
 				return 1;
 			}
 		}
-
-		return null;
-	}
-
-	private function setSettingsProperty(OutputInterface $output, string $uid, string $key, string $value): ?int {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			if ($key === 'email') {
-				$user->setEMailAddress($value);
-			} elseif ($key === 'display_name') {
-				if (!$user->setDisplayName($value)) {
-					if ($user->getDisplayName() === $value) {
-						$output->writeln('<error>New and old display name are the same</error>');
-					} elseif ($value === '') {
-						$output->writeln('<error>New display name can\'t be empty</error>');
-					} else {
-						$output->writeln('<error>Could not set display name</error>');
-					}
-					return 1;
-				}
-			}
-			// setEmailAddress and setDisplayName both internally set the value
-			return 0;
-		}
-		return null;
+		// setEmailAddress and setDisplayName both internally set the value
+		return 0;
 	}
 
 	private function getStoredValue(string $uid, string $app, string $key): ?string {
