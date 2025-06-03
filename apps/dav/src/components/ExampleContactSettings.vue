@@ -4,20 +4,16 @@
 -->
 
 <template>
-	<NcSettingsSection id="exmaple-content"
-		:name="$t('dav', 'Example Content')"
-		class="example-content-setting"
-		:description="$t('dav', 'Set example content to be created on new user first login.')">
-		<div class="example-content-setting__contacts">
-			<input id="enable-default-contact"
-				v-model="enableDefaultContact"
-				type="checkbox"
-				class="checkbox"
-				@change="updateEnableDefaultContact">
-			<label for="enable-default-contact"> {{ $t('dav',"Default contact is added to the user's own address book on user's first login.") }} </label>
-			<div v-if="enableDefaultContact" class="example-content-setting__contacts__buttons">
+	<div class="example-contact-settings">
+		<div class="example-content-setting__form">
+			<NcCheckboxRadioSwitch :checked="enableDefaultContact"
+				type="switch"
+				@update:model-value="updateEnableDefaultContact">
+				{{ $t('dav',"Default contact is added to the user's own address book on user's first login.") }}
+			</NcCheckboxRadioSwitch>
+			<div v-if="enableDefaultContact" class="example-contact-settings__form__buttons">
 				<NcButton type="primary"
-					class="example-content-setting__contacts__buttons__button"
+					class="example-contact-settings__form__buttons__button"
 					@click="toggleModal">
 					<template #icon>
 						<IconUpload :size="20" />
@@ -25,7 +21,7 @@
 					{{ $t('dav', 'Import contact') }}
 				</NcButton>
 				<NcButton type="secondary"
-					class="example-content-setting__contacts__buttons__button"
+					class="example-contact-settings__form__buttons__button"
 					@click="resetContact">
 					<template #icon>
 						<IconRestore :size="20" />
@@ -48,18 +44,19 @@
 			accept=".vcf"
 			class="hidden-visually"
 			@change="processFile">
-	</NcSettingsSection>
+	</div>
 </template>
 <script>
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import { NcDialog, NcButton, NcSettingsSection } from '@nextcloud/vue'
+import { NcDialog, NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconCheck from '@mdi/svg/svg/check.svg?raw'
+import logger from '../service/logger.js'
 
 const enableDefaultContact = loadState('dav', 'enableDefaultContact') === 'yes'
 
@@ -68,7 +65,7 @@ export default {
 	components: {
 		NcDialog,
 		NcButton,
-		NcSettingsSection,
+		NcCheckboxRadioSwitch,
 		IconUpload,
 		IconRestore,
 	},
@@ -95,9 +92,10 @@ export default {
 	methods: {
 		updateEnableDefaultContact() {
 			axios.put(generateUrl('apps/dav/api/defaultcontact/config'), {
-				allow: this.enableDefaultContact ? 'yes' : 'no',
-			}).catch(() => {
+				allow: this.enableDefaultContact ? 'no' : 'yes',
+			}).then(() => {
 				this.enableDefaultContact = !this.enableDefaultContact
+			}).catch(() => {
 				showError(this.$t('dav', 'Error while saving settings'))
 			})
 		},
@@ -114,7 +112,7 @@ export default {
 					showSuccess(this.$t('dav', 'Contact reset successfully'))
 				})
 				.catch((error) => {
-					console.error('Error importing contact:', error)
+					logger.error('Error importing contact:', { error })
 					showError(this.$t('dav', 'Error while resetting contact'))
 				})
 				.finally(() => {
@@ -133,7 +131,7 @@ export default {
 					await axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'), { contactData: reader.result })
 					showSuccess(this.$t('dav', 'Contact imported successfully'))
 				} catch (error) {
-					console.error('Error importing contact:', error)
+					logger.error('Error importing contact:', { error })
 					showError(this.$t('dav', 'Error while importing contact'))
 				} finally {
 					this.loading = false
@@ -146,11 +144,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.example-content-setting{
-	&__contacts{
+.example-contact-settings {
+	margin-block-start: 2rem;
+
+	&__form{
 		&__buttons{
 			margin-top: 1rem;
 			display: flex;
+
 			&__button{
 				margin-inline-end: 5px;
 			}

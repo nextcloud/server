@@ -15,10 +15,12 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Listener\UserEventsListener;
 use OCA\DAV\Service\DefaultContactService;
+use OCA\DAV\Service\ExampleEventService;
 use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UserEventsListenerTest extends TestCase {
@@ -27,19 +29,24 @@ class UserEventsListenerTest extends TestCase {
 	private CalDavBackend&MockObject $calDavBackend;
 	private CardDavBackend&MockObject $cardDavBackend;
 	private Defaults&MockObject $defaults;
-
 	private DefaultContactService&MockObject $defaultContactService;
+	private ExampleEventService&MockObject $exampleEventService;
+	private LoggerInterface&MockObject $logger;
 
 	private UserEventsListener $userEventsListener;
 
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->syncService = $this->createMock(SyncService::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 		$this->cardDavBackend = $this->createMock(CardDavBackend::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaultContactService = $this->createMock(DefaultContactService::class);
+		$this->exampleEventService = $this->createMock(ExampleEventService::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
 		$this->userEventsListener = new UserEventsListener(
 			$this->userManager,
 			$this->syncService,
@@ -47,6 +54,8 @@ class UserEventsListenerTest extends TestCase {
 			$this->cardDavBackend,
 			$this->defaults,
 			$this->defaultContactService,
+			$this->exampleEventService,
+			$this->logger,
 		);
 	}
 
@@ -63,7 +72,13 @@ class UserEventsListenerTest extends TestCase {
 				'{DAV:}displayname' => 'Personal',
 				'{http://apple.com/ns/ical/}calendar-color' => '#745bca',
 				'components' => 'VEVENT'
-			]);
+			])
+			->willReturn(1000);
+		$this->calDavBackend->expects(self::never())
+			->method('getCalendarsForUser');
+		$this->exampleEventService->expects(self::once())
+			->method('createExampleEvent')
+			->with(1000);
 
 		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
 		$this->cardDavBackend->expects($this->once())->method('createAddressBook')->with(
@@ -79,6 +94,10 @@ class UserEventsListenerTest extends TestCase {
 
 		$this->calDavBackend->expects($this->once())->method('getCalendarsForUserCount')->willReturn(1);
 		$this->calDavBackend->expects($this->never())->method('createCalendar');
+		$this->calDavBackend->expects(self::never())
+			->method('createCalendar');
+		$this->exampleEventService->expects(self::never())
+			->method('createExampleEvent');
 
 		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$this->cardDavBackend->expects($this->never())->method('createAddressBook');

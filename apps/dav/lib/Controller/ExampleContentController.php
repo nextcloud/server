@@ -10,9 +10,13 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Service\ExampleEventService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
@@ -23,12 +27,14 @@ use Psr\Log\LoggerInterface;
 
 class ExampleContentController extends ApiController {
 	private IAppData $appData;
+
 	public function __construct(
 		IRequest $request,
+		IAppManager $appManager,
 		private IConfig $config,
 		private IAppDataFactory $appDataFactory,
-		private IAppManager $appManager,
 		private LoggerInterface $logger,
+		private ExampleEventService $exampleEventService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 		$this->appData = $this->appDataFactory->get('dav');
@@ -81,6 +87,39 @@ class ExampleContentController extends ApiController {
 			return false;
 		}
 		return $folder->fileExists('defaultContact.vcf');
+	}
+
+	#[FrontpageRoute(verb: 'POST', url: '/api/exampleEvent/enable')]
+	public function setCreateExampleEvent(bool $enable): JSONResponse {
+		$this->exampleEventService->setCreateExampleEvent($enable);
+		return new JsonResponse([]);
+	}
+
+	#[FrontpageRoute(verb: 'GET', url: '/api/exampleEvent/event')]
+	#[NoCSRFRequired]
+	public function downloadExampleEvent(): DataDownloadResponse {
+		$exampleEvent = $this->exampleEventService->getExampleEvent();
+		return new DataDownloadResponse(
+			$exampleEvent->getIcs(),
+			'example_event.ics',
+			'text/calendar',
+		);
+	}
+
+	#[FrontpageRoute(verb: 'POST', url: '/api/exampleEvent/event')]
+	public function uploadExampleEvent(string $ics): JSONResponse {
+		if (!$this->exampleEventService->shouldCreateExampleEvent()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		$this->exampleEventService->saveCustomExampleEvent($ics);
+		return new JsonResponse([]);
+	}
+
+	#[FrontpageRoute(verb: 'DELETE', url: '/api/exampleEvent/event')]
+	public function deleteExampleEvent(): JSONResponse {
+		$this->exampleEventService->deleteCustomExampleEvent();
+		return new JsonResponse([]);
 	}
 
 }
