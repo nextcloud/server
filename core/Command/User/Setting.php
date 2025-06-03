@@ -186,9 +186,6 @@ class Setting extends Base {
 			$output->writeln($value);
 		} elseif ($input->hasParameterOption('--default-value')) {
 			$output->writeln($input->getOption('default-value'));
-		} elseif ($app === 'settings' && $key === 'display_name') {
-			$user = $this->userManager->get($uid);
-			$output->writeln($user->getDisplayName());
 		} else {
 			$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 			return 1;
@@ -270,6 +267,9 @@ class Setting extends Base {
 			$account = $this->accountManager->getAccount($user);
 			$property = $account->getProperty($key);
 			return $property->getValue() === '' ? null : $property->getValue();
+		} elseif ($app === 'settings' && $key === 'display_name') {
+			$user = $this->userManager->get($uid);
+			return $user->getDisplayName();
 		}
 
 		return $this->config->getUserValue($uid, $app, $key, null);
