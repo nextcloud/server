@@ -212,7 +212,7 @@ class OC_App {
 		array $groups = []) {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
-		$installer = \OCP\Server::get(Installer::class);
+		$installer = Server::get(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if (!$isDownloaded) {
@@ -247,7 +247,7 @@ class OC_App {
 			}
 		}
 
-		\OCP\Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
+		Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
 		return null;
 	}
 
@@ -311,7 +311,7 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
-	 * @deprecated 11.0.0 use \OCP\Server::get(IAppManager)->getAppPath()
+	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
 		$appId = self::cleanAppId($appId);
@@ -350,7 +350,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OCP\Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
+		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
 		return $appData['version'] ?? '';
 	}
 
@@ -392,7 +392,7 @@ class OC_App {
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
 	public static function registerLogIn(array $entry) {
-		\OCP\Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
+		Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
 
@@ -401,11 +401,11 @@ class OC_App {
 	 */
 	public static function getAlternativeLogIns(): array {
 		/** @var Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+		$bootstrapCoordinator = Server::get(Coordinator::class);
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
 			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
 					'app' => $registration->getAppId(),
@@ -415,9 +415,9 @@ class OC_App {
 
 			try {
 				/** @var IAlternativeLogin $provider */
-				$provider = \OCP\Server::get($registration->getService());
+				$provider = Server::get($registration->getService());
 			} catch (ContainerExceptionInterface $e) {
-				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
 					[
 						'exception' => $e,
 						'option' => $registration->getService(),
@@ -434,7 +434,7 @@ class OC_App {
 					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
-				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
 					[
 						'exception' => $e,
 						'option' => $registration->getService(),
@@ -453,7 +453,7 @@ class OC_App {
 	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
 	 */
 	public static function getAllApps(): array {
-		return \OCP\Server::get(IAppManager::class)->getAllAppsInAppsFolders();
+		return Server::get(IAppManager::class)->getAllAppsInAppsFolders();
 	}
 
 	/**
@@ -462,7 +462,7 @@ class OC_App {
 	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
 	 */
 	public function getSupportedApps(): array {
-		$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 		return $supportedApps;
 	}
@@ -487,12 +487,12 @@ class OC_App {
 			if (!in_array($app, $blacklist)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
 					continue;
 				}
 
@@ -559,7 +559,7 @@ class OC_App {
 
 	public static function shouldUpgrade(string $app): bool {
 		$versions = self::getAppVersions();
-		$currentVersion = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
+		$currentVersion = Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
 		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
@@ -648,7 +648,7 @@ class OC_App {
 	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions or IAppConfig::getAppInstalledVersions instead
 	 */
 	public static function getAppVersions(): array {
-		return \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions();
+		return Server::get(IAppConfig::class)->getAppInstalledVersions();
 	}
 
 	/**
@@ -666,13 +666,13 @@ class OC_App {
 		}
 
 		if (is_file($appPath . '/appinfo/database.xml')) {
-			\OCP\Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+			Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 			return false;
 		}
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
-		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
+		$appData = Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
@@ -712,10 +712,11 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
-		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
+		$version = Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
 
 		// migrate eventual new config keys in the process
+		/** @psalm-suppress InternalMethod */
 		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));

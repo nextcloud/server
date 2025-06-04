@@ -10,6 +10,7 @@ namespace Test;
 use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -573,6 +574,7 @@ class AppTest extends \Test\TestCase {
 			Server::get(IEventDispatcher::class),
 			Server::get(LoggerInterface::class),
 			Server::get(ServerVersion::class),
+			\OCP\Server::get(ConfigManager::class),
 		));
 	}
 
