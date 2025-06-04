@@ -9,6 +9,7 @@ declare(strict_types=1);
 use OC\AllConfig;
 use OC\AppFramework\Bootstrap\BootContext;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OC\Config\ConfigManager;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
@@ -108,6 +109,12 @@ class TrashbinTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		$configManager = $this->createMock(ConfigManager::class);
+		$configManager->expects($this->any())
+			->method('migrateConfigLexiconKeys')
+			->willReturnCallback(function (): void {});
+		$this->overwriteService(ConfigManager::class, $configManager);
 
 		Server::get(IAppManager::class)->enableApp('files_trashbin');
 		$config = Server::get(IConfig::class);
