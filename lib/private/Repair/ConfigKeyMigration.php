@@ -20,7 +20,7 @@ class ConfigKeyMigration implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return 'Initiate config keys migration';
+		return 'Migrate config keys';
 	}
 
 	public function run(IOutput $output) {
