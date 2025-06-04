@@ -4,36 +4,46 @@
  */
 
 import { emit } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
 
 /**
- * @private
- * @param {Document} global the document to read the initial value from
- * @param {Function} emit the function to invoke for every new token
- * @return {object}
+ * Get the current CSRF token.
  */
-export const manageToken = (global, emit) => {
-	let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
-
-	return {
-		getToken: () => token,
-		setToken: newToken => {
-			token = newToken
-
-			emit('csrf-token-update', {
-				token,
-			})
-		},
-	}
+export function getRequestToken(): string {
+	return document.head.dataset.requesttoken!
 }
 
-const manageFromDocument = manageToken(document, emit)
+/**
+ * Set a new CSRF token (e.g. because of session refresh).
+ * This also emits an event bus event for the updated token.
+ *
+ * @param token - The new token
+ * @fires Error - If the passed token is not a potential valid token
+ */
+export function setRequestToken(token: string): void {
+	if (!token || typeof token !== 'string') {
+		throw new Error('Invalid CSRF token given', { cause: { token } })
+	}
+
+	document.head.dataset.requesttoken = token
+	emit('csrf-token-update', { token })
+}
 
 /**
- * @return {string}
+ * Fetch the request token from the API.
+ * This does also set it on the current context, see `setRequestToken`.
+ *
+ * @fires Error - If the request failed
  */
-export const getToken = manageFromDocument.getToken
+export async function fetchRequestToken(): Promise<string> {
+	const url = generateUrl('/csrftoken')
 
-/**
- * @param {string} newToken new token
- */
-export const setToken = manageFromDocument.setToken
+	const response = await fetch(url)
+	if (!response.ok) {
+		throw new Error('Could not fetch CSRF token from API', { cause: response })
+	}
+
+	const { token } = await response.json()
+	setRequestToken(token)
+	return token
+}
