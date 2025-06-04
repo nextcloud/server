@@ -74,7 +74,7 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
-		$this->logger->warning('✅ registerApp(' . $appClass . ')');
+		$this->logger->warning('Manager::registerApp(' . $appClass . ')');
 		// other apps may want to rely on the 'main' notification app so make it deterministic that
 		// the 'main' notification app adds it's notifications first and removes it's notifications last
 		if ($appClass === \OCA\Notifications\App::class) {
@@ -108,7 +108,7 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerNotifierService(string $notifierService): void {
-		$this->logger->warning('✅ registerNotifierService(' . $notifierService . ')');
+		$this->logger->warning('Manager::registerNotifierService(' . $notifierService . ')');
 		$this->notifierClasses[] = $notifierService;
 	}
 
@@ -150,6 +150,7 @@ class Manager implements IManager {
 	 * @return INotifier[]
 	 */
 	public function getNotifiers(): array {
+		$this->logger->warning('✅ Manager::getNotifiers(): ' . json_encode($this->parsedRegistrationContext));
 		if (!$this->parsedRegistrationContext) {
 			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
 			foreach ($notifierServices as $notifierService) {

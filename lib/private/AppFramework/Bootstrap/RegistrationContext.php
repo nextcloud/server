@@ -528,7 +528,7 @@ class RegistrationContext {
 	}
 
 	public function registerNotifierService(string $appId, string $class): void {
-		$this->logger->warning('✅ RegistrationContext::registerNotifierService(' . $appId . ', ' . $class . ')');
+		$this->logger->warning('RegistrationContext::registerNotifierService(' . $appId . ', ' . $class . ')');
 		$this->notifierServices[] = new ServiceRegistration($appId, $class);
 	}
 
@@ -886,6 +886,7 @@ class RegistrationContext {
 	 * @return ServiceRegistration<INotifier>[]
 	 */
 	public function getNotifierServices(): array {
+		$this->logger->warning('✅ RegistrationContext::getNotifierServices(): ' . count($this->notifierServices));
 		return $this->notifierServices;
 	}
 
