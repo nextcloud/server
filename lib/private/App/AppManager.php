@@ -84,6 +84,7 @@ class AppManager implements IAppManager {
 		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
 		private ServerVersion $serverVersion,
+		private ConfigManager $configManager,
 	) {
 	}
 
@@ -571,7 +572,7 @@ class AppManager implements IAppManager {
 		));
 		$this->clearAppsCache();
 
-		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
+		$this->configManager->migrateConfigLexiconKeys($appId);
 	}
 
 	/**
@@ -631,7 +632,7 @@ class AppManager implements IAppManager {
 		));
 		$this->clearAppsCache();
 
-		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
+		$this->configManager->migrateConfigLexiconKeys($appId);
 	}
 
 	/**
