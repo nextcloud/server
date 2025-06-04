@@ -65,7 +65,7 @@ OC.L10N.register(
     "Learn more ↗" : "Ayrıntılı bilgi alın ↗",
     "Preparing update" : "Güncelleme hazırlanıyor",
     "Please use the command line updater because updating via browser is disabled in your config.php." : "Tarayıcı üzerinden güncelleme config.php dosyasında kullanımdan kaldırılmış olduğundan, komut satırı güncelleyicisini kullanın.",
-    "Turned on maintenance mode" : "Bakım kipi kullanıma alındı",
+    "Turned on maintenance mode" : "Bakım kipi açıldı",
     "Turned off maintenance mode" : "Bakım kipi kullanımdan kaldırıldı",
     "Maintenance mode is kept active" : "Bakım kipi kullanımda tutuldu",
     "Updating database schema" : "Veri tabanı şeması güncelleniyor",
