@@ -64,6 +64,11 @@ class ExampleEventServiceTest extends TestCase {
 
 	/** @dataProvider createExampleEventWithCustomEventDataProvider */
 	public function testCreateExampleEventWithCustomEvent($customEventIcs): void {
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'create_example_event', true)
+			->willReturn(true);
+
 		$exampleEventFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects(self::once())
 			->method('getFolder')
@@ -97,6 +102,11 @@ class ExampleEventServiceTest extends TestCase {
 	}
 
 	public function testCreateExampleEventWithDefaultEvent(): void {
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'create_example_event', true)
+			->willReturn(true);
+
 		$this->appData->expects(self::once())
 			->method('getFolder')
 			->with('example_event')
@@ -116,6 +126,18 @@ class ExampleEventServiceTest extends TestCase {
 		$this->calDavBackend->expects(self::once())
 			->method('createCalendarObject')
 			->with(1000, 'RANDOM-UID.ics', $expectedIcs);
+
+		$this->service->createExampleEvent(1000);
+	}
+
+	public function testCreateExampleWhenDisabled(): void {
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'create_example_event', true)
+			->willReturn(false);
+
+		$this->calDavBackend->expects(self::never())
+			->method('createCalendarObject');
 
 		$this->service->createExampleEvent(1000);
 	}
