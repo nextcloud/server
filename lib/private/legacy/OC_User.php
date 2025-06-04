@@ -284,7 +284,8 @@ class OC_User {
 	 * @param \OCP\IURLGenerator $urlGenerator
 	 * @return string
 	 */
-	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
+	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator,
+		?string $redirectUrl = null): string {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
 			return $backend->getLogoutUrl();
@@ -298,10 +299,10 @@ class OC_User {
 			}
 		}
 
-		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
-
-		return $logoutUrl;
+		return $urlGenerator->linkToRoute('core.login.logout', [
+			'requesttoken' => \OCP\Util::callRegister(),
+			'redirect_url' => $redirectUrl,
+		]);
 	}
 
 	/**
