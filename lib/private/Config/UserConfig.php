@@ -25,6 +25,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -62,7 +63,7 @@ class UserConfig implements IUserConfig {
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $lazyLoaded = [];
-	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, aliases: array<array-key, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 
@@ -759,11 +760,9 @@ class UserConfig implements IUserConfig {
 
 		// in case the key was modified while running matchAndApplyLexiconDefinition() we are
 		// interested to check options in case a modification of the value is needed
-		if ($origKey !== $key) {
-			$lexiconEntry = $this->getLexiconEntry($app, $key);
-			if ($type === ValueType::BOOL && $lexiconEntry?->hasOption(ConfigLexiconEntry::RENAME_INVERT_BOOLEAN)) {
-				$value = (in_array(strtolower($value), ['1', 'true', 'yes', 'on'])) ? '0' : '1';
-			}
+		if ($origKey !== $key && $type === ValueType::BOOL) {
+			$configManager = Server::get(ConfigManager::class);
+			$value = ($configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
 		}
 
 		return $value;
@@ -1989,7 +1988,7 @@ class UserConfig implements IUserConfig {
 	 * @param string $appId
 	 * @internal
 	 *
-	 * @return array{entries: array<array-key, ConfigLexiconEntry>, aliases: array<array-key, string>, strictness: ConfigLexiconStrictness}
+	 * @return array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {

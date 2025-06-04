@@ -15,6 +15,7 @@ use NCU\Config\Lexicon\ConfigLexiconEntry;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\Lexicon\IConfigLexicon;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -24,6 +25,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -59,7 +61,7 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
-	/** @var array<array-key, array{entries: array<array-key, ConfigLexiconEntry>, aliases: array<array-key, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 
@@ -478,11 +480,9 @@ class AppConfig implements IAppConfig {
 
 		// in case the key was modified while running matchAndApplyLexiconDefinition() we are
 		// interested to check options in case a modification of the value is needed
-		if ($origKey !== $key) {
-			$lexiconEntry = $this->getLexiconEntry($app, $key);
-			if ($type === self::VALUE_BOOL && $lexiconEntry?->hasOption(ConfigLexiconEntry::RENAME_INVERT_BOOLEAN)) {
-				$value = (in_array(strtolower($value), ['1', 'true', 'yes', 'on'])) ? '0' : '1';
-			}
+		if ($origKey !== $key && $type === self::VALUE_BOOL) {
+			$configManager = Server::get(ConfigManager::class);
+			$value = ($configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
 		}
 
 		return $value;
@@ -1677,7 +1677,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $appId
 	 * @internal
 	 *
-	 * @return array{entries: array<array-key, ConfigLexiconEntry>, aliases: array<array-key, string>, strictness: ConfigLexiconStrictness}
+	 * @return array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
