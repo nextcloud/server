@@ -9,6 +9,7 @@ declare(strict_types=1);
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
@@ -713,6 +714,9 @@ class OC_App {
 
 		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
+
+		// migrate eventual new config keys in the process
+		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
 		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
