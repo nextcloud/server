@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
-use OCA\Calendar\Exception\ServiceException;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
@@ -21,7 +20,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserIdUnassignedEvent;
 use OCP\User\Events\UserChangedEvent;
@@ -143,7 +141,6 @@ class UserEventsListener implements IEventListener {
 		$principal = 'principals/users/' . $user->getUID();
 
 		$calendarId = null;
-		$shouldCreateExampleEvent = $this->exampleEventService->shouldCreateExampleEvent();
 		if ($this->calDav->getCalendarsForUserCount($principal) === 0) {
 			try {
 				$calendarId = $this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
@@ -154,12 +151,8 @@ class UserEventsListener implements IEventListener {
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
-		} elseif ($shouldCreateExampleEvent) {
-			// Should not happen in practice but just use the first existing calendar
-			$calendars = $this->calDav->getCalendarsForUser($principal);
-			$calendarId = $calendars[0]['id'];
 		}
-		if ($shouldCreateExampleEvent && $calendarId !== null) {
+		if ($calendarId !== null) {
 			try {
 				$this->exampleEventService->createExampleEvent($calendarId);
 			} catch (\Exception $e) {

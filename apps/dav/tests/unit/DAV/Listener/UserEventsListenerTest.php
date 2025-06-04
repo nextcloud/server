@@ -77,9 +77,6 @@ class UserEventsListenerTest extends TestCase {
 		$this->calDavBackend->expects(self::never())
 			->method('getCalendarsForUser');
 		$this->exampleEventService->expects(self::once())
-			->method('shouldCreateExampleEvent')
-			->willReturn(true);
-		$this->exampleEventService->expects(self::once())
 			->method('createExampleEvent')
 			->with(1000);
 
@@ -95,74 +92,15 @@ class UserEventsListenerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
-		$this->calDavBackend->expects($this->once())->method('getCalendarsForUserCount')->willReturn(2);
+		$this->calDavBackend->expects($this->once())->method('getCalendarsForUserCount')->willReturn(1);
 		$this->calDavBackend->expects($this->never())->method('createCalendar');
 		$this->calDavBackend->expects(self::never())
 			->method('createCalendar');
-		$this->exampleEventService->expects(self::once())
-			->method('shouldCreateExampleEvent')
-			->willReturn(true);
-		$this->calDavBackend->expects(self::once())
-			->method('getCalendarsForUser')
-			->with('principals/users/newUser')
-			->willReturn([
-				['id' => 1000],
-				['id' => 1001],
-			]);
-		$this->exampleEventService->expects(self::once())
-			->method('createExampleEvent')
-			->with(1000);
-
-		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
-		$this->cardDavBackend->expects($this->never())->method('createAddressBook');
-
-		$this->userEventsListener->firstLogin($user);
-	}
-
-	public static function provideFirstLoginWithoutExampleEventData(): array {
-		return [
-			[0],
-			[1],
-		];
-	}
-
-	/** @dataProvider provideFirstLoginWithoutExampleEventData */
-	public function testFirstLoginWithoutExampleEvent(int $existingCalendarCount): void {
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())->method('getUID')->willReturn('newUser');
-
-
-		$this->exampleEventService->expects(self::once())
-			->method('shouldCreateExampleEvent')
-			->willReturn(false);
-		$this->calDavBackend->expects(self::once())
-			->method('getCalendarsForUserCount')
-			->willReturn($existingCalendarCount);
-		if ($existingCalendarCount === 0) {
-			$this->defaults->expects(self::once())
-				->method('getColorPrimary')
-				->willReturn('#745bca');
-			$this->calDavBackend->expects(self::once())
-				->method('createCalendar')
-				->with('principals/users/newUser', 'personal', [
-					'{DAV:}displayname' => 'Personal',
-					'{http://apple.com/ns/ical/}calendar-color' => '#745bca',
-					'components' => 'VEVENT'
-				])
-				->willReturn(1000);
-		} else {
-			$this->calDavBackend->expects(self::never())
-				->method('createCalendar');
-		}
-		$this->calDavBackend->expects(self::never())
-			->method('getCalendarsForUser');
 		$this->exampleEventService->expects(self::never())
 			->method('createExampleEvent');
 
-		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(0);
-		$this->cardDavBackend->expects($this->once())->method('createAddressBook')->with(
-			'principals/users/newUser',
-			'contacts', ['{DAV:}displayname' => 'Contacts']);
+		$this->cardDavBackend->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
+		$this->cardDavBackend->expects($this->never())->method('createAddressBook');
 
 		$this->userEventsListener->firstLogin($user);
 	}

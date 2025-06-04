@@ -38,6 +38,10 @@ class ExampleEventService {
 	}
 
 	public function createExampleEvent(int $calendarId): void {
+		if (!$this->shouldCreateExampleEvent()) {
+			return;
+		}
+
 		$customIcs = $this->getCustomExampleEvent();
 		if ($customIcs === null) {
 			$this->createDefaultEvent($calendarId);
