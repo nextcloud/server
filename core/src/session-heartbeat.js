@@ -10,7 +10,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
 import OC from './OC/index.js'
-import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken.js'
+import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken.ts'
 
 let config = null
 /**

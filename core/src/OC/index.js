@@ -51,7 +51,7 @@ import {
 } from './host.js'
 import {
 	getToken as getRequestToken,
-} from './requesttoken.js'
+} from './requesttoken.ts'
 import {
 	hideMenus,
 	registerMenu,
