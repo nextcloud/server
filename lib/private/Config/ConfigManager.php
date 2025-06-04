@@ -16,15 +16,21 @@ use NCU\Config\ValueType;
 use OC\AppConfig;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
+/**
+ * tools to maintains configurations
+ *
+ * @since 32.0.0
+ */
 class ConfigManager {
+	/** @var AppConfig|null $appConfig */
+	private ?IAppConfig $appConfig = null;
+	/** @var UserConfig|null $userConfig */
+	private ?IUserConfig $userConfig = null;
+
 	public function __construct(
-		/** @var AppConfig $appConfig */
-		private readonly IAppConfig $appConfig,
-		/** @var UserConfig $appConfig */
-		private readonly IUserConfig $userConfig,
-		private readonly IAppManager $appManager,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -40,17 +46,21 @@ class ConfigManager {
 	 *
 	 * @see ConfigLexiconEntry
 	 * @internal
+	 * @since 32.0.0
 	 * @param string|null $appId when set to NULL the method will be executed for all enabled apps of the instance
 	 */
 	public function migrateConfigLexiconKeys(?string $appId = null): void {
 		if ($appId === null) {
 			$this->migrateConfigLexiconKeys('core');
-			foreach ($this->appManager->getEnabledApps() as $app) {
+			$appManager = Server::get(IAppManager::class);
+			foreach ($appManager->getEnabledApps() as $app) {
 				$this->migrateConfigLexiconKeys($app);
 			}
 
 			return;
 		}
+
+		$this->loadConfigServices();
 
 		// it is required to ignore aliases when moving config values
 		$this->appConfig->ignoreLexiconAliases(true);
@@ -65,26 +75,26 @@ class ConfigManager {
 	}
 
 	/**
+	 * config services cannot be load at __construct() or install will fail
+	 */
+	private function loadConfigServices(): void {
+		if ($this->appConfig === null) {
+			$this->appConfig = Server::get(IAppConfig::class);
+		}
+		if ($this->userConfig === null) {
+			$this->userConfig = Server::get(IUserConfig::class);
+		}
+	}
+
+	/**
 	 * Get details from lexicon related to AppConfig and search for entries with rename to initiate
 	 * a migration to new config key
 	 */
 	private function migrateAppConfigKeys(string $appId): void {
 		$lexicon = $this->appConfig->getConfigDetailsFromLexicon($appId);
-
-		// we store a list of config keys to compare with any 'copyFrom'
-		$keys = [];
-		foreach ($lexicon['entries'] as $entry) {
-			$keys[] = $entry->getKey();
-		}
-
 		foreach ($lexicon['entries'] as $entry) {
 			// only interested in entries with rename set
 			if ($entry->getRename() === null) {
-				continue;
-			}
-
-			if (in_array($entry->getRename(), $keys, true)) {
-				$this->logger->error('rename value should not exist as a valid config key within Lexicon');
 				continue;
 			}
 
@@ -110,21 +120,9 @@ class ConfigManager {
 	 */
 	private function migrateUserConfigKeys(string $appId): void {
 		$lexicon = $this->userConfig->getConfigDetailsFromLexicon($appId);
-
-		// we store a list of set keys to compare with any 'copyFrom'
-		$keys = [];
-		foreach ($lexicon['entries'] as $entry) {
-			$keys[] = $entry->getKey();
-		}
-
 		foreach ($lexicon['entries'] as $entry) {
 			// only interested in keys with rename set
 			if ($entry->getRename() === null) {
-				continue;
-			}
-
-			if (in_array($entry->getRename(), $keys, true)) {
-				$this->logger->error('rename value should not exist as a valid key within Lexicon');
 				continue;
 			}
 

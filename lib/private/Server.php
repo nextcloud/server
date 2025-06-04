@@ -570,9 +570,9 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\SystemConfig($config);
 		});
 
-		$this->registerAlias(IAppManager::class, AppManager::class);
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
+		$this->registerAlias(IAppManager::class, AppManager::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
