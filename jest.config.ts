@@ -44,6 +44,11 @@ const config: Config = {
 	],
 
 	testEnvironment: './__tests__/FixJSDOMEnvironment.ts',
+	testEnvironmentOptions: {
+		// https://mswjs.io/docs/migrations/1.x-to-2.x#cannot-find-module-mswnode-jsdom
+		customExportConditions: [''],
+	},
+
 	preset: 'ts-jest/presets/js-with-ts',
 
 	roots: [
