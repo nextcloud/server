@@ -5,7 +5,7 @@
 
 import $ from 'jquery'
 
-import { getToken } from '../OC/requesttoken.js'
+import { getToken } from '../OC/requesttoken.ts'
 
 $(document).on('ajaxSend', function(elm, xhr, settings) {
 	if (settings.crossDomain === false) {

@@ -4,7 +4,7 @@
  */
 
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { manageToken, setToken } from '../../OC/requesttoken.js'
+import { manageToken, setToken } from '../../OC/requesttoken.ts'
 
 const eventbus = vi.hoisted(() => ({ emit: vi.fn() }))
 vi.mock('@nextcloud/event-bus', () => eventbus)
