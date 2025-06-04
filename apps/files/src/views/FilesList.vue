@@ -483,7 +483,7 @@ export default defineComponent({
 		 * Update the window title to match the page heading
 		 */
 		pageHeading() {
-			document.title = `${this.pageHeading} - ${getCapabilities().theming?.productName ?? 'Nextcloud'}`
+			document.title = `${this.pageHeading} - ${getCapabilities().theming?.name ?? 'Nextcloud'}`
 		},
 
 		/**
