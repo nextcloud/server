@@ -172,6 +172,7 @@ class Manager implements IManager {
 				}
 
 				$this->notifiers[] = $notifier;
+				$this->logger->warning('✅ Manager::getNotifiers(): count()===' . count($this->notifiers));
 			}
 
 			$this->parsedRegistrationContext = true;
@@ -302,7 +303,7 @@ class Manager implements IManager {
 	 */
 	public function notify(INotification $notification): void {
 		$this->logger->warning('✅ notify(' . $notification->getApp() . ')');
-		$this->logger->warning('notify::hasNotifiers' . json_encode($this->hasNotifiers()));
+		$this->logger->warning('✅ notify::hasNotifiers' . json_encode($this->hasNotifiers()));
 		if (!$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
 		}
