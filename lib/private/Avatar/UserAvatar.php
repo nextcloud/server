@@ -26,9 +26,9 @@ class UserAvatar extends Avatar {
 	public function __construct(
 		private ISimpleFolder $folder,
 		private IL10N $l,
-		private User $user,
+		protected User $user,
 		LoggerInterface $logger,
-		private IConfig $config,
+		protected IConfig $config,
 	) {
 		parent::__construct($logger);
 	}
@@ -201,8 +201,9 @@ class UserAvatar extends Avatar {
 		try {
 			$ext = $this->getExtension($generated, $darkTheme);
 		} catch (NotFoundException $e) {
-			if (!$data = $this->generateAvatarFromSvg(1024, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), 1024, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, 1024, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, 1024, $darkTheme);
 			}
 			$avatar = $this->folder->newFile($darkTheme ? 'avatar-dark.png' : 'avatar.png');
 			$avatar->putContent($data);
@@ -234,8 +235,9 @@ class UserAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 			if ($generated) {
-				if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-					$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+				$userDisplayName = $this->getDisplayName();
+				if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+					$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 				}
 			} else {
 				$avatar = new \OCP\Image();

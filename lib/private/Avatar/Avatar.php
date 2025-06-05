@@ -14,6 +14,8 @@ use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use Psr\Log\LoggerInterface;
+use OC\User\User;
+use OCP\IConfig;
 
 /**
  * This class gets and sets users avatars.
@@ -84,8 +86,7 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $darkTheme): string {
-		$userDisplayName = $this->getDisplayName();
+	protected function getAvatarVector(string $userDisplayName, int $size, bool $darkTheme): string {
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
@@ -96,9 +97,31 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
+	 * Select the rendering font based on the user's display name and language 
+	 */
+	private function getFont(string $userDisplayName): string {
+		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
+			$userlang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', '');
+			switch ($userlang) {
+				case 'zh_TW':
+					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
+				case 'zh_HK':
+					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
+				case 'ja':
+					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+				case 'ko':
+					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+				default:
+					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
+			}
+		}
+		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+	}
+
+	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
@@ -106,10 +129,11 @@ abstract class Avatar implements IAvatar {
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
 		if (in_array('RSVG', $formats, true)) {
 			return null;
-		}
+		}		
+		$text = $this->getAvatarText();
 		try {
-			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $darkTheme);
+			$font = $this->getFont($text);
+			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
@@ -151,7 +175,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
