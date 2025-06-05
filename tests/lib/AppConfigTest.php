@@ -38,7 +38,7 @@ class AppConfigTest extends TestCase {
 	private static array $baseStruct =
 		[
 			'testapp' => [
-				'enabled' => ['enabled', 'true'],
+				'enabled' => ['enabled', 'yes'],
 				'installed_version' => ['installed_version', '1.2.3'],
 				'depends_on' => ['depends_on', 'someapp'],
 				'deletethis' => ['deletethis', 'deletethis'],
@@ -49,11 +49,12 @@ class AppConfigTest extends TestCase {
 				'otherkey' => ['otherkey', 'othervalue']
 			],
 			'123456' => [
-				'enabled' => ['enabled', 'true'],
+				'enabled' => ['enabled', 'yes'],
 				'key' => ['key', 'value']
 			],
 			'anotherapp' => [
-				'enabled' => ['enabled', 'false'],
+				'enabled' => ['enabled', 'no'],
+				'installed_version' => ['installed_version', '3.2.1'],
 				'key' => ['key', 'value']
 			],
 			'non-sensitive-app' => [
@@ -209,6 +210,19 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig(false);
 
 		$this->assertEqualsCanonicalizing(array_keys(self::$baseStruct), $config->getApps());
+	}
+
+	public function testGetAppInstalledVersions(): void {
+		$config = $this->generateAppConfig(false);
+
+		$this->assertEquals(
+			['testapp' => '1.2.3', 'anotherapp' => '3.2.1'],
+			$config->getAppInstalledVersions(false)
+		);
+		$this->assertEquals(
+			['testapp' => '1.2.3'],
+			$config->getAppInstalledVersions(true)
+		);
 	}
 
 	/**
@@ -410,7 +424,7 @@ class AppConfigTest extends TestCase {
 
 	public function testSearchValues(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(['testapp' => 'true', '123456' => 'true', 'anotherapp' => 'false'], $config->searchValues('enabled'));
+		$this->assertEqualsCanonicalizing(['testapp' => 'yes', '123456' => 'yes', 'anotherapp' => 'no'], $config->searchValues('enabled'));
 	}
 
 	public function testGetValueString(): void {
@@ -1322,7 +1336,7 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->deleteKey('anotherapp', 'key');
 		$status = $config->statusCache();
-		$this->assertEqualsCanonicalizing(['enabled' => 'false'], $status['fastCache']['anotherapp']);
+		$this->assertEqualsCanonicalizing(['enabled' => 'no', 'installed_version' => '3.2.1'], $status['fastCache']['anotherapp']);
 	}
 
 	public function testDeleteKeyDatabase(): void {

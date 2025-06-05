@@ -485,7 +485,7 @@ class AppTest extends \Test\TestCase {
 		\OC_User::setUserId($user);
 
 		$this->setupAppConfigMock()->expects($this->once())
-			->method('getValues')
+			->method('searchValues')
 			->willReturn(
 				[
 					'app3' => 'yes',
@@ -495,7 +495,6 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				]
-
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -524,13 +523,12 @@ class AppTest extends \Test\TestCase {
 		\OC_User::setUserId(self::TEST_USER1);
 
 		$this->setupAppConfigMock()->expects($this->once())
-			->method('getValues')
+			->method('searchValues')
 			->willReturn(
 				[
 					'app3' => 'yes',
 					'app2' => 'no',
 				]
-
 			);
 
 		$apps = \OC_App::getEnabledApps();
@@ -550,7 +548,7 @@ class AppTest extends \Test\TestCase {
 	private function setupAppConfigMock() {
 		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)
-			->onlyMethods(['getValues'])
+			->onlyMethods(['searchValues'])
 			->setConstructorArgs([\OCP\Server::get(IDBConnection::class)])
 			->disableOriginalConstructor()
 			->getMock();

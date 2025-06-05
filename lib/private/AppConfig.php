@@ -1670,10 +1670,17 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @return array<string, string>
 	 */
-	public function getAppInstalledVersions(): array {
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
 		if ($this->appVersionsCache === null) {
 			/** @var array<string, string> */
 			$this->appVersionsCache = $this->searchValues('installed_version', false, IAppConfig::VALUE_STRING);
+		}
+		if ($onlyEnabled) {
+			return array_filter(
+				$this->appVersionsCache,
+				fn (string $app): bool => $this->getValueString($app, 'enabled', 'no') !== 'no',
+				ARRAY_FILTER_USE_KEY
+			);
 		}
 		return $this->appVersionsCache;
 	}

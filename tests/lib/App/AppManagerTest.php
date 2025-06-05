@@ -71,6 +71,17 @@ class AppManagerTest extends TestCase {
 					return $values;
 				}
 			});
+		$config->expects($this->any())
+			->method('searchValues')
+			->willReturnCallback(function ($key, $lazy, $type) use (&$appConfig) {
+				$values = [];
+				foreach ($appConfig as $appid => $appData) {
+					if (isset($appData[$key])) {
+						$values[$appid] = $appData[$key];
+					}
+				}
+				return $values;
+			});
 
 		return $config;
 	}

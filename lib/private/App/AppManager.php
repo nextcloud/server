@@ -18,6 +18,7 @@ use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -134,7 +135,8 @@ class AppManager implements IAppManager {
 	 */
 	private function getEnabledAppsValues(): array {
 		if (!$this->enabledAppsCache) {
-			$values = $this->getAppConfig()->getValues(false, 'enabled');
+			/** @var array<string,string> */
+			$values = $this->getAppConfig()->searchValues('enabled', false, IAppConfig::VALUE_STRING);
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
 			foreach ($alwaysEnabledApps as $appId) {
@@ -784,8 +786,8 @@ class AppManager implements IAppManager {
 	 *
 	 * @return array<string, string>
 	 */
-	public function getAppInstalledVersions(): array {
-		return $this->getAppConfig()->getAppInstalledVersions();
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
+		return $this->getAppConfig()->getAppInstalledVersions($onlyEnabled);
 	}
 
 	/**

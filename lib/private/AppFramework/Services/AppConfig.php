@@ -343,7 +343,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @return array<string, string>
 	 */
-	public function getAppInstalledVersions(): array {
-		return $this->appConfig->getAppInstalledVersions();
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
+		return $this->appConfig->getAppInstalledVersions($onlyEnabled);
 	}
 }
