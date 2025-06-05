@@ -42,12 +42,20 @@ jobs:
         run: |
           cd server
           # Print all tags
-          git log --decorate --oneline | egrep '^[0-9a-f]+ \((HEAD, )?tag: ' | sed -r 's/^.+tag: ([^ ]+)[,\)].+$/\1/g'
+          git log --decorate --oneline | egrep 'tag: ' | sed -r 's/^.+tag: ([^,\)]+)[,\)].+$/\1/g'
           # Get the current tag
-          TAGS=$(git log --decorate --oneline | egrep '^[0-9a-f]+ \((HEAD, )?tag: ' | sed -r 's/^.+tag: ([^ ]+)[,\)].+$/\1/g')
+          TAGS=$(git log --decorate --oneline | egrep 'tag: ' | sed -r 's/^.+tag: ([^,\)]+)[,\)].+$/\1/g')
           CURRENT_TAG=$(echo "$TAGS" | head -n 1)
-          # Get the previous tag that is not an rc, beta or alpha
-          PREVIOUS_TAG=$(echo "$TAGS" | grep -v 'rc\|beta\|alpha' | sed -n '2p')
+
+          # Get the previous tag - filter pre-releases only if current tag is stable
+          if echo "$CURRENT_TAG" | grep -q 'rc\|beta\|alpha'; then
+            # Current tag is pre-release, don't filter
+            PREVIOUS_TAG=$(echo "$TAGS" | sed -n '2p')
+          else
+            # Current tag is stable, filter out pre-releases
+            PREVIOUS_TAG=$(echo "$TAGS" | grep -v 'rc\|beta\|alpha' | sed -n '2p')
+          fi
+
           echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_ENV
           echo "PREVIOUS_TAG=$PREVIOUS_TAG" >> $GITHUB_ENV
 
