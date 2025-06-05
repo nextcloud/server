@@ -44,6 +44,7 @@ OC.L10N.register(
     "Task not found" : "Aufgabe nicht gefunden",
     "Internal error" : "Interner Fehler",
     "Not found" : "Nicht gefunden",
+    "Node is locked" : "Knoten ist gesperrt",
     "Bad request" : "Fehlerhafte Anfrage",
     "Requested task type does not exist" : "Angeforderter Aufgabentyp existiert nicht",
     "Necessary language model provider is not available" : "Erforderlicher Sprachmodellanbieter ist nicht verfügbar",
