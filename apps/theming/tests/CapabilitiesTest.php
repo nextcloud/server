@@ -54,6 +54,7 @@ class CapabilitiesTest extends TestCase {
 		return [
 			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', '#fff', '#000', 'http://absolute/', true, [
 				'name' => 'name',
+				'productName' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
@@ -71,6 +72,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', '#fff', '#000', 'http://localhost/', false, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#01e4a0',
@@ -88,6 +90,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', true, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
@@ -105,6 +108,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', false, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
@@ -133,6 +137,9 @@ class CapabilitiesTest extends TestCase {
 			->willReturn($background);
 		$this->theming->expects($this->once())
 			->method('getName')
+			->willReturn($name);
+		$this->theming->expects($this->once())
+			->method('getProductName')
 			->willReturn($name);
 		$this->theming->expects($this->once())
 			->method('getBaseUrl')
