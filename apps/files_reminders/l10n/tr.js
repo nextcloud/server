@@ -7,7 +7,7 @@ OC.L10N.register(
     "View folder" : "Klasörü görüntüle",
     "Files reminder" : "Dosyalar anımsatıcısı",
     "The \"files_reminders\" app can work properly." : "\"files_reminders\" uygulaması düzgün çalışabilir.",
-    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "\"files_reminders\" uygulamasının düzgün çalışması için bildirim uygulaması gereklidir. Bildirimler uygulamasını kullanıma alın ya da files_reminder uygulamasını kullanımdan kaldırın.",
+    "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "\"files_reminders\" uygulamasının düzgün çalışması için bildirim uygulaması gereklidir. Bildirimler uygulamasını etkinleştirin ya da files_reminder uygulamasını devre dışı bırakın.",
     "Set file reminders" : "Dosya anımsatıcıları ayarla",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Dosya anımsatıcıları**\n\nDosya anımsatıcıları ayarlayın.\n\nNot: `Dosya anımsatıcıları` uygulamasını kullanmak için `Bildirimler` uygulamasının kurulmuş ve etkinleştirilmiş olduğundan emin olun. `Bildirimler` uygulaması `Dosya anımsatıcıları` uygulamasının doğru çalışması için gerekli API uygulamalarını sağlar.",
     "Set reminder for \"{fileName}\"" : "\"{fileName}\" için anımsatıcı ayarla",
@@ -32,6 +32,6 @@ OC.L10N.register(
     "Next week" : "Sonraki hafta",
     "Set reminder for next week" : "Gelecek hafta için anımsatıcı ayarla",
     "This files_reminder can work properly." : "Bu files_reminder düzgün çalışabilir.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminders uygulamasının düzgün çalışması için bildirim uygulaması gereklidir. Bildirimler uygulamasını kullanıma alın ya da files_reminder uygulamasını kullanımdan kaldırın."
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminders uygulamasının düzgün çalışması için bildirim uygulaması gereklidir. Bildirimler uygulamasını etkinleştirin ya da files_reminder uygulamasını devre dışı bırakın."
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,6 +1,6 @@
 { "translations": {
     "Invalid Federated Cloud ID" : "Birleşik bulut kimliği geçersiz",
-    "Server to server sharing is not enabled on this server" : "Bu sunucuda, sunucudan sunucuya paylaşım özelliği kullanıma alınmamış",
+    "Server to server sharing is not enabled on this server" : "Bu sunucuda, sunucudan sunucuya paylaşım özelliği etkin değil",
     "Couldn't establish a federated share." : "Birleşik bir paylaşım oluşturulamadı.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Birleşik bir paylaşım oluşturulamadı. Parola yanlış olabilir.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Birleşik paylaşım isteği gönderildi. Bir davet alacaksınız. Bildirimlerinizi denetleyin.",

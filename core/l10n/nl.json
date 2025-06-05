@@ -159,7 +159,7 @@
     "Reset password" : "Reset wachtwoord",
     "Back to login" : "Terug naar inloggen",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help." : "Als dit account bestaat, werd er een wachtwoordherstel email naar het overeenkomstige email adres gestuurd. Krijg je geen mail? Controleer dan het e-mailadres en/of de login, check je spam folder of vraag hulp aan je  beheerder.",
-    "Couldn't send reset email. Please contact your administrator." : "Kon herstel email niet versturen. Neem contact op met je beheerder.",
+    "Couldn't send reset email. Please contact your administrator." : "Kon herstelbericht niet versturen. Neem contact op met je beheerder.",
     "Password cannot be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met je beheerder.",
     "New password" : "Nieuw wachtwoord",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Je bestanden zijn versleuteld. Het is niet mogelijk om je gegevens terug te krijgen als je wachtwoord wordt gereset. Als je niet zeker weer wat je moet doen, neem dan contact op met je beheerder voordat je verdergaat. Wil je echt verder gaan?",
