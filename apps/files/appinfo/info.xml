@@ -54,6 +54,7 @@
 		<command>OCA\Files\Command\Object\ListObject</command>
 		<command>OCA\Files\Command\Object\Orphans</command>
 		<command>OCA\Files\Command\Object\Multi\Users</command>
+		<command>OCA\Files\Command\Object\Multi\Rename</command>
 		<command>OCA\Files\Command\WindowsCompatibleFilenames</command>
 	</commands>
 
