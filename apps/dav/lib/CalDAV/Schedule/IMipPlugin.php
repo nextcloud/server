@@ -186,7 +186,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		switch (strtolower($iTipMessage->method)) {
 			case self::METHOD_REPLY:
 				$method = self::METHOD_REPLY;
-				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
+				$data = $this->imipService->buildReplyBodyData($vEvent);
 				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
 				break;
 			case self::METHOD_CANCEL:
