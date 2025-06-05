@@ -1015,7 +1015,16 @@ class OC {
 				// Don't try to login when a client is trying to get a OAuth token.
 				// OAuth needs to support basic auth too, so the login is not valid
 				// inside Nextcloud and the Login exception would ruin it.
-				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token') {
+				// Disabled users would not be seen as logged in and trying to
+				// log them in would fail, so the login is bypassed for the main
+				// themed stylesheets and images.
+				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token' &&
+					$request->getRawPathInfo() !== '/apps/theming/theme/default.css' &&
+					$request->getRawPathInfo() !== '/apps/theming/theme/light.css' &&
+					$request->getRawPathInfo() !== '/apps/theming/theme/dark.css' &&
+					$request->getRawPathInfo() !== '/apps/theming/image/background' &&
+					$request->getRawPathInfo() !== '/apps/theming/image/logo' &&
+					$request->getRawPathInfo() !== '/apps/theming/image/logoheader') {
 					self::handleLogin($request);
 				}
 			}

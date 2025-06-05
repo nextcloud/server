@@ -19,6 +19,7 @@ trait BasicStructure {
 	use Avatar;
 	use Download;
 	use Mail;
+	use Theming;
 
 	/** @var string */
 	private $currentUser = '';
