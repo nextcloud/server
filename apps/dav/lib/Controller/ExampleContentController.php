@@ -11,7 +11,6 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Service\ExampleEventService;
-use OCP\App\IAppManager;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -21,6 +20,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -30,8 +30,8 @@ class ExampleContentController extends ApiController {
 
 	public function __construct(
 		IRequest $request,
-		IAppManager $appManager,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IAppDataFactory $appDataFactory,
 		private LoggerInterface $logger,
 		private ExampleEventService $exampleEventService,
@@ -53,12 +53,33 @@ class ExampleContentController extends ApiController {
 		return new JSONResponse([], Http::STATUS_OK);
 	}
 
+	#[NoCSRFRequired]
+	public function getDefaultContact(): DataDownloadResponse {
+		$cardData = $this->getCard()
+			?? file_get_contents(__DIR__ . '/../ExampleContentFiles/exampleContact.vcf');
+		return new DataDownloadResponse($cardData, 'example_contact.vcf', 'text/vcard');
+	}
+
 	public function setDefaultContact(?string $contactData = null) {
 		if (!$this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no')) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 		$this->setCard($contactData);
 		return new JSONResponse([], Http::STATUS_OK);
+	}
+
+	private function getCard(): ?string {
+		try {
+			$folder = $this->appData->getFolder('defaultContact');
+		} catch (NotFoundException $e) {
+			return null;
+		}
+
+		if (!$folder->fileExists('defaultContact.vcf')) {
+			return null;
+		}
+
+		return $folder->getFile('defaultContact.vcf')->getContent();
 	}
 
 	private function setCard(?string $cardData = null) {
@@ -68,8 +89,10 @@ class ExampleContentController extends ApiController {
 			$folder = $this->appData->newFolder('defaultContact');
 		}
 
+		$isCustom = true;
 		if (is_null($cardData)) {
 			$cardData = file_get_contents(__DIR__ . '/../ExampleContentFiles/exampleContact.vcf');
+			$isCustom = false;
 		}
 
 		if (!$cardData) {
@@ -78,6 +101,8 @@ class ExampleContentController extends ApiController {
 
 		$file = (!$folder->fileExists('defaultContact.vcf')) ? $folder->newFile('defaultContact.vcf') : $folder->getFile('defaultContact.vcf');
 		$file->putContent($cardData);
+
+		$this->appConfig->setValueBool(Application::APP_ID, 'hasCustomDefaultContact', $isCustom);
 	}
 
 	private function defaultContactExists(): bool {

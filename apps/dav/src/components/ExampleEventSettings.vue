@@ -13,16 +13,12 @@
 		</NcCheckboxRadioSwitch>
 		<div v-if="createExampleEvent"
 			class="example-event-settings__buttons">
-			<NcButton type="tertiary"
-				:href="exampleEventDownloadUrl">
+			<ExampleContentDownloadButton :href="downloadUrl">
 				<template #icon>
 					<IconCalendarBlank :size="20" />
 				</template>
-				<span class="example-event-settings__buttons__download-link">
-					example_event.ics
-					<IconDownload :size="20" />
-				</span>
-			</NcButton>
+				example_event.ics
+			</ExampleContentDownloadButton>
 			<NcButton type="secondary"
 				@click="showImportModal = true">
 				<template #icon>
@@ -78,6 +74,7 @@ import * as ExampleEventService from '../service/ExampleEventService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../service/logger.js'
 import { generateUrl } from '@nextcloud/router'
+import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
 
 export default {
 	name: 'ExampleEventSettings',
@@ -89,6 +86,7 @@ export default {
 		IconCalendarBlank,
 		IconUpload,
 		IconRestore,
+		ExampleContentDownloadButton,
 	},
 	data() {
 		return {
@@ -102,7 +100,7 @@ export default {
 		}
 	},
 	computed: {
-		exampleEventDownloadUrl() {
+		downloadUrl() {
 			return generateUrl('/apps/dav/api/exampleEvent/event')
 		},
 	},
@@ -191,7 +189,14 @@ export default {
 
 		&__download-link {
 			display: flex;
-			text-decoration: underline;
+			max-width: 100px;
+
+			&__label {
+				text-decoration: underline;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
 		}
 	}
 }

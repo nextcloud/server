@@ -5,23 +5,30 @@
 
 <template>
 	<div class="example-contact-settings">
-		<div class="example-content-setting__form">
+		<div class="example-content-setting__inner">
 			<NcCheckboxRadioSwitch :checked="enableDefaultContact"
 				type="switch"
 				@update:model-value="updateEnableDefaultContact">
-				{{ $t('dav',"Default contact is added to the user's own address book on user's first login.") }}
+				{{ $t('dav', "Add example contact to user's address book when they first log in") }}
 			</NcCheckboxRadioSwitch>
-			<div v-if="enableDefaultContact" class="example-contact-settings__form__buttons">
-				<NcButton type="primary"
-					class="example-contact-settings__form__buttons__button"
+			<div v-if="enableDefaultContact" class="example-contact-settings__inner__buttons">
+				<ExampleContentDownloadButton :href="downloadUrl">
+					<template #icon>
+						<IconAccount :size="20" />
+					</template>
+					example_contact.vcf
+				</ExampleContentDownloadButton>
+				<NcButton type="secondary"
+					class="example-contact-settings__inner__buttons__button"
 					@click="toggleModal">
 					<template #icon>
 						<IconUpload :size="20" />
 					</template>
 					{{ $t('dav', 'Import contact') }}
 				</NcButton>
-				<NcButton type="secondary"
-					class="example-contact-settings__form__buttons__button"
+				<NcButton v-if="hasCustomDefaultContact"
+					type="tertiary"
+					class="example-contact-settings__inner__buttons__button"
 					@click="resetContact">
 					<template #icon>
 						<IconRestore :size="20" />
@@ -54,11 +61,14 @@ import { NcDialog, NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
+import IconAccount from 'vue-material-design-icons/Account.vue'
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconCheck from '@mdi/svg/svg/check.svg?raw'
 import logger from '../service/logger.js'
+import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
 
 const enableDefaultContact = loadState('dav', 'enableDefaultContact') === 'yes'
+const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact')
 
 export default {
 	name: 'ExampleContactSettings',
@@ -68,10 +78,13 @@ export default {
 		NcCheckboxRadioSwitch,
 		IconUpload,
 		IconRestore,
+		IconAccount,
+		ExampleContentDownloadButton,
 	},
 	data() {
 		return {
 			enableDefaultContact,
+			hasCustomDefaultContact,
 			isModalOpen: false,
 			loading: false,
 			buttons: [
@@ -88,6 +101,11 @@ export default {
 				},
 			],
 		}
+	},
+	computed: {
+		downloadUrl() {
+			return generateUrl('/apps/dav/api/defaultcontact/contact')
+		},
 	},
 	methods: {
 		updateEnableDefaultContact() {
@@ -109,6 +127,7 @@ export default {
 			this.loading = true
 			axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'))
 				.then(() => {
+					this.hasCustomDefaultContact = false
 					showSuccess(this.$t('dav', 'Contact reset successfully'))
 				})
 				.catch((error) => {
@@ -129,6 +148,7 @@ export default {
 				this.isModalOpen = false
 				try {
 					await axios.put(generateUrl('/apps/dav/api/defaultcontact/contact'), { contactData: reader.result })
+					this.hasCustomDefaultContact = true
 					showSuccess(this.$t('dav', 'Contact imported successfully'))
 				} catch (error) {
 					logger.error('Error importing contact:', { error })
@@ -147,12 +167,12 @@ export default {
 .example-contact-settings {
 	margin-block-start: 2rem;
 
-	&__form{
-		&__buttons{
+	&__inner {
+		&__buttons {
 			margin-top: 1rem;
 			display: flex;
 
-			&__button{
+			&__button {
 				margin-inline-end: 5px;
 			}
 		}

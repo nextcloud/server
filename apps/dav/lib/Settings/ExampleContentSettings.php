@@ -13,12 +13,14 @@ use OCA\DAV\Service\ExampleEventService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class ExampleContentSettings implements ISettings {
 	public function __construct(
 		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private readonly IInitialState $initialState,
 		private readonly IAppManager $appManager,
 		private readonly ExampleEventService $exampleEventService,
@@ -43,6 +45,10 @@ class ExampleContentSettings implements ISettings {
 		if ($contactsEnabled) {
 			$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no');
 			$this->initialState->provideInitialState('enableDefaultContact', $enableDefaultContact);
+			$this->initialState->provideInitialState(
+				'hasCustomDefaultContact',
+				$this->appConfig->getValueBool(Application::APP_ID, 'hasCustomDefaultContact'),
+			);
 		}
 
 		return new TemplateResponse(Application::APP_ID, 'settings-example-content');
