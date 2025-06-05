@@ -35,12 +35,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import { loadState } from '@nextcloud/initial-state'
+
+import { getGuestNameValidity } from '../services/GuestNameValidity'
 
 export default defineComponent({
 	name: 'PublicAuthPrompt',
@@ -100,6 +102,19 @@ export default defineComponent({
 				this.name = this.nickname
 			},
 			immediate: true,
+		},
+
+		name() {
+			// Check validity of the new name
+			const newName = this.name.trim?.() || ''
+			const input = (this.$refs.input as Vue|undefined)?.$el.querySelector('input')
+			if (!input) {
+				return
+			}
+
+			const validity = getGuestNameValidity(newName)
+			input.setCustomValidity(validity)
+			input.reportValidity()
 		},
 	},
 })

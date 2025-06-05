@@ -199,4 +199,15 @@ interface Folder extends Node {
 	 * @since 9.1.0
 	 */
 	public function getRecent($limit, $offset = 0);
+
+	/**
+	 * Verify if the given path is valid and allowed from this folder.
+	 *
+	 * @param string $path the path from this folder
+	 * @param string $fileName
+	 * @param bool $readonly Check only if the path is allowed for read-only access
+	 * @throws InvalidPathException
+	 * @since 32.0.0
+	 */
+	public function verifyPath($fileName, $readonly = false): void;
 }

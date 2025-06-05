@@ -44,7 +44,7 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When Dropping file "/folder/a.txt" with "abc"
-    Then the HTTP status code should be "405"
+    Then the HTTP status code should be "400"
 
   Scenario: Files drop forbid MKCOL without a nickname
     Given user "user0" exists
@@ -57,7 +57,7 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop
-    Then the HTTP status code should be "405"
+    Then the HTTP status code should be "400"
 
   Scenario: Files drop allows MKCOL with a nickname
     Given user "user0" exists
@@ -83,7 +83,7 @@ Feature: FilesDrop
     And Updating last share with
       | permissions | 4 |
     When dropping file "/folder/a.txt" with "abc"
-    Then the HTTP status code should be "405"
+    Then the HTTP status code should be "400"
 
   Scenario: Files request drop
     Given user "user0" exists
@@ -195,4 +195,43 @@ Feature: FilesDrop
       | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
       | shareWith |  |
     When Dropping file "/folder/a.txt" with "abc"
-    Then the HTTP status code should be "405"
+    Then the HTTP status code should be "400"
+
+  Scenario: Files request drop with invalid nickname with slashes
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder/a.txt" with "abc" as "Alice/Bob/Mallory"
+    Then the HTTP status code should be "400"
+
+  Scenario: Files request drop with invalid nickname with forbidden characters
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder/a.txt" with "abc" as ".htaccess"
+    Then the HTTP status code should be "400"
+
+  Scenario: Files request drop with invalid nickname with forbidden characters
+    Given user "user0" exists
+    And As an "user0"
+    And user "user0" created a folder "/drop"
+    And as "user0" creating a share with
+      | path | drop |
+      | shareType | 4 |
+      | permissions | 4 |
+      | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | shareWith |  |
+    When Dropping file "/folder/a.txt" with "abc" as ".Mallory"
+    Then the HTTP status code should be "400"
