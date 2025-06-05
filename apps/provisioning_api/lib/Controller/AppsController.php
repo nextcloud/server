@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
+use OC\App\AppStore\AppNotFoundException;
 use OC\Installer;
 use OC_App;
 use OCP\App\AppPathNotFoundException;
@@ -124,7 +125,7 @@ class AppsController extends OCSController {
 			$this->appManager->enableApp($app);
 		} catch (\InvalidArgumentException $e) {
 			throw new OCSException($e->getMessage(), OCSController::RESPOND_UNAUTHORISED);
-		} catch (AppPathNotFoundException $e) {
+		} catch (AppPathNotFoundException|AppNotFoundException $e) {
 			throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 		}
 		return new DataResponse();

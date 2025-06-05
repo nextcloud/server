@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppStore\AppNotFoundException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -174,6 +175,7 @@ class Installer {
 	 * @param string $appId
 	 * @param bool [$allowUnstable]
 	 *
+	 * @throws AppNotFoundException If the app is not found on the appstore
 	 * @throws \Exception If the installation was not successful
 	 */
 	public function downloadApp(string $appId, bool $allowUnstable = false): void {
@@ -356,9 +358,9 @@ class Installer {
 			}
 		}
 
-		throw new \Exception(
+		throw new AppNotFoundException(
 			sprintf(
-				'Could not download app %s',
+				'Could not download app %s, it was not found on the appstore',
 				$appId
 			)
 		);
