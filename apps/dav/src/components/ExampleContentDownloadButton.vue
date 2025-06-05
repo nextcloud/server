@@ -12,7 +12,8 @@
 			<span class="download-button__label">
 				<slot name="default" />
 			</span>
-			<IconDownload :size="20" />
+			<IconDownload class="download-button__icon"
+				:size="20" />
 		</div>
 	</NcButton>
 </template>
@@ -46,6 +47,10 @@ export default {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
+	}
+
+	&__icon {
+		margin-top: 3px;
 	}
 }
 </style>

@@ -66,7 +66,6 @@
 <script>
 import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
-import IconDownload from 'vue-material-design-icons/Download.vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
@@ -82,7 +81,6 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		IconDownload,
 		IconCalendarBlank,
 		IconUpload,
 		IconRestore,
