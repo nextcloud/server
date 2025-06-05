@@ -4336,9 +4336,6 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Route/Router.php">
-    <InvalidClass>
-      <code><![CDATA[\OC_APP]]></code>
-    </InvalidClass>
     <InvalidNullableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
