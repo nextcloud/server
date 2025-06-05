@@ -14,6 +14,9 @@
 			:other-languages="otherLanguages"
 			:language.sync="language" />
 
+		<span v-else-if="forcedLanguage && forcedLanguage.name">
+			{{ t('settings', 'Language is forced to {language} by the administrator', { language: forcedLanguage.name }) }}
+		</span>
 		<span v-else>
 			{{ t('settings', 'No language set') }}
 		</span>
@@ -22,13 +25,12 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 
 import Language from './Language.vue'
 import HeaderBar from '../shared/HeaderBar.vue'
 
 import { ACCOUNT_SETTING_PROPERTY_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
-
-const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'LanguageSection',
@@ -41,15 +43,23 @@ export default {
 	setup() {
 		// Non reactive instance properties
 		return {
-			commonLanguages,
-			otherLanguages,
 			propertyReadable: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
 		}
 	},
 
 	data() {
+		const state = loadState('settings', 'personalInfoParameters', {})
+		const { activeLanguage, commonLanguages, otherLanguages, forcedLanguage } = state.languageMap || {}
 		return {
-			language: activeLanguage,
+			language: activeLanguage || null,
+			forcedLanguage: forcedLanguage && forcedLanguage.name
+				? {
+					code: forcedLanguage.code,
+					name: forcedLanguage.name,
+				}
+				: null,
+			commonLanguages: forcedLanguage ? [] : (commonLanguages || []),
+			otherLanguages: forcedLanguage ? [] : (otherLanguages || []),
 		}
 	},
 
@@ -59,9 +69,15 @@ export default {
 		},
 
 		isEditable() {
-			return Boolean(this.language)
+			// Return false if language is forced or there's no active language
+			return !this.forcedLanguage && this.language !== null
 		},
 	},
+
+	methods: {
+		t,
+	}
+
 }
 </script>
 
