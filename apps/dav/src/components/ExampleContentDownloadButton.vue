@@ -39,7 +39,7 @@ export default {
 <style lang="scss" scoped>
 .download-button {
 	display: flex;
-	max-width: 100px;
+	max-width: 200px;
 
 	&__label {
 		text-decoration: underline;
