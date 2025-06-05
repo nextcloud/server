@@ -33,7 +33,7 @@
 				<template #icon>
 					<IconRestore :size="20" />
 				</template>
-				{{ t('dav', 'Restore default event') }}
+				{{ t('dav', 'Reset to default') }}
 			</NcButton>
 		</div>
 		<NcDialog :open.sync="showImportModal"

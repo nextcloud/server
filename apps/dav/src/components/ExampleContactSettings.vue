@@ -33,7 +33,7 @@
 					<template #icon>
 						<IconRestore :size="20" />
 					</template>
-					{{ $t('dav', 'Reset to default contact') }}
+					{{ $t('dav', 'Reset to default') }}
 				</NcButton>
 			</div>
 		</div>
