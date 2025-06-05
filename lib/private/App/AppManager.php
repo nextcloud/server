@@ -545,10 +545,15 @@ class AppManager implements IAppManager {
 	 * @param string $appId
 	 * @param bool $forceEnable
 	 * @throws AppPathNotFoundException
+	 * @throws \InvalidArgumentException if the application is not installed yet
 	 */
 	public function enableApp(string $appId, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
+
+		if ($this->config->getAppValue($appId, 'installed_version', '') === '') {
+			throw new \InvalidArgumentException("$appId is not installed, cannot be enabled.");
+		}
 
 		if ($forceEnable) {
 			$this->overwriteNextcloudRequirement($appId);
@@ -594,6 +599,10 @@ class AppManager implements IAppManager {
 		$info = $this->getAppInfo($appId);
 		if (!empty($info['types']) && $this->hasProtectedAppType($info['types'])) {
 			throw new \InvalidArgumentException("$appId can't be enabled for groups.");
+		}
+
+		if ($this->config->getAppValue($appId, 'installed_version', '') === '') {
+			throw new \InvalidArgumentException("$appId is not installed, cannot be enabled.");
 		}
 
 		if ($forceEnable) {

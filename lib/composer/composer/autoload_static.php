@@ -1090,6 +1090,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppScriptDependency' => __DIR__ . '/../../..' . '/lib/private/AppScriptDependency.php',
         'OC\\AppScriptSort' => __DIR__ . '/../../..' . '/lib/private/AppScriptSort.php',
         'OC\\App\\AppManager' => __DIR__ . '/../../..' . '/lib/private/App/AppManager.php',
+        'OC\\App\\AppStore\\AppNotFoundException' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/AppNotFoundException.php',
         'OC\\App\\AppStore\\Bundles\\Bundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/Bundle.php',
         'OC\\App\\AppStore\\Bundles\\BundleFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
         'OC\\App\\AppStore\\Bundles\\EducationBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EducationBundle.php',
