@@ -50,6 +50,8 @@ jobs:
         with:
           repository: nextcloud/user_saml
           path: apps/user_saml
+          # Latest version for Nextcloud 29
+          ref: stable-6
 
       - name: Install user_saml
         run: |
