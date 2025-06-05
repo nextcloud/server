@@ -82,7 +82,7 @@ class Router implements IRouter {
 	public function getRoutingFiles() {
 		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
-			foreach (\OC_APP::getEnabledApps() as $app) {
+			foreach ($this->appManager->getEnabledApps() as $app) {
 				try {
 					$appPath = $this->appManager->getAppPath($app);
 					$file = $appPath . '/appinfo/routes.php';
@@ -117,7 +117,7 @@ class Router implements IRouter {
 			$routingFiles = $this->getRoutingFiles();
 
 			$this->eventLogger->start('route:load:attributes', 'Loading Routes from attributes');
-			foreach (\OC_App::getEnabledApps() as $enabledApp) {
+			foreach ($this->appManager->getEnabledApps() as $enabledApp) {
 				$this->loadAttributeRoutes($enabledApp);
 			}
 			$this->eventLogger->end('route:load:attributes');
