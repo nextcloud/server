@@ -620,7 +620,7 @@ class Server extends ServerContainer implements IServerContainer {
 						];
 					}
 					$v['core'] = implode(',', $serverVersion->getVersion());
-					$version = implode(',', $v);
+					$version = implode(',', array_keys($v)) . implode(',', $v);
 					$instanceId = \OC_Util::getInstanceId();
 					$path = \OC::$SERVERROOT;
 					return md5($instanceId . '-' . $version . '-' . $path);
