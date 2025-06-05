@@ -44,6 +44,7 @@ OC.L10N.register(
     "Task not found" : "Ülesannet ei leidu",
     "Internal error" : "Sisemine viga",
     "Not found" : "Ei leidu",
+    "Node is locked" : "Sõlm on lukus",
     "Bad request" : "Vigane päring",
     "Requested task type does not exist" : "Küsitud ülesannete tüüpi ei leidu",
     "Necessary language model provider is not available" : "Vajaliku keelemudeli teenusepakkuja pole saadaval",

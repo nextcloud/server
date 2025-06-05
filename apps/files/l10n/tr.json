@@ -189,7 +189,7 @@
     "WebDAV URL" : "WebDAV adresi",
     "Copy to clipboard" : "Panoya kopyala",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "İki adımlı doğrulamayı kullanıma aldıysanız buraya tıklayarak yeni bir uygulama parolası oluşturmalısınız.",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "İki adımlı doğrulamayı etkinleştirdiyseniz buraya tıklayarak yeni bir uygulama parolası oluşturmalısınız.",
     "Warnings" : "Uyarılar",
     "Prevent warning dialogs from open or reenable them." : "Uyarı pencerelerinin görüntülenmesini açın ya da kapatın.",
     "Show a warning dialog when changing a file extension." : "Dosya uzantısı değiştirilirken uyarı penceresi görüntülensin.",

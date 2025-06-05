@@ -2,7 +2,7 @@ OC.L10N.register(
     "updatenotification",
     {
     "Channel updated" : "Kanal güncellendi",
-    "Web updater is disabled" : "Güncelleyici kullanımdan kaldırılmış",
+    "Web updater is disabled" : "Güncelleyici devre dışı bırakılmış",
     "App updated" : "Uygulama güncellendi",
     "See what's new" : "Yeniliklere bakın",
     "{app} updated to version {version}" : "{app}, {version} sürümüne güncellendi",
@@ -39,7 +39,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "100 hesap üzerinde site arayüzündeki güncelleyicinin kullanılmasının önerilmediğini unutmayın! Lütfen bunun yerine komut satırı güncelleyicisini kullanın!",
     "Open updater" : "Güncelleyici aç",
     "Download now" : "İndir",
-    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "İnternet güncelleyicisi kullanımdan kaldırılmış. Güncellemek için lütfen komut satırı güncelleyicisini ya da kurulum yönteminize uygun güncelleme yöntemini (Docker pull gibi) kullanın.",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "İnternet güncelleyicisi devre dışı bırakılmış. Güncellemek için lütfen komut satırı güncelleyicisini ya da kurulum yönteminize uygun güncelleme yöntemini (Docker pull gibi) kullanın.",
     "What's new?" : "Yenilikler neler?",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "The update check is not yet finished. Please refresh the page." : "Güncelleme denetimi henüz tamamlanmadı. Lütfen sayfayı yenileyin.",
