@@ -92,7 +92,7 @@ export default {
 	methods: {
 		updateEnableDefaultContact() {
 			axios.put(generateUrl('apps/dav/api/defaultcontact/config'), {
-				allow: this.enableDefaultContact ? 'yes' : 'no',
+				allow: this.enableDefaultContact ? 'no' : 'yes',
 			}).then(() => {
 				this.enableDefaultContact = !this.enableDefaultContact
 			}).catch(() => {
