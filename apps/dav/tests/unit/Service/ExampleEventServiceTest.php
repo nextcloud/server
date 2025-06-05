@@ -55,14 +55,14 @@ class ExampleEventServiceTest extends TestCase {
 		);
 	}
 
-	public static function createExampleEventWithCustomEventDataProvider(): array {
+	public static function provideCustomEventData(): array {
 		return [
 			[file_get_contents(__DIR__ . '/../test_fixtures/example-event.ics')],
 			[file_get_contents(__DIR__ . '/../test_fixtures/example-event-with-attendees.ics')],
 		];
 	}
 
-	/** @dataProvider createExampleEventWithCustomEventDataProvider */
+	/** @dataProvider provideCustomEventData */
 	public function testCreateExampleEventWithCustomEvent($customEventIcs): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueBool')
@@ -140,5 +140,57 @@ class ExampleEventServiceTest extends TestCase {
 			->method('createCalendarObject');
 
 		$this->service->createExampleEvent(1000);
+	}
+
+	/** @dataProvider provideCustomEventData */
+	public function testGetExampleEventWithCustomEvent($customEventIcs): void {
+		$exampleEventFolder = $this->createMock(ISimpleFolder::class);
+		$this->appData->expects(self::once())
+			->method('getFolder')
+			->with('example_event')
+			->willReturn($exampleEventFolder);
+		$exampleEventFile = $this->createMock(ISimpleFile::class);
+		$exampleEventFolder->expects(self::once())
+			->method('getFile')
+			->with('example_event.ics')
+			->willReturn($exampleEventFile);
+		$exampleEventFile->expects(self::once())
+			->method('getContent')
+			->willReturn($customEventIcs);
+
+		$this->random->expects(self::once())
+			->method('generate')
+			->with(32, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			->willReturn('RANDOM-UID');
+
+		$now = new \DateTimeImmutable('2025-01-21T00:00:00Z');
+		$this->time->expects(self::exactly(2))
+			->method('now')
+			->willReturn($now);
+
+		$expectedIcs = file_get_contents(__DIR__ . '/../test_fixtures/example-event-expected.ics');
+		$actualIcs = $this->service->getExampleEvent()->getIcs();
+		$this->assertEquals($expectedIcs, $actualIcs);
+	}
+
+	public function testGetExampleEventWithDefault(): void {
+		$this->appData->expects(self::once())
+			->method('getFolder')
+			->with('example_event')
+			->willThrowException(new NotFoundException());
+
+		$this->random->expects(self::once())
+			->method('generate')
+			->with(32, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+			->willReturn('RANDOM-UID');
+
+		$now = new \DateTimeImmutable('2025-01-21T00:00:00Z');
+		$this->time->expects(self::exactly(3))
+			->method('now')
+			->willReturn($now);
+
+		$expectedIcs = file_get_contents(__DIR__ . '/../test_fixtures/example-event-default-expected.ics');
+		$actualIcs = $this->service->getExampleEvent()->getIcs();
+		$this->assertEquals($expectedIcs, $actualIcs);
 	}
 }

@@ -5,9 +5,9 @@
 
 <template>
 	<NcSettingsSection id="example-content"
-		:name="$t('dav', 'Example Content')"
+		:name="$t('dav', 'Example content')"
 		class="example-content-setting"
-		:description="$t('dav', 'Set example content to be created on new user first login.')">
+		:description="$t('dav', 'Example content serves to showcase the features of Nextcloud. Default content is shipped with Nextcloud, and can be replaced by custom content.')">
 		<ExampleContactSettings v-if="hasContactsApp" />
 		<ExampleEventSettings v-if="hasCalendarApp" />
 	</NcSettingsSection>

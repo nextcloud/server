@@ -12,6 +12,7 @@ namespace OCA\DAV\Service;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Exception\ExampleEventException;
+use OCA\DAV\Model\ExampleEvent;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -42,21 +43,13 @@ class ExampleEventService {
 			return;
 		}
 
-		$customIcs = $this->getCustomExampleEvent();
-		if ($customIcs === null) {
-			$this->createDefaultEvent($calendarId);
-			return;
-		}
-
-		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
-		[$vCalendar, $vEvent] = $this->parseEvent($customIcs);
-		$vEvent->UID = $uid;
-		$vEvent->DTSTART = $this->getStartDate();
-		$vEvent->DTEND = $this->getEndDate();
-		$vEvent->remove('ORGANIZER');
-		$vEvent->remove('ATTENDEE');
-		$ics = $vCalendar->serialize();
-		$this->calDavBackend->createCalendarObject($calendarId, "$uid.ics", $ics);
+		$exampleEvent = $this->getExampleEvent();
+		$uid = $exampleEvent->getUid();
+		$this->calDavBackend->createCalendarObject(
+			$calendarId,
+			"$uid.ics",
+			$exampleEvent->getIcs(),
+		);
 	}
 
 	private function getStartDate(): \DateTimeInterface {
@@ -71,7 +64,7 @@ class ExampleEventService {
 			->setTime(11, 00);
 	}
 
-	private function createDefaultEvent(int $calendarId): void {
+	private function getDefaultEvent(string $uid): VCalendar {
 		$defaultDescription = $this->l10n->t(<<<EOF
 Welcome to Nextcloud Calendar!
 
@@ -86,7 +79,6 @@ With Nextcloud Calendar, you can:
 EOF);
 
 		$vCalendar = new VCalendar();
-		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 		$props = [
 			'UID' => $uid,
 			'DTSTAMP' => $this->time->now(),
@@ -96,8 +88,7 @@ EOF);
 			'DESCRIPTION' => $defaultDescription,
 		];
 		$vCalendar->add('VEVENT', $props);
-		$ics = $vCalendar->serialize();
-		$this->calDavBackend->createCalendarObject($calendarId, "$uid.ics", $ics);
+		return $vCalendar;
 	}
 
 	/**
@@ -121,6 +112,27 @@ EOF);
 				$e,
 			);
 		}
+	}
+
+	/**
+	 * Get the configured example event or the default one.
+	 *
+	 * @throws ExampleEventException If loading the custom example event fails.
+	 */
+	public function getExampleEvent(): ExampleEvent {
+		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
+		$customIcs = $this->getCustomExampleEvent();
+		if ($customIcs === null) {
+			return new ExampleEvent($this->getDefaultEvent($uid), $uid);
+		}
+
+		[$vCalendar, $vEvent] = $this->parseEvent($customIcs);
+		$vEvent->UID = $uid;
+		$vEvent->DTSTART = $this->getStartDate();
+		$vEvent->DTEND = $this->getEndDate();
+		$vEvent->remove('ORGANIZER');
+		$vEvent->remove('ATTENDEE');
+		return new ExampleEvent($vCalendar, $uid);
 	}
 
 	/**
@@ -183,7 +195,7 @@ EOF);
 		}
 	}
 
-	public function setCreateExampleEvent(bool $enable) {
+	public function setCreateExampleEvent(bool $enable): void {
 		$this->appConfig->setValueBool(Application::APP_ID, self::ENABLE_CONFIG_KEY, $enable);
 	}
 

@@ -15,6 +15,8 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
@@ -91,6 +93,17 @@ class ExampleContentController extends ApiController {
 	public function setCreateExampleEvent(bool $enable): JSONResponse {
 		$this->exampleEventService->setCreateExampleEvent($enable);
 		return new JsonResponse([]);
+	}
+
+	#[FrontpageRoute(verb: 'GET', url: '/api/exampleEvent/event')]
+	#[NoCSRFRequired]
+	public function downloadExampleEvent(): DataDownloadResponse {
+		$exampleEvent = $this->exampleEventService->getExampleEvent();
+		return new DataDownloadResponse(
+			$exampleEvent->getIcs(),
+			'example_event.ics',
+			'text/calendar',
+		);
 	}
 
 	#[FrontpageRoute(verb: 'POST', url: '/api/exampleEvent/event')]

@@ -9,25 +9,33 @@
 			:disabled="savingConfig"
 			type="switch"
 			@update:model-value="updateCreateExampleEvent">
-			{{ t('dav', 'Create default event when a user logs in for the first time') }}
+			{{ t('dav', "Add example event to user's calendar when they first log in") }}
 		</NcCheckboxRadioSwitch>
-		<em>
-			{{ t('dav', 'The example event serves as a showcase of the features of Nextcloud Calendar. A default example event is shipped with Nextcloud. You can replace the default event with a custom event by uploading an ICS file below.') }}
-		</em>
-		<div class="example-event-settings__buttons">
-			<NcButton v-if="createExampleEvent"
-				type="primary"
+		<div v-if="createExampleEvent"
+			class="example-event-settings__buttons">
+			<NcButton type="tertiary"
+				:href="exampleEventDownloadUrl">
+				<template #icon>
+					<IconCalendarBlank :size="20" />
+				</template>
+				<span class="example-event-settings__buttons__download-link">
+					example_event.ics
+					<IconDownload :size="20" />
+				</span>
+			</NcButton>
+			<NcButton type="secondary"
 				@click="showImportModal = true">
 				<template #icon>
 					<IconUpload :size="20" />
 				</template>
 				{{ t('dav', 'Import calendar event') }}
 			</NcButton>
-			<NcButton v-if="createExampleEvent && hasCustomEvent"
+			<NcButton v-if="hasCustomEvent"
+				type="tertiary"
 				:disabled="deleting"
 				@click="deleteCustomEvent">
 				<template #icon>
-					<IconDelete :size="20" />
+					<IconRestore :size="20" />
 				</template>
 				{{ t('dav', 'Restore default event') }}
 			</NcButton>
@@ -62,11 +70,14 @@
 <script>
 import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
+import IconDownload from 'vue-material-design-icons/Download.vue'
+import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import IconUpload from 'vue-material-design-icons/Upload.vue'
-import IconDelete from 'vue-material-design-icons/Delete.vue'
+import IconRestore from 'vue-material-design-icons/Restore.vue'
 import * as ExampleEventService from '../service/ExampleEventService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../service/logger.js'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'ExampleEventSettings',
@@ -74,8 +85,10 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcDialog,
+		IconDownload,
+		IconCalendarBlank,
 		IconUpload,
-		IconDelete,
+		IconRestore,
 	},
 	data() {
 		return {
@@ -87,6 +100,11 @@ export default {
 			savingConfig: false,
 			selectedFile: undefined,
 		}
+	},
+	computed: {
+		exampleEventDownloadUrl() {
+			return generateUrl('/apps/dav/api/exampleEvent/event')
+		},
 	},
 	methods: {
 		selectFile() {
@@ -170,6 +188,11 @@ export default {
 		display: flex;
 		gap: calc(var(--default-grid-baseline) * 2);
 		margin-top: calc(var(--default-grid-baseline) * 2);
+
+		&__download-link {
+			display: flex;
+			text-decoration: underline;
+		}
 	}
 }
 
