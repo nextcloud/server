@@ -11,6 +11,7 @@ return [
 		['name' => 'invitation_response#decline', 'url' => '/invitation/decline/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#options', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#processMoreOptionsResult', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'POST'],
+		['name' => 'example_content#getDefaultContact', 'url' => '/api/defaultcontact/contact', 'verb' => 'GET'],
 		['name' => 'example_content#setDefaultContact', 'url' => '/api/defaultcontact/contact', 'verb' => 'PUT'],
 		['name' => 'example_content#setEnableDefaultContact', 'url' => '/api/defaultcontact/config', 'verb' => 'PUT'],
 	],
