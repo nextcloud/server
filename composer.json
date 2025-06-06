@@ -70,7 +70,7 @@
 		],
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
 		"test:db": "@composer run test -- --group DB,SLOWDB",
-		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml",
+		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml --process-isolation",
 		"rector": "rector --config=build/rector.php && composer cs:fix",
 		"openapi": "./build/openapi-checker.sh"
 	},
