@@ -52,6 +52,12 @@ class SyncFederationAddressBooks {
 			try {
 				$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);
 				if ($newToken !== $syncToken) {
+					// Finish truncated initial sync.
+					if (strpos($newToken, 'init') !== false) {
+						do {
+							$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);
+						} while (str_contains($newToken, 'init_'));
+					}
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 				} else {
 					$this->logger->debug("Sync Token for $url unchanged from previous sync");
