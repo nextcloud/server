@@ -10,6 +10,7 @@ namespace OCA\Files_External\Tests\Storage;
 
 /**
  * @group DB
+ * @group S3
  */
 class VersionedAmazonS3Test extends Amazons3Test {
 	protected function setUp(): void {

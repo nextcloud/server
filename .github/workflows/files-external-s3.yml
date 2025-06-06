@@ -91,14 +91,15 @@ jobs:
 
       - name: Wait for S3
         run: |
-          sleep 10
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
       - name: PHPUnit
-        run: composer run test:files_external -- \
-          apps/files_external/tests/Storage/Amazons3Test.php \
-          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: |
+          composer run test:files_external -- \
+            --group S3 \
+            --log-junit junit.xml \
+            apps/files_external/tests/Storage \
+            ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
@@ -163,10 +164,12 @@ jobs:
           echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
 
       - name: PHPUnit
-        run: composer run test:files_external -- \
-          apps/files_external/tests/Storage/Amazons3Test.php \
-          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+        run: |
+          composer run test:files_external -- \
+            --group S3 \
+            --log-junit junit.xml \
+            apps/files_external/tests/Storage \
+            ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
