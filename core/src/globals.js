@@ -29,7 +29,7 @@ import 'strengthify/strengthify.css'
 import OC from './OC/index.js'
 import OCP from './OCP/index.js'
 import OCA from './OCA/index.js'
-import { getToken as getRequestToken } from './OC/requesttoken.js'
+import { getRequestToken } from './OC/requesttoken.ts'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
