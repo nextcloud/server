@@ -46,6 +46,9 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 	}
 
 	public function testHashInFileName(): void {
-		$this->markTestSkipped('Localstack has a bug with hashes in filename');
+		if (isset($this->config['localstack'])) {
+			$this->markTestSkipped('Localstack has a bug with hashes in filename');
+		}
+		parent::testHashInFileName();
 	}
 }

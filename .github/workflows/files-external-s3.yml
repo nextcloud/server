@@ -146,7 +146,7 @@ jobs:
         env:
           SERVICES: s3
           DEBUG: 1
-        image: localstack/localstack@sha256:b52c16663c70b7234f217cb993a339b46686e30a1a5d9279cb5feeb2202f837c # v4.4.0
+        image: localstack/localstack@sha256:9d4253786e0effe974d77fe3c390358391a56090a4fff83b4600d8a64404d95d # v4.5.0
         ports:
           - "4566:4566"
 
@@ -173,7 +173,7 @@ jobs:
           composer install
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force files_external
-          echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+          echo "<?php return ['run' => true, 'localstack' => true, 'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
 
       - name: PHPUnit
         run: |
