@@ -43,10 +43,12 @@ class CachingRouter extends Router {
 	 *
 	 * @param string $name Name of the route to use.
 	 * @param array $parameters Parameters for the route
-	 * @param bool $absolute
-	 * @return string
 	 */
-	public function generate($name, $parameters = [], $absolute = false) {
+	public function generate(
+		string $name,
+		array $parameters = [],
+		bool $absolute = false,
+	): string {
 		asort($parameters);
 		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . $name . sha1(json_encode($parameters)) . (int)$absolute;
 		$cachedKey = $this->cache->get($key);
@@ -143,7 +145,7 @@ class CachingRouter extends Router {
 		$this->legacyCreatedRoutes = [];
 		parent::requireRouteFile($file, $appName);
 		foreach ($this->legacyCreatedRoutes as $routeName) {
-			$route = $this->collection?->get($routeName);
+			$route = $this->getCollection($appName)->get($routeName);
 			if ($route === null) {
 				/* Should never happen */
 				throw new \Exception("Could not find route $routeName");

@@ -1295,6 +1295,7 @@ return array(
     'OC\\Core\\Command\\Preview\\Generate' => $baseDir . '/core/Command/Preview/Generate.php',
     'OC\\Core\\Command\\Preview\\Repair' => $baseDir . '/core/Command/Preview/Repair.php',
     'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => $baseDir . '/core/Command/Preview/ResetRenderedTexts.php',
+    'OC\\Core\\Command\\Router\\ListRoutes' => $baseDir . '/core/Command/Router/ListRoutes.php',
     'OC\\Core\\Command\\Security\\BruteforceAttempts' => $baseDir . '/core/Command/Security/BruteforceAttempts.php',
     'OC\\Core\\Command\\Security\\BruteforceResetAttempts' => $baseDir . '/core/Command/Security/BruteforceResetAttempts.php',
     'OC\\Core\\Command\\Security\\ExportCertificates' => $baseDir . '/core/Command/Security/ExportCertificates.php',
