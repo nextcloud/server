@@ -40,9 +40,7 @@ class UserStatusAutomation extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 
-		// Interval 0 might look weird, but the last_checked is always moved
-		// to the next time we need this and then it's 0 seconds ago.
-		$this->setInterval(0);
+		$this->setInterval(1);
 	}
 
 	/**
