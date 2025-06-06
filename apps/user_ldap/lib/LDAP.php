@@ -11,6 +11,7 @@ use OC\ServerNotAvailableException;
 use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Profiler\IProfiler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -18,6 +19,7 @@ use Psr\Log\LoggerInterface;
 class LDAP implements ILDAPWrapper {
 	protected array $curArgs = [];
 	protected LoggerInterface $logger;
+	protected IConfig $config;
 
 	private ?LdapDataCollector $dataCollector = null;
 
@@ -32,6 +34,7 @@ class LDAP implements ILDAPWrapper {
 		}
 
 		$this->logger = Server::get(LoggerInterface::class);
+		$this->config = Server::get(IConfig::class);
 	}
 
 	/**
@@ -291,6 +294,21 @@ class LDAP implements ILDAPWrapper {
 		return null;
 	}
 
+	/**
+	 * Turn resources into string, and removes potentially problematic cookie string to avoid breaking logfiles
+	 */
+	private function sanitizeFunctionParameters(array $args): array {
+		return array_map(function ($item) {
+			if ($this->isResource($item)) {
+				return '(resource)';
+			}
+			if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== '') {
+				$item[0]['value']['cookie'] = '*opaque cookie*';
+			}
+			return $item;
+		}, $args);
+	}
+
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
 		if (strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
@@ -301,32 +319,24 @@ class LDAP implements ILDAPWrapper {
 			$args[2] = IConfig::SENSITIVE_VALUE;
 		}
 
-		$this->logger->debug('Calling LDAP function {func} with parameters {args}', [
-			'app' => 'user_ldap',
-			'func' => $functionName,
-			'args' => json_encode($args),
-		]);
+		if ($this->config->getSystemValue('loglevel') === ILogger::DEBUG) {
+			/* Only running this if debug loglevel is on, to avoid processing parameters on production */
+			$this->logger->debug('Calling LDAP function {func} with parameters {args}', [
+				'app' => 'user_ldap',
+				'func' => $functionName,
+				'args' => $this->sanitizeFunctionParameters($args),
+			]);
+		}
 
 		if ($this->dataCollector !== null) {
-			$args = array_map(function ($item) {
-				if ($this->isResource($item)) {
-					return '(resource)';
-				}
-				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== '') {
-					$item[0]['value']['cookie'] = '*opaque cookie*';
-				}
-				return $item;
-			}, $this->curArgs);
-
 			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-			$this->dataCollector->startLdapRequest($functionName, $args, $backtrace);
+			$this->dataCollector->startLdapRequest($functionName, $this->sanitizeFunctionParameters($args), $backtrace);
 		}
 
 		if ($this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
-			$args = array_map(fn ($item) => (!$this->isResource($item) ? $item : '(resource)'), $this->curArgs);
 			file_put_contents(
 				$this->logFile,
-				$functionName . '::' . json_encode($args) . "\n",
+				$functionName . '::' . json_encode($this->sanitizeFunctionParameters($args)) . "\n",
 				FILE_APPEND
 			);
 		}
