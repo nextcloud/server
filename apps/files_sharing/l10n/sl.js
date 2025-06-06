@@ -242,6 +242,7 @@ OC.L10N.register(
     "Error updating the share" : "Napaka posodabljanja mesta souporabe",
     "File \"{path}\" has been unshared" : "Souporaba datoteke »{path}« je odstranjena",
     "Folder \"{path}\" has been unshared" : "Souporaba mape »{path}« je odstranjena",
+    "Filename must not be empty." : "Ime datoteke ne sme biti prazno.",
     "Shared by" : "Souporabo omogoča",
     "Shared with" : "V skupni rabi z uporabnikom",
     "Password created successfully" : "Geslo je uspešno ustvarjeno",

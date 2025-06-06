@@ -35,7 +35,7 @@ OC.L10N.register(
     "Could not reset password because the token is expired" : "Heslo není možné resetovat, protože platnost tokenu skončila",
     "Could not reset password because the token is invalid" : "Heslo není možné resetovat, protože token není platný",
     "Password is too long. Maximum allowed length is 469 characters." : "Heslo je příliš dlouhé. Délka může být nejvýše 469 znaků.",
-    "%s password reset" : "reset hesla %s",
+    "%s password reset" : "Reset hesla uživatele %s",
     "Password reset" : "Reset hesla",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Pokud chcete resetovat své heslo, klikněte na tlačítko níže. Pokud jste o resetování hesla nežádali, tento e-mail ignorujte.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Pokud chcete resetovat své heslo, klikněte na následující odkaz. Pokud jste o reset nežádali, tento e-mail ignorujte.",

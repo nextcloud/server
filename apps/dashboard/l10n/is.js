@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Til að vernda friðhelgi þína, eru veðurgögn sótt af Nextcloud-þjóninum fyrir þína hönd, þannig að veðurþjónustan fær engin persónuleg gögn.",
     "Weather data from Met.no" : "Veðurgögn frá Met.no",
     "geocoding with Nominatim" : "staðsetningarkóðun með Nominatim",
-    "elevation data from OpenTopoData" : "hæðargögn frá OpenTopoData",
-    "\"{title} icon\"" : "\"{title} táknmynd\""
+    "elevation data from OpenTopoData" : "hæðargögn frá OpenTopoData"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -380,6 +380,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Gardouse a nota de compartición para o destinatario",
     "Share password saved" : "Gardouse o contrasinal para compartir",
     "Share permissions saved" : "Gardáronse os permisos para compartir",
+    "Filename must not be empty." : "O nome de ficheiro non debe estar baleiro",
     "Shared by" : "Compartido por",
     "Shared with" : "Compartido con",
     "Password created successfully" : "O contrasinal foi creado correctamente",

@@ -272,6 +272,7 @@ OC.L10N.register(
     "File \"{path}\" has been unshared" : "Tiedoston \"{path}\" jakaminen on lopetettu",
     "Folder \"{path}\" has been unshared" : "Kansion \"{path}\" jakaminen on lopetettu",
     "Share saved" : "Jako tallennettu",
+    "Filename must not be empty." : "Tiedostonimi ei voi olla tyhjä.",
     "Shared by" : "Jakanut",
     "Shared with" : "Jaettu",
     "Password created successfully" : "Salasana luotu onnistuneesti",

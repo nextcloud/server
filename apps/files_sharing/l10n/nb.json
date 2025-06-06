@@ -337,6 +337,7 @@
     "Error updating the share" : "Feil under oppdatering av delingen",
     "File \"{path}\" has been unshared" : "Deling av filen \"{path}\" er opphevd",
     "Folder \"{path}\" has been unshared" : "Deling av mappen \"{path}\" er opphevd",
+    "Filename must not be empty." : "Filnavn kan ikke være tomt.",
     "Shared by" : "Delt av",
     "Shared with" : "Delt med",
     "Password created successfully" : "Passord opprettet",

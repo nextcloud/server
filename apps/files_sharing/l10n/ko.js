@@ -384,6 +384,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "받는이를 위한 공유 메모 저장됨",
     "Share password saved" : "공유 암호 저장됨",
     "Share permissions saved" : "공유 권한 저장됨",
+    "Filename must not be empty." : "파일 이름을 비울 수 없습니다.",
     "Shared by" : "공유한 사용자:",
     "Shared with" : "다음 사용자와 공유함",
     "Password created successfully" : "암호가 성공적으로 생성됨",

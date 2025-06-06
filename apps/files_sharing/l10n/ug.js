@@ -345,6 +345,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "تاپشۇرۇۋالغۇچى ئۈچۈن خاتىرە قالدۇرۇڭ",
     "Share password saved" : "پارولنى ئورتاقلاشتى",
     "Share permissions saved" : "ئورتاقلىشىش ئىجازەتلىرى ساقلاندى",
+    "Filename must not be empty." : "ھۆججەت ئىسمى بوش بولماسلىقى كېرەك.",
     "Shared by" : "ھەمبەھىرلىگۈچى",
     "Shared with" : "بىلەن ئورتاقلاشتى",
     "Password created successfully" : "پارول مۇۋەپپەقىيەتلىك قۇرۇلدى",

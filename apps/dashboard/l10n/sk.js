@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "V záujme vášho súkromia údaje o počasí vyžaduje váš server Nextcloud vo vašom mene, aby meteorologická služba nedostávala žiadne osobné informácie.",
     "Weather data from Met.no" : "Dáta počasia z Met.no",
     "geocoding with Nominatim" : "geokódovanie pomocou Nominatim",
-    "elevation data from OpenTopoData" : "dáta o nadmorskej výške z OpenTopoData",
-    "\"{title} icon\"" : "\"{title} ikona\""
+    "elevation data from OpenTopoData" : "dáta o nadmorskej výške z OpenTopoData"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

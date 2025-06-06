@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-app",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Begin je dag geïnformeerd\n\nHet Nextcloud Dashboard is je startpunt van de dag en biedt je een overzicht van je aankomende afspraken, dringende e-mails, chatberichten, binnenkomende tickets, laatste tweets en nog veel meer! Mensen kunnen de widgets toevoegen die ze leuk vinden en de achtergrond naar wens aanpassen.",
     "Weather" : "Weer",
     "Status" : "Status",
     "Good morning" : "Goedemorgen",
@@ -13,6 +14,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Goedenavond, {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Fijne verjaardag 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Fijne verjaardag, {name} 🥳🤩🎂🎉",
     "Customize" : "Aanpassen",
     "Edit widgets" : "Widgets bewerken",
     "Get more widgets from the App Store" : "Haal meer widgets op uit de App Store",

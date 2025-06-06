@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "あなたのプライバシーを保護するため、あなたに変わって Nextcloud サーバーが気象データをウェザーサービスに要求します。そのため、ウェザーサービスはあなたの個人情報を受け取ることはありません。",
     "Weather data from Met.no" : "気象データ提供元は Met.no",
     "geocoding with Nominatim" : "Nominatim でジオコーディング",
-    "elevation data from OpenTopoData" : "標高データ提供元は OpenTopoData です",
-    "\"{title} icon\"" : "\"{title} アイコン\""
+    "elevation data from OpenTopoData" : "標高データ提供元は OpenTopoData です"
 },
 "nplurals=1; plural=0;");

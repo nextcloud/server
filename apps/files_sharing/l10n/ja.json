@@ -383,6 +383,7 @@
     "Share note for recipient saved" : "共有の受取人への注意が保存されました",
     "Share password saved" : "共有パスワードが保存されました",
     "Share permissions saved" : "共有権限が保存されました",
+    "Filename must not be empty." : "ファイル名は空白にできません。",
     "Shared by" : "共有者：",
     "Shared with" : "と共有",
     "Password created successfully" : "パスワードが正常に作成されました",

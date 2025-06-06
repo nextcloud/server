@@ -383,6 +383,7 @@
     "Share note for recipient saved" : "Freigabe-Notiz für Empfänger gespeichert",
     "Share password saved" : "Freigabe-Passwort gespeichert",
     "Share permissions saved" : "Freigabeberechtigungen gespeichert",
+    "Filename must not be empty." : "Dateiname darf nicht leer sein.",
     "Shared by" : "Geteilt von",
     "Shared with" : "Geteilt mit",
     "Password created successfully" : "Passwort erstellt",

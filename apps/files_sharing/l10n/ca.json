@@ -380,6 +380,7 @@
     "Share note for recipient saved" : "S’ha desat la nota de compartició per al destinatari",
     "Share password saved" : "S’ha desat la contrasenya de compartició",
     "Share permissions saved" : "S’han desat els permisos de compartició",
+    "Filename must not be empty." : "El nom del fitxer no ha d'estar buit.",
     "Shared by" : "Compartit per",
     "Shared with" : "S'ha compartit amb",
     "Password created successfully" : "La contrasenya s'ha creat correctament",

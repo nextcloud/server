@@ -381,6 +381,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Збережено примітку отримувачеві спільного ресурсу",
     "Share password saved" : "Пароль до спільного ресурсу збережено",
     "Share permissions saved" : "Дозволи доступу до спільного ресурсу збережено",
+    "Filename must not be empty." : "Імена файлів не мають бути порожні.",
     "Shared by" : "Поділилися",
     "Shared with" : "Спільний доступ з",
     "Password created successfully" : "Успішно створено пароль",
