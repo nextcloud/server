@@ -7,6 +7,7 @@ import type { Node, View } from '@nextcloud/files'
 import { DefaultType, FileAction, Permission, registerFileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import svgEye from '@mdi/svg/svg/eye.svg?raw'
+import { emit } from '@nextcloud/event-bus'
 
 /**
  * @param node The file to open
@@ -14,15 +15,24 @@ import svgEye from '@mdi/svg/svg/eye.svg?raw'
  * @param dir the directory path
  */
 function pushToHistory(node: Node, view: View, dir: string) {
+	const editing = window.OCP.Files.Router.query.editing === 'true' ? 'true' : 'false'
 	window.OCP.Files.Router.goToRoute(
 		null,
 		{ view: view.id, fileid: String(node.fileid) },
-		{ dir, openfile: 'true' },
+		{ dir, openfile: 'true', editing },
 		true,
 	)
 }
+/**
+ * @param editing True if the file is being edited
+ */
+export function toggleEditor(editing = false) {
+	const newQuery = { ...window.OCP.Files.Router.query, editing: editing ? 'true' : 'false' }
+	window.OCP.Files.Router.goToRoute(null, window.OCP.Files.Router.params, newQuery)
+}
 
 const onPopState = () => {
+	emit('editor:toggle', window.OCP.Files.Router.query?.editing === 'true')
 	if (window.OCP.Files.Router.query.openfile !== 'true') {
 		window.OCA.Viewer.close()
 		window.removeEventListener('popstate', onPopState)
@@ -40,6 +50,7 @@ async function execAction(node: Node, view: View, dir: string): Promise<boolean|
 		// This can sometime be called with the openfile set to true already. But we don't want to keep openfile when closing the viewer.
 		const newQuery = { ...window.OCP.Files.Router.query }
 		delete newQuery.openfile
+		delete newQuery.editing
 		window.OCP.Files.Router.goToRoute(null, window.OCP.Files.Router.params, newQuery)
 	}
 
