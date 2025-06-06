@@ -29,10 +29,12 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -54,8 +56,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $avatarFile;
 	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
-	private $cache;
+	private ICache&MockObject $cache;
+	private ICacheFactory&MockObject $cacheFactory;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -75,6 +77,13 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
 		$this->cache = $this->getMockBuilder('OCP\ICache')
 			->disableOriginalConstructor()->getMock();
+
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory
+			->expects($this->once())
+			->method('createDistributed')
+			->willReturn($this->cache);
+
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')->willReturnArgument(0);
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
@@ -97,7 +106,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			'core',
 			$this->request,
 			$this->avatarManager,
-			$this->cache,
+			$this->cacheFactory,
 			$this->l,
 			$this->userManager,
 			$this->rootFolder,
