@@ -42,6 +42,7 @@
     "Task not found" : "Task not found",
     "Internal error" : "Internal error",
     "Not found" : "Not found",
+    "Node is locked" : "Node is locked",
     "Bad request" : "Bad request",
     "Requested task type does not exist" : "Requested task type does not exist",
     "Necessary language model provider is not available" : "Necessary language model provider is not available",

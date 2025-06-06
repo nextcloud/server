@@ -328,6 +328,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Share notitie voor ontvanger opgeslagen",
     "Share password saved" : "Share wachtwoord opgeslagen",
     "Share permissions saved" : "Share machtigingen opgeslagen",
+    "Filename must not be empty." : "Bestandsnaam mag niet leeg zijn",
     "Shared by" : "Gedeeld door",
     "Shared with" : "Gedeeld met",
     "Password created successfully" : "Wachtwoord succesvol gemaakt",

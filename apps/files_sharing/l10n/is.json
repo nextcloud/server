@@ -352,6 +352,7 @@
     "Share note for recipient saved" : "Minnispunktur til viðtakanda sameignar vistaður",
     "Share password saved" : "Lykilorð sameignar vistað",
     "Share permissions saved" : "Heimildir sameignar vistaðar",
+    "Filename must not be empty." : "Skráarheiti má ekki vera tómt.",
     "Shared by" : "Deilt af",
     "Shared with" : "Deilt með",
     "Password created successfully" : "Tókst að búa til lykilorð",

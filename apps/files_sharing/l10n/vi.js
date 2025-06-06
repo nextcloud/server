@@ -233,6 +233,7 @@ OC.L10N.register(
     "Error updating the share" : "Lỗi cập nhật chia sẻ",
     "File \"{path}\" has been unshared" : "Tệp \"{path}\" đã không được chia sẻ",
     "Folder \"{path}\" has been unshared" : "Thư mục \"{path}\" đã không được chia sẻ",
+    "Filename must not be empty." : "Tên tập tin không thể trống",
     "Shared by" : "Chia sẻ bởi",
     "Shared with" : "Chia sẽ với",
     "Password created successfully" : "Đã tạo mật khẩu thành công",

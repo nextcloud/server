@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Сачувана је напомена за примаоца дељења",
     "Share password saved" : "Сачувана је лозинка дељења",
     "Share permissions saved" : "Сачуване су дозволе дељења",
+    "Filename must not be empty." : "Назив фајла не може бити празан.",
     "Shared by" : "Поделио",
     "Shared with" : "Подељено са",
     "Password created successfully" : "Лозинка је успешно креирана",

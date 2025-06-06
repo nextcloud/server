@@ -383,6 +383,7 @@
     "Share note for recipient saved" : "已儲存給收件者的分享備註",
     "Share password saved" : "已保存分享密碼",
     "Share permissions saved" : "已儲存分享權限",
+    "Filename must not be empty." : "檔案名稱不能為空。",
     "Shared by" : "分享自",
     "Shared with" : "分享給",
     "Password created successfully" : "成功創建了密碼",

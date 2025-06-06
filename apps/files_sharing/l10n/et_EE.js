@@ -379,6 +379,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Jaosmeedia märge saajale on salvestatud",
     "Share password saved" : "Jaosmeedia salasõna on salvestatud",
     "Share permissions saved" : "Jaosmeedia õigused on salvestatud",
+    "Filename must not be empty." : "Failinimi ei saa olla tühi.",
     "Shared by" : "Jagas",
     "Shared with" : "Jagatud",
     "Password created successfully" : "Salasõna loomine õnnestus",

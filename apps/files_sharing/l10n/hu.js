@@ -259,6 +259,7 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "A(z) „{path}” mappa megosztása leállítva",
     "Share label saved" : "A megosztás címkéje mentve",
     "Share password saved" : "A megosztás jelszava mentve",
+    "Filename must not be empty." : "A fájlnév nem lehet üres.",
     "Shared by" : "Megosztotta:",
     "Shared with" : "Megosztva vele:",
     "Password created successfully" : "A jelszó sikeresen létrehozva",

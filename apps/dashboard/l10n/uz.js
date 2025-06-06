@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Maxfiyligingiz uchun ob-havo maʼlumotlari sizning nomingizdan Nextcloud serveringiz tomonidan soʻraladi, shuning uchun ob-havo xizmati shaxsiy maʼlumotlarni olmaydi.",
     "Weather data from Met.no" : "Met.no dan ob-havo ma'lumotlari",
     "geocoding with Nominatim" : "Nominatim bilan geokodlash",
-    "elevation data from OpenTopoData" : "OpenTopoData dan balandlik ma'lumotlari",
-    "\"{title} icon\"" : "\"{title} belgisi\""
+    "elevation data from OpenTopoData" : "OpenTopoData dan balandlik ma'lumotlari"
 },
 "nplurals=1; plural=0;");

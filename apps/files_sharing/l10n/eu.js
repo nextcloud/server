@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Partekatutako oharra hartzailearentzat gordeta",
     "Share password saved" : "Partekatu pasahitza gorde da",
     "Share permissions saved" : "Partekatze baimenak gordeta",
+    "Filename must not be empty." : "Fitxategi-izenak ez du hutsik egon behar.",
     "Shared by" : "Honek partekatua",
     "Shared with" : "Honekin partekatua",
     "Password created successfully" : "Pasahitza ongi sortu da",

@@ -382,6 +382,7 @@
     "Share note for recipient saved" : "Condividi nota salvata per il destinatario",
     "Share password saved" : "Condividi la password salvata",
     "Share permissions saved" : "Condivisione dei permessi salvati",
+    "Filename must not be empty." : "Il nome del file non può essere vuoto.",
     "Shared by" : "Condiviso da",
     "Shared with" : "Condiviso con",
     "Password created successfully" : "Password creata correttamente",

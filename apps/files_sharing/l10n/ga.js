@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Comhroinn nóta don fhaighteoir sábháilte",
     "Share password saved" : "Comhroinn pasfhocal sábháilte",
     "Share permissions saved" : "Sábháladh ceadanna comhroinnte",
+    "Filename must not be empty." : "Ní ceadmhach ainm an chomhaid a bheith folamh.",
     "Shared by" : "Roinnte ag",
     "Shared with" : "Roinnte le",
     "Password created successfully" : "Pasfhocal cruthaithe go rathúil",

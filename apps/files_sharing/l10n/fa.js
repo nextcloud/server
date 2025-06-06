@@ -194,6 +194,7 @@ OC.L10N.register(
     "Error updating the share" : "خطایی در به روزرسانی اشتراک",
     "File \"{path}\" has been unshared" : "File \"{path}\" has been unshared",
     "Folder \"{path}\" has been unshared" : "Folder \"{path}\" has been unshared",
+    "Filename must not be empty." : "Filename must not be empty.",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
     "Shared with" : "مشترک با",
     "Password created successfully" : "Password created successfully",

@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Delningens notering för mottagare sparad",
     "Share password saved" : "Lösenord för delning sparad",
     "Share permissions saved" : "Delningsbehörighet sparad",
+    "Filename must not be empty." : "Filnamn får inte vara tomt.",
     "Shared by" : "Delad av",
     "Shared with" : "Delad med",
     "Password created successfully" : "Lösenordet har skapats",

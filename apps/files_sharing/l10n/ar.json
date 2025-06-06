@@ -380,6 +380,7 @@
     "Share note for recipient saved" : "تمّ حفظ ملاحظة المشاركة الموجهة إلى المستلم",
     "Share password saved" : "تمّ حفظ كلمة مرور المشاركة",
     "Share permissions saved" : "تمّ حفظ إذونات المشاركة",
+    "Filename must not be empty." : "يجب ألّا يكون اسم الملف فارغاً.",
     "Shared by" : "تمّت مشاركته من قِبَل",
     "Shared with" : "تمّت مشاركته مع",
     "Password created successfully" : "تمّ إنشاء كلمة المرور بنجاح",

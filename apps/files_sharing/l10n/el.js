@@ -238,6 +238,7 @@ OC.L10N.register(
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
     "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",
     "Share password saved" : "Διαμοιρασμένο συνθηματικό αποθηκεύτηκε ",
+    "Filename must not be empty." : "Το όνομα αρχείου δεν πρέπει να είναι κενό.",
     "Shared by" : "Διαμοιράστηκε από",
     "Shared with" : "Διαμοιράστηκε με",
     "Password created successfully" : "Συνθηματικό δημιουργήθηκε με επιτυχία",

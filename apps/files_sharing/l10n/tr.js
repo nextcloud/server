@@ -382,6 +382,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Alıcı için paylaşım notu kaydedildi",
     "Share password saved" : "Paylaşım parolası kaydedildi",
     "Share permissions saved" : "Paylaşım izinleri kaydedildi",
+    "Filename must not be empty." : "Dosya adı boş olamaz.",
     "Shared by" : "Paylaşan",
     "Shared with" : "Şunlarla paylaşılmış",
     "Password created successfully" : "Parola oluşturuldu",
