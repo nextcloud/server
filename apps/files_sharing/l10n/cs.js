@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Poznámka pro příjemce sdílení uložena",
     "Share password saved" : "Heslo ke sdílení uloženo",
     "Share permissions saved" : "Oprávnění ke sdílení uložena",
+    "Filename must not be empty." : "Je třeba vyplnit název souboru.",
     "Shared by" : "Sdílí",
     "Shared with" : "Sdíleno s",
     "Password created successfully" : "Heslo úspěšně vytvořeno",

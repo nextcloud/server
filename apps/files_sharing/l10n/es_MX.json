@@ -323,6 +323,7 @@
     "Error updating the share" : "Error al actualizar el recurso compartido",
     "File \"{path}\" has been unshared" : "Se dejó de compartir el archivo \"{path}\"",
     "Folder \"{path}\" has been unshared" : "Se dejó de compartir la carpeta \"{path}\"",
+    "Filename must not be empty." : "El nombre de archivo no puede estar vacío.",
     "Shared by" : "Compartido por",
     "Shared with" : "Compartido con",
     "Password created successfully" : "Contraseña creada exitosamente",

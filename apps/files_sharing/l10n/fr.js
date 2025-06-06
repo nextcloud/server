@@ -385,6 +385,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Partager la note pour le destinataire enregistré",
     "Share password saved" : "Mot de passe de partage enregistré",
     "Share permissions saved" : "Permissions de partage sauvegardées",
+    "Filename must not be empty." : "Le nom du fichier ne doit pas être vide.",
     "Shared by" : "Partagé par",
     "Shared with" : "Partagé avec",
     "Password created successfully" : "Mot de passe créé avec succès",

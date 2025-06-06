@@ -382,6 +382,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Delingsbemærkning for modtagere gemt",
     "Share password saved" : "Delingsadgangskode delt",
     "Share permissions saved" : "Delingsrettigheder gemt",
+    "Filename must not be empty." : "Filnavnet må ikke være tomt.",
     "Shared by" : "Delt af",
     "Shared with" : "Delt med",
     "Password created successfully" : "Adgangskode oprettet",

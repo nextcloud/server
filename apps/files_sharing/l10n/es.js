@@ -382,6 +382,7 @@ OC.L10N.register(
     "Share note for recipient saved" : "Nota para el destinatario del recurso compartido guardada",
     "Share password saved" : "Se ha guardado la contraseña del recurso compartido",
     "Share permissions saved" : "Permisos del recurso compartido guardados",
+    "Filename must not be empty." : "El nombre de archivo no debe estar vacío.",
     "Shared by" : "Compartido por",
     "Shared with" : "Compartido con",
     "Password created successfully" : "Contraseña creada exitosamente",

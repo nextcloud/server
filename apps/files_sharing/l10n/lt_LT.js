@@ -248,6 +248,7 @@ OC.L10N.register(
     "Share label saved" : "Viešinio etiketė įrašyta",
     "Share password saved" : "Viešinio slaptažodis įrašytas",
     "Share permissions saved" : "Viešinio leidimai įrašyti",
+    "Filename must not be empty." : "Failo pavadinimas negali būti tuščias.",
     "Shared by" : "Bendrina",
     "Shared with" : "Bendrinama su",
     "Password created successfully" : "Slaptažodis sėkmingai sukurtas",

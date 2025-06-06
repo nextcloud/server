@@ -44,6 +44,7 @@ OC.L10N.register(
     "Task not found" : "找不到任務",
     "Internal error" : "內部錯誤",
     "Not found" : "找不到",
+    "Node is locked" : "節點已上鎖",
     "Bad request" : "請求無效",
     "Requested task type does not exist" : "請求的任務類型不存在",
     "Necessary language model provider is not available" : "沒有可用的語言模型提供者",
