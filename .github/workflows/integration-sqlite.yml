@@ -66,6 +66,7 @@ jobs:
           - 'openldap_numerical_features'
           - 'ldap_features'
           - 'remoteapi_features'
+          - 'routing_features'
           - 'setup_features'
           - 'sharees_features'
           - 'sharing_features'
