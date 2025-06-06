@@ -107,19 +107,24 @@ class PrimaryObjectStoreConfig {
 		if ($objectStoreMultiBucket) {
 			$objectStoreMultiBucket['arguments']['multibucket'] = true;
 			return [
-				'default' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
-				'root' => 'default',
+				'default' => 'server1',
+				'server1' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
+				'root' => 'server1',
 			];
 		} elseif ($objectStore) {
 			if (!isset($objectStore['default'])) {
 				$objectStore = [
-					'default' => $objectStore,
+					'default' => 'server1',
+					'server1' => $objectStore,
 				];
 			}
 			if (!isset($objectStore['root'])) {
-				$objectStore['root'] = 'default';
+				$objectStore['root'] = 'server1';
 			}
 
+			if (!is_string($objectStore['default'])) {
+				throw new \Exception('The \'default\' object storage configuration is required to be a reference to another configuration.');
+			}
 			return array_map($this->validateObjectStoreConfig(...), $objectStore);
 		} else {
 			return null;
