@@ -5,7 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\files_external\tests\Config;
+namespace OCA\Files_External\Tests\Config;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCP\IRequest;

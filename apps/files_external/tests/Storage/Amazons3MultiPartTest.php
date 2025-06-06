@@ -5,7 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\files_external\tests\Storage;
+namespace OCA\Files_External\Tests\Storage;
 
 use OCA\Files_External\Lib\Storage\AmazonS3;
 
