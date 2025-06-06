@@ -166,6 +166,10 @@ class Scan extends Base {
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
 			++$this->errorsCounter;
+			$this->logger->error(
+				'Path not found: ' . $e->getMessage(),
+				[ 'exception' => $e ],
+			);
 		} catch (LockedException $e) {
 			if (str_starts_with($e->getPath(), 'scanner::')) {
 				$output->writeln('<error>Another process is already scanning \'' . substr($e->getPath(), strlen('scanner::')) . '\'</error>');
@@ -176,6 +180,10 @@ class Scan extends Base {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
 			++$this->errorsCounter;
+			$this->logger->error(
+				'Exception during scan: ' . $e->getMessage(),
+				[ 'exception' => $e ],
+			);
 		}
 	}
 
