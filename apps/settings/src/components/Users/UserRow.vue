@@ -425,13 +425,27 @@ export default {
 
 		userGroupsLabels() {
 			return this.userGroups
-				.map(group => group.name ?? group.id)
+				.map(group => {
+					// Try to match with more extensive group data
+					const availableGroup = this.availableGroups.find(g => g.id === group.id)
+					if (availableGroup) {
+						return availableGroup.name ?? availableGroup.id
+					}
+					return group.name ?? group.id
+				})
 				.join(', ')
 		},
 
 		userSubAdminGroupsLabels() {
 			return this.userSubAdminGroups
-				.map(group => group.name ?? group.id)
+				.map(group => {
+					// Try to match with more extensive group data
+					const availableGroup = this.availableSubAdminGroups.find(g => g.id === group.id)
+					if (availableGroup) {
+						return availableGroup.name ?? availableGroup.id
+					}
+					return group.name ?? group.id
+				})
 				.join(', ')
 		},
 
