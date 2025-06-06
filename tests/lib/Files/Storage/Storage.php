@@ -557,7 +557,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->copy('source', 'target');
 
-		$this->assertFalse($this->instance->file_exists('target/test2.txt'));
+		$this->assertFalse($this->instance->file_exists('target/test2.txt'), 'File target/test2.txt should no longer exist, but does');
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 	}
 

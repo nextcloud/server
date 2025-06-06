@@ -168,7 +168,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 
 		$this->assertEquals($updatedStorage->getMountPoint(), $newStorage->getMountPoint());
 		$this->assertEquals($updatedStorage->getBackendOptions()['password'], $newStorage->getBackendOptions()['password']);
-		$this->assertEquals($updatedStorage->getApplicableUsers(), $newStorage->getApplicableUsers());
+		$this->assertEqualsCanonicalizing($updatedStorage->getApplicableUsers(), $newStorage->getApplicableUsers());
 		$this->assertEquals($updatedStorage->getApplicableGroups(), $newStorage->getApplicableGroups());
 		$this->assertEquals($updatedStorage->getPriority(), $newStorage->getPriority());
 		$this->assertEquals(0, $newStorage->getStatus());

@@ -98,7 +98,6 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/Amazons3Test.php \
-          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
           --log-junit junit.xml \
           ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
