@@ -50,10 +50,8 @@ class GroupPrincipalBackend implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === self::PRINCIPAL_PREFIX) {
-			foreach ($this->groupManager->search('') as $group) {
-				if (!$group->hideFromCollaboration()) {
-					$principals[] = $this->groupToPrincipal($group);
-				}
+			foreach ($this->groupManager->search('') as $user) {
+				$principals[] = $this->groupToPrincipal($user);
 			}
 		}
 
@@ -79,7 +77,7 @@ class GroupPrincipalBackend implements BackendInterface {
 		$name = urldecode($elements[2]);
 		$group = $this->groupManager->get($name);
 
-		if ($group !== null && !$group->hideFromCollaboration()) {
+		if (!is_null($group)) {
 			return $this->groupToPrincipal($group);
 		}
 
