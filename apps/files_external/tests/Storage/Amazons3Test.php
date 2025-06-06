@@ -12,6 +12,7 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  * Class Amazons3Test
  *
  * @group DB
+ * @group S3
  *
  * @package OCA\Files_External\Tests\Storage
  */
