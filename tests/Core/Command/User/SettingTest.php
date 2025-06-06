@@ -7,44 +7,31 @@
 
 namespace Tests\Core\Command\User;
 
+use InvalidArgumentException;
 use OC\Core\Command\User\Setting;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected IDBConnection&MockObject $connection;
+	protected InputInterface&MockObject $consoleInput;
+	protected MockObject&OutputInterface $consoleOutput;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->connection = $this->getMockBuilder(IDBConnection::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->connection = $this->createMock(IDBConnection::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 	}
 
 	public function getCommand(array $methods = []) {
@@ -217,7 +204,7 @@ class SettingTest extends TestCase {
 		try {
 			$this->invokePrivate($command, 'checkInput', [$this->consoleInput]);
 			$this->assertFalse($expectedException);
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->assertEquals($expectedException, $e->getMessage());
 		}
 	}
@@ -226,7 +213,7 @@ class SettingTest extends TestCase {
 		$command = $this->getCommand(['checkInput']);
 		$command->expects($this->once())
 			->method('checkInput')
-			->willThrowException(new \InvalidArgumentException('test'));
+			->willThrowException(new InvalidArgumentException('test'));
 
 		$this->consoleOutput->expects($this->once())
 			->method('writeln')
