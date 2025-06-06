@@ -46,7 +46,11 @@ class Amazons3MultiPartTest extends \Test\Files\Storage\Storage {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
 	}
 
-	public function testHashInFileName() {
-		$this->markTestSkipped('Localstack has a bug with hashes in filename');
+	public function testHashInFileName(): void {
+		if (isset($this->config['localstack'])) {
+			$this->markTestSkipped('Localstack has a bug with hashes in filename');
+		}
+
+		parent::testHashInFileName();
 	}
 }
