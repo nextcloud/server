@@ -422,10 +422,7 @@ export default {
 				.map(group => {
 					// Try to match with more extensive group data
 					const availableGroup = this.availableGroups.find(g => g.id === group.id)
-					if (availableGroup) {
-						return availableGroup.name ?? availableGroup.id
-					}
-					return group.name ?? group.id
+					return availableGroup.name ?? group.name ?? group.id
 				})
 				.join(', ')
 		},
@@ -435,10 +432,7 @@ export default {
 				.map(group => {
 					// Try to match with more extensive group data
 					const availableGroup = this.availableSubAdminGroups.find(g => g.id === group.id)
-					if (availableGroup) {
-						return availableGroup.name ?? availableGroup.id
-					}
-					return group.name ?? group.id
+					return availableGroup.name ?? group.name ?? group.id
 				})
 				.join(', ')
 		},
