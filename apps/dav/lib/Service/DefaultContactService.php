@@ -28,7 +28,7 @@ class DefaultContactService {
 	}
 
 	public function createDefaultContact(int $addressBookId): void {
-		$enableDefaultContact = $this->config->getValueString(Application::APP_ID, 'enableDefaultContact', 'no');
+		$enableDefaultContact = $this->config->getValueString(Application::APP_ID, 'enableDefaultContact', 'yes');
 		if ($enableDefaultContact !== 'yes') {
 			return;
 		}
