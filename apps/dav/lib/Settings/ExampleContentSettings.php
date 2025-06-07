@@ -43,7 +43,7 @@ class ExampleContentSettings implements ISettings {
 		}
 
 		if ($contactsEnabled) {
-			$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no');
+			$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'yes');
 			$this->initialState->provideInitialState('enableDefaultContact', $enableDefaultContact);
 			$this->initialState->provideInitialState(
 				'hasCustomDefaultContact',

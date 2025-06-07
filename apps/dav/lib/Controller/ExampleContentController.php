@@ -61,7 +61,7 @@ class ExampleContentController extends ApiController {
 	}
 
 	public function setDefaultContact(?string $contactData = null) {
-		if (!$this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no')) {
+		if (!$this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'yes')) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 		$this->setCard($contactData);
