@@ -43,14 +43,15 @@ export default {
 	max-width: 200px;
 
 	&__label {
-		text-decoration: underline;
+		font-weight: initial;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
 	}
 
 	&__icon {
-		margin-top: 3px;
+		margin-top: 2px;
+		margin-left: var(--default-grid-baseline);
 	}
 }
 </style>

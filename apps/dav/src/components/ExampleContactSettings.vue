@@ -5,37 +5,33 @@
 
 <template>
 	<div class="example-contact-settings">
-		<div class="example-content-setting__inner">
-			<NcCheckboxRadioSwitch :checked="enableDefaultContact"
-				type="switch"
-				@update:model-value="updateEnableDefaultContact">
-				{{ $t('dav', "Add example contact to user's address book when they first log in") }}
-			</NcCheckboxRadioSwitch>
-			<div v-if="enableDefaultContact" class="example-contact-settings__inner__buttons">
-				<ExampleContentDownloadButton :href="downloadUrl">
-					<template #icon>
-						<IconAccount :size="20" />
-					</template>
-					example_contact.vcf
-				</ExampleContentDownloadButton>
-				<NcButton type="secondary"
-					class="example-contact-settings__inner__buttons__button"
-					@click="toggleModal">
-					<template #icon>
-						<IconUpload :size="20" />
-					</template>
-					{{ $t('dav', 'Import contact') }}
-				</NcButton>
-				<NcButton v-if="hasCustomDefaultContact"
-					type="tertiary"
-					class="example-contact-settings__inner__buttons__button"
-					@click="resetContact">
-					<template #icon>
-						<IconRestore :size="20" />
-					</template>
-					{{ $t('dav', 'Reset to default') }}
-				</NcButton>
-			</div>
+		<NcCheckboxRadioSwitch :checked="enableDefaultContact"
+			type="switch"
+			@update:model-value="updateEnableDefaultContact">
+			{{ $t('dav', "Add example contact to user's address book when they first log in") }}
+		</NcCheckboxRadioSwitch>
+		<div v-if="enableDefaultContact" class="example-contact-settings__buttons">
+			<ExampleContentDownloadButton :href="downloadUrl">
+				<template #icon>
+					<IconAccount :size="20" />
+				</template>
+				example_contact.vcf
+			</ExampleContentDownloadButton>
+			<NcButton type="secondary"
+				@click="toggleModal">
+				<template #icon>
+					<IconUpload :size="20" />
+				</template>
+				{{ $t('dav', 'Import contact') }}
+			</NcButton>
+			<NcButton v-if="hasCustomDefaultContact"
+				type="tertiary"
+				@click="resetContact">
+				<template #icon>
+					<IconRestore :size="20" />
+				</template>
+				{{ $t('dav', 'Reset to default') }}
+			</NcButton>
 		</div>
 		<NcDialog :open.sync="isModalOpen"
 			:name="$t('dav', 'Import contacts')"
@@ -167,15 +163,10 @@ export default {
 .example-contact-settings {
 	margin-block-start: 2rem;
 
-	&__inner {
-		&__buttons {
-			margin-top: 1rem;
-			display: flex;
-
-			&__button {
-				margin-inline-end: 5px;
-			}
-		}
+	&__buttons {
+		display: flex;
+		gap: calc(var(--default-grid-baseline) * 2);
+		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
 }
 </style>
