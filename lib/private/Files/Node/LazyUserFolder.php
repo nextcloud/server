@@ -23,10 +23,20 @@ class LazyUserFolder extends LazyFolder {
 	private string $path;
 	private IMountManager $mountManager;
 
-	public function __construct(IRootFolder $rootFolder, IUser $user, IMountManager $mountManager) {
+	public function __construct(IRootFolder $rootFolder, IUser $user, IMountManager $mountManager, bool $useDefaultPermissions = true) {
 		$this->user = $user;
 		$this->mountManager = $mountManager;
 		$this->path = '/' . $user->getUID() . '/files';
+		$data = [
+			'path' => $this->path,
+			// Sharing user root folder is not allowed
+			'type' => FileInfo::TYPE_FOLDER,
+			'mimetype' => FileInfo::MIMETYPE_FOLDER,
+		];
+		if ($useDefaultPermissions) {
+			$data['permissions'] = Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE;
+		}
+
 		parent::__construct($rootFolder, function () use ($user): Folder {
 			try {
 				$node = $this->getRootFolder()->get($this->path);
@@ -44,13 +54,7 @@ class LazyUserFolder extends LazyFolder {
 				}
 				return $this->getRootFolder()->newFolder($this->path);
 			}
-		}, [
-			'path' => $this->path,
-			// Sharing user root folder is not allowed
-			'permissions' => Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE,
-			'type' => FileInfo::TYPE_FOLDER,
-			'mimetype' => FileInfo::MIMETYPE_FOLDER,
-		]);
+		}, $data);
 	}
 
 	public function getMountPoint() {

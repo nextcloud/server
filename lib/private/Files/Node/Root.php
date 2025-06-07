@@ -24,6 +24,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser;
@@ -60,6 +61,7 @@ class Root extends Folder implements IRootFolder {
 	private IUserManager $userManager;
 	private IEventDispatcher $eventDispatcher;
 	private ICache $pathByIdCache;
+	private bool $homeFolderOverwritten = false;
 
 	/**
 	 * @param Manager $manager
@@ -75,6 +77,7 @@ class Root extends Folder implements IRootFolder {
 		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
 		ICacheFactory $cacheFactory,
+		IAppConfig $appConfig,
 	) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
@@ -88,6 +91,7 @@ class Root extends Folder implements IRootFolder {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
 		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
+		$this->homeFolderOverwritten = $appConfig->getValueBool('files', 'homeFolderOverwritten');
 	}
 
 	/**
@@ -367,7 +371,7 @@ class Root extends Folder implements IRootFolder {
 					$folder = $this->newFolder('/' . $userId . '/files');
 				}
 			} else {
-				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
+				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, !$this->homeFolderOverwritten);
 			}
 
 			$this->userFolderCache->set($userId, $folder);
