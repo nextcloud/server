@@ -44,6 +44,7 @@ OC.L10N.register(
     "Task not found" : "Úkol nenalezen",
     "Internal error" : "Vnitřní chyba",
     "Not found" : "Nenalezeno",
+    "Node is locked" : "Uzel je uzamčen",
     "Bad request" : "Chybný požadavek",
     "Requested task type does not exist" : "Požadovaný typ úkolu neexistuje",
     "Necessary language model provider is not available" : "Nezbytný poskytovatel jazykového modelu není k dsipozici",

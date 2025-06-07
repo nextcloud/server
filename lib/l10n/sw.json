@@ -1,0 +1,12 @@
+{ "translations": {
+    "Email" : "Barua pepe",
+    "Sunday" : "Jumapili",
+    "Monday" : "Jumatatu",
+    "Tuesday" : "Jumanne",
+    "Wednesday" : "Jumatano",
+    "Thursday" : "Alhamisi",
+    "Friday" : "Ijumaa",
+    "Saturday" : "Jumamosi",
+    "Confirmation" : "Uthibitisho"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
