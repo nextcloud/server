@@ -44,9 +44,9 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.2', '8.3', '8.4']
+        php-versions: ['8.1', '8.2', '8.4']
         include:
-          - php-versions: '8.2'
+          - php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-s3
@@ -87,7 +87,7 @@ jobs:
           composer install
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force files_external
-          echo "<?php return ['run' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+          echo "<?php return ['run' => true, 'minio' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
 
       - name: Wait for S3
         run: |
@@ -122,7 +122,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.1', '8.2', '8.4']
         include:
           - php-versions: '8.3'
             coverage: true
