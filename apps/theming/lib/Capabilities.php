@@ -94,6 +94,7 @@ class Capabilities implements IPublicCapability {
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
+				'productName' => $this->theming->getProductName(),
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $color,
