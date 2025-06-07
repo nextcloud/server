@@ -7,6 +7,7 @@
 
 namespace Test\Preview;
 
+use OC\Config\ConfigManager;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
@@ -62,6 +63,12 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
 		$this->timeFactory = Server::get(ITimeFactory::class);
+
+		$configManager = $this->createMock(ConfigManager::class);
+		$configManager->expects($this->any())
+			->method('migrateConfigLexiconKeys')
+			->willReturnCallback(function (): void {});
+		$this->overwriteService(ConfigManager::class, $configManager);
 	}
 
 	protected function tearDown(): void {

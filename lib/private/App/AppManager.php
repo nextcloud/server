@@ -8,6 +8,7 @@ namespace OC\App;
 
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
@@ -27,6 +28,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
@@ -87,7 +89,7 @@ class AppManager implements IAppManager {
 
 	private function getNavigationManager(): INavigationManager {
 		if ($this->navigationManager === null) {
-			$this->navigationManager = \OCP\Server::get(INavigationManager::class);
+			$this->navigationManager = Server::get(INavigationManager::class);
 		}
 		return $this->navigationManager;
 	}
@@ -113,7 +115,7 @@ class AppManager implements IAppManager {
 		if (!$this->config->getSystemValueBool('installed', false)) {
 			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
 		}
-		$this->appConfig = \OCP\Server::get(AppConfig::class);
+		$this->appConfig = Server::get(AppConfig::class);
 		return $this->appConfig;
 	}
 
@@ -124,7 +126,7 @@ class AppManager implements IAppManager {
 		if (!$this->config->getSystemValueBool('installed', false)) {
 			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
 		}
-		$this->urlGenerator = \OCP\Server::get(IURLGenerator::class);
+		$this->urlGenerator = Server::get(IURLGenerator::class);
 		return $this->urlGenerator;
 	}
 
@@ -459,7 +461,7 @@ class AppManager implements IAppManager {
 			]);
 		}
 
-		$coordinator = \OCP\Server::get(Coordinator::class);
+		$coordinator = Server::get(Coordinator::class);
 		$coordinator->bootApp($app);
 
 		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
@@ -568,6 +570,8 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE, $appId
 		));
 		$this->clearAppsCache();
+
+		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 	}
 
 	/**
@@ -626,6 +630,8 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
+
+		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 	}
 
 	/**

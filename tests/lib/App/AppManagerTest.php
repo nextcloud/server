@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Test\App;
 
+use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use OC\App\AppManager;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
+use OC\Config\UserConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -33,13 +36,12 @@ use Test\TestCase;
 /**
  * Class AppManagerTest
  *
+ * @group DB
+ *
  * @package Test\App
  */
 class AppManagerTest extends TestCase {
-	/**
-	 * @return AppConfig|MockObject
-	 */
-	protected function getAppConfig() {
+	protected function getAppConfig(): AppConfig&MockObject {
 		$appConfig = [];
 		$config = $this->createMock(AppConfig::class);
 
@@ -83,35 +85,52 @@ class AppManagerTest extends TestCase {
 				return $values;
 			});
 
+		$config->expects($this->any())
+			->method('getConfigDetailsFromLexicon')
+			->willReturn(
+				[
+					'entries' => [],
+					'aliases' => [],
+					'strictness' => ConfigLexiconStrictness::IGNORE
+				]
+			);
+
+		$config->expects($this->any())
+			->method('ignoreLexiconAliases')
+			->willReturnCallback(function (): void {});
+
 		return $config;
 	}
 
-	/** @var IUserSession|MockObject */
-	protected $userSession;
 
-	/** @var IConfig|MockObject */
-	private $config;
+	protected function getUserConfig(): UserConfig&MockObject {
+		$config = $this->createMock(UserConfig::class);
+		$config->expects($this->any())
+			->method('getConfigDetailsFromLexicon')
+			->willReturn(
+				[
+					'entries' => [],
+					'aliases' => [],
+					'strictness' => ConfigLexiconStrictness::IGNORE
+				]
+			);
 
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
+		$config->expects($this->any())
+			->method('ignoreLexiconAliases')
+			->willReturnCallback(function (): void {});
 
-	/** @var AppConfig|MockObject */
-	protected $appConfig;
+		return $config;
+	}
 
-	/** @var ICache|MockObject */
-	protected $cache;
-
-	/** @var ICacheFactory|MockObject */
-	protected $cacheFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	protected $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-
+	protected IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	protected IGroupManager&MockObject $groupManager;
+	protected AppConfig&MockObject $appConfig;
+	protected ICache&MockObject $cache;
+	protected ICacheFactory&MockObject $cacheFactory;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
 	protected IURLGenerator&MockObject $urlGenerator;
-
 	protected ServerVersion&MockObject $serverVersion;
 
 	/** @var IAppManager */
@@ -133,6 +152,15 @@ class AppManagerTest extends TestCase {
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+
+		$this->overwriteService(
+			ConfigManager::class, new ConfigManager(
+				$this->appConfig,
+				$this->getUserConfig(),
+				$this->createMock(IAppManager::class),
+				$this->createMock(LoggerInterface::class),
+			)
+		);
 
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')

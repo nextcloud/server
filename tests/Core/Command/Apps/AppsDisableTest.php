@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Command\Config;
 
+use OC\Config\ConfigManager;
 use OC\Core\Command\App\Disable;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
@@ -29,6 +30,12 @@ class AppsDisableTest extends TestCase {
 		);
 
 		$this->commandTester = new CommandTester($command);
+
+		$configManager = $this->createMock(ConfigManager::class);
+		$configManager->expects($this->any())
+			->method('migrateConfigLexiconKeys')
+			->willReturnCallback(function (): void {});
+		$this->overwriteService(ConfigManager::class, $configManager);
 
 		\OC::$server->getAppManager()->enableApp('admin_audit');
 		\OC::$server->getAppManager()->enableApp('comments');

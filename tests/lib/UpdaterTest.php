@@ -7,6 +7,7 @@
 
 namespace Test;
 
+use OC\Config\ConfigManager;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
@@ -34,6 +35,13 @@ class UpdaterTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		$configManager = $this->createMock(ConfigManager::class);
+		$configManager->expects($this->any())
+			->method('migrateConfigLexiconKeys')
+			->willReturnCallback(function (): void {});
+		$this->overwriteService(ConfigManager::class, $configManager);
+
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
