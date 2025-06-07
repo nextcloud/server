@@ -20,6 +20,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -34,6 +35,7 @@ use OCP\Server;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -49,11 +51,9 @@ class ApiTest extends TestCase {
 
 	private static $tempStorage;
 
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var string */
-	private $subsubfolder;
+	private Folder $userFolder;
+	private string $subsubfolder;
+	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -80,6 +80,8 @@ class ApiTest extends TestCase {
 		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
 
 	protected function tearDown(): void {
@@ -125,6 +127,7 @@ class ApiTest extends TestCase {
 			Server::get(IURLGenerator::class),
 			$l,
 			$config,
+			$this->appConfig,
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
@@ -232,8 +235,12 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @group RoutingWeirdness
+	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
-	public function testCreateShareLinkPublicUpload(): void {
+	public function testCreateShareLinkPublicUpload(array $appConfig, int $permissions): void {
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([$appConfig]);
+
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 		$ocs->cleanup();
@@ -244,7 +251,7 @@ class ApiTest extends TestCase {
 			Constants::PERMISSION_CREATE |
 			Constants::PERMISSION_UPDATE |
 			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			$permissions,
 			$data['permissions']
 		);
 		$this->assertEmpty($data['expiration']);
@@ -1004,8 +1011,13 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
+	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
-	public function testUpdateShareUpload(): void {
+	public function testUpdateShareUpload(array $appConfig, int $permissions): void {
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			$appConfig,
+		]);
+
 		$node1 = $this->userFolder->get($this->folder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -1025,12 +1037,19 @@ class ApiTest extends TestCase {
 			Constants::PERMISSION_CREATE |
 			Constants::PERMISSION_UPDATE |
 			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			$permissions,
 			$share1->getPermissions()
 		);
 
 		// cleanup
 		$this->shareManager->deleteShare($share1);
+	}
+
+	public static function dataAllowFederationOnPublicShares(): array {
+		return [
+			[['core', 'shareapi_allow_federation_on_public_shares', true, false], 0],
+			[['core', 'shareapi_allow_federation_on_public_shares', true, true], Constants::PERMISSION_SHARE],
+		];
 	}
 
 	/**
