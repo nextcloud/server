@@ -89,7 +89,7 @@ class Response {
 	public function cacheFor(int $cacheSeconds, bool $public = false, bool $immutable = false) {
 		if ($cacheSeconds > 0) {
 			$cacheStore = $public ? 'public' : 'private';
-			$this->addHeader('Cache-Control', sprintf('%s, max-age=%s, %s', $cacheStore, $cacheSeconds, ($immutable ? 'immutable' : 'must-revalidate')));
+			$this->addHeader('Cache-Control', sprintf('%s, max-age=%s, %s', $cacheStore, $cacheSeconds, ($immutable ? 'must-revalidate, immutable' : 'must-revalidate')));
 
 			// Set expires header
 			$expires = new \DateTime();
