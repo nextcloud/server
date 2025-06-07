@@ -123,7 +123,7 @@
     "@babel/node": "^7.27.1",
     "@babel/plugin-transform-private-methods": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
-    "@codecov/webpack-plugin": "^1.9.0",
+    "@codecov/webpack-plugin": "^1.9.1",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.4",
     "@nextcloud/babel-config": "^1.2.0",
