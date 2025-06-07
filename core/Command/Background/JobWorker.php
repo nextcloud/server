@@ -46,13 +46,6 @@ class JobWorker extends JobBase {
 				'Only execute the worker once (as a regular cron execution would do it)'
 			)
 			->addOption(
-				'interval',
-				'i',
-				InputOption::VALUE_OPTIONAL,
-				'Interval in seconds in which the worker should repeat already processed jobs (set to 0 for no repeat)',
-				5
-			)
-			->addOption(
 				'stop_after',
 				't',
 				InputOption::VALUE_OPTIONAL,
