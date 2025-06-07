@@ -4,10 +4,15 @@
  */
 import Vue from 'vue'
 import { translate } from '@nextcloud/l10n'
-import ExampleContactSettings from './views/ExampleContactSettings.vue'
+import ExampleContentSettingsSection from './views/ExampleContentSettingsSection.vue'
 
-Vue.prototype.$t = translate
+Vue.mixin({
+	methods: {
+		t: translate,
+		$t: translate,
+	}
+})
 
-const View = Vue.extend(ExampleContactSettings);
+const View = Vue.extend(ExampleContentSettingsSection);
 
 (new View({})).$mount('#settings-example-content')
