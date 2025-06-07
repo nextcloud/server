@@ -18,10 +18,10 @@ OC.L10N.register(
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Palju õnne, {name} 🥳🤩🎂🎉",
     "Customize" : "Kohanda",
     "Edit widgets" : "Muuda vidinaid",
-    "Get more widgets from the App Store" : "Hangi rohkem vidinaid Rakenduste Poest",
+    "Get more widgets from the App Store" : "Rakenduste Poest leiad veel vidinaid",
     "Weather service" : "Ilmateenus",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Sinu privaatsuse huvides küsib su nimel ilmaandmeid Nextcloudi server, nii et ilmateenistus ei saa isiklikku teavet.",
-    "Weather data from Met.no" : "Ilmaandmed Met.no-st",
+    "Weather data from Met.no" : "Met.no ilmaennustus",
     "geocoding with Nominatim" : "geoprogrammeerimine Nominatimiga",
     "elevation data from OpenTopoData" : "kõrgusandmed OpenTopoDatast"
 },

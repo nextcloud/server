@@ -44,6 +44,7 @@ OC.L10N.register(
     "Task not found" : "タスクは見つかりません",
     "Internal error" : "内部エラー",
     "Not found" : "見つかりませんでした",
+    "Node is locked" : "ノードがロックされています",
     "Bad request" : "Bad request",
     "Requested task type does not exist" : "要求されたタスクの種類が存在しません",
     "Necessary language model provider is not available" : "必要な言語モデルプロバイダーが利用できません",
