@@ -206,7 +206,7 @@ OC.L10N.register(
     "View only" : "Alleen bekijken",
     "Can edit" : "Kan bewerken",
     "Custom permissions" : "Aangepaste machtigingen",
-    "Resharing is not allowed" : "Verder delen niet toegestaan",
+    "Resharing is not allowed" : "Opnieuw delen niet toegestaan",
     "Name or email …" : "Naam of e-mailadres …",
     "Name, email, or Federated Cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …",
     "Searching …" : "Zoeken ...",

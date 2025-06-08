@@ -198,7 +198,7 @@ OC.L10N.register(
     "Unable to modify setting" : "Kan instelling niet aanpassen",
     "None" : "Geen",
     "Allow apps to use the Share API" : "Apps toestaan de Share API te gebruiken",
-    "Allow resharing" : "Toestaan doordelen",
+    "Allow resharing" : "Opnieuw delen toestaan",
     "Allow sharing with groups" : "Sta delen met groepen toe",
     "Restrict users to only share with users in their groups" : "Laat gebruikers alleen delen met andere gebruikers in hun groepen",
     "Ignore the following groups when checking group membership" : "Negeer de volgende groepen bij het controleren van groepslidmaatschap",

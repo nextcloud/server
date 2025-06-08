@@ -42,6 +42,7 @@
     "Task not found" : "Níor aimsíodh an tasc",
     "Internal error" : "Earráid inmheánach",
     "Not found" : "Ní bhfuarthas",
+    "Node is locked" : "Tá an nód faoi ghlas",
     "Bad request" : "Drochiarratas",
     "Requested task type does not exist" : "Níl an cineál taisc iarrtha ann",
     "Necessary language model provider is not available" : "Níl soláthraí múnla teanga riachtanach ar fáil",
