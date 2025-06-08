@@ -200,6 +200,7 @@ OC.L10N.register(
     "Categories" : "Категории",
     "Resources" : "Ресурси",
     "Documentation" : "Документация",
+    "Interact" : "Взаимодействайте",
     "Report a bug" : "Докладване на грешка",
     "Request feature" : "Заявете функционалност",
     "Ask questions or discuss" : "Задайте въпрос",
