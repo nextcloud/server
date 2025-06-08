@@ -105,6 +105,7 @@ OC.L10N.register(
     "Total rows summary" : "Количество строк в общем",
     "Toggle selection for all files and folders" : "Установить или снять выделение всех файлов и папок",
     "Name" : "Имя",
+    "File type" : "Тип файла",
     "Size" : "Размер",
     "\"{displayName}\" failed on some elements" : "\"{displayName}\" не удалось выполнить некоторые элементы",
     "\"{displayName}\" batch action executed successfully" : "Пакетное действие \"{displayName}\" выполнено успешно",

@@ -5,6 +5,8 @@
     "Could not add server" : "Kon server niet toevoegen",
     "Trusted servers" : "Vertrouwde servers",
     "Federation" : "Federatie",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Federatie stelt je in staat om verbinding te maken met andere vertrouwde servers om de accountdirectory uit te wisselen. Dit zal bijvoorbeeld worden gebruikt om externe accounts automatisch aan te vullen voor gefedereerd delen.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federatie stelt je in staat om verbinding te maken met andere vertrouwde servers om de accountdirectory uit te wisselen. Dit zal bijvoorbeeld worden gebruikt om externe accounts automatisch aan te vullen voor gefedereerd delen. Het is niet nodig om een server als vertrouwde server toe te voegen om een gefedereerde share te maken.",
     "+ Add trusted server" : "+ Toevoegen vertrouwde server",
     "Trusted server" : "Vertrouwde server",
     "Add" : "Toevoegen"
