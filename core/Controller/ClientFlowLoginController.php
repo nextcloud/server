@@ -65,7 +65,7 @@ class ClientFlowLoginController extends Controller {
 	}
 
 	private function getClientName(): string {
-		$userAgent = $this->request->getHeader('USER_AGENT');
+		$userAgent = $this->request->getHeader('user-agent');
 		return $userAgent !== '' ? $userAgent : 'unknown';
 	}
 
