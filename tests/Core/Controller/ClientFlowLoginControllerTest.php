@@ -119,7 +119,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->request
 			->method('getHeader')
 			->willReturnMap([
-				['USER_AGENT', 'Mac OS X Sync Client'],
+				['user-agent', 'Mac OS X Sync Client'],
 				['OCS-APIREQUEST', 'true'],
 			]);
 		$this->random
@@ -178,7 +178,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->request
 			->method('getHeader')
 			->willReturnMap([
-				['USER_AGENT', 'Mac OS X Sync Client'],
+				['user-agent', 'Mac OS X Sync Client'],
 				['OCS-APIREQUEST', 'false'],
 			]);
 		$client = new Client();
@@ -555,7 +555,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'off'],
-					['USER_AGENT', ''],
+					['user-agent', ''],
 				],
 				'http',
 				'http',
@@ -564,7 +564,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'off'],
-					['USER_AGENT', ''],
+					['user-agent', ''],
 				],
 				'https',
 				'https',
@@ -573,7 +573,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'https'],
 					['X-Forwarded-Ssl', 'off'],
-					['USER_AGENT', ''],
+					['user-agent', ''],
 				],
 				'http',
 				'https',
@@ -582,7 +582,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'https'],
 					['X-Forwarded-Ssl', 'on'],
-					['USER_AGENT', ''],
+					['user-agent', ''],
 				],
 				'http',
 				'https',
@@ -591,7 +591,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[
 					['X-Forwarded-Proto', 'http'],
 					['X-Forwarded-Ssl', 'on'],
-					['USER_AGENT', ''],
+					['user-agent', ''],
 				],
 				'http',
 				'https',

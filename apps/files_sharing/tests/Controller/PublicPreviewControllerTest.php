@@ -144,7 +144,7 @@ class PublicPreviewControllerTest extends TestCase {
 			->willReturn($attributes);
 
 		$this->request->method('getHeader')
-			->with('X-NC-Preview')
+			->with('x-nc-preview')
 			->willReturn('true');
 
 		$file = $this->createMock(File::class);
@@ -184,7 +184,7 @@ class PublicPreviewControllerTest extends TestCase {
 			->willReturn($attributes);
 
 		$this->request->method('getHeader')
-			->with('X-NC-Preview')
+			->with('x-nc-preview')
 			->willReturn('true');
 
 		$file = $this->createMock(File::class);

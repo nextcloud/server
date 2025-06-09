@@ -256,7 +256,7 @@
                 },
                 "parameters": [
                     {
-                        "name": "EX-APP-ID",
+                        "name": "ex-app-id",
                         "in": "header",
                         "schema": {
                             "type": "string"
@@ -556,7 +556,7 @@
                         }
                     },
                     {
-                        "name": "EX-APP-ID",
+                        "name": "ex-app-id",
                         "in": "header",
                         "schema": {
                             "type": "string"
@@ -809,7 +809,7 @@
                     {
                         "name": "appid",
                         "in": "path",
-                        "description": "id of the app, as in the EX-APP-ID for creation",
+                        "description": "id of the app, as in the ex-app-id for creation",
                         "required": true,
                         "schema": {
                             "type": "string"

@@ -107,7 +107,7 @@ class PublicPreviewController extends PublicShareController {
 		$downloadForbidden = $attributes?->getAttribute('permissions', 'download') === false;
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
-		$isPublicPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+		$isPublicPreview = $this->request->getHeader('x-nc-preview') === 'true';
 
 		if ($isPublicPreview && $downloadForbidden) {
 			// Only cache for 15 minutes on public preview requests to quickly remove from cache

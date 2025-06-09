@@ -152,7 +152,7 @@ class PreviewController extends Controller {
 
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
-		$isNextcloudPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+		$isNextcloudPreview = $this->request->getHeader('x-nc-preview') === 'true';
 		$storage = $node->getStorage();
 		if ($isNextcloudPreview === false && $storage->instanceOfStorage(ISharedStorage::class)) {
 			/** @var ISharedStorage $storage */

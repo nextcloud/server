@@ -265,7 +265,7 @@ class PreviewControllerTest extends \Test\TestCase {
 
 		$this->request
 			->method('getHeader')
-			->with('X-NC-Preview')
+			->with('x-nc-preview')
 			->willReturn('true');
 
 		$preview = $this->createMock(ISimpleFile::class);
