@@ -76,7 +76,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
