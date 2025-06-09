@@ -35,7 +35,7 @@ trait S3ConnectionTrait {
 		$this->id = 'amazon::' . $params['bucket'];
 
 		$this->test = isset($params['test']);
-		$this->bucket = $params['bucket'];
+		$this->bucket = trim($params['bucket']);
 		// Default to 5 like the S3 SDK does
 		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
