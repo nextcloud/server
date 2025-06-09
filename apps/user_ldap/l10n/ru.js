@@ -6,6 +6,7 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Неверная конфигурация: анонимное связывание не разрешается.",
     "Valid configuration, connection established!" : "Конфигурация настроена верно, связь установлена!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Конфигурация настроена верно, но связывание не удалось. Проверьте настройки сервера и реквизиты доступа.",
+    "Invalid configuration: %s" : "Недопустимая конфигурация: %s",
     "No action specified" : "Действие не указано",
     "No configuration specified" : "Конфигурация не указана",
     "No data specified" : "Нет данных",
