@@ -85,6 +85,8 @@
     "Could not convert file" : "Не удалось преобразовать файл",
     "Destination does not exist" : "Пункт назначения не существует",
     "Dot files are not allowed" : "Файлы начинающиеся с точки не допускаются",
+    "%1$s (renamed)" : "%1$s (переименовано)",
+    "renamed file" : "переименованный файл",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" это запрещенное имя файла или папки.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" является запрещенным префиксом для имен файлов или папок.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" не допускается указывать имя файла или папки внутри него.",
