@@ -1492,7 +1492,7 @@
                         }
                     },
                     {
-                        "name": "X-NC-Preview",
+                        "name": "x-nc-preview",
                         "in": "header",
                         "schema": {
                             "type": "string"
