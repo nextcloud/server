@@ -50,6 +50,7 @@ class CardDavBackendTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IGroupManager&MockObject $groupManager;
 	private IEventDispatcher&MockObject $dispatcher;
+	private IConfig&MockObject $config;
 	private Backend $sharingBackend;
 	private IDBConnection $db;
 	private CardDavBackend $backend;
@@ -96,6 +97,7 @@ class CardDavBackendTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
 			->setConstructorArgs([
 				$this->userManager,
@@ -106,7 +108,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
 				$this->createMock(KnownUserService::class),
-				$this->createMock(IConfig::class),
+				$this->config,
 				$this->createMock(IFactory::class)
 			])
 			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
@@ -135,6 +137,7 @@ class CardDavBackendTest extends TestCase {
 			$this->userManager,
 			$this->dispatcher,
 			$this->sharingBackend,
+			$this->config,
 		);
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
