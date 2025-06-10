@@ -914,7 +914,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 						)
 					)->orderBy('synctoken');
 
-				if (is_int($limit) && $limit > 0) {
+				if ($limit > 0) {
 					$qb->setMaxResults($limit);
 				}
 
@@ -962,11 +962,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$stmt = $qb->executeQuery();
 				$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 				if (empty($values)) {
-   					$result['added'] = [];
-    				return $result;
+					$result['added'] = [];
+					return $result;
 				}
 				$lastID = $values[array_key_last($values)]['id'];
-				if (count($values) >= $limit){
+				if (count($values) >= $limit) {
 					$result['syncToken'] = 'init_' . $lastID . '_' . $currentToken;
 					$result['result_truncated'] = true;
 				}
