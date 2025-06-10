@@ -45,9 +45,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.2', '8.3', '8.4']
+        php-versions: ['8.1', '8.2', '8.4']
         include:
-          - php-versions: '8.2'
+          - php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-s3-minio
@@ -88,18 +88,19 @@ jobs:
           composer install
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force files_external
-          echo "<?php return ['run' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+          echo "<?php return ['run' => true, 'minio' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
 
       - name: Wait for S3
         run: |
-          sleep 10
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
       - name: PHPUnit
-        run: composer run test:files_external -- \
-          apps/files_external/tests/Storage/Amazons3Test.php \
-          --log-junit junit.xml \
-          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+        run: |
+          composer run test:files_external -- \
+            --group S3 \
+            --log-junit junit.xml \
+            apps/files_external/tests/Storage \
+            ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
@@ -113,6 +114,11 @@ jobs:
         uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
         with:
           flags: phpunit-files-external-s3
+
+      - name: Nextcloud logs
+        if: always()
+        run: |
+          cat data/nextcloud.log
 
       - name: S3 logs
         if: always()
@@ -128,7 +134,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.1', '8.2', '8.4']
         include:
           - php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
@@ -140,7 +146,7 @@ jobs:
         env:
           SERVICES: s3
           DEBUG: 1
-        image: localstack/localstack@sha256:b52c16663c70b7234f217cb993a339b46686e30a1a5d9279cb5feeb2202f837c # v4.4.0
+        image: localstack/localstack@sha256:9d4253786e0effe974d77fe3c390358391a56090a4fff83b4600d8a64404d95d # v4.5.0
         ports:
           - "4566:4566"
 
@@ -167,14 +173,15 @@ jobs:
           composer install
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force files_external
-          echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+          echo "<?php return ['run' => true, 'localstack' => true, 'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
 
       - name: PHPUnit
-        run: composer run test:files_external -- \
-          apps/files_external/tests/Storage/Amazons3Test.php \
-          apps/files_external/tests/Storage/VersionedAmazonS3Test.php \
-          --log-junit junit.xml \
-          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
+        run: |
+          composer run test:files_external -- \
+            --group S3 \
+            --log-junit junit.xml \
+            apps/files_external/tests/Storage \
+            ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
