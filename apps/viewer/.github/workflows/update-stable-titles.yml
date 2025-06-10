@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: Update PRs titles on stable branches
+
+on:
+  pull_request:
+    types: [opened, edited]
+    branches:
+      - "stable*"
+
+concurrency:
+  group: stable-pr-title-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  update-pr-title:
+    runs-on: ubuntu-latest-low
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Wait for potential title edits
+        run: sleep 15
+
+      - name: Get PR details and update title
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const baseBranch = pr.base.ref;
+            const currentTitle = pr.title;
+
+            // Check if this is a stable branch
+            // Should not happen as we only trigger on stable* branches 🤷‍♀️
+            if (!baseBranch.startsWith('stable')) {
+              console.log(`Not a stable branch: ${baseBranch}`);
+              return;
+            }
+
+            const prefix = `[${baseBranch}]`;
+
+            // Check if title already has the correct prefix and no other stable tags
+            const correctTagRegex = new RegExp(`^\\[${baseBranch}\\]\\s*`);
+            const hasOtherStableTags = /\[stable[\d.]*\]/.test(currentTitle.replace(correctTagRegex, ''));
+
+            if (correctTagRegex.test(currentTitle) && !hasOtherStableTags) {
+              console.log(`Title already has correct prefix only: ${currentTitle}`);
+              return;
+            }
+
+            // Remove all stable tags and add the correct one
+            const cleanTitle = currentTitle.replace(/\[stable[\d.]*\]\s*/g, '').trim();
+            const newTitle = `${prefix} ${cleanTitle}`;
+
+            console.log(`Updating title from: "${currentTitle}" to: "${newTitle}"`);
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              title: newTitle,
+            });
