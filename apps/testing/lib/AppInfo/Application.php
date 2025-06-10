@@ -8,6 +8,7 @@ namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
 use OCA\Testing\Conversion\ConversionProvider;
+use OCA\Testing\HiddenGroupBackend;
 use OCA\Testing\Listener\GetDeclarativeSettingsValueListener;
 use OCA\Testing\Listener\RegisterDeclarativeSettingsListener;
 use OCA\Testing\Listener\SetDeclarativeSettingsValueListener;
@@ -26,6 +27,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\IGroupManager;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
@@ -68,5 +70,8 @@ class Application extends App implements IBootstrap {
 			$userManager->clearBackends();
 			$userManager->registerBackend($context->getAppContainer()->get(AlternativeHomeUserBackend::class));
 		}
+
+		$groupManager = $server->get(IGroupManager::class);
+		$groupManager->addBackend($server->get(HiddenGroupBackend::class));
 	}
 }
