@@ -18,6 +18,7 @@ use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IUpdater;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
@@ -464,6 +465,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 		// update stat with new data
 		$mTime = time();
+		$oldSize = $stat['size'] ?? 0;
 		$stat['size'] = (int)$size;
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
@@ -560,6 +562,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				throw new \Exception("Object not found after writing (urn: $urn, path: $path)", 404);
 			}
 		}
+
+		$this->getUpdater()->correctParentStorageMtime($path);
+		$this->propagator->propagateChange($path, $mTime, $stat['size'] - $oldSize);
 
 		return $size;
 	}
@@ -813,5 +818,19 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
+	}
+
+	public function getUpdater(?IStorage $storage = null): IUpdater {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
+		/** @var self $storage */
+		if (!isset($storage->updater)) {
+			$storage->updater = new ObjectStoreUpdater($storage);
+		}
+		return $storage->updater;
 	}
 }
