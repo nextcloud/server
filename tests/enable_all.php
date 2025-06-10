@@ -8,12 +8,8 @@
 require_once __DIR__ . '/../lib/base.php';
 
 function enableApp($app) {
-	try {
-		(new \OC_App())->enable($app);
-		echo "Enabled application {$app}\n";
-	} catch (Exception $e) {
-		echo $e;
-	}
+	(new \OC_App())->enable($app);
+	echo "Enabled application {$app}\n";
 }
 
 foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
