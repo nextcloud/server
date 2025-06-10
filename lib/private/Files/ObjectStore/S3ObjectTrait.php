@@ -107,27 +107,52 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
 	protected function writeMultiPart(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
-		$uploader = new MultipartUploader($this->getConnection(), $stream, [
-			'bucket' => $this->bucket,
-			'concurrency' => $this->concurrency,
-			'key' => $urn,
-			'part_size' => $this->uploadPartSize,
-			'params' => [
-				'ContentType' => $mimetype,
-				'StorageClass' => $this->storageClass,
-			] + $this->getSSECParameters(),
-		]);
+		$attempts = 0;
+		$uploaded = false;
+		$concurrency = $this->concurrency;
+		$exception = null;
+		$state = null;
 
-		try {
-			$uploader->upload();
-		} catch (S3MultipartUploadException $e) {
+		// retry multipart upload once with concurrency at half on failure
+		while (!$uploaded && $attempts <= 1) {
+			$uploader = new MultipartUploader($this->getConnection(), $stream, [
+				'bucket' => $this->bucket,
+				'concurrency' => $concurrency,
+				'key' => $urn,
+				'part_size' => $this->uploadPartSize,
+				'state' => $state,
+				'params' => [
+					'ContentType' => $mimetype,
+					'StorageClass' => $this->storageClass,
+				] + $this->getSSECParameters(),
+			]);
+
+			try {
+				$uploader->upload();
+				$uploaded = true;
+			} catch (S3MultipartUploadException $e) {
+				$exception = $e;
+				$attempts++;
+
+				if ($concurrency > 1) {
+					$concurrency = round($concurrency / 2);
+				}
+
+				if ($stream->isSeekable()) {
+					$stream->rewind();
+				}
+			}
+		}
+
+		if (!$uploaded) {
 			// if anything goes wrong with multipart, make sure that you don´t poison and
 			// slow down s3 bucket with orphaned fragments
-			$uploadInfo = $e->getState()->getId();
-			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
+			$uploadInfo = $exception->getState()->getId();
+			if ($exception->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway('Error while uploading to S3 bucket', 0, $e);
+
+			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway('Error while uploading to S3 bucket', 0, $exception);
 		}
 	}
 
