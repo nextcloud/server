@@ -42,6 +42,7 @@
     "Task not found" : "Задатак није пронађен",
     "Internal error" : "Интерна грешка",
     "Not found" : "Није нађено",
+    "Node is locked" : "Чвор је закључан.",
     "Bad request" : "Неисправан захтев",
     "Requested task type does not exist" : "Тражени тип задатка не постоји",
     "Necessary language model provider is not available" : "Није доступан неопходни пружалац услуге језичког модела",

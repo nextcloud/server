@@ -22,6 +22,6 @@ OC.L10N.register(
     "You" : "Sina",
     "List of files that have been deleted." : "Kustutatud failide loend.",
     "No deleted files" : "Kustutatud faile pole",
-    "Files and folders you have deleted will show up here" : "Failid ja kaustad, mis oled kustutanud, on nähtavad siin"
+    "Files and folders you have deleted will show up here" : "Sinu kustutatud failid ja kaustad on nähtavad siin"
 },
 "nplurals=2; plural=(n != 1);");
