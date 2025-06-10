@@ -904,7 +904,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			} elseif ($syncToken) {
 				$qb = $this->db->getQueryBuilder();
-				$qb->select('uri', 'operation')
+				$qb->select('uri', 'operation', 'synctoken')
 					->from('addressbookchanges')
 					->where(
 						$qb->expr()->andX(
@@ -931,6 +931,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['syncToken'] = $row['synctoken'];
 				}
 				$stmt->closeCursor();
+				
+				// No changes found, use current token
+				if (empty($changes)) {
+					$result['syncToken'] = $currentToken;
+				}
 
 				foreach ($changes as $uri => $operation) {
 					switch ($operation) {
@@ -956,8 +961,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$qb->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
 				$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+				if (empty($values)) {
+   					$result['added'] = [];
+    				return $result;
+				}
 				$lastID = $values[array_key_last($values)]['id'];
-				if (count(array_values($values)) >= $limit) {
+				if (count($values) >= $limit){
 					$result['syncToken'] = 'init_' . $lastID . '_' . $currentToken;
 					$result['result_truncated'] = true;
 				}
