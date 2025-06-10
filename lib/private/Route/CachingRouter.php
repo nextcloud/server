@@ -117,7 +117,6 @@ class CachingRouter extends Router {
 		 * Closures cannot be serialized to cache, so for legacy routes calling an action we have to include the routes.php file again
 		 */
 		$app = $parameters['app'];
-		$this->useCollection($app);
 		parent::requireRouteFile($parameters['route-file'], $app);
 		$collection = $this->getCollection($app);
 		$parameters['action'] = $collection->get($parameters['_route'])?->getDefault('action');

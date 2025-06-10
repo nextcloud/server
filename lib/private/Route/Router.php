@@ -482,6 +482,7 @@ class Router implements IRouter {
 	 */
 	protected function requireRouteFile(string $file, string $appName): void {
 		try {
+			$this->useCollection($appName);
 			$this->setupRoutes(include $file, $appName);
 		} catch (\TypeError) {
 			$this->logger->debug('Routes should only be registered by returning an array of routes from the routes.php');
