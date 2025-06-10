@@ -36,7 +36,9 @@ class ClassComplexConstructor {
 }
 
 class ClassNullableUntypedConstructorArg {
+	public $class;
 	public function __construct($class) {
+		$this->class = $class;
 	}
 }
 class ClassNullableTypedConstructorArg {
@@ -217,6 +219,8 @@ class SimpleContainerTest extends \Test\TestCase {
 		$object = $this->container->query(
 			'Test\AppFramework\Utility\ClassComplexConstructor'
 		);
+		/* Use the object to trigger DI on PHP >= 8.4 */
+		get_object_vars($object);
 	}
 
 	public function testRegisterFactory(): void {
@@ -243,7 +247,11 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testQueryUntypedNullable(): void {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
-		$this->container->query(ClassNullableUntypedConstructorArg::class);
+		$object = $this->container->query(
+			ClassNullableUntypedConstructorArg::class
+		);
+		/* Use the object to trigger DI on PHP >= 8.4 */
+		get_object_vars($object);
 	}
 
 	public function testQueryTypedNullable(): void {
