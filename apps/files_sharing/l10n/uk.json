@@ -254,6 +254,7 @@
     "File drop" : "Перетягнути файл",
     "Upload files to {foldername}." : "Завантажити файли до {foldername}.",
     "By uploading files, you agree to the terms of service." : "Завантаження файлів означає, що ви погоджуєтеся з умовами користування.",
+    "Successfully uploaded files" : "Успішно завантажено файли",
     "View terms of service" : "Переглянути умови користування.",
     "Terms of service" : "Умови використання",
     "Upload files to {folder}" : "Завантажити файли до {folder}",
@@ -310,7 +311,9 @@
     "Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access." : "Використовуйте цей спосіб надання файлів у спільний доступ окремим користувачам або командам. Якщо отримувач вже має доступ до спільного ресурсу, але не може його знайти, ви можете допомогти йому/їй - надіслати посилання на внутрішній ресурс.",
     "Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID." : "Використовуйте цей спосіб надання файлів у спільний доступ окремим користувачам або організаціям за межами вашої організації. Файли та каталоги можна надати у спільний доступ користувачам інших примірників хмар Nextcloud з використанням ідентифікатора об'єднаних хмар.",
     "Shares that are not part of the internal or external shares. This can be shares from apps or other sources." : "Спільні ресурси, що не є ані внутрішніми, ані зовнішніми спільними ресурсами, наприклад, спільні ресурси, створені застосунками чи іншими ресурсами.",
+    "Share with accounts, teams, federated cloud IDs" : "Поділитися з користувачами, командами, об'єднаними хмарами",
     "Share with accounts and teams" : "Поділитися з користувачами або командами",
+    "Email, federated cloud ID" : "Ел. пошта, ID об'єднаної хмари",
     "Unable to load the shares list" : "Не вдалося завантажити список спільних ресурсів",
     "Expires {relativetime}" : "Термін дії закінчується {relativetime}",
     "this share just expired." : "термін дії спільного доступу вичерпано.",
@@ -380,6 +383,12 @@
     "Share password saved" : "Пароль до спільного ресурсу збережено",
     "Share permissions saved" : "Дозволи доступу до спільного ресурсу збережено",
     "Filename must not be empty." : "Імена файлів не мають бути порожні.",
+    "Names must not start with a dot." : "Імена не можуть починатися з крапки.",
+    "\"{char}\" is not allowed inside a name." : "\"{char}\" не дозволено всередині імени.",
+    "\"{segment}\" is a reserved name and not allowed." : "\"{segment}\" є зарезервованим ім'ям і не дозволене.",
+    "\"{extension}\" is not an allowed name." : "\"{extension}\" не дозволене ім'я.",
+    "Names must not end with \"{extension}\"." : "Імена не можуть закінчуватися на \"{extension}\".",
+    "Invalid name." : "Недійсне ім'я",
     "Shared by" : "Поділилися",
     "Shared with" : "Спільний доступ з",
     "Password created successfully" : "Успішно створено пароль",
@@ -416,6 +425,7 @@
     "_1 email address added_::_{count} email addresses added_" : ["Додано 1 адресу ел. пошти","Додано {count} адреси ел. пошти","Додано {count} адрес ел. пошти","Додано {count} адрес ел. пошти"],
     "Search for share recipients" : "Виберіть отримувачів",
     "No recommendations. Start typing." : "Відсутні рекомендації. Будь ласка, додайте.",
+    "Share with accounts, teams, federated cloud id" : "Поділитися з користувачами, командами, ID об'єднаних хмар",
     "Email, federated cloud id" : "Ел.пошта, ідентифікатор об'єднаної хмари"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
