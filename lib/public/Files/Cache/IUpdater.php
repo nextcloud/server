@@ -42,6 +42,7 @@ interface IUpdater {
 	 *
 	 * @param string $path the path of the file to propagate the changes for
 	 * @param int|null $time the timestamp to set as mtime for the parent folders, if left out the current time is used
+	 * @return void
 	 * @since 9.0.0
 	 */
 	public function propagate($path, $time = null);
@@ -51,6 +52,7 @@ interface IUpdater {
 	 *
 	 * @param string $path
 	 * @param int $time
+	 * @return void
 	 * @since 9.0.0
 	 */
 	public function update($path, $time = null, ?int $sizeDifference = null);
@@ -59,6 +61,7 @@ interface IUpdater {
 	 * Remove $path from the cache and update the size, etag and mtime of the parent folders
 	 *
 	 * @param string $path
+	 * @return void
 	 * @since 9.0.0
 	 */
 	public function remove($path);
@@ -69,6 +72,7 @@ interface IUpdater {
 	 * @param IStorage $sourceStorage
 	 * @param string $source
 	 * @param string $target
+	 * @return void
 	 * @since 9.0.0
 	 */
 	public function renameFromStorage(IStorage $sourceStorage, $source, $target);

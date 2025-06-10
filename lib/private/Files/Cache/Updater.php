@@ -281,7 +281,7 @@ class Updater implements IUpdater {
 	 *
 	 * @param string $internalPath
 	 */
-	private function correctParentStorageMtime($internalPath) {
+	public function correctParentStorageMtime($internalPath) {
 		$parentId = $this->cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
 		if ($parentId != -1) {
