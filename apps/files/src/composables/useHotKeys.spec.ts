@@ -1,10 +1,14 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Location } from 'vue-router'
+
 import { File, Folder, Permission, View } from '@nextcloud/files'
-import { describe, it, vi, expect, beforeEach, beforeAll, afterEach } from 'vitest'
-import { nextTick } from 'vue'
+import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest'
+import { defineComponent, nextTick } from 'vue'
 import axios from '@nextcloud/axios'
 
 import { getPinia } from '../store/index.ts'
@@ -15,8 +19,35 @@ import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'
 import { action as renameAction } from '../actions/renameAction.ts'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { registerHotkeys } from './HotKeysService.ts'
+import { useHotKeys } from './useHotKeys.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+
+// this is the mocked current route
+const route = vi.hoisted(() => ({
+	name: 'test',
+	params: {
+		fileId: 123,
+	},
+	query: {
+		openFile: 'false',
+		dir: '/parent/dir',
+	},
+}))
+
+// mocked router
+const router = vi.hoisted(() => ({
+	push: vi.fn<(route: Location) => void>(),
+}))
+
+vi.mock('../actions/sidebarAction.ts', { spy: true })
+vi.mock('../actions/deleteAction.ts', { spy: true })
+vi.mock('../actions/favoriteAction.ts', { spy: true })
+vi.mock('../actions/renameAction.ts', { spy: true })
+
+vi.mock('vue-router/composables', () => ({
+	useRoute: vi.fn(() => route),
+	useRouter: vi.fn(() => router),
+}))
 
 let file: File
 const view = {
@@ -24,29 +55,28 @@ const view = {
 	name: 'Files',
 } as View
 
-vi.mock('../actions/sidebarAction.ts', { spy: true })
-vi.mock('../actions/deleteAction.ts', { spy: true })
-vi.mock('../actions/favoriteAction.ts', { spy: true })
-vi.mock('../actions/renameAction.ts', { spy: true })
+const TestComponent = defineComponent({
+	name: 'test',
+	setup() {
+		useHotKeys()
+	},
+	template: '<div />',
+})
 
 describe('HotKeysService testing', () => {
 	const activeStore = useActiveStore(getPinia())
 
-	const goToRouteMock = vi.fn()
-
 	let initialState: HTMLInputElement
+
+	enableAutoDestroy(afterEach)
 
 	afterEach(() => {
 		document.body.removeChild(initialState)
 	})
 
-	beforeAll(() => {
-		registerHotkeys()
-	})
-
 	beforeEach(() => {
 		// Make sure the router is reset before each test
-		goToRouteMock.mockClear()
+		router.push.mockClear()
 
 		// Make sure the file is reset before each test
 		file = new File({
@@ -66,9 +96,6 @@ describe('HotKeysService testing', () => {
 		activeStore.activeNode = file
 
 		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
-		// We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
-		window.OCP = { Files: { Router: { goToRoute: goToRouteMock, params: {}, query: {} } } }
-
 		initialState = document.createElement('input')
 		initialState.setAttribute('type', 'hidden')
 		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
@@ -76,6 +103,8 @@ describe('HotKeysService testing', () => {
 			allow_delete: true,
 		})))
 		document.body.appendChild(initialState)
+
+		mount(TestComponent)
 	})
 
 	it('Pressing d should open the sidebar once', () => {
@@ -135,13 +164,11 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('Pressing alt+up should go to parent directory', () => {
-		expect(goToRouteMock).toHaveBeenCalledTimes(0)
-		window.OCP.Files.Router.query = { dir: '/foo/bar' }
-
+		expect(router.push).toHaveBeenCalledTimes(0)
 		dispatchEvent({ key: 'ArrowUp', code: 'ArrowUp', altKey: true })
 
-		expect(goToRouteMock).toHaveBeenCalledOnce()
-		expect(goToRouteMock.mock.calls[0][2].dir).toBe('/foo')
+		expect(router.push).toHaveBeenCalledOnce()
+		expect(router.push.mock.calls[0][0].query?.dir).toBe('/parent')
 	})
 
 	it('Pressing v should toggle grid view', async () => {
