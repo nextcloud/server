@@ -4,17 +4,31 @@
  */
 
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
-import { FileListFilter } from '@nextcloud/files'
+
+import { subscribe } from '@nextcloud/event-bus'
+import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
+
+/**
+ * Register the filename filter
+ */
+export function registerFilenameFilter() {
+	registerFileListFilter(new FilenameFilter())
+}
 
 /**
  * Simple file list filter controlled by the Navigation search box
  */
-export class FilenameFilter extends FileListFilter {
+class FilenameFilter extends FileListFilter {
 
 	private searchQuery = ''
 
 	constructor() {
 		super('files:filename', 5)
+		subscribe('files:search:updated', ({ query, scope }) => {
+			if (scope === 'filter') {
+				this.updateQuery(query)
+			}
+		})
 	}
 
 	public filter(nodes: INode[]): INode[] {
