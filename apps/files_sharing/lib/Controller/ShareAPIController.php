@@ -866,13 +866,7 @@ class ShareAPIController extends OCSController {
 			throw new OCSBadRequestException($this->l->t('Not a directory'));
 		}
 
-		$nodes = $folder->getDirectoryListing();
-
-		/** @var IShare[] $shares */
-		$shares = array_reduce($nodes, function ($carry, $node) {
-			$carry = array_merge($carry, $this->getAllShares($node, true));
-			return $carry;
-		}, []);
+		$shares = $this->shareManager->getSharesInFolder($this->userId, $folder, true);
 
 		// filter out duplicate shares
 		$known = [];
@@ -880,24 +874,26 @@ class ShareAPIController extends OCSController {
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
 		$known = [];
-		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
-				continue;
-			}
-
-			try {
-				$format = $this->formatShare($share);
-
-				$known[] = $share->getId();
-				$formatted[] = $format;
-				if ($share->getSharedBy() === $this->userId) {
-					$miniFormatted[] = $format;
+		foreach ($shares as $subshares) {
+			foreach ($subshares as $share) {
+				if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
+					continue;
 				}
-				if (!$resharingRight && $this->shareProviderResharingRights($this->userId, $share, $folder)) {
-					$resharingRight = true;
+
+				try {
+					$format = $this->formatShare($share);
+
+					$known[] = $share->getId();
+					$formatted[] = $format;
+					if ($share->getSharedBy() === $this->userId) {
+						$miniFormatted[] = $format;
+					}
+					if (!$resharingRight && $this->shareProviderResharingRights($this->userId, $share, $folder)) {
+						$resharingRight = true;
+					}
+				} catch (\Exception $e) {
+					//Ignore this share
 				}
-			} catch (\Exception $e) {
-				//Ignore this share
 			}
 		}
 
@@ -1994,50 +1990,6 @@ class ShareAPIController extends OCSController {
 
 		return false;
 	}
-
-	/**
-	 * Get all the shares for the current user
-	 *
-	 * @param Node|null $path
-	 * @param boolean $reshares
-	 * @return IShare[]
-	 */
-	private function getAllShares(?Node $path = null, bool $reshares = false) {
-		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_LINK, $path, $reshares, -1, 0);
-
-		// EMAIL SHARES
-		$mailShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_EMAIL, $path, $reshares, -1, 0);
-
-		// TEAM SHARES
-		$circleShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_CIRCLE, $path, $reshares, -1, 0);
-
-		// TALK SHARES
-		$roomShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_ROOM, $path, $reshares, -1, 0);
-
-		// DECK SHARES
-		$deckShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_DECK, $path, $reshares, -1, 0);
-
-		// SCIENCEMESH SHARES
-		$sciencemeshShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_SCIENCEMESH, $path, $reshares, -1, 0);
-
-		// FEDERATION
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $path, $reshares, -1, 0);
-		} else {
-			$federatedShares = [];
-		}
-		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedGroupShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $path, $reshares, -1, 0);
-		} else {
-			$federatedGroupShares = [];
-		}
-
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares, $federatedShares, $federatedGroupShares);
-	}
-
 
 	/**
 	 * merging already formatted shares.

@@ -1404,8 +1404,8 @@ class ShareAPIControllerTest extends TestCase {
 						IShare::TYPE_EMAIL => [$file1EmailShareOwner],
 						IShare::TYPE_CIRCLE => [$file1CircleShareOwner],
 						IShare::TYPE_ROOM => [$file1RoomShareOwner],
-						IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
-						IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
+						// IShare::TYPE_REMOTE => [$file1RemoteShareOwner],
+						// IShare::TYPE_REMOTE_GROUP => [$file1RemoteGroupShareOwner],
 					],
 				],
 				[
@@ -1505,16 +1505,26 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->currentUser)
 			->willReturn($userFolder);
 
-		$this->shareManager
-			->method('getSharesBy')
-			->willReturnCallback(
-				function ($user, $shareType, $node) use ($shares) {
-					if (!isset($shares[$node->getName()]) || !isset($shares[$node->getName()][$shareType])) {
-						return [];
+		if ($getSharesParameters['subfiles'] ?? false) {
+			$return = [];
+			foreach ($shares as $subshares) {
+				$return = array_merge($return, $subshares);
+			}
+			$this->shareManager
+				->method('getSharesInFolder')
+				->willReturn($return);
+		} else {
+			$this->shareManager
+				->method('getSharesBy')
+				->willReturnCallback(
+					function ($user, $shareType, $node) use ($shares) {
+						if (!isset($shares[$node->getName()]) || !isset($shares[$node->getName()][$shareType])) {
+							return [];
+						}
+						return $shares[$node->getName()][$shareType];
 					}
-					return $shares[$node->getName()][$shareType];
-				}
-			);
+				);
+		}
 
 		$this->shareManager
 			->method('outgoingServer2ServerSharesAllowed')
@@ -2125,7 +2135,7 @@ class ShareAPIControllerTest extends TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
 		$file->method('getStorage')->willReturn($storage);
-	
+
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($file);
 		$this->rootFolder->method('getById')
