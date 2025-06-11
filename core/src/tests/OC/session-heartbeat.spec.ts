@@ -35,7 +35,7 @@ describe('Session heartbeat', () => {
 		initSessionHeartBeat()
 
 		// initial state loaded
-		expect(initialState.loadState).toBeCalledWith('core', 'config')
+		expect(initialState.loadState).toBeCalledWith('core', 'config', {})
 
 		// less than half, still nothing
 		await vi.advanceTimersByTimeAsync(100 * 1000)
@@ -64,7 +64,7 @@ describe('Session heartbeat', () => {
 		initSessionHeartBeat()
 
 		// initial state loaded
-		expect(initialState.loadState).toBeCalledWith('core', 'config')
+		expect(initialState.loadState).toBeCalledWith('core', 'config', {})
 
 		// less than half, still nothing
 		await vi.advanceTimersByTimeAsync(100 * 1000)
@@ -85,7 +85,7 @@ describe('Session heartbeat', () => {
 		initSessionHeartBeat()
 
 		// initial state loaded
-		expect(initialState.loadState).toBeCalledWith('core', 'config')
+		expect(initialState.loadState).toBeCalledWith('core', 'config', {})
 
 		// 30 / 55 seconds
 		await vi.advanceTimersByTimeAsync(30 * 1000)
@@ -110,7 +110,7 @@ describe('Session heartbeat', () => {
 		initSessionHeartBeat()
 
 		// initial state loaded
-		expect(initialState.loadState).toBeCalledWith('core', 'config')
+		expect(initialState.loadState).toBeCalledWith('core', 'config', {})
 
 		// 23 hours
 		await vi.advanceTimersByTimeAsync(23 * 60 * 60 * 1000)
