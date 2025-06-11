@@ -16,6 +16,7 @@ use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconPreset;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\ValueType;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -66,6 +67,7 @@ class UserConfig implements IUserConfig {
 	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private ?ConfigLexiconPreset $configLexiconPreset = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -1625,7 +1627,8 @@ class UserConfig implements IUserConfig {
 	 */
 	public function clearCacheAll(): void {
 		$this->lazyLoaded = $this->fastLoaded = [];
-		$this->lazyCache = $this->fastCache = $this->valueDetails = [];
+		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
+		$this->configLexiconPreset = null;
 	}
 
 	/**
@@ -1925,7 +1928,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		// default from Lexicon got priority but it can still be overwritten by admin
-		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault() ?? $default;
+		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;
@@ -2024,5 +2027,13 @@ class UserConfig implements IUserConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
+	}
+
+	private function getLexiconPreset(): ConfigLexiconPreset {
+		if ($this->configLexiconPreset === null) {
+			$this->configLexiconPreset = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+		}
+
+		return $this->configLexiconPreset;
 	}
 }

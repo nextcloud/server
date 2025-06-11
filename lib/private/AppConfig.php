@@ -12,6 +12,7 @@ namespace OC;
 use InvalidArgumentException;
 use JsonException;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconPreset;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\Lexicon\IConfigLexicon;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -64,12 +65,13 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
-
+	private ?ConfigLexiconPreset $configLexiconPreset = null;
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
+		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -1146,7 +1148,8 @@ class AppConfig implements IAppConfig {
 	 */
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
-		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
+		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
+		$this->configLexiconPreset = null;
 
 		if (!$reload) {
 			return;
@@ -1629,7 +1632,7 @@ class AppConfig implements IAppConfig {
 		}
 
 		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
+		$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default; // default from Lexicon got priority
 		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
@@ -1713,6 +1716,14 @@ class AppConfig implements IAppConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
+	}
+
+	private function getLexiconPreset(): ConfigLexiconPreset {
+		if ($this->configLexiconPreset === null) {
+			$this->configLexiconPreset = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+		}
+
+		return $this->configLexiconPreset;
 	}
 
 	/**

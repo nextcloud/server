@@ -10,6 +10,7 @@ namespace Tests\lib\Config;
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
+use NCU\Config\Lexicon\ConfigLexiconPreset;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
@@ -202,5 +203,29 @@ class LexiconTest extends TestCase {
 		$this->assertSame(true, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
 		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
 		$this->assertSame(false, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
+	}
+
+	public function testAppConfigLexiconPreset() {
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::FAMILY);
+		$this->assertSame('family', $this->appConfig->getValueString(TestConfigLexicon_E::APPID, 'key3'));
+	}
+
+	public function testAppConfigLexiconPresets() {
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::MEDIUM);
+		$this->assertSame('club+medium', $this->appConfig->getValueString(TestConfigLexicon_E::APPID, 'key3'));
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::FAMILY);
+		$this->assertSame('family', $this->appConfig->getValueString(TestConfigLexicon_E::APPID, 'key3'));
+	}
+
+	public function testUserConfigLexiconPreset() {
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::FAMILY);
+		$this->assertSame('family', $this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key3'));
+	}
+
+	public function testUserConfigLexiconPresets() {
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::MEDIUM);
+		$this->assertSame('club+medium', $this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key3'));
+		$this->configManager->setLexiconPreset(ConfigLexiconPreset::FAMILY);
+		$this->assertSame('family', $this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key3'));
 	}
 }
