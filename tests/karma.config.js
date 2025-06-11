@@ -18,8 +18,6 @@
  * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
 
-const { existsSync } = require('node:fs');
-
 if (!process.env.CHROMIUM_BIN) {
 	const chrome = require('puppeteer').executablePath()
 	process.env.CHROMIUM_BIN = chrome
@@ -42,7 +40,10 @@ module.exports = function(config) {
 	// are specified in a separate file
 	var corePath = 'dist/';
 	var coreModule = require('../core/js/core.json');
-	var files = [];
+	var files = [
+		// core mocks
+		'core/js/tests/specHelper.js',
+	];
 	var preprocessors = {};
 
 	var srcFile, i;
@@ -57,9 +58,6 @@ module.exports = function(config) {
 	files.push('dist/core-files_fileinfo.js');
 	files.push('dist/core-files_client.js');
 	files.push('dist/core-systemtags.js');
-
-	// core mocks
-	files.push('core/js/tests/specHelper.js');
 
 	// add core modules files
 	for (i = 0; i < coreModule.modules.length; i++) {
@@ -106,7 +104,7 @@ module.exports = function(config) {
 		frameworks: ['jasmine', 'jasmine-sinon', 'viewport'],
 
 		// list of files / patterns to load in the browser
-		files: files,
+		files,
 
 		// list of files to exclude
 		exclude: [],

@@ -7,7 +7,7 @@
 /* eslint-disable */
 import $ from 'jquery'
 
-import { getToken } from './requesttoken.js'
+import { getToken } from './requesttoken.ts'
 
 /**
  * Create a new event source
