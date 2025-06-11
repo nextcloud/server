@@ -13,7 +13,7 @@ import { t } from '@nextcloud/l10n'
  */
 export function getGuestNameValidity(name: string, escape = false): string {
 	if (name.trim() === '') {
-		return t('files', 'Filename must not be empty.')
+		return t('files', 'Names must not be empty.')
 	}
 
 	if (name.startsWith('.')) {

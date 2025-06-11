@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { haveValidity, zipFileContains } from '../../../support/utils/assertions.ts'
-import { getShareUrl, setupPublicShare } from './setup-public-share.ts'
+import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
 
 /**
  * This tests ensures that on public shares the header actions menu correctly works
