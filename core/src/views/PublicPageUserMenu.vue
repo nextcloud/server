@@ -15,12 +15,13 @@
 				is-guest
 				:user="displayName || '?'" />
 		</template>
-		<ul class="public-page-user-menu__list">
-			<!-- Privacy notice -->
-			<NcNoteCard class="public-page-user-menu__list-note"
-				:text="privacyNotice"
-				type="info" />
 
+		<!-- Privacy notice -->
+		<NcNoteCard class="public-page-user-menu__list-note"
+			:text="privacyNotice"
+			type="info" />
+
+		<ul class="public-page-user-menu__list">
 			<!-- Nickname dialog -->
 			<AccountMenuEntry id="set-nickname"
 				:name="!displayName ? t('core', 'Set public name') : t('core', 'Change public name')"
@@ -104,7 +105,9 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .public-page-user-menu {
-	box-sizing: border-box;
+	&, * {
+		box-sizing: border-box;
+	}
 
 	// Ensure we do not waste space, as the header menu sets a default width of 350px
 	:deep(.header-menu__content) {
@@ -123,7 +126,7 @@ export default defineComponent({
 		display: inline-flex;
 		flex-direction: column;
 		padding-block: var(--default-grid-baseline) 0;
-		padding-inline: 0 var(--default-grid-baseline);
+		width: 100%;
 
 		> :deep(li) {
 			box-sizing: border-box;
