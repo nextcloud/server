@@ -19,11 +19,12 @@ interface OcJsConfig {
 	session_lifetime: number
 }
 
+// This is always set, exception would be e.g. error pages where this is undefined
 const {
 	auto_logout: autoLogout,
 	session_keepalive: keepSessionAlive,
 	session_lifetime: seesionLifetime,
-} = loadState<OcJsConfig>('core', 'config')
+} = loadState<Partial<OcJsConfig>>('core', 'config', {})
 
 /**
  * Calls the server periodically to ensure that session and CSRF
@@ -145,7 +146,7 @@ function registerAutoLogout() {
 
 	let intervalId = 0
 	const logoutCheck = () => {
-		const timeout = Date.now() - seesionLifetime * 1000
+		const timeout = Date.now() - (seesionLifetime ?? 86400) * 1000
 		if (lastActive < timeout) {
 			clearTimeout(intervalId)
 			logger.info('Inactivity timout reached, logging out')
