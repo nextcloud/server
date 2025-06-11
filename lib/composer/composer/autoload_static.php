@@ -53,6 +53,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
         'NCU\\Config\\IUserConfig' => __DIR__ . '/../../..' . '/lib/unstable/Config/IUserConfig.php',
         'NCU\\Config\\Lexicon\\ConfigLexiconEntry' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/ConfigLexiconEntry.php',
+        'NCU\\Config\\Lexicon\\ConfigLexiconPreset' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/ConfigLexiconPreset.php',
         'NCU\\Config\\Lexicon\\ConfigLexiconStrictness' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/ConfigLexiconStrictness.php',
         'NCU\\Config\\Lexicon\\IConfigLexicon' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/IConfigLexicon.php',
         'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',

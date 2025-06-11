@@ -16,6 +16,7 @@ use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconPreset;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\ValueType;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -1626,6 +1627,7 @@ class UserConfig implements IUserConfig {
 	public function clearCacheAll(): void {
 		$this->lazyLoaded = $this->fastLoaded = [];
 		$this->lazyCache = $this->fastCache = $this->valueDetails = [];
+		$this->configLexiconDetails = [];
 	}
 
 	/**
@@ -1993,6 +1995,9 @@ class UserConfig implements IUserConfig {
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
+			if (ConfigManager::$preset === null) {
+				ConfigManager::$preset = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+			}
 			$entries = $aliases = [];
 			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
 			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);

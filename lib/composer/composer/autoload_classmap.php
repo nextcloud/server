@@ -12,6 +12,7 @@ return array(
     'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
     'NCU\\Config\\IUserConfig' => $baseDir . '/lib/unstable/Config/IUserConfig.php',
     'NCU\\Config\\Lexicon\\ConfigLexiconEntry' => $baseDir . '/lib/unstable/Config/Lexicon/ConfigLexiconEntry.php',
+    'NCU\\Config\\Lexicon\\ConfigLexiconPreset' => $baseDir . '/lib/unstable/Config/Lexicon/ConfigLexiconPreset.php',
     'NCU\\Config\\Lexicon\\ConfigLexiconStrictness' => $baseDir . '/lib/unstable/Config/Lexicon/ConfigLexiconStrictness.php',
     'NCU\\Config\\Lexicon\\IConfigLexicon' => $baseDir . '/lib/unstable/Config/Lexicon/IConfigLexicon.php',
     'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',

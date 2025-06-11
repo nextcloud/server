@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace NCU\Config\Lexicon;
 
 use NCU\Config\ValueType;
+use OC\Config\ConfigManager;
 
 /**
  * Model that represent config values within an app config lexicon.
@@ -24,7 +25,7 @@ class ConfigLexiconEntry {
 	private ?string $default = null;
 
 	/**
-	 * @param string $key config key
+	 * @param string $key config key, can only contain alphanumerical chars and -._
 	 * @param ValueType $type type of config value
 	 * @param string $definition optional description of config key available when using occ command
 	 * @param bool $lazy set config value as lazy
@@ -47,10 +48,33 @@ class ConfigLexiconEntry {
 		private readonly ?string $rename = null,
 		private readonly int $options = 0,
 	) {
+		// key can only contain alphanumeric chars and _-.
+		if (preg_match("/[^[:alnum:]\-._]/", $key)) {
+			throw new \Exception();
+		}
 		/** @psalm-suppress UndefinedClass */
 		if (\OC::$CLI) { // only store definition if ran from CLI
 			$this->definition = $definition;
 		}
+	}
+
+	/**
+	 * @param ConfigLexiconPreset|ConfigLexiconPreset[] $preset
+	 * @experimental 32.0.0
+	 */
+	public function preset(ConfigLexiconPreset|array $preset, string|int|float|bool|array $defaultRaw): self {
+		if (!is_array($preset)) {
+			$preset = [$preset];
+		}
+
+		foreach ($preset as $entry) {
+			if ($entry === ConfigManager::$preset) {
+				$this->defaultRaw = $defaultRaw;
+				break;
+			}
+		}
+
+		return $this;
 	}
 
 	/**
