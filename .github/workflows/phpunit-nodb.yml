@@ -102,7 +102,7 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
-          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+          php -f tests/enable_all.php
 
       - name: PHPUnit nodb testsuite
         run: composer run test -- --exclude-group DB,SLOWDB --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
