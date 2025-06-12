@@ -6,6 +6,7 @@
 
 namespace Test\Repair;
 
+use OC\Repair\ClearFrontendCaches;
 use OC\Template\JSCombiner;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -18,7 +19,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 	private JSCombiner&MockObject $jsCombiner;
 	private IOutput&MockObject $outputMock;
 
-	protected \OC\Repair\ClearFrontendCaches $repair;
+	protected ClearFrontendCaches $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,7 +29,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->jsCombiner = $this->createMock(JSCombiner::class);
 
-		$this->repair = new \OC\Repair\ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
+		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
 	}
 
 

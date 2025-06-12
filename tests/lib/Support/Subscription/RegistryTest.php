@@ -14,6 +14,7 @@ use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -58,7 +59,7 @@ class RegistryTest extends TestCase {
 
 
 	public function testDoubleRegistration(): void {
-		$this->expectException(\OCP\Support\Subscription\Exception\AlreadyRegisteredException::class);
+		$this->expectException(AlreadyRegisteredException::class);
 
 		/* @var ISubscription $subscription1 */
 		$subscription1 = $this->createMock(ISubscription::class);

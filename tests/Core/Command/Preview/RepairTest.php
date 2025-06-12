@@ -79,7 +79,7 @@ class RepairTest extends TestCase {
 			->willReturn($outputFormatter);
 		$this->output->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function ($line) use ($self) {
+			->willReturnCallback(function ($line) use ($self): void {
 				$self->outputLines .= $line . "\n";
 			});
 	}

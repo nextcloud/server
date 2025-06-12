@@ -31,7 +31,7 @@ class LexiconTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+		$bootstrapCoordinator = Server::get(Coordinator::class);
 		$bootstrapCoordinator->getRegistrationContext()?->registerConfigLexicon(TestConfigLexicon_I::APPID, TestConfigLexicon_I::class);
 		$bootstrapCoordinator->getRegistrationContext()?->registerConfigLexicon(TestConfigLexicon_N::APPID, TestConfigLexicon_N::class);
 		$bootstrapCoordinator->getRegistrationContext()?->registerConfigLexicon(TestConfigLexicon_W::APPID, TestConfigLexicon_W::class);

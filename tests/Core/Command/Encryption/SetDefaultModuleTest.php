@@ -119,7 +119,7 @@ class SetDefaultModuleTest extends TestCase {
 		];
 		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->willReturnCallback(function ($message) use (&$calls) {
+			->willReturnCallback(function ($message) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertStringContainsString($expected, $message);
 			});

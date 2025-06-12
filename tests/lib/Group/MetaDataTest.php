@@ -7,12 +7,13 @@
 
 namespace Test\Group;
 
+use OC\Group\MetaData;
 use OCP\IUserSession;
 
 class MetaDataTest extends \Test\TestCase {
 	private \OC\Group\Manager $groupManager;
 	private IUserSession $userSession;
-	private \OC\Group\MetaData $groupMetadata;
+	private MetaData $groupMetadata;
 	private bool $isAdmin = true;
 	private bool $isDelegatedAdmin = true;
 
@@ -22,7 +23,7 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupMetadata = new \OC\Group\MetaData(
+		$this->groupMetadata = new MetaData(
 			'foo',
 			$this->isAdmin,
 			$this->isDelegatedAdmin,

@@ -29,6 +29,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -61,7 +62,7 @@ class AccountManagerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -488,7 +489,7 @@ class AccountManagerTest extends TestCase {
 		} else {
 			$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
 				->willReturnCallback(
-					function ($event) use ($user, $newData) {
+					function ($event) use ($user, $newData): void {
 						$this->assertInstanceOf(UserUpdatedEvent::class, $event);
 						$this->assertSame($user, $event->getUser());
 						$this->assertSame($newData, $event->getData());

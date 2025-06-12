@@ -34,17 +34,16 @@ class TestMiddleware extends Middleware {
 	public $response;
 	public $output;
 
-	private $beforeControllerThrowsEx;
-
 	/**
 	 * @param boolean $beforeControllerThrowsEx
 	 */
-	public function __construct($beforeControllerThrowsEx) {
+	public function __construct(
+		private $beforeControllerThrowsEx,
+	) {
 		self::$beforeControllerCalled = 0;
 		self::$afterControllerCalled = 0;
 		self::$afterExceptionCalled = 0;
 		self::$beforeOutputCalled = 0;
-		$this->beforeControllerThrowsEx = $beforeControllerThrowsEx;
 	}
 
 	public function beforeController($controller, $methodName) {
@@ -136,13 +135,13 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 	public function testAfterExceptionShouldReturnResponseOfMiddleware(): void {
 		$response = new Response();
-		$m1 = $this->getMockBuilder(\OCP\AppFramework\Middleware::class)
+		$m1 = $this->getMockBuilder(Middleware::class)
 			->onlyMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m1->expects($this->never())
 			->method('afterException');
 
-		$m2 = $this->getMockBuilder(\OCP\AppFramework\Middleware::class)
+		$m2 = $this->getMockBuilder(Middleware::class)
 			->onlyMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m2->expects($this->once())

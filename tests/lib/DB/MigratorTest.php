@@ -16,8 +16,10 @@ use OC\DB\Migrator;
 use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class MigratorTest
@@ -46,15 +48,15 @@ class MigratorTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = \OC::$server->getConfig();
-		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
+		$this->config = Server::get(IConfig::class);
+		$this->connection = Server::get(\OC\DB\Connection::class);
 
 		$this->tableName = $this->getUniqueTableName();
 		$this->tableNameTmp = $this->getUniqueTableName();
 	}
 
 	private function getMigrator(): Migrator {
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {

@@ -10,6 +10,8 @@ namespace Test\Files;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\Files\InvalidPathException;
+use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class PathVerificationTest
@@ -31,7 +33,7 @@ class PathVerificationTest extends \Test\TestCase {
 
 
 	public function testPathVerificationFileNameTooLong(): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Filename is too long');
 
 		$fileName = str_repeat('a', 500);
@@ -43,7 +45,7 @@ class PathVerificationTest extends \Test\TestCase {
 	 * @dataProvider providesEmptyFiles
 	 */
 	public function testPathVerificationEmptyFileName($fileName): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Empty filename is not allowed');
 
 		$this->view->verifyPath('', $fileName);
@@ -60,7 +62,7 @@ class PathVerificationTest extends \Test\TestCase {
 	 * @dataProvider providesDotFiles
 	 */
 	public function testPathVerificationDotFiles($fileName): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Dot files are not allowed');
 
 		$this->view->verifyPath('', $fileName);
@@ -83,7 +85,7 @@ class PathVerificationTest extends \Test\TestCase {
 	 * @dataProvider providesAstralPlane
 	 */
 	public function testPathVerificationAstralPlane($fileName): void {
-		$connection = \OC::$server->getDatabaseConnection();
+		$connection = Server::get(IDBConnection::class);
 
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);

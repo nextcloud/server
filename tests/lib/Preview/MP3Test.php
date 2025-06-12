@@ -7,6 +7,8 @@
 
 namespace Test\Preview;
 
+use OC\Preview\MP3;
+
 /**
  * Class MP3Test
  *
@@ -22,6 +24,6 @@ class MP3Test extends Provider {
 		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 		$this->width = 200;
 		$this->height = 200;
-		$this->provider = new \OC\Preview\MP3;
+		$this->provider = new MP3;
 	}
 }

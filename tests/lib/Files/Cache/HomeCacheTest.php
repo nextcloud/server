@@ -7,24 +7,20 @@
 
 namespace Test\Files\Cache;
 
-class DummyUser extends \OC\User\User {
-	/**
-	 * @var string $home
-	 */
-	private $home;
+use OC\Files\Storage\Home;
+use OC\User\User;
+use OCP\ITempManager;
+use OCP\Server;
 
-	/**
-	 * @var string $uid
-	 */
-	private $uid;
-
+class DummyUser extends User {
 	/**
 	 * @param string $uid
 	 * @param string $home
 	 */
-	public function __construct($uid, $home) {
-		$this->home = $home;
-		$this->uid = $uid;
+	public function __construct(
+		private $uid,
+		private $home,
+	) {
 	}
 
 	/**
@@ -68,8 +64,8 @@ class HomeCacheTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->user = new DummyUser('foo', \OC::$server->getTempManager()->getTemporaryFolder());
-		$this->storage = new \OC\Files\Storage\Home(['user' => $this->user]);
+		$this->user = new DummyUser('foo', Server::get(ITempManager::class)->getTemporaryFolder());
+		$this->storage = new Home(['user' => $this->user]);
 		$this->cache = $this->storage->getCache();
 	}
 

@@ -69,7 +69,7 @@ class DeleteTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('deleteTags')
-			->willReturnCallback(function ($tagId) {
+			->willReturnCallback(function ($tagId): void {
 				throw new TagNotFoundException();
 			});
 

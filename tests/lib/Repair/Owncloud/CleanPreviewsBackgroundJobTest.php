@@ -84,7 +84,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -127,7 +127,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -150,7 +150,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -178,7 +178,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -226,7 +226,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 

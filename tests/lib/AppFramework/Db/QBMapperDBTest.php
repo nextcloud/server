@@ -70,7 +70,7 @@ class QBMapperDBTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->prepareTestingTable();
 	}
 

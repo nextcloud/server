@@ -7,13 +7,15 @@
 namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\Azure;
+use OCP\IConfig;
+use OCP\Server;
 
 /**
  * @group PRIMARY-azure
  */
 class AzureTest extends ObjectStoreTestCase {
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Azure') {
 			$this->markTestSkipped('objectstore not configured for azure');
 		}

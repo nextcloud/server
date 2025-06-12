@@ -8,6 +8,8 @@
 namespace Test;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\Config;
+use OC\Server;
 use OCP\Comments\ICommentsManager;
 
 /**
@@ -24,8 +26,8 @@ class ServerTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$config = new \OC\Config(\OC::$configDir);
-		$this->server = new \OC\Server('', $config);
+		$config = new Config(\OC::$configDir);
+		$this->server = new Server('', $config);
 	}
 
 	public static function dataTestQuery(): array {

@@ -7,6 +7,8 @@
 
 namespace Test\Preview;
 
+use OC\Preview\TXT;
+
 /**
  * Class TXTTest
  *
@@ -23,6 +25,6 @@ class TXTTest extends Provider {
 		// Arbitrary width and length which won't be used to calculate the ratio
 		$this->width = 500;
 		$this->height = 200;
-		$this->provider = new \OC\Preview\TXT;
+		$this->provider = new TXT;
 	}
 }

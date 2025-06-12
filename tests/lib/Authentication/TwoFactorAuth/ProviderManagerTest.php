@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace lib\Authentication\TwoFactorAuth;
 
+use OC\Authentication\Exceptions\InvalidProviderException;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OCP\Authentication\TwoFactorAuth\IActivatableByAdmin;
@@ -43,7 +44,7 @@ class ProviderManagerTest extends TestCase {
 
 	
 	public function testTryEnableInvalidProvider(): void {
-		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
+		$this->expectException(InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryEnableProviderFor('none', $user);
@@ -89,7 +90,7 @@ class ProviderManagerTest extends TestCase {
 
 	
 	public function testTryDisableInvalidProvider(): void {
-		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
+		$this->expectException(InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryDisableProviderFor('none', $user);

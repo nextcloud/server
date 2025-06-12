@@ -7,12 +7,14 @@
 
 namespace Test;
 
+use OC\LargeFileHelper;
+
 class LargeFileHelperTest extends TestCase {
 	protected $helper;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->helper = new \OC\LargeFileHelper;
+		$this->helper = new LargeFileHelper;
 	}
 
 	public function testFormatUnsignedIntegerFloat(): void {

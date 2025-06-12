@@ -91,7 +91,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		];
 		$this->manager->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

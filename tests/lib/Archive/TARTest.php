@@ -8,6 +8,8 @@
 namespace Test\Archive;
 
 use OC\Archive\TAR;
+use OCP\ITempManager;
+use OCP\Server;
 
 class TARTest extends TestBase {
 	protected function getExisting() {
@@ -16,6 +18,6 @@ class TARTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new TAR(\OC::$server->getTempManager()->getTemporaryFile('.tar.gz'));
+		return new TAR(Server::get(ITempManager::class)->getTemporaryFile('.tar.gz'));
 	}
 }

@@ -8,6 +8,11 @@
 namespace Test;
 
 use OC_Util;
+use OCP\Files;
+use OCP\IConfig;
+use OCP\ISession;
+use OCP\ITempManager;
+use OCP\Server;
 use OCP\Util;
 
 /**
@@ -95,7 +100,7 @@ class UtilTest extends \Test\TestCase {
 	 * If no strict email check is enabled "localhost" should validate as a valid email domain
 	 */
 	public function testGetDefaultEmailAddress(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
 		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost', $email);
@@ -103,7 +108,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetDefaultEmailAddressFromConfig(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$config->setSystemValue('mail_domain', 'example.com');
 		$email = Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@example.com', $email);
@@ -111,7 +116,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetConfiguredEmailAddressFromConfig(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
 		$email = Util::getDefaultEmailAddress('no-reply');
@@ -121,7 +126,7 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetInstanceIdGeneratesValidId(): void {
-		\OC::$server->getConfig()->deleteSystemValue('instanceid');
+		Server::get(IConfig::class)->deleteSystemValue('instanceid');
 		$instanceId = OC_Util::getInstanceId();
 		$this->assertStringStartsWith('oc', $instanceId);
 		$matchesRegex = preg_match('/^[a-z0-9]+$/', $instanceId);
@@ -132,37 +137,37 @@ class UtilTest extends \Test\TestCase {
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore(): void {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
-		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
+		$oldSessionVersion = Server::get(ISession::class)->get('OC_Version');
 
 		$this->assertFalse(Util::needUpgrade());
 
 		$config->setSystemValue('version', '7.0.0.0');
-		\OC::$server->getSession()->set('OC_Version', [7, 0, 0, 1]);
+		Server::get(ISession::class)->set('OC_Version', [7, 0, 0, 1]);
 		self::invokePrivate(new Util, 'needUpgradeCache', [null]);
 
 		$this->assertTrue(Util::needUpgrade());
 
 		$config->setSystemValue('version', $oldConfigVersion);
-		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
+		Server::get(ISession::class)->set('OC_Version', $oldSessionVersion);
 		self::invokePrivate(new Util, 'needUpgradeCache', [null]);
 
 		$this->assertFalse(Util::needUpgrade());
 	}
 
 	public function testCheckDataDirectoryValidity(): void {
-		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		touch($dataDir . '/.ncdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
-		\OCP\Files::rmdirr($dataDir);
+		Files::rmdirr($dataDir);
 
-		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$dataDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		// no touch
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertNotEmpty($errors);
-		\OCP\Files::rmdirr($dataDir);
+		Files::rmdirr($dataDir);
 
 		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
 		$this->assertNotEmpty($errors);

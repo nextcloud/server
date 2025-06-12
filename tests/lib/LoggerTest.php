@@ -291,7 +291,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 */
 	public function testDetectclosure(string $user, string $password): void {
 		$this->mockDefaultLogLevel();
-		$a = function ($user, $password) {
+		$a = function ($user, $password): void {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())

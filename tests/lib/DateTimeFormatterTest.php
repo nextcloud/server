@@ -7,6 +7,9 @@
 
 namespace Test;
 
+use OC\DateTimeFormatter;
+use OCP\Util;
+
 class DateTimeFormatterTest extends TestCase {
 	/** @var \OC\DateTimeFormatter */
 	protected $formatter;
@@ -33,7 +36,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->formatter = new \OC\DateTimeFormatter(new \DateTimeZone('UTC'), \OCP\Util::getL10N('lib', 'en'));
+		$this->formatter = new DateTimeFormatter(new \DateTimeZone('UTC'), Util::getL10N('lib', 'en'));
 	}
 
 	protected static function getTimestampAgo($time, $seconds = 0, $minutes = 0, $hours = 0, $days = 0, $years = 0) {
@@ -42,7 +45,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	public static function formatTimeSpanData(): array {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = \OCP\Util::getL10N('lib', 'de');
+		$deL10N = Util::getL10N('lib', 'de');
 		return [
 			['seconds ago',	$time, $time],
 			['in a few seconds', $time + 5 , $time],
@@ -83,7 +86,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	public static function formatDateSpanData(): array {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = \OCP\Util::getL10N('lib', 'de');
+		$deL10N = Util::getL10N('lib', 'de');
 		return [
 			// Normal testing
 			['today',			self::getTimestampAgo($time, 30, 15), $time],

@@ -481,7 +481,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
@@ -532,7 +532,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
@@ -584,7 +584,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));

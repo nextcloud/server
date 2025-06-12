@@ -308,7 +308,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

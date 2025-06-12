@@ -53,7 +53,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 *
 	 */
 	public function testUnavailable(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
+		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
 			->method('getAvailability')
@@ -82,7 +82,7 @@ class AvailabilityTest extends \Test\TestCase {
 		];
 		$this->storage->expects($this->exactly(2))
 			->method('setAvailability')
-			->willReturnCallback(function ($value) use (&$calls) {
+			->willReturnCallback(function ($value) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $value);
 			});
@@ -97,7 +97,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 *
 	 */
 	public function testAvailableThrowStorageNotAvailable(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
+		$this->expectException(StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
 			->method('getAvailability')

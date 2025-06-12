@@ -6,6 +6,7 @@
  */
 namespace Test\Encryption;
 
+use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
 use OC\Encryption\Util;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
@@ -91,7 +92,7 @@ class UtilTest extends TestCase {
 
 
 	public function testCreateHeaderFailed(): void {
-		$this->expectException(\OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException::class);
+		$this->expectException(EncryptionHeaderKeyExistsException::class);
 
 
 		$header = ['header1' => 1, 'header2' => 2, 'oc_encryption_module' => 'foo'];

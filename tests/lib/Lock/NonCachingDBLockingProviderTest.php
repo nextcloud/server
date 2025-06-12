@@ -6,7 +6,10 @@
 
 namespace Test\Lock;
 
+use OC\Lock\DBLockingProvider;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * @group DB
@@ -18,8 +21,8 @@ class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	 * @return \OCP\Lock\ILockingProvider
 	 */
 	protected function getInstance() {
-		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
+		$this->connection = Server::get(IDBConnection::class);
+		return new DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 
 	public function testDoubleShared(): void {

@@ -50,7 +50,7 @@ class AppManagerTest extends TestCase {
 			});
 		$config->expects($this->any())
 			->method('setValue')
-			->willReturnCallback(function ($app, $key, $value) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key, $value) use (&$appConfig): void {
 				if (!isset($appConfig[$app])) {
 					$appConfig[$app] = [];
 				}
@@ -171,7 +171,7 @@ class AppManagerTest extends TestCase {
 	}
 
 	public static function dataGetAppIcon(): array {
-		$nothing = function ($appId) {
+		$nothing = function ($appId): void {
 			self::assertEquals('test', $appId);
 			throw new \RuntimeException();
 		};

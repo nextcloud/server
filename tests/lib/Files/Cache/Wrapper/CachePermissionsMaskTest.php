@@ -7,6 +7,7 @@
 
 namespace Test\Files\Cache\Wrapper;
 
+use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OCP\Constants;
 use Test\Files\Cache\CacheTest;
 
@@ -31,7 +32,7 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	protected function getMaskedCached($mask) {
-		return new \OC\Files\Cache\Wrapper\CachePermissionsMask($this->sourceCache, $mask);
+		return new CachePermissionsMask($this->sourceCache, $mask);
 	}
 
 	public static function maskProvider(): array {

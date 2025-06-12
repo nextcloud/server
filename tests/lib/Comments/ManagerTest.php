@@ -43,7 +43,7 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
@@ -96,7 +96,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testGetCommentNotFound(): void {
-		$this->expectException(\OCP\Comments\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$manager = $this->getManager();
 		$manager->get('22');
@@ -116,7 +116,7 @@ class ManagerTest extends TestCase {
 		$creationDT = new \DateTime('yesterday');
 		$latestChildDT = new \DateTime();
 
-		$qb = \OCP\Server::get(IDBConnection::class)->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([
@@ -158,7 +158,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testGetTreeNotFound(): void {
-		$this->expectException(\OCP\Comments\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$manager = $this->getManager();
 		$manager->getTree('22');
@@ -450,7 +450,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testDelete(): void {
-		$this->expectException(\OCP\Comments\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$manager = $this->getManager();
 
@@ -564,7 +564,7 @@ class ManagerTest extends TestCase {
 		$manager->delete($comment->getId());
 
 		$comment->setMessage('very beautiful, I am really so much impressed!');
-		$this->expectException(\OCP\Comments\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 		$manager->save($comment);
 	}
 
@@ -652,10 +652,10 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteReferencesOfActorWithUserManagement(): void {
-		$user = \OCP\Server::get(IUserManager::class)->createUser('xenia', 'NotAnEasyPassword123456+');
+		$user = Server::get(IUserManager::class)->createUser('xenia', 'NotAnEasyPassword123456+');
 		$this->assertInstanceOf(IUser::class, $user);
 
-		$manager = \OCP\Server::get(ICommentsManager::class);
+		$manager = Server::get(ICommentsManager::class);
 		$comment = $manager->create('users', $user->getUID(), 'files', 'file64');
 		$comment
 			->setMessage('Most important comment I ever left on the Internet.')
@@ -2425,7 +2425,7 @@ class ManagerTest extends TestCase {
 		$expected = array_combine($keys, $expected);
 
 		if ($notFound) {
-			$this->expectException(\OCP\Comments\NotFoundException::class);
+			$this->expectException(NotFoundException::class);
 		}
 		$comment = $processedComments[$expected['message'] . '#' . $expected['actorId']];
 		$actual = $manager->getReactionComment((int)$comment->getParentId(), $comment->getActorType(), $comment->getActorId(), $comment->getMessage());

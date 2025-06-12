@@ -8,6 +8,8 @@ namespace Test\Comments;
 
 use OC\Comments\Comment;
 use OCP\Comments\IComment;
+use OCP\Comments\IllegalIDChangeException;
+use OCP\Comments\MessageTooLongException;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
@@ -62,7 +64,7 @@ class CommentTest extends TestCase {
 
 
 	public function testSetIdIllegalInput(): void {
-		$this->expectException(\OCP\Comments\IllegalIDChangeException::class);
+		$this->expectException(IllegalIDChangeException::class);
 
 		$comment = new Comment();
 
@@ -131,7 +133,7 @@ class CommentTest extends TestCase {
 
 
 	public function testSetUberlongMessage(): void {
-		$this->expectException(\OCP\Comments\MessageTooLongException::class);
+		$this->expectException(MessageTooLongException::class);
 
 		$comment = new Comment();
 		$msg = str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x');

@@ -11,10 +11,14 @@ use OC\Encryption\EncryptionWrapper;
 use OC\Files\SetupManager;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
+use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -51,7 +55,7 @@ trait EncryptionTrait {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		// needed for fully logout
-		\OC::$server->getUserSession()->setUser(null);
+		Server::get(IUserSession::class)->setUser(null);
 
 		$this->setupManager->tearDown();
 
@@ -81,32 +85,32 @@ trait EncryptionTrait {
 	protected function postLogin() {
 		$encryptionWrapper = new EncryptionWrapper(
 			new ArrayCache(),
-			\OC::$server->getEncryptionManager(),
-			\OC::$server->get(LoggerInterface::class)
+			Server::get(\OCP\Encryption\IManager::class),
+			Server::get(LoggerInterface::class)
 		);
 
 		$this->registerStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage']);
 	}
 
 	protected function setUpEncryptionTrait() {
-		$isReady = \OC::$server->getEncryptionManager()->isReady();
+		$isReady = Server::get(\OCP\Encryption\IManager::class)->isReady();
 		if (!$isReady) {
 			$this->markTestSkipped('Encryption not ready');
 		}
 
-		$this->userManager = \OC::$server->get(IUserManager::class);
-		$this->setupManager = \OC::$server->get(SetupManager::class);
+		$this->userManager = Server::get(IUserManager::class);
+		$this->setupManager = Server::get(SetupManager::class);
 
 		\OC_App::loadApp('encryption');
 
 		$this->encryptionApp = new Application([], $isReady);
 
-		$this->config = \OC::$server->getConfig();
+		$this->config = Server::get(IConfig::class);
 		$this->encryptionWasEnabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
 		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
-		$this->config->setAppValue('core', 'default_encryption_module', \OCA\Encryption\Crypto\Encryption::ID);
+		$this->config->setAppValue('core', 'default_encryption_module', Encryption::ID);
 		$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-		$this->assertTrue(\OC::$server->getEncryptionManager()->isEnabled());
+		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
 	}
 
 	protected function tearDownEncryptionTrait() {

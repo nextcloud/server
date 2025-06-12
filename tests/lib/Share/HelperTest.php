@@ -7,6 +7,8 @@
 
 namespace Test\Share;
 
+use OC\Share\Helper;
+
 /**
  * @group DB
  * Class Helper
@@ -37,7 +39,7 @@ class HelperTest extends \Test\TestCase {
 	 * @dataProvider expireDateProvider
 	 */
 	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected): void {
-		$result = \OC\Share\Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
+		$result = Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
 		$this->assertSame($expected, $result);
 	}
 
@@ -50,7 +52,7 @@ class HelperTest extends \Test\TestCase {
 	 */
 	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
-			\OC\Share\Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
+			Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
 		);
 	}
 

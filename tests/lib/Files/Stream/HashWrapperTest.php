@@ -25,7 +25,7 @@ class HashWrapperTest extends TestCase {
 			$data = $tmpData;
 		}
 
-		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash) {
+		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash): void {
 			$this->assertEquals($hash, $result);
 		});
 		stream_get_contents($wrapper);

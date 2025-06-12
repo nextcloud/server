@@ -52,7 +52,7 @@ class CleanPreviewsTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->will($this->returnCallback(function (\Closure $function) use (&$user1, $user2) {
+			->will($this->returnCallback(function (\Closure $function) use (&$user1, $user2): void {
 				$function($user1);
 				$function($user2);
 			}));
@@ -60,7 +60,7 @@ class CleanPreviewsTest extends TestCase {
 		$jobListCalls = [];
 		$this->jobList->expects($this->exactly(2))
 			->method('add')
-			->willReturnCallback(function () use (&$jobListCalls) {
+			->willReturnCallback(function () use (&$jobListCalls): void {
 				$jobListCalls[] = func_get_args();
 			});
 
