@@ -271,7 +271,7 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		}
-		
+
 		if ($invitation->isAccepted() === true) {
 			$response = ['message' => 'Invite already accepted', 'error' => true];
 			$status = Http::STATUS_CONFLICT;
@@ -291,8 +291,8 @@ class RequestHandlerController extends Controller {
 			$response->throttle();
 			return $response;
 		}
-		
-		$sharedFromEmail = $localUser->getPrimaryEMailAddress();
+
+		$sharedFromEmail = $localUser->getEMailAddress();
 		if ($sharedFromEmail === null) {
 			$response = ['message' => 'Invalid or non existing token', 'error' => true];
 			$status = Http::STATUS_BAD_REQUEST;
