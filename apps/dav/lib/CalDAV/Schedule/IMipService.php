@@ -159,7 +159,35 @@ class IMipService {
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
-		
+		return $data;
+	}
+
+	/**
+	 * @param VEvent $vEvent
+	 * @return array
+	 */
+	public function buildReplyBodyData(VEvent $vEvent): array {
+		// construct event reader
+		$eventReader = new EventReader($vEvent);
+		$defaultVal = '';
+		$data = [];
+		$data['meeting_when'] = $this->generateWhenString($eventReader);
+
+		foreach (self::STRING_DIFF as $key => $property) {
+			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
+		}
+
+		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
+			$data['meeting_location_html'] = $locationHtml;
+		}
+
+		$data['meeting_url_html'] = $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $data['meeting_url']) : '';
+
+		// generate occurring next string
+		if ($eventReader->recurs()) {
+			$data['meeting_occurring'] = $this->generateOccurringString($eventReader);
+		}
+
 		return $data;
 	}
 
