@@ -161,7 +161,7 @@ class FileProfilerStorage {
 				$profile->getTime(),
 				$profile->getParentToken(),
 				$profile->getStatusCode(),
-			]);
+			], escape: '');
 			fclose($file);
 		}
 
