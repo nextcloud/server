@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Uaslódáileadh na comhaid go rathúil",
     "View terms of service" : "Féach ar théarmaí seirbhíse",
     "Terms of service" : "Tearmaí Seirbhís",
-    "Upload files to {folder}" : "Uaslódáil comhaid go {folder}",
-    "Submit name" : "Cuir ainm",
-    "{ownerDisplayName} shared a folder with you." : "Roinn {ownerDisplayName} fillteán leat.",
-    "To upload files, you need to provide your name first." : "Chun comhaid a uaslódáil, ní mór duit d'ainm a sholáthar ar dtús.",
-    "Name" : "Ainm",
-    "Enter your name" : "Cuir isteach d'ainm",
     "Share with {userName}" : "Roinn le {userName}",
     "Share with email {email}" : "Roinn le ríomhphost {email}",
     "Share with group" : "Roinn leis an ngrúpa",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Comhroinn nóta don fhaighteoir sábháilte",
     "Share password saved" : "Comhroinn pasfhocal sábháilte",
     "Share permissions saved" : "Sábháladh ceadanna comhroinnte",
-    "Filename must not be empty." : "Ní ceadmhach ainm an chomhaid a bheith folamh.",
+    "Upload files to {folder}" : "Uaslódáil comhaid go {folder}",
+    "{ownerDisplayName} shared a folder with you." : "Roinn {ownerDisplayName} fillteán leat.",
     "Names must not start with a dot." : "Ní mór ainmneacha a bheith ag tosú le ponc.",
     "\"{char}\" is not allowed inside a name." : "Ní cheadaítear \"{char}\" laistigh d'ainm.",
     "\"{segment}\" is a reserved name and not allowed." : "Is ainm curtha in áirithe é \"{segment}\" agus ní cheadaítear é.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["Cuireadh 1 seoladh ríomhphoist leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis","{count} seoladh ríomhphoist curtha leis"],
     "Search for share recipients" : "Cuardaigh faighteoirí scaireanna",
     "No recommendations. Start typing." : "Gan moltaí. Tosaigh ag clóscríobh.",
+    "To upload files, you need to provide your name first." : "Chun comhaid a uaslódáil, ní mór duit d'ainm a sholáthar ar dtús.",
+    "Enter your name" : "Cuir isteach d'ainm",
+    "Submit name" : "Cuir ainm",
+    "Name" : "Ainm",
     "Share with accounts, teams, federated cloud id" : "Comhroinn le cuntais, foirne, aitheantas scamall cónaidhme",
-    "Email, federated cloud id" : "Ríomhphost, aitheantas scamall cónaidhme"
+    "Email, federated cloud id" : "Ríomhphost, aitheantas scamall cónaidhme",
+    "Filename must not be empty." : "Ní ceadmhach ainm an chomhaid a bheith folamh."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

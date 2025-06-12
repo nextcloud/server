@@ -419,6 +419,7 @@
     "Admin" : "Riarachán",
     "Help" : "Cabhrú",
     "Access forbidden" : "Rochtain toirmiscthe",
+    "You are not allowed to access this page." : "Níl cead agat rochtain a fháil ar an leathanach seo.",
     "Back to %s" : "Ar ais go dtí %s",
     "Page not found" : "Ní bhfuarthas an leathanach",
     "The page could not be found on the server or you may not be allowed to view it." : "Níorbh fhéidir an leathanach a fháil ar an bhfreastalaí nó b'fhéidir nach bhfuil cead agat é a fheiceáil.",

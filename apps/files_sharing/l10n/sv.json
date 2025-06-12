@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Filer har laddats upp",
     "View terms of service" : "Visa användarvillkoren",
     "Terms of service" : "Användarvillkor",
-    "Upload files to {folder}" : "Ladda upp filer till {folder}",
-    "Submit name" : "Skicka namn",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delade en mapp med dig.",
-    "To upload files, you need to provide your name first." : "För att ladda upp filer måste du först ange ditt namn.",
-    "Name" : "Namn",
-    "Enter your name" : "Ange ditt namn",
     "Share with {userName}" : "Dela med {userName}",
     "Share with email {email}" : "Dela med e-post {email}",
     "Share with group" : "Dela med grupp",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Delningens notering för mottagare sparad",
     "Share password saved" : "Lösenord för delning sparad",
     "Share permissions saved" : "Delningsbehörighet sparad",
-    "Filename must not be empty." : "Filnamn får inte vara tomt.",
+    "Upload files to {folder}" : "Ladda upp filer till {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delade en mapp med dig.",
     "Names must not start with a dot." : "Namn får inte börja med en punkt.",
     "\"{char}\" is not allowed inside a name." : "\"{char}\" är inte tillåtet i ett namn.",
     "\"{segment}\" is a reserved name and not allowed." : "\"{segment}\" är ett reserverat namn och inte tillåtet.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["1 e-postadress har lagts till","{count} e-postadresser har lagts till"],
     "Search for share recipients" : "Sök efter delningsmottagare",
     "No recommendations. Start typing." : "Inga rekommendationer. Börja skriva.",
+    "To upload files, you need to provide your name first." : "För att ladda upp filer måste du först ange ditt namn.",
+    "Enter your name" : "Ange ditt namn",
+    "Submit name" : "Skicka namn",
+    "Name" : "Namn",
     "Share with accounts, teams, federated cloud id" : "Dela med konton, team, federerat moln-id",
-    "Email, federated cloud id" : "E-post, federerat moln-id"
+    "Email, federated cloud id" : "E-post, federerat moln-id",
+    "Filename must not be empty." : "Filnamn får inte vara tomt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -421,6 +421,7 @@ OC.L10N.register(
     "Admin" : "Správa",
     "Help" : "Nápověda",
     "Access forbidden" : "Přístup zakázán",
+    "You are not allowed to access this page." : "Nemáte oprávnění k přístupu k této stránce.",
     "Back to %s" : "Zpět na %s",
     "Page not found" : "Stránka nenalezena",
     "The page could not be found on the server or you may not be allowed to view it." : "Stránku se na serveru nepodařilo nalézt nebo nemáte oprávnění ji zobrazit.",

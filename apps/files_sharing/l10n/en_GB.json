@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Successfully uploaded files",
     "View terms of service" : "View terms of service",
     "Terms of service" : "Terms of service",
-    "Upload files to {folder}" : "Upload files to {folder}",
-    "Submit name" : "Submit name",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} shared a folder with you.",
-    "To upload files, you need to provide your name first." : "To upload files, you need to provide your name first.",
-    "Name" : "Surname",
-    "Enter your name" : "Enter your name",
     "Share with {userName}" : "Share with {userName}",
     "Share with email {email}" : "Share with email {email}",
     "Share with group" : "Share with group",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Share note for recipient saved",
     "Share password saved" : "Share password saved",
     "Share permissions saved" : "Share permissions saved",
-    "Filename must not be empty." : "Filename must not be empty.",
+    "Upload files to {folder}" : "Upload files to {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} shared a folder with you.",
     "Names must not start with a dot." : "Names must not start with a dot.",
     "\"{char}\" is not allowed inside a name." : "\"{char}\" is not allowed inside a name.",
     "\"{segment}\" is a reserved name and not allowed." : "\"{segment}\" is a reserved name and not allowed.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["1 email address added","{count} email addresses added"],
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",
+    "To upload files, you need to provide your name first." : "To upload files, you need to provide your name first.",
+    "Enter your name" : "Enter your name",
+    "Submit name" : "Submit name",
+    "Name" : "Surname",
     "Share with accounts, teams, federated cloud id" : "Share with accounts, teams, federated cloud id",
-    "Email, federated cloud id" : "Email, federated cloud id"
+    "Email, federated cloud id" : "Email, federated cloud id",
+    "Filename must not be empty." : "Filename must not be empty."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

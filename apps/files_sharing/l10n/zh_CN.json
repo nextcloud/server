@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "已成功上传文件",
     "View terms of service" : "查看服务条款",
     "Terms of service" : "服务条款",
-    "Upload files to {folder}" : "将文件上传到 {folder}",
-    "Submit name" : "提交名称",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} 与您分享了一个文件夹。",
-    "To upload files, you need to provide your name first." : "要上传文件，您需要先提供名称。",
-    "Name" : "名称",
-    "Enter your name" : "输入你的名字",
     "Share with {userName}" : "分享至 {userName}",
     "Share with email {email}" : "与邮箱 {email} 分享",
     "Share with group" : "分享至群组",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "接收者的共享备注已保存",
     "Share password saved" : "共享密码已保存",
     "Share permissions saved" : "共享权限已保存",
-    "Filename must not be empty." : "文件名不能为空。",
+    "Upload files to {folder}" : "将文件上传到 {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} 与您分享了一个文件夹。",
     "Names must not start with a dot." : "名称不能以点开头。",
     "\"{char}\" is not allowed inside a name." : "名称中不允许使用“{char}”。",
     "\"{segment}\" is a reserved name and not allowed." : "“{segment}”是保留名称，不允许使用。",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["{count}电子邮箱地址已添加"],
     "Search for share recipients" : "查找共享参与者",
     "No recommendations. Start typing." : "无建议。开始输入。",
+    "To upload files, you need to provide your name first." : "要上传文件，您需要先提供名称。",
+    "Enter your name" : "输入你的名字",
+    "Submit name" : "提交名称",
+    "Name" : "名称",
     "Share with accounts, teams, federated cloud id" : "与账号、团队、联合云 ID 共享",
-    "Email, federated cloud id" : "电子邮件、联合云 ID"
+    "Email, federated cloud id" : "电子邮件、联合云 ID",
+    "Filename must not be empty." : "文件名不能为空。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

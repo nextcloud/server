@@ -249,12 +249,6 @@
     "By uploading files, you agree to the terms of service." : "Загружая файлы, вы соглашаетесь с условиями обслуживания.",
     "View terms of service" : "Ознакомиться с условиями предоставления услуг",
     "Terms of service" : "Условия использования",
-    "Upload files to {folder}" : "Загрузка файлов в {folder}",
-    "Submit name" : "Отправить имя",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} поделился с вами папкой.",
-    "To upload files, you need to provide your name first." : "Чтобы загрузить файлы, вам необходимо сначала указать свое имя.",
-    "Name" : "Имя",
-    "Enter your name" : "Введите своё имя",
     "Share with {userName}" : "Поделиться с {userName}",
     "Share with email {email}" : "Поделитесь с помощью электронной почты",
     "Share with group" : "Поделиться с группой",
@@ -363,7 +357,8 @@
     "Share label saved" : "Метка общего доступа сохранена",
     "Share password saved" : "Пароль общего доступа сохранен",
     "Share permissions saved" : "Разрешения общего доступа сохранены",
-    "Filename must not be empty." : "Имя файла не должно быть пустым.",
+    "Upload files to {folder}" : "Загрузка файлов в {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} поделился с вами папкой.",
     "Shared by" : "Поделился",
     "Shared with" : "Общий доступ",
     "Password created successfully" : "Пароль создан",
@@ -398,7 +393,12 @@
     "Download all files" : "Скачать все файлы",
     "Search for share recipients" : "Найти больше получателей общего ресурса",
     "No recommendations. Start typing." : "Рекомендации отсутствуют, начните вводить символы",
+    "To upload files, you need to provide your name first." : "Чтобы загрузить файлы, вам необходимо сначала указать свое имя.",
+    "Enter your name" : "Введите своё имя",
+    "Submit name" : "Отправить имя",
+    "Name" : "Имя",
     "Share with accounts, teams, federated cloud id" : "Поделиться с учетными записями, командами, идентификатором федеративного облака",
-    "Email, federated cloud id" : "Электронная почта, идентификатор федеративного облака"
+    "Email, federated cloud id" : "Электронная почта, идентификатор федеративного облака",
+    "Filename must not be empty." : "Имя файла не должно быть пустым."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -419,6 +419,7 @@
     "Admin" : "管理",
     "Help" : "說明",
     "Access forbidden" : "存取被拒",
+    "You are not allowed to access this page." : "您無法存取此頁面。",
     "Back to %s" : "返回 %s",
     "Page not found" : "找不到頁面",
     "The page could not be found on the server or you may not be allowed to view it." : "在伺服器上找不到該頁面，或者您可能無權檢視。",

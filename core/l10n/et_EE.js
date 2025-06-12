@@ -421,6 +421,7 @@ OC.L10N.register(
     "Admin" : "Peakasutaja",
     "Help" : "Abiinfo",
     "Access forbidden" : "Ligipääs on keelatud",
+    "You are not allowed to access this page." : "Sul pole õigust seda lehte vaadata.",
     "Back to %s" : "Tagasi siia: %s",
     "Page not found" : "Lehekülge ei leitud",
     "The page could not be found on the server or you may not be allowed to view it." : "Seda lehekülge selles serveris ei leidu või sul puudub õigus seda vaadata.",

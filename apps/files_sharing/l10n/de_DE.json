@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Dateien wurden hochgeladen",
     "View terms of service" : "Nutzungsbedingungen anzeigen",
     "Terms of service" : "Nutzungsbedingungen",
-    "Upload files to {folder}" : "Dateien hochladen nach {folder}",
-    "Submit name" : "Name übermitteln",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} hat einen Ordner mit Ihnen geteilt.",
-    "To upload files, you need to provide your name first." : "Um Dateien hochzuladen, müssen Sie zunächst Ihren Namen angeben.",
-    "Name" : "Name",
-    "Enter your name" : "Geben Sie Ihren Namen ein",
     "Share with {userName}" : "Mit {userName} teilen",
     "Share with email {email}" : "Mit E-Mail {email} teilen",
     "Share with group" : "Mit Gruppe teilen",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Freigabe-Notiz für Empfänger gespeichert",
     "Share password saved" : "Freigabe-Passwort gespeichert",
     "Share permissions saved" : "Freigabeberechtigungen gespeichert",
-    "Filename must not be empty." : "Dateiname darf nicht leer sein.",
+    "Upload files to {folder}" : "Dateien hochladen nach {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} hat einen Ordner mit Ihnen geteilt.",
     "Names must not start with a dot." : "Namen dürfen nicht mit einem Punkt beginnen.",
     "\"{char}\" is not allowed inside a name." : "\"{char}\" ist innerhalb eines Namens unzulässig.",
     "\"{segment}\" is a reserved name and not allowed." : "\"{segment}\" ist ein reservierter Name und unzulässig.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["1 E-Mail-Adresse hinzugefügt","{count} E-Mail-Adressen hinzugefügt"],
     "Search for share recipients" : "Nach Freigabeempfängern suchen",
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginnen Sie mit der Eingabe.",
+    "To upload files, you need to provide your name first." : "Um Dateien hochzuladen, müssen Sie zunächst Ihren Namen angeben.",
+    "Enter your name" : "Geben Sie Ihren Namen ein",
+    "Submit name" : "Name übermitteln",
+    "Name" : "Name",
     "Share with accounts, teams, federated cloud id" : "Teilen mit Konten, Teams, Federated-Cloud-IDs",
-    "Email, federated cloud id" : "Name, Federated-Cloud-ID"
+    "Email, federated cloud id" : "Name, Federated-Cloud-ID",
+    "Filename must not be empty." : "Dateiname darf nicht leer sein."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
