@@ -255,12 +255,6 @@
     "By uploading files, you agree to the terms of service." : "Ao enviar ficheiros acepta as condicións de servizo.",
     "View terms of service" : "Ver as condicións de servizo",
     "Terms of service" : "Condicións de servizo",
-    "Upload files to {folder}" : "Enviar ficheiros a {folder}",
-    "Submit name" : "Enviar o nome",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} compartiu un cartafol con Vde.",
-    "To upload files, you need to provide your name first." : "Para enviar ficheiros, primeiro debes fornecer o teu nome.",
-    "Name" : "Nome",
-    "Enter your name" : "Introduza o seu nome",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir co correo {email}",
     "Share with group" : "Compartir co grupo",
@@ -378,7 +372,8 @@
     "Share note for recipient saved" : "Gardouse a nota de compartición para o destinatario",
     "Share password saved" : "Gardouse o contrasinal para compartir",
     "Share permissions saved" : "Gardáronse os permisos para compartir",
-    "Filename must not be empty." : "O nome de ficheiro non debe estar baleiro",
+    "Upload files to {folder}" : "Enviar ficheiros a {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} compartiu un cartafol con Vde.",
     "Shared by" : "Compartido por",
     "Shared with" : "Compartido con",
     "Password created successfully" : "O contrasinal foi creado correctamente",
@@ -415,6 +410,11 @@
     "_1 email address added_::_{count} email addresses added_" : ["Foi engadido 1 enderezo de correo","Foron engadidos {count} enderezos de correo"],
     "Search for share recipients" : "Buscar destinatarios de comparticións",
     "No recommendations. Start typing." : "Non hai recomendacións. Comece a escribir.",
-    "Email, federated cloud id" : "Correo-e, ID da nube federada"
+    "To upload files, you need to provide your name first." : "Para enviar ficheiros, primeiro debes fornecer o teu nome.",
+    "Enter your name" : "Introduza o seu nome",
+    "Submit name" : "Enviar o nome",
+    "Name" : "Nome",
+    "Email, federated cloud id" : "Correo-e, ID da nube federada",
+    "Filename must not be empty." : "O nome de ficheiro non debe estar baleiro"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

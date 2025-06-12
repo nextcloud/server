@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Soubory úspěšně nahrány",
     "View terms of service" : "Zobrazit smluvní podmínky",
     "Terms of service" : "Všeobecné podmínky",
-    "Upload files to {folder}" : "Nahrát soubory do {folder}",
-    "Submit name" : "Odeslat jméno",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} vám nasdílel(a) složku.",
-    "To upload files, you need to provide your name first." : "Aby bylo možné nahrávat soubory, je třeba nejprve zadat své jméno.",
-    "Name" : "Název",
-    "Enter your name" : "Zadejte své jméno",
     "Share with {userName}" : "Nasdílet pro {userName}",
     "Share with email {email}" : "Nasdílet e-mailu {email}",
     "Share with group" : "Nasdílet skupině",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Poznámka pro příjemce sdílení uložena",
     "Share password saved" : "Heslo ke sdílení uloženo",
     "Share permissions saved" : "Oprávnění ke sdílení uložena",
-    "Filename must not be empty." : "Je třeba vyplnit název souboru.",
+    "Upload files to {folder}" : "Nahrát soubory do {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} vám nasdílel(a) složku.",
     "Names must not start with a dot." : "Je třeba, aby názvy nezačínaly tečkou.",
     "\"{char}\" is not allowed inside a name." : "„{char}“ není v názvu možné použít.",
     "\"{segment}\" is a reserved name and not allowed." : "„{segment}“ je vyhrazeným názvem a není povoleno k použití.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["Jedna e-mailová adresa přidána","{count} e-mailové adresy přidány","{count} e-mailových adres přidáno","{count} e-mailové adresy přidány"],
     "Search for share recipients" : "Vyhledat příjemce sdílení",
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
+    "To upload files, you need to provide your name first." : "Aby bylo možné nahrávat soubory, je třeba nejprve zadat své jméno.",
+    "Enter your name" : "Zadejte své jméno",
+    "Submit name" : "Odeslat jméno",
+    "Name" : "Název",
     "Share with accounts, teams, federated cloud id" : "Nasdílejte účtům, týmům, identifikátorům v rámci federovaného cloudu",
-    "Email, federated cloud id" : "E-mail, identif. federovaného cloudu"
+    "Email, federated cloud id" : "E-mail, identif. federovaného cloudu",
+    "Filename must not be empty." : "Je třeba vyplnit název souboru."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

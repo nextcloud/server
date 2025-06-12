@@ -185,8 +185,6 @@ OC.L10N.register(
     "Note:" : "Megjegyzés:",
     "File drop" : "Fájllerakat",
     "Terms of service" : "Szolgáltatási feltételek",
-    "Name" : "Név",
-    "Enter your name" : "Adja meg a nevét",
     "Update share" : "Megosztás frissítése",
     "Save share" : "Megosztás mentése",
     "Read" : "Olvasás",
@@ -259,7 +257,6 @@ OC.L10N.register(
     "Folder \"{path}\" has been unshared" : "A(z) „{path}” mappa megosztása leállítva",
     "Share label saved" : "A megosztás címkéje mentve",
     "Share password saved" : "A megosztás jelszava mentve",
-    "Filename must not be empty." : "A fájlnév nem lehet üres.",
     "Shared by" : "Megosztotta:",
     "Shared with" : "Megosztva vele:",
     "Password created successfully" : "A jelszó sikeresen létrehozva",
@@ -291,6 +288,9 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Nem sikerült hozzáadni a nyilvános hivatkozást a Nexcloudjához",
     "Download all files" : "Összes fájl letöltése",
     "Search for share recipients" : "Megosztás résztvevőinek keresése",
-    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni."
+    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
+    "Enter your name" : "Adja meg a nevét",
+    "Name" : "Név",
+    "Filename must not be empty." : "A fájlnév nem lehet üres."
 },
 "nplurals=2; plural=(n != 1);");

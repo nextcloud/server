@@ -421,6 +421,7 @@ OC.L10N.register(
     "Admin" : "Администрирование",
     "Help" : "Помощь",
     "Access forbidden" : "Доступ запрещён",
+    "You are not allowed to access this page." : "Вам не разрешен доступ к этой странице.",
     "Back to %s" : "Вернуться к %s",
     "Page not found" : "Страница не найдена",
     "The page could not be found on the server or you may not be allowed to view it." : "Страница не найдена на сервере, или у вас нет прав на ее просмотр.",

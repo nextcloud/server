@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "檔案上傳成功",
     "View terms of service" : "檢視服務條款",
     "Terms of service" : "服務條款",
-    "Upload files to {folder}" : "上傳檔案到 {folder}",
-    "Submit name" : "遞交名字",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} 與您分享了一個資料夾。",
-    "To upload files, you need to provide your name first." : "要上傳檔案，您需要先提供您的姓名。",
-    "Name" : "名字",
-    "Enter your name" : "輸入您的名稱",
     "Share with {userName}" : "與 {userName} 分享",
     "Share with email {email}" : "與電郵地址 {email} 分享",
     "Share with group" : "與群組分享",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "已儲存給收件者的分享備註",
     "Share password saved" : "已保存分享密碼",
     "Share permissions saved" : "已儲存分享權限",
-    "Filename must not be empty." : "檔案名稱不能為空。",
+    "Upload files to {folder}" : "上傳檔案到 {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} 與您分享了一個資料夾。",
     "Names must not start with a dot." : "名稱不能以「點」開始。",
     "\"{char}\" is not allowed inside a name." : "名稱中不允許出現「{char}」。",
     "\"{segment}\" is a reserved name and not allowed." : "「{segment}」是保留名稱，不允許用在名稱。",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["添加了{count}個電郵地址"],
     "Search for share recipients" : "搜尋分享參與者",
     "No recommendations. Start typing." : "沒有建議。開始輸入。",
+    "To upload files, you need to provide your name first." : "要上傳檔案，您需要先提供您的姓名。",
+    "Enter your name" : "輸入您的名稱",
+    "Submit name" : "遞交名字",
+    "Name" : "名字",
     "Share with accounts, teams, federated cloud id" : "與帳戶、團隊、聯邦雲端ID 分享",
-    "Email, federated cloud id" : "電郵地址、聯邦雲端 ID"
+    "Email, federated cloud id" : "電郵地址、聯邦雲端 ID",
+    "Filename must not be empty." : "檔案名稱不能為空。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
