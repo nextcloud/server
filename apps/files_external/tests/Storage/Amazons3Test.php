@@ -13,11 +13,12 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  * Class Amazons3Test
  *
  * @group DB
+ * @group S3
  *
  * @package OCA\Files_External\Tests\Storage
  */
 class Amazons3Test extends \Test\Files\Storage\Storage {
-	private $config;
+	protected $config;
 	/** @var AmazonS3 */
 	protected $instance;
 
@@ -25,7 +26,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$this->config = include('files_external/tests/config.amazons3.php');
-		if (! is_array($this->config) or ! $this->config['run']) {
+		if (!is_array($this->config) || !$this->config['run']) {
 			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
 		$this->instance = new AmazonS3($this->config);
@@ -41,9 +42,5 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 
 	public function testStat() {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
-	}
-
-	public function testHashInFileName() {
-		$this->markTestSkipped('Localstack has a bug with hashes in filename');
 	}
 }
