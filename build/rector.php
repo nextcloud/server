@@ -64,9 +64,9 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/status.php',
 		$nextcloudDir . '/version.php',
 		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
+		$nextcloudDir . '/tests',
 		// $nextcloudDir . '/config',
 		// $nextcloudDir . '/lib',
-		// $nextcloudDir . '/tests',
 		// $nextcloudDir . '/themes',
 	])
 	->withSkip([
