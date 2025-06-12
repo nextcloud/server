@@ -444,4 +444,19 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	public function getPartitionCount(): int {
 		return count($this->splitQueries) + 1;
 	}
+
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
+		if (str_contains($column, '.')) {
+			[$alias, $column] = explode('.', $column);
+			$partition = $this->getPartition($alias);
+			if ($partition) {
+				$this->splitQueries[$partition->name]->query->hintShardKey($column, $value, $overwrite);
+			} else {
+				parent::hintShardKey($column, $value, $overwrite);
+			}
+		} else {
+			parent::hintShardKey($column, $value, $overwrite);
+		}
+		return $this;
+	}
 }
