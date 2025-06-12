@@ -53,7 +53,7 @@ class Router implements IRouter {
 	public function __construct(
 		protected LoggerInterface $logger,
 		IRequest $request,
-		private IConfig $config,
+		protected IConfig $config,
 		protected IEventLogger $eventLogger,
 		private ContainerInterface $container,
 		protected IAppManager $appManager,

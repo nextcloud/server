@@ -80,7 +80,7 @@ class CachingRouter extends Router {
 		if (!$cachedRoutes) {
 			parent::loadRoutes();
 			$cachedRoutes = $this->serializeRouteCollection($this->root);
-			$this->cache->set($key, $cachedRoutes, 3600);
+			$this->cache->set($key, $cachedRoutes, ($this->config->getSystemValueBool('debug') ? 3 : 3600));
 		}
 		$matcher = new CompiledUrlMatcher($cachedRoutes, $this->context);
 		$this->eventLogger->start('cacheroute:url:match', 'Symfony URL match call');
