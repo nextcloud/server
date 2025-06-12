@@ -14,11 +14,11 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\Updater;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
-use OCP\Files\Cache\IUpdater;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
@@ -418,7 +418,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$stat = [
 					'etag' => $this->getETag($path),
 					'mimetype' => $mimeType,
-					'size' => 0,
+					'size' => 1,
 					'mtime' => $mtime,
 					'storage_mtime' => $mtime,
 					'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
@@ -830,7 +830,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->preserveCacheItemsOnDelete = $preserve;
 	}
 
-	public function getUpdater(?IStorage $storage = null): IUpdater {
+	public function getUpdater(?IStorage $storage = null): Updater {
 		if (!$storage) {
 			$storage = $this;
 		}
