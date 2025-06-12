@@ -39,9 +39,9 @@ class BinaryFinderTest extends TestCase {
 		$config
 			->method('getSystemValue')
 			->with('binary_search_paths', $this->anything())
-			->will($this->returnCallback(function ($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
-			}));
+			});
 		$finder = new BinaryFinder($this->cacheFactory, $config);
 		$this->assertEquals($finder->findBinaryPath('cat'), '/usr/bin/cat');
 		$this->assertEquals($this->cache->get('cat'), '/usr/bin/cat');
@@ -52,9 +52,9 @@ class BinaryFinderTest extends TestCase {
 		$config
 			->method('getSystemValue')
 			->with('binary_search_paths', $this->anything())
-			->will($this->returnCallback(function ($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
-			}));
+			});
 		$finder = new BinaryFinder($this->cacheFactory, $config);
 		$this->assertFalse($finder->findBinaryPath('cata'));
 		$this->assertFalse($this->cache->get('cata'));

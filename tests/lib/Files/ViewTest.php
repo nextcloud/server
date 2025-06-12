@@ -2238,13 +2238,13 @@ class ViewTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('getMetaData')
-			->will($this->returnValue([
+			->willReturn([
 				'mtime' => 1885434487,
 				'etag' => '',
 				'mimetype' => 'text/plain',
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => 3
-			]));
+			]);
 		$storage->expects($this->any())
 			->method('filemtime')
 			->willReturn(123456789);
@@ -2433,13 +2433,13 @@ class ViewTest extends \Test\TestCase {
 
 		$storage2->expects($this->any())
 			->method('getMetaData')
-			->will($this->returnValue([
+			->willReturn([
 				'mtime' => 1885434487,
 				'etag' => '',
 				'mimetype' => 'text/plain',
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => 3
-			]));
+			]);
 		$storage2->expects($this->any())
 			->method('filemtime')
 			->willReturn(123456789);

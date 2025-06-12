@@ -157,7 +157,7 @@ class DispatcherTest extends \Test\TestCase {
 				->method('beforeController')
 				->with($this->equalTo($this->controller),
 					$this->equalTo($this->controllerMethod))
-				->will($this->throwException($exception));
+				->willThrowException($exception);
 			if ($catchEx) {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')

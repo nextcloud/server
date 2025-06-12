@@ -153,7 +153,7 @@ class FolderTest extends NodeTestCase {
 
 		$root->method('get')
 			->with('/bar/foo/asd')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$this->assertFalse($node->nodeExists('asd'));

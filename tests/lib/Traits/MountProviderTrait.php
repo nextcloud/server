@@ -51,7 +51,7 @@ trait MountProviderTrait {
 		$this->mountProvider = $this->getMockBuilder('\OCP\Files\Config\IMountProvider')->getMock();
 		$this->mountProvider->expects($this->any())
 			->method('getMountsForUser')
-			->will($this->returnCallback(function (IUser $user) {
+			->willReturnCallback(function (IUser $user) {
 				if (isset($this->mounts[$user->getUID()])) {
 					return array_map(function ($config) {
 						return new MountPoint($config['storage'], $config['mountPoint'], $config['arguments'], $this->storageFactory);
@@ -59,7 +59,7 @@ trait MountProviderTrait {
 				} else {
 					return [];
 				}
-			}));
+			});
 		Server::get(IMountProviderCollection::class)->registerProvider($this->mountProvider);
 	}
 }

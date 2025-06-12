@@ -551,7 +551,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->root->expects($this->once())
 			->method('get')
 			->with('/bar/asd')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$node->copy('/bar/asd/foo');
 	}
@@ -718,7 +718,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->root->expects($this->once())
 			->method('get')
 			->with('/bar')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$node->move('/bar/asd');
 	}

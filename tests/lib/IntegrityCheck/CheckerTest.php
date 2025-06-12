@@ -112,7 +112,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
@@ -446,7 +446,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -470,7 +470,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')

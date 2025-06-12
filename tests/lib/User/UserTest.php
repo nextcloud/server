@@ -832,9 +832,9 @@ class UserTest extends TestCase {
 			['files', 'allow_unlimited_quota', '1', '1'],
 		];
 		$config->method('getUserValue')
-			->will($this->returnValueMap($userValueMap));
+			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
-			->will($this->returnValueMap($appValueMap));
+			->willReturnMap($appValueMap);
 
 		$this->assertEquals('none', $user->getQuota());
 		$this->assertEquals(FileInfo::SPACE_UNLIMITED, $user->getQuotaBytes());
@@ -866,9 +866,9 @@ class UserTest extends TestCase {
 			['files', 'default_quota', '1 GB', '1 GB'],
 		];
 		$config->method('getUserValue')
-			->will($this->returnValueMap($userValueMap));
+			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
-			->will($this->returnValueMap($appValueMap));
+			->willReturnMap($appValueMap);
 
 		$this->assertEquals('1 GB', $user->getQuota());
 		$this->assertEquals(1024 * 1024 * 1024, $user->getQuotaBytes());

@@ -269,7 +269,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->throwException(new PasswordLoginForbiddenException));
+			->willThrowException(new PasswordLoginForbiddenException);
 		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->logger);
 
