@@ -258,12 +258,6 @@
     "Successfully uploaded files" : "Фајлови су успешно отпремљени",
     "View terms of service" : "Прикажи услове коришћења",
     "Terms of service" : "Услови коришћења",
-    "Upload files to {folder}" : "Отпреми фајлове у {folder}",
-    "Submit name" : "Поднеси име",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} је са вама поделио фолдер.",
-    "To upload files, you need to provide your name first." : "Да бисте могли да отпремите фајлове, најпре наведите своје име.",
-    "Name" : "Име",
-    "Enter your name" : "Унесите Ваше име",
     "Share with {userName}" : "Подели са {userName}",
     "Share with email {email}" : "Подели и-мејлом {email}",
     "Share with group" : "Подели са групом",
@@ -383,7 +377,8 @@
     "Share note for recipient saved" : "Сачувана је напомена за примаоца дељења",
     "Share password saved" : "Сачувана је лозинка дељења",
     "Share permissions saved" : "Сачуване су дозволе дељења",
-    "Filename must not be empty." : "Назив фајла не може бити празан.",
+    "Upload files to {folder}" : "Отпреми фајлове у {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} је са вама поделио фолдер.",
     "Names must not start with a dot." : "Имена не смеју да се почну тачком.",
     "\"{char}\" is not allowed inside a name." : "„{char}” није дозвољен карактер у имену.",
     "\"{segment}\" is a reserved name and not allowed." : "„{segment}” је резервисано име и не сме се користити.",
@@ -426,7 +421,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["Додата је 1 и-мејл адреса","Додате су {count} и-мејл адресе","Додато је {count} и-мејл адреса"],
     "Search for share recipients" : "Претрага прималаца дељења",
     "No recommendations. Start typing." : "Нема препорука. Започните куцање.",
+    "To upload files, you need to provide your name first." : "Да бисте могли да отпремите фајлове, најпре наведите своје име.",
+    "Enter your name" : "Унесите Ваше име",
+    "Submit name" : "Поднеси име",
+    "Name" : "Име",
     "Share with accounts, teams, federated cloud id" : "Дели са налозима, тимовима, id здруженог облака",
-    "Email, federated cloud id" : "И-мејл, ID здруженог облака"
+    "Email, federated cloud id" : "И-мејл, ID здруженог облака",
+    "Filename must not be empty." : "Назив фајла не може бити празан."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -178,8 +178,6 @@ OC.L10N.register(
     "Note:" : "Pastaba:",
     "File drop" : "Failų įkėlimas",
     "Terms of service" : "Naudojimosi sąlygos",
-    "Name" : "Pavadinimas",
-    "Enter your name" : "Įveskite savo vardą",
     "Share with {userName}" : "Bendrinti su {userName}",
     "Share with email {email}" : "Bendrinti su el. pašto adresu {email}",
     "Share with group" : "Bendrinti su grupe",
@@ -248,7 +246,6 @@ OC.L10N.register(
     "Share label saved" : "Viešinio etiketė įrašyta",
     "Share password saved" : "Viešinio slaptažodis įrašytas",
     "Share permissions saved" : "Viešinio leidimai įrašyti",
-    "Filename must not be empty." : "Failo pavadinimas negali būti tuščias.",
     "Shared by" : "Bendrina",
     "Shared with" : "Bendrinama su",
     "Password created successfully" : "Slaptažodis sėkmingai sukurtas",
@@ -282,6 +279,9 @@ OC.L10N.register(
     "_1 email address already added_::_{count} email addresses already added_" : ["Jau pridėtas 1 el. pašto adresas","Jau pridėti {count} el. pašto adresai","Jau pridėta {count} el. pašto adresų","Jau pridėtas {count} el. pašto adresas"],
     "_1 email address added_::_{count} email addresses added_" : ["Pridėtas 1 el. pašto adresas","Pridėti {count} el. pašto adresai","Pridėta {count} el. pašto adresų","Pridėtas {count} el. pašto adresas"],
     "Search for share recipients" : "Ieškoti viešinio gavėjų",
-    "No recommendations. Start typing." : "Rekomendacijų nėra. Pradėkite rašyti."
+    "No recommendations. Start typing." : "Rekomendacijų nėra. Pradėkite rašyti.",
+    "Enter your name" : "Įveskite savo vardą",
+    "Name" : "Pavadinimas",
+    "Filename must not be empty." : "Failo pavadinimas negali būti tuščias."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

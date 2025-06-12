@@ -166,8 +166,6 @@
     "Note:" : "Σημείωση:",
     "File drop" : "Απόθεση αρχείου",
     "Terms of service" : "Όροι χρήσης",
-    "Name" : "Όνομα",
-    "Enter your name" : "Προσθέστε το όνομά σας",
     "Share with group" : "Κοινή χρήση με ομάδα",
     "Share in conversation" : "Κοινή χρήση σε συζήτηση",
     "Share with guest" : "Κοινή χρήση με επισκέπτη",
@@ -236,7 +234,6 @@
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
     "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",
     "Share password saved" : "Διαμοιρασμένο συνθηματικό αποθηκεύτηκε ",
-    "Filename must not be empty." : "Το όνομα αρχείου δεν πρέπει να είναι κενό.",
     "Shared by" : "Διαμοιράστηκε από",
     "Shared with" : "Διαμοιράστηκε με",
     "Password created successfully" : "Συνθηματικό δημιουργήθηκε με επιτυχία",
@@ -268,6 +265,9 @@
     "Failed to add the public link to your Nextcloud" : "Αποτυχία στην πρόσθεση του κοινού συνδέσμου στο Nextcloud σας",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
-    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε."
+    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
+    "Enter your name" : "Προσθέστε το όνομά σας",
+    "Name" : "Όνομα",
+    "Filename must not be empty." : "Το όνομα αρχείου δεν πρέπει να είναι κενό."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

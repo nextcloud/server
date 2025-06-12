@@ -421,6 +421,7 @@ OC.L10N.register(
     "Admin" : "管理",
     "Help" : "帮助",
     "Access forbidden" : "访问禁止",
+    "You are not allowed to access this page." : "不允许您访问此页面。",
     "Back to %s" : "返回 %s",
     "Page not found" : "未找到页面",
     "The page could not be found on the server or you may not be allowed to view it." : "该页面在服务器上无法找到，或者您可能不被允许浏览。",

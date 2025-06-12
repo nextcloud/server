@@ -166,7 +166,6 @@ OC.L10N.register(
     "on {server}" : "trên {server}",
     "File drop" : "Thả file",
     "Terms of service" : "Điều khoản dịch vụ",
-    "Name" : "Tên",
     "Update share" : "Cập nhật chia sẻ",
     "Save share" : "Lưu chia sẻ",
     "Read" : "Đọc",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "Error updating the share" : "Lỗi cập nhật chia sẻ",
     "File \"{path}\" has been unshared" : "Tệp \"{path}\" đã không được chia sẻ",
     "Folder \"{path}\" has been unshared" : "Thư mục \"{path}\" đã không được chia sẻ",
-    "Filename must not be empty." : "Tên tập tin không thể trống",
     "Shared by" : "Chia sẻ bởi",
     "Shared with" : "Chia sẽ với",
     "Password created successfully" : "Đã tạo mật khẩu thành công",
@@ -265,6 +263,8 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Không thể thêm liên kết công khai",
     "Download all files" : "Tải xuống tất cả các tập tin",
     "Search for share recipients" : "Tìm kiếm người nhận chia sẻ",
-    "No recommendations. Start typing." : "Không có khuyến nghị. Bắt đầu gõ."
+    "No recommendations. Start typing." : "Không có khuyến nghị. Bắt đầu gõ.",
+    "Name" : "Tên",
+    "Filename must not be empty." : "Tên tập tin không thể trống"
 },
 "nplurals=1; plural=0;");
