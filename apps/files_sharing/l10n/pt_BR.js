@@ -293,7 +293,7 @@ OC.L10N.register(
     "Expiration date (enforced)" : "Data de vencimento (imposta)",
     "Set expiration date" : "Definir data de vencimento",
     "Hide download" : "Ocultar download",
-    "Allow download and sync" : "Permitir baixar e sincronizar",
+    "Allow download and sync" : "Permitir download e sincronização",
     "Note to recipient" : "Observação ao destinatário",
     "Enter a note for the share recipient" : "Digite uma observação ao destinatário",
     "Show files in grid view" : "Mostrar arquivos na visualização em grade",

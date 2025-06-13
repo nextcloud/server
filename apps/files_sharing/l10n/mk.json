@@ -361,8 +361,17 @@
     "Share note for recipient saved" : "Белешката на споделувањето до примачот е зачувана",
     "Share password saved" : "Лозинката е зачувана",
     "Share permissions saved" : "Дозволите за споделување се зачувани",
+    "To upload files to {folder}, you need to provide your name first." : "За да прикачите датотеки во {folder}, мора да го наведете вашето име.",
     "Upload files to {folder}" : "Прикачи датотеки во {folder}",
+    "Please confirm your name to upload files to {folder}" : "Потврдете го вашето име за да прикачите датотеки во {folder}",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} сподели папка со вас.",
+    "Names must not be empty." : "Имињата не можат да бидат празни.",
+    "Names must not start with a dot." : "Името неможе да започнува со точка.",
+    "\"{char}\" is not allowed inside a name." : "\"{char}\" не е дозволено да содржи во името.",
+    "\"{segment}\" is a reserved name and not allowed." : "\"{segment}\" е резервирано име и не е дозволено.",
+    "\"{extension}\" is not an allowed name." : "\"{extension}\" не е дозволено име.",
+    "Names must not end with \"{extension}\"." : "Името неможе да завршува со \"{extension}\".",
+    "Invalid name." : "Невалидно име.",
     "Shared by" : "Споделено од",
     "Shared with" : "Споделено со",
     "Password created successfully" : "Успрешно е креирана лозинка",
@@ -403,6 +412,7 @@
     "Enter your name" : "Внесете го вашето име",
     "Submit name" : "Испрати име",
     "Name" : "Име",
-    "Email, federated cloud id" : "Е-пошта, федерален ИД"
+    "Email, federated cloud id" : "Е-пошта, федерален ИД",
+    "Filename must not be empty." : "Името на датотеката не може да биде празно."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

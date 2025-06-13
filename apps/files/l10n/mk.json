@@ -225,6 +225,7 @@
     "Storage is temporarily not available" : "Складиштето моментално не е достапно",
     "_%n file_::_%n files_" : ["%n датотека","%n датотеки"],
     "_%n folder_::_%n folders_" : ["%n папка","%n папки"],
+    "Filename must not be empty." : "Името на датотеката не може да биде празно.",
     "No favorites yet" : "Сеуште нема фаворити",
     "Files and folders you mark as favorite will show up here" : "Датотеките и папките кои ќе ги означите како чести, ќе се појават тука",
     "All files" : "Сите датотеки",
