@@ -40,7 +40,10 @@ class UserStatusAutomation extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 
-		$this->setInterval(1);
+		// interval = 0 might look odd, but it's intentional. last_run is set to
+		// the user's next available time, so the job runs immediately when
+		// that time comes.
+		$this->setInterval(0);
 	}
 
 	/**
