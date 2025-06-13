@@ -9,6 +9,12 @@ import { deleted, deletedBy, originalLocation } from './columns.ts'
 import { trashbinView } from './trashbinView.ts'
 import * as ncAuth from '@nextcloud/auth'
 
+vi.mock('@nextcloud/l10n', async (originalModule) => ({
+	...(await originalModule()),
+	getLanguage: () => 'en',
+	getCanonicalLocale: () => 'en-US',
+}))
+
 describe('files_trashbin: file list columns', () => {
 
 	describe('column: original location', () => {
@@ -100,19 +106,19 @@ describe('files_trashbin: file list columns', () => {
 			})
 
 			it('renders a node with deletion date', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': 1741684522 } })
+				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', attributes: { 'trashbin-deletion-time': (Date.now() / 1000) - 120 } })
 				const el: HTMLElement = deleted.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toBe('a minute ago')
-				expect(el.title).toBe('March 11, 2025 9:15 AM')
+				expect(el.textContent).toBe('2 minutes ago')
+				expect(el.title).toBe('March 11, 2025 at 9:14 AM')
 			})
 
 			it('renders a node when deletion date is missing and falls back to mtime', () => {
-				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', mtime: new Date(1741684522000) })
+				const node = new File({ owner: 'test', source: 'https://example.com/remote.php/dav/files/test/a.txt', mime: 'text/plain', mtime: new Date(Date.now() - 60000) })
 				const el: HTMLElement = deleted.render(node, trashbinView)
 				expect(el).toBeInstanceOf(HTMLElement)
-				expect(el.textContent).toBe('a minute ago')
-				expect(el.title).toBe('March 11, 2025 9:15 AM')
+				expect(el.textContent).toBe('1 minute ago')
+				expect(el.title).toBe('March 11, 2025 at 9:15 AM')
 			})
 
 			it('renders a node when deletion date is missing', () => {
