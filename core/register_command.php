@@ -92,6 +92,7 @@ use OC\Core\Command\User\ClearGeneratedAvatarCacheCommand;
 use OC\Core\Command\User\Info;
 use OC\Core\Command\User\Keys\Verify;
 use OC\Core\Command\User\LastSeen;
+use OC\Core\Command\User\Profile;
 use OC\Core\Command\User\Report;
 use OC\Core\Command\User\ResetPassword;
 use OC\Core\Command\User\Setting;
@@ -206,6 +207,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Report::class));
 	$application->add(Server::get(ResetPassword::class));
 	$application->add(Server::get(Setting::class));
+	$application->add(Server::get(Profile::class));
 	$application->add(Server::get(Command\User\ListCommand::class));
 	$application->add(Server::get(ClearGeneratedAvatarCacheCommand::class));
 	$application->add(Server::get(Info::class));
