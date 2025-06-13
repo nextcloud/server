@@ -25,7 +25,7 @@ class ScheduledNotifications extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setInterval(1);
+		$this->setInterval(60);
 	}
 
 	/**
