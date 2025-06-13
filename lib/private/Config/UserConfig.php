@@ -70,6 +70,7 @@ class UserConfig implements IUserConfig {
 		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		private readonly PresetManager $presetManager,
 	) {
 	}
 
@@ -1865,38 +1866,18 @@ class UserConfig implements IUserConfig {
 			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
-		$enforcedValue = $this->config->getSystemValue('lexicon.default.userconfig.enforced', [])[$app][$key] ?? false;
+		$preset = $this->presetManager->getPreset();
+		$enforcedValue = $preset->isUserConfigEnforced($app, $key);
 		if (!$enforcedValue && $this->hasKey($userId, $app, $key, $lazy)) {
 			// if key exists there should be no need to extract default
 			return true;
 		}
 
-		// default from Lexicon got priority but it can still be overwritten by admin
-		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault() ?? $default;
+		// preset, then default from Lexicon
+		$default = $preset->getUserConfigDefault($app, $key) ?? $configValue->getDefault() ?? $default;
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;
-	}
-
-	/**
-	 * get default value set in config/config.php if stored in key:
-	 *
-	 * 'lexicon.default.userconfig' => [
-	 *        <appId> => [
-	 *           <configKey> => 'my value',
-	 *        ]
-	 *     ],
-	 *
-	 * The entry is converted to string to fit the expected type when managing default value
-	 */
-	private function getSystemDefault(string $appId, ConfigLexiconEntry $configValue): ?string {
-		$default = $this->config->getSystemValue('lexicon.default.userconfig', [])[$appId][$configValue->getKey()] ?? null;
-		if ($default === null) {
-			// no system default, using default default.
-			return null;
-		}
-
-		return $configValue->convertToString($default);
 	}
 
 	/**

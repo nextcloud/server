@@ -15,6 +15,7 @@ use NCU\Config\Lexicon\ConfigLexiconEntry;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\Lexicon\IConfigLexicon;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\PresetManager;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -69,6 +70,7 @@ class AppConfig implements IAppConfig {
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		private readonly PresetManager $presetManager,
 	) {
 	}
 
@@ -1597,7 +1599,6 @@ class AppConfig implements IAppConfig {
 		}
 
 		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
 		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
@@ -1605,7 +1606,18 @@ class AppConfig implements IAppConfig {
 			$this->logger->notice('App config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
-		return true;
+		$preset = $this->presetManager->getPreset();
+		$enforcedValue = $preset->isAppConfigEnforced($app, $key);
+		if (!$enforcedValue && $this->hasKey($app, $key, $lazy)) {
+			// if key exists there should be no need to extract default
+			return true;
+		}
+
+		// preset, then default from Lexicon
+		$default = $preset->getAppConfigDefault($app, $key) ?? $configValue->getDefault() ?? $default; // default from Lexicon got priority
+
+		// returning false will make get() returning $default and set() not changing value in database
+		return !$enforcedValue;
 	}
 
 	/**
