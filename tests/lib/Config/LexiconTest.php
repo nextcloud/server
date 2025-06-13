@@ -10,7 +10,9 @@ namespace Tests\lib\Config;
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
+use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -25,8 +27,10 @@ use Test\TestCase;
  * @package Test
  */
 class LexiconTest extends TestCase {
+	/** @var AppConfig */
 	private IAppConfig $appConfig;
 	private IUserConfig $userConfig;
+	private ConfigManager $configManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +43,7 @@ class LexiconTest extends TestCase {
 
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->userConfig = Server::get(IUserConfig::class);
+		$this->configManager = Server::get(ConfigManager::class);
 	}
 
 	protected function tearDown(): void {
@@ -141,11 +146,61 @@ class LexiconTest extends TestCase {
 	public function testUserLexiconSetException() {
 		$this->expectException(UnknownKeyException::class);
 		$this->userConfig->setValueString('user1', TestConfigLexicon_E::APPID, 'key_exception', 'new_value');
-		$this->assertSame('', $this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key3', ''));
+		$this->assertSame('', $this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key5', ''));
 	}
 
 	public function testUserLexiconGetException() {
 		$this->expectException(UnknownKeyException::class);
 		$this->userConfig->getValueString('user1', TestConfigLexicon_E::APPID, 'key_exception');
+	}
+
+	public function testAppConfigLexiconRenameSetNewValue() {
+		$this->assertSame(12345, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 994);
+		$this->assertSame(994, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
+	}
+
+	public function testAppConfigLexiconRenameSetOldValuePreMigration() {
+		$this->appConfig->ignoreLexiconAliases(true);
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 993);
+		$this->appConfig->ignoreLexiconAliases(false);
+		$this->assertSame(12345, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
+	}
+
+	public function testAppConfigLexiconRenameSetOldValuePostMigration() {
+		$this->appConfig->ignoreLexiconAliases(true);
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 994);
+		$this->appConfig->ignoreLexiconAliases(false);
+		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
+		$this->assertSame(994, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
+	}
+
+	public function testAppConfigLexiconRenameGetNewValue() {
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 981);
+		$this->assertSame(981, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'old_key3', 123));
+	}
+
+	public function testAppConfigLexiconRenameGetOldValuePreMigration() {
+		$this->appConfig->ignoreLexiconAliases(true);
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 984);
+		$this->assertSame(123, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'old_key3', 123));
+		$this->appConfig->ignoreLexiconAliases(false);
+	}
+
+	public function testAppConfigLexiconRenameGetOldValuePostMigration() {
+		$this->appConfig->ignoreLexiconAliases(true);
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 987);
+		$this->appConfig->ignoreLexiconAliases(false);
+		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
+		$this->assertSame(987, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'old_key3', 123));
+	}
+
+	public function testAppConfigLexiconRenameInvertBoolean() {
+		$this->appConfig->ignoreLexiconAliases(true);
+		$this->appConfig->setValueBool(TestConfigLexicon_I::APPID, 'old_key4', true);
+		$this->appConfig->ignoreLexiconAliases(false);
+		$this->assertSame(true, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
+		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
+		$this->assertSame(false, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
 	}
 }
