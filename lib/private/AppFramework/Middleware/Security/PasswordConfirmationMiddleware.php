@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,6 +11,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Token\IProvider;
 use OC\User\Manager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -79,6 +81,11 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
+			// If no Authorization header is set, we cannot confirm the password
+			if (empty($authHeader) || !str_starts_with($authHeader, 'Basic ')) {
+				throw new \Exception('Missing or invalid Authorization header', Http::STATUS_BAD_REQUEST);
+			}
+
 			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
@@ -88,7 +95,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 		} else {
-			$lastConfirm = (int)$this->session->get('last-password-confirm');
+			$lastConfirm = (int) $this->session->get('last-password-confirm');
 			// TODO: confirm excludedUserBackEnds can go away and remove it
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
