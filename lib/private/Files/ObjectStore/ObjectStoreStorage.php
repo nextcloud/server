@@ -14,6 +14,7 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\Updater;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -417,7 +418,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$stat = [
 					'etag' => $this->getETag($path),
 					'mimetype' => $mimeType,
-					'size' => 0,
+					'size' => 1,
 					'mtime' => $mtime,
 					'storage_mtime' => $mtime,
 					'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
@@ -474,6 +475,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 		// update stat with new data
 		$mTime = time();
+		$oldSize = $stat['size'] ?? 0;
 		$stat['size'] = (int)$size;
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
@@ -570,6 +572,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				throw new \Exception("Object not found after writing (urn: $urn, path: $path)", 404);
 			}
 		}
+
+		$this->getUpdater()->correctParentStorageMtime($path);
+		$this->propagator->propagateChange($path, $mTime, $stat['size'] - $oldSize);
 
 		return $size;
 	}
@@ -823,5 +828,19 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
+	}
+
+	public function getUpdater(?IStorage $storage = null): Updater {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
+		/** @var self $storage */
+		if (!isset($storage->updater)) {
+			$storage->updater = new ObjectStoreUpdater($storage);
+		}
+		return $storage->updater;
 	}
 }
