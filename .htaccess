@@ -60,6 +60,9 @@
   <FilesMatch "\.(otf|woff2?)$">
     Header set Cache-Control "max-age=604800"
   </FilesMatch>
+
+  # Enforce HTTPS by setting the Strict-Transport-Security header for all responses
+  Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains"
 </IfModule>
 
 <IfModule mod_php.c>
