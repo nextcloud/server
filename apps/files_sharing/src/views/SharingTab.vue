@@ -67,7 +67,7 @@
 				<SharingEntryInternal :file-info="fileInfo" />
 			</section>
 
-			<section>
+			<section v-if="isLinkSharingAllowed">
 				<div class="section-header">
 					<h4>{{ t('files_sharing', 'External shares') }}</h4>
 					<NcPopover popup-role="dialog">
@@ -157,6 +157,7 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -242,7 +243,39 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return Object.keys(this.sharedWithMe).length > 0
+			return this.sharedWithMe !== null
+				&& this.sharedWithMe !== undefined
+		},
+
+		/**
+		 * Is link sharing allowed for the current user?
+		 * This checks if the user is in a group that is excluded from link sharing
+		 *
+		 * @return {boolean}
+		 */
+		isLinkSharingAllowed() {
+			const currentUser = getCurrentUser()
+			if (!currentUser) {
+				return false
+			}
+
+			const capabilities = getCapabilities()
+			const publicSharing = capabilities.files_sharing?.public || {}
+
+			if (!publicSharing.enabled) {
+				return false
+			}
+
+			const excludedGroups = publicSharing.exclude_groups || []
+			if (excludedGroups.length === 0) {
+				return true
+			}
+
+			console.log('Excluded groups', excludedGroups)
+
+			const userGroups = currentUser.groups || []
+			const isInExcludedGroup = userGroups.some(group => excludedGroups.includes(group))
+			return !isInExcludedGroup
 		},
 
 		canReshare() {

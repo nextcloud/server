@@ -7,9 +7,13 @@
 namespace OCA\Files_Sharing;
 
 use OCP\Capabilities\ICapability;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Constants;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use OCP\Share\IManager;
+use OC;
 
 /**
  * Class Capabilities
@@ -21,6 +25,9 @@ class Capabilities implements ICapability {
 	public function __construct(
 		private IConfig $config,
 		private IManager $shareManager,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -32,6 +39,7 @@ class Capabilities implements ICapability {
 	 *         api_enabled: bool,
 	 *         public: array{
 	 *             enabled: bool,
+	 *             exclude_groups?: string[],
 	 *             password?: array{
 	 *                 enforced: bool,
 	 *                 askForOptionalPassword: bool
@@ -103,6 +111,12 @@ class Capabilities implements ICapability {
 			$public = [];
 			$public['enabled'] = $this->shareManager->shareApiAllowLinks();
 			if ($public['enabled']) {
+					// Add excluded groups to capabilities if any are configured
+				$excludedGroups = $this->appConfig->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]');
+				$excludedGroups = json_decode($excludedGroups, true) ?: [];
+				if (!empty($excludedGroups)) {
+					$public['exclude_groups'] = $excludedGroups;
+				}
 				$public['password'] = [];
 				$public['password']['enforced'] = $this->shareManager->shareApiLinkEnforcePassword();
 
