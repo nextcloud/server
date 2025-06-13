@@ -63,10 +63,10 @@ class StorageTest extends TestCase {
 	protected function createPastFile(string $path, int $mtime) {
 		try {
 			$file = $this->userFolder->get($path);
+			$file->putContent((string)$mtime);
 		} catch (NotFoundException $e) {
-			$file = $this->userFolder->newFile($path);
+			$file = $this->userFolder->newFile($path, (string)$mtime);
 		}
-		$file->putContent((string)$mtime);
 		$file->touch($mtime);
 	}
 
