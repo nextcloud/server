@@ -25,7 +25,7 @@ class Rotate extends TimedJob {
 	public function __construct(ITimeFactory $time) {
 		parent::__construct($time);
 
-		$this->setInterval(5);
+		$this->setInterval(3600);
 	}
 
 	public function run($argument): void {
