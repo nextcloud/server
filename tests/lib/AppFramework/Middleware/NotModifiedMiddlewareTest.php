@@ -11,6 +11,7 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
@@ -68,7 +69,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 				return '';
 			});
 
-		$response = new Http\Response();
+		$response = new Response();
 		if ($etag !== null) {
 			$response->setETag($etag);
 		}

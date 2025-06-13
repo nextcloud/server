@@ -129,7 +129,7 @@ class CapabilitiesManagerTest extends TestCase {
 	}
 
 	public function testInvalidCapability(): void {
-		$this->manager->registerCapability(function () {
+		$this->manager->registerCapability(function (): void {
 			throw new QueryException();
 		});
 

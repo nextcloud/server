@@ -7,8 +7,10 @@
 
 namespace Test\Avatar;
 
+use OC\Avatar\UserAvatar;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
+use OCP\Color;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -56,7 +58,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function (string $path) {
+			->willReturnCallback(function (string $path): void {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
@@ -144,7 +146,7 @@ class UserAvatarTest extends \Test\TestCase {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {
-						throw new \OCP\Files\NotFoundException;
+						throw new NotFoundException;
 					}
 				}
 			);
@@ -261,17 +263,17 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testMixPalette(): void {
-		$colorFrom = new \OCP\Color(0, 0, 0);
-		$colorTo = new \OCP\Color(6, 12, 18);
+		$colorFrom = new Color(0, 0, 0);
+		$colorTo = new Color(6, 12, 18);
 		$steps = 6;
-		$palette = \OCP\Color::mixPalette($steps, $colorFrom, $colorTo);
+		$palette = Color::mixPalette($steps, $colorFrom, $colorTo);
 		foreach ($palette as $j => $color) {
 			// calc increment
 			$incR = $colorTo->red() / $steps * $j;
 			$incG = $colorTo->green() / $steps * $j;
 			$incB = $colorTo->blue() / $steps * $j;
 			// ensure everything is equal
-			$this->assertEquals($color, new \OCP\Color($incR, $incG, $incB));
+			$this->assertEquals($color, new Color($incR, $incG, $incB));
 		}
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
@@ -288,7 +290,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 
-		return new \OC\Avatar\UserAvatar(
+		return new UserAvatar(
 			$this->folder,
 			$l,
 			$user,

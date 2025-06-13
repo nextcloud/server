@@ -9,9 +9,10 @@
 namespace Test\AppFramework;
 
 use OC\AppFramework\App;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http\Response;
 
 function rrmdir($directory) {
@@ -43,10 +44,10 @@ class AppTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', []);
+		$this->container = new DIContainer('test', []);
 		$this->controller = $this->createMock(Controller::class);
 		$this->dispatcher = $this->createMock(Dispatcher::class);
-		$this->io = $this->createMock(Http\IOutput::class);
+		$this->io = $this->createMock(IOutput::class);
 
 		$this->headers = ['key' => 'value'];
 		$this->output = 'hi';

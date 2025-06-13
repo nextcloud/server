@@ -11,6 +11,7 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\FunctionInjector;
 use OC\AppFramework\Utility\SimpleContainer;
+use OCP\AppFramework\QueryException;
 use Test\TestCase;
 
 interface Foo {
@@ -27,7 +28,7 @@ class FunctionInjectorTest extends TestCase {
 	}
 
 	public function testInjectFnNotRegistered(): void {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		$this->expectException(QueryException::class);
 
 		(new FunctionInjector($this->container))->injectFn(static function (Foo $p1): void {
 		});

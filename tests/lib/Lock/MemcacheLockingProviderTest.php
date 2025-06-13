@@ -7,8 +7,10 @@
 
 namespace Test\Lock;
 
+use OC\Lock\MemcacheLockingProvider;
 use OC\Memcache\ArrayCache;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Server;
 
 class MemcacheLockingProviderTest extends LockingProvider {
 	/**
@@ -21,8 +23,8 @@ class MemcacheLockingProviderTest extends LockingProvider {
 	 */
 	protected function getInstance() {
 		$this->memcache = new ArrayCache();
-		$timeProvider = \OC::$server->get(ITimeFactory::class);
-		return new \OC\Lock\MemcacheLockingProvider($this->memcache, $timeProvider);
+		$timeProvider = Server::get(ITimeFactory::class);
+		return new MemcacheLockingProvider($this->memcache, $timeProvider);
 	}
 
 	protected function tearDown(): void {

@@ -8,6 +8,8 @@
 namespace Test;
 
 use OC\Config;
+use OCP\ITempManager;
+use OCP\Server;
 
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
@@ -22,7 +24,7 @@ class ConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->randomTmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->randomTmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->configFile = $this->randomTmpDir . 'testconfig.php';
 		file_put_contents($this->configFile, self::TESTCONTENT);
 	}
@@ -33,7 +35,7 @@ class ConfigTest extends TestCase {
 	}
 
 	private function getConfig(): Config {
-		return new \OC\Config($this->randomTmpDir, 'testconfig.php');
+		return new Config($this->randomTmpDir, 'testconfig.php');
 	}
 
 	public function testGetKeys(): void {
@@ -159,7 +161,7 @@ class ConfigTest extends TestCase {
 		file_put_contents($additionalConfigPath, $additionalConfig);
 
 		// Reinstantiate the config to force a read-in of the additional configs
-		$config = new \OC\Config($this->randomTmpDir, 'testconfig.php');
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
 
 		// Ensure that the config value can be read and the config has not been modified
 		$this->assertSame('totallyOutdated', $config->getValue('php53', 'bogusValue'));

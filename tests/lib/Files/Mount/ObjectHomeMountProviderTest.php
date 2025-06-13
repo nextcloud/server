@@ -241,10 +241,9 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 }
 
 class FakeObjectStore implements IObjectStore {
-	private $arguments;
-
-	public function __construct(array $arguments) {
-		$this->arguments = $arguments;
+	public function __construct(
+		private array $arguments,
+	) {
 	}
 
 	public function getArguments() {

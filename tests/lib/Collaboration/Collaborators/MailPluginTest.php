@@ -618,7 +618,7 @@ class MailPluginTest extends TestCase {
 
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
-			->willReturnCallback(function (\OCP\IUser $user) use ($userToGroupMapping) {
+			->willReturnCallback(function (IUser $user) use ($userToGroupMapping) {
 				return $userToGroupMapping[$user->getUID()];
 			});
 

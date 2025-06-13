@@ -7,6 +7,8 @@
 
 namespace Test\Files\Stream;
 
+use OC\Files\Stream\Quota;
+
 class QuotaTest extends \Test\TestCase {
 	/**
 	 * @param string $mode
@@ -15,7 +17,7 @@ class QuotaTest extends \Test\TestCase {
 	 */
 	protected function getStream($mode, $limit) {
 		$source = fopen('php://temp', $mode);
-		return \OC\Files\Stream\Quota::wrap($source, $limit);
+		return Quota::wrap($source, $limit);
 	}
 
 	public function testWriteEnoughSpace(): void {
@@ -60,7 +62,7 @@ class QuotaTest extends \Test\TestCase {
 	public function testWriteNotEnoughSpaceExistingStream(): void {
 		$source = fopen('php://temp', 'w+');
 		fwrite($source, 'foobar');
-		$stream = \OC\Files\Stream\Quota::wrap($source, 3);
+		$stream = Quota::wrap($source, 3);
 		$this->assertEquals(3, fwrite($stream, 'foobar'));
 		rewind($stream);
 		$this->assertEquals('foobarfoo', fread($stream, 100));
@@ -69,7 +71,7 @@ class QuotaTest extends \Test\TestCase {
 	public function testWriteNotEnoughSpaceExistingStreamRewind(): void {
 		$source = fopen('php://temp', 'w+');
 		fwrite($source, 'foobar');
-		$stream = \OC\Files\Stream\Quota::wrap($source, 3);
+		$stream = Quota::wrap($source, 3);
 		rewind($stream);
 		$this->assertEquals(6, fwrite($stream, 'qwerty'));
 		rewind($stream);

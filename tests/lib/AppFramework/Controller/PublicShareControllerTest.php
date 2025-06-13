@@ -11,17 +11,14 @@ use OCP\IRequest;
 use OCP\ISession;
 
 class TestController extends PublicShareController {
-	/** @var string */
-	private $hash;
-
-	/** @var bool */
-	private $isProtected;
-
-	public function __construct(string $appName, IRequest $request, ISession $session, string $hash, bool $isProtected) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		ISession $session,
+		private string $hash,
+		private bool $isProtected,
+	) {
 		parent::__construct($appName, $request, $session);
-
-		$this->hash = $hash;
-		$this->isProtected = $isProtected;
 	}
 
 	protected function getPasswordHash(): string {

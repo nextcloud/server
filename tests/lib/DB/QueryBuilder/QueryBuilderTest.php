@@ -17,6 +17,7 @@ use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +43,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->queryBuilder = new QueryBuilder($this->connection, $this->config, $this->logger);
@@ -164,7 +165,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataSelect(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
+		$queryBuilder = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 		return [
 			// select('column1')
 			[['configvalue'], ['configvalue' => '99']],
@@ -232,7 +233,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataSelectAlias(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
+		$queryBuilder = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 		return [
 			['configvalue', 'cv', ['cv' => '99']],
 			[$queryBuilder->expr()->literal('column1'), 'thing', ['thing' => 'column1']],
@@ -341,7 +342,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataAddSelect(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
+		$queryBuilder = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 		return [
 			// addSelect('column1')
 			[['configvalue'], ['appid' => 'testFirstResult', 'configvalue' => '99']],
@@ -496,7 +497,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataFrom(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
+		$qb = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 		return [
 			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, [
 				['table' => '(SELECT * FROM `*PREFIX*test`)', 'alias' => '`q`']
@@ -1200,7 +1201,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	public function dataGetTableName(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
-		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
+		$qb = new QueryBuilder(Server::get(IDBConnection::class), $config, $logger);
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],
 			['*PREFIX*table', true, '`*PREFIX*table`'],
@@ -1427,7 +1428,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->logger
 			->expects($this->once())
 			->method('error')
-			->willReturnCallback(function ($message, $parameters) {
+			->willReturnCallback(function ($message, $parameters): void {
 				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'More than 1000 expressions in a list are not allowed on Oracle.',
@@ -1462,7 +1463,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->logger
 			->expects($this->once())
 			->method('error')
-			->willReturnCallback(function ($message, $parameters) {
+			->willReturnCallback(function ($message, $parameters): void {
 				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',

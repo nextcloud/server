@@ -6,6 +6,8 @@
 
 namespace Test\DB;
 
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 class AdapterTest extends TestCase {
@@ -13,7 +15,7 @@ class AdapterTest extends TestCase {
 	private $connection;
 
 	public function setUp(): void {
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->appId = uniqid('test_db_adapter', true);
 	}
 

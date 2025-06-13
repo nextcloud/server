@@ -7,14 +7,16 @@
 
 namespace Test\BackgroundJob;
 
+use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
+use OCP\Server;
 
 /**
  * Class DummyJobList
  *
  * in memory job list for testing purposes
  */
-class DummyJobList extends \OC\BackgroundJob\JobList {
+class DummyJobList extends JobList {
 	/**
 	 * @var IJob[]
 	 */
@@ -38,7 +40,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
-			$job = \OCP\Server::get($job);
+			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
 		$job->setId($this->lastId);

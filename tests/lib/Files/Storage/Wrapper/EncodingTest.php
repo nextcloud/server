@@ -7,6 +7,9 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Encoding;
+
 class EncodingTest extends \Test\Files\Storage\Storage {
 	public const NFD_NAME = 'ümlaut';
 	public const NFC_NAME = 'ümlaut';
@@ -18,8 +21,8 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->sourceStorage = new \OC\Files\Storage\Temporary([]);
-		$this->instance = new \OC\Files\Storage\Wrapper\Encoding([
+		$this->sourceStorage = new Temporary([]);
+		$this->instance = new Encoding([
 			'storage' => $this->sourceStorage
 		]);
 	}

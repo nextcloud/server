@@ -134,7 +134,7 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('updateTag')
-			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
 					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);

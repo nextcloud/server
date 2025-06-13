@@ -10,10 +10,13 @@ declare(strict_types=1);
 
 namespace Test\BackgroundJob;
 
+use OC\BackgroundJob\JobList;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -40,15 +43,15 @@ class JobListTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->clearJobsList();
 		$this->config = $this->createMock(IConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->instance = new \OC\BackgroundJob\JobList(
+		$this->instance = new JobList(
 			$this->connection,
 			$this->config,
 			$this->timeFactory,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 	}
 
@@ -277,10 +280,10 @@ class JobListTest extends TestCase {
 			->method('getTime')
 			->willReturn(123456789);
 
-		$job = new TestJob($this->timeFactory, $this, function () {
+		$job = new TestJob($this->timeFactory, $this, function (): void {
 		});
 
-		$job2 = new TestJob($this->timeFactory, $this, function () {
+		$job2 = new TestJob($this->timeFactory, $this, function (): void {
 		});
 
 		$this->instance->add($job, 1);
@@ -310,10 +313,10 @@ class JobListTest extends TestCase {
 				return time();
 			});
 
-		$job = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		$job = new TestParallelAwareJob($this->timeFactory, $this, function (): void {
 		});
 
-		$job2 = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		$job2 = new TestParallelAwareJob($this->timeFactory, $this, function (): void {
 		});
 
 		$this->instance->add($job, 1);

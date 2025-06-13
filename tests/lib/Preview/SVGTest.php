@@ -7,6 +7,9 @@
 
 namespace Test\Preview;
 
+use OC\Preview\SVG;
+use OCP\Files\File;
+
 /**
  * Class SVGTest
  *
@@ -24,7 +27,7 @@ class SVGTest extends Provider {
 			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 			$this->width = 3000;
 			$this->height = 2000;
-			$this->provider = new \OC\Preview\SVG;
+			$this->provider = new SVG;
 		} else {
 			$this->markTestSkipped('No SVG provider present');
 		}
@@ -52,7 +55,7 @@ class SVGTest extends Provider {
 </svg>');
 		rewind($handle);
 
-		$file = $this->createMock(\OCP\Files\File::class);
+		$file = $this->createMock(File::class);
 		$file->method('fopen')
 			->willReturn($handle);
 

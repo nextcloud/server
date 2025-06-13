@@ -8,6 +8,7 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class JobTest extends \Test\TestCase {
@@ -18,7 +19,7 @@ class JobTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->run = false;
-		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
+		$this->timeFactory = Server::get(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		\OC::$server->registerService(LoggerInterface::class, fn ($c) => $this->logger);
@@ -27,7 +28,7 @@ class JobTest extends \Test\TestCase {
 	public function testRemoveAfterException(): void {
 		$jobList = new DummyJobList();
 		$e = new \Exception();
-		$job = new TestJob($this->timeFactory, $this, function () use ($e) {
+		$job = new TestJob($this->timeFactory, $this, function () use ($e): void {
 			throw $e;
 		});
 		$jobList->add($job);
@@ -43,7 +44,7 @@ class JobTest extends \Test\TestCase {
 
 	public function testRemoveAfterError(): void {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this->timeFactory, $this, function () {
+		$job = new TestJob($this->timeFactory, $this, function (): void {
 			$test = null;
 			$test->someMethod();
 		});

@@ -332,7 +332,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataPublicPage
 	 */
 	public function testCsrfCheck(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException::class);
+		$this->expectException(CrossSiteRequestForgeryException::class);
 
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
@@ -375,7 +375,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataPublicPage
 	 */
 	public function testFailCsrfCheck(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException::class);
+		$this->expectException(CrossSiteRequestForgeryException::class);
 
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')

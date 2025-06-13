@@ -47,15 +47,15 @@ class LocalTimeProviderTest extends TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 		$this->l->expects($this->any())
 			->method('n')
-			->will($this->returnCallback(function ($text, $textPlural, $n, $parameters = []) {
+			->willReturnCallback(function ($text, $textPlural, $n, $parameters = []) {
 				$formatted = str_replace('%n', (string)$n, $n === 1 ? $text : $textPlural);
 				return vsprintf($formatted, $parameters);
-			}));
+			});
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

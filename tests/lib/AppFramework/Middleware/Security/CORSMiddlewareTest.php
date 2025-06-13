@@ -10,6 +10,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\User\Session;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -124,7 +125,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataCorsIgnoredIfWithCredentialsHeaderPresent
 	 */
 	public function testCorsIgnoredIfWithCredentialsHeaderPresent(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			[
@@ -253,7 +254,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataCORSShouldFailIfPasswordLoginIsForbidden
 	 */
 	public function testCORSShouldFailIfPasswordLoginIsForbidden(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			['server' => [
@@ -268,7 +269,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException));
+			->willThrowException(new PasswordLoginForbiddenException);
 		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->logger);
 
@@ -286,7 +287,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider dataCORSShouldNotAllowCookieAuth
 	 */
 	public function testCORSShouldNotAllowCookieAuth(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			['server' => [

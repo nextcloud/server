@@ -9,6 +9,7 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Detection;
 use OCP\IURLGenerator;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class DetectionTest extends \Test\TestCase {
@@ -18,8 +19,8 @@ class DetectionTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
-			\OC::$server->getURLGenerator(),
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(IURLGenerator::class),
+			Server::get(LoggerInterface::class),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'
 		);

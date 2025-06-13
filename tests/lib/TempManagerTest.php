@@ -9,6 +9,7 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\TempManager;
 use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -49,7 +50,7 @@ class TempManagerTest extends \Test\TestCase {
 				->willReturn('/tmp');
 		}
 		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
-		$manager = new \OC\TempManager($logger, $config, $iniGetWrapper);
+		$manager = new TempManager($logger, $config, $iniGetWrapper);
 		if ($this->baseDir) {
 			$manager->overrideTempBaseDir($this->baseDir);
 		}

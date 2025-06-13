@@ -9,6 +9,8 @@
 namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 
@@ -54,7 +56,7 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self' data:;connect-src 'self';media-src 'self'",
 		];
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$headers = $this->childResponse->getHeaders();
@@ -63,14 +65,14 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testGetCsp(): void {
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());
 	}
 
 	public function testGetCspEmpty(): void {
-		$this->assertEquals(new Http\EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
+		$this->assertEquals(new EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
 	}
 
 	public function testAddHeaderValueNullDeletesIt(): void {

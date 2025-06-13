@@ -96,7 +96,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('setPassword')
 			->with('new')
-			->will($this->throwException(new HintException('Common password')));
+			->willThrowException(new HintException('Common password'));
 
 		$expects = new JSONResponse([
 			'status' => 'error',

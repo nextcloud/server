@@ -9,6 +9,7 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 class LoaderTest extends TestCase {
@@ -16,7 +17,7 @@ class LoaderTest extends TestCase {
 	protected Loader $loader;
 
 	protected function setUp(): void {
-		$this->db = \OC::$server->get(IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 

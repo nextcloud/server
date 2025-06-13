@@ -20,10 +20,9 @@ class SimpleCommand implements ICommand {
 }
 
 class StateFullCommand implements ICommand {
-	private $state;
-
-	public function __construct($state) {
-		$this->state = $state;
+	public function __construct(
+		private $state,
+	) {
 	}
 
 	public function handle() {
@@ -50,7 +49,7 @@ class ThisClosureTest {
 	}
 
 	public function test(IBus $bus) {
-		$bus->push(function () {
+		$bus->push(function (): void {
 			$this->privateMethod();
 		});
 	}
@@ -126,7 +125,7 @@ abstract class AsyncBusTestCase extends TestCase {
 	}
 
 	public function testClosure(): void {
-		$this->getBus()->push(function () {
+		$this->getBus()->push(function (): void {
 			AsyncBusTestCase::$lastCommand = 'closure';
 		});
 		$this->runJobs();
@@ -134,7 +133,7 @@ abstract class AsyncBusTestCase extends TestCase {
 	}
 
 	public function testClosureSelf(): void {
-		$this->getBus()->push(function () {
+		$this->getBus()->push(function (): void {
 			AsyncBusTestCase::$lastCommand = 'closure-self';
 		});
 		$this->runJobs();
@@ -152,7 +151,7 @@ abstract class AsyncBusTestCase extends TestCase {
 
 	public function testClosureBind(): void {
 		$state = 'bar';
-		$this->getBus()->push(function () use ($state) {
+		$this->getBus()->push(function () use ($state): void {
 			AsyncBusTestCase::$lastCommand = 'closure-' . $state;
 		});
 		$this->runJobs();

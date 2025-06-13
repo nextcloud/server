@@ -6,6 +6,8 @@
  */
 namespace Test\Encryption;
 
+use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Manager;
 use OC\Encryption\Util;
 use OC\Files\View;
@@ -88,7 +90,7 @@ class ManagerTest extends TestCase {
 	 * @depends testModuleRegistration
 	 */
 	public function testModuleReRegistration($manager): void {
-		$this->expectException(\OC\Encryption\Exceptions\ModuleAlreadyExistsException::class);
+		$this->expectException(ModuleAlreadyExistsException::class);
 		$this->expectExceptionMessage('Id "ID0" already used by encryption module "TestDummyModule0"');
 
 		$this->addNewEncryptionModule($manager, 0);
@@ -105,7 +107,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testGetEncryptionModuleUnknown(): void {
-		$this->expectException(\OC\Encryption\Exceptions\ModuleDoesNotExistsException::class);
+		$this->expectException(ModuleDoesNotExistsException::class);
 		$this->expectExceptionMessage('Module with ID: unknown does not exist.');
 
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);

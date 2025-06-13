@@ -35,7 +35,7 @@ class TransactionalTest extends TestCase {
 			}
 
 			public function fail(): void {
-				$this->atomic(function () {
+				$this->atomic(function (): void {
 					throw new RuntimeException('nope');
 				}, $this->db);
 			}

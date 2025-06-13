@@ -7,6 +7,7 @@
 
 namespace Test\Memcache;
 
+use OC\Memcache\ArrayCache;
 use Test\TestCase;
 
 /**
@@ -17,7 +18,7 @@ class CasTraitTest extends TestCase {
 	 * @return \OC\Memcache\CasTrait
 	 */
 	private function getCache() {
-		$sourceCache = new \OC\Memcache\ArrayCache();
+		$sourceCache = new ArrayCache();
 		$mock = $this->getMockForTrait('\OC\Memcache\CasTrait');
 
 		$mock->expects($this->any())

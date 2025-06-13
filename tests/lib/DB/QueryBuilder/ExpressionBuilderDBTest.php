@@ -26,12 +26,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->prepareTestingTable();
 	}
 
 	public static function likeProvider(): array {
-		$connection = \OCP\Server::get(IDBConnection::class);
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -67,7 +67,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	public static function ilikeProvider(): array {
-		$connection = \OCP\Server::get(IDBConnection::class);
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],

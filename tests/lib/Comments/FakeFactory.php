@@ -6,12 +6,13 @@
  */
 namespace Test\Comments;
 
+use OCP\Comments\ICommentsManagerFactory;
 use OCP\IServerContainer;
 
 /**
  * Class FakeFactory
  */
-class FakeFactory implements \OCP\Comments\ICommentsManagerFactory {
+class FakeFactory implements ICommentsManagerFactory {
 	public function __construct(IServerContainer $serverContainer) {
 	}
 

@@ -6,6 +6,8 @@
  */
 namespace Test;
 
+use OC\ContactsManager;
+use OCP\Constants;
 use OCP\IAddressBook;
 
 class ContactsManagerTest extends \Test\TestCase {
@@ -14,7 +16,7 @@ class ContactsManagerTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->cm = new \OC\ContactsManager();
+		$this->cm = new ContactsManager();
 	}
 
 	public static function searchProvider(): array {
@@ -153,7 +155,7 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->any())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_ALL);
+			->willReturn(Constants::PERMISSION_ALL);
 
 		$addressbook->expects($this->once())
 			->method('delete')
@@ -176,7 +178,7 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->any())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_READ);
+			->willReturn(Constants::PERMISSION_READ);
 
 		$addressbook->expects($this->never())
 			->method('delete');
@@ -216,7 +218,7 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->any())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_ALL);
+			->willReturn(Constants::PERMISSION_ALL);
 
 		$addressbook->expects($this->once())
 			->method('createOrUpdate')
@@ -239,7 +241,7 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->any())
 			->method('getPermissions')
-			->willReturn(\OCP\Constants::PERMISSION_READ);
+			->willReturn(Constants::PERMISSION_READ);
 
 		$addressbook->expects($this->never())
 			->method('createOrUpdate');

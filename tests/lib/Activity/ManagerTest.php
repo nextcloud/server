@@ -9,6 +9,8 @@
 namespace Test\Activity;
 
 use OCP\Activity\Exceptions\IncompleteActivityException;
+use OCP\Activity\IConsumer;
+use OCP\Activity\IEvent;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -228,7 +230,7 @@ class ManagerTest extends TestCase {
 		$consumer->expects($this->once())
 			->method('receive')
 			->with($event)
-			->willReturnCallback(function (\OCP\Activity\IEvent $event) use ($expected) {
+			->willReturnCallback(function (IEvent $event) use ($expected): void {
 				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertSame($expected, $event->getAuthor(), 'Author name not set correctly');
@@ -258,7 +260,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$consumer->expects($this->once())
 			->method('receive')
-			->willReturnCallback(function (\OCP\Activity\IEvent $event) {
+			->willReturnCallback(function (IEvent $event): void {
 				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
 				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
 				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
@@ -281,7 +283,7 @@ class ManagerTest extends TestCase {
 	}
 }
 
-class NoOpConsumer implements \OCP\Activity\IConsumer {
-	public function receive(\OCP\Activity\IEvent $event) {
+class NoOpConsumer implements IConsumer {
+	public function receive(IEvent $event) {
 	}
 }

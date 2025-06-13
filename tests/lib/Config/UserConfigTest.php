@@ -15,6 +15,7 @@ use OC\Config\UserConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -170,10 +171,10 @@ class UserConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
-		$this->config = \OCP\Server::get(IConfig::class);
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
-		$this->crypto = \OCP\Server::get(ICrypto::class);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->config = Server::get(IConfig::class);
+		$this->logger = Server::get(LoggerInterface::class);
+		$this->crypto = Server::get(ICrypto::class);
 
 		// storing current preferences and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -278,7 +279,7 @@ class UserConfigTest extends TestCase {
 	 * @return IUserConfig
 	 */
 	private function generateUserConfig(array $preLoading = []): IUserConfig {
-		$userConfig = new \OC\Config\UserConfig(
+		$userConfig = new UserConfig(
 			$this->connection,
 			$this->config,
 			$this->logger,

@@ -16,6 +16,8 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -39,7 +41,7 @@ class SearchBuilderTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
 		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
 
@@ -76,7 +78,7 @@ class SearchBuilderTest extends TestCase {
 	protected function tearDown(): void {
 		parent::tearDown();
 
-		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$builder->delete('filecache')
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($this->numericStorageId, IQueryBuilder::PARAM_INT)));
@@ -109,7 +111,7 @@ class SearchBuilderTest extends TestCase {
 			$data['mimetype'] = 1;
 		}
 
-		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$values = [];
 		foreach ($data as $key => $value) {

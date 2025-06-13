@@ -7,6 +7,7 @@
 namespace Test\RichObjectStrings;
 
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
@@ -21,7 +22,7 @@ class DefinitionsTest extends TestCase {
 
 
 	public function testGetDefinitionNotExisting(): void {
-		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
+		$this->expectException(InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
 
 		$definitions = new Definitions();

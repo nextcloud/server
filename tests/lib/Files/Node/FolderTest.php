@@ -21,12 +21,15 @@ use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
@@ -150,7 +153,7 @@ class FolderTest extends NodeTestCase {
 
 		$root->method('get')
 			->with('/bar/foo/asd')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$this->assertFalse($node->nodeExists('asd'));
@@ -168,7 +171,7 @@ class FolderTest extends NodeTestCase {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('mkdir')
 			->with('/bar/foo/asd')
@@ -192,7 +195,7 @@ class FolderTest extends NodeTestCase {
 
 		$view->method('getFileInfo')
 			->with('/foobar')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('mkdir')
 			->with('/foobar/asd/sdf')
@@ -206,7 +209,7 @@ class FolderTest extends NodeTestCase {
 
 
 	public function testNewFolderNotPermitted(): void {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+		$this->expectException(NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -218,7 +221,7 @@ class FolderTest extends NodeTestCase {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$node->newFolder('asd');
@@ -236,21 +239,21 @@ class FolderTest extends NodeTestCase {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('touch')
 			->with('/bar/foo/asd')
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd', null, $node);
+		$child = new File($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFile('asd');
 		$this->assertEquals($child, $result);
 	}
 
 
 	public function testNewFileNotPermitted(): void {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+		$this->expectException(NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -262,7 +265,7 @@ class FolderTest extends NodeTestCase {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$node->newFile('asd');
@@ -502,7 +505,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -551,7 +554,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -596,7 +599,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -640,7 +643,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount1 = new MountPoint($storage, '/bar');
 		$mount2 = new MountPoint($storage, '/bar/foo/asd');
 		$storage->method('getId')->willReturn('');
@@ -753,14 +756,14 @@ class FolderTest extends NodeTestCase {
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 		$id2 = $cache->put('bar/foo/old.txt', [
 			'storage_mtime' => $baseTime - 100,
 			'mtime' => $baseTime - 100,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_READ,
+			'permissions' => Constants::PERMISSION_READ,
 		]);
 		$cache->put('bar/asd/outside.txt', [
 			'storage_mtime' => $baseTime,
@@ -773,7 +776,7 @@ class FolderTest extends NodeTestCase {
 			'mtime' => $baseTime - 600,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
@@ -830,7 +833,7 @@ class FolderTest extends NodeTestCase {
 			'mimetype' => 'text/plain',
 			'size' => 3,
 			'parent' => $id1,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 		$id3 = $cache->put('bar/foo/folder/asd.txt', [
 			'storage_mtime' => $baseTime - 100,
@@ -838,7 +841,7 @@ class FolderTest extends NodeTestCase {
 			'mimetype' => 'text/plain',
 			'size' => 3,
 			'parent' => $id1,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
@@ -891,7 +894,7 @@ class FolderTest extends NodeTestCase {
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$cache->put('outside.txt', [

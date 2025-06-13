@@ -71,8 +71,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->expects($this->never())
 			->method('delete');
 
-		$this->timeFactory->method('getTime')
-			->will($this->onConsecutiveCalls(100, 200));
+		$this->timeFactory->method('getTime')->willReturnOnConsecutiveCalls(100, 200);
 
 		$this->jobList->expects($this->once())
 			->method('add')
@@ -84,7 +83,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -118,8 +117,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->method('getDirectoryListing')
 			->willReturn([$previewFolder1]);
 
-		$this->timeFactory->method('getTime')
-			->will($this->onConsecutiveCalls(100, 101));
+		$this->timeFactory->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
 
 		$this->jobList->expects($this->never())
 			->method('add');
@@ -127,7 +125,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -150,7 +148,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -178,7 +176,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 
@@ -213,8 +211,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->method('getDirectoryListing')
 			->willReturn([$previewFolder1]);
 
-		$this->timeFactory->method('getTime')
-			->will($this->onConsecutiveCalls(100, 101));
+		$this->timeFactory->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
 
 		$this->jobList->expects($this->never())
 			->method('add');
@@ -226,7 +223,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->willReturnCallback(function () use (&$loggerCalls) {
+			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
 			});
 

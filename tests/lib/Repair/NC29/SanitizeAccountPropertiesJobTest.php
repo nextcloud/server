@@ -104,7 +104,7 @@ class SanitizeAccountPropertiesJobTest extends TestCase {
 		$valid = false;
 		$this->accountManager->expects(self::exactly(3))
 			->method('updateAccount')
-			->willReturnCallback(function (IAccount $account) use (&$account1, &$valid) {
+			->willReturnCallback(function (IAccount $account) use (&$account1, &$valid): void {
 				if (!$valid && $account === $account1) {
 					$valid = true;
 					throw new InvalidArgumentException(IAccountManager::PROPERTY_PHONE);

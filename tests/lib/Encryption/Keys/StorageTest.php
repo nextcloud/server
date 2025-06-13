@@ -589,7 +589,7 @@ class StorageTest extends TestCase {
 				'user1/files_encryption/backup/test.encryptionModule.1234567',
 			];
 			$this->view->expects($this->exactly(2))->method('mkdir')
-				->willReturnCallback(function ($path) use (&$calls) {
+				->willReturnCallback(function ($path) use (&$calls): void {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, $path);
 				});

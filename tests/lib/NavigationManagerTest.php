@@ -20,6 +20,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -265,7 +266,7 @@ class NavigationManagerTest extends TestCase {
 		$this->navigationManager->clear();
 		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
 		$entries = $this->navigationManager->getAll('all');
@@ -323,7 +324,7 @@ class NavigationManagerTest extends TestCase {
 			'logout' => [
 				'id' => 'logout',
 				'order' => 99999,
-				'href' => 'https://example.com/logout?requesttoken=' . urlencode(\OCP\Util::callRegister()),
+				'href' => 'https://example.com/logout?requesttoken=' . urlencode(Util::callRegister()),
 				'icon' => '/apps/core/img/actions/logout.svg',
 				'name' => 'Log out',
 				'active' => false,
@@ -572,7 +573,7 @@ class NavigationManagerTest extends TestCase {
 		$this->navigationManager->clear();
 		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->willReturnCallback(function ($event) {
+			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
 		$entries = $this->navigationManager->getAll();

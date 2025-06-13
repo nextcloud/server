@@ -7,8 +7,10 @@
 
 namespace Test\Share20;
 
+use OC\Share20\Share;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\IllegalIDChangeException;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -27,7 +29,7 @@ class ShareTest extends \Test\TestCase {
 	protected function setUp(): void {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
+		$this->share = new Share($this->rootFolder, $this->userManager);
 	}
 
 
@@ -51,7 +53,7 @@ class ShareTest extends \Test\TestCase {
 
 
 	public function testSetIdOnce(): void {
-		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
+		$this->expectException(IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new internal id to a share');
 
 		$this->share->setId('foo');
@@ -75,7 +77,7 @@ class ShareTest extends \Test\TestCase {
 
 
 	public function testSetProviderIdOnce(): void {
-		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
+		$this->expectException(IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new provider id to a share');
 
 		$this->share->setProviderId('foo');

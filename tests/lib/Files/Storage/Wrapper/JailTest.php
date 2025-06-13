@@ -7,6 +7,10 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Files\Filesystem;
+use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Jail;
+
 class JailTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var \OC\Files\Storage\Temporary
@@ -15,9 +19,9 @@ class JailTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->sourceStorage = new \OC\Files\Storage\Temporary([]);
+		$this->sourceStorage = new Temporary([]);
 		$this->sourceStorage->mkdir('foo');
-		$this->instance = new \OC\Files\Storage\Wrapper\Jail([
+		$this->instance = new Jail([
 			'storage' => $this->sourceStorage,
 			'root' => 'foo'
 		]);
@@ -28,7 +32,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 		$contents = [];
 		$dh = $this->sourceStorage->opendir('');
 		while (($file = readdir($dh)) !== false) {
-			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+			if (!Filesystem::isIgnoredDir($file)) {
 				$contents[] = $file;
 			}
 		}

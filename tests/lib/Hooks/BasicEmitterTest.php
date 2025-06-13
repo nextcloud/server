@@ -7,6 +7,8 @@
 
 namespace Test\Hooks;
 
+use OC\Hooks\BasicEmitter;
+
 /**
  * Class DummyEmitter
  *
@@ -14,7 +16,7 @@ namespace Test\Hooks;
  *
  * @package Test\Hooks
  */
-class DummyEmitter extends \OC\Hooks\BasicEmitter {
+class DummyEmitter extends BasicEmitter {
 	public function emitEvent($scope, $method, $arguments = []) {
 		$this->emit($scope, $method, $arguments);
 	}
@@ -49,17 +51,17 @@ class BasicEmitterTest extends \Test\TestCase {
 		throw new EmittedException;
 	}
 
-	
+
 	public function testAnonymousFunction(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', function () {
+		$this->emitter->listen('Test', 'test', function (): void {
 			throw new EmittedException;
 		});
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
-	
+
 	public function testStaticCallback(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
@@ -67,7 +69,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
-	
+
 	public function testNonStaticCallback(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
@@ -77,7 +79,7 @@ class BasicEmitterTest extends \Test\TestCase {
 
 	public function testOnlyCallOnce(): void {
 		$count = 0;
-		$listener = function () use (&$count) {
+		$listener = function () use (&$count): void {
 			$count++;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -88,7 +90,7 @@ class BasicEmitterTest extends \Test\TestCase {
 
 	public function testDifferentMethods(): void {
 		$count = 0;
-		$listener = function () use (&$count) {
+		$listener = function () use (&$count): void {
 			$count++;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -100,7 +102,7 @@ class BasicEmitterTest extends \Test\TestCase {
 
 	public function testDifferentScopes(): void {
 		$count = 0;
-		$listener = function () use (&$count) {
+		$listener = function () use (&$count): void {
 			$count++;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -112,10 +114,10 @@ class BasicEmitterTest extends \Test\TestCase {
 
 	public function testDifferentCallbacks(): void {
 		$count = 0;
-		$listener1 = function () use (&$count) {
+		$listener1 = function () use (&$count): void {
 			$count++;
 		};
-		$listener2 = function () use (&$count) {
+		$listener2 = function () use (&$count): void {
 			$count++;
 		};
 		$this->emitter->listen('Test', 'test', $listener1);
@@ -124,11 +126,11 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->assertEquals(2, $count, 'Listener called an invalid number of times (' . $count . ') expected 2');
 	}
 
-	
+
 	public function testArguments(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', function ($foo, $bar) {
+		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
 			if ($foo == 'foo' and $bar == 'bar') {
 				throw new EmittedException;
 			}
@@ -136,11 +138,11 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test', ['foo', 'bar']);
 	}
 
-	
+
 	public function testNamedArguments(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', function ($foo, $bar) {
+		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
 			if ($foo == 'foo' and $bar == 'bar') {
 				throw new EmittedException;
 			}
@@ -149,7 +151,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	}
 
 	public function testRemoveAllSpecified(): void {
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -160,10 +162,10 @@ class BasicEmitterTest extends \Test\TestCase {
 	}
 
 	public function testRemoveWildcardListener(): void {
-		$listener1 = function () {
+		$listener1 = function (): void {
 			throw new EmittedException;
 		};
-		$listener2 = function () {
+		$listener2 = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener1);
@@ -175,7 +177,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	}
 
 	public function testRemoveWildcardMethod(): void {
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -188,7 +190,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	}
 
 	public function testRemoveWildcardScope(): void {
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -201,7 +203,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	}
 
 	public function testRemoveWildcardScopeAndMethod(): void {
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -215,14 +217,14 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	
+
 	public function testRemoveKeepOtherCallback(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$listener1 = function () {
+		$listener1 = function (): void {
 			throw new EmittedException;
 		};
-		$listener2 = function () {
+		$listener2 = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener1);
@@ -233,11 +235,11 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	
+
 	public function testRemoveKeepOtherMethod(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -248,11 +250,11 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	
+
 	public function testRemoveKeepOtherScope(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
@@ -263,11 +265,11 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	
+
 	public function testRemoveNonExistingName(): void {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$listener = function () {
+		$listener = function (): void {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);

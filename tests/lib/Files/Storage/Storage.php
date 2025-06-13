@@ -8,6 +8,7 @@
 namespace Test\Files\Storage;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 
@@ -327,7 +328,7 @@ abstract class Storage extends \Test\TestCase {
 	 * no change.
 	 */
 	public function testCheckUpdate(): void {
-		if ($this->instance instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+		if ($this->instance instanceof Wrapper) {
 			$this->markTestSkipped('Cannot test update check on wrappers');
 		}
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';

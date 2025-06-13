@@ -14,6 +14,7 @@ use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -87,9 +88,9 @@ class AppConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
-		$this->crypto = \OCP\Server::get(ICrypto::class);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->logger = Server::get(LoggerInterface::class);
+		$this->crypto = Server::get(ICrypto::class);
 
 		// storing current config and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -176,7 +177,7 @@ class AppConfigTest extends TestCase {
 	 */
 	private function generateAppConfig(bool $preLoading = true): IAppConfig {
 		/** @var AppConfig $config */
-		$config = new \OC\AppConfig(
+		$config = new AppConfig(
 			$this->connection,
 			$this->logger,
 			$this->crypto,

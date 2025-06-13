@@ -7,6 +7,7 @@
 
 namespace Test\Files;
 
+use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -20,13 +21,19 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\ITempManager;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -117,8 +124,8 @@ class ViewTest extends \Test\TestCase {
 		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 
 		//login
-		$userManager = \OC::$server->getUserManager();
-		$groupManager = \OC::$server->getGroupManager();
+		$userManager = Server::get(IUserManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$this->user = 'test';
 		$this->userObject = $userManager->createUser('test', 'test');
 
@@ -128,7 +135,7 @@ class ViewTest extends \Test\TestCase {
 		self::loginAsUser($this->user);
 
 		/** @var IMountManager $manager */
-		$manager = \OC::$server->get(IMountManager::class);
+		$manager = Server::get(IMountManager::class);
 		$manager->removeMount('/test');
 
 		$this->tempStorage = null;
@@ -149,13 +156,13 @@ class ViewTest extends \Test\TestCase {
 		self::logout();
 
 		/** @var SetupManager $setupManager */
-		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager = Server::get(SetupManager::class);
 		$setupManager->setupRoot();
 
 		$this->userObject->delete();
 		$this->groupObject->delete();
 
-		$mountProviderCollection = \OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class);
+		$mountProviderCollection = Server::get(IMountProviderCollection::class);
 		self::invokePrivate($mountProviderCollection, 'providers', [[]]);
 
 		parent::tearDown();
@@ -275,7 +282,7 @@ class ViewTest extends \Test\TestCase {
 
 
 	public function testGetPathNotExisting(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$storage1 = $this->getTestStorage();
 		Filesystem::mount($storage1, [], '/');
@@ -315,9 +322,9 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable): void {
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(Server::get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 		$oldExcludeGroupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$config->setAppValue('core', 'shareapi_exclude_groups', $excludeGroups);
@@ -340,7 +347,7 @@ class ViewTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(Server::get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 	}
 
 	public function testCacheIncompleteFolder(): void {
@@ -845,7 +852,7 @@ class ViewTest extends \Test\TestCase {
 		 * 1024 is the max path length in mac
 		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$tmpdirLength = strlen(\OC::$server->getTempManager()->getTemporaryFolder());
+		$tmpdirLength = strlen(Server::get(ITempManager::class)->getTemporaryFolder());
 		if (\OC_Util::runningOnMac()) {
 			$depth = ((1024 - $tmpdirLength) / 57);
 		} else {
@@ -892,7 +899,7 @@ class ViewTest extends \Test\TestCase {
 		$info = $view->getFileInfo('/test/test');
 
 		$view->touch('/test/test', $past);
-		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
+		$scanner->scanFile('test', Scanner::REUSE_ETAG);
 
 		$info2 = $view->getFileInfo('/test/test');
 		$this->assertSame($info['etag'], $info2['etag']);
@@ -1082,7 +1089,7 @@ class ViewTest extends \Test\TestCase {
 	 * @dataProvider tooLongPathDataProvider
 	 */
 	public function testTooLongPath($operation, $param0 = null): void {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+		$this->expectException(InvalidPathException::class);
 
 
 		$longPath = '';
@@ -1332,7 +1339,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $pathPrefix
 	 */
 	public function testReadFromWriteLockedPath($rootPath, $pathPrefix): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$rootPath = str_replace('{folder}', 'files', $rootPath);
 		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
@@ -1373,7 +1380,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $pathPrefix
 	 */
 	public function testWriteToReadLockedFile($rootPath, $pathPrefix): void {
-		$this->expectException(\OCP\Lock\LockedException::class);
+		$this->expectException(LockedException::class);
 
 		$rootPath = str_replace('{folder}', 'files', $rootPath);
 		$pathPrefix = str_replace('{folder}', 'files', $pathPrefix);
@@ -1408,7 +1415,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths instead of mount root
 	 */
 	public function testLockLocalMountPointPathInsteadOfStorageRoot(): void {
-		$lockingProvider = \OC::$server->get(ILockingProvider::class);
+		$lockingProvider = Server::get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1438,7 +1445,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockStorageRootButNotLocalMountPoint(): void {
-		$lockingProvider = \OC::$server->get(ILockingProvider::class);
+		$lockingProvider = Server::get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1468,7 +1475,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockMountPointPathFailReleasesBoth(): void {
-		$lockingProvider = \OC::$server->get(ILockingProvider::class);
+		$lockingProvider = Server::get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1611,7 +1618,7 @@ class ViewTest extends \Test\TestCase {
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
 			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
-				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
+				return new \OC\Files\Cache\Storage($storage, true, Server::get(IDBConnection::class));
 			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
@@ -1626,7 +1633,7 @@ class ViewTest extends \Test\TestCase {
 			->method('getMountsForUser')
 			->willReturn($mounts);
 
-		$mountProviderCollection = \OCP\Server::get(\OCP\Files\Config\IMountProviderCollection::class);
+		$mountProviderCollection = Server::get(IMountProviderCollection::class);
 		$mountProviderCollection->registerProvider($mountProvider);
 
 		return $mounts;
@@ -1723,16 +1730,16 @@ class ViewTest extends \Test\TestCase {
 		$view->mkdir('shareddir notshared');
 
 		$fileId = $view->getFileInfo('shareddir')->getId();
-		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
+		$userObject = Server::get(IUserManager::class)->createUser('test2', 'IHateNonMockableStaticClasses');
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');
-		$shareManager = \OC::$server->get(IShareManager::class);
+		$shareManager = Server::get(IShareManager::class);
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 
@@ -2117,7 +2124,7 @@ class ViewTest extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->willReturnCallback(
-				function () {
+				function (): void {
 					throw new \Exception('Simulated exception');
 				}
 			);
@@ -2231,13 +2238,13 @@ class ViewTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('getMetaData')
-			->will($this->returnValue([
+			->willReturn([
 				'mtime' => 1885434487,
 				'etag' => '',
 				'mimetype' => 'text/plain',
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => 3
-			]));
+			]);
 		$storage->expects($this->any())
 			->method('filemtime')
 			->willReturn(123456789);
@@ -2311,7 +2318,7 @@ class ViewTest extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method('copy')
 			->willReturnCallback(
-				function () {
+				function (): void {
 					throw new \Exception();
 				}
 			);
@@ -2426,13 +2433,13 @@ class ViewTest extends \Test\TestCase {
 
 		$storage2->expects($this->any())
 			->method('getMetaData')
-			->will($this->returnValue([
+			->willReturn([
 				'mtime' => 1885434487,
 				'etag' => '',
 				'mimetype' => 'text/plain',
 				'permissions' => Constants::PERMISSION_ALL,
 				'size' => 3
-			]));
+			]);
 		$storage2->expects($this->any())
 			->method('filemtime')
 			->willReturn(123456789);
@@ -2566,14 +2573,14 @@ class ViewTest extends \Test\TestCase {
 		$eventHandler->expects($this->any())
 			->method('preCallback')
 			->willReturnCallback(
-				function () use ($view, $path, $onMountPoint, &$lockTypePre) {
+				function () use ($view, $path, $onMountPoint, &$lockTypePre): void {
 					$lockTypePre = $this->getFileLockType($view, $path, $onMountPoint);
 				}
 			);
 		$eventHandler->expects($this->any())
 			->method('postCallback')
 			->willReturnCallback(
-				function () use ($view, $path, $onMountPoint, &$lockTypePost) {
+				function () use ($view, $path, $onMountPoint, &$lockTypePost): void {
 					$lockTypePost = $this->getFileLockType($view, $path, $onMountPoint);
 				}
 			);
@@ -2794,7 +2801,7 @@ class ViewTest extends \Test\TestCase {
 		$calls = ['/new/folder', '/new/folder/structure'];
 		$view->expects($this->exactly(2))
 			->method('mkdir')
-			->willReturnCallback(function ($dir) use (&$calls) {
+			->willReturnCallback(function ($dir) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $dir);
 			});
