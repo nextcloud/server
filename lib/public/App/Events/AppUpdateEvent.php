@@ -16,15 +16,13 @@ use OCP\EventDispatcher\Event;
  * @since 27.0.0
  */
 class AppUpdateEvent extends Event {
-	private string $appId;
-
 	/**
 	 * @since 27.0.0
 	 */
-	public function __construct(string $appId) {
+	public function __construct(
+		private readonly string $appId,
+	) {
 		parent::__construct();
-
-		$this->appId = $appId;
 	}
 
 	/**
