@@ -177,7 +177,7 @@
     "puppeteer": "^24.10.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
-    "sass": "^1.89.1",
+    "sass": "^1.89.2",
     "sass-loader": "^14.0.0",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
