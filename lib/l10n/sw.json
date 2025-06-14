@@ -1,6 +1,7 @@
 { "translations": {
     "seconds ago" : "sukunde zilizopita",
     "File already exists" : "Faili lipo tayari",
+    "Settings" : "Mipangilio",
     "Email" : "Barua pepe",
     "Sunday" : "Jumapili",
     "Monday" : "Jumatatu",
@@ -9,6 +10,8 @@
     "Thursday" : "Alhamisi",
     "Friday" : "Ijumaa",
     "Saturday" : "Jumamosi",
-    "Confirmation" : "Uthibitisho"
+    "Confirmation" : "Uthibitisho",
+    "Text" : "Maandishi",
+    "Summary" : "Muhtasari"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
