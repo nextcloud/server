@@ -21,7 +21,6 @@ use OCA\User_LDAP\User_LDAP;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -199,7 +198,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
@@ -212,7 +211,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
