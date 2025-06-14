@@ -692,6 +692,8 @@ class Connection extends LDAPUtility {
 			throw new ServerNotAvailableException('Connection failed');
 		}
 
+		$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_X_TLS_CACERTFILE, '/etc/ssl/certs/ca-certificates.crt');
+
 		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
