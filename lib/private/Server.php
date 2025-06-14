@@ -198,6 +198,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\OCM\ICapabilityAwareOCMProvider;
+use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
@@ -1273,6 +1274,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
 		$this->registerAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		$this->registerAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
