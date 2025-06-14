@@ -94,6 +94,20 @@ class Expiration {
 	}
 
 	/**
+	 * Get minimal retention obligation as a timestamp
+	 *
+	 * @return int|false
+	 */
+	public function getMinAgeAsTimestamp() {
+		$minAge = false;
+		if ($this->isEnabled() && $this->minAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$minAge = $time - ($this->minAge * 86400);
+		}
+		return $minAge;
+	}
+
+	/**
 	 * @return bool|int
 	 */
 	public function getMaxAgeAsTimestamp() {
