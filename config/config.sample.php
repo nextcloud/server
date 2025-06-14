@@ -2321,6 +2321,18 @@ $CONFIG = [
 'files_external_allow_create_new_local' => true,
 
 /**
+ * Controls whether to attempt downloading the entire file for preview generation
+ * on non-local storage (e.g., S3, WebDAV) when the initial 5 MB chunk fails to provide
+ * sufficient data for a preview. By default, only the first 5 MB of a file is parsed.
+ *
+ * Enabling this option may significantly increase bandwidth usage and processing time
+ * for large files on external storages.
+ *
+ * * Defaults to ``false``
+ */
+'files_external_full_previews' => false,
+
+/**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
  * NFS mounts in data/) is checked for changes made outside Nextcloud. This
  * does not apply to external storage.
