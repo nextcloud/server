@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/dialogs
-	- version: 6.3.0
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - vue
 	- version: 2.7.16
