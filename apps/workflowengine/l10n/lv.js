@@ -14,6 +14,7 @@ OC.L10N.register(
     "The given group does not exist" : "Norādītā grupa nepastāv.",
     "File" : "Datne",
     "File renamed" : "Datne pārdēvēta",
+    "%s renamed %s" : "%s pārdēvēja %s",
     "Operation #%s does not exist" : "Operation #%s does not exist",
     "Operation %s does not exist" : "Darbība %s nepastāv",
     "Operation %s is invalid" : "Darbība %s ir nederīga",
