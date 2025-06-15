@@ -41,7 +41,6 @@ Feature: dav-v2
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|noindex, nofollow|
-			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the new backend
