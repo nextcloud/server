@@ -1372,6 +1372,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\User\\Keys\\Verify' => __DIR__ . '/../../..' . '/core/Command/User/Keys/Verify.php',
         'OC\\Core\\Command\\User\\LastSeen' => __DIR__ . '/../../..' . '/core/Command/User/LastSeen.php',
         'OC\\Core\\Command\\User\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/User/ListCommand.php',
+        'OC\\Core\\Command\\User\\Profile' => __DIR__ . '/../../..' . '/core/Command/User/Profile.php',
         'OC\\Core\\Command\\User\\Report' => __DIR__ . '/../../..' . '/core/Command/User/Report.php',
         'OC\\Core\\Command\\User\\ResetPassword' => __DIR__ . '/../../..' . '/core/Command/User/ResetPassword.php',
         'OC\\Core\\Command\\User\\Setting' => __DIR__ . '/../../..' . '/core/Command/User/Setting.php',
