@@ -12,6 +12,7 @@ OC.L10N.register(
     "Confirm" : "Thibitisha",
     "Undo" : "Tendua",
     "Image" : "Picha",
-    "Text" : "Maandishi"
+    "Text" : "Maandishi",
+    "Size" : "Ukubwa"
 },
 "nplurals=2; plural=(n != 1);");
