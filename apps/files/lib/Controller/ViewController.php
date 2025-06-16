@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\InternalLinkRequestEvent;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -89,7 +90,10 @@ class ViewController extends Controller {
 
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile((int)$fileid, $opendetails, $openfile);
+			$event = new InternalLinkRequestEvent($fileid);
+			$this->eventDispatcher->dispatchTyped($event);
+			
+			return $event->getResponse() ?? $this->redirectToFile((int)$fileid, $opendetails, $openfile);
 		} catch (NotFoundException $e) {
 			// Keep the fileid even if not found, it will be used
 			// to detect the file could not be found and warn the user
