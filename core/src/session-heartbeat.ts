@@ -23,7 +23,7 @@ interface OcJsConfig {
 const {
 	auto_logout: autoLogout,
 	session_keepalive: keepSessionAlive,
-	session_lifetime: seesionLifetime,
+	session_lifetime: sessionLifetime,
 } = loadState<Partial<OcJsConfig>>('core', 'config', {})
 
 /**
@@ -76,8 +76,8 @@ export function initSessionHeartBeat() {
  * Get interval in seconds
  */
 function getInterval(): number {
-	const interval = seesionLifetime
-		? Math.floor(seesionLifetime / 2)
+	const interval = sessionLifetime
+		? Math.floor(sessionLifetime / 2)
 		: 900
 
 	// minimum one minute, max 24 hours, default 15 minutes
@@ -146,7 +146,7 @@ function registerAutoLogout() {
 
 	let intervalId = 0
 	const logoutCheck = () => {
-		const timeout = Date.now() - (seesionLifetime ?? 86400) * 1000
+		const timeout = Date.now() - (sessionLifetime ?? 86400) * 1000
 		if (lastActive < timeout) {
 			clearTimeout(intervalId)
 			logger.info('Inactivity timout reached, logging out')
