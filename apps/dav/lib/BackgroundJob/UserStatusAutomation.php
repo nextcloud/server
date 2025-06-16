@@ -59,6 +59,8 @@ class UserStatusAutomation extends TimedJob {
 		$userId = $argument['userId'];
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has been deleted');
+			$this->jobList->remove(self::class, $argument);
 			return;
 		}
 
