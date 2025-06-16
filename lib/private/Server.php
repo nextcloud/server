@@ -322,7 +322,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Profiler($c->get(SystemConfig::class));
 		});
 
-		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c): Encryption\Manager {
+		$this->registerService(Encryption\Manager::class, function (Server $c): Encryption\Manager {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -339,6 +339,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
+		$this->registerAlias(\OCP\Encryption\IManager::class, Encryption\Manager::class);
 
 		$this->registerService(IFile::class, function (ContainerInterface $c) {
 			$util = new Encryption\Util(
