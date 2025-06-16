@@ -35,17 +35,14 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - 'src/**'
+              - 'appinfo/info.xml'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'
               - '**.vue'
-              - 'core/css/*'
-              - 'core/img/**'
-              - 'version.php'
 
   build:
     runs-on: ubuntu-latest
