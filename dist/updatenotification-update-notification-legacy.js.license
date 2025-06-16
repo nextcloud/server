@@ -22,13 +22,13 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/dialogs
-	- version: 6.3.0
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
