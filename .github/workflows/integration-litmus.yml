@@ -102,6 +102,10 @@ jobs:
           if: always()
           run: cat data/nextcloud.log
 
+        - name: "Fail on Nextcloud logs with severity !== 1"
+          if: always()
+          run: ! grep -v '"level":1' data/nextcloud.log
+
   integration-litmus-summary:
     permissions:
       contents: none
