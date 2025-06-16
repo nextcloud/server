@@ -114,7 +114,7 @@ class RequestHandlerControllerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn($userId);
-		$user->method('getPrimaryEMailAddress')
+		$user->method('getEMailAddress')
 			->willReturn('email');
 		$user->method('getDisplayName')
 			->willReturn('displayName');
