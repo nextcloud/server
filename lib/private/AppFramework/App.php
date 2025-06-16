@@ -101,7 +101,7 @@ class App {
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
 			\OC::$server->get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -115,7 +115,7 @@ class App {
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($container['urlParams']);
 		}
-		$appName = $container['AppName'];
+		$appName = $container['appName'];
 
 		$eventLogger->end('app:controller:params');
 
