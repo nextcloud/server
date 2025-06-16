@@ -847,13 +847,13 @@ class OC {
 		register_shutdown_function(function () {
 			$memoryPeak = memory_get_peak_usage();
 			$logLevel = match (true) {
-				$memoryPeak > 500_000_000 => ILogger::FATAL,
-				$memoryPeak > 400_000_000 => ILogger::ERROR,
-				$memoryPeak > 300_000_000 => ILogger::WARN,
+				$memoryPeak > 500_000_000 => ILogger::WARN,
+				$memoryPeak > 400_000_000 => ILogger::INFO,
+				$memoryPeak > 300_000_000 => ILogger::DEBUG,
 				default => null,
 			};
 			if ($logLevel !== null) {
-				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+				$message = 'Request memory usage peak exceeded 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
 				$logger = Server::get(LoggerInterface::class);
 				$logger->log($logLevel, $message, ['app' => 'core']);
 			}
