@@ -199,6 +199,7 @@ use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
@@ -1273,6 +1274,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
 		$this->registerAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
