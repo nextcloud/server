@@ -43,7 +43,7 @@ class ShareDisableChecker {
 
 		if ($excludeGroups && $excludeGroups !== 'no') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
+			$excludedGroups = json_decode($groupsList, true);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);
