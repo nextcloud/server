@@ -91,6 +91,7 @@
     "Destination does not exist" : "المَقصِد غير موجود",
     "Destination is not creatable" : "المِقصِد لايمكن إنشاؤه",
     "Dot files are not allowed" : "الملفات النقطية (ملفات ذات أسماء تبدأ بنقطة) غير مسموح بها",
+    "renamed file" : "ملف معاد تسميته",
     "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" غير مسموح به أن يكون اسم ملف أو مجلد.",
     "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" غير مسموح به أن يكون بادئة لاسم ملف أو مجلد.",
     "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" غير مسموح به أن يكون داخل اسم ملف أو مجلد.",
