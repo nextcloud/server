@@ -219,4 +219,16 @@ END:VCALENDAR');
 
 		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
 	}
+
+	public function testRunWithDeletedUser(): void {
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->logger->expects(self::exactly(1))
+			->method('info');
+		$this->jobList->expects(self::once())
+			->method('remove');
+		$automation = $this->getAutomationMock([]);
+		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
+	}
 }
