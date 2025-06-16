@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\DependencyInjection;
 
 use OC;
@@ -22,10 +25,8 @@ use OC\AppFramework\ScopedPsrLogger;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
-use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
-use OC\User\Manager as UserManager;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
@@ -33,55 +34,36 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
-use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Ip\IRemoteAddress;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @deprecated 20.0.0
- */
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private string $appName;
+	private array $middleWares = [];
+	private ServerContainer $server;
 
-	/**
-	 * @var array
-	 */
-	private $middleWares = [];
-
-	/** @var ServerContainer */
-	private $server;
-
-	/**
-	 * Put your class dependencies in here
-	 * @param string $appName the name of the app
-	 * @param array $urlParams
-	 * @param ServerContainer|null $server
-	 */
 	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
 		parent::__construct();
 		$this->appName = $appName;
-		$this['appName'] = $appName;
-		$this['urlParams'] = $urlParams;
+		$this->registerParameter('appName', $appName);
+		$this->registerParameter('urlParams', $urlParams);
 
-		$this->registerAlias('Request', IRequest::class);
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias('Request', IRequest::class);
 
-		/** @var \OC\ServerContainer $server */
 		if ($server === null) {
 			$server = \OC::$server;
 		}
@@ -90,74 +72,66 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		// aliases
 		/** @deprecated 26.0.0 inject $appName */
-		$this->registerAlias('AppName', 'appName');
+		$this->registerDeprecatedAlias('AppName', 'appName');
 		/** @deprecated 26.0.0 inject $webRoot*/
-		$this->registerAlias('WebRoot', 'webRoot');
+		$this->registerDeprecatedAlias('WebRoot', 'webRoot');
 		/** @deprecated 26.0.0 inject $userId */
-		$this->registerAlias('UserId', 'userId');
+		$this->registerDeprecatedAlias('UserId', 'userId');
 
 		/**
 		 * Core services
 		 */
-		$this->registerService(IOutput::class, function () {
-			return new Output($this->getServer()->getWebRoot());
-		});
+		/* Cannot be an alias because Output is not in OCA */
+		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
 
 		$this->registerService(Folder::class, function () {
 			return $this->getServer()->getUserFolder();
 		});
 
-		$this->registerService(IAppData::class, function (ContainerInterface $c) {
-			return $this->getServer()->getAppDataDir($c->get('AppName'));
+		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
+			return $c->get(\OCP\Files\AppData\IAppDataFactory::class)->get($c->get('appName'));
 		});
 
 		$this->registerService(IL10N::class, function (ContainerInterface $c) {
-			return $this->getServer()->getL10N($c->get('AppName'));
+			return $this->getServer()->getL10N($c->get('appName'));
 		});
 
 		// Log wrappers
-		$this->registerService(LoggerInterface::class, function (ContainerInterface $c) {
-			return new ScopedPsrLogger(
-				$c->get(PsrLoggerAdapter::class),
-				$c->get('AppName')
-			);
-		});
+		$this->registerAlias(LoggerInterface::class, ScopedPsrLogger::class);
 
 		$this->registerService(IServerContainer::class, function () {
 			return $this->getServer();
 		});
-		$this->registerAlias('ServerContainer', IServerContainer::class);
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias('ServerContainer', IServerContainer::class);
 
-		$this->registerService(\OCP\WorkflowEngine\IManager::class, function (ContainerInterface $c) {
-			return $c->get(Manager::class);
-		});
+		$this->registerAlias(\OCP\WorkflowEngine\IManager::class, Manager::class);
 
-		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
-			return $c;
-		});
-		$this->registerAlias(IAppContainer::class, ContainerInterface::class);
+		$this->registerDeprecatedAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('userId', function (ContainerInterface $c) {
+		$this->registerService('userId', function (ContainerInterface $c): string {
 			return $c->get(IUserSession::class)->getSession()->get('user_id');
 		});
 
-		$this->registerService('webRoot', function (ContainerInterface $c) {
+		$this->registerService('webRoot', function (ContainerInterface $c): string {
 			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 
-		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
+		$this->registerService('OC_Defaults', function (ContainerInterface $c): object {
 			return $c->get(IServerContainer::class)->get('ThemingDefaults');
 		});
 
-		$this->registerService('Protocol', function (ContainerInterface $c) {
-			/** @var \OC\Server $server */
-			$server = $c->get(IServerContainer::class);
-			$protocol = $server->getRequest()->getHttpProtocol();
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias('Protocol', Http::class);
+		$this->registerService(Http::class, function (ContainerInterface $c) {
+			$protocol = $c->get(IRequest::class)->getHttpProtocol();
 			return new Http($_SERVER, $protocol);
 		});
 
-		$this->registerService('Dispatcher', function (ContainerInterface $c) {
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias('Dispatcher', Dispatcher::class);
+		$this->registerService(Dispatcher::class, function (ContainerInterface $c) {
 			return new Dispatcher(
 				$c->get('Protocol'),
 				$c->get(MiddlewareDispatcher::class),
@@ -181,7 +155,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Middleware
 		 */
-		$this->registerAlias('MiddlewareDispatcher', MiddlewareDispatcher::class);
+		/** @deprecated 32.0.0 */
+		$this->registerDeprecatedAlias('MiddlewareDispatcher', MiddlewareDispatcher::class);
 		$this->registerService(MiddlewareDispatcher::class, function (ContainerInterface $c) {
 			$server = $this->getServer();
 
@@ -198,24 +173,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 
 			$dispatcher->registerMiddleware(
-				new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
-					$c->get(IRequest::class),
-					$c->get(IControllerMethodReflector::class)
-				)
+				$c->get(OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				new CORSMiddleware(
-					$c->get(IRequest::class),
-					$c->get(IControllerMethodReflector::class),
-					$c->get(IUserSession::class),
-					$c->get(IThrottler::class),
-					$c->get(LoggerInterface::class)
-				)
+				$c->get(CORSMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				new OCSMiddleware(
-					$c->get(IRequest::class)
-				)
+				$c->get(OCSMiddleware::class)
 			);
 
 			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
@@ -225,75 +189,45 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IControllerMethodReflector::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
-				$server->get(LoggerInterface::class),
-				$c->get('AppName'),
+				$c->get(LoggerInterface::class),
+				$c->get('appName'),
 				$server->getUserSession()->isLoggedIn(),
 				$c->get(IGroupManager::class),
 				$c->get(ISubAdmin::class),
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
-				$server->get(IUserSession::class),
+				$c->get(IUserSession::class),
 				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
-				new OC\AppFramework\Middleware\Security\CSPMiddleware(
-					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
-					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-				)
+				$c->get(OC\AppFramework\Middleware\Security\CSPMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				$server->query(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
+				$c->get(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
-					$c->get(IControllerMethodReflector::class),
-					$c->get(ISession::class),
-					$c->get(IUserSession::class),
-					$c->get(ITimeFactory::class),
-					$c->get(\OC\Authentication\Token\IProvider::class),
-					$c->get(LoggerInterface::class),
-					$c->get(IRequest::class),
-					$c->get(UserManager::class),
-				)
+				$c->get(OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				new TwoFactorMiddleware(
-					$c->get(OC\Authentication\TwoFactorAuth\Manager::class),
-					$c->get(IUserSession::class),
-					$c->get(ISession::class),
-					$c->get(IURLGenerator::class),
-					$c->get(IControllerMethodReflector::class),
-					$c->get(IRequest::class)
-				)
+				$c->get(TwoFactorMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
-				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
-					$c->get(IControllerMethodReflector::class),
-					$c->get(IThrottler::class),
-					$c->get(IRequest::class),
-					$c->get(LoggerInterface::class)
-				)
+				$c->get(OC\AppFramework\Middleware\Security\BruteForceMiddleware::class)
 			);
 			$dispatcher->registerMiddleware($c->get(RateLimitingMiddleware::class));
 			$dispatcher->registerMiddleware(
-				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
-					$c->get(IRequest::class),
-					$c->get(ISession::class),
-					$c->get(IConfig::class),
-					$c->get(IThrottler::class)
-				)
+				$c->get(OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
 				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
-			/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
 			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$registrationContext = $coordinator->getRegistrationContext();
 			if ($registrationContext !== null) {
-				$appId = $this->getAppName();
+				$appId = $this->get('appName');
 				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
 					if ($middlewareRegistration->getAppId() === $appId
 						|| $middlewareRegistration->isGlobal()) {
@@ -306,27 +240,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			}
 
 			$dispatcher->registerMiddleware(
-				new SessionMiddleware(
-					$c->get(IControllerMethodReflector::class),
-					$c->get(ISession::class)
-				)
+				$c->get(SessionMiddleware::class)
 			);
 			return $dispatcher;
 		});
 
-		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Services\AppConfig(
-				$c->get(IConfig::class),
-				$c->get(\OCP\IAppConfig::class),
-				$c->get('AppName')
-			);
-		});
-		$this->registerService(IInitialState::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Services\InitialState(
-				$c->get(IInitialStateService::class),
-				$c->get('AppName')
-			);
-		});
+		$this->registerAlias(IAppConfig::class, \OC\AppFramework\Services\AppConfig::class);
+		$this->registerAlias(IInitialState::class, \OC\AppFramework\Services\InitialState::class);
 	}
 
 	/**
@@ -338,13 +258,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
 	 * @param string $middleWare
-	 * @return boolean|null
 	 */
-	public function registerMiddleWare($middleWare) {
+	public function registerMiddleWare($middleWare): bool {
 		if (in_array($middleWare, $this->middleWares, true) !== false) {
 			return false;
 		}
 		$this->middleWares[] = $middleWare;
+		return true;
 	}
 
 	/**
@@ -352,7 +272,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return string the name of your application
 	 */
 	public function getAppName() {
-		return $this->query('AppName');
+		return $this->query('appName');
 	}
 
 	/**
@@ -372,7 +292,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return \OC_User::isAdminUser($uid);
 	}
 
-	private function getUserId() {
+	private function getUserId(): string {
 		return $this->getServer()->getSession()->get('user_id');
 	}
 
