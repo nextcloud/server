@@ -55,6 +55,11 @@ class PassphraseService {
 			return true;
 		}
 
+		if ($this->util->isMasterKeyEnabled()) {
+			$this->logger->error('setPassphraseForUser should never be called when master key is enabled');
+			return true;
+		}
+
 		// Check user exists on backend
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
