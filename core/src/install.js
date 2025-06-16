@@ -5,7 +5,7 @@
 
 import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
-import { getToken } from './OC/requesttoken.js'
+import { getRequestToken } from './OC/requesttoken.ts'
 import getURLParameter from './Util/get-url-parameter.js'
 
 import './jquery/showpassword.js'
@@ -138,7 +138,7 @@ window.addEventListener('DOMContentLoaded', function() {
 			t('core', 'Strong password'),
 		],
 		drawTitles: true,
-		nonce: btoa(getToken()),
+		nonce: btoa(getRequestToken()),
 	})
 
 	$('#dbpass').showPassword().keyup()

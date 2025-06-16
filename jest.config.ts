@@ -5,6 +5,7 @@
 import type { Config } from 'jest'
 
 // TODO: find a way to consolidate this in one place, with webpack.common.js
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ignorePatterns = [
 	'@buttercup/fetch',
 	'@juliushaertl',
@@ -19,6 +20,7 @@ const ignorePatterns = [
 	'is-svg',
 	'layerr',
 	'mime',
+	'node-fetch',
 	'p-cancelable',
 	'p-limit',
 	'p-queue',
@@ -68,7 +70,7 @@ const config: Config = {
 		}],
 	},
 	transformIgnorePatterns: [
-		'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
+		// 'node_modules/(?!(' + ignorePatterns.join('|') + ')/)',
 	],
 
 	// Allow mocking svg files
