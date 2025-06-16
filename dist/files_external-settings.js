@@ -1,2 +1,1808 @@
-(()=>{"use strict";var e,t,n,s={80655:(e,t,n)=>{var s=n(56760),a=n(63814),i=n(85168),o=n(53334),r=n(65043),l=n(74692),c=n.n(l);function d(e,t){return e.toggleClass("warning-input",t),t}function u(e){const t=e.hasClass("optional");switch(e.attr("type")){case"text":case"password":if(""===e.val()&&!t)return!1}return!0}function p(e){switch(e.attr("type")){case"text":case"password":return d(e,!u(e))}}function h(e,t){const n=function(e){return e.toString().split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;").split("'").join("&#039;")};if(e.length)return e.select2({placeholder:(0,o.t)("files_external","Type to select account or group."),allowClear:!0,multiple:!0,toggleSelect:!0,dropdownCssClass:"files-external-select2",ajax:{url:OC.generateUrl("apps/files_external/applicable"),dataType:"json",quietMillis:100,data:(e,n)=>({pattern:e,limit:t,offset:t*(n-1)}),results(e){if("success"===e.status){const n=[];let s=0;$.each(e.groups,(function(e,t){n.push({name:e+"(group)",displayname:t,type:"group"})})),$.each(e.users,(function(e,t){s++,n.push({name:e,displayname:t,type:"user"})}));const a=s>=t||e.groups.length>=t;return{results:n,more:a}}}},initSelection(e,t){const n={users:[]},s=e.val().split(",");for(let e=0;e<s.length;e++)n.users.push(s[e]);$.ajax(OC.generateUrl("displaynames"),{type:"POST",contentType:"application/json",data:JSON.stringify(n),dataType:"json"}).done((function(e){const n=[];"success"===e.status&&($.each(e.users,(function(e,t){!1!==t&&n.push({name:e,displayname:t,type:"user"})})),t(n))}))},id:e=>e.name,formatResult(e){const t=$('<span><div class="avatardiv"></div><span>'+n(e.displayname)+"</span></span>"),s=t.find(".avatardiv").attr("data-type",e.type).attr("data-name",e.name).attr("data-displayname",e.displayname);if("group"===e.type){const e=OC.imagePath("core","actions/group");s.html('<img width="32" height="32" src="'+e+'">')}return t.get(0).outerHTML},formatSelection:e=>"group"===e.type?'<span title="'+n(e.name)+'" class="group">'+n(e.displayname+" "+(0,o.t)("files_external","(Group)"))+"</span>":'<span title="'+n(e.name)+'" class="user">'+n(e.displayname)+"</span>",escapeMarkup:e=>e}).on("select2-loaded",(function(){$.each($(".avatardiv"),(function(e,t){const n=$(t);"user"===n.data("type")&&n.avatar(n.data("name"),32)}))})).on("change",(function(e){d($(e.target).closest(".applicableUsersContainer").find(".select2-choices"),!e.val.length)}))}(0,s.IF)(r.Ay);const f=function(e){this.id=e,this.backendOptions={}};f.Status={IN_PROGRESS:-1,SUCCESS:0,ERROR:1,INDETERMINATE:2},f.Visibility={NONE:0,PERSONAL:1,ADMIN:2,DEFAULT:3},f.prototype={_url:null,id:null,mountPoint:"",backend:null,authMechanism:null,backendOptions:null,mountOptions:null,save(e){let t=OC.generateUrl(this._url),n="POST";_.isNumber(this.id)&&(n="PUT",t=OC.generateUrl(this._url+"/{id}",{id:this.id})),this._save(n,t,e)},async _save(e,t,n){try{const a=(await r.Ay.request({confirmPassword:s.mH.Strict,method:e,url:t,data:this.getData()})).data;this.id=a.id,n.success(a)}catch(e){n.error(e)}},getData(){const e={mountPoint:this.mountPoint,backend:this.backend,authMechanism:this.authMechanism,backendOptions:this.backendOptions,testOnly:!0};return this.id&&(e.id=this.id),this.mountOptions&&(e.mountOptions=this.mountOptions),e},recheck(e){_.isNumber(this.id)?$.ajax({type:"GET",url:OC.generateUrl(this._url+"/{id}",{id:this.id}),data:{testOnly:!0},success:e.success,error:e.error}):_.isFunction(e.error)&&e.error()},async destroy(e){if(_.isNumber(this.id))try{await r.Ay.request({method:"DELETE",url:OC.generateUrl(this._url+"/{id}",{id:this.id}),confirmPassword:s.mH.Strict}),e.success()}catch(t){e.error(t)}else _.isFunction(e.success)&&e.success()},validate(){return""!==this.mountPoint&&!!this.backend&&!this.errors}};const g=function(e){this.id=e,this.applicableUsers=[],this.applicableGroups=[]};g.prototype=_.extend({},f.prototype,{_url:"apps/files_external/globalstorages",applicableUsers:null,applicableGroups:null,priority:null,getData(){const e=f.prototype.getData.apply(this,arguments);return _.extend(e,{applicableUsers:this.applicableUsers,applicableGroups:this.applicableGroups,priority:this.priority})}});const m=function(e){this.id=e};m.prototype=_.extend({},f.prototype,{_url:"apps/files_external/userstorages"});const b=function(e){this.id=e};b.prototype=_.extend({},f.prototype,{_url:"apps/files_external/userglobalstorages"});const v=function(){};v.prototype={$el:null,show(e,t,n){v._last&&v._last.hide();const s=$(OCA.Files_External.Templates.mountOptionsDropDown({mountOptionsEncodingLabel:(0,o.t)("files_external","Compatibility with Mac NFD encoding (slow)"),mountOptionsEncryptLabel:(0,o.t)("files_external","Enable encryption"),mountOptionsPreviewsLabel:(0,o.t)("files_external","Enable previews"),mountOptionsSharingLabel:(0,o.t)("files_external","Enable sharing"),mountOptionsFilesystemCheckLabel:(0,o.t)("files_external","Check for changes"),mountOptionsFilesystemCheckOnce:(0,o.t)("files_external","Never"),mountOptionsFilesystemCheckDA:(0,o.t)("files_external","Once every direct access"),mountOptionsReadOnlyLabel:(0,o.t)("files_external","Read only"),deleteLabel:(0,o.t)("files_external","Disconnect")}));this.$el=s;const a=e[0].parentNode.className;this.setOptions(t,n,a),this.$el.appendTo(e),v._last=this,this.$el.trigger("show")},hide(){this.$el&&(this.$el.trigger("hide"),this.$el.remove(),this.$el=null,v._last=null)},getOptions(){const e={};return this.$el.find("input, select").each((function(){const t=$(this),n=t.attr("name");let s=null;s="checkbox"===t.attr("type")?t.prop("checked"):t.val(),"int"===t.attr("data-type")&&(s=parseInt(s,10)),e[n]=s})),e},setOptions(e,t,n){if("owncloud"===n){const e=t.indexOf("encrypt");e>0&&t.splice(e,1)}const s=this.$el;_.each(e,(function(e,t){const n=s.find("input, select").filterAttr("name",t);"checkbox"===n.attr("type")?(_.isString(e)&&(e="true"===e),n.prop("checked",!!e)):n.val(e)})),s.find(".optionRow").each((function(e,n){const s=$(n),a=s.find("input, select").attr("name");-1!==t.indexOf(a)||s.hasClass("persistent")?s.show():s.hide()}))}};const y=function(e,t){this.initialize(e,t)};y.ParameterFlags={OPTIONAL:1,USER_PROVIDED:2,HIDDEN:4},y.ParameterTypes={TEXT:0,BOOLEAN:1,PASSWORD:2},y.prototype=_.extend({$el:null,_storageConfigClass:null,_isPersonal:!1,_userListLimit:30,_allBackends:null,_allAuthMechanisms:null,_encryptionEnabled:!1,initialize(e,t){this.$el=e,this._isPersonal=!0!==e.data("admin"),this._isPersonal?this._storageConfigClass=OCA.Files_External.Settings.UserStorageConfig:this._storageConfigClass=OCA.Files_External.Settings.GlobalStorageConfig,t&&!_.isUndefined(t.userListLimit)&&(this._userListLimit=t.userListLimit),this._encryptionEnabled=t.encryptionEnabled,this._canCreateLocal=t.canCreateLocal,this._allBackends=this.$el.find(".selectBackend").data("configurations"),this._allAuthMechanisms=this.$el.find("#addMountPoint .authentication").data("mechanisms"),this._initEvents()},whenSelectBackend(e){this.$el.find("tbody tr:not(#addMountPoint):not(.externalStorageLoading)").each((function(t,n){const s=$(n).find(".backend").data("identifier");e($(n),s)})),this.on("selectBackend",e)},whenSelectAuthMechanism(e){const t=this;this.$el.find("tbody tr:not(#addMountPoint):not(.externalStorageLoading)").each((function(n,s){const a=$(s).find(".selectAuthMechanism").val();e($(s),a,t._allAuthMechanisms[a].scheme)})),this.on("selectAuthMechanism",e)},_initEvents(){const e=this,t=_.bind(this._onChange,this);this.$el.on("keyup","td input",t),this.$el.on("paste","td input",t),this.$el.on("change","td input:checkbox",t),this.$el.on("change",".applicable",t),this.$el.on("click",".status>span",(function(){e.recheckStorageConfig($(this).closest("tr"))})),this.$el.on("click","td.mountOptionsToggle .icon-delete",(function(){e.deleteStorageConfig($(this).closest("tr"))})),this.$el.on("click","td.save>.icon-checkmark",(function(){e.saveStorageConfig($(this).closest("tr"))})),this.$el.on("click","td.mountOptionsToggle>.icon-more",(function(){$(this).attr("aria-expanded","true"),e._showMountOptionsDropdown($(this).closest("tr"))})),this.$el.on("change",".selectBackend",_.bind(this._onSelectBackend,this)),this.$el.on("change",".selectAuthMechanism",_.bind(this._onSelectAuthMechanism,this)),this.$el.on("change",".applicableToAllUsers",_.bind(this._onChangeApplicableToAllUsers,this))},_onChange(e){const t=$(e.target);if(t.closest(".dropdown").length)return;p(t);const n=t.closest("tr");this.updateStatus(n,null)},_onSelectBackend(e){const t=$(e.target);let n=t.closest("tr");const s=new this._storageConfigClass;s.mountPoint=n.find(".mountPoint input").val(),s.backend=t.val(),n.find(".mountPoint input").val(""),n.find(".selectBackend").prop("selectedIndex",0);const a=c().Deferred();n=this.newStorage(s,a),n.find(".applicableToAllUsers").prop("checked",!1).trigger("change"),a.resolve(),n.find("td.configuration").children().not("[type=hidden]").first().focus(),this.saveStorageConfig(n)},_onSelectAuthMechanism(e){const t=$(e.target),n=t.closest("tr"),s=t.val(),a=c().Deferred();this.configureAuthMechanism(n,s,a),a.resolve(),this.saveStorageConfig(n)},_onChangeApplicableToAllUsers(e){const t=$(e.target),n=t.closest("tr"),s=t.is(":checked");n.find(".applicableUsersContainer").toggleClass("hidden",s),s||n.find(".applicableUsers").select2("val","",!0),this.saveStorageConfig(n)},configureAuthMechanism(e,t,n){const s=this._allAuthMechanisms[t],a=e.find("td.configuration");a.find(".auth-param").remove(),$.each(s.configuration,_.partial(this.writeParameterInput,a,_,_,["auth-param"]).bind(this)),this.trigger("selectAuthMechanism",e,t,s.scheme,n)},newStorage(e,t,n){let s=e.mountPoint,a=this._allBackends[e.backend];a||(a={name:"Unknown: "+e.backend,invalid:!0});const i=this.$el.find("tr#addMountPoint"),r=i.clone();if(n||r.insertBefore(i),r.data("storageConfig",e),r.show(),r.find("td.mountOptionsToggle, td.save, td.remove").removeClass("hidden"),r.find("td").last().removeAttr("style"),r.removeAttr("id"),r.find("select#selectBackend"),n||h(r.find(".applicableUsers"),this._userListLimit),e.id&&r.data("id",e.id),r.find(".backend").text(a.name),""===s&&(s=this._suggestMountPoint(a.name)),r.find(".mountPoint input").val(s),r.addClass(a.identifier),r.find(".backend").data("identifier",a.identifier),a.invalid||"local"===a.identifier&&!this._canCreateLocal)return r.find("[name=mountPoint]").prop("disabled",!0),r.find(".applicable,.mountOptionsToggle").empty(),r.find(".save").empty(),a.invalid&&this.updateStatus(r,!1,(0,o.t)("files_external","Unknown backend: {backendName}",{backendName:a.name})),r;const l=$('<select class="selectAuthMechanism"></select>'),c=this._isPersonal?f.Visibility.PERSONAL:f.Visibility.ADMIN;$.each(this._allAuthMechanisms,(function(e,t){a.authSchemes[t.scheme]&&t.visibility&c&&l.append($('<option value="'+t.identifier+'" data-scheme="'+t.scheme+'">'+t.name+"</option>"))})),e.authMechanism?l.val(e.authMechanism):e.authMechanism=l.val(),r.find("td.authentication").append(l);const d=r.find("td.configuration");$.each(a.configuration,_.partial(this.writeParameterInput,d).bind(this)),this.trigger("selectBackend",r,a.identifier,t),this.configureAuthMechanism(r,e.authMechanism,t),e.backendOptions&&d.find("input, select").each((function(){const t=$(this),n=e.backendOptions[t.data("parameter")];void 0!==n&&(t.is("input:checkbox")&&t.prop("checked",n),t.val(e.backendOptions[t.data("parameter")]),p(t))}));let u=[];e.applicableUsers&&(u=u.concat(e.applicableUsers)),e.applicableGroups&&(u=u.concat(_.map(e.applicableGroups,(function(e){return e+"(group)"})))),u.length?(r.find(".applicableUsers").val(u).trigger("change"),r.find(".applicableUsersContainer").removeClass("hidden")):r.find(".applicableUsersContainer").addClass("hidden"),r.find(".applicableToAllUsers").prop("checked",!u.length);const g=$('<input type="hidden" class="priority" value="'+a.priority+'" />');return r.append(g),e.mountOptions?r.find("input.mountOptions").val(JSON.stringify(e.mountOptions)):r.find("input.mountOptions").val(JSON.stringify({encrypt:!0,previews:!0,enable_sharing:!1,filesystem_check_changes:1,encoding_compatibility:!1,readonly:!1})),r},loadStorages(){const e=this,t=$.Deferred(),n=$.Deferred();this.$el.find(".externalStorageLoading").removeClass("hidden"),$.when(t,n).always((()=>{e.$el.find(".externalStorageLoading").addClass("hidden")})),this._isPersonal?$.ajax({type:"GET",url:OC.generateUrl("apps/files_external/userglobalstorages"),data:{testOnly:!0},contentType:"application/json",success(n){n=Object.values(n);const s=c().Deferred();let a=$();n.forEach((function(t){let i;const r="system"===t.type&&e._isPersonal;t.mountPoint=t.mountPoint.substr(1),i=r?new b:new e._storageConfigClass,_.extend(i,t);const l=e.newStorage(i,s,!0);l.detach(),e.$el.prepend(l);const c=l.find(".authentication");c.text(c.find("select option:selected").text()),l.find(".mountOptionsToggle, .remove").empty(),l.find("input:not(.user_provided), select:not(.user_provided)").attr("disabled","disabled"),r?l.find(".configuration").find(":not(.user_provided)").remove():l.find(".configuration").text((0,o.t)("files_external","Admin defined")),n.length<20?e.recheckStorageConfig(l):e.updateStatus(l,f.Status.INDETERMINATE,(0,o.t)("files_external","Automatic status checking is disabled due to the large number of configured storages, click to check status")),a=a.add(l)})),h(e.$el.find(".applicableUsers"),this._userListLimit),e.$el.find("tr#addMountPoint").before(a);const i=$("#files_external");0===n.length&&"false"===i.attr("data-can-create")&&(i.hide(),$('a[href="#external-storage"]').parent().hide(),$(".emptycontent").show()),s.resolve(),t.resolve()}}):t.resolve();const s=this._storageConfigClass.prototype._url;$.ajax({type:"GET",url:OC.generateUrl(s),contentType:"application/json",success(t){t=Object.values(t);const s=c().Deferred();let a=$();t.forEach((function(n){n.mountPoint="/"===n.mountPoint?"/":n.mountPoint.substr(1);const i=new e._storageConfigClass;_.extend(i,n);const r=e.newStorage(i,s,!0);t.length<20?e.recheckStorageConfig(r):e.updateStatus(r,f.Status.INDETERMINATE,(0,o.t)("files_external","Automatic status checking is disabled due to the large number of configured storages, click to check status")),a=a.add(r)})),h(a.find(".applicableUsers"),this._userListLimit),e.$el.find("tr#addMountPoint").before(a),s.resolve(),n.resolve()}})},writeParameterInput(e,t,n,s){const a=function(e){return(n.flags&e)===e};if((s=$.isArray(s)?s:[]).push("added"),a(y.ParameterFlags.OPTIONAL)&&s.push("optional"),a(y.ParameterFlags.USER_PROVIDED)){if(!this._isPersonal)return;s.push("user_provided")}let i;const o=n.value;if(a(y.ParameterFlags.HIDDEN))i=$('<input type="hidden" class="'+s.join(" ")+'" data-parameter="'+t+'" />');else if(n.type===y.ParameterTypes.PASSWORD)i=$('<input type="password" class="'+s.join(" ")+'" data-parameter="'+t+'" placeholder="'+o+'" />');else if(n.type===y.ParameterTypes.BOOLEAN){const e=_.uniqueId("checkbox_");i=$('<div><label><input type="checkbox" id="'+e+'" class="'+s.join(" ")+'" data-parameter="'+t+'" />'+o+"</label></div>")}else i=$('<input type="text" class="'+s.join(" ")+'" data-parameter="'+t+'" placeholder="'+o+'" />');return n.defaultValue&&(n.type===y.ParameterTypes.BOOLEAN?i.find("input").prop("checked",n.defaultValue):i.val(n.defaultValue)),n.tooltip&&i.attr("title",n.tooltip),p(i),e.append(i),i},getStorageConfig(e){let t=e.data("id");t||(t=null);let n=e.data("storageConfig");n||(n=new this._storageConfigClass(t)),n.errors=null,n.mountPoint=e.find(".mountPoint input").val(),n.backend=e.find(".backend").data("identifier"),n.authMechanism=e.find(".selectAuthMechanism").val();const s={},a=e.find(".configuration input"),i=[];if($.each(a,(function(e,t){const n=$(t),a=n.data("parameter");"button"!==n.attr("type")&&(u(n)||n.hasClass("optional")?$(t).is(":checkbox")?$(t).is(":checked")?s[a]=!0:s[a]=!1:s[a]=$(t).val():i.push(a))})),n.backendOptions=s,i.length&&(n.errors={backendOptions:i}),!this._isPersonal){const t=function(e){const t=[],n=[],s=function(e){let t=e.find(".applicableUsers").select2("val");return t&&0!==t.length||(t=[]),t}(e);return $.each(s,(function(e,s){const a=s.indexOf?s.indexOf("(group)"):-1;-1!==a?n.push(s.substr(0,a)):t.push(s)})),e.find(".applicable").data("applicable-groups",n).data("applicable-users",t),{users:t,groups:n}}(e),s=t.users||[],a=t.groups||[];e.find(".applicableToAllUsers").is(":checked")?(n.applicableUsers=[],n.applicableGroups=[]):(n.applicableUsers=s,n.applicableGroups=a,n.applicableUsers.length||n.applicableGroups.length||(n.errors||(n.errors={}),n.errors.requiredApplicable=!0)),n.priority=parseInt(e.find("input.priority").val()||"100",10)}const o=e.find("input.mountOptions").val();return o&&(n.mountOptions=JSON.parse(o)),n},deleteStorageConfig(e){const t=this,n=e.data("id");if(!_.isNumber(n))return void e.remove();const s=new this._storageConfigClass(n);OC.dialogs.confirm((0,o.t)("files_external","Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",{storage:this.mountPoint}),(0,o.t)("files_external","Delete storage?"),(function(n){n&&(t.updateStatus(e,f.Status.IN_PROGRESS),s.destroy({success(){e.remove()},error(n){const s=n&&n.responseJSON?n.responseJSON.message:void 0;t.updateStatus(e,f.Status.ERROR,s)}}))}))},saveStorageConfig(e,t,n){const s=this,a=this.getStorageConfig(e);if(!a||!a.validate())return!1;this.updateStatus(e,f.Status.IN_PROGRESS),a.save({success(i){void 0!==n&&e.data("save-timer")!==n||(s.updateStatus(e,i.status,i.statusMessage),e.data("id",i.id),_.isFunction(t)&&t(a))},error(t){if(void 0===n||e.data("save-timer")===n){const n=t&&t.responseJSON?t.responseJSON.message:void 0;s.updateStatus(e,f.Status.ERROR,n)}}})},recheckStorageConfig(e){const t=this,n=this.getStorageConfig(e);if(!n.validate())return!1;this.updateStatus(e,f.Status.IN_PROGRESS),n.recheck({success(n){t.updateStatus(e,n.status,n.statusMessage)},error(n){const s=n&&n.responseJSON?n.responseJSON.message:void 0;t.updateStatus(e,f.Status.ERROR,s)}})},updateStatus(e,t,n){const s=e.find(".status span");switch(t){case null:s.hide();break;case f.Status.IN_PROGRESS:s.attr("class","icon-loading-small");break;case f.Status.SUCCESS:s.attr("class","success icon-checkmark-white");break;case f.Status.INDETERMINATE:s.attr("class","indeterminate icon-info-white");break;default:s.attr("class","error icon-error-white")}null!==t&&s.show(),"string"!=typeof n&&(n=(0,o.t)("files_external","Click to recheck the configuration")),s.attr("title",n)},_suggestMountPoint(e){const t=this.$el,n=e.indexOf("/");-1!==n&&(e=e.substring(0,n)),e=e.replace(/\s+/g,"");let s=1,a="",i=!0;for(;i&&s<20&&(i=!1,t.find("tbody td.mountPoint input").each((function(t,n){if($(n).val()===e+a)return i=!0,!1})),i);)a=s,s++;return e+a},_showMountOptionsDropdown(e){const t=this,n=this.getStorageConfig(e),s=e.find(".mountOptionsToggle"),a=new v,i=["previews","filesystem_check_changes","enable_sharing","encoding_compatibility","readonly","delete"];this._encryptionEnabled&&i.push("encrypt"),a.show(s,n.mountOptions||[],i),$("body").on("mouseup.mountOptionsDropdown",(function(e){$(e.target).closest(".popovermenu").length||a.hide()})),a.$el.on("hide",(function(){const n=a.getOptions();$("body").off("mouseup.mountOptionsDropdown"),e.find("input.mountOptions").val(JSON.stringify(n)),e.find("td.mountOptionsToggle>.icon-more").attr("aria-expanded","false"),t.saveStorageConfig(e)}))}},OC.Backbone.Events),window.addEventListener("DOMContentLoaded",(function(){const e=$("#files_external").attr("data-encryption-enabled"),t=$("#files_external").attr("data-can-create-local"),n="true"===e,l=new y($("#externalStorage"),{encryptionEnabled:n,canCreateLocal:"true"===t});l.loadStorages();const c=$("#allowUserMounting");c.bind("change",(function(){OC.msg.startSaving("#userMountingMsg"),this.checked?(OCP.AppConfig.setValue("files_external","allow_user_mounting","yes"),$('input[name="allowUserMountingBackends\\[\\]"]').prop("checked",!0),$("#userMountingBackends").removeClass("hidden"),$('input[name="allowUserMountingBackends\\[\\]"]').eq(0).trigger("change")):(OCP.AppConfig.setValue("files_external","allow_user_mounting","no"),$("#userMountingBackends").addClass("hidden")),OC.msg.finishedSaving("#userMountingMsg",{status:"success",data:{message:(0,o.t)("files_external","Saved")}})})),$('input[name="allowUserMountingBackends\\[\\]"]').bind("change",(function(){OC.msg.startSaving("#userMountingMsg");let e=$('input[name="allowUserMountingBackends\\[\\]"]:checked').map((function(){return $(this).val()})).get();const t=$('input[name="allowUserMountingBackends\\[\\]"][data-deprecate-to]').map((function(){return-1!==$.inArray($(this).data("deprecate-to"),e)?$(this).val():null})).get();e=e.concat(t),OCP.AppConfig.setValue("files_external","user_mounting_backends",e.join()),OC.msg.finishedSaving("#userMountingMsg",{status:"success",data:{message:(0,o.t)("files_external","Saved")}}),0===e.length&&(c.prop("checked",!1),c.trigger("change"))})),$("#global_credentials").on("submit",(async function(e){e.preventDefault();const t=$(this),n=t.find("[type=submit]");n.val((0,o.t)("files_external","Saving …"));const l=t.find("[name=uid]").val(),c=t.find("[name=username]").val(),d=t.find("[name=password]").val();try{await r.Ay.request({method:"POST",data:{uid:l,user:c,password:d},url:(0,a.Jv)("apps/files_external/globalcredentials"),confirmPassword:s.mH.Strict}),n.val((0,o.t)("files_external","Saved")),setTimeout((function(){n.val((0,o.t)("files_external","Save"))}),2500)}catch(e){if(n.val((0,o.t)("files_external","Save")),(0,r.F0)(e)){const t=e.response?.data?.message||(0,o.t)("files_external","Failed to save global credentials");(0,i.Qg)((0,o.t)("files_external","Failed to save global credentials: {message}",{message:t}))}}return!1})),OCA.Files_External.Settings.mountConfig=l,OC.MountConfig={saveStorage:_.bind(l.saveStorageConfig,l)}})),OCA.Files_External=OCA.Files_External||{},OCA.Files_External.Settings=OCA.Files_External.Settings||{},OCA.Files_External.Settings.GlobalStorageConfig=g,OCA.Files_External.Settings.UserStorageConfig=m,OCA.Files_External.Settings.MountConfigListView=y}},a={};function i(e){var t=a[e];if(void 0!==t)return t.exports;var n=a[e]={id:e,loaded:!1,exports:{}};return s[e].call(n.exports,n,n.exports,i),n.loaded=!0,n.exports}i.m=s,e=[],i.O=(t,n,s,a)=>{if(!n){var o=1/0;for(d=0;d<e.length;d++){n=e[d][0],s=e[d][1],a=e[d][2];for(var r=!0,l=0;l<n.length;l++)(!1&a||o>=a)&&Object.keys(i.O).every((e=>i.O[e](n[l])))?n.splice(l--,1):(r=!1,a<o&&(o=a));if(r){e.splice(d--,1);var c=s();void 0!==c&&(t=c)}}return t}a=a||0;for(var d=e.length;d>0&&e[d-1][2]>a;d--)e[d]=e[d-1];e[d]=[n,s,a]},i.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return i.d(t,{a:t}),t},i.d=(e,t)=>{for(var n in t)i.o(t,n)&&!i.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},i.f={},i.e=e=>Promise.all(Object.keys(i.f).reduce(((t,n)=>(i.f[n](e,t),t)),[])),i.u=e=>e+"-"+e+".js?v="+{640:"b2fa23a809053c6305c5",5771:"a4e2a98efcfb7393c5bd",5810:"8dfb2392d7107957a510",7432:"126e4e5eedf7af9a92fc"}[e],i.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},n="nextcloud:",i.l=(e,s,a,o)=>{if(t[e])t[e].push(s);else{var r,l;if(void 0!==a)for(var c=document.getElementsByTagName("script"),d=0;d<c.length;d++){var u=c[d];if(u.getAttribute("src")==e||u.getAttribute("data-webpack")==n+a){r=u;break}}r||(l=!0,(r=document.createElement("script")).charset="utf-8",r.timeout=120,i.nc&&r.setAttribute("nonce",i.nc),r.setAttribute("data-webpack",n+a),r.src=e),t[e]=[s];var p=(n,s)=>{r.onerror=r.onload=null,clearTimeout(h);var a=t[e];if(delete t[e],r.parentNode&&r.parentNode.removeChild(r),a&&a.forEach((e=>e(s))),n)return n(s)},h=setTimeout(p.bind(null,void 0,{type:"timeout",target:r}),12e4);r.onerror=p.bind(null,r.onerror),r.onload=p.bind(null,r.onload),l&&document.head.appendChild(r)}},i.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),i.j=5808,(()=>{var e;i.g.importScripts&&(e=i.g.location+"");var t=i.g.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var n=t.getElementsByTagName("script");if(n.length)for(var s=n.length-1;s>-1&&(!e||!/^http(s?):/.test(e));)e=n[s--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),i.p=e})(),(()=>{i.b=document.baseURI||self.location.href;var e={5808:0};i.f.j=(t,n)=>{var s=i.o(e,t)?e[t]:void 0;if(0!==s)if(s)n.push(s[2]);else{var a=new Promise(((n,a)=>s=e[t]=[n,a]));n.push(s[2]=a);var o=i.p+i.u(t),r=new Error;i.l(o,(n=>{if(i.o(e,t)&&(0!==(s=e[t])&&(e[t]=void 0),s)){var a=n&&("load"===n.type?"missing":n.type),o=n&&n.target&&n.target.src;r.message="Loading chunk "+t+" failed.\n("+a+": "+o+")",r.name="ChunkLoadError",r.type=a,r.request=o,s[1](r)}}),"chunk-"+t,t)}},i.O.j=t=>0===e[t];var t=(t,n)=>{var s,a,o=n[0],r=n[1],l=n[2],c=0;if(o.some((t=>0!==e[t]))){for(s in r)i.o(r,s)&&(i.m[s]=r[s]);if(l)var d=l(i)}for(t&&t(n);c<o.length;c++)a=o[c],i.o(e,a)&&e[a]&&e[a][0](),e[a]=0;return i.O(d)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),i.nc=void 0;var o=i.O(void 0,[4208],(()=>i(80655)));o=i.O(o)})();
-//# sourceMappingURL=files_external-settings.js.map?v=58e8f93ae0b795f2cdd6
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files_external/src/settings.js":
+/*!*********************************************!*\
+  !*** ./apps/files_external/src/settings.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_5__);
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+(0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__.addPasswordConfirmationInterceptors)(_nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+/**
+ * Returns the selection of applicable users in the given configuration row
+ *
+ * @param $row configuration row
+ * @return array array of user names
+ */
+function getSelection($row) {
+  let values = $row.find('.applicableUsers').select2('val');
+  if (!values || values.length === 0) {
+    values = [];
+  }
+  return values;
+}
+
+/**
+ *
+ * @param $row
+ */
+function getSelectedApplicable($row) {
+  const users = [];
+  const groups = [];
+  const multiselect = getSelection($row);
+  $.each(multiselect, function (index, value) {
+    // FIXME: don't rely on string parts to detect groups...
+    const pos = value.indexOf ? value.indexOf('(group)') : -1;
+    if (pos !== -1) {
+      groups.push(value.substr(0, pos));
+    } else {
+      users.push(value);
+    }
+  });
+
+  // FIXME: this should be done in the multiselect change event instead
+  $row.find('.applicable').data('applicable-groups', groups).data('applicable-users', users);
+  return {
+    users,
+    groups
+  };
+}
+
+/**
+ *
+ * @param $element
+ * @param highlight
+ */
+function highlightBorder($element, highlight) {
+  $element.toggleClass('warning-input', highlight);
+  return highlight;
+}
+
+/**
+ *
+ * @param $input
+ */
+function isInputValid($input) {
+  const optional = $input.hasClass('optional');
+  switch ($input.attr('type')) {
+    case 'text':
+    case 'password':
+      if ($input.val() === '' && !optional) {
+        return false;
+      }
+      break;
+  }
+  return true;
+}
+
+/**
+ *
+ * @param $input
+ */
+function highlightInput($input) {
+  switch ($input.attr('type')) {
+    case 'text':
+    case 'password':
+      return highlightBorder($input, !isInputValid($input));
+  }
+}
+
+/**
+ * Initialize select2 plugin on the given elements
+ *
+ * @param {Array<object>} array of jQuery elements
+ * @param $elements
+ * @param {number} userListLimit page size for result list
+ */
+function initApplicableUsersMultiselect($elements, userListLimit) {
+  const escapeHTML = function (text) {
+    return text.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
+  };
+  if (!$elements.length) {
+    return;
+  }
+  return $elements.select2({
+    placeholder: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Type to select account or group.'),
+    allowClear: true,
+    multiple: true,
+    toggleSelect: true,
+    dropdownCssClass: 'files-external-select2',
+    // minimumInputLength: 1,
+    ajax: {
+      url: OC.generateUrl('apps/files_external/applicable'),
+      dataType: 'json',
+      quietMillis: 100,
+      data(term, page) {
+        // page is the one-based page number tracked by Select2
+        return {
+          pattern: term,
+          // search term
+          limit: userListLimit,
+          // page size
+          offset: userListLimit * (page - 1) // page number starts with 0
+        };
+      },
+      results(data) {
+        if (data.status === 'success') {
+          const results = [];
+          let userCount = 0; // users is an object
+
+          // add groups
+          $.each(data.groups, function (gid, group) {
+            results.push({
+              name: gid + '(group)',
+              displayname: group,
+              type: 'group'
+            });
+          });
+          // add users
+          $.each(data.users, function (id, user) {
+            userCount++;
+            results.push({
+              name: id,
+              displayname: user,
+              type: 'user'
+            });
+          });
+          const more = userCount >= userListLimit || data.groups.length >= userListLimit;
+          return {
+            results,
+            more
+          };
+        } else {
+          // FIXME add error handling
+        }
+      }
+    },
+    initSelection(element, callback) {
+      const users = {};
+      users.users = [];
+      const toSplit = element.val().split(',');
+      for (let i = 0; i < toSplit.length; i++) {
+        users.users.push(toSplit[i]);
+      }
+      $.ajax(OC.generateUrl('displaynames'), {
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(users),
+        dataType: 'json'
+      }).done(function (data) {
+        const results = [];
+        if (data.status === 'success') {
+          $.each(data.users, function (user, displayname) {
+            if (displayname !== false) {
+              results.push({
+                name: user,
+                displayname,
+                type: 'user'
+              });
+            }
+          });
+          callback(results);
+        } else {
+          // FIXME add error handling
+        }
+      });
+    },
+    id(element) {
+      return element.name;
+    },
+    formatResult(element) {
+      const $result = $('<span><div class="avatardiv"></div><span>' + escapeHTML(element.displayname) + '</span></span>');
+      const $div = $result.find('.avatardiv').attr('data-type', element.type).attr('data-name', element.name).attr('data-displayname', element.displayname);
+      if (element.type === 'group') {
+        const url = OC.imagePath('core', 'actions/group');
+        $div.html('<img width="32" height="32" src="' + url + '">');
+      }
+      return $result.get(0).outerHTML;
+    },
+    formatSelection(element) {
+      if (element.type === 'group') {
+        return '<span title="' + escapeHTML(element.name) + '" class="group">' + escapeHTML(element.displayname + ' ' + (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', '(Group)')) + '</span>';
+      } else {
+        return '<span title="' + escapeHTML(element.name) + '" class="user">' + escapeHTML(element.displayname) + '</span>';
+      }
+    },
+    escapeMarkup(m) {
+      return m;
+    } // we escape the markup in formatResult and formatSelection
+  }).on('select2-loaded', function () {
+    $.each($('.avatardiv'), function (i, div) {
+      const $div = $(div);
+      if ($div.data('type') === 'user') {
+        $div.avatar($div.data('name'), 32);
+      }
+    });
+  }).on('change', function (event) {
+    highlightBorder($(event.target).closest('.applicableUsersContainer').find('.select2-choices'), !event.val.length);
+  });
+}
+
+/**
+ * @param id
+ * @class OCA.Files_External.Settings.StorageConfig
+ *
+ * @classdesc External storage config
+ */
+const StorageConfig = function (id) {
+  this.id = id;
+  this.backendOptions = {};
+};
+// Keep this in sync with \OCA\Files_External\MountConfig::STATUS_*
+StorageConfig.Status = {
+  IN_PROGRESS: -1,
+  SUCCESS: 0,
+  ERROR: 1,
+  INDETERMINATE: 2
+};
+StorageConfig.Visibility = {
+  NONE: 0,
+  PERSONAL: 1,
+  ADMIN: 2,
+  DEFAULT: 3
+};
+/**
+ * @memberof OCA.Files_External.Settings
+ */
+StorageConfig.prototype = {
+  _url: null,
+  /**
+   * Storage id
+   *
+   * @type int
+   */
+  id: null,
+  /**
+   * Mount point
+   *
+   * @type string
+   */
+  mountPoint: '',
+  /**
+   * Backend
+   *
+   * @type string
+   */
+  backend: null,
+  /**
+   * Authentication mechanism
+   *
+   * @type string
+   */
+  authMechanism: null,
+  /**
+   * Backend-specific configuration
+   *
+   * @type Object.<string,object>
+   */
+  backendOptions: null,
+  /**
+   * Mount-specific options
+   *
+   * @type Object.<string,object>
+   */
+  mountOptions: null,
+  /**
+   * Creates or saves the storage.
+   *
+   * @param {Function} [options.success] success callback, receives result as argument
+   * @param {Function} [options.error] error callback
+   * @param options
+   */
+  save(options) {
+    let url = OC.generateUrl(this._url);
+    let method = 'POST';
+    if (_.isNumber(this.id)) {
+      method = 'PUT';
+      url = OC.generateUrl(this._url + '/{id}', {
+        id: this.id
+      });
+    }
+    this._save(method, url, options);
+  },
+  /**
+   * Private implementation of the save function (called after potential password confirmation)
+   * @param {string} method
+   * @param {string} url
+   * @param {{success: Function, error: Function}} options
+   */
+  async _save(method, url, options) {
+    try {
+      const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].request({
+        confirmPassword: _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__.PwdConfirmationMode.Strict,
+        method,
+        url,
+        data: this.getData()
+      });
+      const result = response.data;
+      this.id = result.id;
+      options.success(result);
+    } catch (error) {
+      options.error(error);
+    }
+  },
+  /**
+   * Returns the data from this object
+   *
+   * @return {Array} JSON array of the data
+   */
+  getData() {
+    const data = {
+      mountPoint: this.mountPoint,
+      backend: this.backend,
+      authMechanism: this.authMechanism,
+      backendOptions: this.backendOptions,
+      testOnly: true
+    };
+    if (this.id) {
+      data.id = this.id;
+    }
+    if (this.mountOptions) {
+      data.mountOptions = this.mountOptions;
+    }
+    return data;
+  },
+  /**
+   * Recheck the storage
+   *
+   * @param {Function} [options.success] success callback, receives result as argument
+   * @param {Function} [options.error] error callback
+   * @param options
+   */
+  recheck(options) {
+    if (!_.isNumber(this.id)) {
+      if (_.isFunction(options.error)) {
+        options.error();
+      }
+      return;
+    }
+    $.ajax({
+      type: 'GET',
+      url: OC.generateUrl(this._url + '/{id}', {
+        id: this.id
+      }),
+      data: {
+        testOnly: true
+      },
+      success: options.success,
+      error: options.error
+    });
+  },
+  /**
+   * Deletes the storage
+   *
+   * @param {Function} [options.success] success callback
+   * @param {Function} [options.error] error callback
+   * @param options
+   */
+  async destroy(options) {
+    if (!_.isNumber(this.id)) {
+      // the storage hasn't even been created => success
+      if (_.isFunction(options.success)) {
+        options.success();
+      }
+      return;
+    }
+    try {
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].request({
+        method: 'DELETE',
+        url: OC.generateUrl(this._url + '/{id}', {
+          id: this.id
+        }),
+        confirmPassword: _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__.PwdConfirmationMode.Strict
+      });
+      options.success();
+    } catch (e) {
+      options.error(e);
+    }
+  },
+  /**
+   * Validate this model
+   *
+   * @return {boolean} false if errors exist, true otherwise
+   */
+  validate() {
+    if (this.mountPoint === '') {
+      return false;
+    }
+    if (!this.backend) {
+      return false;
+    }
+    if (this.errors) {
+      return false;
+    }
+    return true;
+  }
+};
+
+/**
+ * @param id
+ * @class OCA.Files_External.Settings.GlobalStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
+ *
+ * @classdesc Global external storage config
+ */
+const GlobalStorageConfig = function (id) {
+  this.id = id;
+  this.applicableUsers = [];
+  this.applicableGroups = [];
+};
+/**
+ * @memberOf OCA.Files_External.Settings
+ */
+GlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype, /** @lends OCA.Files_External.Settings.GlobalStorageConfig.prototype */{
+  _url: 'apps/files_external/globalstorages',
+  /**
+   * Applicable users
+   *
+   * @type Array.<string>
+   */
+  applicableUsers: null,
+  /**
+   * Applicable groups
+   *
+   * @type Array.<string>
+   */
+  applicableGroups: null,
+  /**
+   * Storage priority
+   *
+   * @type int
+   */
+  priority: null,
+  /**
+   * Returns the data from this object
+   *
+   * @return {Array} JSON array of the data
+   */
+  getData() {
+    const data = StorageConfig.prototype.getData.apply(this, arguments);
+    return _.extend(data, {
+      applicableUsers: this.applicableUsers,
+      applicableGroups: this.applicableGroups,
+      priority: this.priority
+    });
+  }
+});
+
+/**
+ * @param id
+ * @class OCA.Files_External.Settings.UserStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
+ *
+ * @classdesc User external storage config
+ */
+const UserStorageConfig = function (id) {
+  this.id = id;
+};
+UserStorageConfig.prototype = _.extend({}, StorageConfig.prototype, /** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */{
+  _url: 'apps/files_external/userstorages'
+});
+
+/**
+ * @param id
+ * @class OCA.Files_External.Settings.UserGlobalStorageConfig
+ * @augments OCA.Files_External.Settings.StorageConfig
+ *
+ * @classdesc User external storage config
+ */
+const UserGlobalStorageConfig = function (id) {
+  this.id = id;
+};
+UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype, /** @lends OCA.Files_External.Settings.UserStorageConfig.prototype */{
+  _url: 'apps/files_external/userglobalstorages'
+});
+
+/**
+ * @class OCA.Files_External.Settings.MountOptionsDropdown
+ *
+ * @classdesc Dropdown for mount options
+ *
+ * @param {object} $container container DOM object
+ */
+const MountOptionsDropdown = function () {};
+/**
+ * @memberof OCA.Files_External.Settings
+ */
+MountOptionsDropdown.prototype = {
+  /**
+   * Dropdown element
+   *
+   * @member Object
+   */
+  $el: null,
+  /**
+   * Show dropdown
+   *
+   * @param {object} $container container
+   * @param {object} mountOptions mount options
+   * @param {Array} visibleOptions enabled mount options
+   */
+  show($container, mountOptions, visibleOptions) {
+    if (MountOptionsDropdown._last) {
+      MountOptionsDropdown._last.hide();
+    }
+    const $el = $(OCA.Files_External.Templates.mountOptionsDropDown({
+      mountOptionsEncodingLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Compatibility with Mac NFD encoding (slow)'),
+      mountOptionsEncryptLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Enable encryption'),
+      mountOptionsPreviewsLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Enable previews'),
+      mountOptionsSharingLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Enable sharing'),
+      mountOptionsFilesystemCheckLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Check for changes'),
+      mountOptionsFilesystemCheckOnce: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Never'),
+      mountOptionsFilesystemCheckDA: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Once every direct access'),
+      mountOptionsReadOnlyLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Read only'),
+      deleteLabel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Disconnect')
+    }));
+    this.$el = $el;
+    const storage = $container[0].parentNode.className;
+    this.setOptions(mountOptions, visibleOptions, storage);
+    this.$el.appendTo($container);
+    MountOptionsDropdown._last = this;
+    this.$el.trigger('show');
+  },
+  hide() {
+    if (this.$el) {
+      this.$el.trigger('hide');
+      this.$el.remove();
+      this.$el = null;
+      MountOptionsDropdown._last = null;
+    }
+  },
+  /**
+   * Returns the mount options from the dropdown controls
+   *
+   * @return {object} options mount options
+   */
+  getOptions() {
+    const options = {};
+    this.$el.find('input, select').each(function () {
+      const $this = $(this);
+      const key = $this.attr('name');
+      let value = null;
+      if ($this.attr('type') === 'checkbox') {
+        value = $this.prop('checked');
+      } else {
+        value = $this.val();
+      }
+      if ($this.attr('data-type') === 'int') {
+        value = parseInt(value, 10);
+      }
+      options[key] = value;
+    });
+    return options;
+  },
+  /**
+   * Sets the mount options to the dropdown controls
+   *
+   * @param {object} options mount options
+   * @param {Array} visibleOptions enabled mount options
+   * @param storage
+   */
+  setOptions(options, visibleOptions, storage) {
+    if (storage === 'owncloud') {
+      const ind = visibleOptions.indexOf('encrypt');
+      if (ind > 0) {
+        visibleOptions.splice(ind, 1);
+      }
+    }
+    const $el = this.$el;
+    _.each(options, function (value, key) {
+      const $optionEl = $el.find('input, select').filterAttr('name', key);
+      if ($optionEl.attr('type') === 'checkbox') {
+        if (_.isString(value)) {
+          value = value === 'true';
+        }
+        $optionEl.prop('checked', !!value);
+      } else {
+        $optionEl.val(value);
+      }
+    });
+    $el.find('.optionRow').each(function (i, row) {
+      const $row = $(row);
+      const optionId = $row.find('input, select').attr('name');
+      if (visibleOptions.indexOf(optionId) === -1 && !$row.hasClass('persistent')) {
+        $row.hide();
+      } else {
+        $row.show();
+      }
+    });
+  }
+};
+
+/**
+ * @class OCA.Files_External.Settings.MountConfigListView
+ *
+ * @classdesc Mount configuration list view
+ *
+ * @param {object} $el DOM object containing the list
+ * @param {object} [options]
+ * @param {number} [options.userListLimit] page size in applicable users dropdown
+ */
+const MountConfigListView = function ($el, options) {
+  this.initialize($el, options);
+};
+MountConfigListView.ParameterFlags = {
+  OPTIONAL: 1,
+  USER_PROVIDED: 2,
+  HIDDEN: 4
+};
+MountConfigListView.ParameterTypes = {
+  TEXT: 0,
+  BOOLEAN: 1,
+  PASSWORD: 2
+};
+
+/**
+ * @memberOf OCA.Files_External.Settings
+ */
+MountConfigListView.prototype = _.extend({
+  /**
+   * jQuery element containing the config list
+   *
+   * @type Object
+   */
+  $el: null,
+  /**
+   * Storage config class
+   *
+   * @type Class
+   */
+  _storageConfigClass: null,
+  /**
+   * Flag whether the list is about user storage configs (true)
+   * or global storage configs (false)
+   *
+   * @type bool
+   */
+  _isPersonal: false,
+  /**
+   * Page size in applicable users dropdown
+   *
+   * @type int
+   */
+  _userListLimit: 30,
+  /**
+   * List of supported backends
+   *
+   * @type Object.<string,Object>
+   */
+  _allBackends: null,
+  /**
+   * List of all supported authentication mechanisms
+   *
+   * @type Object.<string,Object>
+   */
+  _allAuthMechanisms: null,
+  _encryptionEnabled: false,
+  /**
+   * @param {object} $el DOM object containing the list
+   * @param {object} [options]
+   * @param {number} [options.userListLimit] page size in applicable users dropdown
+   */
+  initialize($el, options) {
+    this.$el = $el;
+    this._isPersonal = $el.data('admin') !== true;
+    if (this._isPersonal) {
+      this._storageConfigClass = OCA.Files_External.Settings.UserStorageConfig;
+    } else {
+      this._storageConfigClass = OCA.Files_External.Settings.GlobalStorageConfig;
+    }
+    if (options && !_.isUndefined(options.userListLimit)) {
+      this._userListLimit = options.userListLimit;
+    }
+    this._encryptionEnabled = options.encryptionEnabled;
+    this._canCreateLocal = options.canCreateLocal;
+
+    // read the backend config that was carefully crammed
+    // into the data-configurations attribute of the select
+    this._allBackends = this.$el.find('.selectBackend').data('configurations');
+    this._allAuthMechanisms = this.$el.find('#addMountPoint .authentication').data('mechanisms');
+    this._initEvents();
+  },
+  /**
+   * Custom JS event handlers
+   * Trigger callback for all existing configurations
+   * @param callback
+   */
+  whenSelectBackend(callback) {
+    this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function (i, tr) {
+      const backend = $(tr).find('.backend').data('identifier');
+      callback($(tr), backend);
+    });
+    this.on('selectBackend', callback);
+  },
+  whenSelectAuthMechanism(callback) {
+    const self = this;
+    this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function (i, tr) {
+      const authMechanism = $(tr).find('.selectAuthMechanism').val();
+      callback($(tr), authMechanism, self._allAuthMechanisms[authMechanism].scheme);
+    });
+    this.on('selectAuthMechanism', callback);
+  },
+  /**
+   * Initialize DOM event handlers
+   */
+  _initEvents() {
+    const self = this;
+    const onChangeHandler = _.bind(this._onChange, this);
+    // this.$el.on('input', 'td input', onChangeHandler);
+    this.$el.on('keyup', 'td input', onChangeHandler);
+    this.$el.on('paste', 'td input', onChangeHandler);
+    this.$el.on('change', 'td input:checkbox', onChangeHandler);
+    this.$el.on('change', '.applicable', onChangeHandler);
+    this.$el.on('click', '.status>span', function () {
+      self.recheckStorageConfig($(this).closest('tr'));
+    });
+    this.$el.on('click', 'td.mountOptionsToggle .icon-delete', function () {
+      self.deleteStorageConfig($(this).closest('tr'));
+    });
+    this.$el.on('click', 'td.save>.icon-checkmark', function () {
+      self.saveStorageConfig($(this).closest('tr'));
+    });
+    this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function () {
+      $(this).attr('aria-expanded', 'true');
+      self._showMountOptionsDropdown($(this).closest('tr'));
+    });
+    this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
+    this.$el.on('change', '.selectAuthMechanism', _.bind(this._onSelectAuthMechanism, this));
+    this.$el.on('change', '.applicableToAllUsers', _.bind(this._onChangeApplicableToAllUsers, this));
+  },
+  _onChange(event) {
+    const $target = $(event.target);
+    if ($target.closest('.dropdown').length) {
+      // ignore dropdown events
+      return;
+    }
+    highlightInput($target);
+    const $tr = $target.closest('tr');
+    this.updateStatus($tr, null);
+  },
+  _onSelectBackend(event) {
+    const $target = $(event.target);
+    let $tr = $target.closest('tr');
+    const storageConfig = new this._storageConfigClass();
+    storageConfig.mountPoint = $tr.find('.mountPoint input').val();
+    storageConfig.backend = $target.val();
+    $tr.find('.mountPoint input').val('');
+    $tr.find('.selectBackend').prop('selectedIndex', 0);
+    const onCompletion = jquery__WEBPACK_IMPORTED_MODULE_5___default().Deferred();
+    $tr = this.newStorage(storageConfig, onCompletion);
+    $tr.find('.applicableToAllUsers').prop('checked', false).trigger('change');
+    onCompletion.resolve();
+    $tr.find('td.configuration').children().not('[type=hidden]').first().focus();
+    this.saveStorageConfig($tr);
+  },
+  _onSelectAuthMechanism(event) {
+    const $target = $(event.target);
+    const $tr = $target.closest('tr');
+    const authMechanism = $target.val();
+    const onCompletion = jquery__WEBPACK_IMPORTED_MODULE_5___default().Deferred();
+    this.configureAuthMechanism($tr, authMechanism, onCompletion);
+    onCompletion.resolve();
+    this.saveStorageConfig($tr);
+  },
+  _onChangeApplicableToAllUsers(event) {
+    const $target = $(event.target);
+    const $tr = $target.closest('tr');
+    const checked = $target.is(':checked');
+    $tr.find('.applicableUsersContainer').toggleClass('hidden', checked);
+    if (!checked) {
+      $tr.find('.applicableUsers').select2('val', '', true);
+    }
+    this.saveStorageConfig($tr);
+  },
+  /**
+   * Configure the storage config with a new authentication mechanism
+   *
+   * @param {jQuery} $tr config row
+   * @param {string} authMechanism
+   * @param {jQuery.Deferred} onCompletion
+   */
+  configureAuthMechanism($tr, authMechanism, onCompletion) {
+    const authMechanismConfiguration = this._allAuthMechanisms[authMechanism];
+    const $td = $tr.find('td.configuration');
+    $td.find('.auth-param').remove();
+    $.each(authMechanismConfiguration.configuration, _.partial(this.writeParameterInput, $td, _, _, ['auth-param']).bind(this));
+    this.trigger('selectAuthMechanism', $tr, authMechanism, authMechanismConfiguration.scheme, onCompletion);
+  },
+  /**
+   * Create a config row for a new storage
+   *
+   * @param {StorageConfig} storageConfig storage config to pull values from
+   * @param {jQuery.Deferred} onCompletion
+   * @param {boolean} deferAppend
+   * @return {jQuery} created row
+   */
+  newStorage(storageConfig, onCompletion, deferAppend) {
+    let mountPoint = storageConfig.mountPoint;
+    let backend = this._allBackends[storageConfig.backend];
+    if (!backend) {
+      backend = {
+        name: 'Unknown: ' + storageConfig.backend,
+        invalid: true
+      };
+    }
+
+    // FIXME: Replace with a proper Handlebar template
+    const $template = this.$el.find('tr#addMountPoint');
+    const $tr = $template.clone();
+    if (!deferAppend) {
+      $tr.insertBefore($template);
+    }
+    $tr.data('storageConfig', storageConfig);
+    $tr.show();
+    $tr.find('td.mountOptionsToggle, td.save, td.remove').removeClass('hidden');
+    $tr.find('td').last().removeAttr('style');
+    $tr.removeAttr('id');
+    $tr.find('select#selectBackend');
+    if (!deferAppend) {
+      initApplicableUsersMultiselect($tr.find('.applicableUsers'), this._userListLimit);
+    }
+    if (storageConfig.id) {
+      $tr.data('id', storageConfig.id);
+    }
+    $tr.find('.backend').text(backend.name);
+    if (mountPoint === '') {
+      mountPoint = this._suggestMountPoint(backend.name);
+    }
+    $tr.find('.mountPoint input').val(mountPoint);
+    $tr.addClass(backend.identifier);
+    $tr.find('.backend').data('identifier', backend.identifier);
+    if (backend.invalid || backend.identifier === 'local' && !this._canCreateLocal) {
+      $tr.find('[name=mountPoint]').prop('disabled', true);
+      $tr.find('.applicable,.mountOptionsToggle').empty();
+      $tr.find('.save').empty();
+      if (backend.invalid) {
+        this.updateStatus($tr, false, (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Unknown backend: {backendName}', {
+          backendName: backend.name
+        }));
+      }
+      return $tr;
+    }
+    const selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
+    const neededVisibility = this._isPersonal ? StorageConfig.Visibility.PERSONAL : StorageConfig.Visibility.ADMIN;
+    $.each(this._allAuthMechanisms, function (authIdentifier, authMechanism) {
+      if (backend.authSchemes[authMechanism.scheme] && authMechanism.visibility & neededVisibility) {
+        selectAuthMechanism.append($('<option value="' + authMechanism.identifier + '" data-scheme="' + authMechanism.scheme + '">' + authMechanism.name + '</option>'));
+      }
+    });
+    if (storageConfig.authMechanism) {
+      selectAuthMechanism.val(storageConfig.authMechanism);
+    } else {
+      storageConfig.authMechanism = selectAuthMechanism.val();
+    }
+    $tr.find('td.authentication').append(selectAuthMechanism);
+    const $td = $tr.find('td.configuration');
+    $.each(backend.configuration, _.partial(this.writeParameterInput, $td).bind(this));
+    this.trigger('selectBackend', $tr, backend.identifier, onCompletion);
+    this.configureAuthMechanism($tr, storageConfig.authMechanism, onCompletion);
+    if (storageConfig.backendOptions) {
+      $td.find('input, select').each(function () {
+        const input = $(this);
+        const val = storageConfig.backendOptions[input.data('parameter')];
+        if (val !== undefined) {
+          if (input.is('input:checkbox')) {
+            input.prop('checked', val);
+          }
+          input.val(storageConfig.backendOptions[input.data('parameter')]);
+          highlightInput(input);
+        }
+      });
+    }
+    let applicable = [];
+    if (storageConfig.applicableUsers) {
+      applicable = applicable.concat(storageConfig.applicableUsers);
+    }
+    if (storageConfig.applicableGroups) {
+      applicable = applicable.concat(_.map(storageConfig.applicableGroups, function (group) {
+        return group + '(group)';
+      }));
+    }
+    if (applicable.length) {
+      $tr.find('.applicableUsers').val(applicable).trigger('change');
+      $tr.find('.applicableUsersContainer').removeClass('hidden');
+    } else {
+      // applicable to all
+      $tr.find('.applicableUsersContainer').addClass('hidden');
+    }
+    $tr.find('.applicableToAllUsers').prop('checked', !applicable.length);
+    const priorityEl = $('<input type="hidden" class="priority" value="' + backend.priority + '" />');
+    $tr.append(priorityEl);
+    if (storageConfig.mountOptions) {
+      $tr.find('input.mountOptions').val(JSON.stringify(storageConfig.mountOptions));
+    } else {
+      // FIXME default backend mount options
+      $tr.find('input.mountOptions').val(JSON.stringify({
+        encrypt: true,
+        previews: true,
+        enable_sharing: false,
+        filesystem_check_changes: 1,
+        encoding_compatibility: false,
+        readonly: false
+      }));
+    }
+    return $tr;
+  },
+  /**
+   * Load storages into config rows
+   */
+  loadStorages() {
+    const self = this;
+    const onLoaded1 = $.Deferred();
+    const onLoaded2 = $.Deferred();
+    this.$el.find('.externalStorageLoading').removeClass('hidden');
+    $.when(onLoaded1, onLoaded2).always(() => {
+      self.$el.find('.externalStorageLoading').addClass('hidden');
+    });
+    if (this._isPersonal) {
+      // load userglobal storages
+      $.ajax({
+        type: 'GET',
+        url: OC.generateUrl('apps/files_external/userglobalstorages'),
+        data: {
+          testOnly: true
+        },
+        contentType: 'application/json',
+        success(result) {
+          result = Object.values(result);
+          const onCompletion = jquery__WEBPACK_IMPORTED_MODULE_5___default().Deferred();
+          let $rows = $();
+          result.forEach(function (storageParams) {
+            let storageConfig;
+            const isUserGlobal = storageParams.type === 'system' && self._isPersonal;
+            storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
+            if (isUserGlobal) {
+              storageConfig = new UserGlobalStorageConfig();
+            } else {
+              storageConfig = new self._storageConfigClass();
+            }
+            _.extend(storageConfig, storageParams);
+            const $tr = self.newStorage(storageConfig, onCompletion, true);
+
+            // userglobal storages must be at the top of the list
+            $tr.detach();
+            self.$el.prepend($tr);
+            const $authentication = $tr.find('.authentication');
+            $authentication.text($authentication.find('select option:selected').text());
+
+            // disable any other inputs
+            $tr.find('.mountOptionsToggle, .remove').empty();
+            $tr.find('input:not(.user_provided), select:not(.user_provided)').attr('disabled', 'disabled');
+            if (isUserGlobal) {
+              $tr.find('.configuration').find(':not(.user_provided)').remove();
+            } else {
+              // userglobal storages do not expose configuration data
+              $tr.find('.configuration').text((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Admin defined'));
+            }
+
+            // don't recheck config automatically when there are a large number of storages
+            if (result.length < 20) {
+              self.recheckStorageConfig($tr);
+            } else {
+              self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+            }
+            $rows = $rows.add($tr);
+          });
+          initApplicableUsersMultiselect(self.$el.find('.applicableUsers'), this._userListLimit);
+          self.$el.find('tr#addMountPoint').before($rows);
+          const mainForm = $('#files_external');
+          if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
+            mainForm.hide();
+            $('a[href="#external-storage"]').parent().hide();
+            $('.emptycontent').show();
+          }
+          onCompletion.resolve();
+          onLoaded1.resolve();
+        }
+      });
+    } else {
+      onLoaded1.resolve();
+    }
+    const url = this._storageConfigClass.prototype._url;
+    $.ajax({
+      type: 'GET',
+      url: OC.generateUrl(url),
+      contentType: 'application/json',
+      success(result) {
+        result = Object.values(result);
+        const onCompletion = jquery__WEBPACK_IMPORTED_MODULE_5___default().Deferred();
+        let $rows = $();
+        result.forEach(function (storageParams) {
+          storageParams.mountPoint = storageParams.mountPoint === '/' ? '/' : storageParams.mountPoint.substr(1); // trim leading slash
+          const storageConfig = new self._storageConfigClass();
+          _.extend(storageConfig, storageParams);
+          const $tr = self.newStorage(storageConfig, onCompletion, true);
+
+          // don't recheck config automatically when there are a large number of storages
+          if (result.length < 20) {
+            self.recheckStorageConfig($tr);
+          } else {
+            self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+          }
+          $rows = $rows.add($tr);
+        });
+        initApplicableUsersMultiselect($rows.find('.applicableUsers'), this._userListLimit);
+        self.$el.find('tr#addMountPoint').before($rows);
+        onCompletion.resolve();
+        onLoaded2.resolve();
+      }
+    });
+  },
+  /**
+   * @param {jQuery} $td
+   * @param {string} parameter
+   * @param {string} placeholder
+   * @param {Array} classes
+   * @return {jQuery} newly created input
+   */
+  writeParameterInput($td, parameter, placeholder, classes) {
+    const hasFlag = function (flag) {
+      return (placeholder.flags & flag) === flag;
+    };
+    classes = $.isArray(classes) ? classes : [];
+    classes.push('added');
+    if (hasFlag(MountConfigListView.ParameterFlags.OPTIONAL)) {
+      classes.push('optional');
+    }
+    if (hasFlag(MountConfigListView.ParameterFlags.USER_PROVIDED)) {
+      if (this._isPersonal) {
+        classes.push('user_provided');
+      } else {
+        return;
+      }
+    }
+    let newElement;
+    const trimmedPlaceholder = placeholder.value;
+    if (hasFlag(MountConfigListView.ParameterFlags.HIDDEN)) {
+      newElement = $('<input type="hidden" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" />');
+    } else if (placeholder.type === MountConfigListView.ParameterTypes.PASSWORD) {
+      newElement = $('<input type="password" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" placeholder="' + trimmedPlaceholder + '" />');
+    } else if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
+      const checkboxId = _.uniqueId('checkbox_');
+      newElement = $('<div><label><input type="checkbox" id="' + checkboxId + '" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" />' + trimmedPlaceholder + '</label></div>');
+    } else {
+      newElement = $('<input type="text" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" placeholder="' + trimmedPlaceholder + '" />');
+    }
+    if (placeholder.defaultValue) {
+      if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
+        newElement.find('input').prop('checked', placeholder.defaultValue);
+      } else {
+        newElement.val(placeholder.defaultValue);
+      }
+    }
+    if (placeholder.tooltip) {
+      newElement.attr('title', placeholder.tooltip);
+    }
+    highlightInput(newElement);
+    $td.append(newElement);
+    return newElement;
+  },
+  /**
+   * Gets the storage model from the given row
+   *
+   * @param $tr row element
+   * @return {OCA.Files_External.StorageConfig} storage model instance
+   */
+  getStorageConfig($tr) {
+    let storageId = $tr.data('id');
+    if (!storageId) {
+      // new entry
+      storageId = null;
+    }
+    let storage = $tr.data('storageConfig');
+    if (!storage) {
+      storage = new this._storageConfigClass(storageId);
+    }
+    storage.errors = null;
+    storage.mountPoint = $tr.find('.mountPoint input').val();
+    storage.backend = $tr.find('.backend').data('identifier');
+    storage.authMechanism = $tr.find('.selectAuthMechanism').val();
+    const classOptions = {};
+    const configuration = $tr.find('.configuration input');
+    const missingOptions = [];
+    $.each(configuration, function (index, input) {
+      const $input = $(input);
+      const parameter = $input.data('parameter');
+      if ($input.attr('type') === 'button') {
+        return;
+      }
+      if (!isInputValid($input) && !$input.hasClass('optional')) {
+        missingOptions.push(parameter);
+        return;
+      }
+      if ($(input).is(':checkbox')) {
+        if ($(input).is(':checked')) {
+          classOptions[parameter] = true;
+        } else {
+          classOptions[parameter] = false;
+        }
+      } else {
+        classOptions[parameter] = $(input).val();
+      }
+    });
+    storage.backendOptions = classOptions;
+    if (missingOptions.length) {
+      storage.errors = {
+        backendOptions: missingOptions
+      };
+    }
+
+    // gather selected users and groups
+    if (!this._isPersonal) {
+      const multiselect = getSelectedApplicable($tr);
+      const users = multiselect.users || [];
+      const groups = multiselect.groups || [];
+      const isApplicableToAllUsers = $tr.find('.applicableToAllUsers').is(':checked');
+      if (isApplicableToAllUsers) {
+        storage.applicableUsers = [];
+        storage.applicableGroups = [];
+      } else {
+        storage.applicableUsers = users;
+        storage.applicableGroups = groups;
+        if (!storage.applicableUsers.length && !storage.applicableGroups.length) {
+          if (!storage.errors) {
+            storage.errors = {};
+          }
+          storage.errors.requiredApplicable = true;
+        }
+      }
+      storage.priority = parseInt($tr.find('input.priority').val() || '100', 10);
+    }
+    const mountOptions = $tr.find('input.mountOptions').val();
+    if (mountOptions) {
+      storage.mountOptions = JSON.parse(mountOptions);
+    }
+    return storage;
+  },
+  /**
+   * Deletes the storage from the given tr
+   *
+   * @param $tr storage row
+   * @param Function callback callback to call after save
+   */
+  deleteStorageConfig($tr) {
+    const self = this;
+    const configId = $tr.data('id');
+    if (!_.isNumber(configId)) {
+      // deleting unsaved storage
+      $tr.remove();
+      return;
+    }
+    const storage = new this._storageConfigClass(configId);
+    OC.dialogs.confirm((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
+      storage: this.mountPoint
+    }), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Delete storage?'), function (confirm) {
+      if (confirm) {
+        self.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+        storage.destroy({
+          success() {
+            $tr.remove();
+          },
+          error(result) {
+            const statusMessage = result && result.responseJSON ? result.responseJSON.message : undefined;
+            self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
+          }
+        });
+      }
+    });
+  },
+  /**
+   * Saves the storage from the given tr
+   *
+   * @param $tr storage row
+   * @param Function callback callback to call after save
+   * @param callback
+   * @param concurrentTimer only update if the timer matches this
+   */
+  saveStorageConfig($tr, callback, concurrentTimer) {
+    const self = this;
+    const storage = this.getStorageConfig($tr);
+    if (!storage || !storage.validate()) {
+      return false;
+    }
+    this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+    storage.save({
+      success(result) {
+        if (concurrentTimer === undefined || $tr.data('save-timer') === concurrentTimer) {
+          self.updateStatus($tr, result.status, result.statusMessage);
+          $tr.data('id', result.id);
+          if (_.isFunction(callback)) {
+            callback(storage);
+          }
+        }
+      },
+      error(result) {
+        if (concurrentTimer === undefined || $tr.data('save-timer') === concurrentTimer) {
+          const statusMessage = result && result.responseJSON ? result.responseJSON.message : undefined;
+          self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
+        }
+      }
+    });
+  },
+  /**
+   * Recheck storage availability
+   *
+   * @param {jQuery} $tr storage row
+   * @return {boolean} success
+   */
+  recheckStorageConfig($tr) {
+    const self = this;
+    const storage = this.getStorageConfig($tr);
+    if (!storage.validate()) {
+      return false;
+    }
+    this.updateStatus($tr, StorageConfig.Status.IN_PROGRESS);
+    storage.recheck({
+      success(result) {
+        self.updateStatus($tr, result.status, result.statusMessage);
+      },
+      error(result) {
+        const statusMessage = result && result.responseJSON ? result.responseJSON.message : undefined;
+        self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
+      }
+    });
+  },
+  /**
+   * Update status display
+   *
+   * @param {jQuery} $tr
+   * @param {number} status
+   * @param {string} message
+   */
+  updateStatus($tr, status, message) {
+    const $statusSpan = $tr.find('.status span');
+    switch (status) {
+      case null:
+        // remove status
+        $statusSpan.hide();
+        break;
+      case StorageConfig.Status.IN_PROGRESS:
+        $statusSpan.attr('class', 'icon-loading-small');
+        break;
+      case StorageConfig.Status.SUCCESS:
+        $statusSpan.attr('class', 'success icon-checkmark-white');
+        break;
+      case StorageConfig.Status.INDETERMINATE:
+        $statusSpan.attr('class', 'indeterminate icon-info-white');
+        break;
+      default:
+        $statusSpan.attr('class', 'error icon-error-white');
+    }
+    if (status !== null) {
+      $statusSpan.show();
+    }
+    if (typeof message !== 'string') {
+      message = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Click to recheck the configuration');
+    }
+    $statusSpan.attr('title', message);
+  },
+  /**
+   * Suggest mount point name that doesn't conflict with the existing names in the list
+   *
+   * @param {string} defaultMountPoint default name
+   */
+  _suggestMountPoint(defaultMountPoint) {
+    const $el = this.$el;
+    const pos = defaultMountPoint.indexOf('/');
+    if (pos !== -1) {
+      defaultMountPoint = defaultMountPoint.substring(0, pos);
+    }
+    defaultMountPoint = defaultMountPoint.replace(/\s+/g, '');
+    let i = 1;
+    let append = '';
+    let match = true;
+    while (match && i < 20) {
+      match = false;
+      $el.find('tbody td.mountPoint input').each(function (index, mountPoint) {
+        if ($(mountPoint).val() === defaultMountPoint + append) {
+          match = true;
+          return false;
+        }
+      });
+      if (match) {
+        append = i;
+        i++;
+      } else {
+        break;
+      }
+    }
+    return defaultMountPoint + append;
+  },
+  /**
+   * Toggles the mount options dropdown
+   *
+   * @param {object} $tr configuration row
+   */
+  _showMountOptionsDropdown($tr) {
+    const self = this;
+    const storage = this.getStorageConfig($tr);
+    const $toggle = $tr.find('.mountOptionsToggle');
+    const dropDown = new MountOptionsDropdown();
+    const visibleOptions = ['previews', 'filesystem_check_changes', 'enable_sharing', 'encoding_compatibility', 'readonly', 'delete'];
+    if (this._encryptionEnabled) {
+      visibleOptions.push('encrypt');
+    }
+    dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
+    $('body').on('mouseup.mountOptionsDropdown', function (event) {
+      const $target = $(event.target);
+      if ($target.closest('.popovermenu').length) {
+        return;
+      }
+      dropDown.hide();
+    });
+    dropDown.$el.on('hide', function () {
+      const mountOptions = dropDown.getOptions();
+      $('body').off('mouseup.mountOptionsDropdown');
+      $tr.find('input.mountOptions').val(JSON.stringify(mountOptions));
+      $tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false');
+      self.saveStorageConfig($tr);
+    });
+  }
+}, OC.Backbone.Events);
+window.addEventListener('DOMContentLoaded', function () {
+  const enabled = $('#files_external').attr('data-encryption-enabled');
+  const canCreateLocal = $('#files_external').attr('data-can-create-local');
+  const encryptionEnabled = enabled === 'true';
+  const mountConfigListView = new MountConfigListView($('#externalStorage'), {
+    encryptionEnabled,
+    canCreateLocal: canCreateLocal === 'true'
+  });
+  mountConfigListView.loadStorages();
+
+  // TODO: move this into its own View class
+  const $allowUserMounting = $('#allowUserMounting');
+  $allowUserMounting.bind('change', function () {
+    OC.msg.startSaving('#userMountingMsg');
+    if (this.checked) {
+      OCP.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
+      $('input[name="allowUserMountingBackends\\[\\]"]').prop('checked', true);
+      $('#userMountingBackends').removeClass('hidden');
+      $('input[name="allowUserMountingBackends\\[\\]"]').eq(0).trigger('change');
+    } else {
+      OCP.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
+      $('#userMountingBackends').addClass('hidden');
+    }
+    OC.msg.finishedSaving('#userMountingMsg', {
+      status: 'success',
+      data: {
+        message: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Saved')
+      }
+    });
+  });
+  $('input[name="allowUserMountingBackends\\[\\]"]').bind('change', function () {
+    OC.msg.startSaving('#userMountingMsg');
+    let userMountingBackends = $('input[name="allowUserMountingBackends\\[\\]"]:checked').map(function () {
+      return $(this).val();
+    }).get();
+    const deprecatedBackends = $('input[name="allowUserMountingBackends\\[\\]"][data-deprecate-to]').map(function () {
+      if ($.inArray($(this).data('deprecate-to'), userMountingBackends) !== -1) {
+        return $(this).val();
+      }
+      return null;
+    }).get();
+    userMountingBackends = userMountingBackends.concat(deprecatedBackends);
+    OCP.AppConfig.setValue('files_external', 'user_mounting_backends', userMountingBackends.join());
+    OC.msg.finishedSaving('#userMountingMsg', {
+      status: 'success',
+      data: {
+        message: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Saved')
+      }
+    });
+
+    // disable allowUserMounting
+    if (userMountingBackends.length === 0) {
+      $allowUserMounting.prop('checked', false);
+      $allowUserMounting.trigger('change');
+    }
+  });
+  $('#global_credentials').on('submit', async function (event) {
+    event.preventDefault();
+    const $form = $(this);
+    const $submit = $form.find('[type=submit]');
+    $submit.val((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Saving …'));
+    const uid = $form.find('[name=uid]').val();
+    const user = $form.find('[name=username]').val();
+    const password = $form.find('[name=password]').val();
+    try {
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].request({
+        method: 'POST',
+        data: {
+          uid,
+          user,
+          password
+        },
+        url: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('apps/files_external/globalcredentials'),
+        confirmPassword: _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_0__.PwdConfirmationMode.Strict
+      });
+      $submit.val((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Saved'));
+      setTimeout(function () {
+        $submit.val((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Save'));
+      }, 2500);
+    } catch (error) {
+      $submit.val((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Save'));
+      if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__.isAxiosError)(error)) {
+        const message = error.response?.data?.message || (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Failed to save global credentials');
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files_external', 'Failed to save global credentials: {message}', {
+          message
+        }));
+      }
+    }
+    return false;
+  });
+
+  // global instance
+  OCA.Files_External.Settings.mountConfig = mountConfigListView;
+
+  /**
+   * Legacy
+   *
+   * @namespace
+   * @deprecated use OCA.Files_External.Settings.mountConfig instead
+   */
+  OC.MountConfig = {
+    saveStorage: _.bind(mountConfigListView.saveStorageConfig, mountConfigListView)
+  };
+});
+
+// export
+
+OCA.Files_External = OCA.Files_External || {};
+/**
+ * @namespace
+ */
+OCA.Files_External.Settings = OCA.Files_External.Settings || {};
+OCA.Files_External.Settings.GlobalStorageConfig = GlobalStorageConfig;
+OCA.Files_External.Settings.UserStorageConfig = UserStorageConfig;
+OCA.Files_External.Settings.MountConfigListView = MountConfigListView;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"0a21f85fb5edb886fad0","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"5414d4143400c9b713c3","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-391a6e":"87f84948225387ac2eec"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files_external-settings": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files_external/src/settings.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files_external-settings.js.map?v=d33d4b324d9b286442de

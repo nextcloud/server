@@ -1,2 +1,7910 @@
-(()=>{var e,n,r,o={9165:(t,e,n)=>{"use strict";n.d(e,{$BT:()=>c,Brj:()=>v,Ckb:()=>f,EYN:()=>g,F5c:()=>m,Fzw:()=>b,HzW:()=>k,IyB:()=>r,KR_:()=>p,MXC:()=>A,NZC:()=>l,Tfj:()=>u,ZL5:()=>w,fEr:()=>h,jUz:()=>C,kHm:()=>y,kOJ:()=>d,lWO:()=>a,mbi:()=>o,qFD:()=>i,vrq:()=>s,zY6:()=>E});var r="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z",o="M16.61 15.15C16.15 15.15 15.77 14.78 15.77 14.32S16.15 13.5 16.61 13.5H16.61C17.07 13.5 17.45 13.86 17.45 14.32C17.45 14.78 17.07 15.15 16.61 15.15M7.41 15.15C6.95 15.15 6.57 14.78 6.57 14.32C6.57 13.86 6.95 13.5 7.41 13.5H7.41C7.87 13.5 8.24 13.86 8.24 14.32C8.24 14.78 7.87 15.15 7.41 15.15M16.91 10.14L18.58 7.26C18.67 7.09 18.61 6.88 18.45 6.79C18.28 6.69 18.07 6.75 18 6.92L16.29 9.83C14.95 9.22 13.5 8.9 12 8.91C10.47 8.91 9 9.24 7.73 9.82L6.04 6.91C5.95 6.74 5.74 6.68 5.57 6.78C5.4 6.87 5.35 7.08 5.44 7.25L7.1 10.13C4.25 11.69 2.29 14.58 2 18H22C21.72 14.59 19.77 11.7 16.91 10.14H16.91Z",i="M2.09 16.8H3.75V9.76H2.09M2.92 8.84C3.44 8.84 3.84 8.44 3.84 7.94C3.84 7.44 3.44 7.04 2.92 7.04C2.4 7.04 2 7.44 2 7.94C2 8.44 2.4 8.84 2.92 8.84M9.25 7.06C6.46 7.06 4.7 8.96 4.7 12C4.7 15.06 6.46 16.96 9.25 16.96C12.04 16.96 13.8 15.06 13.8 12C13.8 8.96 12.04 7.06 9.25 7.06M9.25 8.5C10.96 8.5 12.05 9.87 12.05 12C12.05 14.15 10.96 15.5 9.25 15.5C7.54 15.5 6.46 14.15 6.46 12C6.46 9.87 7.54 8.5 9.25 8.5M14.5 14.11C14.57 15.87 16 16.96 18.22 16.96C20.54 16.96 22 15.82 22 14C22 12.57 21.18 11.77 19.23 11.32L18.13 11.07C16.95 10.79 16.47 10.42 16.47 9.78C16.47 9 17.2 8.45 18.28 8.45C19.38 8.45 20.13 9 20.21 9.89H21.84C21.8 8.2 20.41 7.06 18.29 7.06C16.21 7.06 14.73 8.21 14.73 9.91C14.73 11.28 15.56 12.13 17.33 12.53L18.57 12.82C19.78 13.11 20.27 13.5 20.27 14.2C20.27 15 19.47 15.57 18.31 15.57C17.15 15.57 16.26 15 16.16 14.11H14.5Z",a="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12C4,14.09 4.8,16 6.11,17.41L9.88,9.88L17.41,6.11C16,4.8 14.09,4 12,4M12,20A8,8 0 0,0 20,12C20,9.91 19.2,8 17.89,6.59L14.12,14.12L6.59,17.89C8,19.2 9.91,20 12,20M12,12L11.23,11.23L9.7,14.3L12.77,12.77L12,12M12,17.5H13V19H12V17.5M15.88,15.89L16.59,15.18L17.65,16.24L16.94,16.95L15.88,15.89M17.5,12V11H19V12H17.5M12,6.5H11V5H12V6.5M8.12,8.11L7.41,8.82L6.35,7.76L7.06,7.05L8.12,8.11M6.5,12V13H5V12H6.5Z",s="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3C19,1.89 18.1,1 17,1Z",u="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z",l="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z",c="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z",f="M9.27 7.94C9.27 7.94 9.27 7.94 9.27 7.94M6.85 6.74C6.86 6.74 6.86 6.74 6.85 6.74M21.28 8.6C20.85 7.55 19.96 6.42 19.27 6.06C19.83 7.17 20.16 8.28 20.29 9.1L20.29 9.12C19.16 6.3 17.24 5.16 15.67 2.68C15.59 2.56 15.5 2.43 15.43 2.3C15.39 2.23 15.36 2.16 15.32 2.09C15.26 1.96 15.2 1.83 15.17 1.69C15.17 1.68 15.16 1.67 15.15 1.67H15.13L15.12 1.67L15.12 1.67L15.12 1.67C12.9 2.97 11.97 5.26 11.74 6.71C11.05 6.75 10.37 6.92 9.75 7.22C9.63 7.27 9.58 7.41 9.62 7.53C9.67 7.67 9.83 7.74 9.96 7.68C10.5 7.42 11.1 7.27 11.7 7.23L11.75 7.23C11.83 7.22 11.92 7.22 12 7.22C12.5 7.21 12.97 7.28 13.44 7.42L13.5 7.44C13.6 7.46 13.67 7.5 13.75 7.5C13.8 7.54 13.86 7.56 13.91 7.58L14.05 7.64C14.12 7.67 14.19 7.7 14.25 7.73C14.28 7.75 14.31 7.76 14.34 7.78C14.41 7.82 14.5 7.85 14.54 7.89C14.58 7.91 14.62 7.94 14.66 7.96C15.39 8.41 16 9.03 16.41 9.77C15.88 9.4 14.92 9.03 14 9.19C17.6 11 16.63 17.19 11.64 16.95C11.2 16.94 10.76 16.85 10.34 16.7C10.24 16.67 10.14 16.63 10.05 16.58C10 16.56 9.93 16.53 9.88 16.5C8.65 15.87 7.64 14.68 7.5 13.23C7.5 13.23 8 11.5 10.83 11.5C11.14 11.5 12 10.64 12.03 10.4C12.03 10.31 10.29 9.62 9.61 8.95C9.24 8.59 9.07 8.42 8.92 8.29C8.84 8.22 8.75 8.16 8.66 8.1C8.43 7.3 8.42 6.45 8.63 5.65C7.6 6.12 6.8 6.86 6.22 7.5H6.22C5.82 7 5.85 5.35 5.87 5C5.86 5 5.57 5.16 5.54 5.18C5.19 5.43 4.86 5.71 4.56 6C4.21 6.37 3.9 6.74 3.62 7.14C3 8.05 2.5 9.09 2.28 10.18C2.28 10.19 2.18 10.59 2.11 11.1L2.08 11.33C2.06 11.5 2.04 11.65 2 11.91L2 11.94L2 12.27L2 12.32C2 17.85 6.5 22.33 12 22.33C16.97 22.33 21.08 18.74 21.88 14C21.9 13.89 21.91 13.76 21.93 13.63C22.13 11.91 21.91 10.11 21.28 8.6Z",h="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z",p="M12,20L15.46,14H15.45C15.79,13.4 16,12.73 16,12C16,10.8 15.46,9.73 14.62,9H19.41C19.79,9.93 20,10.94 20,12A8,8 0 0,1 12,20M4,12C4,10.54 4.39,9.18 5.07,8L8.54,14H8.55C9.24,15.19 10.5,16 12,16C12.45,16 12.88,15.91 13.29,15.77L10.89,19.91C7,19.37 4,16.04 4,12M15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12M12,4C14.96,4 17.54,5.61 18.92,8H12C10.06,8 8.45,9.38 8.08,11.21L5.7,7.08C7.16,5.21 9.44,4 12,4M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",d="M1,1V5H2V19H1V23H5V22H19V23H23V19H22V5H23V1H19V2H5V1M5,4H19V5H20V19H19V20H5V19H4V5H5M6,6V14H9V18H18V9H14V6M8,8H12V12H8M14,11H16V16H11V14H14",g="M7 14C5.9 14 5 13.1 5 12S5.9 10 7 10 9 10.9 9 12 8.1 14 7 14M12.6 10C11.8 7.7 9.6 6 7 6C3.7 6 1 8.7 1 12S3.7 18 7 18C9.6 18 11.8 16.3 12.6 14H16V18H20V14H23V10H12.6Z",v="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z",y="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z",A="M10.86 15.37C10.17 14.6 9.7 13.68 9.55 12.65C9.25 13.11 9 13.61 8.82 14.15C7.9 16.9 9.5 20.33 12.22 21.33C14.56 22.11 17.19 20.72 18.92 19.2C19.18 18.85 21.23 17.04 20.21 16.84C17.19 18.39 13.19 17.95 10.86 15.37M11.46 9.56C12.5 9.55 11.5 9.13 11.07 8.81C10.03 8.24 8.81 7.96 7.63 7.96C3.78 8 .995 10.41 2.3 14.4C3.24 18.28 6.61 21.4 10.59 21.9C8.54 20.61 7.3 18.19 7.3 15.78C7.38 13.25 8.94 10.28 11.46 9.56M2.78 8.24C5.82 6 10.66 6.18 13.28 9C14.3 10.11 15 12 14.07 13.37C12.33 15.25 17.15 15.5 18.18 15.22C21.92 14.5 22.91 10.15 21.13 7.15C19.43 3.75 15.66 1.97 11.96 2C7.9 1.93 4.25 4.5 2.78 8.24Z",m="M21,16H3V4H21M21,2H3C1.89,2 1,2.89 1,4V16A2,2 0 0,0 3,18H10V20H8V22H16V20H14V18H21A2,2 0 0,0 23,16V4C23,2.89 22.1,2 21,2Z",C="M17,3A2,2 0 0,1 19,5V15A2,2 0 0,1 17,17H13V19H14A1,1 0 0,1 15,20H22V22H15A1,1 0 0,1 14,23H10A1,1 0 0,1 9,22H2V20H9A1,1 0 0,1 10,19H11V17H7C5.89,17 5,16.1 5,15V5A2,2 0 0,1 7,3H17Z",w="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z",b="M19,18H5V6H19M21,4H3C1.89,4 1,4.89 1,6V18A2,2 0 0,0 3,20H21A2,2 0 0,0 23,18V6C23,4.89 22.1,4 21,4Z",k="M5.5,7A1.5,1.5 0 0,1 4,5.5A1.5,1.5 0 0,1 5.5,4A1.5,1.5 0 0,1 7,5.5A1.5,1.5 0 0,1 5.5,7M21.41,11.58L12.41,2.58C12.05,2.22 11.55,2 11,2H4C2.89,2 2,2.89 2,4V11C2,11.55 2.22,12.05 2.59,12.41L11.58,21.41C11.95,21.77 12.45,22 13,22C13.55,22 14.05,21.77 14.41,21.41L21.41,14.41C21.78,14.05 22,13.55 22,13C22,12.44 21.77,11.94 21.41,11.58Z",E="M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"},17816:function(t){t.exports=function(){"use strict";function t(){throw new Error("Dynamic requires are not currently supported by rollup-plugin-commonjs")}var e=function(t,e){return t(e={exports:{}},e.exports),e.exports}((function(e,n){var r;r=function(){return function e(n,r,o){function i(s,u){if(!r[s]){if(!n[s]){if(!u&&t)return t();if(a)return a(s,!0);var l=new Error("Cannot find module '"+s+"'");throw l.code="MODULE_NOT_FOUND",l}var c=r[s]={exports:{}};n[s][0].call(c.exports,(function(t){return i(n[s][1][t]||t)}),c,c.exports,e,n,r,o)}return r[s].exports}for(var a=t,s=0;s<o.length;s++)i(o[s]);return i}({1:[function(t,e,n){e.exports=function(){return"function"==typeof Promise&&Promise.prototype&&Promise.prototype.then}},{}],2:[function(t,e,n){var r=t("./utils").getSymbolSize;n.getRowColCoords=function(t){if(1===t)return[];for(var e=Math.floor(t/7)+2,n=r(t),o=145===n?26:2*Math.ceil((n-13)/(2*e-2)),i=[n-7],a=1;a<e-1;a++)i[a]=i[a-1]-o;return i.push(6),i.reverse()},n.getPositions=function(t){for(var e=[],r=n.getRowColCoords(t),o=r.length,i=0;i<o;i++)for(var a=0;a<o;a++)0===i&&0===a||0===i&&a===o-1||i===o-1&&0===a||e.push([r[i],r[a]]);return e}},{"./utils":21}],3:[function(t,e,n){var r=t("./mode"),o=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"," ","$","%","*","+","-",".","/",":"];function i(t){this.mode=r.ALPHANUMERIC,this.data=t}i.getBitsLength=function(t){return 11*Math.floor(t/2)+t%2*6},i.prototype.getLength=function(){return this.data.length},i.prototype.getBitsLength=function(){return i.getBitsLength(this.data.length)},i.prototype.write=function(t){var e;for(e=0;e+2<=this.data.length;e+=2){var n=45*o.indexOf(this.data[e]);n+=o.indexOf(this.data[e+1]),t.put(n,11)}this.data.length%2&&t.put(o.indexOf(this.data[e]),6)},e.exports=i},{"./mode":14}],4:[function(t,e,n){function r(){this.buffer=[],this.length=0}r.prototype={get:function(t){var e=Math.floor(t/8);return 1==(this.buffer[e]>>>7-t%8&1)},put:function(t,e){for(var n=0;n<e;n++)this.putBit(1==(t>>>e-n-1&1))},getLengthInBits:function(){return this.length},putBit:function(t){var e=Math.floor(this.length/8);this.buffer.length<=e&&this.buffer.push(0),t&&(this.buffer[e]|=128>>>this.length%8),this.length++}},e.exports=r},{}],5:[function(t,e,n){var r=t("../utils/buffer");function o(t){if(!t||t<1)throw new Error("BitMatrix size must be defined and greater than 0");this.size=t,this.data=r.alloc(t*t),this.reservedBit=r.alloc(t*t)}o.prototype.set=function(t,e,n,r){var o=t*this.size+e;this.data[o]=n,r&&(this.reservedBit[o]=!0)},o.prototype.get=function(t,e){return this.data[t*this.size+e]},o.prototype.xor=function(t,e,n){this.data[t*this.size+e]^=n},o.prototype.isReserved=function(t,e){return this.reservedBit[t*this.size+e]},e.exports=o},{"../utils/buffer":28}],6:[function(t,e,n){var r=t("../utils/buffer"),o=t("./mode");function i(t){this.mode=o.BYTE,this.data=r.from(t)}i.getBitsLength=function(t){return 8*t},i.prototype.getLength=function(){return this.data.length},i.prototype.getBitsLength=function(){return i.getBitsLength(this.data.length)},i.prototype.write=function(t){for(var e=0,n=this.data.length;e<n;e++)t.put(this.data[e],8)},e.exports=i},{"../utils/buffer":28,"./mode":14}],7:[function(t,e,n){var r=t("./error-correction-level"),o=[1,1,1,1,1,1,1,1,1,1,2,2,1,2,2,4,1,2,4,4,2,4,4,4,2,4,6,5,2,4,6,6,2,5,8,8,4,5,8,8,4,5,8,11,4,8,10,11,4,9,12,16,4,9,16,16,6,10,12,18,6,10,17,16,6,11,16,19,6,13,18,21,7,14,21,25,8,16,20,25,8,17,23,25,9,17,23,34,9,18,25,30,10,20,27,32,12,21,29,35,12,23,34,37,12,25,34,40,13,26,35,42,14,28,38,45,15,29,40,48,16,31,43,51,17,33,45,54,18,35,48,57,19,37,51,60,19,38,53,63,20,40,56,66,21,43,59,70,22,45,62,74,24,47,65,77,25,49,68,81],i=[7,10,13,17,10,16,22,28,15,26,36,44,20,36,52,64,26,48,72,88,36,64,96,112,40,72,108,130,48,88,132,156,60,110,160,192,72,130,192,224,80,150,224,264,96,176,260,308,104,198,288,352,120,216,320,384,132,240,360,432,144,280,408,480,168,308,448,532,180,338,504,588,196,364,546,650,224,416,600,700,224,442,644,750,252,476,690,816,270,504,750,900,300,560,810,960,312,588,870,1050,336,644,952,1110,360,700,1020,1200,390,728,1050,1260,420,784,1140,1350,450,812,1200,1440,480,868,1290,1530,510,924,1350,1620,540,980,1440,1710,570,1036,1530,1800,570,1064,1590,1890,600,1120,1680,1980,630,1204,1770,2100,660,1260,1860,2220,720,1316,1950,2310,750,1372,2040,2430];n.getBlocksCount=function(t,e){switch(e){case r.L:return o[4*(t-1)+0];case r.M:return o[4*(t-1)+1];case r.Q:return o[4*(t-1)+2];case r.H:return o[4*(t-1)+3];default:return}},n.getTotalCodewordsCount=function(t,e){switch(e){case r.L:return i[4*(t-1)+0];case r.M:return i[4*(t-1)+1];case r.Q:return i[4*(t-1)+2];case r.H:return i[4*(t-1)+3];default:return}}},{"./error-correction-level":8}],8:[function(t,e,n){n.L={bit:1},n.M={bit:0},n.Q={bit:3},n.H={bit:2},n.isValid=function(t){return t&&void 0!==t.bit&&t.bit>=0&&t.bit<4},n.from=function(t,e){if(n.isValid(t))return t;try{return function(t){if("string"!=typeof t)throw new Error("Param is not a string");switch(t.toLowerCase()){case"l":case"low":return n.L;case"m":case"medium":return n.M;case"q":case"quartile":return n.Q;case"h":case"high":return n.H;default:throw new Error("Unknown EC Level: "+t)}}(t)}catch(t){return e}}},{}],9:[function(t,e,n){var r=t("./utils").getSymbolSize;n.getPositions=function(t){var e=r(t);return[[0,0],[e-7,0],[0,e-7]]}},{"./utils":21}],10:[function(t,e,n){var r=t("./utils"),o=r.getBCHDigit(1335);n.getEncodedBits=function(t,e){for(var n=t.bit<<3|e,i=n<<10;r.getBCHDigit(i)-o>=0;)i^=1335<<r.getBCHDigit(i)-o;return 21522^(n<<10|i)}},{"./utils":21}],11:[function(t,e,n){var r=t("../utils/buffer"),o=r.alloc(512),i=r.alloc(256);!function(){for(var t=1,e=0;e<255;e++)o[e]=t,i[t]=e,256&(t<<=1)&&(t^=285);for(e=255;e<512;e++)o[e]=o[e-255]}(),n.log=function(t){if(t<1)throw new Error("log("+t+")");return i[t]},n.exp=function(t){return o[t]},n.mul=function(t,e){return 0===t||0===e?0:o[i[t]+i[e]]}},{"../utils/buffer":28}],12:[function(t,e,n){var r=t("./mode"),o=t("./utils");function i(t){this.mode=r.KANJI,this.data=t}i.getBitsLength=function(t){return 13*t},i.prototype.getLength=function(){return this.data.length},i.prototype.getBitsLength=function(){return i.getBitsLength(this.data.length)},i.prototype.write=function(t){var e;for(e=0;e<this.data.length;e++){var n=o.toSJIS(this.data[e]);if(n>=33088&&n<=40956)n-=33088;else{if(!(n>=57408&&n<=60351))throw new Error("Invalid SJIS character: "+this.data[e]+"\nMake sure your charset is UTF-8");n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13)}},e.exports=i},{"./mode":14,"./utils":21}],13:[function(t,e,n){n.Patterns={PATTERN000:0,PATTERN001:1,PATTERN010:2,PATTERN011:3,PATTERN100:4,PATTERN101:5,PATTERN110:6,PATTERN111:7};var r=3,o=3,i=40,a=10;function s(t,e,r){switch(t){case n.Patterns.PATTERN000:return(e+r)%2==0;case n.Patterns.PATTERN001:return e%2==0;case n.Patterns.PATTERN010:return r%3==0;case n.Patterns.PATTERN011:return(e+r)%3==0;case n.Patterns.PATTERN100:return(Math.floor(e/2)+Math.floor(r/3))%2==0;case n.Patterns.PATTERN101:return e*r%2+e*r%3==0;case n.Patterns.PATTERN110:return(e*r%2+e*r%3)%2==0;case n.Patterns.PATTERN111:return(e*r%3+(e+r)%2)%2==0;default:throw new Error("bad maskPattern:"+t)}}n.isValid=function(t){return null!=t&&""!==t&&!isNaN(t)&&t>=0&&t<=7},n.from=function(t){return n.isValid(t)?parseInt(t,10):void 0},n.getPenaltyN1=function(t){for(var e=t.size,n=0,o=0,i=0,a=null,s=null,u=0;u<e;u++){o=i=0,a=s=null;for(var l=0;l<e;l++){var c=t.get(u,l);c===a?o++:(o>=5&&(n+=r+(o-5)),a=c,o=1),(c=t.get(l,u))===s?i++:(i>=5&&(n+=r+(i-5)),s=c,i=1)}o>=5&&(n+=r+(o-5)),i>=5&&(n+=r+(i-5))}return n},n.getPenaltyN2=function(t){for(var e=t.size,n=0,r=0;r<e-1;r++)for(var i=0;i<e-1;i++){var a=t.get(r,i)+t.get(r,i+1)+t.get(r+1,i)+t.get(r+1,i+1);4!==a&&0!==a||n++}return n*o},n.getPenaltyN3=function(t){for(var e=t.size,n=0,r=0,o=0,a=0;a<e;a++){r=o=0;for(var s=0;s<e;s++)r=r<<1&2047|t.get(a,s),s>=10&&(1488===r||93===r)&&n++,o=o<<1&2047|t.get(s,a),s>=10&&(1488===o||93===o)&&n++}return n*i},n.getPenaltyN4=function(t){for(var e=0,n=t.data.length,r=0;r<n;r++)e+=t.data[r];return Math.abs(Math.ceil(100*e/n/5)-10)*a},n.applyMask=function(t,e){for(var n=e.size,r=0;r<n;r++)for(var o=0;o<n;o++)e.isReserved(o,r)||e.xor(o,r,s(t,o,r))},n.getBestMask=function(t,e){for(var r=Object.keys(n.Patterns).length,o=0,i=1/0,a=0;a<r;a++){e(a),n.applyMask(a,t);var s=n.getPenaltyN1(t)+n.getPenaltyN2(t)+n.getPenaltyN3(t)+n.getPenaltyN4(t);n.applyMask(a,t),s<i&&(i=s,o=a)}return o}},{}],14:[function(t,e,n){var r=t("./version-check"),o=t("./regex");n.NUMERIC={id:"Numeric",bit:1,ccBits:[10,12,14]},n.ALPHANUMERIC={id:"Alphanumeric",bit:2,ccBits:[9,11,13]},n.BYTE={id:"Byte",bit:4,ccBits:[8,16,16]},n.KANJI={id:"Kanji",bit:8,ccBits:[8,10,12]},n.MIXED={bit:-1},n.getCharCountIndicator=function(t,e){if(!t.ccBits)throw new Error("Invalid mode: "+t);if(!r.isValid(e))throw new Error("Invalid version: "+e);return e>=1&&e<10?t.ccBits[0]:e<27?t.ccBits[1]:t.ccBits[2]},n.getBestModeForData=function(t){return o.testNumeric(t)?n.NUMERIC:o.testAlphanumeric(t)?n.ALPHANUMERIC:o.testKanji(t)?n.KANJI:n.BYTE},n.toString=function(t){if(t&&t.id)return t.id;throw new Error("Invalid mode")},n.isValid=function(t){return t&&t.bit&&t.ccBits},n.from=function(t,e){if(n.isValid(t))return t;try{return function(t){if("string"!=typeof t)throw new Error("Param is not a string");switch(t.toLowerCase()){case"numeric":return n.NUMERIC;case"alphanumeric":return n.ALPHANUMERIC;case"kanji":return n.KANJI;case"byte":return n.BYTE;default:throw new Error("Unknown mode: "+t)}}(t)}catch(t){return e}}},{"./regex":19,"./version-check":22}],15:[function(t,e,n){var r=t("./mode");function o(t){this.mode=r.NUMERIC,this.data=t.toString()}o.getBitsLength=function(t){return 10*Math.floor(t/3)+(t%3?t%3*3+1:0)},o.prototype.getLength=function(){return this.data.length},o.prototype.getBitsLength=function(){return o.getBitsLength(this.data.length)},o.prototype.write=function(t){var e,n,r;for(e=0;e+3<=this.data.length;e+=3)n=this.data.substr(e,3),r=parseInt(n,10),t.put(r,10);var o=this.data.length-e;o>0&&(n=this.data.substr(e),r=parseInt(n,10),t.put(r,3*o+1))},e.exports=o},{"./mode":14}],16:[function(t,e,n){var r=t("../utils/buffer"),o=t("./galois-field");n.mul=function(t,e){for(var n=r.alloc(t.length+e.length-1),i=0;i<t.length;i++)for(var a=0;a<e.length;a++)n[i+a]^=o.mul(t[i],e[a]);return n},n.mod=function(t,e){for(var n=r.from(t);n.length-e.length>=0;){for(var i=n[0],a=0;a<e.length;a++)n[a]^=o.mul(e[a],i);for(var s=0;s<n.length&&0===n[s];)s++;n=n.slice(s)}return n},n.generateECPolynomial=function(t){for(var e=r.from([1]),i=0;i<t;i++)e=n.mul(e,[1,o.exp(i)]);return e}},{"../utils/buffer":28,"./galois-field":11}],17:[function(t,e,n){var r=t("../utils/buffer"),o=t("./utils"),i=t("./error-correction-level"),a=t("./bit-buffer"),s=t("./bit-matrix"),u=t("./alignment-pattern"),l=t("./finder-pattern"),c=t("./mask-pattern"),f=t("./error-correction-code"),h=t("./reed-solomon-encoder"),p=t("./version"),d=t("./format-info"),g=t("./mode"),v=t("./segments"),y=t("isarray");function A(t,e,n){var r,o,i=t.size,a=d.getEncodedBits(e,n);for(r=0;r<15;r++)o=1==(a>>r&1),r<6?t.set(r,8,o,!0):r<8?t.set(r+1,8,o,!0):t.set(i-15+r,8,o,!0),r<8?t.set(8,i-r-1,o,!0):r<9?t.set(8,15-r-1+1,o,!0):t.set(8,15-r-1,o,!0);t.set(i-8,8,1,!0)}function m(t,e,n){var i=new a;n.forEach((function(e){i.put(e.mode.bit,4),i.put(e.getLength(),g.getCharCountIndicator(e.mode,t)),e.write(i)}));var s=8*(o.getSymbolTotalCodewords(t)-f.getTotalCodewordsCount(t,e));for(i.getLengthInBits()+4<=s&&i.put(0,4);i.getLengthInBits()%8!=0;)i.putBit(0);for(var u=(s-i.getLengthInBits())/8,l=0;l<u;l++)i.put(l%2?17:236,8);return function(t,e,n){for(var i=o.getSymbolTotalCodewords(e),a=i-f.getTotalCodewordsCount(e,n),s=f.getBlocksCount(e,n),u=s-i%s,l=Math.floor(i/s),c=Math.floor(a/s),p=c+1,d=l-c,g=new h(d),v=0,y=new Array(s),A=new Array(s),m=0,C=r.from(t.buffer),w=0;w<s;w++){var b=w<u?c:p;y[w]=C.slice(v,v+b),A[w]=g.encode(y[w]),v+=b,m=Math.max(m,b)}var k,E,T=r.alloc(i),_=0;for(k=0;k<m;k++)for(E=0;E<s;E++)k<y[E].length&&(T[_++]=y[E][k]);for(k=0;k<d;k++)for(E=0;E<s;E++)T[_++]=A[E][k];return T}(i,t,e)}function C(t,e,n,r){var i;if(y(t))i=v.fromArray(t);else{if("string"!=typeof t)throw new Error("Invalid data");var a=e;if(!a){var f=v.rawSplit(t);a=p.getBestVersionForData(f,n)}i=v.fromString(t,a||40)}var h=p.getBestVersionForData(i,n);if(!h)throw new Error("The amount of data is too big to be stored in a QR Code");if(e){if(e<h)throw new Error("\nThe chosen QR Code version cannot contain this amount of data.\nMinimum version required to store current data is: "+h+".\n")}else e=h;var d=m(e,n,i),g=o.getSymbolSize(e),C=new s(g);return function(t,e){for(var n=t.size,r=l.getPositions(e),o=0;o<r.length;o++)for(var i=r[o][0],a=r[o][1],s=-1;s<=7;s++)if(!(i+s<=-1||n<=i+s))for(var u=-1;u<=7;u++)a+u<=-1||n<=a+u||(s>=0&&s<=6&&(0===u||6===u)||u>=0&&u<=6&&(0===s||6===s)||s>=2&&s<=4&&u>=2&&u<=4?t.set(i+s,a+u,!0,!0):t.set(i+s,a+u,!1,!0))}(C,e),function(t){for(var e=t.size,n=8;n<e-8;n++){var r=n%2==0;t.set(n,6,r,!0),t.set(6,n,r,!0)}}(C),function(t,e){for(var n=u.getPositions(e),r=0;r<n.length;r++)for(var o=n[r][0],i=n[r][1],a=-2;a<=2;a++)for(var s=-2;s<=2;s++)-2===a||2===a||-2===s||2===s||0===a&&0===s?t.set(o+a,i+s,!0,!0):t.set(o+a,i+s,!1,!0)}(C,e),A(C,n,0),e>=7&&function(t,e){for(var n,r,o,i=t.size,a=p.getEncodedBits(e),s=0;s<18;s++)n=Math.floor(s/3),r=s%3+i-8-3,o=1==(a>>s&1),t.set(n,r,o,!0),t.set(r,n,o,!0)}(C,e),function(t,e){for(var n=t.size,r=-1,o=n-1,i=7,a=0,s=n-1;s>0;s-=2)for(6===s&&s--;;){for(var u=0;u<2;u++)if(!t.isReserved(o,s-u)){var l=!1;a<e.length&&(l=1==(e[a]>>>i&1)),t.set(o,s-u,l),-1==--i&&(a++,i=7)}if((o+=r)<0||n<=o){o-=r,r=-r;break}}}(C,d),isNaN(r)&&(r=c.getBestMask(C,A.bind(null,C,n))),c.applyMask(r,C),A(C,n,r),{modules:C,version:e,errorCorrectionLevel:n,maskPattern:r,segments:i}}n.create=function(t,e){if(void 0===t||""===t)throw new Error("No input text");var n,r,a=i.M;return void 0!==e&&(a=i.from(e.errorCorrectionLevel,i.M),n=p.from(e.version),r=c.from(e.maskPattern),e.toSJISFunc&&o.setToSJISFunction(e.toSJISFunc)),C(t,n,a,r)}},{"../utils/buffer":28,"./alignment-pattern":2,"./bit-buffer":4,"./bit-matrix":5,"./error-correction-code":7,"./error-correction-level":8,"./finder-pattern":9,"./format-info":10,"./mask-pattern":13,"./mode":14,"./reed-solomon-encoder":18,"./segments":20,"./utils":21,"./version":23,isarray:33}],18:[function(t,e,n){var r=t("../utils/buffer"),o=t("./polynomial"),i=t("buffer").Buffer;function a(t){this.genPoly=void 0,this.degree=t,this.degree&&this.initialize(this.degree)}a.prototype.initialize=function(t){this.degree=t,this.genPoly=o.generateECPolynomial(this.degree)},a.prototype.encode=function(t){if(!this.genPoly)throw new Error("Encoder not initialized");var e=r.alloc(this.degree),n=i.concat([t,e],t.length+this.degree),a=o.mod(n,this.genPoly),s=this.degree-a.length;if(s>0){var u=r.alloc(this.degree);return a.copy(u,s),u}return a},e.exports=a},{"../utils/buffer":28,"./polynomial":16,buffer:30}],19:[function(t,e,n){var r="[0-9]+",o="(?:[u3000-u303F]|[u3040-u309F]|[u30A0-u30FF]|[uFF00-uFFEF]|[u4E00-u9FAF]|[u2605-u2606]|[u2190-u2195]|u203B|[u2010u2015u2018u2019u2025u2026u201Cu201Du2225u2260]|[u0391-u0451]|[u00A7u00A8u00B1u00B4u00D7u00F7])+",i="(?:(?![A-Z0-9 $%*+\\-./:]|"+(o=o.replace(/u/g,"\\u"))+")(?:.|[\r\n]))+";n.KANJI=new RegExp(o,"g"),n.BYTE_KANJI=new RegExp("[^A-Z0-9 $%*+\\-./:]+","g"),n.BYTE=new RegExp(i,"g"),n.NUMERIC=new RegExp(r,"g"),n.ALPHANUMERIC=new RegExp("[A-Z $%*+\\-./:]+","g");var a=new RegExp("^"+o+"$"),s=new RegExp("^"+r+"$"),u=new RegExp("^[A-Z0-9 $%*+\\-./:]+$");n.testKanji=function(t){return a.test(t)},n.testNumeric=function(t){return s.test(t)},n.testAlphanumeric=function(t){return u.test(t)}},{}],20:[function(t,e,n){var r=t("./mode"),o=t("./numeric-data"),i=t("./alphanumeric-data"),a=t("./byte-data"),s=t("./kanji-data"),u=t("./regex"),l=t("./utils"),c=t("dijkstrajs");function f(t){return unescape(encodeURIComponent(t)).length}function h(t,e,n){for(var r,o=[];null!==(r=t.exec(n));)o.push({data:r[0],index:r.index,mode:e,length:r[0].length});return o}function p(t){var e,n,o=h(u.NUMERIC,r.NUMERIC,t),i=h(u.ALPHANUMERIC,r.ALPHANUMERIC,t);return l.isKanjiModeEnabled()?(e=h(u.BYTE,r.BYTE,t),n=h(u.KANJI,r.KANJI,t)):(e=h(u.BYTE_KANJI,r.BYTE,t),n=[]),o.concat(i,e,n).sort((function(t,e){return t.index-e.index})).map((function(t){return{data:t.data,mode:t.mode,length:t.length}}))}function d(t,e){switch(e){case r.NUMERIC:return o.getBitsLength(t);case r.ALPHANUMERIC:return i.getBitsLength(t);case r.KANJI:return s.getBitsLength(t);case r.BYTE:return a.getBitsLength(t)}}function g(t,e){var n,u=r.getBestModeForData(t);if((n=r.from(e,u))!==r.BYTE&&n.bit<u.bit)throw new Error('"'+t+'" cannot be encoded with mode '+r.toString(n)+".\n Suggested mode is: "+r.toString(u));switch(n!==r.KANJI||l.isKanjiModeEnabled()||(n=r.BYTE),n){case r.NUMERIC:return new o(t);case r.ALPHANUMERIC:return new i(t);case r.KANJI:return new s(t);case r.BYTE:return new a(t)}}n.fromArray=function(t){return t.reduce((function(t,e){return"string"==typeof e?t.push(g(e,null)):e.data&&t.push(g(e.data,e.mode)),t}),[])},n.fromString=function(t,e){for(var o=function(t,e){for(var n={},o={start:{}},i=["start"],a=0;a<t.length;a++){for(var s=t[a],u=[],l=0;l<s.length;l++){var c=s[l],f=""+a+l;u.push(f),n[f]={node:c,lastCount:0},o[f]={};for(var h=0;h<i.length;h++){var p=i[h];n[p]&&n[p].node.mode===c.mode?(o[p][f]=d(n[p].lastCount+c.length,c.mode)-d(n[p].lastCount,c.mode),n[p].lastCount+=c.length):(n[p]&&(n[p].lastCount=c.length),o[p][f]=d(c.length,c.mode)+4+r.getCharCountIndicator(c.mode,e))}}i=u}for(h=0;h<i.length;h++)o[i[h]].end=0;return{map:o,table:n}}(function(t){for(var e=[],n=0;n<t.length;n++){var o=t[n];switch(o.mode){case r.NUMERIC:e.push([o,{data:o.data,mode:r.ALPHANUMERIC,length:o.length},{data:o.data,mode:r.BYTE,length:o.length}]);break;case r.ALPHANUMERIC:e.push([o,{data:o.data,mode:r.BYTE,length:o.length}]);break;case r.KANJI:e.push([o,{data:o.data,mode:r.BYTE,length:f(o.data)}]);break;case r.BYTE:e.push([{data:o.data,mode:r.BYTE,length:f(o.data)}])}}return e}(p(t,l.isKanjiModeEnabled())),e),i=c.find_path(o.map,"start","end"),a=[],s=1;s<i.length-1;s++)a.push(o.table[i[s]].node);return n.fromArray(a.reduce((function(t,e){var n=t.length-1>=0?t[t.length-1]:null;return n&&n.mode===e.mode?(t[t.length-1].data+=e.data,t):(t.push(e),t)}),[]))},n.rawSplit=function(t){return n.fromArray(p(t,l.isKanjiModeEnabled()))}},{"./alphanumeric-data":3,"./byte-data":6,"./kanji-data":12,"./mode":14,"./numeric-data":15,"./regex":19,"./utils":21,dijkstrajs:31}],21:[function(t,e,n){var r,o=[0,26,44,70,100,134,172,196,242,292,346,404,466,532,581,655,733,815,901,991,1085,1156,1258,1364,1474,1588,1706,1828,1921,2051,2185,2323,2465,2611,2761,2876,3034,3196,3362,3532,3706];n.getSymbolSize=function(t){if(!t)throw new Error('"version" cannot be null or undefined');if(t<1||t>40)throw new Error('"version" should be in range from 1 to 40');return 4*t+17},n.getSymbolTotalCodewords=function(t){return o[t]},n.getBCHDigit=function(t){for(var e=0;0!==t;)e++,t>>>=1;return e},n.setToSJISFunction=function(t){if("function"!=typeof t)throw new Error('"toSJISFunc" is not a valid function.');r=t},n.isKanjiModeEnabled=function(){return void 0!==r},n.toSJIS=function(t){return r(t)}},{}],22:[function(t,e,n){n.isValid=function(t){return!isNaN(t)&&t>=1&&t<=40}},{}],23:[function(t,e,n){var r=t("./utils"),o=t("./error-correction-code"),i=t("./error-correction-level"),a=t("./mode"),s=t("./version-check"),u=t("isarray"),l=r.getBCHDigit(7973);function c(t,e){return a.getCharCountIndicator(t,e)+4}function f(t,e){var n=0;return t.forEach((function(t){var r=c(t.mode,e);n+=r+t.getBitsLength()})),n}n.from=function(t,e){return s.isValid(t)?parseInt(t,10):e},n.getCapacity=function(t,e,n){if(!s.isValid(t))throw new Error("Invalid QR Code version");void 0===n&&(n=a.BYTE);var i=8*(r.getSymbolTotalCodewords(t)-o.getTotalCodewordsCount(t,e));if(n===a.MIXED)return i;var u=i-c(n,t);switch(n){case a.NUMERIC:return Math.floor(u/10*3);case a.ALPHANUMERIC:return Math.floor(u/11*2);case a.KANJI:return Math.floor(u/13);case a.BYTE:default:return Math.floor(u/8)}},n.getBestVersionForData=function(t,e){var r,o=i.from(e,i.M);if(u(t)){if(t.length>1)return function(t,e){for(var r=1;r<=40;r++)if(f(t,r)<=n.getCapacity(r,e,a.MIXED))return r}(t,o);if(0===t.length)return 1;r=t[0]}else r=t;return function(t,e,r){for(var o=1;o<=40;o++)if(e<=n.getCapacity(o,r,t))return o}(r.mode,r.getLength(),o)},n.getEncodedBits=function(t){if(!s.isValid(t)||t<7)throw new Error("Invalid QR Code version");for(var e=t<<12;r.getBCHDigit(e)-l>=0;)e^=7973<<r.getBCHDigit(e)-l;return t<<12|e}},{"./error-correction-code":7,"./error-correction-level":8,"./mode":14,"./utils":21,"./version-check":22,isarray:33}],24:[function(t,e,n){var r=t("./can-promise"),o=t("./core/qrcode"),i=t("./renderer/canvas"),a=t("./renderer/svg-tag.js");function s(t,e,n,i,a){var s=[].slice.call(arguments,1),u=s.length,l="function"==typeof s[u-1];if(!l&&!r())throw new Error("Callback required as last argument");if(!l){if(u<1)throw new Error("Too few arguments provided");return 1===u?(n=e,e=i=void 0):2!==u||e.getContext||(i=n,n=e,e=void 0),new Promise((function(r,a){try{var s=o.create(n,i);r(t(s,e,i))}catch(t){a(t)}}))}if(u<2)throw new Error("Too few arguments provided");2===u?(a=n,n=e,e=i=void 0):3===u&&(e.getContext&&void 0===a?(a=i,i=void 0):(a=i,i=n,n=e,e=void 0));try{var c=o.create(n,i);a(null,t(c,e,i))}catch(t){a(t)}}n.create=o.create,n.toCanvas=s.bind(null,i.render),n.toDataURL=s.bind(null,i.renderToDataURL),n.toString=s.bind(null,(function(t,e,n){return a.render(t,n)}))},{"./can-promise":1,"./core/qrcode":17,"./renderer/canvas":25,"./renderer/svg-tag.js":26}],25:[function(t,e,n){var r=t("./utils");n.render=function(t,e,n){var o=n,i=e;void 0!==o||e&&e.getContext||(o=e,e=void 0),e||(i=function(){try{return document.createElement("canvas")}catch(t){throw new Error("You need to specify a canvas element")}}()),o=r.getOptions(o);var a=r.getImageWidth(t.modules.size,o),s=i.getContext("2d"),u=s.createImageData(a,a);return r.qrToImageData(u.data,t,o),function(t,e,n){t.clearRect(0,0,e.width,e.height),e.style||(e.style={}),e.height=n,e.width=n,e.style.height=n+"px",e.style.width=n+"px"}(s,i,a),s.putImageData(u,0,0),i},n.renderToDataURL=function(t,e,r){var o=r;void 0!==o||e&&e.getContext||(o=e,e=void 0),o||(o={});var i=n.render(t,e,o),a=o.type||"image/png",s=o.rendererOpts||{};return i.toDataURL(a,s.quality)}},{"./utils":27}],26:[function(t,e,n){var r=t("./utils");function o(t,e){var n=t.a/255,r=e+'="'+t.hex+'"';return n<1?r+" "+e+'-opacity="'+n.toFixed(2).slice(1)+'"':r}function i(t,e,n){var r=t+e;return void 0!==n&&(r+=" "+n),r}n.render=function(t,e,n){var a=r.getOptions(e),s=t.modules.size,u=t.modules.data,l=s+2*a.margin,c=a.color.light.a?"<path "+o(a.color.light,"fill")+' d="M0 0h'+l+"v"+l+'H0z"/>':"",f="<path "+o(a.color.dark,"stroke")+' d="'+function(t,e,n){for(var r="",o=0,a=!1,s=0,u=0;u<t.length;u++){var l=Math.floor(u%e),c=Math.floor(u/e);l||a||(a=!0),t[u]?(s++,u>0&&l>0&&t[u-1]||(r+=a?i("M",l+n,.5+c+n):i("m",o,0),o=0,a=!1),l+1<e&&t[u+1]||(r+=i("h",s),s=0)):o++}return r}(u,s,a.margin)+'"/>',h='viewBox="0 0 '+l+" "+l+'"',p='<svg xmlns="http://www.w3.org/2000/svg" '+(a.width?'width="'+a.width+'" height="'+a.width+'" ':"")+h+' shape-rendering="crispEdges">'+c+f+"</svg>\n";return"function"==typeof n&&n(null,p),p}},{"./utils":27}],27:[function(t,e,n){function r(t){if("number"==typeof t&&(t=t.toString()),"string"!=typeof t)throw new Error("Color should be defined as hex string");var e=t.slice().replace("#","").split("");if(e.length<3||5===e.length||e.length>8)throw new Error("Invalid hex color: "+t);3!==e.length&&4!==e.length||(e=Array.prototype.concat.apply([],e.map((function(t){return[t,t]})))),6===e.length&&e.push("F","F");var n=parseInt(e.join(""),16);return{r:n>>24&255,g:n>>16&255,b:n>>8&255,a:255&n,hex:"#"+e.slice(0,6).join("")}}n.getOptions=function(t){t||(t={}),t.color||(t.color={});var e=void 0===t.margin||null===t.margin||t.margin<0?4:t.margin,n=t.width&&t.width>=21?t.width:void 0,o=t.scale||4;return{width:n,scale:n?4:o,margin:e,color:{dark:r(t.color.dark||"#000000ff"),light:r(t.color.light||"#ffffffff")},type:t.type,rendererOpts:t.rendererOpts||{}}},n.getScale=function(t,e){return e.width&&e.width>=t+2*e.margin?e.width/(t+2*e.margin):e.scale},n.getImageWidth=function(t,e){var r=n.getScale(t,e);return Math.floor((t+2*e.margin)*r)},n.qrToImageData=function(t,e,r){for(var o=e.modules.size,i=e.modules.data,a=n.getScale(o,r),s=Math.floor((o+2*r.margin)*a),u=r.margin*a,l=[r.color.light,r.color.dark],c=0;c<s;c++)for(var f=0;f<s;f++){var h=4*(c*s+f),p=r.color.light;c>=u&&f>=u&&c<s-u&&f<s-u&&(p=l[i[Math.floor((c-u)/a)*o+Math.floor((f-u)/a)]?1:0]),t[h++]=p.r,t[h++]=p.g,t[h++]=p.b,t[h]=p.a}}},{}],28:[function(t,e,n){var r=t("isarray");i.TYPED_ARRAY_SUPPORT=function(){try{var t=new Uint8Array(1);return t.__proto__={__proto__:Uint8Array.prototype,foo:function(){return 42}},42===t.foo()}catch(t){return!1}}();var o=i.TYPED_ARRAY_SUPPORT?2147483647:1073741823;function i(t,e,n){return i.TYPED_ARRAY_SUPPORT||this instanceof i?"number"==typeof t?u(this,t):function(t,e,n,r){if("number"==typeof e)throw new TypeError('"value" argument must not be a number');return"undefined"!=typeof ArrayBuffer&&e instanceof ArrayBuffer?function(t,e,n,r){if(n<0||e.byteLength<n)throw new RangeError("'offset' is out of bounds");if(e.byteLength<n+(r||0))throw new RangeError("'length' is out of bounds");var o;return o=void 0===n&&void 0===r?new Uint8Array(e):void 0===r?new Uint8Array(e,n):new Uint8Array(e,n,r),i.TYPED_ARRAY_SUPPORT?o.__proto__=i.prototype:o=l(t,o),o}(t,e,n,r):"string"==typeof e?function(t,e){var n=0|f(e),r=s(t,n),o=r.write(e);return o!==n&&(r=r.slice(0,o)),r}(t,e):function(t,e){if(i.isBuffer(e)){var n=0|a(e.length),r=s(t,n);return 0===r.length||e.copy(r,0,0,n),r}if(e){if("undefined"!=typeof ArrayBuffer&&e.buffer instanceof ArrayBuffer||"length"in e)return"number"!=typeof e.length||(o=e.length)!=o?s(t,0):l(t,e);if("Buffer"===e.type&&Array.isArray(e.data))return l(t,e.data)}var o;throw new TypeError("First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.")}(t,e)}(this,t,e,n):new i(t,e,n)}function a(t){if(t>=o)throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+o.toString(16)+" bytes");return 0|t}function s(t,e){var n;return i.TYPED_ARRAY_SUPPORT?(n=new Uint8Array(e)).__proto__=i.prototype:(null===(n=t)&&(n=new i(e)),n.length=e),n}function u(t,e){var n=s(t,e<0?0:0|a(e));if(!i.TYPED_ARRAY_SUPPORT)for(var r=0;r<e;++r)n[r]=0;return n}function l(t,e){for(var n=e.length<0?0:0|a(e.length),r=s(t,n),o=0;o<n;o+=1)r[o]=255&e[o];return r}function c(t,e){var n;e=e||1/0;for(var r=t.length,o=null,i=[],a=0;a<r;++a){if((n=t.charCodeAt(a))>55295&&n<57344){if(!o){if(n>56319){(e-=3)>-1&&i.push(239,191,189);continue}if(a+1===r){(e-=3)>-1&&i.push(239,191,189);continue}o=n;continue}if(n<56320){(e-=3)>-1&&i.push(239,191,189),o=n;continue}n=65536+(o-55296<<10|n-56320)}else o&&(e-=3)>-1&&i.push(239,191,189);if(o=null,n<128){if((e-=1)<0)break;i.push(n)}else if(n<2048){if((e-=2)<0)break;i.push(n>>6|192,63&n|128)}else if(n<65536){if((e-=3)<0)break;i.push(n>>12|224,n>>6&63|128,63&n|128)}else{if(!(n<1114112))throw new Error("Invalid code point");if((e-=4)<0)break;i.push(n>>18|240,n>>12&63|128,n>>6&63|128,63&n|128)}}return i}function f(t){return i.isBuffer(t)?t.length:"undefined"!=typeof ArrayBuffer&&"function"==typeof ArrayBuffer.isView&&(ArrayBuffer.isView(t)||t instanceof ArrayBuffer)?t.byteLength:("string"!=typeof t&&(t=""+t),0===t.length?0:c(t).length)}i.TYPED_ARRAY_SUPPORT&&(i.prototype.__proto__=Uint8Array.prototype,i.__proto__=Uint8Array,"undefined"!=typeof Symbol&&Symbol.species&&i[Symbol.species]===i&&Object.defineProperty(i,Symbol.species,{value:null,configurable:!0,enumerable:!1,writable:!1})),i.prototype.write=function(t,e,n){void 0===e||void 0===n&&"string"==typeof e?(n=this.length,e=0):isFinite(e)&&(e|=0,isFinite(n)?n|=0:n=void 0);var r=this.length-e;if((void 0===n||n>r)&&(n=r),t.length>0&&(n<0||e<0)||e>this.length)throw new RangeError("Attempt to write outside buffer bounds");return function(t,e,n,r){return function(t,e,n,r){for(var o=0;o<r&&!(o+n>=e.length||o>=t.length);++o)e[o+n]=t[o];return o}(c(e,t.length-n),t,n,r)}(this,t,e,n)},i.prototype.slice=function(t,e){var n,r=this.length;if((t=~~t)<0?(t+=r)<0&&(t=0):t>r&&(t=r),(e=void 0===e?r:~~e)<0?(e+=r)<0&&(e=0):e>r&&(e=r),e<t&&(e=t),i.TYPED_ARRAY_SUPPORT)(n=this.subarray(t,e)).__proto__=i.prototype;else{var o=e-t;n=new i(o,void 0);for(var a=0;a<o;++a)n[a]=this[a+t]}return n},i.prototype.copy=function(t,e,n,r){if(n||(n=0),r||0===r||(r=this.length),e>=t.length&&(e=t.length),e||(e=0),r>0&&r<n&&(r=n),r===n)return 0;if(0===t.length||0===this.length)return 0;if(e<0)throw new RangeError("targetStart out of bounds");if(n<0||n>=this.length)throw new RangeError("sourceStart out of bounds");if(r<0)throw new RangeError("sourceEnd out of bounds");r>this.length&&(r=this.length),t.length-e<r-n&&(r=t.length-e+n);var o,a=r-n;if(this===t&&n<e&&e<r)for(o=a-1;o>=0;--o)t[o+e]=this[o+n];else if(a<1e3||!i.TYPED_ARRAY_SUPPORT)for(o=0;o<a;++o)t[o+e]=this[o+n];else Uint8Array.prototype.set.call(t,this.subarray(n,n+a),e);return a},i.prototype.fill=function(t,e,n){if("string"==typeof t){if("string"==typeof e?(e=0,n=this.length):"string"==typeof n&&(n=this.length),1===t.length){var r=t.charCodeAt(0);r<256&&(t=r)}}else"number"==typeof t&&(t&=255);if(e<0||this.length<e||this.length<n)throw new RangeError("Out of range index");if(n<=e)return this;var o;if(e>>>=0,n=void 0===n?this.length:n>>>0,t||(t=0),"number"==typeof t)for(o=e;o<n;++o)this[o]=t;else{var a=i.isBuffer(t)?t:new i(t),s=a.length;for(o=0;o<n-e;++o)this[o+e]=a[o%s]}return this},i.concat=function(t,e){if(!r(t))throw new TypeError('"list" argument must be an Array of Buffers');if(0===t.length)return s(null,0);var n;if(void 0===e)for(e=0,n=0;n<t.length;++n)e+=t[n].length;var o=u(null,e),a=0;for(n=0;n<t.length;++n){var l=t[n];if(!i.isBuffer(l))throw new TypeError('"list" argument must be an Array of Buffers');l.copy(o,a),a+=l.length}return o},i.byteLength=f,i.prototype._isBuffer=!0,i.isBuffer=function(t){return!(null==t||!t._isBuffer)},e.exports.alloc=function(t){var e=new i(t);return e.fill(0),e},e.exports.from=function(t){return new i(t)}},{isarray:33}],29:[function(t,e,n){n.byteLength=function(t){var e=u(t),n=e[0],r=e[1];return 3*(n+r)/4-r},n.toByteArray=function(t){var e,n,r=u(t),a=r[0],s=r[1],l=new i(function(t,e,n){return 3*(e+n)/4-n}(0,a,s)),c=0,f=s>0?a-4:a;for(n=0;n<f;n+=4)e=o[t.charCodeAt(n)]<<18|o[t.charCodeAt(n+1)]<<12|o[t.charCodeAt(n+2)]<<6|o[t.charCodeAt(n+3)],l[c++]=e>>16&255,l[c++]=e>>8&255,l[c++]=255&e;return 2===s&&(e=o[t.charCodeAt(n)]<<2|o[t.charCodeAt(n+1)]>>4,l[c++]=255&e),1===s&&(e=o[t.charCodeAt(n)]<<10|o[t.charCodeAt(n+1)]<<4|o[t.charCodeAt(n+2)]>>2,l[c++]=e>>8&255,l[c++]=255&e),l},n.fromByteArray=function(t){for(var e,n=t.length,o=n%3,i=[],a=16383,s=0,u=n-o;s<u;s+=a)i.push(l(t,s,s+a>u?u:s+a));return 1===o?(e=t[n-1],i.push(r[e>>2]+r[e<<4&63]+"==")):2===o&&(e=(t[n-2]<<8)+t[n-1],i.push(r[e>>10]+r[e>>4&63]+r[e<<2&63]+"=")),i.join("")};for(var r=[],o=[],i="undefined"!=typeof Uint8Array?Uint8Array:Array,a="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",s=0;s<64;++s)r[s]=a[s],o[a.charCodeAt(s)]=s;function u(t){var e=t.length;if(e%4>0)throw new Error("Invalid string. Length must be a multiple of 4");var n=t.indexOf("=");return-1===n&&(n=e),[n,n===e?0:4-n%4]}function l(t,e,n){for(var o,i=[],a=e;a<n;a+=3)o=(t[a]<<16&16711680)+(t[a+1]<<8&65280)+(255&t[a+2]),i.push(r[(s=o)>>18&63]+r[s>>12&63]+r[s>>6&63]+r[63&s]);var s;return i.join("")}o["-".charCodeAt(0)]=62,o["_".charCodeAt(0)]=63},{}],30:[function(t,e,n){var r=t("base64-js"),o=t("ieee754"),i="function"==typeof Symbol&&"function"==typeof Symbol.for?Symbol.for("nodejs.util.inspect.custom"):null;n.Buffer=u,n.SlowBuffer=function(t){return+t!=t&&(t=0),u.alloc(+t)},n.INSPECT_MAX_BYTES=50;var a=2147483647;function s(t){if(t>a)throw new RangeError('The value "'+t+'" is invalid for option "size"');var e=new Uint8Array(t);return Object.setPrototypeOf(e,u.prototype),e}function u(t,e,n){if("number"==typeof t){if("string"==typeof e)throw new TypeError('The "string" argument must be of type string. Received type number');return f(t)}return l(t,e,n)}function l(t,e,n){if("string"==typeof t)return function(t,e){if("string"==typeof e&&""!==e||(e="utf8"),!u.isEncoding(e))throw new TypeError("Unknown encoding: "+e);var n=0|d(t,e),r=s(n),o=r.write(t,e);return o!==n&&(r=r.slice(0,o)),r}(t,e);if(ArrayBuffer.isView(t))return h(t);if(null==t)throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t);if(j(t,ArrayBuffer)||t&&j(t.buffer,ArrayBuffer))return function(t,e,n){if(e<0||t.byteLength<e)throw new RangeError('"offset" is outside of buffer bounds');if(t.byteLength<e+(n||0))throw new RangeError('"length" is outside of buffer bounds');var r;return r=void 0===e&&void 0===n?new Uint8Array(t):void 0===n?new Uint8Array(t,e):new Uint8Array(t,e,n),Object.setPrototypeOf(r,u.prototype),r}(t,e,n);if("number"==typeof t)throw new TypeError('The "value" argument must not be of type number. Received type number');var r=t.valueOf&&t.valueOf();if(null!=r&&r!==t)return u.from(r,e,n);var o=function(t){if(u.isBuffer(t)){var e=0|p(t.length),n=s(e);return 0===n.length||t.copy(n,0,0,e),n}return void 0!==t.length?"number"!=typeof t.length||Y(t.length)?s(0):h(t):"Buffer"===t.type&&Array.isArray(t.data)?h(t.data):void 0}(t);if(o)return o;if("undefined"!=typeof Symbol&&null!=Symbol.toPrimitive&&"function"==typeof t[Symbol.toPrimitive])return u.from(t[Symbol.toPrimitive]("string"),e,n);throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t)}function c(t){if("number"!=typeof t)throw new TypeError('"size" argument must be of type number');if(t<0)throw new RangeError('The value "'+t+'" is invalid for option "size"')}function f(t){return c(t),s(t<0?0:0|p(t))}function h(t){for(var e=t.length<0?0:0|p(t.length),n=s(e),r=0;r<e;r+=1)n[r]=255&t[r];return n}function p(t){if(t>=a)throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+a.toString(16)+" bytes");return 0|t}function d(t,e){if(u.isBuffer(t))return t.length;if(ArrayBuffer.isView(t)||j(t,ArrayBuffer))return t.byteLength;if("string"!=typeof t)throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type '+typeof t);var n=t.length,r=arguments.length>2&&!0===arguments[2];if(!r&&0===n)return 0;for(var o=!1;;)switch(e){case"ascii":case"latin1":case"binary":return n;case"utf8":case"utf-8":return U(t).length;case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return 2*n;case"hex":return n>>>1;case"base64":return V(t).length;default:if(o)return r?-1:U(t).length;e=(""+e).toLowerCase(),o=!0}}function g(t,e,n){var r=!1;if((void 0===e||e<0)&&(e=0),e>this.length)return"";if((void 0===n||n>this.length)&&(n=this.length),n<=0)return"";if((n>>>=0)<=(e>>>=0))return"";for(t||(t="utf8");;)switch(t){case"hex":return N(this,e,n);case"utf8":case"utf-8":return _(this,e,n);case"ascii":return B(this,e,n);case"latin1":case"binary":return M(this,e,n);case"base64":return T(this,e,n);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return P(this,e,n);default:if(r)throw new TypeError("Unknown encoding: "+t);t=(t+"").toLowerCase(),r=!0}}function v(t,e,n){var r=t[e];t[e]=t[n],t[n]=r}function y(t,e,n,r,o){if(0===t.length)return-1;if("string"==typeof n?(r=n,n=0):n>2147483647?n=2147483647:n<-2147483648&&(n=-2147483648),Y(n=+n)&&(n=o?0:t.length-1),n<0&&(n=t.length+n),n>=t.length){if(o)return-1;n=t.length-1}else if(n<0){if(!o)return-1;n=0}if("string"==typeof e&&(e=u.from(e,r)),u.isBuffer(e))return 0===e.length?-1:A(t,e,n,r,o);if("number"==typeof e)return e&=255,"function"==typeof Uint8Array.prototype.indexOf?o?Uint8Array.prototype.indexOf.call(t,e,n):Uint8Array.prototype.lastIndexOf.call(t,e,n):A(t,[e],n,r,o);throw new TypeError("val must be string, number or Buffer")}function A(t,e,n,r,o){var i,a=1,s=t.length,u=e.length;if(void 0!==r&&("ucs2"===(r=String(r).toLowerCase())||"ucs-2"===r||"utf16le"===r||"utf-16le"===r)){if(t.length<2||e.length<2)return-1;a=2,s/=2,u/=2,n/=2}function l(t,e){return 1===a?t[e]:t.readUInt16BE(e*a)}if(o){var c=-1;for(i=n;i<s;i++)if(l(t,i)===l(e,-1===c?0:i-c)){if(-1===c&&(c=i),i-c+1===u)return c*a}else-1!==c&&(i-=i-c),c=-1}else for(n+u>s&&(n=s-u),i=n;i>=0;i--){for(var f=!0,h=0;h<u;h++)if(l(t,i+h)!==l(e,h)){f=!1;break}if(f)return i}return-1}function m(t,e,n,r){n=Number(n)||0;var o=t.length-n;r?(r=Number(r))>o&&(r=o):r=o;var i=e.length;r>i/2&&(r=i/2);for(var a=0;a<r;++a){var s=parseInt(e.substr(2*a,2),16);if(Y(s))return a;t[n+a]=s}return a}function C(t,e,n,r){return D(U(e,t.length-n),t,n,r)}function w(t,e,n,r){return D(function(t){for(var e=[],n=0;n<t.length;++n)e.push(255&t.charCodeAt(n));return e}(e),t,n,r)}function b(t,e,n,r){return w(t,e,n,r)}function k(t,e,n,r){return D(V(e),t,n,r)}function E(t,e,n,r){return D(function(t,e){for(var n,r,o,i=[],a=0;a<t.length&&!((e-=2)<0);++a)r=(n=t.charCodeAt(a))>>8,o=n%256,i.push(o),i.push(r);return i}(e,t.length-n),t,n,r)}function T(t,e,n){return 0===e&&n===t.length?r.fromByteArray(t):r.fromByteArray(t.slice(e,n))}function _(t,e,n){n=Math.min(t.length,n);for(var r=[],o=e;o<n;){var i,a,s,u,l=t[o],c=null,f=l>239?4:l>223?3:l>191?2:1;if(o+f<=n)switch(f){case 1:l<128&&(c=l);break;case 2:128==(192&(i=t[o+1]))&&(u=(31&l)<<6|63&i)>127&&(c=u);break;case 3:i=t[o+1],a=t[o+2],128==(192&i)&&128==(192&a)&&(u=(15&l)<<12|(63&i)<<6|63&a)>2047&&(u<55296||u>57343)&&(c=u);break;case 4:i=t[o+1],a=t[o+2],s=t[o+3],128==(192&i)&&128==(192&a)&&128==(192&s)&&(u=(15&l)<<18|(63&i)<<12|(63&a)<<6|63&s)>65535&&u<1114112&&(c=u)}null===c?(c=65533,f=1):c>65535&&(c-=65536,r.push(c>>>10&1023|55296),c=56320|1023&c),r.push(c),o+=f}return function(t){var e=t.length;if(e<=x)return String.fromCharCode.apply(String,t);for(var n="",r=0;r<e;)n+=String.fromCharCode.apply(String,t.slice(r,r+=x));return n}(r)}n.kMaxLength=a,u.TYPED_ARRAY_SUPPORT=function(){try{var t=new Uint8Array(1),e={foo:function(){return 42}};return Object.setPrototypeOf(e,Uint8Array.prototype),Object.setPrototypeOf(t,e),42===t.foo()}catch(t){return!1}}(),u.TYPED_ARRAY_SUPPORT||"undefined"==typeof console||"function"!=typeof console.error||console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."),Object.defineProperty(u.prototype,"parent",{enumerable:!0,get:function(){if(u.isBuffer(this))return this.buffer}}),Object.defineProperty(u.prototype,"offset",{enumerable:!0,get:function(){if(u.isBuffer(this))return this.byteOffset}}),"undefined"!=typeof Symbol&&null!=Symbol.species&&u[Symbol.species]===u&&Object.defineProperty(u,Symbol.species,{value:null,configurable:!0,enumerable:!1,writable:!1}),u.poolSize=8192,u.from=function(t,e,n){return l(t,e,n)},Object.setPrototypeOf(u.prototype,Uint8Array.prototype),Object.setPrototypeOf(u,Uint8Array),u.alloc=function(t,e,n){return function(t,e,n){return c(t),t<=0?s(t):void 0!==e?"string"==typeof n?s(t).fill(e,n):s(t).fill(e):s(t)}(t,e,n)},u.allocUnsafe=function(t){return f(t)},u.allocUnsafeSlow=function(t){return f(t)},u.isBuffer=function(t){return null!=t&&!0===t._isBuffer&&t!==u.prototype},u.compare=function(t,e){if(j(t,Uint8Array)&&(t=u.from(t,t.offset,t.byteLength)),j(e,Uint8Array)&&(e=u.from(e,e.offset,e.byteLength)),!u.isBuffer(t)||!u.isBuffer(e))throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');if(t===e)return 0;for(var n=t.length,r=e.length,o=0,i=Math.min(n,r);o<i;++o)if(t[o]!==e[o]){n=t[o],r=e[o];break}return n<r?-1:r<n?1:0},u.isEncoding=function(t){switch(String(t).toLowerCase()){case"hex":case"utf8":case"utf-8":case"ascii":case"latin1":case"binary":case"base64":case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return!0;default:return!1}},u.concat=function(t,e){if(!Array.isArray(t))throw new TypeError('"list" argument must be an Array of Buffers');if(0===t.length)return u.alloc(0);var n;if(void 0===e)for(e=0,n=0;n<t.length;++n)e+=t[n].length;var r=u.allocUnsafe(e),o=0;for(n=0;n<t.length;++n){var i=t[n];if(j(i,Uint8Array)&&(i=u.from(i)),!u.isBuffer(i))throw new TypeError('"list" argument must be an Array of Buffers');i.copy(r,o),o+=i.length}return r},u.byteLength=d,u.prototype._isBuffer=!0,u.prototype.swap16=function(){var t=this.length;if(t%2!=0)throw new RangeError("Buffer size must be a multiple of 16-bits");for(var e=0;e<t;e+=2)v(this,e,e+1);return this},u.prototype.swap32=function(){var t=this.length;if(t%4!=0)throw new RangeError("Buffer size must be a multiple of 32-bits");for(var e=0;e<t;e+=4)v(this,e,e+3),v(this,e+1,e+2);return this},u.prototype.swap64=function(){var t=this.length;if(t%8!=0)throw new RangeError("Buffer size must be a multiple of 64-bits");for(var e=0;e<t;e+=8)v(this,e,e+7),v(this,e+1,e+6),v(this,e+2,e+5),v(this,e+3,e+4);return this},u.prototype.toString=function(){var t=this.length;return 0===t?"":0===arguments.length?_(this,0,t):g.apply(this,arguments)},u.prototype.toLocaleString=u.prototype.toString,u.prototype.equals=function(t){if(!u.isBuffer(t))throw new TypeError("Argument must be a Buffer");return this===t||0===u.compare(this,t)},u.prototype.inspect=function(){var t="",e=n.INSPECT_MAX_BYTES;return t=this.toString("hex",0,e).replace(/(.{2})/g,"$1 ").trim(),this.length>e&&(t+=" ... "),"<Buffer "+t+">"},i&&(u.prototype[i]=u.prototype.inspect),u.prototype.compare=function(t,e,n,r,o){if(j(t,Uint8Array)&&(t=u.from(t,t.offset,t.byteLength)),!u.isBuffer(t))throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type '+typeof t);if(void 0===e&&(e=0),void 0===n&&(n=t?t.length:0),void 0===r&&(r=0),void 0===o&&(o=this.length),e<0||n>t.length||r<0||o>this.length)throw new RangeError("out of range index");if(r>=o&&e>=n)return 0;if(r>=o)return-1;if(e>=n)return 1;if(this===t)return 0;for(var i=(o>>>=0)-(r>>>=0),a=(n>>>=0)-(e>>>=0),s=Math.min(i,a),l=this.slice(r,o),c=t.slice(e,n),f=0;f<s;++f)if(l[f]!==c[f]){i=l[f],a=c[f];break}return i<a?-1:a<i?1:0},u.prototype.includes=function(t,e,n){return-1!==this.indexOf(t,e,n)},u.prototype.indexOf=function(t,e,n){return y(this,t,e,n,!0)},u.prototype.lastIndexOf=function(t,e,n){return y(this,t,e,n,!1)},u.prototype.write=function(t,e,n,r){if(void 0===e)r="utf8",n=this.length,e=0;else if(void 0===n&&"string"==typeof e)r=e,n=this.length,e=0;else{if(!isFinite(e))throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");e>>>=0,isFinite(n)?(n>>>=0,void 0===r&&(r="utf8")):(r=n,n=void 0)}var o=this.length-e;if((void 0===n||n>o)&&(n=o),t.length>0&&(n<0||e<0)||e>this.length)throw new RangeError("Attempt to write outside buffer bounds");r||(r="utf8");for(var i=!1;;)switch(r){case"hex":return m(this,t,e,n);case"utf8":case"utf-8":return C(this,t,e,n);case"ascii":return w(this,t,e,n);case"latin1":case"binary":return b(this,t,e,n);case"base64":return k(this,t,e,n);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return E(this,t,e,n);default:if(i)throw new TypeError("Unknown encoding: "+r);r=(""+r).toLowerCase(),i=!0}},u.prototype.toJSON=function(){return{type:"Buffer",data:Array.prototype.slice.call(this._arr||this,0)}};var x=4096;function B(t,e,n){var r="";n=Math.min(t.length,n);for(var o=e;o<n;++o)r+=String.fromCharCode(127&t[o]);return r}function M(t,e,n){var r="";n=Math.min(t.length,n);for(var o=e;o<n;++o)r+=String.fromCharCode(t[o]);return r}function N(t,e,n){var r=t.length;(!e||e<0)&&(e=0),(!n||n<0||n>r)&&(n=r);for(var o="",i=e;i<n;++i)o+=F[t[i]];return o}function P(t,e,n){for(var r=t.slice(e,n),o="",i=0;i<r.length;i+=2)o+=String.fromCharCode(r[i]+256*r[i+1]);return o}function L(t,e,n){if(t%1!=0||t<0)throw new RangeError("offset is not uint");if(t+e>n)throw new RangeError("Trying to access beyond buffer length")}function S(t,e,n,r,o,i){if(!u.isBuffer(t))throw new TypeError('"buffer" argument must be a Buffer instance');if(e>o||e<i)throw new RangeError('"value" argument is out of bounds');if(n+r>t.length)throw new RangeError("Index out of range")}function R(t,e,n,r,o,i){if(n+r>t.length)throw new RangeError("Index out of range");if(n<0)throw new RangeError("Index out of range")}function H(t,e,n,r,i){return e=+e,n>>>=0,i||R(t,0,n,4),o.write(t,e,n,r,23,4),n+4}function I(t,e,n,r,i){return e=+e,n>>>=0,i||R(t,0,n,8),o.write(t,e,n,r,52,8),n+8}u.prototype.slice=function(t,e){var n=this.length;(t=~~t)<0?(t+=n)<0&&(t=0):t>n&&(t=n),(e=void 0===e?n:~~e)<0?(e+=n)<0&&(e=0):e>n&&(e=n),e<t&&(e=t);var r=this.subarray(t,e);return Object.setPrototypeOf(r,u.prototype),r},u.prototype.readUIntLE=function(t,e,n){t>>>=0,e>>>=0,n||L(t,e,this.length);for(var r=this[t],o=1,i=0;++i<e&&(o*=256);)r+=this[t+i]*o;return r},u.prototype.readUIntBE=function(t,e,n){t>>>=0,e>>>=0,n||L(t,e,this.length);for(var r=this[t+--e],o=1;e>0&&(o*=256);)r+=this[t+--e]*o;return r},u.prototype.readUInt8=function(t,e){return t>>>=0,e||L(t,1,this.length),this[t]},u.prototype.readUInt16LE=function(t,e){return t>>>=0,e||L(t,2,this.length),this[t]|this[t+1]<<8},u.prototype.readUInt16BE=function(t,e){return t>>>=0,e||L(t,2,this.length),this[t]<<8|this[t+1]},u.prototype.readUInt32LE=function(t,e){return t>>>=0,e||L(t,4,this.length),(this[t]|this[t+1]<<8|this[t+2]<<16)+16777216*this[t+3]},u.prototype.readUInt32BE=function(t,e){return t>>>=0,e||L(t,4,this.length),16777216*this[t]+(this[t+1]<<16|this[t+2]<<8|this[t+3])},u.prototype.readIntLE=function(t,e,n){t>>>=0,e>>>=0,n||L(t,e,this.length);for(var r=this[t],o=1,i=0;++i<e&&(o*=256);)r+=this[t+i]*o;return r>=(o*=128)&&(r-=Math.pow(2,8*e)),r},u.prototype.readIntBE=function(t,e,n){t>>>=0,e>>>=0,n||L(t,e,this.length);for(var r=e,o=1,i=this[t+--r];r>0&&(o*=256);)i+=this[t+--r]*o;return i>=(o*=128)&&(i-=Math.pow(2,8*e)),i},u.prototype.readInt8=function(t,e){return t>>>=0,e||L(t,1,this.length),128&this[t]?-1*(255-this[t]+1):this[t]},u.prototype.readInt16LE=function(t,e){t>>>=0,e||L(t,2,this.length);var n=this[t]|this[t+1]<<8;return 32768&n?4294901760|n:n},u.prototype.readInt16BE=function(t,e){t>>>=0,e||L(t,2,this.length);var n=this[t+1]|this[t]<<8;return 32768&n?4294901760|n:n},u.prototype.readInt32LE=function(t,e){return t>>>=0,e||L(t,4,this.length),this[t]|this[t+1]<<8|this[t+2]<<16|this[t+3]<<24},u.prototype.readInt32BE=function(t,e){return t>>>=0,e||L(t,4,this.length),this[t]<<24|this[t+1]<<16|this[t+2]<<8|this[t+3]},u.prototype.readFloatLE=function(t,e){return t>>>=0,e||L(t,4,this.length),o.read(this,t,!0,23,4)},u.prototype.readFloatBE=function(t,e){return t>>>=0,e||L(t,4,this.length),o.read(this,t,!1,23,4)},u.prototype.readDoubleLE=function(t,e){return t>>>=0,e||L(t,8,this.length),o.read(this,t,!0,52,8)},u.prototype.readDoubleBE=function(t,e){return t>>>=0,e||L(t,8,this.length),o.read(this,t,!1,52,8)},u.prototype.writeUIntLE=function(t,e,n,r){t=+t,e>>>=0,n>>>=0,r||S(this,t,e,n,Math.pow(2,8*n)-1,0);var o=1,i=0;for(this[e]=255&t;++i<n&&(o*=256);)this[e+i]=t/o&255;return e+n},u.prototype.writeUIntBE=function(t,e,n,r){t=+t,e>>>=0,n>>>=0,r||S(this,t,e,n,Math.pow(2,8*n)-1,0);var o=n-1,i=1;for(this[e+o]=255&t;--o>=0&&(i*=256);)this[e+o]=t/i&255;return e+n},u.prototype.writeUInt8=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,1,255,0),this[e]=255&t,e+1},u.prototype.writeUInt16LE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,2,65535,0),this[e]=255&t,this[e+1]=t>>>8,e+2},u.prototype.writeUInt16BE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,2,65535,0),this[e]=t>>>8,this[e+1]=255&t,e+2},u.prototype.writeUInt32LE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,4,4294967295,0),this[e+3]=t>>>24,this[e+2]=t>>>16,this[e+1]=t>>>8,this[e]=255&t,e+4},u.prototype.writeUInt32BE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,4,4294967295,0),this[e]=t>>>24,this[e+1]=t>>>16,this[e+2]=t>>>8,this[e+3]=255&t,e+4},u.prototype.writeIntLE=function(t,e,n,r){if(t=+t,e>>>=0,!r){var o=Math.pow(2,8*n-1);S(this,t,e,n,o-1,-o)}var i=0,a=1,s=0;for(this[e]=255&t;++i<n&&(a*=256);)t<0&&0===s&&0!==this[e+i-1]&&(s=1),this[e+i]=(t/a|0)-s&255;return e+n},u.prototype.writeIntBE=function(t,e,n,r){if(t=+t,e>>>=0,!r){var o=Math.pow(2,8*n-1);S(this,t,e,n,o-1,-o)}var i=n-1,a=1,s=0;for(this[e+i]=255&t;--i>=0&&(a*=256);)t<0&&0===s&&0!==this[e+i+1]&&(s=1),this[e+i]=(t/a|0)-s&255;return e+n},u.prototype.writeInt8=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,1,127,-128),t<0&&(t=255+t+1),this[e]=255&t,e+1},u.prototype.writeInt16LE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,2,32767,-32768),this[e]=255&t,this[e+1]=t>>>8,e+2},u.prototype.writeInt16BE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,2,32767,-32768),this[e]=t>>>8,this[e+1]=255&t,e+2},u.prototype.writeInt32LE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,4,2147483647,-2147483648),this[e]=255&t,this[e+1]=t>>>8,this[e+2]=t>>>16,this[e+3]=t>>>24,e+4},u.prototype.writeInt32BE=function(t,e,n){return t=+t,e>>>=0,n||S(this,t,e,4,2147483647,-2147483648),t<0&&(t=4294967295+t+1),this[e]=t>>>24,this[e+1]=t>>>16,this[e+2]=t>>>8,this[e+3]=255&t,e+4},u.prototype.writeFloatLE=function(t,e,n){return H(this,t,e,!0,n)},u.prototype.writeFloatBE=function(t,e,n){return H(this,t,e,!1,n)},u.prototype.writeDoubleLE=function(t,e,n){return I(this,t,e,!0,n)},u.prototype.writeDoubleBE=function(t,e,n){return I(this,t,e,!1,n)},u.prototype.copy=function(t,e,n,r){if(!u.isBuffer(t))throw new TypeError("argument should be a Buffer");if(n||(n=0),r||0===r||(r=this.length),e>=t.length&&(e=t.length),e||(e=0),r>0&&r<n&&(r=n),r===n)return 0;if(0===t.length||0===this.length)return 0;if(e<0)throw new RangeError("targetStart out of bounds");if(n<0||n>=this.length)throw new RangeError("Index out of range");if(r<0)throw new RangeError("sourceEnd out of bounds");r>this.length&&(r=this.length),t.length-e<r-n&&(r=t.length-e+n);var o=r-n;if(this===t&&"function"==typeof Uint8Array.prototype.copyWithin)this.copyWithin(e,n,r);else if(this===t&&n<e&&e<r)for(var i=o-1;i>=0;--i)t[i+e]=this[i+n];else Uint8Array.prototype.set.call(t,this.subarray(n,r),e);return o},u.prototype.fill=function(t,e,n,r){if("string"==typeof t){if("string"==typeof e?(r=e,e=0,n=this.length):"string"==typeof n&&(r=n,n=this.length),void 0!==r&&"string"!=typeof r)throw new TypeError("encoding must be a string");if("string"==typeof r&&!u.isEncoding(r))throw new TypeError("Unknown encoding: "+r);if(1===t.length){var o=t.charCodeAt(0);("utf8"===r&&o<128||"latin1"===r)&&(t=o)}}else"number"==typeof t?t&=255:"boolean"==typeof t&&(t=Number(t));if(e<0||this.length<e||this.length<n)throw new RangeError("Out of range index");if(n<=e)return this;var i;if(e>>>=0,n=void 0===n?this.length:n>>>0,t||(t=0),"number"==typeof t)for(i=e;i<n;++i)this[i]=t;else{var a=u.isBuffer(t)?t:u.from(t,r),s=a.length;if(0===s)throw new TypeError('The value "'+t+'" is invalid for argument "value"');for(i=0;i<n-e;++i)this[i+e]=a[i%s]}return this};var O=/[^+/0-9A-Za-z-_]/g;function U(t,e){var n;e=e||1/0;for(var r=t.length,o=null,i=[],a=0;a<r;++a){if((n=t.charCodeAt(a))>55295&&n<57344){if(!o){if(n>56319){(e-=3)>-1&&i.push(239,191,189);continue}if(a+1===r){(e-=3)>-1&&i.push(239,191,189);continue}o=n;continue}if(n<56320){(e-=3)>-1&&i.push(239,191,189),o=n;continue}n=65536+(o-55296<<10|n-56320)}else o&&(e-=3)>-1&&i.push(239,191,189);if(o=null,n<128){if((e-=1)<0)break;i.push(n)}else if(n<2048){if((e-=2)<0)break;i.push(n>>6|192,63&n|128)}else if(n<65536){if((e-=3)<0)break;i.push(n>>12|224,n>>6&63|128,63&n|128)}else{if(!(n<1114112))throw new Error("Invalid code point");if((e-=4)<0)break;i.push(n>>18|240,n>>12&63|128,n>>6&63|128,63&n|128)}}return i}function V(t){return r.toByteArray(function(t){if((t=(t=t.split("=")[0]).trim().replace(O,"")).length<2)return"";for(;t.length%4!=0;)t+="=";return t}(t))}function D(t,e,n,r){for(var o=0;o<r&&!(o+n>=e.length||o>=t.length);++o)e[o+n]=t[o];return o}function j(t,e){return t instanceof e||null!=t&&null!=t.constructor&&null!=t.constructor.name&&t.constructor.name===e.name}function Y(t){return t!=t}var F=function(){for(var t="0123456789abcdef",e=new Array(256),n=0;n<16;++n)for(var r=16*n,o=0;o<16;++o)e[r+o]=t[n]+t[o];return e}()},{"base64-js":29,ieee754:32}],31:[function(t,e,n){var r={single_source_shortest_paths:function(t,e,n){var o={},i={};i[e]=0;var a,s,u,l,c,f,h,p=r.PriorityQueue.make();for(p.push(e,0);!p.empty();)for(u in s=(a=p.pop()).value,l=a.cost,c=t[s]||{})c.hasOwnProperty(u)&&(f=l+c[u],h=i[u],(void 0===i[u]||h>f)&&(i[u]=f,p.push(u,f),o[u]=s));if(void 0!==n&&void 0===i[n]){var d=["Could not find a path from ",e," to ",n,"."].join("");throw new Error(d)}return o},extract_shortest_path_from_predecessor_list:function(t,e){for(var n=[],r=e;r;)n.push(r),t[r],r=t[r];return n.reverse(),n},find_path:function(t,e,n){var o=r.single_source_shortest_paths(t,e,n);return r.extract_shortest_path_from_predecessor_list(o,n)},PriorityQueue:{make:function(t){var e,n=r.PriorityQueue,o={};for(e in t=t||{},n)n.hasOwnProperty(e)&&(o[e]=n[e]);return o.queue=[],o.sorter=t.sorter||n.default_sorter,o},default_sorter:function(t,e){return t.cost-e.cost},push:function(t,e){var n={value:t,cost:e};this.queue.push(n),this.queue.sort(this.sorter)},pop:function(){return this.queue.shift()},empty:function(){return 0===this.queue.length}}};void 0!==e&&(e.exports=r)},{}],32:[function(t,e,n){n.read=function(t,e,n,r,o){var i,a,s=8*o-r-1,u=(1<<s)-1,l=u>>1,c=-7,f=n?o-1:0,h=n?-1:1,p=t[e+f];for(f+=h,i=p&(1<<-c)-1,p>>=-c,c+=s;c>0;i=256*i+t[e+f],f+=h,c-=8);for(a=i&(1<<-c)-1,i>>=-c,c+=r;c>0;a=256*a+t[e+f],f+=h,c-=8);if(0===i)i=1-l;else{if(i===u)return a?NaN:1/0*(p?-1:1);a+=Math.pow(2,r),i-=l}return(p?-1:1)*a*Math.pow(2,i-r)},n.write=function(t,e,n,r,o,i){var a,s,u,l=8*i-o-1,c=(1<<l)-1,f=c>>1,h=23===o?Math.pow(2,-24)-Math.pow(2,-77):0,p=r?0:i-1,d=r?1:-1,g=e<0||0===e&&1/e<0?1:0;for(e=Math.abs(e),isNaN(e)||e===1/0?(s=isNaN(e)?1:0,a=c):(a=Math.floor(Math.log(e)/Math.LN2),e*(u=Math.pow(2,-a))<1&&(a--,u*=2),(e+=a+f>=1?h/u:h*Math.pow(2,1-f))*u>=2&&(a++,u/=2),a+f>=c?(s=0,a=c):a+f>=1?(s=(e*u-1)*Math.pow(2,o),a+=f):(s=e*Math.pow(2,f-1)*Math.pow(2,o),a=0));o>=8;t[n+p]=255&s,p+=d,s/=256,o-=8);for(a=a<<o|s,l+=o;l>0;t[n+p]=255&a,p+=d,a/=256,l-=8);t[n+p-d]|=128*g}},{}],33:[function(t,e,n){var r={}.toString;e.exports=Array.isArray||function(t){return"[object Array]"==r.call(t)}},{}]},{},[24])(24)},e.exports=r()}));return{name:"qrcode",props:{value:null,options:Object,tag:{type:String,default:"canvas"}},render:function(t){return t(this.tag,this.$slots.default)},watch:{$props:{deep:!0,immediate:!0,handler:function(){this.$el&&this.generate()}}},methods:{generate:function(){var t=this,n=this.options,r=this.tag,o=String(this.value);"canvas"===r?e.toCanvas(this.$el,o,n,(function(t){if(t)throw t})):"img"===r?e.toDataURL(o,n,(function(e,n){if(e)throw e;t.$el.src=n})):e.toString(o,n,(function(e,n){if(e)throw e;t.$el.innerHTML=n}))}},mounted:function(){this.generate()}}}()},26895:(t,e,n)=>{"use strict";n.d(e,{A:()=>s});var r=n(71354),o=n.n(r),i=n(76314),a=n.n(i)()(o());a.push([t.id,".token-list[data-v-aa293ed2]{width:100%;min-height:50px;padding-top:5px;max-width:fit-content}.token-list th[data-v-aa293ed2]{padding-block:10px;padding-inline-start:10px}.token-list .token-list__header-device[data-v-aa293ed2]{padding-inline-start:50px}.token-list__header-activity[data-v-aa293ed2]{text-align:end}","",{version:3,sources:["webpack://./apps/settings/src/components/AuthTokenList.vue"],names:[],mappings:"AACA,6BACC,UAAA,CACA,eAAA,CACA,eAAA,CACA,qBAAA,CAEA,gCACC,kBAAA,CACA,yBAAA,CAGD,wDACC,yBAAA,CAED,8CACC,cAAA",sourcesContent:["\n.token-list {\n\twidth: 100%;\n\tmin-height: 50px;\n\tpadding-top: 5px;\n\tmax-width: fit-content;\n\n\tth {\n\t\tpadding-block: 10px;\n\t\tpadding-inline-start: 10px;\n\t}\n\n\t#{&}__header-device {\n\t\tpadding-inline-start: 50px; // 44px icon + 6px padding\n\t}\n\t&__header-activity {\n\t\ttext-align: end;\n\t}\n}\n"],sourceRoot:""}]);const s=a},27114:(t,e,n)=>{"use strict";n.d(e,{A:()=>s});var r=n(71354),o=n.n(r),i=n(76314),a=n.n(i)()(o());a.push([t.id,".app-name-text-field[data-v-ecd5ade6]{height:44px !important;padding-inline-start:12px;margin-inline-end:12px;width:200px}.row[data-v-ecd5ade6]{display:flex;align-items:center}.spacing[data-v-ecd5ade6]{padding-top:16px}","",{version:3,sources:["webpack://./apps/settings/src/components/AuthTokenSetup.vue"],names:[],mappings:"AACA,sCACC,sBAAA,CACA,yBAAA,CACA,sBAAA,CACA,WAAA,CAGD,sBACC,YAAA,CACA,kBAAA,CAGD,0BACC,gBAAA",sourcesContent:["\n.app-name-text-field {\n\theight: 44px !important;\n\tpadding-inline-start: 12px;\n\tmargin-inline-end: 12px;\n\twidth: 200px;\n}\n\n.row {\n\tdisplay: flex;\n\talign-items: center;\n}\n\n.spacing {\n\tpadding-top: 16px;\n}\n"],sourceRoot:""}]);const s=a},56413:(t,e,n)=>{"use strict";n.d(e,{A:()=>s});var r=n(71354),o=n.n(r),i=n(76314),a=n.n(i)()(o());a.push([t.id,".auth-token[data-v-eb70ebd8]{border-top:2px solid var(--color-border);max-width:200px;white-space:normal;vertical-align:middle;position:relative}.auth-token--wiping[data-v-eb70ebd8]{background-color:var(--color-background-dark)}.auth-token__name[data-v-eb70ebd8]{padding-block:10px;display:flex;align-items:center;gap:6px;min-width:355px}.auth-token__name-wrapper[data-v-eb70ebd8]{display:flex;flex-direction:column}.auth-token__name-form[data-v-eb70ebd8]{align-items:end;display:flex;gap:4px}.auth-token__actions[data-v-eb70ebd8]{padding:0 10px}.auth-token__last-activity[data-v-eb70ebd8]{padding-inline-start:10px}.auth-token .wiping-warning[data-v-eb70ebd8]{color:var(--color-text-maxcontrast)}","",{version:3,sources:["webpack://./apps/settings/src/components/AuthToken.vue"],names:[],mappings:"AACA,6BACC,wCAAA,CACA,eAAA,CACA,kBAAA,CACA,qBAAA,CACA,iBAAA,CAEA,qCACC,6CAAA,CAGD,mCACC,kBAAA,CACA,YAAA,CACA,kBAAA,CACA,OAAA,CACA,eAAA,CAGD,2CACC,YAAA,CACA,qBAAA,CAGD,wCACC,eAAA,CACA,YAAA,CACA,OAAA,CAGD,sCACC,cAAA,CAGD,4CACC,yBAAA,CAGD,6CACC,mCAAA",sourcesContent:["\n.auth-token {\n\tborder-top: 2px solid var(--color-border);\n\tmax-width: 200px;\n\twhite-space: normal;\n\tvertical-align: middle;\n\tposition: relative;\n\n\t&--wiping {\n\t\tbackground-color: var(--color-background-dark);\n\t}\n\n\t&__name {\n\t\tpadding-block: 10px;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tgap: 6px;\n\t\tmin-width: 355px; // ensure no jumping when renaming\n\t}\n\n\t&__name-wrapper {\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t}\n\n\t&__name-form {\n\t\talign-items: end;\n\t\tdisplay: flex;\n\t\tgap: 4px;\n\t}\n\n\t&__actions {\n\t\tpadding: 0 10px;\n\t}\n\n\t&__last-activity {\n\t\tpadding-inline-start: 10px;\n\t}\n\n\t.wiping-warning {\n\t\tcolor: var(--color-text-maxcontrast);\n\t}\n}\n"],sourceRoot:""}]);const s=a},65143:(e,n,r)=>{"use strict";var o=r(21777),i=r(65899),a=r(80284),s=r(85471),u=r(32981),l=r(53334),c=r(85168),f=r(56760),h=r(63814),p=r(65043);const d=(0,r(35947).YK)().setApp("settings").detectUser().build();r(51257);const g=(0,h.Jv)("/settings/personal/authtokens");var v;!function(t){t[t.TEMPORARY_TOKEN=0]="TEMPORARY_TOKEN",t[t.PERMANENT_TOKEN=1]="PERMANENT_TOKEN",t[t.WIPING_TOKEN=2]="WIPING_TOKEN"}(v||(v={}));const y=(0,i.nY)("auth-token",{state:()=>({tokens:(0,u.C)("settings","app_tokens",[])}),actions:{async updateToken(t){const{data:e}=await p.Ay.put(`${g}/${t.id}`,t);return e},async addToken(t){d.debug("Creating a new app token");try{await(0,f.C5)();const{data:e}=await p.Ay.post(g,{name:t});return this.tokens.push(e.deviceToken),d.debug("App token created"),e}catch(t){return null}},async deleteToken(t){d.debug("Deleting app token",{token:t}),this.tokens=this.tokens.filter((e=>{let{id:n}=e;return n!==t.id}));try{return await p.Ay.delete(`${g}/${t.id}`),d.debug("App token deleted"),!0}catch(e){d.error("Could not delete app token",{error:e}),(0,c.Qg)((0,l.Tl)("settings","Could not delete the app token")),this.tokens.push(t)}return!1},async wipeToken(t){d.debug("Wiping app token",{token:t});try{return await(0,f.C5)(),await new Promise((t=>{window.OC.dialogs.confirm((0,l.Tl)("settings","Do you really want to wipe your data from this device?"),(0,l.Tl)("settings","Confirm wipe"),t,!0)}))?(await p.Ay.post(`${g}/wipe/${t.id}`),d.debug("App token marked for wipe",{token:t}),t.type=v.WIPING_TOKEN,t.canRename=!1,!0):void d.debug("Wipe aborted by user")}catch(t){d.error("Could not wipe app token",{error:t}),(0,c.Qg)((0,l.Tl)("settings","Error while wiping the device with the token"))}return!1},async renameToken(t,e){d.debug(`renaming app token ${t.id} from ${t.name} to '${e}'`);const n=t.name;t.name=e;try{return await this.updateToken(t),d.debug("App token name updated"),!0}catch(e){d.error("Could not update app token name",{error:e}),(0,c.Qg)((0,l.Tl)("settings","Error while updating device token name")),t.name=n}return!1},async setTokenScope(t,e,n){d.debug("Updating app token scope",{token:t,scope:e,value:n});const r=t.scope[e];t.scope[e]=n;try{return await this.updateToken(t),d.debug("app token scope updated"),!0}catch(n){d.error("could not update app token scope",{error:n}),(0,c.Qg)((0,l.Tl)("settings","Error while updating device token scope")),t.scope[e]=r}return!1}}});var A=r(9165),m=r(24764),C=r(57505),w=r(97691),b=r(97012),k=r(4604),E=r(6695),T=r(82182);const _={ie:/(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,edge:/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/,firefox:/^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) Gecko\/[0-9.]+ Firefox\/(\d+)(?:\.\d)?$/,chrome:/^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/(\d+)[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+$/,safari:/^Mozilla\/5\.0 \([^)]*(Windows|OS X)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)(?: Version\/([0-9]+)[0-9.]+)? Safari\/[0-9.A-Z]+$/,androidChrome:/Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,iphone:/ *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,ipad:/\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,iosClient:/^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)-iOS.*$/,androidClient:/^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)-android.*$/,iosTalkClient:/^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,androidTalkClient:/^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,davx5:/DAV(?:droid|x5)\/([^ ]+)/,webPirate:/(Sailfish).*WebPirate\/(\d+)/,sailfishBrowser:/(Sailfish).*SailfishBrowser\/(\d+)/,neon:/Neon \d+\.\d+\.\d+\+\d+/},x={edge:"Microsoft Edge",firefox:"Firefox",chrome:"Google Chrome",safari:"Safari",androidChrome:(0,l.Tl)("settings","Google Chrome for Android"),iphone:"iPhone",ipad:"iPad",iosClient:(0,l.Tl)("settings","{productName} iOS app",{productName:window.oc_defaults.productName}),androidClient:(0,l.Tl)("settings","{productName} Android app",{productName:window.oc_defaults.productName}),iosTalkClient:(0,l.Tl)("settings","{productName} Talk for iOS",{productName:window.oc_defaults.productName}),androidTalkClient:(0,l.Tl)("settings","{productName} Talk for Android",{productName:window.oc_defaults.productName}),syncClient:(0,l.Tl)("settings","Sync client"),davx5:"DAVx5",webPirate:"WebPirate",sailfishBrowser:"SailfishBrowser",neon:"Neon"},B=(0,s.pM)({name:"AuthToken",components:{NcActions:m.A,NcActionButton:C.A,NcActionCheckbox:w.N,NcButton:b.A,NcDateTime:k.A,NcIconSvgWrapper:E.A,NcTextField:T.A},props:{token:{type:Object,required:!0}},setup:()=>({authTokenStore:y()}),data:()=>({actionOpen:!1,renaming:!1,newName:"",oldName:"",mdiCheck:A.Tfj}),computed:{canChangeScope(){return this.token.type===v.PERMANENT_TOKEN},client(){const t=this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/);if(t)return{id:"syncClient",os:t[1],version:t[2]};for(const t in _){const e=this.token.name.match(_[t]);if(e)return{id:t,os:e[2]&&e[1],version:e[2]??e[1]}}return null},tokenLastActivity(){return 1e3*this.token.lastActivity},tokenIcon(){if(this.token.type===v.PERMANENT_TOKEN)return A.EYN;switch(this.client?.id){case"edge":return A.MXC;case"firefox":return A.Ckb;case"chrome":return A.KR_;case"safari":return A.lWO;case"androidChrome":case"androidClient":case"androidTalkClient":return A.mbi;case"iphone":case"iosClient":case"iosTalkClient":return A.qFD;case"ipad":return A.Fzw;case"davx5":return A.vrq;case"syncClient":return A.F5c;default:return A.zY6}},tokenLabel(){if(this.token.current)return(0,l.Tl)("settings","This session");if(null===this.client)return this.token.name;const t=x[this.client.id];return this.client.os?(0,l.Tl)("settings","{client} - {version} ({system})",{client:t,system:this.client.os,version:this.client.version}):this.client.version?(0,l.Tl)("settings","{client} - {version}",{client:t,version:this.client.version}):t},wiping(){return this.token.type===v.WIPING_TOKEN}},methods:{t:l.Tl,updateFileSystemScope(t){this.authTokenStore.setTokenScope(this.token,"filesystem",t)},startRename(){this.actionOpen=!1,this.oldName=this.token.name,this.newName=this.token.name,this.renaming=!0,this.$nextTick((()=>{this.$refs.input.select()}))},cancelRename(){this.renaming=!1},revoke(){this.actionOpen=!1,this.authTokenStore.deleteToken(this.token)},rename(){this.renaming=!1,this.authTokenStore.renameToken(this.token,this.newName)},wipe(){this.actionOpen=!1,this.authTokenStore.wipeToken(this.token)}}});var M=r(85072),N=r.n(M),P=r(97825),L=r.n(P),S=r(77659),R=r.n(S),H=r(55056),I=r.n(H),O=r(10540),U=r.n(O),V=r(41113),D=r.n(V),j=r(56413),Y={};Y.styleTagTransform=D(),Y.setAttributes=I(),Y.insert=R().bind(null,"head"),Y.domAPI=L(),Y.insertStyleElement=U(),N()(j.A,Y),j.A&&j.A.locals&&j.A.locals;var F=r(14486);const z=(0,F.A)(B,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("tr",{class:["auth-token",{"auth-token--wiping":t.wiping}],attrs:{"data-id":t.token.id}},[e("td",{staticClass:"auth-token__name"},[e("NcIconSvgWrapper",{attrs:{path:t.tokenIcon}}),t._v(" "),e("div",{staticClass:"auth-token__name-wrapper"},[t.token.canRename&&t.renaming?e("form",{staticClass:"auth-token__name-form",on:{submit:function(e){return e.preventDefault(),e.stopPropagation(),t.rename.apply(null,arguments)}}},[e("NcTextField",{ref:"input",attrs:{value:t.newName,label:t.t("settings","Device name"),"show-trailing-button":!0,"trailing-button-label":t.t("settings","Cancel renaming")},on:{"update:value":function(e){t.newName=e},"trailing-button-click":t.cancelRename,keyup:function(e){return!e.type.indexOf("key")&&t._k(e.keyCode,"esc",27,e.key,["Esc","Escape"])?null:t.cancelRename.apply(null,arguments)}}}),t._v(" "),e("NcButton",{attrs:{"aria-label":t.t("settings","Save new name"),type:"tertiary","native-type":"submit"},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{attrs:{path:t.mdiCheck}})]},proxy:!0}],null,!1,1018299955)})],1):e("span",[t._v(t._s(t.tokenLabel))]),t._v(" "),t.wiping?e("span",{staticClass:"wiping-warning"},[t._v("("+t._s(t.t("settings","Marked for remote wipe"))+")")]):t._e()])],1),t._v(" "),e("td",[e("NcDateTime",{staticClass:"auth-token__last-activity",attrs:{"ignore-seconds":!0,timestamp:t.tokenLastActivity}})],1),t._v(" "),e("td",{staticClass:"auth-token__actions"},[t.token.current?t._e():e("NcActions",{attrs:{title:t.t("settings","Device settings"),"aria-label":t.t("settings","Device settings"),open:t.actionOpen},on:{"update:open":function(e){t.actionOpen=e}}},[t.canChangeScope?e("NcActionCheckbox",{attrs:{checked:t.token.scope.filesystem},on:{"update:checked":t.updateFileSystemScope}},[t._v("\n\t\t\t\t"+t._s(t.t("settings","Allow filesystem access"))+"\n\t\t\t")]):t._e(),t._v(" "),t.token.canRename?e("NcActionButton",{attrs:{icon:"icon-rename"},on:{click:function(e){return e.stopPropagation(),e.preventDefault(),t.startRename.apply(null,arguments)}}},[t._v("\n\t\t\t\t"+t._s(t.t("settings","Rename"))+"\n\t\t\t")]):t._e(),t._v(" "),t.token.canDelete?[2!==t.token.type?[e("NcActionButton",{attrs:{icon:"icon-delete"},on:{click:function(e){return e.stopPropagation(),e.preventDefault(),t.revoke.apply(null,arguments)}}},[t._v("\n\t\t\t\t\t\t"+t._s(t.t("settings","Revoke"))+"\n\t\t\t\t\t")]),t._v(" "),e("NcActionButton",{attrs:{icon:"icon-delete"},on:{click:function(e){return e.stopPropagation(),e.preventDefault(),t.wipe.apply(null,arguments)}}},[t._v("\n\t\t\t\t\t\t"+t._s(t.t("settings","Wipe device"))+"\n\t\t\t\t\t")])]:2===t.token.type?e("NcActionButton",{attrs:{icon:"icon-delete",name:t.t("settings","Revoke")},on:{click:function(e){return e.stopPropagation(),e.preventDefault(),t.revoke.apply(null,arguments)}}},[t._v("\n\t\t\t\t\t"+t._s(t.t("settings","Revoking this token might prevent the wiping of your device if it has not started the wipe yet."))+"\n\t\t\t\t")]):t._e()]:t._e()],2)],1)])}),[],!1,null,"eb70ebd8",null).exports,$=(0,s.pM)({name:"AuthTokenList",components:{AuthToken:z},setup:()=>({authTokenStore:y()}),computed:{sortedTokens(){return[...this.authTokenStore.tokens].sort(((t,e)=>e.lastActivity-t.lastActivity))}},methods:{t:l.Tl}});var K=r(26895),q={};q.styleTagTransform=D(),q.setAttributes=I(),q.insert=R().bind(null,"head"),q.domAPI=L(),q.insertStyleElement=U(),N()(K.A,q),K.A&&K.A.locals&&K.A.locals;const W=(0,F.A)($,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("table",{staticClass:"token-list",attrs:{id:"app-tokens-table"}},[e("thead",[e("tr",[e("th",{staticClass:"token-list__header-device"},[t._v("\n\t\t\t\t"+t._s(t.t("settings","Device"))+"\n\t\t\t")]),t._v(" "),e("th",{staticClass:"toke-list__header-activity"},[t._v("\n\t\t\t\t"+t._s(t.t("settings","Last activity"))+"\n\t\t\t")]),t._v(" "),e("th",[e("span",{staticClass:"hidden-visually"},[t._v("\n\t\t\t\t\t"+t._s(t.t("settings","Actions"))+"\n\t\t\t\t")])])])]),t._v(" "),e("tbody",{staticClass:"token-list__body"},t._l(t.sortedTokens,(function(t){return e("AuthToken",{key:t.id,attrs:{token:t}})})),1)])}),[],!1,null,"aa293ed2",null).exports;var Z=r(17816),Q=r.n(Z),J=r(94219);const G=(0,s.pM)({name:"AuthTokenSetupDialog",components:{NcButton:b.A,NcDialog:J.A,NcIconSvgWrapper:E.A,NcTextField:T.A,QR:Q()},props:{token:{type:Object,required:!1,default:null}},data:()=>({isNameCopied:!1,isPasswordCopied:!1,showQRCode:!1}),computed:{open:{get(){return null!==this.token},set(t){t||this.$emit("close")}},copyPasswordIcon(){return this.isPasswordCopied?A.Tfj:A.$BT},copyNameIcon(){return this.isNameCopied?A.Tfj:A.$BT},appPassword(){return this.token?.token??""},loginName(){return this.token?.loginName??""},qrUrl(){const t=window.location.protocol+"//"+window.location.host+(0,h.aU)();return`nc://login/user:${this.loginName}&password:${this.appPassword}&server:${t}`},copyPasswordLabel(){return this.isPasswordCopied?(0,l.Tl)("settings","App password copied!"):(0,l.Tl)("settings","Copy app password")},copyLoginNameLabel(){return this.isNameCopied?(0,l.Tl)("settings","Login name copied!"):(0,l.Tl)("settings","Copy login name")}},watch:{token(){this.showQRCode=!1},open(){this.open&&this.$nextTick((()=>{this.$refs.appPassword.select()}))}},methods:{t:l.Tl,async copyPassword(){try{await navigator.clipboard.writeText(this.appPassword),this.isPasswordCopied=!0}catch(t){this.isPasswordCopied=!1,d.error(t),(0,c.Qg)((0,l.Tl)("settings","Could not copy app password. Please copy it manually."))}finally{setTimeout((()=>{this.isPasswordCopied=!1}),4e3)}},async copyLoginName(){try{await navigator.clipboard.writeText(this.loginName),this.isNameCopied=!0}catch(t){this.isNameCopied=!1,d.error(t),(0,c.Qg)((0,l.Tl)("settings","Could not copy login name. Please copy it manually."))}finally{setTimeout((()=>{this.isNameCopied=!1}),4e3)}}}});var X=r(78161),tt={};tt.styleTagTransform=D(),tt.setAttributes=I(),tt.insert=R().bind(null,"head"),tt.domAPI=L(),tt.insertStyleElement=U(),N()(X.A,tt),X.A&&X.A.locals&&X.A.locals;const et=(0,F.A)(G,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("NcDialog",{attrs:{open:t.open,name:t.t("settings","New app password"),"content-classes":"token-dialog"},on:{"update:open":function(e){t.open=e}}},[e("p",[t._v("\n\t\t"+t._s(t.t("settings","Use the credentials below to configure your app or device. For security reasons this password will only be shown once."))+"\n\t")]),t._v(" "),e("div",{staticClass:"token-dialog__name"},[e("NcTextField",{attrs:{label:t.t("settings","Login"),value:t.loginName,readonly:""}}),t._v(" "),e("NcButton",{attrs:{type:"tertiary",title:t.copyLoginNameLabel,"aria-label":t.copyLoginNameLabel},on:{click:t.copyLoginName},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{attrs:{path:t.copyNameIcon}})]},proxy:!0}])})],1),t._v(" "),e("div",{staticClass:"token-dialog__password"},[e("NcTextField",{ref:"appPassword",attrs:{label:t.t("settings","Password"),value:t.appPassword,readonly:""}}),t._v(" "),e("NcButton",{attrs:{type:"tertiary",title:t.copyPasswordLabel,"aria-label":t.copyPasswordLabel},on:{click:t.copyPassword},scopedSlots:t._u([{key:"icon",fn:function(){return[e("NcIconSvgWrapper",{attrs:{path:t.copyPasswordIcon}})]},proxy:!0}])})],1),t._v(" "),e("div",{staticClass:"token-dialog__qrcode"},[t.showQRCode?e("QR",{attrs:{value:t.qrUrl}}):e("NcButton",{on:{click:function(e){t.showQRCode=!0}}},[t._v("\n\t\t\t"+t._s(t.t("settings","Show QR code for mobile apps"))+"\n\t\t")])],1)])}),[],!1,null,"3037c035",null).exports,nt=(0,s.pM)({name:"AuthTokenSetup",components:{NcButton:b.A,NcTextField:T.A,AuthTokenSetupDialog:et},setup:()=>({authTokenStore:y()}),data:()=>({deviceName:"",loading:!1,newToken:null}),methods:{t:l.Tl,reset(){this.loading=!1,this.deviceName="",this.newToken=null},async submit(){try{this.loading=!0,this.newToken=await this.authTokenStore.addToken(this.deviceName)}catch(t){d.error(t),(0,c.Qg)((0,l.Tl)("settings","Error while creating device token")),this.reset()}finally{this.loading=!1}}}});var rt=r(27114),ot={};ot.styleTagTransform=D(),ot.setAttributes=I(),ot.insert=R().bind(null,"head"),ot.domAPI=L(),ot.insertStyleElement=U(),N()(rt.A,ot),rt.A&&rt.A.locals&&rt.A.locals;const it=(0,F.A)(nt,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("form",{staticClass:"row spacing",attrs:{id:"generate-app-token-section"},on:{submit:function(e){return e.preventDefault(),t.submit.apply(null,arguments)}}},[e("NcTextField",{staticClass:"app-name-text-field",attrs:{value:t.deviceName,type:"text",maxlength:120,disabled:t.loading,label:t.t("settings","App name"),placeholder:t.t("settings","App name")},on:{"update:value":function(e){t.deviceName=e}}}),t._v(" "),e("NcButton",{attrs:{type:"primary",disabled:t.loading||0===t.deviceName.length,"native-type":"submit"}},[t._v("\n\t\t"+t._s(t.t("settings","Create new app password"))+"\n\t")]),t._v(" "),e("AuthTokenSetupDialog",{attrs:{token:t.newToken},on:{close:function(e){t.newToken=null}}})],1)}),[],!1,null,"ecd5ade6",null).exports,at=(0,s.pM)({name:"AuthTokenSection",components:{AuthTokenList:W,AuthTokenSetup:it},data:()=>({canCreateToken:(0,u.C)("settings","can_create_app_token")}),methods:{t:l.Tl}}),st=(0,F.A)(at,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("div",{staticClass:"section",attrs:{id:"security"}},[e("h2",[t._v(t._s(t.t("settings","Devices & sessions",{},void 0,{sanitize:!1})))]),t._v(" "),e("p",{staticClass:"settings-hint hidden-when-empty"},[t._v("\n\t\t"+t._s(t.t("settings","Web, desktop and mobile clients currently logged in to your account."))+"\n\t")]),t._v(" "),e("AuthTokenList"),t._v(" "),t.canCreateToken?e("AuthTokenSetup"):t._e()],1)}),[],!1,null,null,null).exports;r.nc=(0,o.aV)();const ut=(0,i.Ey)();s.Ay.use(i.R2),s.Ay.use(a.Ay,{defaultHtml:!1}),s.Ay.prototype.t=t,new(s.Ay.extend(st))({pinia:ut}).$mount("#security-authtokens")},78161:(t,e,n)=>{"use strict";n.d(e,{A:()=>s});var r=n(71354),o=n.n(r),i=n(76314),a=n.n(i)()(o());a.push([t.id,"[data-v-3037c035] .token-dialog{display:flex;flex-direction:column;gap:12px;padding-inline:22px;padding-block-end:20px}[data-v-3037c035] .token-dialog>*{box-sizing:border-box}.token-dialog__name[data-v-3037c035],.token-dialog__password[data-v-3037c035]{align-items:end;display:flex;gap:10px}.token-dialog__name[data-v-3037c035] input,.token-dialog__password[data-v-3037c035] input{font-family:monospace}.token-dialog__qrcode[data-v-3037c035]{display:flex;justify-content:center}","",{version:3,sources:["webpack://./apps/settings/src/components/AuthTokenSetupDialog.vue"],names:[],mappings:"AACA,gCACC,YAAA,CACA,qBAAA,CACA,QAAA,CAEA,mBAAA,CACA,sBAAA,CAEA,kCACC,qBAAA,CAKD,8EACC,eAAA,CACA,YAAA,CACA,QAAA,CAEA,0FACC,qBAAA,CAIF,uCACC,YAAA,CACA,sBAAA",sourcesContent:["\n:deep(.token-dialog) {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 12px;\n\n\tpadding-inline: 22px;\n\tpadding-block-end: 20px;\n\n\t> * {\n\t\tbox-sizing: border-box;\n\t}\n}\n\n.token-dialog {\n\t&__name, &__password {\n\t\talign-items: end;\n\t\tdisplay: flex;\n\t\tgap: 10px;\n\n\t\t:deep(input) {\n\t\t\tfont-family: monospace;\n\t\t}\n\t}\n\n\t&__qrcode {\n\t\tdisplay: flex;\n\t\tjustify-content: center;\n\t}\n}\n"],sourceRoot:""}]);const s=a}},i={};function a(t){var e=i[t];if(void 0!==e)return e.exports;var n=i[t]={id:t,loaded:!1,exports:{}};return o[t].call(n.exports,n,n.exports,a),n.loaded=!0,n.exports}a.m=o,e=[],a.O=(t,n,r,o)=>{if(!n){var i=1/0;for(c=0;c<e.length;c++){n=e[c][0],r=e[c][1],o=e[c][2];for(var s=!0,u=0;u<n.length;u++)(!1&o||i>=o)&&Object.keys(a.O).every((t=>a.O[t](n[u])))?n.splice(u--,1):(s=!1,o<i&&(i=o));if(s){e.splice(c--,1);var l=r();void 0!==l&&(t=l)}}return t}o=o||0;for(var c=e.length;c>0&&e[c-1][2]>o;c--)e[c]=e[c-1];e[c]=[n,r,o]},a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var n in e)a.o(e,n)&&!a.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},a.f={},a.e=t=>Promise.all(Object.keys(a.f).reduce(((e,n)=>(a.f[n](t,e),e)),[])),a.u=t=>t+"-"+t+".js?v="+{640:"b2fa23a809053c6305c5",5771:"a4e2a98efcfb7393c5bd",5810:"8dfb2392d7107957a510",7432:"126e4e5eedf7af9a92fc"}[t],a.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),n={},r="nextcloud:",a.l=(t,e,o,i)=>{if(n[t])n[t].push(e);else{var s,u;if(void 0!==o)for(var l=document.getElementsByTagName("script"),c=0;c<l.length;c++){var f=l[c];if(f.getAttribute("src")==t||f.getAttribute("data-webpack")==r+o){s=f;break}}s||(u=!0,(s=document.createElement("script")).charset="utf-8",s.timeout=120,a.nc&&s.setAttribute("nonce",a.nc),s.setAttribute("data-webpack",r+o),s.src=t),n[t]=[e];var h=(e,r)=>{s.onerror=s.onload=null,clearTimeout(p);var o=n[t];if(delete n[t],s.parentNode&&s.parentNode.removeChild(s),o&&o.forEach((t=>t(r))),e)return e(r)},p=setTimeout(h.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=h.bind(null,s.onerror),s.onload=h.bind(null,s.onload),u&&document.head.appendChild(s)}},a.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),a.j=2131,(()=>{var t;a.g.importScripts&&(t=a.g.location+"");var e=a.g.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var n=e.getElementsByTagName("script");if(n.length)for(var r=n.length-1;r>-1&&(!t||!/^http(s?):/.test(t));)t=n[r--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=t})(),(()=>{a.b=document.baseURI||self.location.href;var t={2131:0};a.f.j=(e,n)=>{var r=a.o(t,e)?t[e]:void 0;if(0!==r)if(r)n.push(r[2]);else{var o=new Promise(((n,o)=>r=t[e]=[n,o]));n.push(r[2]=o);var i=a.p+a.u(e),s=new Error;a.l(i,(n=>{if(a.o(t,e)&&(0!==(r=t[e])&&(t[e]=void 0),r)){var o=n&&("load"===n.type?"missing":n.type),i=n&&n.target&&n.target.src;s.message="Loading chunk "+e+" failed.\n("+o+": "+i+")",s.name="ChunkLoadError",s.type=o,s.request=i,r[1](s)}}),"chunk-"+e,e)}},a.O.j=e=>0===t[e];var e=(e,n)=>{var r,o,i=n[0],s=n[1],u=n[2],l=0;if(i.some((e=>0!==t[e]))){for(r in s)a.o(s,r)&&(a.m[r]=s[r]);if(u)var c=u(a)}for(e&&e(n);l<i.length;l++)o=i[l],a.o(t,o)&&t[o]&&t[o][0](),t[o]=0;return a.O(c)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),a.nc=void 0;var s=a.O(void 0,[4208],(()=>a(65143)));s=a.O(s)})();
-//# sourceMappingURL=settings-vue-settings-personal-security.js.map?v=47d11e5a6208fa4f8682
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/components/AuthToken.vue":
+/*!****************************************************!*\
+  !*** ./apps/settings/src/components/AuthToken.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true */ "./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true");
+/* harmony import */ var _AuthToken_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthToken.vue?vue&type=script&lang=ts */ "./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts");
+/* harmony import */ var _AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true */ "./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AuthToken_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "1a411ac0",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AuthToken.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts":
+/*!****************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthToken.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true":
+/*!*************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_template_id_1a411ac0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenList.vue":
+/*!********************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenList.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true */ "./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true");
+/* harmony import */ var _AuthTokenList_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthTokenList.vue?vue&type=script&lang=ts */ "./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts");
+/* harmony import */ var _AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true */ "./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AuthTokenList_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "04e85c7e",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AuthTokenList.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts":
+/*!********************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenList.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true":
+/*!*****************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true ***!
+  \*****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true":
+/*!**************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_template_id_04e85c7e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSection.vue":
+/*!***********************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSection.vue ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthTokenSection.vue?vue&type=template&id=3d9b79b5 */ "./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5");
+/* harmony import */ var _AuthTokenSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthTokenSection.vue?vue&type=script&lang=ts */ "./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AuthTokenSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AuthTokenSection.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSection.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5":
+/*!*****************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5 ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSection_vue_vue_type_template_id_3d9b79b5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSection.vue?vue&type=template&id=3d9b79b5 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetup.vue":
+/*!*********************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetup.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true */ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true");
+/* harmony import */ var _AuthTokenSetup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthTokenSetup.vue?vue&type=script&lang=ts */ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts");
+/* harmony import */ var _AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true */ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AuthTokenSetup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "4099f74d",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AuthTokenSetup.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts":
+/*!*********************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetup.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true":
+/*!******************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true ***!
+  \******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true":
+/*!***************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_template_id_4099f74d_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetupDialog.vue":
+/*!***************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetupDialog.vue ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true */ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true");
+/* harmony import */ var _AuthTokenSetupDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthTokenSetupDialog.vue?vue&type=script&lang=ts */ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts");
+/* harmony import */ var _AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss */ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AuthTokenSetupDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "44fad0f5",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/settings/src/components/AuthTokenSetupDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts":
+/*!***************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetupDialog.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss":
+/*!************************************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss ***!
+  \************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true":
+/*!*********************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_template_id_44fad0f5_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/logger.ts":
+/*!*************************************!*\
+  !*** ./apps/settings/src/logger.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('settings').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/settings/src/main-personal-security.js":
+/*!*****************************************************!*\
+  !*** ./apps/settings/src/main-personal-security.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var v_tooltip__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-tooltip */ "./node_modules/v-tooltip/dist/v-tooltip.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_AuthTokenSection_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/AuthTokenSection.vue */ "./apps/settings/src/components/AuthTokenSection.vue");
+/* harmony import */ var _nextcloud_password_confirmation_dist_style_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/password-confirmation/dist/style.css */ "./node_modules/@nextcloud/password-confirmation/dist/style.css");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+// eslint-disable-next-line camelcase
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+const pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.createPinia)();
+vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(pinia__WEBPACK_IMPORTED_MODULE_4__.PiniaVuePlugin);
+vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(v_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  defaultHtml: false
+});
+vue__WEBPACK_IMPORTED_MODULE_5__["default"].prototype.t = t;
+const View = vue__WEBPACK_IMPORTED_MODULE_5__["default"].extend(_components_AuthTokenSection_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
+new View({
+  pinia
+}).$mount('#security-authtokens');
+
+/***/ }),
+
+/***/ "./apps/settings/src/store/authtoken.ts":
+/*!**********************************************!*\
+  !*** ./apps/settings/src/store/authtoken.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TokenType: () => (/* binding */ TokenType),
+/* harmony export */   useAuthTokenStore: () => (/* binding */ useAuthTokenStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../logger */ "./apps/settings/src/logger.ts");
+/* harmony import */ var _nextcloud_password_confirmation_dist_style_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/password-confirmation/dist/style.css */ "./node_modules/@nextcloud/password-confirmation/dist/style.css");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+const BASE_URL = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateUrl)('/settings/personal/authtokens');
+const confirm = () => {
+  return new Promise(resolve => {
+    window.OC.dialogs.confirm((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Do you really want to wipe your data from this device?'), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Confirm wipe'), resolve, true);
+  });
+};
+var TokenType;
+(function (TokenType) {
+  TokenType[TokenType["TEMPORARY_TOKEN"] = 0] = "TEMPORARY_TOKEN";
+  TokenType[TokenType["PERMANENT_TOKEN"] = 1] = "PERMANENT_TOKEN";
+  TokenType[TokenType["WIPING_TOKEN"] = 2] = "WIPING_TOKEN";
+})(TokenType || (TokenType = {}));
+const useAuthTokenStore = (0,pinia__WEBPACK_IMPORTED_MODULE_8__.defineStore)('auth-token', {
+  state() {
+    return {
+      tokens: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('settings', 'app_tokens', [])
+    };
+  },
+  actions: {
+    /**
+     * Update a token on server
+     * @param token Token to update
+     */
+    async updateToken(token) {
+      const {
+        data
+      } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].put(`${BASE_URL}/${token.id}`, token);
+      return data;
+    },
+    /**
+     * Add a new token
+     * @param name The token name
+     */
+    async addToken(name) {
+      _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Creating a new app token');
+      try {
+        await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_3__.confirmPassword)();
+        const {
+          data
+        } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].post(BASE_URL, {
+          name
+        });
+        this.tokens.push(data.deviceToken);
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('App token created');
+        return data;
+      } catch (error) {
+        return null;
+      }
+    },
+    /**
+     * Delete a given app token
+     * @param token Token to delete
+     */
+    async deleteToken(token) {
+      _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Deleting app token', {
+        token
+      });
+      this.tokens = this.tokens.filter(_ref => {
+        let {
+          id
+        } = _ref;
+        return id !== token.id;
+      });
+      try {
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].delete(`${BASE_URL}/${token.id}`);
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('App token deleted');
+        return true;
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('Could not delete app token', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Could not delete the app token'));
+        // Restore
+        this.tokens.push(token);
+      }
+      return false;
+    },
+    /**
+     * Wipe a token and the connected device
+     * @param token Token to wipe
+     */
+    async wipeToken(token) {
+      _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Wiping app token', {
+        token
+      });
+      try {
+        await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_3__.confirmPassword)();
+        if (!(await confirm())) {
+          _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Wipe aborted by user');
+          return;
+        }
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].post(`${BASE_URL}/wipe/${token.id}`);
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('App token marked for wipe', {
+          token
+        });
+        token.type = TokenType.WIPING_TOKEN;
+        token.canRename = false; // wipe tokens can not be renamed
+        return true;
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('Could not wipe app token', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Error while wiping the device with the token'));
+      }
+      return false;
+    },
+    /**
+     * Rename an existing token
+     * @param token The token to rename
+     * @param newName The new name to set
+     */
+    async renameToken(token, newName) {
+      _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug(`renaming app token ${token.id} from ${token.name} to '${newName}'`);
+      const oldName = token.name;
+      token.name = newName;
+      try {
+        await this.updateToken(token);
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('App token name updated');
+        return true;
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('Could not update app token name', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Error while updating device token name'));
+        // Restore
+        token.name = oldName;
+      }
+      return false;
+    },
+    /**
+     * Set scope of the token
+     * @param token Token to set scope
+     * @param scope scope to set
+     * @param value value to set
+     */
+    async setTokenScope(token, scope, value) {
+      _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Updating app token scope', {
+        token,
+        scope,
+        value
+      });
+      const oldVal = token.scope[scope];
+      token.scope[scope] = value;
+      try {
+        await this.updateToken(token);
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('app token scope updated');
+        return true;
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('could not update app token scope', {
+          error
+        });
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('settings', 'Error while updating device token scope'));
+        // Restore
+        token.scope[scope] = oldVal;
+      }
+      return false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/@chenfengyuan/vue-qrcode/dist/vue-qrcode.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@chenfengyuan/vue-qrcode/dist/vue-qrcode.js ***!
+  \******************************************************************/
+/***/ (function(module) {
+
+/*!
+ * vue-qrcode v1.0.2
+ * https://fengyuanchen.github.io/vue-qrcode
+ *
+ * Copyright 2018-present Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2020-01-18T06:04:33.222Z
+ */
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	0;
+}(this, (function () { 'use strict';
+
+	function commonjsRequire () {
+		throw new Error('Dynamic requires are not currently supported by rollup-plugin-commonjs');
+	}
+
+	function createCommonjsModule(fn, module) {
+		return module = { exports: {} }, fn(module, module.exports), module.exports;
+	}
+
+	var qrcode = createCommonjsModule(function (module, exports) {
+	(function(f){{module.exports=f();}})(function(){return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof commonjsRequire&&commonjsRequire;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t);}return n[i].exports}for(var u="function"==typeof commonjsRequire&&commonjsRequire,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+	// can-promise has a crash in some versions of react native that dont have
+	// standard global objects
+	// https://github.com/soldair/node-qrcode/issues/157
+
+	module.exports = function () {
+	  return typeof Promise === 'function' && Promise.prototype && Promise.prototype.then
+	};
+
+	},{}],2:[function(require,module,exports){
+	/**
+	 * Alignment pattern are fixed reference pattern in defined positions
+	 * in a matrix symbology, which enables the decode software to re-synchronise
+	 * the coordinate mapping of the image modules in the event of moderate amounts
+	 * of distortion of the image.
+	 *
+	 * Alignment patterns are present only in QR Code symbols of version 2 or larger
+	 * and their number depends on the symbol version.
+	 */
+
+	var getSymbolSize = require('./utils').getSymbolSize;
+
+	/**
+	 * Calculate the row/column coordinates of the center module of each alignment pattern
+	 * for the specified QR Code version.
+	 *
+	 * The alignment patterns are positioned symmetrically on either side of the diagonal
+	 * running from the top left corner of the symbol to the bottom right corner.
+	 *
+	 * Since positions are simmetrical only half of the coordinates are returned.
+	 * Each item of the array will represent in turn the x and y coordinate.
+	 * @see {@link getPositions}
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Array}          Array of coordinate
+	 */
+	exports.getRowColCoords = function getRowColCoords (version) {
+	  if (version === 1) return []
+
+	  var posCount = Math.floor(version / 7) + 2;
+	  var size = getSymbolSize(version);
+	  var intervals = size === 145 ? 26 : Math.ceil((size - 13) / (2 * posCount - 2)) * 2;
+	  var positions = [size - 7]; // Last coord is always (size - 7)
+
+	  for (var i = 1; i < posCount - 1; i++) {
+	    positions[i] = positions[i - 1] - intervals;
+	  }
+
+	  positions.push(6); // First coord is always 6
+
+	  return positions.reverse()
+	};
+
+	/**
+	 * Returns an array containing the positions of each alignment pattern.
+	 * Each array's element represent the center point of the pattern as (x, y) coordinates
+	 *
+	 * Coordinates are calculated expanding the row/column coordinates returned by {@link getRowColCoords}
+	 * and filtering out the items that overlaps with finder pattern
+	 *
+	 * @example
+	 * For a Version 7 symbol {@link getRowColCoords} returns values 6, 22 and 38.
+	 * The alignment patterns, therefore, are to be centered on (row, column)
+	 * positions (6,22), (22,6), (22,22), (22,38), (38,22), (38,38).
+	 * Note that the coordinates (6,6), (6,38), (38,6) are occupied by finder patterns
+	 * and are not therefore used for alignment patterns.
+	 *
+	 * var pos = getPositions(7)
+	 * // [[6,22], [22,6], [22,22], [22,38], [38,22], [38,38]]
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Array}          Array of coordinates
+	 */
+	exports.getPositions = function getPositions (version) {
+	  var coords = [];
+	  var pos = exports.getRowColCoords(version);
+	  var posLength = pos.length;
+
+	  for (var i = 0; i < posLength; i++) {
+	    for (var j = 0; j < posLength; j++) {
+	      // Skip if position is occupied by finder patterns
+	      if ((i === 0 && j === 0) ||             // top-left
+	          (i === 0 && j === posLength - 1) || // bottom-left
+	          (i === posLength - 1 && j === 0)) { // top-right
+	        continue
+	      }
+
+	      coords.push([pos[i], pos[j]]);
+	    }
+	  }
+
+	  return coords
+	};
+
+	},{"./utils":21}],3:[function(require,module,exports){
+	var Mode = require('./mode');
+
+	/**
+	 * Array of characters available in alphanumeric mode
+	 *
+	 * As per QR Code specification, to each character
+	 * is assigned a value from 0 to 44 which in this case coincides
+	 * with the array index
+	 *
+	 * @type {Array}
+	 */
+	var ALPHA_NUM_CHARS = [
+	  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+	  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+	  'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+	  ' ', '$', '%', '*', '+', '-', '.', '/', ':'
+	];
+
+	function AlphanumericData (data) {
+	  this.mode = Mode.ALPHANUMERIC;
+	  this.data = data;
+	}
+
+	AlphanumericData.getBitsLength = function getBitsLength (length) {
+	  return 11 * Math.floor(length / 2) + 6 * (length % 2)
+	};
+
+	AlphanumericData.prototype.getLength = function getLength () {
+	  return this.data.length
+	};
+
+	AlphanumericData.prototype.getBitsLength = function getBitsLength () {
+	  return AlphanumericData.getBitsLength(this.data.length)
+	};
+
+	AlphanumericData.prototype.write = function write (bitBuffer) {
+	  var i;
+
+	  // Input data characters are divided into groups of two characters
+	  // and encoded as 11-bit binary codes.
+	  for (i = 0; i + 2 <= this.data.length; i += 2) {
+	    // The character value of the first character is multiplied by 45
+	    var value = ALPHA_NUM_CHARS.indexOf(this.data[i]) * 45;
+
+	    // The character value of the second digit is added to the product
+	    value += ALPHA_NUM_CHARS.indexOf(this.data[i + 1]);
+
+	    // The sum is then stored as 11-bit binary number
+	    bitBuffer.put(value, 11);
+	  }
+
+	  // If the number of input data characters is not a multiple of two,
+	  // the character value of the final character is encoded as a 6-bit binary number.
+	  if (this.data.length % 2) {
+	    bitBuffer.put(ALPHA_NUM_CHARS.indexOf(this.data[i]), 6);
+	  }
+	};
+
+	module.exports = AlphanumericData;
+
+	},{"./mode":14}],4:[function(require,module,exports){
+	function BitBuffer () {
+	  this.buffer = [];
+	  this.length = 0;
+	}
+
+	BitBuffer.prototype = {
+
+	  get: function (index) {
+	    var bufIndex = Math.floor(index / 8);
+	    return ((this.buffer[bufIndex] >>> (7 - index % 8)) & 1) === 1
+	  },
+
+	  put: function (num, length) {
+	    for (var i = 0; i < length; i++) {
+	      this.putBit(((num >>> (length - i - 1)) & 1) === 1);
+	    }
+	  },
+
+	  getLengthInBits: function () {
+	    return this.length
+	  },
+
+	  putBit: function (bit) {
+	    var bufIndex = Math.floor(this.length / 8);
+	    if (this.buffer.length <= bufIndex) {
+	      this.buffer.push(0);
+	    }
+
+	    if (bit) {
+	      this.buffer[bufIndex] |= (0x80 >>> (this.length % 8));
+	    }
+
+	    this.length++;
+	  }
+	};
+
+	module.exports = BitBuffer;
+
+	},{}],5:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+
+	/**
+	 * Helper class to handle QR Code symbol modules
+	 *
+	 * @param {Number} size Symbol size
+	 */
+	function BitMatrix (size) {
+	  if (!size || size < 1) {
+	    throw new Error('BitMatrix size must be defined and greater than 0')
+	  }
+
+	  this.size = size;
+	  this.data = BufferUtil.alloc(size * size);
+	  this.reservedBit = BufferUtil.alloc(size * size);
+	}
+
+	/**
+	 * Set bit value at specified location
+	 * If reserved flag is set, this bit will be ignored during masking process
+	 *
+	 * @param {Number}  row
+	 * @param {Number}  col
+	 * @param {Boolean} value
+	 * @param {Boolean} reserved
+	 */
+	BitMatrix.prototype.set = function (row, col, value, reserved) {
+	  var index = row * this.size + col;
+	  this.data[index] = value;
+	  if (reserved) this.reservedBit[index] = true;
+	};
+
+	/**
+	 * Returns bit value at specified location
+	 *
+	 * @param  {Number}  row
+	 * @param  {Number}  col
+	 * @return {Boolean}
+	 */
+	BitMatrix.prototype.get = function (row, col) {
+	  return this.data[row * this.size + col]
+	};
+
+	/**
+	 * Applies xor operator at specified location
+	 * (used during masking process)
+	 *
+	 * @param {Number}  row
+	 * @param {Number}  col
+	 * @param {Boolean} value
+	 */
+	BitMatrix.prototype.xor = function (row, col, value) {
+	  this.data[row * this.size + col] ^= value;
+	};
+
+	/**
+	 * Check if bit at specified location is reserved
+	 *
+	 * @param {Number}   row
+	 * @param {Number}   col
+	 * @return {Boolean}
+	 */
+	BitMatrix.prototype.isReserved = function (row, col) {
+	  return this.reservedBit[row * this.size + col]
+	};
+
+	module.exports = BitMatrix;
+
+	},{"../utils/buffer":28}],6:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+	var Mode = require('./mode');
+
+	function ByteData (data) {
+	  this.mode = Mode.BYTE;
+	  this.data = BufferUtil.from(data);
+	}
+
+	ByteData.getBitsLength = function getBitsLength (length) {
+	  return length * 8
+	};
+
+	ByteData.prototype.getLength = function getLength () {
+	  return this.data.length
+	};
+
+	ByteData.prototype.getBitsLength = function getBitsLength () {
+	  return ByteData.getBitsLength(this.data.length)
+	};
+
+	ByteData.prototype.write = function (bitBuffer) {
+	  for (var i = 0, l = this.data.length; i < l; i++) {
+	    bitBuffer.put(this.data[i], 8);
+	  }
+	};
+
+	module.exports = ByteData;
+
+	},{"../utils/buffer":28,"./mode":14}],7:[function(require,module,exports){
+	var ECLevel = require('./error-correction-level');
+
+	var EC_BLOCKS_TABLE = [
+	// L  M  Q  H
+	  1, 1, 1, 1,
+	  1, 1, 1, 1,
+	  1, 1, 2, 2,
+	  1, 2, 2, 4,
+	  1, 2, 4, 4,
+	  2, 4, 4, 4,
+	  2, 4, 6, 5,
+	  2, 4, 6, 6,
+	  2, 5, 8, 8,
+	  4, 5, 8, 8,
+	  4, 5, 8, 11,
+	  4, 8, 10, 11,
+	  4, 9, 12, 16,
+	  4, 9, 16, 16,
+	  6, 10, 12, 18,
+	  6, 10, 17, 16,
+	  6, 11, 16, 19,
+	  6, 13, 18, 21,
+	  7, 14, 21, 25,
+	  8, 16, 20, 25,
+	  8, 17, 23, 25,
+	  9, 17, 23, 34,
+	  9, 18, 25, 30,
+	  10, 20, 27, 32,
+	  12, 21, 29, 35,
+	  12, 23, 34, 37,
+	  12, 25, 34, 40,
+	  13, 26, 35, 42,
+	  14, 28, 38, 45,
+	  15, 29, 40, 48,
+	  16, 31, 43, 51,
+	  17, 33, 45, 54,
+	  18, 35, 48, 57,
+	  19, 37, 51, 60,
+	  19, 38, 53, 63,
+	  20, 40, 56, 66,
+	  21, 43, 59, 70,
+	  22, 45, 62, 74,
+	  24, 47, 65, 77,
+	  25, 49, 68, 81
+	];
+
+	var EC_CODEWORDS_TABLE = [
+	// L  M  Q  H
+	  7, 10, 13, 17,
+	  10, 16, 22, 28,
+	  15, 26, 36, 44,
+	  20, 36, 52, 64,
+	  26, 48, 72, 88,
+	  36, 64, 96, 112,
+	  40, 72, 108, 130,
+	  48, 88, 132, 156,
+	  60, 110, 160, 192,
+	  72, 130, 192, 224,
+	  80, 150, 224, 264,
+	  96, 176, 260, 308,
+	  104, 198, 288, 352,
+	  120, 216, 320, 384,
+	  132, 240, 360, 432,
+	  144, 280, 408, 480,
+	  168, 308, 448, 532,
+	  180, 338, 504, 588,
+	  196, 364, 546, 650,
+	  224, 416, 600, 700,
+	  224, 442, 644, 750,
+	  252, 476, 690, 816,
+	  270, 504, 750, 900,
+	  300, 560, 810, 960,
+	  312, 588, 870, 1050,
+	  336, 644, 952, 1110,
+	  360, 700, 1020, 1200,
+	  390, 728, 1050, 1260,
+	  420, 784, 1140, 1350,
+	  450, 812, 1200, 1440,
+	  480, 868, 1290, 1530,
+	  510, 924, 1350, 1620,
+	  540, 980, 1440, 1710,
+	  570, 1036, 1530, 1800,
+	  570, 1064, 1590, 1890,
+	  600, 1120, 1680, 1980,
+	  630, 1204, 1770, 2100,
+	  660, 1260, 1860, 2220,
+	  720, 1316, 1950, 2310,
+	  750, 1372, 2040, 2430
+	];
+
+	/**
+	 * Returns the number of error correction block that the QR Code should contain
+	 * for the specified version and error correction level.
+	 *
+	 * @param  {Number} version              QR Code version
+	 * @param  {Number} errorCorrectionLevel Error correction level
+	 * @return {Number}                      Number of error correction blocks
+	 */
+	exports.getBlocksCount = function getBlocksCount (version, errorCorrectionLevel) {
+	  switch (errorCorrectionLevel) {
+	    case ECLevel.L:
+	      return EC_BLOCKS_TABLE[(version - 1) * 4 + 0]
+	    case ECLevel.M:
+	      return EC_BLOCKS_TABLE[(version - 1) * 4 + 1]
+	    case ECLevel.Q:
+	      return EC_BLOCKS_TABLE[(version - 1) * 4 + 2]
+	    case ECLevel.H:
+	      return EC_BLOCKS_TABLE[(version - 1) * 4 + 3]
+	    default:
+	      return undefined
+	  }
+	};
+
+	/**
+	 * Returns the number of error correction codewords to use for the specified
+	 * version and error correction level.
+	 *
+	 * @param  {Number} version              QR Code version
+	 * @param  {Number} errorCorrectionLevel Error correction level
+	 * @return {Number}                      Number of error correction codewords
+	 */
+	exports.getTotalCodewordsCount = function getTotalCodewordsCount (version, errorCorrectionLevel) {
+	  switch (errorCorrectionLevel) {
+	    case ECLevel.L:
+	      return EC_CODEWORDS_TABLE[(version - 1) * 4 + 0]
+	    case ECLevel.M:
+	      return EC_CODEWORDS_TABLE[(version - 1) * 4 + 1]
+	    case ECLevel.Q:
+	      return EC_CODEWORDS_TABLE[(version - 1) * 4 + 2]
+	    case ECLevel.H:
+	      return EC_CODEWORDS_TABLE[(version - 1) * 4 + 3]
+	    default:
+	      return undefined
+	  }
+	};
+
+	},{"./error-correction-level":8}],8:[function(require,module,exports){
+	exports.L = { bit: 1 };
+	exports.M = { bit: 0 };
+	exports.Q = { bit: 3 };
+	exports.H = { bit: 2 };
+
+	function fromString (string) {
+	  if (typeof string !== 'string') {
+	    throw new Error('Param is not a string')
+	  }
+
+	  var lcStr = string.toLowerCase();
+
+	  switch (lcStr) {
+	    case 'l':
+	    case 'low':
+	      return exports.L
+
+	    case 'm':
+	    case 'medium':
+	      return exports.M
+
+	    case 'q':
+	    case 'quartile':
+	      return exports.Q
+
+	    case 'h':
+	    case 'high':
+	      return exports.H
+
+	    default:
+	      throw new Error('Unknown EC Level: ' + string)
+	  }
+	}
+
+	exports.isValid = function isValid (level) {
+	  return level && typeof level.bit !== 'undefined' &&
+	    level.bit >= 0 && level.bit < 4
+	};
+
+	exports.from = function from (value, defaultValue) {
+	  if (exports.isValid(value)) {
+	    return value
+	  }
+
+	  try {
+	    return fromString(value)
+	  } catch (e) {
+	    return defaultValue
+	  }
+	};
+
+	},{}],9:[function(require,module,exports){
+	var getSymbolSize = require('./utils').getSymbolSize;
+	var FINDER_PATTERN_SIZE = 7;
+
+	/**
+	 * Returns an array containing the positions of each finder pattern.
+	 * Each array's element represent the top-left point of the pattern as (x, y) coordinates
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Array}          Array of coordinates
+	 */
+	exports.getPositions = function getPositions (version) {
+	  var size = getSymbolSize(version);
+
+	  return [
+	    // top-left
+	    [0, 0],
+	    // top-right
+	    [size - FINDER_PATTERN_SIZE, 0],
+	    // bottom-left
+	    [0, size - FINDER_PATTERN_SIZE]
+	  ]
+	};
+
+	},{"./utils":21}],10:[function(require,module,exports){
+	var Utils = require('./utils');
+
+	var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+	var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+	var G15_BCH = Utils.getBCHDigit(G15);
+
+	/**
+	 * Returns format information with relative error correction bits
+	 *
+	 * The format information is a 15-bit sequence containing 5 data bits,
+	 * with 10 error correction bits calculated using the (15, 5) BCH code.
+	 *
+	 * @param  {Number} errorCorrectionLevel Error correction level
+	 * @param  {Number} mask                 Mask pattern
+	 * @return {Number}                      Encoded format information bits
+	 */
+	exports.getEncodedBits = function getEncodedBits (errorCorrectionLevel, mask) {
+	  var data = ((errorCorrectionLevel.bit << 3) | mask);
+	  var d = data << 10;
+
+	  while (Utils.getBCHDigit(d) - G15_BCH >= 0) {
+	    d ^= (G15 << (Utils.getBCHDigit(d) - G15_BCH));
+	  }
+
+	  // xor final data with mask pattern in order to ensure that
+	  // no combination of Error Correction Level and data mask pattern
+	  // will result in an all-zero data string
+	  return ((data << 10) | d) ^ G15_MASK
+	};
+
+	},{"./utils":21}],11:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+
+	var EXP_TABLE = BufferUtil.alloc(512);
+	var LOG_TABLE = BufferUtil.alloc(256)
+	/**
+	 * Precompute the log and anti-log tables for faster computation later
+	 *
+	 * For each possible value in the galois field 2^8, we will pre-compute
+	 * the logarithm and anti-logarithm (exponential) of this value
+	 *
+	 * ref {@link https://en.wikiversity.org/wiki/Reed%E2%80%93Solomon_codes_for_coders#Introduction_to_mathematical_fields}
+	 */
+	;(function initTables () {
+	  var x = 1;
+	  for (var i = 0; i < 255; i++) {
+	    EXP_TABLE[i] = x;
+	    LOG_TABLE[x] = i;
+
+	    x <<= 1; // multiply by 2
+
+	    // The QR code specification says to use byte-wise modulo 100011101 arithmetic.
+	    // This means that when a number is 256 or larger, it should be XORed with 0x11D.
+	    if (x & 0x100) { // similar to x >= 256, but a lot faster (because 0x100 == 256)
+	      x ^= 0x11D;
+	    }
+	  }
+
+	  // Optimization: double the size of the anti-log table so that we don't need to mod 255 to
+	  // stay inside the bounds (because we will mainly use this table for the multiplication of
+	  // two GF numbers, no more).
+	  // @see {@link mul}
+	  for (i = 255; i < 512; i++) {
+	    EXP_TABLE[i] = EXP_TABLE[i - 255];
+	  }
+	}());
+
+	/**
+	 * Returns log value of n inside Galois Field
+	 *
+	 * @param  {Number} n
+	 * @return {Number}
+	 */
+	exports.log = function log (n) {
+	  if (n < 1) throw new Error('log(' + n + ')')
+	  return LOG_TABLE[n]
+	};
+
+	/**
+	 * Returns anti-log value of n inside Galois Field
+	 *
+	 * @param  {Number} n
+	 * @return {Number}
+	 */
+	exports.exp = function exp (n) {
+	  return EXP_TABLE[n]
+	};
+
+	/**
+	 * Multiplies two number inside Galois Field
+	 *
+	 * @param  {Number} x
+	 * @param  {Number} y
+	 * @return {Number}
+	 */
+	exports.mul = function mul (x, y) {
+	  if (x === 0 || y === 0) return 0
+
+	  // should be EXP_TABLE[(LOG_TABLE[x] + LOG_TABLE[y]) % 255] if EXP_TABLE wasn't oversized
+	  // @see {@link initTables}
+	  return EXP_TABLE[LOG_TABLE[x] + LOG_TABLE[y]]
+	};
+
+	},{"../utils/buffer":28}],12:[function(require,module,exports){
+	var Mode = require('./mode');
+	var Utils = require('./utils');
+
+	function KanjiData (data) {
+	  this.mode = Mode.KANJI;
+	  this.data = data;
+	}
+
+	KanjiData.getBitsLength = function getBitsLength (length) {
+	  return length * 13
+	};
+
+	KanjiData.prototype.getLength = function getLength () {
+	  return this.data.length
+	};
+
+	KanjiData.prototype.getBitsLength = function getBitsLength () {
+	  return KanjiData.getBitsLength(this.data.length)
+	};
+
+	KanjiData.prototype.write = function (bitBuffer) {
+	  var i;
+
+	  // In the Shift JIS system, Kanji characters are represented by a two byte combination.
+	  // These byte values are shifted from the JIS X 0208 values.
+	  // JIS X 0208 gives details of the shift coded representation.
+	  for (i = 0; i < this.data.length; i++) {
+	    var value = Utils.toSJIS(this.data[i]);
+
+	    // For characters with Shift JIS values from 0x8140 to 0x9FFC:
+	    if (value >= 0x8140 && value <= 0x9FFC) {
+	      // Subtract 0x8140 from Shift JIS value
+	      value -= 0x8140;
+
+	    // For characters with Shift JIS values from 0xE040 to 0xEBBF
+	    } else if (value >= 0xE040 && value <= 0xEBBF) {
+	      // Subtract 0xC140 from Shift JIS value
+	      value -= 0xC140;
+	    } else {
+	      throw new Error(
+	        'Invalid SJIS character: ' + this.data[i] + '\n' +
+	        'Make sure your charset is UTF-8')
+	    }
+
+	    // Multiply most significant byte of result by 0xC0
+	    // and add least significant byte to product
+	    value = (((value >>> 8) & 0xff) * 0xC0) + (value & 0xff);
+
+	    // Convert result to a 13-bit binary string
+	    bitBuffer.put(value, 13);
+	  }
+	};
+
+	module.exports = KanjiData;
+
+	},{"./mode":14,"./utils":21}],13:[function(require,module,exports){
+	/**
+	 * Data mask pattern reference
+	 * @type {Object}
+	 */
+	exports.Patterns = {
+	  PATTERN000: 0,
+	  PATTERN001: 1,
+	  PATTERN010: 2,
+	  PATTERN011: 3,
+	  PATTERN100: 4,
+	  PATTERN101: 5,
+	  PATTERN110: 6,
+	  PATTERN111: 7
+	};
+
+	/**
+	 * Weighted penalty scores for the undesirable features
+	 * @type {Object}
+	 */
+	var PenaltyScores = {
+	  N1: 3,
+	  N2: 3,
+	  N3: 40,
+	  N4: 10
+	};
+
+	/**
+	 * Check if mask pattern value is valid
+	 *
+	 * @param  {Number}  mask    Mask pattern
+	 * @return {Boolean}         true if valid, false otherwise
+	 */
+	exports.isValid = function isValid (mask) {
+	  return mask != null && mask !== '' && !isNaN(mask) && mask >= 0 && mask <= 7
+	};
+
+	/**
+	 * Returns mask pattern from a value.
+	 * If value is not valid, returns undefined
+	 *
+	 * @param  {Number|String} value        Mask pattern value
+	 * @return {Number}                     Valid mask pattern or undefined
+	 */
+	exports.from = function from (value) {
+	  return exports.isValid(value) ? parseInt(value, 10) : undefined
+	};
+
+	/**
+	* Find adjacent modules in row/column with the same color
+	* and assign a penalty value.
+	*
+	* Points: N1 + i
+	* i is the amount by which the number of adjacent modules of the same color exceeds 5
+	*/
+	exports.getPenaltyN1 = function getPenaltyN1 (data) {
+	  var size = data.size;
+	  var points = 0;
+	  var sameCountCol = 0;
+	  var sameCountRow = 0;
+	  var lastCol = null;
+	  var lastRow = null;
+
+	  for (var row = 0; row < size; row++) {
+	    sameCountCol = sameCountRow = 0;
+	    lastCol = lastRow = null;
+
+	    for (var col = 0; col < size; col++) {
+	      var module = data.get(row, col);
+	      if (module === lastCol) {
+	        sameCountCol++;
+	      } else {
+	        if (sameCountCol >= 5) points += PenaltyScores.N1 + (sameCountCol - 5);
+	        lastCol = module;
+	        sameCountCol = 1;
+	      }
+
+	      module = data.get(col, row);
+	      if (module === lastRow) {
+	        sameCountRow++;
+	      } else {
+	        if (sameCountRow >= 5) points += PenaltyScores.N1 + (sameCountRow - 5);
+	        lastRow = module;
+	        sameCountRow = 1;
+	      }
+	    }
+
+	    if (sameCountCol >= 5) points += PenaltyScores.N1 + (sameCountCol - 5);
+	    if (sameCountRow >= 5) points += PenaltyScores.N1 + (sameCountRow - 5);
+	  }
+
+	  return points
+	};
+
+	/**
+	 * Find 2x2 blocks with the same color and assign a penalty value
+	 *
+	 * Points: N2 * (m - 1) * (n - 1)
+	 */
+	exports.getPenaltyN2 = function getPenaltyN2 (data) {
+	  var size = data.size;
+	  var points = 0;
+
+	  for (var row = 0; row < size - 1; row++) {
+	    for (var col = 0; col < size - 1; col++) {
+	      var last = data.get(row, col) +
+	        data.get(row, col + 1) +
+	        data.get(row + 1, col) +
+	        data.get(row + 1, col + 1);
+
+	      if (last === 4 || last === 0) points++;
+	    }
+	  }
+
+	  return points * PenaltyScores.N2
+	};
+
+	/**
+	 * Find 1:1:3:1:1 ratio (dark:light:dark:light:dark) pattern in row/column,
+	 * preceded or followed by light area 4 modules wide
+	 *
+	 * Points: N3 * number of pattern found
+	 */
+	exports.getPenaltyN3 = function getPenaltyN3 (data) {
+	  var size = data.size;
+	  var points = 0;
+	  var bitsCol = 0;
+	  var bitsRow = 0;
+
+	  for (var row = 0; row < size; row++) {
+	    bitsCol = bitsRow = 0;
+	    for (var col = 0; col < size; col++) {
+	      bitsCol = ((bitsCol << 1) & 0x7FF) | data.get(row, col);
+	      if (col >= 10 && (bitsCol === 0x5D0 || bitsCol === 0x05D)) points++;
+
+	      bitsRow = ((bitsRow << 1) & 0x7FF) | data.get(col, row);
+	      if (col >= 10 && (bitsRow === 0x5D0 || bitsRow === 0x05D)) points++;
+	    }
+	  }
+
+	  return points * PenaltyScores.N3
+	};
+
+	/**
+	 * Calculate proportion of dark modules in entire symbol
+	 *
+	 * Points: N4 * k
+	 *
+	 * k is the rating of the deviation of the proportion of dark modules
+	 * in the symbol from 50% in steps of 5%
+	 */
+	exports.getPenaltyN4 = function getPenaltyN4 (data) {
+	  var darkCount = 0;
+	  var modulesCount = data.data.length;
+
+	  for (var i = 0; i < modulesCount; i++) darkCount += data.data[i];
+
+	  var k = Math.abs(Math.ceil((darkCount * 100 / modulesCount) / 5) - 10);
+
+	  return k * PenaltyScores.N4
+	};
+
+	/**
+	 * Return mask value at given position
+	 *
+	 * @param  {Number} maskPattern Pattern reference value
+	 * @param  {Number} i           Row
+	 * @param  {Number} j           Column
+	 * @return {Boolean}            Mask value
+	 */
+	function getMaskAt (maskPattern, i, j) {
+	  switch (maskPattern) {
+	    case exports.Patterns.PATTERN000: return (i + j) % 2 === 0
+	    case exports.Patterns.PATTERN001: return i % 2 === 0
+	    case exports.Patterns.PATTERN010: return j % 3 === 0
+	    case exports.Patterns.PATTERN011: return (i + j) % 3 === 0
+	    case exports.Patterns.PATTERN100: return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0
+	    case exports.Patterns.PATTERN101: return (i * j) % 2 + (i * j) % 3 === 0
+	    case exports.Patterns.PATTERN110: return ((i * j) % 2 + (i * j) % 3) % 2 === 0
+	    case exports.Patterns.PATTERN111: return ((i * j) % 3 + (i + j) % 2) % 2 === 0
+
+	    default: throw new Error('bad maskPattern:' + maskPattern)
+	  }
+	}
+
+	/**
+	 * Apply a mask pattern to a BitMatrix
+	 *
+	 * @param  {Number}    pattern Pattern reference number
+	 * @param  {BitMatrix} data    BitMatrix data
+	 */
+	exports.applyMask = function applyMask (pattern, data) {
+	  var size = data.size;
+
+	  for (var col = 0; col < size; col++) {
+	    for (var row = 0; row < size; row++) {
+	      if (data.isReserved(row, col)) continue
+	      data.xor(row, col, getMaskAt(pattern, row, col));
+	    }
+	  }
+	};
+
+	/**
+	 * Returns the best mask pattern for data
+	 *
+	 * @param  {BitMatrix} data
+	 * @return {Number} Mask pattern reference number
+	 */
+	exports.getBestMask = function getBestMask (data, setupFormatFunc) {
+	  var numPatterns = Object.keys(exports.Patterns).length;
+	  var bestPattern = 0;
+	  var lowerPenalty = Infinity;
+
+	  for (var p = 0; p < numPatterns; p++) {
+	    setupFormatFunc(p);
+	    exports.applyMask(p, data);
+
+	    // Calculate penalty
+	    var penalty =
+	      exports.getPenaltyN1(data) +
+	      exports.getPenaltyN2(data) +
+	      exports.getPenaltyN3(data) +
+	      exports.getPenaltyN4(data);
+
+	    // Undo previously applied mask
+	    exports.applyMask(p, data);
+
+	    if (penalty < lowerPenalty) {
+	      lowerPenalty = penalty;
+	      bestPattern = p;
+	    }
+	  }
+
+	  return bestPattern
+	};
+
+	},{}],14:[function(require,module,exports){
+	var VersionCheck = require('./version-check');
+	var Regex = require('./regex');
+
+	/**
+	 * Numeric mode encodes data from the decimal digit set (0 - 9)
+	 * (byte values 30HEX to 39HEX).
+	 * Normally, 3 data characters are represented by 10 bits.
+	 *
+	 * @type {Object}
+	 */
+	exports.NUMERIC = {
+	  id: 'Numeric',
+	  bit: 1 << 0,
+	  ccBits: [10, 12, 14]
+	};
+
+	/**
+	 * Alphanumeric mode encodes data from a set of 45 characters,
+	 * i.e. 10 numeric digits (0 - 9),
+	 *      26 alphabetic characters (A - Z),
+	 *   and 9 symbols (SP, $, %, *, +, -, ., /, :).
+	 * Normally, two input characters are represented by 11 bits.
+	 *
+	 * @type {Object}
+	 */
+	exports.ALPHANUMERIC = {
+	  id: 'Alphanumeric',
+	  bit: 1 << 1,
+	  ccBits: [9, 11, 13]
+	};
+
+	/**
+	 * In byte mode, data is encoded at 8 bits per character.
+	 *
+	 * @type {Object}
+	 */
+	exports.BYTE = {
+	  id: 'Byte',
+	  bit: 1 << 2,
+	  ccBits: [8, 16, 16]
+	};
+
+	/**
+	 * The Kanji mode efficiently encodes Kanji characters in accordance with
+	 * the Shift JIS system based on JIS X 0208.
+	 * The Shift JIS values are shifted from the JIS X 0208 values.
+	 * JIS X 0208 gives details of the shift coded representation.
+	 * Each two-byte character value is compacted to a 13-bit binary codeword.
+	 *
+	 * @type {Object}
+	 */
+	exports.KANJI = {
+	  id: 'Kanji',
+	  bit: 1 << 3,
+	  ccBits: [8, 10, 12]
+	};
+
+	/**
+	 * Mixed mode will contain a sequences of data in a combination of any of
+	 * the modes described above
+	 *
+	 * @type {Object}
+	 */
+	exports.MIXED = {
+	  bit: -1
+	};
+
+	/**
+	 * Returns the number of bits needed to store the data length
+	 * according to QR Code specifications.
+	 *
+	 * @param  {Mode}   mode    Data mode
+	 * @param  {Number} version QR Code version
+	 * @return {Number}         Number of bits
+	 */
+	exports.getCharCountIndicator = function getCharCountIndicator (mode, version) {
+	  if (!mode.ccBits) throw new Error('Invalid mode: ' + mode)
+
+	  if (!VersionCheck.isValid(version)) {
+	    throw new Error('Invalid version: ' + version)
+	  }
+
+	  if (version >= 1 && version < 10) return mode.ccBits[0]
+	  else if (version < 27) return mode.ccBits[1]
+	  return mode.ccBits[2]
+	};
+
+	/**
+	 * Returns the most efficient mode to store the specified data
+	 *
+	 * @param  {String} dataStr Input data string
+	 * @return {Mode}           Best mode
+	 */
+	exports.getBestModeForData = function getBestModeForData (dataStr) {
+	  if (Regex.testNumeric(dataStr)) return exports.NUMERIC
+	  else if (Regex.testAlphanumeric(dataStr)) return exports.ALPHANUMERIC
+	  else if (Regex.testKanji(dataStr)) return exports.KANJI
+	  else return exports.BYTE
+	};
+
+	/**
+	 * Return mode name as string
+	 *
+	 * @param {Mode} mode Mode object
+	 * @returns {String}  Mode name
+	 */
+	exports.toString = function toString (mode) {
+	  if (mode && mode.id) return mode.id
+	  throw new Error('Invalid mode')
+	};
+
+	/**
+	 * Check if input param is a valid mode object
+	 *
+	 * @param   {Mode}    mode Mode object
+	 * @returns {Boolean} True if valid mode, false otherwise
+	 */
+	exports.isValid = function isValid (mode) {
+	  return mode && mode.bit && mode.ccBits
+	};
+
+	/**
+	 * Get mode object from its name
+	 *
+	 * @param   {String} string Mode name
+	 * @returns {Mode}          Mode object
+	 */
+	function fromString (string) {
+	  if (typeof string !== 'string') {
+	    throw new Error('Param is not a string')
+	  }
+
+	  var lcStr = string.toLowerCase();
+
+	  switch (lcStr) {
+	    case 'numeric':
+	      return exports.NUMERIC
+	    case 'alphanumeric':
+	      return exports.ALPHANUMERIC
+	    case 'kanji':
+	      return exports.KANJI
+	    case 'byte':
+	      return exports.BYTE
+	    default:
+	      throw new Error('Unknown mode: ' + string)
+	  }
+	}
+
+	/**
+	 * Returns mode from a value.
+	 * If value is not a valid mode, returns defaultValue
+	 *
+	 * @param  {Mode|String} value        Encoding mode
+	 * @param  {Mode}        defaultValue Fallback value
+	 * @return {Mode}                     Encoding mode
+	 */
+	exports.from = function from (value, defaultValue) {
+	  if (exports.isValid(value)) {
+	    return value
+	  }
+
+	  try {
+	    return fromString(value)
+	  } catch (e) {
+	    return defaultValue
+	  }
+	};
+
+	},{"./regex":19,"./version-check":22}],15:[function(require,module,exports){
+	var Mode = require('./mode');
+
+	function NumericData (data) {
+	  this.mode = Mode.NUMERIC;
+	  this.data = data.toString();
+	}
+
+	NumericData.getBitsLength = function getBitsLength (length) {
+	  return 10 * Math.floor(length / 3) + ((length % 3) ? ((length % 3) * 3 + 1) : 0)
+	};
+
+	NumericData.prototype.getLength = function getLength () {
+	  return this.data.length
+	};
+
+	NumericData.prototype.getBitsLength = function getBitsLength () {
+	  return NumericData.getBitsLength(this.data.length)
+	};
+
+	NumericData.prototype.write = function write (bitBuffer) {
+	  var i, group, value;
+
+	  // The input data string is divided into groups of three digits,
+	  // and each group is converted to its 10-bit binary equivalent.
+	  for (i = 0; i + 3 <= this.data.length; i += 3) {
+	    group = this.data.substr(i, 3);
+	    value = parseInt(group, 10);
+
+	    bitBuffer.put(value, 10);
+	  }
+
+	  // If the number of input digits is not an exact multiple of three,
+	  // the final one or two digits are converted to 4 or 7 bits respectively.
+	  var remainingNum = this.data.length - i;
+	  if (remainingNum > 0) {
+	    group = this.data.substr(i);
+	    value = parseInt(group, 10);
+
+	    bitBuffer.put(value, remainingNum * 3 + 1);
+	  }
+	};
+
+	module.exports = NumericData;
+
+	},{"./mode":14}],16:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+	var GF = require('./galois-field');
+
+	/**
+	 * Multiplies two polynomials inside Galois Field
+	 *
+	 * @param  {Buffer} p1 Polynomial
+	 * @param  {Buffer} p2 Polynomial
+	 * @return {Buffer}    Product of p1 and p2
+	 */
+	exports.mul = function mul (p1, p2) {
+	  var coeff = BufferUtil.alloc(p1.length + p2.length - 1);
+
+	  for (var i = 0; i < p1.length; i++) {
+	    for (var j = 0; j < p2.length; j++) {
+	      coeff[i + j] ^= GF.mul(p1[i], p2[j]);
+	    }
+	  }
+
+	  return coeff
+	};
+
+	/**
+	 * Calculate the remainder of polynomials division
+	 *
+	 * @param  {Buffer} divident Polynomial
+	 * @param  {Buffer} divisor  Polynomial
+	 * @return {Buffer}          Remainder
+	 */
+	exports.mod = function mod (divident, divisor) {
+	  var result = BufferUtil.from(divident);
+
+	  while ((result.length - divisor.length) >= 0) {
+	    var coeff = result[0];
+
+	    for (var i = 0; i < divisor.length; i++) {
+	      result[i] ^= GF.mul(divisor[i], coeff);
+	    }
+
+	    // remove all zeros from buffer head
+	    var offset = 0;
+	    while (offset < result.length && result[offset] === 0) offset++;
+	    result = result.slice(offset);
+	  }
+
+	  return result
+	};
+
+	/**
+	 * Generate an irreducible generator polynomial of specified degree
+	 * (used by Reed-Solomon encoder)
+	 *
+	 * @param  {Number} degree Degree of the generator polynomial
+	 * @return {Buffer}        Buffer containing polynomial coefficients
+	 */
+	exports.generateECPolynomial = function generateECPolynomial (degree) {
+	  var poly = BufferUtil.from([1]);
+	  for (var i = 0; i < degree; i++) {
+	    poly = exports.mul(poly, [1, GF.exp(i)]);
+	  }
+
+	  return poly
+	};
+
+	},{"../utils/buffer":28,"./galois-field":11}],17:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+	var Utils = require('./utils');
+	var ECLevel = require('./error-correction-level');
+	var BitBuffer = require('./bit-buffer');
+	var BitMatrix = require('./bit-matrix');
+	var AlignmentPattern = require('./alignment-pattern');
+	var FinderPattern = require('./finder-pattern');
+	var MaskPattern = require('./mask-pattern');
+	var ECCode = require('./error-correction-code');
+	var ReedSolomonEncoder = require('./reed-solomon-encoder');
+	var Version = require('./version');
+	var FormatInfo = require('./format-info');
+	var Mode = require('./mode');
+	var Segments = require('./segments');
+	var isArray = require('isarray');
+
+	/**
+	 * QRCode for JavaScript
+	 *
+	 * modified by Ryan Day for nodejs support
+	 * Copyright (c) 2011 Ryan Day
+	 *
+	 * Licensed under the MIT license:
+	 *   http://www.opensource.org/licenses/mit-license.php
+	 *
+	//---------------------------------------------------------------------
+	// QRCode for JavaScript
+	//
+	// Copyright (c) 2009 Kazuhiko Arase
+	//
+	// URL: http://www.d-project.com/
+	//
+	// Licensed under the MIT license:
+	//   http://www.opensource.org/licenses/mit-license.php
+	//
+	// The word "QR Code" is registered trademark of
+	// DENSO WAVE INCORPORATED
+	//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+	//
+	//---------------------------------------------------------------------
+	*/
+
+	/**
+	 * Add finder patterns bits to matrix
+	 *
+	 * @param  {BitMatrix} matrix  Modules matrix
+	 * @param  {Number}    version QR Code version
+	 */
+	function setupFinderPattern (matrix, version) {
+	  var size = matrix.size;
+	  var pos = FinderPattern.getPositions(version);
+
+	  for (var i = 0; i < pos.length; i++) {
+	    var row = pos[i][0];
+	    var col = pos[i][1];
+
+	    for (var r = -1; r <= 7; r++) {
+	      if (row + r <= -1 || size <= row + r) continue
+
+	      for (var c = -1; c <= 7; c++) {
+	        if (col + c <= -1 || size <= col + c) continue
+
+	        if ((r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+	          (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+	          (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+	          matrix.set(row + r, col + c, true, true);
+	        } else {
+	          matrix.set(row + r, col + c, false, true);
+	        }
+	      }
+	    }
+	  }
+	}
+
+	/**
+	 * Add timing pattern bits to matrix
+	 *
+	 * Note: this function must be called before {@link setupAlignmentPattern}
+	 *
+	 * @param  {BitMatrix} matrix Modules matrix
+	 */
+	function setupTimingPattern (matrix) {
+	  var size = matrix.size;
+
+	  for (var r = 8; r < size - 8; r++) {
+	    var value = r % 2 === 0;
+	    matrix.set(r, 6, value, true);
+	    matrix.set(6, r, value, true);
+	  }
+	}
+
+	/**
+	 * Add alignment patterns bits to matrix
+	 *
+	 * Note: this function must be called after {@link setupTimingPattern}
+	 *
+	 * @param  {BitMatrix} matrix  Modules matrix
+	 * @param  {Number}    version QR Code version
+	 */
+	function setupAlignmentPattern (matrix, version) {
+	  var pos = AlignmentPattern.getPositions(version);
+
+	  for (var i = 0; i < pos.length; i++) {
+	    var row = pos[i][0];
+	    var col = pos[i][1];
+
+	    for (var r = -2; r <= 2; r++) {
+	      for (var c = -2; c <= 2; c++) {
+	        if (r === -2 || r === 2 || c === -2 || c === 2 ||
+	          (r === 0 && c === 0)) {
+	          matrix.set(row + r, col + c, true, true);
+	        } else {
+	          matrix.set(row + r, col + c, false, true);
+	        }
+	      }
+	    }
+	  }
+	}
+
+	/**
+	 * Add version info bits to matrix
+	 *
+	 * @param  {BitMatrix} matrix  Modules matrix
+	 * @param  {Number}    version QR Code version
+	 */
+	function setupVersionInfo (matrix, version) {
+	  var size = matrix.size;
+	  var bits = Version.getEncodedBits(version);
+	  var row, col, mod;
+
+	  for (var i = 0; i < 18; i++) {
+	    row = Math.floor(i / 3);
+	    col = i % 3 + size - 8 - 3;
+	    mod = ((bits >> i) & 1) === 1;
+
+	    matrix.set(row, col, mod, true);
+	    matrix.set(col, row, mod, true);
+	  }
+	}
+
+	/**
+	 * Add format info bits to matrix
+	 *
+	 * @param  {BitMatrix} matrix               Modules matrix
+	 * @param  {ErrorCorrectionLevel}    errorCorrectionLevel Error correction level
+	 * @param  {Number}    maskPattern          Mask pattern reference value
+	 */
+	function setupFormatInfo (matrix, errorCorrectionLevel, maskPattern) {
+	  var size = matrix.size;
+	  var bits = FormatInfo.getEncodedBits(errorCorrectionLevel, maskPattern);
+	  var i, mod;
+
+	  for (i = 0; i < 15; i++) {
+	    mod = ((bits >> i) & 1) === 1;
+
+	    // vertical
+	    if (i < 6) {
+	      matrix.set(i, 8, mod, true);
+	    } else if (i < 8) {
+	      matrix.set(i + 1, 8, mod, true);
+	    } else {
+	      matrix.set(size - 15 + i, 8, mod, true);
+	    }
+
+	    // horizontal
+	    if (i < 8) {
+	      matrix.set(8, size - i - 1, mod, true);
+	    } else if (i < 9) {
+	      matrix.set(8, 15 - i - 1 + 1, mod, true);
+	    } else {
+	      matrix.set(8, 15 - i - 1, mod, true);
+	    }
+	  }
+
+	  // fixed module
+	  matrix.set(size - 8, 8, 1, true);
+	}
+
+	/**
+	 * Add encoded data bits to matrix
+	 *
+	 * @param  {BitMatrix} matrix Modules matrix
+	 * @param  {Buffer}    data   Data codewords
+	 */
+	function setupData (matrix, data) {
+	  var size = matrix.size;
+	  var inc = -1;
+	  var row = size - 1;
+	  var bitIndex = 7;
+	  var byteIndex = 0;
+
+	  for (var col = size - 1; col > 0; col -= 2) {
+	    if (col === 6) col--;
+
+	    while (true) {
+	      for (var c = 0; c < 2; c++) {
+	        if (!matrix.isReserved(row, col - c)) {
+	          var dark = false;
+
+	          if (byteIndex < data.length) {
+	            dark = (((data[byteIndex] >>> bitIndex) & 1) === 1);
+	          }
+
+	          matrix.set(row, col - c, dark);
+	          bitIndex--;
+
+	          if (bitIndex === -1) {
+	            byteIndex++;
+	            bitIndex = 7;
+	          }
+	        }
+	      }
+
+	      row += inc;
+
+	      if (row < 0 || size <= row) {
+	        row -= inc;
+	        inc = -inc;
+	        break
+	      }
+	    }
+	  }
+	}
+
+	/**
+	 * Create encoded codewords from data input
+	 *
+	 * @param  {Number}   version              QR Code version
+	 * @param  {ErrorCorrectionLevel}   errorCorrectionLevel Error correction level
+	 * @param  {ByteData} data                 Data input
+	 * @return {Buffer}                        Buffer containing encoded codewords
+	 */
+	function createData (version, errorCorrectionLevel, segments) {
+	  // Prepare data buffer
+	  var buffer = new BitBuffer();
+
+	  segments.forEach(function (data) {
+	    // prefix data with mode indicator (4 bits)
+	    buffer.put(data.mode.bit, 4);
+
+	    // Prefix data with character count indicator.
+	    // The character count indicator is a string of bits that represents the
+	    // number of characters that are being encoded.
+	    // The character count indicator must be placed after the mode indicator
+	    // and must be a certain number of bits long, depending on the QR version
+	    // and data mode
+	    // @see {@link Mode.getCharCountIndicator}.
+	    buffer.put(data.getLength(), Mode.getCharCountIndicator(data.mode, version));
+
+	    // add binary data sequence to buffer
+	    data.write(buffer);
+	  });
+
+	  // Calculate required number of bits
+	  var totalCodewords = Utils.getSymbolTotalCodewords(version);
+	  var ecTotalCodewords = ECCode.getTotalCodewordsCount(version, errorCorrectionLevel);
+	  var dataTotalCodewordsBits = (totalCodewords - ecTotalCodewords) * 8;
+
+	  // Add a terminator.
+	  // If the bit string is shorter than the total number of required bits,
+	  // a terminator of up to four 0s must be added to the right side of the string.
+	  // If the bit string is more than four bits shorter than the required number of bits,
+	  // add four 0s to the end.
+	  if (buffer.getLengthInBits() + 4 <= dataTotalCodewordsBits) {
+	    buffer.put(0, 4);
+	  }
+
+	  // If the bit string is fewer than four bits shorter, add only the number of 0s that
+	  // are needed to reach the required number of bits.
+
+	  // After adding the terminator, if the number of bits in the string is not a multiple of 8,
+	  // pad the string on the right with 0s to make the string's length a multiple of 8.
+	  while (buffer.getLengthInBits() % 8 !== 0) {
+	    buffer.putBit(0);
+	  }
+
+	  // Add pad bytes if the string is still shorter than the total number of required bits.
+	  // Extend the buffer to fill the data capacity of the symbol corresponding to
+	  // the Version and Error Correction Level by adding the Pad Codewords 11101100 (0xEC)
+	  // and 00010001 (0x11) alternately.
+	  var remainingByte = (dataTotalCodewordsBits - buffer.getLengthInBits()) / 8;
+	  for (var i = 0; i < remainingByte; i++) {
+	    buffer.put(i % 2 ? 0x11 : 0xEC, 8);
+	  }
+
+	  return createCodewords(buffer, version, errorCorrectionLevel)
+	}
+
+	/**
+	 * Encode input data with Reed-Solomon and return codewords with
+	 * relative error correction bits
+	 *
+	 * @param  {BitBuffer} bitBuffer            Data to encode
+	 * @param  {Number}    version              QR Code version
+	 * @param  {ErrorCorrectionLevel} errorCorrectionLevel Error correction level
+	 * @return {Buffer}                         Buffer containing encoded codewords
+	 */
+	function createCodewords (bitBuffer, version, errorCorrectionLevel) {
+	  // Total codewords for this QR code version (Data + Error correction)
+	  var totalCodewords = Utils.getSymbolTotalCodewords(version);
+
+	  // Total number of error correction codewords
+	  var ecTotalCodewords = ECCode.getTotalCodewordsCount(version, errorCorrectionLevel);
+
+	  // Total number of data codewords
+	  var dataTotalCodewords = totalCodewords - ecTotalCodewords;
+
+	  // Total number of blocks
+	  var ecTotalBlocks = ECCode.getBlocksCount(version, errorCorrectionLevel);
+
+	  // Calculate how many blocks each group should contain
+	  var blocksInGroup2 = totalCodewords % ecTotalBlocks;
+	  var blocksInGroup1 = ecTotalBlocks - blocksInGroup2;
+
+	  var totalCodewordsInGroup1 = Math.floor(totalCodewords / ecTotalBlocks);
+
+	  var dataCodewordsInGroup1 = Math.floor(dataTotalCodewords / ecTotalBlocks);
+	  var dataCodewordsInGroup2 = dataCodewordsInGroup1 + 1;
+
+	  // Number of EC codewords is the same for both groups
+	  var ecCount = totalCodewordsInGroup1 - dataCodewordsInGroup1;
+
+	  // Initialize a Reed-Solomon encoder with a generator polynomial of degree ecCount
+	  var rs = new ReedSolomonEncoder(ecCount);
+
+	  var offset = 0;
+	  var dcData = new Array(ecTotalBlocks);
+	  var ecData = new Array(ecTotalBlocks);
+	  var maxDataSize = 0;
+	  var buffer = BufferUtil.from(bitBuffer.buffer);
+
+	  // Divide the buffer into the required number of blocks
+	  for (var b = 0; b < ecTotalBlocks; b++) {
+	    var dataSize = b < blocksInGroup1 ? dataCodewordsInGroup1 : dataCodewordsInGroup2;
+
+	    // extract a block of data from buffer
+	    dcData[b] = buffer.slice(offset, offset + dataSize);
+
+	    // Calculate EC codewords for this data block
+	    ecData[b] = rs.encode(dcData[b]);
+
+	    offset += dataSize;
+	    maxDataSize = Math.max(maxDataSize, dataSize);
+	  }
+
+	  // Create final data
+	  // Interleave the data and error correction codewords from each block
+	  var data = BufferUtil.alloc(totalCodewords);
+	  var index = 0;
+	  var i, r;
+
+	  // Add data codewords
+	  for (i = 0; i < maxDataSize; i++) {
+	    for (r = 0; r < ecTotalBlocks; r++) {
+	      if (i < dcData[r].length) {
+	        data[index++] = dcData[r][i];
+	      }
+	    }
+	  }
+
+	  // Apped EC codewords
+	  for (i = 0; i < ecCount; i++) {
+	    for (r = 0; r < ecTotalBlocks; r++) {
+	      data[index++] = ecData[r][i];
+	    }
+	  }
+
+	  return data
+	}
+
+	/**
+	 * Build QR Code symbol
+	 *
+	 * @param  {String} data                 Input string
+	 * @param  {Number} version              QR Code version
+	 * @param  {ErrorCorretionLevel} errorCorrectionLevel Error level
+	 * @param  {MaskPattern} maskPattern     Mask pattern
+	 * @return {Object}                      Object containing symbol data
+	 */
+	function createSymbol (data, version, errorCorrectionLevel, maskPattern) {
+	  var segments;
+
+	  if (isArray(data)) {
+	    segments = Segments.fromArray(data);
+	  } else if (typeof data === 'string') {
+	    var estimatedVersion = version;
+
+	    if (!estimatedVersion) {
+	      var rawSegments = Segments.rawSplit(data);
+
+	      // Estimate best version that can contain raw splitted segments
+	      estimatedVersion = Version.getBestVersionForData(rawSegments,
+	        errorCorrectionLevel);
+	    }
+
+	    // Build optimized segments
+	    // If estimated version is undefined, try with the highest version
+	    segments = Segments.fromString(data, estimatedVersion || 40);
+	  } else {
+	    throw new Error('Invalid data')
+	  }
+
+	  // Get the min version that can contain data
+	  var bestVersion = Version.getBestVersionForData(segments,
+	      errorCorrectionLevel);
+
+	  // If no version is found, data cannot be stored
+	  if (!bestVersion) {
+	    throw new Error('The amount of data is too big to be stored in a QR Code')
+	  }
+
+	  // If not specified, use min version as default
+	  if (!version) {
+	    version = bestVersion;
+
+	  // Check if the specified version can contain the data
+	  } else if (version < bestVersion) {
+	    throw new Error('\n' +
+	      'The chosen QR Code version cannot contain this amount of data.\n' +
+	      'Minimum version required to store current data is: ' + bestVersion + '.\n'
+	    )
+	  }
+
+	  var dataBits = createData(version, errorCorrectionLevel, segments);
+
+	  // Allocate matrix buffer
+	  var moduleCount = Utils.getSymbolSize(version);
+	  var modules = new BitMatrix(moduleCount);
+
+	  // Add function modules
+	  setupFinderPattern(modules, version);
+	  setupTimingPattern(modules);
+	  setupAlignmentPattern(modules, version);
+
+	  // Add temporary dummy bits for format info just to set them as reserved.
+	  // This is needed to prevent these bits from being masked by {@link MaskPattern.applyMask}
+	  // since the masking operation must be performed only on the encoding region.
+	  // These blocks will be replaced with correct values later in code.
+	  setupFormatInfo(modules, errorCorrectionLevel, 0);
+
+	  if (version >= 7) {
+	    setupVersionInfo(modules, version);
+	  }
+
+	  // Add data codewords
+	  setupData(modules, dataBits);
+
+	  if (isNaN(maskPattern)) {
+	    // Find best mask pattern
+	    maskPattern = MaskPattern.getBestMask(modules,
+	      setupFormatInfo.bind(null, modules, errorCorrectionLevel));
+	  }
+
+	  // Apply mask pattern
+	  MaskPattern.applyMask(maskPattern, modules);
+
+	  // Replace format info bits with correct values
+	  setupFormatInfo(modules, errorCorrectionLevel, maskPattern);
+
+	  return {
+	    modules: modules,
+	    version: version,
+	    errorCorrectionLevel: errorCorrectionLevel,
+	    maskPattern: maskPattern,
+	    segments: segments
+	  }
+	}
+
+	/**
+	 * QR Code
+	 *
+	 * @param {String | Array} data                 Input data
+	 * @param {Object} options                      Optional configurations
+	 * @param {Number} options.version              QR Code version
+	 * @param {String} options.errorCorrectionLevel Error correction level
+	 * @param {Function} options.toSJISFunc         Helper func to convert utf8 to sjis
+	 */
+	exports.create = function create (data, options) {
+	  if (typeof data === 'undefined' || data === '') {
+	    throw new Error('No input text')
+	  }
+
+	  var errorCorrectionLevel = ECLevel.M;
+	  var version;
+	  var mask;
+
+	  if (typeof options !== 'undefined') {
+	    // Use higher error correction level as default
+	    errorCorrectionLevel = ECLevel.from(options.errorCorrectionLevel, ECLevel.M);
+	    version = Version.from(options.version);
+	    mask = MaskPattern.from(options.maskPattern);
+
+	    if (options.toSJISFunc) {
+	      Utils.setToSJISFunction(options.toSJISFunc);
+	    }
+	  }
+
+	  return createSymbol(data, version, errorCorrectionLevel, mask)
+	};
+
+	},{"../utils/buffer":28,"./alignment-pattern":2,"./bit-buffer":4,"./bit-matrix":5,"./error-correction-code":7,"./error-correction-level":8,"./finder-pattern":9,"./format-info":10,"./mask-pattern":13,"./mode":14,"./reed-solomon-encoder":18,"./segments":20,"./utils":21,"./version":23,"isarray":33}],18:[function(require,module,exports){
+	var BufferUtil = require('../utils/buffer');
+	var Polynomial = require('./polynomial');
+	var Buffer = require('buffer').Buffer;
+
+	function ReedSolomonEncoder (degree) {
+	  this.genPoly = undefined;
+	  this.degree = degree;
+
+	  if (this.degree) this.initialize(this.degree);
+	}
+
+	/**
+	 * Initialize the encoder.
+	 * The input param should correspond to the number of error correction codewords.
+	 *
+	 * @param  {Number} degree
+	 */
+	ReedSolomonEncoder.prototype.initialize = function initialize (degree) {
+	  // create an irreducible generator polynomial
+	  this.degree = degree;
+	  this.genPoly = Polynomial.generateECPolynomial(this.degree);
+	};
+
+	/**
+	 * Encodes a chunk of data
+	 *
+	 * @param  {Buffer} data Buffer containing input data
+	 * @return {Buffer}      Buffer containing encoded data
+	 */
+	ReedSolomonEncoder.prototype.encode = function encode (data) {
+	  if (!this.genPoly) {
+	    throw new Error('Encoder not initialized')
+	  }
+
+	  // Calculate EC for this data block
+	  // extends data size to data+genPoly size
+	  var pad = BufferUtil.alloc(this.degree);
+	  var paddedData = Buffer.concat([data, pad], data.length + this.degree);
+
+	  // The error correction codewords are the remainder after dividing the data codewords
+	  // by a generator polynomial
+	  var remainder = Polynomial.mod(paddedData, this.genPoly);
+
+	  // return EC data blocks (last n byte, where n is the degree of genPoly)
+	  // If coefficients number in remainder are less than genPoly degree,
+	  // pad with 0s to the left to reach the needed number of coefficients
+	  var start = this.degree - remainder.length;
+	  if (start > 0) {
+	    var buff = BufferUtil.alloc(this.degree);
+	    remainder.copy(buff, start);
+
+	    return buff
+	  }
+
+	  return remainder
+	};
+
+	module.exports = ReedSolomonEncoder;
+
+	},{"../utils/buffer":28,"./polynomial":16,"buffer":30}],19:[function(require,module,exports){
+	var numeric = '[0-9]+';
+	var alphanumeric = '[A-Z $%*+\\-./:]+';
+	var kanji = '(?:[u3000-u303F]|[u3040-u309F]|[u30A0-u30FF]|' +
+	  '[uFF00-uFFEF]|[u4E00-u9FAF]|[u2605-u2606]|[u2190-u2195]|u203B|' +
+	  '[u2010u2015u2018u2019u2025u2026u201Cu201Du2225u2260]|' +
+	  '[u0391-u0451]|[u00A7u00A8u00B1u00B4u00D7u00F7])+';
+	kanji = kanji.replace(/u/g, '\\u');
+
+	var byte = '(?:(?![A-Z0-9 $%*+\\-./:]|' + kanji + ')(?:.|[\r\n]))+';
+
+	exports.KANJI = new RegExp(kanji, 'g');
+	exports.BYTE_KANJI = new RegExp('[^A-Z0-9 $%*+\\-./:]+', 'g');
+	exports.BYTE = new RegExp(byte, 'g');
+	exports.NUMERIC = new RegExp(numeric, 'g');
+	exports.ALPHANUMERIC = new RegExp(alphanumeric, 'g');
+
+	var TEST_KANJI = new RegExp('^' + kanji + '$');
+	var TEST_NUMERIC = new RegExp('^' + numeric + '$');
+	var TEST_ALPHANUMERIC = new RegExp('^[A-Z0-9 $%*+\\-./:]+$');
+
+	exports.testKanji = function testKanji (str) {
+	  return TEST_KANJI.test(str)
+	};
+
+	exports.testNumeric = function testNumeric (str) {
+	  return TEST_NUMERIC.test(str)
+	};
+
+	exports.testAlphanumeric = function testAlphanumeric (str) {
+	  return TEST_ALPHANUMERIC.test(str)
+	};
+
+	},{}],20:[function(require,module,exports){
+	var Mode = require('./mode');
+	var NumericData = require('./numeric-data');
+	var AlphanumericData = require('./alphanumeric-data');
+	var ByteData = require('./byte-data');
+	var KanjiData = require('./kanji-data');
+	var Regex = require('./regex');
+	var Utils = require('./utils');
+	var dijkstra = require('dijkstrajs');
+
+	/**
+	 * Returns UTF8 byte length
+	 *
+	 * @param  {String} str Input string
+	 * @return {Number}     Number of byte
+	 */
+	function getStringByteLength (str) {
+	  return unescape(encodeURIComponent(str)).length
+	}
+
+	/**
+	 * Get a list of segments of the specified mode
+	 * from a string
+	 *
+	 * @param  {Mode}   mode Segment mode
+	 * @param  {String} str  String to process
+	 * @return {Array}       Array of object with segments data
+	 */
+	function getSegments (regex, mode, str) {
+	  var segments = [];
+	  var result;
+
+	  while ((result = regex.exec(str)) !== null) {
+	    segments.push({
+	      data: result[0],
+	      index: result.index,
+	      mode: mode,
+	      length: result[0].length
+	    });
+	  }
+
+	  return segments
+	}
+
+	/**
+	 * Extracts a series of segments with the appropriate
+	 * modes from a string
+	 *
+	 * @param  {String} dataStr Input string
+	 * @return {Array}          Array of object with segments data
+	 */
+	function getSegmentsFromString (dataStr) {
+	  var numSegs = getSegments(Regex.NUMERIC, Mode.NUMERIC, dataStr);
+	  var alphaNumSegs = getSegments(Regex.ALPHANUMERIC, Mode.ALPHANUMERIC, dataStr);
+	  var byteSegs;
+	  var kanjiSegs;
+
+	  if (Utils.isKanjiModeEnabled()) {
+	    byteSegs = getSegments(Regex.BYTE, Mode.BYTE, dataStr);
+	    kanjiSegs = getSegments(Regex.KANJI, Mode.KANJI, dataStr);
+	  } else {
+	    byteSegs = getSegments(Regex.BYTE_KANJI, Mode.BYTE, dataStr);
+	    kanjiSegs = [];
+	  }
+
+	  var segs = numSegs.concat(alphaNumSegs, byteSegs, kanjiSegs);
+
+	  return segs
+	    .sort(function (s1, s2) {
+	      return s1.index - s2.index
+	    })
+	    .map(function (obj) {
+	      return {
+	        data: obj.data,
+	        mode: obj.mode,
+	        length: obj.length
+	      }
+	    })
+	}
+
+	/**
+	 * Returns how many bits are needed to encode a string of
+	 * specified length with the specified mode
+	 *
+	 * @param  {Number} length String length
+	 * @param  {Mode} mode     Segment mode
+	 * @return {Number}        Bit length
+	 */
+	function getSegmentBitsLength (length, mode) {
+	  switch (mode) {
+	    case Mode.NUMERIC:
+	      return NumericData.getBitsLength(length)
+	    case Mode.ALPHANUMERIC:
+	      return AlphanumericData.getBitsLength(length)
+	    case Mode.KANJI:
+	      return KanjiData.getBitsLength(length)
+	    case Mode.BYTE:
+	      return ByteData.getBitsLength(length)
+	  }
+	}
+
+	/**
+	 * Merges adjacent segments which have the same mode
+	 *
+	 * @param  {Array} segs Array of object with segments data
+	 * @return {Array}      Array of object with segments data
+	 */
+	function mergeSegments (segs) {
+	  return segs.reduce(function (acc, curr) {
+	    var prevSeg = acc.length - 1 >= 0 ? acc[acc.length - 1] : null;
+	    if (prevSeg && prevSeg.mode === curr.mode) {
+	      acc[acc.length - 1].data += curr.data;
+	      return acc
+	    }
+
+	    acc.push(curr);
+	    return acc
+	  }, [])
+	}
+
+	/**
+	 * Generates a list of all possible nodes combination which
+	 * will be used to build a segments graph.
+	 *
+	 * Nodes are divided by groups. Each group will contain a list of all the modes
+	 * in which is possible to encode the given text.
+	 *
+	 * For example the text '12345' can be encoded as Numeric, Alphanumeric or Byte.
+	 * The group for '12345' will contain then 3 objects, one for each
+	 * possible encoding mode.
+	 *
+	 * Each node represents a possible segment.
+	 *
+	 * @param  {Array} segs Array of object with segments data
+	 * @return {Array}      Array of object with segments data
+	 */
+	function buildNodes (segs) {
+	  var nodes = [];
+	  for (var i = 0; i < segs.length; i++) {
+	    var seg = segs[i];
+
+	    switch (seg.mode) {
+	      case Mode.NUMERIC:
+	        nodes.push([seg,
+	          { data: seg.data, mode: Mode.ALPHANUMERIC, length: seg.length },
+	          { data: seg.data, mode: Mode.BYTE, length: seg.length }
+	        ]);
+	        break
+	      case Mode.ALPHANUMERIC:
+	        nodes.push([seg,
+	          { data: seg.data, mode: Mode.BYTE, length: seg.length }
+	        ]);
+	        break
+	      case Mode.KANJI:
+	        nodes.push([seg,
+	          { data: seg.data, mode: Mode.BYTE, length: getStringByteLength(seg.data) }
+	        ]);
+	        break
+	      case Mode.BYTE:
+	        nodes.push([
+	          { data: seg.data, mode: Mode.BYTE, length: getStringByteLength(seg.data) }
+	        ]);
+	    }
+	  }
+
+	  return nodes
+	}
+
+	/**
+	 * Builds a graph from a list of nodes.
+	 * All segments in each node group will be connected with all the segments of
+	 * the next group and so on.
+	 *
+	 * At each connection will be assigned a weight depending on the
+	 * segment's byte length.
+	 *
+	 * @param  {Array} nodes    Array of object with segments data
+	 * @param  {Number} version QR Code version
+	 * @return {Object}         Graph of all possible segments
+	 */
+	function buildGraph (nodes, version) {
+	  var table = {};
+	  var graph = {'start': {}};
+	  var prevNodeIds = ['start'];
+
+	  for (var i = 0; i < nodes.length; i++) {
+	    var nodeGroup = nodes[i];
+	    var currentNodeIds = [];
+
+	    for (var j = 0; j < nodeGroup.length; j++) {
+	      var node = nodeGroup[j];
+	      var key = '' + i + j;
+
+	      currentNodeIds.push(key);
+	      table[key] = { node: node, lastCount: 0 };
+	      graph[key] = {};
+
+	      for (var n = 0; n < prevNodeIds.length; n++) {
+	        var prevNodeId = prevNodeIds[n];
+
+	        if (table[prevNodeId] && table[prevNodeId].node.mode === node.mode) {
+	          graph[prevNodeId][key] =
+	            getSegmentBitsLength(table[prevNodeId].lastCount + node.length, node.mode) -
+	            getSegmentBitsLength(table[prevNodeId].lastCount, node.mode);
+
+	          table[prevNodeId].lastCount += node.length;
+	        } else {
+	          if (table[prevNodeId]) table[prevNodeId].lastCount = node.length;
+
+	          graph[prevNodeId][key] = getSegmentBitsLength(node.length, node.mode) +
+	            4 + Mode.getCharCountIndicator(node.mode, version); // switch cost
+	        }
+	      }
+	    }
+
+	    prevNodeIds = currentNodeIds;
+	  }
+
+	  for (n = 0; n < prevNodeIds.length; n++) {
+	    graph[prevNodeIds[n]]['end'] = 0;
+	  }
+
+	  return { map: graph, table: table }
+	}
+
+	/**
+	 * Builds a segment from a specified data and mode.
+	 * If a mode is not specified, the more suitable will be used.
+	 *
+	 * @param  {String} data             Input data
+	 * @param  {Mode | String} modesHint Data mode
+	 * @return {Segment}                 Segment
+	 */
+	function buildSingleSegment (data, modesHint) {
+	  var mode;
+	  var bestMode = Mode.getBestModeForData(data);
+
+	  mode = Mode.from(modesHint, bestMode);
+
+	  // Make sure data can be encoded
+	  if (mode !== Mode.BYTE && mode.bit < bestMode.bit) {
+	    throw new Error('"' + data + '"' +
+	      ' cannot be encoded with mode ' + Mode.toString(mode) +
+	      '.\n Suggested mode is: ' + Mode.toString(bestMode))
+	  }
+
+	  // Use Mode.BYTE if Kanji support is disabled
+	  if (mode === Mode.KANJI && !Utils.isKanjiModeEnabled()) {
+	    mode = Mode.BYTE;
+	  }
+
+	  switch (mode) {
+	    case Mode.NUMERIC:
+	      return new NumericData(data)
+
+	    case Mode.ALPHANUMERIC:
+	      return new AlphanumericData(data)
+
+	    case Mode.KANJI:
+	      return new KanjiData(data)
+
+	    case Mode.BYTE:
+	      return new ByteData(data)
+	  }
+	}
+
+	/**
+	 * Builds a list of segments from an array.
+	 * Array can contain Strings or Objects with segment's info.
+	 *
+	 * For each item which is a string, will be generated a segment with the given
+	 * string and the more appropriate encoding mode.
+	 *
+	 * For each item which is an object, will be generated a segment with the given
+	 * data and mode.
+	 * Objects must contain at least the property "data".
+	 * If property "mode" is not present, the more suitable mode will be used.
+	 *
+	 * @param  {Array} array Array of objects with segments data
+	 * @return {Array}       Array of Segments
+	 */
+	exports.fromArray = function fromArray (array) {
+	  return array.reduce(function (acc, seg) {
+	    if (typeof seg === 'string') {
+	      acc.push(buildSingleSegment(seg, null));
+	    } else if (seg.data) {
+	      acc.push(buildSingleSegment(seg.data, seg.mode));
+	    }
+
+	    return acc
+	  }, [])
+	};
+
+	/**
+	 * Builds an optimized sequence of segments from a string,
+	 * which will produce the shortest possible bitstream.
+	 *
+	 * @param  {String} data    Input string
+	 * @param  {Number} version QR Code version
+	 * @return {Array}          Array of segments
+	 */
+	exports.fromString = function fromString (data, version) {
+	  var segs = getSegmentsFromString(data, Utils.isKanjiModeEnabled());
+
+	  var nodes = buildNodes(segs);
+	  var graph = buildGraph(nodes, version);
+	  var path = dijkstra.find_path(graph.map, 'start', 'end');
+
+	  var optimizedSegs = [];
+	  for (var i = 1; i < path.length - 1; i++) {
+	    optimizedSegs.push(graph.table[path[i]].node);
+	  }
+
+	  return exports.fromArray(mergeSegments(optimizedSegs))
+	};
+
+	/**
+	 * Splits a string in various segments with the modes which
+	 * best represent their content.
+	 * The produced segments are far from being optimized.
+	 * The output of this function is only used to estimate a QR Code version
+	 * which may contain the data.
+	 *
+	 * @param  {string} data Input string
+	 * @return {Array}       Array of segments
+	 */
+	exports.rawSplit = function rawSplit (data) {
+	  return exports.fromArray(
+	    getSegmentsFromString(data, Utils.isKanjiModeEnabled())
+	  )
+	};
+
+	},{"./alphanumeric-data":3,"./byte-data":6,"./kanji-data":12,"./mode":14,"./numeric-data":15,"./regex":19,"./utils":21,"dijkstrajs":31}],21:[function(require,module,exports){
+	var toSJISFunction;
+	var CODEWORDS_COUNT = [
+	  0, // Not used
+	  26, 44, 70, 100, 134, 172, 196, 242, 292, 346,
+	  404, 466, 532, 581, 655, 733, 815, 901, 991, 1085,
+	  1156, 1258, 1364, 1474, 1588, 1706, 1828, 1921, 2051, 2185,
+	  2323, 2465, 2611, 2761, 2876, 3034, 3196, 3362, 3532, 3706
+	];
+
+	/**
+	 * Returns the QR Code size for the specified version
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Number}         size of QR code
+	 */
+	exports.getSymbolSize = function getSymbolSize (version) {
+	  if (!version) throw new Error('"version" cannot be null or undefined')
+	  if (version < 1 || version > 40) throw new Error('"version" should be in range from 1 to 40')
+	  return version * 4 + 17
+	};
+
+	/**
+	 * Returns the total number of codewords used to store data and EC information.
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Number}         Data length in bits
+	 */
+	exports.getSymbolTotalCodewords = function getSymbolTotalCodewords (version) {
+	  return CODEWORDS_COUNT[version]
+	};
+
+	/**
+	 * Encode data with Bose-Chaudhuri-Hocquenghem
+	 *
+	 * @param  {Number} data Value to encode
+	 * @return {Number}      Encoded value
+	 */
+	exports.getBCHDigit = function (data) {
+	  var digit = 0;
+
+	  while (data !== 0) {
+	    digit++;
+	    data >>>= 1;
+	  }
+
+	  return digit
+	};
+
+	exports.setToSJISFunction = function setToSJISFunction (f) {
+	  if (typeof f !== 'function') {
+	    throw new Error('"toSJISFunc" is not a valid function.')
+	  }
+
+	  toSJISFunction = f;
+	};
+
+	exports.isKanjiModeEnabled = function () {
+	  return typeof toSJISFunction !== 'undefined'
+	};
+
+	exports.toSJIS = function toSJIS (kanji) {
+	  return toSJISFunction(kanji)
+	};
+
+	},{}],22:[function(require,module,exports){
+	/**
+	 * Check if QR Code version is valid
+	 *
+	 * @param  {Number}  version QR Code version
+	 * @return {Boolean}         true if valid version, false otherwise
+	 */
+	exports.isValid = function isValid (version) {
+	  return !isNaN(version) && version >= 1 && version <= 40
+	};
+
+	},{}],23:[function(require,module,exports){
+	var Utils = require('./utils');
+	var ECCode = require('./error-correction-code');
+	var ECLevel = require('./error-correction-level');
+	var Mode = require('./mode');
+	var VersionCheck = require('./version-check');
+	var isArray = require('isarray');
+
+	// Generator polynomial used to encode version information
+	var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+	var G18_BCH = Utils.getBCHDigit(G18);
+
+	function getBestVersionForDataLength (mode, length, errorCorrectionLevel) {
+	  for (var currentVersion = 1; currentVersion <= 40; currentVersion++) {
+	    if (length <= exports.getCapacity(currentVersion, errorCorrectionLevel, mode)) {
+	      return currentVersion
+	    }
+	  }
+
+	  return undefined
+	}
+
+	function getReservedBitsCount (mode, version) {
+	  // Character count indicator + mode indicator bits
+	  return Mode.getCharCountIndicator(mode, version) + 4
+	}
+
+	function getTotalBitsFromDataArray (segments, version) {
+	  var totalBits = 0;
+
+	  segments.forEach(function (data) {
+	    var reservedBits = getReservedBitsCount(data.mode, version);
+	    totalBits += reservedBits + data.getBitsLength();
+	  });
+
+	  return totalBits
+	}
+
+	function getBestVersionForMixedData (segments, errorCorrectionLevel) {
+	  for (var currentVersion = 1; currentVersion <= 40; currentVersion++) {
+	    var length = getTotalBitsFromDataArray(segments, currentVersion);
+	    if (length <= exports.getCapacity(currentVersion, errorCorrectionLevel, Mode.MIXED)) {
+	      return currentVersion
+	    }
+	  }
+
+	  return undefined
+	}
+
+	/**
+	 * Returns version number from a value.
+	 * If value is not a valid version, returns defaultValue
+	 *
+	 * @param  {Number|String} value        QR Code version
+	 * @param  {Number}        defaultValue Fallback value
+	 * @return {Number}                     QR Code version number
+	 */
+	exports.from = function from (value, defaultValue) {
+	  if (VersionCheck.isValid(value)) {
+	    return parseInt(value, 10)
+	  }
+
+	  return defaultValue
+	};
+
+	/**
+	 * Returns how much data can be stored with the specified QR code version
+	 * and error correction level
+	 *
+	 * @param  {Number} version              QR Code version (1-40)
+	 * @param  {Number} errorCorrectionLevel Error correction level
+	 * @param  {Mode}   mode                 Data mode
+	 * @return {Number}                      Quantity of storable data
+	 */
+	exports.getCapacity = function getCapacity (version, errorCorrectionLevel, mode) {
+	  if (!VersionCheck.isValid(version)) {
+	    throw new Error('Invalid QR Code version')
+	  }
+
+	  // Use Byte mode as default
+	  if (typeof mode === 'undefined') mode = Mode.BYTE;
+
+	  // Total codewords for this QR code version (Data + Error correction)
+	  var totalCodewords = Utils.getSymbolTotalCodewords(version);
+
+	  // Total number of error correction codewords
+	  var ecTotalCodewords = ECCode.getTotalCodewordsCount(version, errorCorrectionLevel);
+
+	  // Total number of data codewords
+	  var dataTotalCodewordsBits = (totalCodewords - ecTotalCodewords) * 8;
+
+	  if (mode === Mode.MIXED) return dataTotalCodewordsBits
+
+	  var usableBits = dataTotalCodewordsBits - getReservedBitsCount(mode, version);
+
+	  // Return max number of storable codewords
+	  switch (mode) {
+	    case Mode.NUMERIC:
+	      return Math.floor((usableBits / 10) * 3)
+
+	    case Mode.ALPHANUMERIC:
+	      return Math.floor((usableBits / 11) * 2)
+
+	    case Mode.KANJI:
+	      return Math.floor(usableBits / 13)
+
+	    case Mode.BYTE:
+	    default:
+	      return Math.floor(usableBits / 8)
+	  }
+	};
+
+	/**
+	 * Returns the minimum version needed to contain the amount of data
+	 *
+	 * @param  {Segment} data                    Segment of data
+	 * @param  {Number} [errorCorrectionLevel=H] Error correction level
+	 * @param  {Mode} mode                       Data mode
+	 * @return {Number}                          QR Code version
+	 */
+	exports.getBestVersionForData = function getBestVersionForData (data, errorCorrectionLevel) {
+	  var seg;
+
+	  var ecl = ECLevel.from(errorCorrectionLevel, ECLevel.M);
+
+	  if (isArray(data)) {
+	    if (data.length > 1) {
+	      return getBestVersionForMixedData(data, ecl)
+	    }
+
+	    if (data.length === 0) {
+	      return 1
+	    }
+
+	    seg = data[0];
+	  } else {
+	    seg = data;
+	  }
+
+	  return getBestVersionForDataLength(seg.mode, seg.getLength(), ecl)
+	};
+
+	/**
+	 * Returns version information with relative error correction bits
+	 *
+	 * The version information is included in QR Code symbols of version 7 or larger.
+	 * It consists of an 18-bit sequence containing 6 data bits,
+	 * with 12 error correction bits calculated using the (18, 6) Golay code.
+	 *
+	 * @param  {Number} version QR Code version
+	 * @return {Number}         Encoded version info bits
+	 */
+	exports.getEncodedBits = function getEncodedBits (version) {
+	  if (!VersionCheck.isValid(version) || version < 7) {
+	    throw new Error('Invalid QR Code version')
+	  }
+
+	  var d = version << 12;
+
+	  while (Utils.getBCHDigit(d) - G18_BCH >= 0) {
+	    d ^= (G18 << (Utils.getBCHDigit(d) - G18_BCH));
+	  }
+
+	  return (version << 12) | d
+	};
+
+	},{"./error-correction-code":7,"./error-correction-level":8,"./mode":14,"./utils":21,"./version-check":22,"isarray":33}],24:[function(require,module,exports){
+
+	var canPromise = require('./can-promise');
+
+	var QRCode = require('./core/qrcode');
+	var CanvasRenderer = require('./renderer/canvas');
+	var SvgRenderer = require('./renderer/svg-tag.js');
+
+	function renderCanvas (renderFunc, canvas, text, opts, cb) {
+	  var args = [].slice.call(arguments, 1);
+	  var argsNum = args.length;
+	  var isLastArgCb = typeof args[argsNum - 1] === 'function';
+
+	  if (!isLastArgCb && !canPromise()) {
+	    throw new Error('Callback required as last argument')
+	  }
+
+	  if (isLastArgCb) {
+	    if (argsNum < 2) {
+	      throw new Error('Too few arguments provided')
+	    }
+
+	    if (argsNum === 2) {
+	      cb = text;
+	      text = canvas;
+	      canvas = opts = undefined;
+	    } else if (argsNum === 3) {
+	      if (canvas.getContext && typeof cb === 'undefined') {
+	        cb = opts;
+	        opts = undefined;
+	      } else {
+	        cb = opts;
+	        opts = text;
+	        text = canvas;
+	        canvas = undefined;
+	      }
+	    }
+	  } else {
+	    if (argsNum < 1) {
+	      throw new Error('Too few arguments provided')
+	    }
+
+	    if (argsNum === 1) {
+	      text = canvas;
+	      canvas = opts = undefined;
+	    } else if (argsNum === 2 && !canvas.getContext) {
+	      opts = text;
+	      text = canvas;
+	      canvas = undefined;
+	    }
+
+	    return new Promise(function (resolve, reject) {
+	      try {
+	        var data = QRCode.create(text, opts);
+	        resolve(renderFunc(data, canvas, opts));
+	      } catch (e) {
+	        reject(e);
+	      }
+	    })
+	  }
+
+	  try {
+	    var data = QRCode.create(text, opts);
+	    cb(null, renderFunc(data, canvas, opts));
+	  } catch (e) {
+	    cb(e);
+	  }
+	}
+
+	exports.create = QRCode.create;
+	exports.toCanvas = renderCanvas.bind(null, CanvasRenderer.render);
+	exports.toDataURL = renderCanvas.bind(null, CanvasRenderer.renderToDataURL);
+
+	// only svg for now.
+	exports.toString = renderCanvas.bind(null, function (data, _, opts) {
+	  return SvgRenderer.render(data, opts)
+	});
+
+	},{"./can-promise":1,"./core/qrcode":17,"./renderer/canvas":25,"./renderer/svg-tag.js":26}],25:[function(require,module,exports){
+	var Utils = require('./utils');
+
+	function clearCanvas (ctx, canvas, size) {
+	  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	  if (!canvas.style) canvas.style = {};
+	  canvas.height = size;
+	  canvas.width = size;
+	  canvas.style.height = size + 'px';
+	  canvas.style.width = size + 'px';
+	}
+
+	function getCanvasElement () {
+	  try {
+	    return document.createElement('canvas')
+	  } catch (e) {
+	    throw new Error('You need to specify a canvas element')
+	  }
+	}
+
+	exports.render = function render (qrData, canvas, options) {
+	  var opts = options;
+	  var canvasEl = canvas;
+
+	  if (typeof opts === 'undefined' && (!canvas || !canvas.getContext)) {
+	    opts = canvas;
+	    canvas = undefined;
+	  }
+
+	  if (!canvas) {
+	    canvasEl = getCanvasElement();
+	  }
+
+	  opts = Utils.getOptions(opts);
+	  var size = Utils.getImageWidth(qrData.modules.size, opts);
+
+	  var ctx = canvasEl.getContext('2d');
+	  var image = ctx.createImageData(size, size);
+	  Utils.qrToImageData(image.data, qrData, opts);
+
+	  clearCanvas(ctx, canvasEl, size);
+	  ctx.putImageData(image, 0, 0);
+
+	  return canvasEl
+	};
+
+	exports.renderToDataURL = function renderToDataURL (qrData, canvas, options) {
+	  var opts = options;
+
+	  if (typeof opts === 'undefined' && (!canvas || !canvas.getContext)) {
+	    opts = canvas;
+	    canvas = undefined;
+	  }
+
+	  if (!opts) opts = {};
+
+	  var canvasEl = exports.render(qrData, canvas, opts);
+
+	  var type = opts.type || 'image/png';
+	  var rendererOpts = opts.rendererOpts || {};
+
+	  return canvasEl.toDataURL(type, rendererOpts.quality)
+	};
+
+	},{"./utils":27}],26:[function(require,module,exports){
+	var Utils = require('./utils');
+
+	function getColorAttrib (color, attrib) {
+	  var alpha = color.a / 255;
+	  var str = attrib + '="' + color.hex + '"';
+
+	  return alpha < 1
+	    ? str + ' ' + attrib + '-opacity="' + alpha.toFixed(2).slice(1) + '"'
+	    : str
+	}
+
+	function svgCmd (cmd, x, y) {
+	  var str = cmd + x;
+	  if (typeof y !== 'undefined') str += ' ' + y;
+
+	  return str
+	}
+
+	function qrToPath (data, size, margin) {
+	  var path = '';
+	  var moveBy = 0;
+	  var newRow = false;
+	  var lineLength = 0;
+
+	  for (var i = 0; i < data.length; i++) {
+	    var col = Math.floor(i % size);
+	    var row = Math.floor(i / size);
+
+	    if (!col && !newRow) newRow = true;
+
+	    if (data[i]) {
+	      lineLength++;
+
+	      if (!(i > 0 && col > 0 && data[i - 1])) {
+	        path += newRow
+	          ? svgCmd('M', col + margin, 0.5 + row + margin)
+	          : svgCmd('m', moveBy, 0);
+
+	        moveBy = 0;
+	        newRow = false;
+	      }
+
+	      if (!(col + 1 < size && data[i + 1])) {
+	        path += svgCmd('h', lineLength);
+	        lineLength = 0;
+	      }
+	    } else {
+	      moveBy++;
+	    }
+	  }
+
+	  return path
+	}
+
+	exports.render = function render (qrData, options, cb) {
+	  var opts = Utils.getOptions(options);
+	  var size = qrData.modules.size;
+	  var data = qrData.modules.data;
+	  var qrcodesize = size + opts.margin * 2;
+
+	  var bg = !opts.color.light.a
+	    ? ''
+	    : '<path ' + getColorAttrib(opts.color.light, 'fill') +
+	      ' d="M0 0h' + qrcodesize + 'v' + qrcodesize + 'H0z"/>';
+
+	  var path =
+	    '<path ' + getColorAttrib(opts.color.dark, 'stroke') +
+	    ' d="' + qrToPath(data, size, opts.margin) + '"/>';
+
+	  var viewBox = 'viewBox="' + '0 0 ' + qrcodesize + ' ' + qrcodesize + '"';
+
+	  var width = !opts.width ? '' : 'width="' + opts.width + '" height="' + opts.width + '" ';
+
+	  var svgTag = '<svg xmlns="http://www.w3.org/2000/svg" ' + width + viewBox + ' shape-rendering="crispEdges">' + bg + path + '</svg>\n';
+
+	  if (typeof cb === 'function') {
+	    cb(null, svgTag);
+	  }
+
+	  return svgTag
+	};
+
+	},{"./utils":27}],27:[function(require,module,exports){
+	function hex2rgba (hex) {
+	  if (typeof hex === 'number') {
+	    hex = hex.toString();
+	  }
+
+	  if (typeof hex !== 'string') {
+	    throw new Error('Color should be defined as hex string')
+	  }
+
+	  var hexCode = hex.slice().replace('#', '').split('');
+	  if (hexCode.length < 3 || hexCode.length === 5 || hexCode.length > 8) {
+	    throw new Error('Invalid hex color: ' + hex)
+	  }
+
+	  // Convert from short to long form (fff -> ffffff)
+	  if (hexCode.length === 3 || hexCode.length === 4) {
+	    hexCode = Array.prototype.concat.apply([], hexCode.map(function (c) {
+	      return [c, c]
+	    }));
+	  }
+
+	  // Add default alpha value
+	  if (hexCode.length === 6) hexCode.push('F', 'F');
+
+	  var hexValue = parseInt(hexCode.join(''), 16);
+
+	  return {
+	    r: (hexValue >> 24) & 255,
+	    g: (hexValue >> 16) & 255,
+	    b: (hexValue >> 8) & 255,
+	    a: hexValue & 255,
+	    hex: '#' + hexCode.slice(0, 6).join('')
+	  }
+	}
+
+	exports.getOptions = function getOptions (options) {
+	  if (!options) options = {};
+	  if (!options.color) options.color = {};
+
+	  var margin = typeof options.margin === 'undefined' ||
+	    options.margin === null ||
+	    options.margin < 0 ? 4 : options.margin;
+
+	  var width = options.width && options.width >= 21 ? options.width : undefined;
+	  var scale = options.scale || 4;
+
+	  return {
+	    width: width,
+	    scale: width ? 4 : scale,
+	    margin: margin,
+	    color: {
+	      dark: hex2rgba(options.color.dark || '#000000ff'),
+	      light: hex2rgba(options.color.light || '#ffffffff')
+	    },
+	    type: options.type,
+	    rendererOpts: options.rendererOpts || {}
+	  }
+	};
+
+	exports.getScale = function getScale (qrSize, opts) {
+	  return opts.width && opts.width >= qrSize + opts.margin * 2
+	    ? opts.width / (qrSize + opts.margin * 2)
+	    : opts.scale
+	};
+
+	exports.getImageWidth = function getImageWidth (qrSize, opts) {
+	  var scale = exports.getScale(qrSize, opts);
+	  return Math.floor((qrSize + opts.margin * 2) * scale)
+	};
+
+	exports.qrToImageData = function qrToImageData (imgData, qr, opts) {
+	  var size = qr.modules.size;
+	  var data = qr.modules.data;
+	  var scale = exports.getScale(size, opts);
+	  var symbolSize = Math.floor((size + opts.margin * 2) * scale);
+	  var scaledMargin = opts.margin * scale;
+	  var palette = [opts.color.light, opts.color.dark];
+
+	  for (var i = 0; i < symbolSize; i++) {
+	    for (var j = 0; j < symbolSize; j++) {
+	      var posDst = (i * symbolSize + j) * 4;
+	      var pxColor = opts.color.light;
+
+	      if (i >= scaledMargin && j >= scaledMargin &&
+	        i < symbolSize - scaledMargin && j < symbolSize - scaledMargin) {
+	        var iSrc = Math.floor((i - scaledMargin) / scale);
+	        var jSrc = Math.floor((j - scaledMargin) / scale);
+	        pxColor = palette[data[iSrc * size + jSrc] ? 1 : 0];
+	      }
+
+	      imgData[posDst++] = pxColor.r;
+	      imgData[posDst++] = pxColor.g;
+	      imgData[posDst++] = pxColor.b;
+	      imgData[posDst] = pxColor.a;
+	    }
+	  }
+	};
+
+	},{}],28:[function(require,module,exports){
+
+	var isArray = require('isarray');
+
+	function typedArraySupport () {
+	  // Can typed array instances be augmented?
+	  try {
+	    var arr = new Uint8Array(1);
+	    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }};
+	    return arr.foo() === 42
+	  } catch (e) {
+	    return false
+	  }
+	}
+
+	Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport();
+
+	var K_MAX_LENGTH = Buffer.TYPED_ARRAY_SUPPORT
+	    ? 0x7fffffff
+	    : 0x3fffffff;
+
+	function Buffer (arg, offset, length) {
+	  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+	    return new Buffer(arg, offset, length)
+	  }
+
+	  if (typeof arg === 'number') {
+	    return allocUnsafe(this, arg)
+	  }
+
+	  return from(this, arg, offset, length)
+	}
+
+	if (Buffer.TYPED_ARRAY_SUPPORT) {
+	  Buffer.prototype.__proto__ = Uint8Array.prototype;
+	  Buffer.__proto__ = Uint8Array;
+
+	  // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+	  if (typeof Symbol !== 'undefined' && Symbol.species &&
+	      Buffer[Symbol.species] === Buffer) {
+	    Object.defineProperty(Buffer, Symbol.species, {
+	      value: null,
+	      configurable: true,
+	      enumerable: false,
+	      writable: false
+	    });
+	  }
+	}
+
+	function checked (length) {
+	  // Note: cannot use `length < K_MAX_LENGTH` here because that fails when
+	  // length is NaN (which is otherwise coerced to zero.)
+	  if (length >= K_MAX_LENGTH) {
+	    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+	                         'size: 0x' + K_MAX_LENGTH.toString(16) + ' bytes')
+	  }
+	  return length | 0
+	}
+
+	function isnan (val) {
+	  return val !== val // eslint-disable-line no-self-compare
+	}
+
+	function createBuffer (that, length) {
+	  var buf;
+	  if (Buffer.TYPED_ARRAY_SUPPORT) {
+	    buf = new Uint8Array(length);
+	    buf.__proto__ = Buffer.prototype;
+	  } else {
+	    // Fallback: Return an object instance of the Buffer class
+	    buf = that;
+	    if (buf === null) {
+	      buf = new Buffer(length);
+	    }
+	    buf.length = length;
+	  }
+
+	  return buf
+	}
+
+	function allocUnsafe (that, size) {
+	  var buf = createBuffer(that, size < 0 ? 0 : checked(size) | 0);
+
+	  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+	    for (var i = 0; i < size; ++i) {
+	      buf[i] = 0;
+	    }
+	  }
+
+	  return buf
+	}
+
+	function fromString (that, string) {
+	  var length = byteLength(string) | 0;
+	  var buf = createBuffer(that, length);
+
+	  var actual = buf.write(string);
+
+	  if (actual !== length) {
+	    // Writing a hex string, for example, that contains invalid characters will
+	    // cause everything after the first invalid character to be ignored. (e.g.
+	    // 'abxxcd' will be treated as 'ab')
+	    buf = buf.slice(0, actual);
+	  }
+
+	  return buf
+	}
+
+	function fromArrayLike (that, array) {
+	  var length = array.length < 0 ? 0 : checked(array.length) | 0;
+	  var buf = createBuffer(that, length);
+	  for (var i = 0; i < length; i += 1) {
+	    buf[i] = array[i] & 255;
+	  }
+	  return buf
+	}
+
+	function fromArrayBuffer (that, array, byteOffset, length) {
+	  if (byteOffset < 0 || array.byteLength < byteOffset) {
+	    throw new RangeError('\'offset\' is out of bounds')
+	  }
+
+	  if (array.byteLength < byteOffset + (length || 0)) {
+	    throw new RangeError('\'length\' is out of bounds')
+	  }
+
+	  var buf;
+	  if (byteOffset === undefined && length === undefined) {
+	    buf = new Uint8Array(array);
+	  } else if (length === undefined) {
+	    buf = new Uint8Array(array, byteOffset);
+	  } else {
+	    buf = new Uint8Array(array, byteOffset, length);
+	  }
+
+	  if (Buffer.TYPED_ARRAY_SUPPORT) {
+	    // Return an augmented `Uint8Array` instance, for best performance
+	    buf.__proto__ = Buffer.prototype;
+	  } else {
+	    // Fallback: Return an object instance of the Buffer class
+	    buf = fromArrayLike(that, buf);
+	  }
+
+	  return buf
+	}
+
+	function fromObject (that, obj) {
+	  if (Buffer.isBuffer(obj)) {
+	    var len = checked(obj.length) | 0;
+	    var buf = createBuffer(that, len);
+
+	    if (buf.length === 0) {
+	      return buf
+	    }
+
+	    obj.copy(buf, 0, 0, len);
+	    return buf
+	  }
+
+	  if (obj) {
+	    if ((typeof ArrayBuffer !== 'undefined' &&
+	        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+	      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+	        return createBuffer(that, 0)
+	      }
+	      return fromArrayLike(that, obj)
+	    }
+
+	    if (obj.type === 'Buffer' && Array.isArray(obj.data)) {
+	      return fromArrayLike(that, obj.data)
+	    }
+	  }
+
+	  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+	}
+
+	function utf8ToBytes (string, units) {
+	  units = units || Infinity;
+	  var codePoint;
+	  var length = string.length;
+	  var leadSurrogate = null;
+	  var bytes = [];
+
+	  for (var i = 0; i < length; ++i) {
+	    codePoint = string.charCodeAt(i);
+
+	    // is surrogate component
+	    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+	      // last char was a lead
+	      if (!leadSurrogate) {
+	        // no lead yet
+	        if (codePoint > 0xDBFF) {
+	          // unexpected trail
+	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	          continue
+	        } else if (i + 1 === length) {
+	          // unpaired lead
+	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	          continue
+	        }
+
+	        // valid lead
+	        leadSurrogate = codePoint;
+
+	        continue
+	      }
+
+	      // 2 leads in a row
+	      if (codePoint < 0xDC00) {
+	        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	        leadSurrogate = codePoint;
+	        continue
+	      }
+
+	      // valid surrogate pair
+	      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000;
+	    } else if (leadSurrogate) {
+	      // valid bmp char, but last char was a lead
+	      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	    }
+
+	    leadSurrogate = null;
+
+	    // encode utf8
+	    if (codePoint < 0x80) {
+	      if ((units -= 1) < 0) break
+	      bytes.push(codePoint);
+	    } else if (codePoint < 0x800) {
+	      if ((units -= 2) < 0) break
+	      bytes.push(
+	        codePoint >> 0x6 | 0xC0,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else if (codePoint < 0x10000) {
+	      if ((units -= 3) < 0) break
+	      bytes.push(
+	        codePoint >> 0xC | 0xE0,
+	        codePoint >> 0x6 & 0x3F | 0x80,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else if (codePoint < 0x110000) {
+	      if ((units -= 4) < 0) break
+	      bytes.push(
+	        codePoint >> 0x12 | 0xF0,
+	        codePoint >> 0xC & 0x3F | 0x80,
+	        codePoint >> 0x6 & 0x3F | 0x80,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else {
+	      throw new Error('Invalid code point')
+	    }
+	  }
+
+	  return bytes
+	}
+
+	function byteLength (string) {
+	  if (Buffer.isBuffer(string)) {
+	    return string.length
+	  }
+	  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+	      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+	    return string.byteLength
+	  }
+	  if (typeof string !== 'string') {
+	    string = '' + string;
+	  }
+
+	  var len = string.length;
+	  if (len === 0) return 0
+
+	  return utf8ToBytes(string).length
+	}
+
+	function blitBuffer (src, dst, offset, length) {
+	  for (var i = 0; i < length; ++i) {
+	    if ((i + offset >= dst.length) || (i >= src.length)) break
+	    dst[i + offset] = src[i];
+	  }
+	  return i
+	}
+
+	function utf8Write (buf, string, offset, length) {
+	  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+	}
+
+	function from (that, value, offset, length) {
+	  if (typeof value === 'number') {
+	    throw new TypeError('"value" argument must not be a number')
+	  }
+
+	  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+	    return fromArrayBuffer(that, value, offset, length)
+	  }
+
+	  if (typeof value === 'string') {
+	    return fromString(that, value)
+	  }
+
+	  return fromObject(that, value)
+	}
+
+	Buffer.prototype.write = function write (string, offset, length) {
+	  // Buffer#write(string)
+	  if (offset === undefined) {
+	    length = this.length;
+	    offset = 0;
+	  // Buffer#write(string, encoding)
+	  } else if (length === undefined && typeof offset === 'string') {
+	    length = this.length;
+	    offset = 0;
+	  // Buffer#write(string, offset[, length])
+	  } else if (isFinite(offset)) {
+	    offset = offset | 0;
+	    if (isFinite(length)) {
+	      length = length | 0;
+	    } else {
+	      length = undefined;
+	    }
+	  }
+
+	  var remaining = this.length - offset;
+	  if (length === undefined || length > remaining) length = remaining;
+
+	  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+	    throw new RangeError('Attempt to write outside buffer bounds')
+	  }
+
+	  return utf8Write(this, string, offset, length)
+	};
+
+	Buffer.prototype.slice = function slice (start, end) {
+	  var len = this.length;
+	  start = ~~start;
+	  end = end === undefined ? len : ~~end;
+
+	  if (start < 0) {
+	    start += len;
+	    if (start < 0) start = 0;
+	  } else if (start > len) {
+	    start = len;
+	  }
+
+	  if (end < 0) {
+	    end += len;
+	    if (end < 0) end = 0;
+	  } else if (end > len) {
+	    end = len;
+	  }
+
+	  if (end < start) end = start;
+
+	  var newBuf;
+	  if (Buffer.TYPED_ARRAY_SUPPORT) {
+	    newBuf = this.subarray(start, end);
+	    // Return an augmented `Uint8Array` instance
+	    newBuf.__proto__ = Buffer.prototype;
+	  } else {
+	    var sliceLen = end - start;
+	    newBuf = new Buffer(sliceLen, undefined);
+	    for (var i = 0; i < sliceLen; ++i) {
+	      newBuf[i] = this[i + start];
+	    }
+	  }
+
+	  return newBuf
+	};
+
+	Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+	  if (!start) start = 0;
+	  if (!end && end !== 0) end = this.length;
+	  if (targetStart >= target.length) targetStart = target.length;
+	  if (!targetStart) targetStart = 0;
+	  if (end > 0 && end < start) end = start;
+
+	  // Copy 0 bytes; we're done
+	  if (end === start) return 0
+	  if (target.length === 0 || this.length === 0) return 0
+
+	  // Fatal error conditions
+	  if (targetStart < 0) {
+	    throw new RangeError('targetStart out of bounds')
+	  }
+	  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+	  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+	  // Are we oob?
+	  if (end > this.length) end = this.length;
+	  if (target.length - targetStart < end - start) {
+	    end = target.length - targetStart + start;
+	  }
+
+	  var len = end - start;
+	  var i;
+
+	  if (this === target && start < targetStart && targetStart < end) {
+	    // descending copy from end
+	    for (i = len - 1; i >= 0; --i) {
+	      target[i + targetStart] = this[i + start];
+	    }
+	  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+	    // ascending copy from start
+	    for (i = 0; i < len; ++i) {
+	      target[i + targetStart] = this[i + start];
+	    }
+	  } else {
+	    Uint8Array.prototype.set.call(
+	      target,
+	      this.subarray(start, start + len),
+	      targetStart
+	    );
+	  }
+
+	  return len
+	};
+
+	Buffer.prototype.fill = function fill (val, start, end) {
+	  // Handle string cases:
+	  if (typeof val === 'string') {
+	    if (typeof start === 'string') {
+	      start = 0;
+	      end = this.length;
+	    } else if (typeof end === 'string') {
+	      end = this.length;
+	    }
+	    if (val.length === 1) {
+	      var code = val.charCodeAt(0);
+	      if (code < 256) {
+	        val = code;
+	      }
+	    }
+	  } else if (typeof val === 'number') {
+	    val = val & 255;
+	  }
+
+	  // Invalid ranges are not set to a default, so can range check early.
+	  if (start < 0 || this.length < start || this.length < end) {
+	    throw new RangeError('Out of range index')
+	  }
+
+	  if (end <= start) {
+	    return this
+	  }
+
+	  start = start >>> 0;
+	  end = end === undefined ? this.length : end >>> 0;
+
+	  if (!val) val = 0;
+
+	  var i;
+	  if (typeof val === 'number') {
+	    for (i = start; i < end; ++i) {
+	      this[i] = val;
+	    }
+	  } else {
+	    var bytes = Buffer.isBuffer(val)
+	      ? val
+	      : new Buffer(val);
+	    var len = bytes.length;
+	    for (i = 0; i < end - start; ++i) {
+	      this[i + start] = bytes[i % len];
+	    }
+	  }
+
+	  return this
+	};
+
+	Buffer.concat = function concat (list, length) {
+	  if (!isArray(list)) {
+	    throw new TypeError('"list" argument must be an Array of Buffers')
+	  }
+
+	  if (list.length === 0) {
+	    return createBuffer(null, 0)
+	  }
+
+	  var i;
+	  if (length === undefined) {
+	    length = 0;
+	    for (i = 0; i < list.length; ++i) {
+	      length += list[i].length;
+	    }
+	  }
+
+	  var buffer = allocUnsafe(null, length);
+	  var pos = 0;
+	  for (i = 0; i < list.length; ++i) {
+	    var buf = list[i];
+	    if (!Buffer.isBuffer(buf)) {
+	      throw new TypeError('"list" argument must be an Array of Buffers')
+	    }
+	    buf.copy(buffer, pos);
+	    pos += buf.length;
+	  }
+	  return buffer
+	};
+
+	Buffer.byteLength = byteLength;
+
+	Buffer.prototype._isBuffer = true;
+	Buffer.isBuffer = function isBuffer (b) {
+	  return !!(b != null && b._isBuffer)
+	};
+
+	module.exports.alloc = function (size) {
+	  var buffer = new Buffer(size);
+	  buffer.fill(0);
+	  return buffer
+	};
+
+	module.exports.from = function (data) {
+	  return new Buffer(data)
+	};
+
+	},{"isarray":33}],29:[function(require,module,exports){
+
+	exports.byteLength = byteLength;
+	exports.toByteArray = toByteArray;
+	exports.fromByteArray = fromByteArray;
+
+	var lookup = [];
+	var revLookup = [];
+	var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array;
+
+	var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+	for (var i = 0, len = code.length; i < len; ++i) {
+	  lookup[i] = code[i];
+	  revLookup[code.charCodeAt(i)] = i;
+	}
+
+	// Support decoding URL-safe base64 strings, as Node.js does.
+	// See: https://en.wikipedia.org/wiki/Base64#URL_applications
+	revLookup['-'.charCodeAt(0)] = 62;
+	revLookup['_'.charCodeAt(0)] = 63;
+
+	function getLens (b64) {
+	  var len = b64.length;
+
+	  if (len % 4 > 0) {
+	    throw new Error('Invalid string. Length must be a multiple of 4')
+	  }
+
+	  // Trim off extra bytes after placeholder bytes are found
+	  // See: https://github.com/beatgammit/base64-js/issues/42
+	  var validLen = b64.indexOf('=');
+	  if (validLen === -1) validLen = len;
+
+	  var placeHoldersLen = validLen === len
+	    ? 0
+	    : 4 - (validLen % 4);
+
+	  return [validLen, placeHoldersLen]
+	}
+
+	// base64 is 4/3 + up to two characters of the original data
+	function byteLength (b64) {
+	  var lens = getLens(b64);
+	  var validLen = lens[0];
+	  var placeHoldersLen = lens[1];
+	  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+	}
+
+	function _byteLength (b64, validLen, placeHoldersLen) {
+	  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+	}
+
+	function toByteArray (b64) {
+	  var tmp;
+	  var lens = getLens(b64);
+	  var validLen = lens[0];
+	  var placeHoldersLen = lens[1];
+
+	  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
+
+	  var curByte = 0;
+
+	  // if there are placeholders, only get up to the last complete 4 chars
+	  var len = placeHoldersLen > 0
+	    ? validLen - 4
+	    : validLen;
+
+	  var i;
+	  for (i = 0; i < len; i += 4) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 18) |
+	      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+	      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+	      revLookup[b64.charCodeAt(i + 3)];
+	    arr[curByte++] = (tmp >> 16) & 0xFF;
+	    arr[curByte++] = (tmp >> 8) & 0xFF;
+	    arr[curByte++] = tmp & 0xFF;
+	  }
+
+	  if (placeHoldersLen === 2) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 2) |
+	      (revLookup[b64.charCodeAt(i + 1)] >> 4);
+	    arr[curByte++] = tmp & 0xFF;
+	  }
+
+	  if (placeHoldersLen === 1) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 10) |
+	      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+	      (revLookup[b64.charCodeAt(i + 2)] >> 2);
+	    arr[curByte++] = (tmp >> 8) & 0xFF;
+	    arr[curByte++] = tmp & 0xFF;
+	  }
+
+	  return arr
+	}
+
+	function tripletToBase64 (num) {
+	  return lookup[num >> 18 & 0x3F] +
+	    lookup[num >> 12 & 0x3F] +
+	    lookup[num >> 6 & 0x3F] +
+	    lookup[num & 0x3F]
+	}
+
+	function encodeChunk (uint8, start, end) {
+	  var tmp;
+	  var output = [];
+	  for (var i = start; i < end; i += 3) {
+	    tmp =
+	      ((uint8[i] << 16) & 0xFF0000) +
+	      ((uint8[i + 1] << 8) & 0xFF00) +
+	      (uint8[i + 2] & 0xFF);
+	    output.push(tripletToBase64(tmp));
+	  }
+	  return output.join('')
+	}
+
+	function fromByteArray (uint8) {
+	  var tmp;
+	  var len = uint8.length;
+	  var extraBytes = len % 3; // if we have 1 byte left, pad 2 bytes
+	  var parts = [];
+	  var maxChunkLength = 16383; // must be multiple of 3
+
+	  // go through the array every three bytes, we'll deal with trailing stuff later
+	  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+	    parts.push(encodeChunk(
+	      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+	    ));
+	  }
+
+	  // pad the end with zeros, but make sure to not forget the extra bytes
+	  if (extraBytes === 1) {
+	    tmp = uint8[len - 1];
+	    parts.push(
+	      lookup[tmp >> 2] +
+	      lookup[(tmp << 4) & 0x3F] +
+	      '=='
+	    );
+	  } else if (extraBytes === 2) {
+	    tmp = (uint8[len - 2] << 8) + uint8[len - 1];
+	    parts.push(
+	      lookup[tmp >> 10] +
+	      lookup[(tmp >> 4) & 0x3F] +
+	      lookup[(tmp << 2) & 0x3F] +
+	      '='
+	    );
+	  }
+
+	  return parts.join('')
+	}
+
+	},{}],30:[function(require,module,exports){
+
+	var base64 = require('base64-js');
+	var ieee754 = require('ieee754');
+	var customInspectSymbol =
+	  (typeof Symbol === 'function' && typeof Symbol.for === 'function')
+	    ? Symbol.for('nodejs.util.inspect.custom')
+	    : null;
+
+	exports.Buffer = Buffer;
+	exports.SlowBuffer = SlowBuffer;
+	exports.INSPECT_MAX_BYTES = 50;
+
+	var K_MAX_LENGTH = 0x7fffffff;
+	exports.kMaxLength = K_MAX_LENGTH;
+
+	/**
+	 * If `Buffer.TYPED_ARRAY_SUPPORT`:
+	 *   === true    Use Uint8Array implementation (fastest)
+	 *   === false   Print warning and recommend using `buffer` v4.x which has an Object
+	 *               implementation (most compatible, even IE6)
+	 *
+	 * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+	 * Opera 11.6+, iOS 4.2+.
+	 *
+	 * We report that the browser does not support typed arrays if the are not subclassable
+	 * using __proto__. Firefox 4-29 lacks support for adding new properties to `Uint8Array`
+	 * (See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438). IE 10 lacks support
+	 * for __proto__ and has a buggy typed array implementation.
+	 */
+	Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport();
+
+	if (!Buffer.TYPED_ARRAY_SUPPORT && typeof console !== 'undefined' &&
+	    typeof console.error === 'function') {
+	  console.error(
+	    'This browser lacks typed array (Uint8Array) support which is required by ' +
+	    '`buffer` v5.x. Use `buffer` v4.x if you require old browser support.'
+	  );
+	}
+
+	function typedArraySupport () {
+	  // Can typed array instances can be augmented?
+	  try {
+	    var arr = new Uint8Array(1);
+	    var proto = { foo: function () { return 42 } };
+	    Object.setPrototypeOf(proto, Uint8Array.prototype);
+	    Object.setPrototypeOf(arr, proto);
+	    return arr.foo() === 42
+	  } catch (e) {
+	    return false
+	  }
+	}
+
+	Object.defineProperty(Buffer.prototype, 'parent', {
+	  enumerable: true,
+	  get: function () {
+	    if (!Buffer.isBuffer(this)) return undefined
+	    return this.buffer
+	  }
+	});
+
+	Object.defineProperty(Buffer.prototype, 'offset', {
+	  enumerable: true,
+	  get: function () {
+	    if (!Buffer.isBuffer(this)) return undefined
+	    return this.byteOffset
+	  }
+	});
+
+	function createBuffer (length) {
+	  if (length > K_MAX_LENGTH) {
+	    throw new RangeError('The value "' + length + '" is invalid for option "size"')
+	  }
+	  // Return an augmented `Uint8Array` instance
+	  var buf = new Uint8Array(length);
+	  Object.setPrototypeOf(buf, Buffer.prototype);
+	  return buf
+	}
+
+	/**
+	 * The Buffer constructor returns instances of `Uint8Array` that have their
+	 * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+	 * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+	 * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+	 * returns a single octet.
+	 *
+	 * The `Uint8Array` prototype remains unmodified.
+	 */
+
+	function Buffer (arg, encodingOrOffset, length) {
+	  // Common case.
+	  if (typeof arg === 'number') {
+	    if (typeof encodingOrOffset === 'string') {
+	      throw new TypeError(
+	        'The "string" argument must be of type string. Received type number'
+	      )
+	    }
+	    return allocUnsafe(arg)
+	  }
+	  return from(arg, encodingOrOffset, length)
+	}
+
+	// Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+	if (typeof Symbol !== 'undefined' && Symbol.species != null &&
+	    Buffer[Symbol.species] === Buffer) {
+	  Object.defineProperty(Buffer, Symbol.species, {
+	    value: null,
+	    configurable: true,
+	    enumerable: false,
+	    writable: false
+	  });
+	}
+
+	Buffer.poolSize = 8192; // not used by this implementation
+
+	function from (value, encodingOrOffset, length) {
+	  if (typeof value === 'string') {
+	    return fromString(value, encodingOrOffset)
+	  }
+
+	  if (ArrayBuffer.isView(value)) {
+	    return fromArrayLike(value)
+	  }
+
+	  if (value == null) {
+	    throw new TypeError(
+	      'The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' +
+	      'or Array-like Object. Received type ' + (typeof value)
+	    )
+	  }
+
+	  if (isInstance(value, ArrayBuffer) ||
+	      (value && isInstance(value.buffer, ArrayBuffer))) {
+	    return fromArrayBuffer(value, encodingOrOffset, length)
+	  }
+
+	  if (typeof value === 'number') {
+	    throw new TypeError(
+	      'The "value" argument must not be of type number. Received type number'
+	    )
+	  }
+
+	  var valueOf = value.valueOf && value.valueOf();
+	  if (valueOf != null && valueOf !== value) {
+	    return Buffer.from(valueOf, encodingOrOffset, length)
+	  }
+
+	  var b = fromObject(value);
+	  if (b) return b
+
+	  if (typeof Symbol !== 'undefined' && Symbol.toPrimitive != null &&
+	      typeof value[Symbol.toPrimitive] === 'function') {
+	    return Buffer.from(
+	      value[Symbol.toPrimitive]('string'), encodingOrOffset, length
+	    )
+	  }
+
+	  throw new TypeError(
+	    'The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' +
+	    'or Array-like Object. Received type ' + (typeof value)
+	  )
+	}
+
+	/**
+	 * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+	 * if value is a number.
+	 * Buffer.from(str[, encoding])
+	 * Buffer.from(array)
+	 * Buffer.from(buffer)
+	 * Buffer.from(arrayBuffer[, byteOffset[, length]])
+	 **/
+	Buffer.from = function (value, encodingOrOffset, length) {
+	  return from(value, encodingOrOffset, length)
+	};
+
+	// Note: Change prototype *after* Buffer.from is defined to workaround Chrome bug:
+	// https://github.com/feross/buffer/pull/148
+	Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype);
+	Object.setPrototypeOf(Buffer, Uint8Array);
+
+	function assertSize (size) {
+	  if (typeof size !== 'number') {
+	    throw new TypeError('"size" argument must be of type number')
+	  } else if (size < 0) {
+	    throw new RangeError('The value "' + size + '" is invalid for option "size"')
+	  }
+	}
+
+	function alloc (size, fill, encoding) {
+	  assertSize(size);
+	  if (size <= 0) {
+	    return createBuffer(size)
+	  }
+	  if (fill !== undefined) {
+	    // Only pay attention to encoding if it's a string. This
+	    // prevents accidentally sending in a number that would
+	    // be interpretted as a start offset.
+	    return typeof encoding === 'string'
+	      ? createBuffer(size).fill(fill, encoding)
+	      : createBuffer(size).fill(fill)
+	  }
+	  return createBuffer(size)
+	}
+
+	/**
+	 * Creates a new filled Buffer instance.
+	 * alloc(size[, fill[, encoding]])
+	 **/
+	Buffer.alloc = function (size, fill, encoding) {
+	  return alloc(size, fill, encoding)
+	};
+
+	function allocUnsafe (size) {
+	  assertSize(size);
+	  return createBuffer(size < 0 ? 0 : checked(size) | 0)
+	}
+
+	/**
+	 * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+	 * */
+	Buffer.allocUnsafe = function (size) {
+	  return allocUnsafe(size)
+	};
+	/**
+	 * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+	 */
+	Buffer.allocUnsafeSlow = function (size) {
+	  return allocUnsafe(size)
+	};
+
+	function fromString (string, encoding) {
+	  if (typeof encoding !== 'string' || encoding === '') {
+	    encoding = 'utf8';
+	  }
+
+	  if (!Buffer.isEncoding(encoding)) {
+	    throw new TypeError('Unknown encoding: ' + encoding)
+	  }
+
+	  var length = byteLength(string, encoding) | 0;
+	  var buf = createBuffer(length);
+
+	  var actual = buf.write(string, encoding);
+
+	  if (actual !== length) {
+	    // Writing a hex string, for example, that contains invalid characters will
+	    // cause everything after the first invalid character to be ignored. (e.g.
+	    // 'abxxcd' will be treated as 'ab')
+	    buf = buf.slice(0, actual);
+	  }
+
+	  return buf
+	}
+
+	function fromArrayLike (array) {
+	  var length = array.length < 0 ? 0 : checked(array.length) | 0;
+	  var buf = createBuffer(length);
+	  for (var i = 0; i < length; i += 1) {
+	    buf[i] = array[i] & 255;
+	  }
+	  return buf
+	}
+
+	function fromArrayBuffer (array, byteOffset, length) {
+	  if (byteOffset < 0 || array.byteLength < byteOffset) {
+	    throw new RangeError('"offset" is outside of buffer bounds')
+	  }
+
+	  if (array.byteLength < byteOffset + (length || 0)) {
+	    throw new RangeError('"length" is outside of buffer bounds')
+	  }
+
+	  var buf;
+	  if (byteOffset === undefined && length === undefined) {
+	    buf = new Uint8Array(array);
+	  } else if (length === undefined) {
+	    buf = new Uint8Array(array, byteOffset);
+	  } else {
+	    buf = new Uint8Array(array, byteOffset, length);
+	  }
+
+	  // Return an augmented `Uint8Array` instance
+	  Object.setPrototypeOf(buf, Buffer.prototype);
+
+	  return buf
+	}
+
+	function fromObject (obj) {
+	  if (Buffer.isBuffer(obj)) {
+	    var len = checked(obj.length) | 0;
+	    var buf = createBuffer(len);
+
+	    if (buf.length === 0) {
+	      return buf
+	    }
+
+	    obj.copy(buf, 0, 0, len);
+	    return buf
+	  }
+
+	  if (obj.length !== undefined) {
+	    if (typeof obj.length !== 'number' || numberIsNaN(obj.length)) {
+	      return createBuffer(0)
+	    }
+	    return fromArrayLike(obj)
+	  }
+
+	  if (obj.type === 'Buffer' && Array.isArray(obj.data)) {
+	    return fromArrayLike(obj.data)
+	  }
+	}
+
+	function checked (length) {
+	  // Note: cannot use `length < K_MAX_LENGTH` here because that fails when
+	  // length is NaN (which is otherwise coerced to zero.)
+	  if (length >= K_MAX_LENGTH) {
+	    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+	                         'size: 0x' + K_MAX_LENGTH.toString(16) + ' bytes')
+	  }
+	  return length | 0
+	}
+
+	function SlowBuffer (length) {
+	  if (+length != length) { // eslint-disable-line eqeqeq
+	    length = 0;
+	  }
+	  return Buffer.alloc(+length)
+	}
+
+	Buffer.isBuffer = function isBuffer (b) {
+	  return b != null && b._isBuffer === true &&
+	    b !== Buffer.prototype // so Buffer.isBuffer(Buffer.prototype) will be false
+	};
+
+	Buffer.compare = function compare (a, b) {
+	  if (isInstance(a, Uint8Array)) a = Buffer.from(a, a.offset, a.byteLength);
+	  if (isInstance(b, Uint8Array)) b = Buffer.from(b, b.offset, b.byteLength);
+	  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+	    throw new TypeError(
+	      'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
+	    )
+	  }
+
+	  if (a === b) return 0
+
+	  var x = a.length;
+	  var y = b.length;
+
+	  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+	    if (a[i] !== b[i]) {
+	      x = a[i];
+	      y = b[i];
+	      break
+	    }
+	  }
+
+	  if (x < y) return -1
+	  if (y < x) return 1
+	  return 0
+	};
+
+	Buffer.isEncoding = function isEncoding (encoding) {
+	  switch (String(encoding).toLowerCase()) {
+	    case 'hex':
+	    case 'utf8':
+	    case 'utf-8':
+	    case 'ascii':
+	    case 'latin1':
+	    case 'binary':
+	    case 'base64':
+	    case 'ucs2':
+	    case 'ucs-2':
+	    case 'utf16le':
+	    case 'utf-16le':
+	      return true
+	    default:
+	      return false
+	  }
+	};
+
+	Buffer.concat = function concat (list, length) {
+	  if (!Array.isArray(list)) {
+	    throw new TypeError('"list" argument must be an Array of Buffers')
+	  }
+
+	  if (list.length === 0) {
+	    return Buffer.alloc(0)
+	  }
+
+	  var i;
+	  if (length === undefined) {
+	    length = 0;
+	    for (i = 0; i < list.length; ++i) {
+	      length += list[i].length;
+	    }
+	  }
+
+	  var buffer = Buffer.allocUnsafe(length);
+	  var pos = 0;
+	  for (i = 0; i < list.length; ++i) {
+	    var buf = list[i];
+	    if (isInstance(buf, Uint8Array)) {
+	      buf = Buffer.from(buf);
+	    }
+	    if (!Buffer.isBuffer(buf)) {
+	      throw new TypeError('"list" argument must be an Array of Buffers')
+	    }
+	    buf.copy(buffer, pos);
+	    pos += buf.length;
+	  }
+	  return buffer
+	};
+
+	function byteLength (string, encoding) {
+	  if (Buffer.isBuffer(string)) {
+	    return string.length
+	  }
+	  if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
+	    return string.byteLength
+	  }
+	  if (typeof string !== 'string') {
+	    throw new TypeError(
+	      'The "string" argument must be one of type string, Buffer, or ArrayBuffer. ' +
+	      'Received type ' + typeof string
+	    )
+	  }
+
+	  var len = string.length;
+	  var mustMatch = (arguments.length > 2 && arguments[2] === true);
+	  if (!mustMatch && len === 0) return 0
+
+	  // Use a for loop to avoid recursion
+	  var loweredCase = false;
+	  for (;;) {
+	    switch (encoding) {
+	      case 'ascii':
+	      case 'latin1':
+	      case 'binary':
+	        return len
+	      case 'utf8':
+	      case 'utf-8':
+	        return utf8ToBytes(string).length
+	      case 'ucs2':
+	      case 'ucs-2':
+	      case 'utf16le':
+	      case 'utf-16le':
+	        return len * 2
+	      case 'hex':
+	        return len >>> 1
+	      case 'base64':
+	        return base64ToBytes(string).length
+	      default:
+	        if (loweredCase) {
+	          return mustMatch ? -1 : utf8ToBytes(string).length // assume utf8
+	        }
+	        encoding = ('' + encoding).toLowerCase();
+	        loweredCase = true;
+	    }
+	  }
+	}
+	Buffer.byteLength = byteLength;
+
+	function slowToString (encoding, start, end) {
+	  var loweredCase = false;
+
+	  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+	  // property of a typed array.
+
+	  // This behaves neither like String nor Uint8Array in that we set start/end
+	  // to their upper/lower bounds if the value passed is out of range.
+	  // undefined is handled specially as per ECMA-262 6th Edition,
+	  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+	  if (start === undefined || start < 0) {
+	    start = 0;
+	  }
+	  // Return early if start > this.length. Done here to prevent potential uint32
+	  // coercion fail below.
+	  if (start > this.length) {
+	    return ''
+	  }
+
+	  if (end === undefined || end > this.length) {
+	    end = this.length;
+	  }
+
+	  if (end <= 0) {
+	    return ''
+	  }
+
+	  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+	  end >>>= 0;
+	  start >>>= 0;
+
+	  if (end <= start) {
+	    return ''
+	  }
+
+	  if (!encoding) encoding = 'utf8';
+
+	  while (true) {
+	    switch (encoding) {
+	      case 'hex':
+	        return hexSlice(this, start, end)
+
+	      case 'utf8':
+	      case 'utf-8':
+	        return utf8Slice(this, start, end)
+
+	      case 'ascii':
+	        return asciiSlice(this, start, end)
+
+	      case 'latin1':
+	      case 'binary':
+	        return latin1Slice(this, start, end)
+
+	      case 'base64':
+	        return base64Slice(this, start, end)
+
+	      case 'ucs2':
+	      case 'ucs-2':
+	      case 'utf16le':
+	      case 'utf-16le':
+	        return utf16leSlice(this, start, end)
+
+	      default:
+	        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+	        encoding = (encoding + '').toLowerCase();
+	        loweredCase = true;
+	    }
+	  }
+	}
+
+	// This property is used by `Buffer.isBuffer` (and the `is-buffer` npm package)
+	// to detect a Buffer instance. It's not possible to use `instanceof Buffer`
+	// reliably in a browserify context because there could be multiple different
+	// copies of the 'buffer' package in use. This method works even for Buffer
+	// instances that were created from another copy of the `buffer` package.
+	// See: https://github.com/feross/buffer/issues/154
+	Buffer.prototype._isBuffer = true;
+
+	function swap (b, n, m) {
+	  var i = b[n];
+	  b[n] = b[m];
+	  b[m] = i;
+	}
+
+	Buffer.prototype.swap16 = function swap16 () {
+	  var len = this.length;
+	  if (len % 2 !== 0) {
+	    throw new RangeError('Buffer size must be a multiple of 16-bits')
+	  }
+	  for (var i = 0; i < len; i += 2) {
+	    swap(this, i, i + 1);
+	  }
+	  return this
+	};
+
+	Buffer.prototype.swap32 = function swap32 () {
+	  var len = this.length;
+	  if (len % 4 !== 0) {
+	    throw new RangeError('Buffer size must be a multiple of 32-bits')
+	  }
+	  for (var i = 0; i < len; i += 4) {
+	    swap(this, i, i + 3);
+	    swap(this, i + 1, i + 2);
+	  }
+	  return this
+	};
+
+	Buffer.prototype.swap64 = function swap64 () {
+	  var len = this.length;
+	  if (len % 8 !== 0) {
+	    throw new RangeError('Buffer size must be a multiple of 64-bits')
+	  }
+	  for (var i = 0; i < len; i += 8) {
+	    swap(this, i, i + 7);
+	    swap(this, i + 1, i + 6);
+	    swap(this, i + 2, i + 5);
+	    swap(this, i + 3, i + 4);
+	  }
+	  return this
+	};
+
+	Buffer.prototype.toString = function toString () {
+	  var length = this.length;
+	  if (length === 0) return ''
+	  if (arguments.length === 0) return utf8Slice(this, 0, length)
+	  return slowToString.apply(this, arguments)
+	};
+
+	Buffer.prototype.toLocaleString = Buffer.prototype.toString;
+
+	Buffer.prototype.equals = function equals (b) {
+	  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+	  if (this === b) return true
+	  return Buffer.compare(this, b) === 0
+	};
+
+	Buffer.prototype.inspect = function inspect () {
+	  var str = '';
+	  var max = exports.INSPECT_MAX_BYTES;
+	  str = this.toString('hex', 0, max).replace(/(.{2})/g, '$1 ').trim();
+	  if (this.length > max) str += ' ... ';
+	  return '<Buffer ' + str + '>'
+	};
+	if (customInspectSymbol) {
+	  Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect;
+	}
+
+	Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+	  if (isInstance(target, Uint8Array)) {
+	    target = Buffer.from(target, target.offset, target.byteLength);
+	  }
+	  if (!Buffer.isBuffer(target)) {
+	    throw new TypeError(
+	      'The "target" argument must be one of type Buffer or Uint8Array. ' +
+	      'Received type ' + (typeof target)
+	    )
+	  }
+
+	  if (start === undefined) {
+	    start = 0;
+	  }
+	  if (end === undefined) {
+	    end = target ? target.length : 0;
+	  }
+	  if (thisStart === undefined) {
+	    thisStart = 0;
+	  }
+	  if (thisEnd === undefined) {
+	    thisEnd = this.length;
+	  }
+
+	  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+	    throw new RangeError('out of range index')
+	  }
+
+	  if (thisStart >= thisEnd && start >= end) {
+	    return 0
+	  }
+	  if (thisStart >= thisEnd) {
+	    return -1
+	  }
+	  if (start >= end) {
+	    return 1
+	  }
+
+	  start >>>= 0;
+	  end >>>= 0;
+	  thisStart >>>= 0;
+	  thisEnd >>>= 0;
+
+	  if (this === target) return 0
+
+	  var x = thisEnd - thisStart;
+	  var y = end - start;
+	  var len = Math.min(x, y);
+
+	  var thisCopy = this.slice(thisStart, thisEnd);
+	  var targetCopy = target.slice(start, end);
+
+	  for (var i = 0; i < len; ++i) {
+	    if (thisCopy[i] !== targetCopy[i]) {
+	      x = thisCopy[i];
+	      y = targetCopy[i];
+	      break
+	    }
+	  }
+
+	  if (x < y) return -1
+	  if (y < x) return 1
+	  return 0
+	};
+
+	// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+	// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+	//
+	// Arguments:
+	// - buffer - a Buffer to search
+	// - val - a string, Buffer, or number
+	// - byteOffset - an index into `buffer`; will be clamped to an int32
+	// - encoding - an optional encoding, relevant is val is a string
+	// - dir - true for indexOf, false for lastIndexOf
+	function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
+	  // Empty buffer means no match
+	  if (buffer.length === 0) return -1
+
+	  // Normalize byteOffset
+	  if (typeof byteOffset === 'string') {
+	    encoding = byteOffset;
+	    byteOffset = 0;
+	  } else if (byteOffset > 0x7fffffff) {
+	    byteOffset = 0x7fffffff;
+	  } else if (byteOffset < -0x80000000) {
+	    byteOffset = -0x80000000;
+	  }
+	  byteOffset = +byteOffset; // Coerce to Number.
+	  if (numberIsNaN(byteOffset)) {
+	    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+	    byteOffset = dir ? 0 : (buffer.length - 1);
+	  }
+
+	  // Normalize byteOffset: negative offsets start from the end of the buffer
+	  if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
+	  if (byteOffset >= buffer.length) {
+	    if (dir) return -1
+	    else byteOffset = buffer.length - 1;
+	  } else if (byteOffset < 0) {
+	    if (dir) byteOffset = 0;
+	    else return -1
+	  }
+
+	  // Normalize val
+	  if (typeof val === 'string') {
+	    val = Buffer.from(val, encoding);
+	  }
+
+	  // Finally, search either indexOf (if dir is true) or lastIndexOf
+	  if (Buffer.isBuffer(val)) {
+	    // Special case: looking for empty string/buffer always fails
+	    if (val.length === 0) {
+	      return -1
+	    }
+	    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
+	  } else if (typeof val === 'number') {
+	    val = val & 0xFF; // Search for a byte value [0-255]
+	    if (typeof Uint8Array.prototype.indexOf === 'function') {
+	      if (dir) {
+	        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
+	      } else {
+	        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
+	      }
+	    }
+	    return arrayIndexOf(buffer, [val], byteOffset, encoding, dir)
+	  }
+
+	  throw new TypeError('val must be string, number or Buffer')
+	}
+
+	function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
+	  var indexSize = 1;
+	  var arrLength = arr.length;
+	  var valLength = val.length;
+
+	  if (encoding !== undefined) {
+	    encoding = String(encoding).toLowerCase();
+	    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+	        encoding === 'utf16le' || encoding === 'utf-16le') {
+	      if (arr.length < 2 || val.length < 2) {
+	        return -1
+	      }
+	      indexSize = 2;
+	      arrLength /= 2;
+	      valLength /= 2;
+	      byteOffset /= 2;
+	    }
+	  }
+
+	  function read (buf, i) {
+	    if (indexSize === 1) {
+	      return buf[i]
+	    } else {
+	      return buf.readUInt16BE(i * indexSize)
+	    }
+	  }
+
+	  var i;
+	  if (dir) {
+	    var foundIndex = -1;
+	    for (i = byteOffset; i < arrLength; i++) {
+	      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+	        if (foundIndex === -1) foundIndex = i;
+	        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
+	      } else {
+	        if (foundIndex !== -1) i -= i - foundIndex;
+	        foundIndex = -1;
+	      }
+	    }
+	  } else {
+	    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
+	    for (i = byteOffset; i >= 0; i--) {
+	      var found = true;
+	      for (var j = 0; j < valLength; j++) {
+	        if (read(arr, i + j) !== read(val, j)) {
+	          found = false;
+	          break
+	        }
+	      }
+	      if (found) return i
+	    }
+	  }
+
+	  return -1
+	}
+
+	Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+	  return this.indexOf(val, byteOffset, encoding) !== -1
+	};
+
+	Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+	  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
+	};
+
+	Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
+	  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
+	};
+
+	function hexWrite (buf, string, offset, length) {
+	  offset = Number(offset) || 0;
+	  var remaining = buf.length - offset;
+	  if (!length) {
+	    length = remaining;
+	  } else {
+	    length = Number(length);
+	    if (length > remaining) {
+	      length = remaining;
+	    }
+	  }
+
+	  var strLen = string.length;
+
+	  if (length > strLen / 2) {
+	    length = strLen / 2;
+	  }
+	  for (var i = 0; i < length; ++i) {
+	    var parsed = parseInt(string.substr(i * 2, 2), 16);
+	    if (numberIsNaN(parsed)) return i
+	    buf[offset + i] = parsed;
+	  }
+	  return i
+	}
+
+	function utf8Write (buf, string, offset, length) {
+	  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+	}
+
+	function asciiWrite (buf, string, offset, length) {
+	  return blitBuffer(asciiToBytes(string), buf, offset, length)
+	}
+
+	function latin1Write (buf, string, offset, length) {
+	  return asciiWrite(buf, string, offset, length)
+	}
+
+	function base64Write (buf, string, offset, length) {
+	  return blitBuffer(base64ToBytes(string), buf, offset, length)
+	}
+
+	function ucs2Write (buf, string, offset, length) {
+	  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+	}
+
+	Buffer.prototype.write = function write (string, offset, length, encoding) {
+	  // Buffer#write(string)
+	  if (offset === undefined) {
+	    encoding = 'utf8';
+	    length = this.length;
+	    offset = 0;
+	  // Buffer#write(string, encoding)
+	  } else if (length === undefined && typeof offset === 'string') {
+	    encoding = offset;
+	    length = this.length;
+	    offset = 0;
+	  // Buffer#write(string, offset[, length][, encoding])
+	  } else if (isFinite(offset)) {
+	    offset = offset >>> 0;
+	    if (isFinite(length)) {
+	      length = length >>> 0;
+	      if (encoding === undefined) encoding = 'utf8';
+	    } else {
+	      encoding = length;
+	      length = undefined;
+	    }
+	  } else {
+	    throw new Error(
+	      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+	    )
+	  }
+
+	  var remaining = this.length - offset;
+	  if (length === undefined || length > remaining) length = remaining;
+
+	  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+	    throw new RangeError('Attempt to write outside buffer bounds')
+	  }
+
+	  if (!encoding) encoding = 'utf8';
+
+	  var loweredCase = false;
+	  for (;;) {
+	    switch (encoding) {
+	      case 'hex':
+	        return hexWrite(this, string, offset, length)
+
+	      case 'utf8':
+	      case 'utf-8':
+	        return utf8Write(this, string, offset, length)
+
+	      case 'ascii':
+	        return asciiWrite(this, string, offset, length)
+
+	      case 'latin1':
+	      case 'binary':
+	        return latin1Write(this, string, offset, length)
+
+	      case 'base64':
+	        // Warning: maxLength not taken into account in base64Write
+	        return base64Write(this, string, offset, length)
+
+	      case 'ucs2':
+	      case 'ucs-2':
+	      case 'utf16le':
+	      case 'utf-16le':
+	        return ucs2Write(this, string, offset, length)
+
+	      default:
+	        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+	        encoding = ('' + encoding).toLowerCase();
+	        loweredCase = true;
+	    }
+	  }
+	};
+
+	Buffer.prototype.toJSON = function toJSON () {
+	  return {
+	    type: 'Buffer',
+	    data: Array.prototype.slice.call(this._arr || this, 0)
+	  }
+	};
+
+	function base64Slice (buf, start, end) {
+	  if (start === 0 && end === buf.length) {
+	    return base64.fromByteArray(buf)
+	  } else {
+	    return base64.fromByteArray(buf.slice(start, end))
+	  }
+	}
+
+	function utf8Slice (buf, start, end) {
+	  end = Math.min(buf.length, end);
+	  var res = [];
+
+	  var i = start;
+	  while (i < end) {
+	    var firstByte = buf[i];
+	    var codePoint = null;
+	    var bytesPerSequence = (firstByte > 0xEF) ? 4
+	      : (firstByte > 0xDF) ? 3
+	        : (firstByte > 0xBF) ? 2
+	          : 1;
+
+	    if (i + bytesPerSequence <= end) {
+	      var secondByte, thirdByte, fourthByte, tempCodePoint;
+
+	      switch (bytesPerSequence) {
+	        case 1:
+	          if (firstByte < 0x80) {
+	            codePoint = firstByte;
+	          }
+	          break
+	        case 2:
+	          secondByte = buf[i + 1];
+	          if ((secondByte & 0xC0) === 0x80) {
+	            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F);
+	            if (tempCodePoint > 0x7F) {
+	              codePoint = tempCodePoint;
+	            }
+	          }
+	          break
+	        case 3:
+	          secondByte = buf[i + 1];
+	          thirdByte = buf[i + 2];
+	          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+	            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F);
+	            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+	              codePoint = tempCodePoint;
+	            }
+	          }
+	          break
+	        case 4:
+	          secondByte = buf[i + 1];
+	          thirdByte = buf[i + 2];
+	          fourthByte = buf[i + 3];
+	          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+	            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F);
+	            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+	              codePoint = tempCodePoint;
+	            }
+	          }
+	      }
+	    }
+
+	    if (codePoint === null) {
+	      // we did not generate a valid codePoint so insert a
+	      // replacement char (U+FFFD) and advance only 1 byte
+	      codePoint = 0xFFFD;
+	      bytesPerSequence = 1;
+	    } else if (codePoint > 0xFFFF) {
+	      // encode to utf16 (surrogate pair dance)
+	      codePoint -= 0x10000;
+	      res.push(codePoint >>> 10 & 0x3FF | 0xD800);
+	      codePoint = 0xDC00 | codePoint & 0x3FF;
+	    }
+
+	    res.push(codePoint);
+	    i += bytesPerSequence;
+	  }
+
+	  return decodeCodePointsArray(res)
+	}
+
+	// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+	// the lowest limit is Chrome, with 0x10000 args.
+	// We go 1 magnitude less, for safety
+	var MAX_ARGUMENTS_LENGTH = 0x1000;
+
+	function decodeCodePointsArray (codePoints) {
+	  var len = codePoints.length;
+	  if (len <= MAX_ARGUMENTS_LENGTH) {
+	    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+	  }
+
+	  // Decode in chunks to avoid "call stack size exceeded".
+	  var res = '';
+	  var i = 0;
+	  while (i < len) {
+	    res += String.fromCharCode.apply(
+	      String,
+	      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+	    );
+	  }
+	  return res
+	}
+
+	function asciiSlice (buf, start, end) {
+	  var ret = '';
+	  end = Math.min(buf.length, end);
+
+	  for (var i = start; i < end; ++i) {
+	    ret += String.fromCharCode(buf[i] & 0x7F);
+	  }
+	  return ret
+	}
+
+	function latin1Slice (buf, start, end) {
+	  var ret = '';
+	  end = Math.min(buf.length, end);
+
+	  for (var i = start; i < end; ++i) {
+	    ret += String.fromCharCode(buf[i]);
+	  }
+	  return ret
+	}
+
+	function hexSlice (buf, start, end) {
+	  var len = buf.length;
+
+	  if (!start || start < 0) start = 0;
+	  if (!end || end < 0 || end > len) end = len;
+
+	  var out = '';
+	  for (var i = start; i < end; ++i) {
+	    out += hexSliceLookupTable[buf[i]];
+	  }
+	  return out
+	}
+
+	function utf16leSlice (buf, start, end) {
+	  var bytes = buf.slice(start, end);
+	  var res = '';
+	  for (var i = 0; i < bytes.length; i += 2) {
+	    res += String.fromCharCode(bytes[i] + (bytes[i + 1] * 256));
+	  }
+	  return res
+	}
+
+	Buffer.prototype.slice = function slice (start, end) {
+	  var len = this.length;
+	  start = ~~start;
+	  end = end === undefined ? len : ~~end;
+
+	  if (start < 0) {
+	    start += len;
+	    if (start < 0) start = 0;
+	  } else if (start > len) {
+	    start = len;
+	  }
+
+	  if (end < 0) {
+	    end += len;
+	    if (end < 0) end = 0;
+	  } else if (end > len) {
+	    end = len;
+	  }
+
+	  if (end < start) end = start;
+
+	  var newBuf = this.subarray(start, end);
+	  // Return an augmented `Uint8Array` instance
+	  Object.setPrototypeOf(newBuf, Buffer.prototype);
+
+	  return newBuf
+	};
+
+	/*
+	 * Need to make sure that buffer isn't trying to write out of bounds.
+	 */
+	function checkOffset (offset, ext, length) {
+	  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+	  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+	}
+
+	Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) checkOffset(offset, byteLength, this.length);
+
+	  var val = this[offset];
+	  var mul = 1;
+	  var i = 0;
+	  while (++i < byteLength && (mul *= 0x100)) {
+	    val += this[offset + i] * mul;
+	  }
+
+	  return val
+	};
+
+	Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) {
+	    checkOffset(offset, byteLength, this.length);
+	  }
+
+	  var val = this[offset + --byteLength];
+	  var mul = 1;
+	  while (byteLength > 0 && (mul *= 0x100)) {
+	    val += this[offset + --byteLength] * mul;
+	  }
+
+	  return val
+	};
+
+	Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 1, this.length);
+	  return this[offset]
+	};
+
+	Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 2, this.length);
+	  return this[offset] | (this[offset + 1] << 8)
+	};
+
+	Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 2, this.length);
+	  return (this[offset] << 8) | this[offset + 1]
+	};
+
+	Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+
+	  return ((this[offset]) |
+	      (this[offset + 1] << 8) |
+	      (this[offset + 2] << 16)) +
+	      (this[offset + 3] * 0x1000000)
+	};
+
+	Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+
+	  return (this[offset] * 0x1000000) +
+	    ((this[offset + 1] << 16) |
+	    (this[offset + 2] << 8) |
+	    this[offset + 3])
+	};
+
+	Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) checkOffset(offset, byteLength, this.length);
+
+	  var val = this[offset];
+	  var mul = 1;
+	  var i = 0;
+	  while (++i < byteLength && (mul *= 0x100)) {
+	    val += this[offset + i] * mul;
+	  }
+	  mul *= 0x80;
+
+	  if (val >= mul) val -= Math.pow(2, 8 * byteLength);
+
+	  return val
+	};
+
+	Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) checkOffset(offset, byteLength, this.length);
+
+	  var i = byteLength;
+	  var mul = 1;
+	  var val = this[offset + --i];
+	  while (i > 0 && (mul *= 0x100)) {
+	    val += this[offset + --i] * mul;
+	  }
+	  mul *= 0x80;
+
+	  if (val >= mul) val -= Math.pow(2, 8 * byteLength);
+
+	  return val
+	};
+
+	Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 1, this.length);
+	  if (!(this[offset] & 0x80)) return (this[offset])
+	  return ((0xff - this[offset] + 1) * -1)
+	};
+
+	Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 2, this.length);
+	  var val = this[offset] | (this[offset + 1] << 8);
+	  return (val & 0x8000) ? val | 0xFFFF0000 : val
+	};
+
+	Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 2, this.length);
+	  var val = this[offset + 1] | (this[offset] << 8);
+	  return (val & 0x8000) ? val | 0xFFFF0000 : val
+	};
+
+	Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+
+	  return (this[offset]) |
+	    (this[offset + 1] << 8) |
+	    (this[offset + 2] << 16) |
+	    (this[offset + 3] << 24)
+	};
+
+	Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+
+	  return (this[offset] << 24) |
+	    (this[offset + 1] << 16) |
+	    (this[offset + 2] << 8) |
+	    (this[offset + 3])
+	};
+
+	Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+	  return ieee754.read(this, offset, true, 23, 4)
+	};
+
+	Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 4, this.length);
+	  return ieee754.read(this, offset, false, 23, 4)
+	};
+
+	Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 8, this.length);
+	  return ieee754.read(this, offset, true, 52, 8)
+	};
+
+	Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+	  offset = offset >>> 0;
+	  if (!noAssert) checkOffset(offset, 8, this.length);
+	  return ieee754.read(this, offset, false, 52, 8)
+	};
+
+	function checkInt (buf, value, offset, ext, max, min) {
+	  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+	  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+	  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+	}
+
+	Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) {
+	    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
+	    checkInt(this, value, offset, byteLength, maxBytes, 0);
+	  }
+
+	  var mul = 1;
+	  var i = 0;
+	  this[offset] = value & 0xFF;
+	  while (++i < byteLength && (mul *= 0x100)) {
+	    this[offset + i] = (value / mul) & 0xFF;
+	  }
+
+	  return offset + byteLength
+	};
+
+	Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  byteLength = byteLength >>> 0;
+	  if (!noAssert) {
+	    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
+	    checkInt(this, value, offset, byteLength, maxBytes, 0);
+	  }
+
+	  var i = byteLength - 1;
+	  var mul = 1;
+	  this[offset + i] = value & 0xFF;
+	  while (--i >= 0 && (mul *= 0x100)) {
+	    this[offset + i] = (value / mul) & 0xFF;
+	  }
+
+	  return offset + byteLength
+	};
+
+	Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0);
+	  this[offset] = (value & 0xff);
+	  return offset + 1
+	};
+
+	Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0);
+	  this[offset] = (value & 0xff);
+	  this[offset + 1] = (value >>> 8);
+	  return offset + 2
+	};
+
+	Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0);
+	  this[offset] = (value >>> 8);
+	  this[offset + 1] = (value & 0xff);
+	  return offset + 2
+	};
+
+	Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0);
+	  this[offset + 3] = (value >>> 24);
+	  this[offset + 2] = (value >>> 16);
+	  this[offset + 1] = (value >>> 8);
+	  this[offset] = (value & 0xff);
+	  return offset + 4
+	};
+
+	Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0);
+	  this[offset] = (value >>> 24);
+	  this[offset + 1] = (value >>> 16);
+	  this[offset + 2] = (value >>> 8);
+	  this[offset + 3] = (value & 0xff);
+	  return offset + 4
+	};
+
+	Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) {
+	    var limit = Math.pow(2, (8 * byteLength) - 1);
+
+	    checkInt(this, value, offset, byteLength, limit - 1, -limit);
+	  }
+
+	  var i = 0;
+	  var mul = 1;
+	  var sub = 0;
+	  this[offset] = value & 0xFF;
+	  while (++i < byteLength && (mul *= 0x100)) {
+	    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+	      sub = 1;
+	    }
+	    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF;
+	  }
+
+	  return offset + byteLength
+	};
+
+	Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) {
+	    var limit = Math.pow(2, (8 * byteLength) - 1);
+
+	    checkInt(this, value, offset, byteLength, limit - 1, -limit);
+	  }
+
+	  var i = byteLength - 1;
+	  var mul = 1;
+	  var sub = 0;
+	  this[offset + i] = value & 0xFF;
+	  while (--i >= 0 && (mul *= 0x100)) {
+	    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+	      sub = 1;
+	    }
+	    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF;
+	  }
+
+	  return offset + byteLength
+	};
+
+	Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80);
+	  if (value < 0) value = 0xff + value + 1;
+	  this[offset] = (value & 0xff);
+	  return offset + 1
+	};
+
+	Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+	  this[offset] = (value & 0xff);
+	  this[offset + 1] = (value >>> 8);
+	  return offset + 2
+	};
+
+	Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+	  this[offset] = (value >>> 8);
+	  this[offset + 1] = (value & 0xff);
+	  return offset + 2
+	};
+
+	Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+	  this[offset] = (value & 0xff);
+	  this[offset + 1] = (value >>> 8);
+	  this[offset + 2] = (value >>> 16);
+	  this[offset + 3] = (value >>> 24);
+	  return offset + 4
+	};
+
+	Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+	  if (value < 0) value = 0xffffffff + value + 1;
+	  this[offset] = (value >>> 24);
+	  this[offset + 1] = (value >>> 16);
+	  this[offset + 2] = (value >>> 8);
+	  this[offset + 3] = (value & 0xff);
+	  return offset + 4
+	};
+
+	function checkIEEE754 (buf, value, offset, ext, max, min) {
+	  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+	  if (offset < 0) throw new RangeError('Index out of range')
+	}
+
+	function writeFloat (buf, value, offset, littleEndian, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) {
+	    checkIEEE754(buf, value, offset, 4);
+	  }
+	  ieee754.write(buf, value, offset, littleEndian, 23, 4);
+	  return offset + 4
+	}
+
+	Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+	  return writeFloat(this, value, offset, true, noAssert)
+	};
+
+	Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+	  return writeFloat(this, value, offset, false, noAssert)
+	};
+
+	function writeDouble (buf, value, offset, littleEndian, noAssert) {
+	  value = +value;
+	  offset = offset >>> 0;
+	  if (!noAssert) {
+	    checkIEEE754(buf, value, offset, 8);
+	  }
+	  ieee754.write(buf, value, offset, littleEndian, 52, 8);
+	  return offset + 8
+	}
+
+	Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+	  return writeDouble(this, value, offset, true, noAssert)
+	};
+
+	Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+	  return writeDouble(this, value, offset, false, noAssert)
+	};
+
+	// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+	Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+	  if (!Buffer.isBuffer(target)) throw new TypeError('argument should be a Buffer')
+	  if (!start) start = 0;
+	  if (!end && end !== 0) end = this.length;
+	  if (targetStart >= target.length) targetStart = target.length;
+	  if (!targetStart) targetStart = 0;
+	  if (end > 0 && end < start) end = start;
+
+	  // Copy 0 bytes; we're done
+	  if (end === start) return 0
+	  if (target.length === 0 || this.length === 0) return 0
+
+	  // Fatal error conditions
+	  if (targetStart < 0) {
+	    throw new RangeError('targetStart out of bounds')
+	  }
+	  if (start < 0 || start >= this.length) throw new RangeError('Index out of range')
+	  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+	  // Are we oob?
+	  if (end > this.length) end = this.length;
+	  if (target.length - targetStart < end - start) {
+	    end = target.length - targetStart + start;
+	  }
+
+	  var len = end - start;
+
+	  if (this === target && typeof Uint8Array.prototype.copyWithin === 'function') {
+	    // Use built-in when available, missing from IE11
+	    this.copyWithin(targetStart, start, end);
+	  } else if (this === target && start < targetStart && targetStart < end) {
+	    // descending copy from end
+	    for (var i = len - 1; i >= 0; --i) {
+	      target[i + targetStart] = this[i + start];
+	    }
+	  } else {
+	    Uint8Array.prototype.set.call(
+	      target,
+	      this.subarray(start, end),
+	      targetStart
+	    );
+	  }
+
+	  return len
+	};
+
+	// Usage:
+	//    buffer.fill(number[, offset[, end]])
+	//    buffer.fill(buffer[, offset[, end]])
+	//    buffer.fill(string[, offset[, end]][, encoding])
+	Buffer.prototype.fill = function fill (val, start, end, encoding) {
+	  // Handle string cases:
+	  if (typeof val === 'string') {
+	    if (typeof start === 'string') {
+	      encoding = start;
+	      start = 0;
+	      end = this.length;
+	    } else if (typeof end === 'string') {
+	      encoding = end;
+	      end = this.length;
+	    }
+	    if (encoding !== undefined && typeof encoding !== 'string') {
+	      throw new TypeError('encoding must be a string')
+	    }
+	    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+	      throw new TypeError('Unknown encoding: ' + encoding)
+	    }
+	    if (val.length === 1) {
+	      var code = val.charCodeAt(0);
+	      if ((encoding === 'utf8' && code < 128) ||
+	          encoding === 'latin1') {
+	        // Fast path: If `val` fits into a single byte, use that numeric value.
+	        val = code;
+	      }
+	    }
+	  } else if (typeof val === 'number') {
+	    val = val & 255;
+	  } else if (typeof val === 'boolean') {
+	    val = Number(val);
+	  }
+
+	  // Invalid ranges are not set to a default, so can range check early.
+	  if (start < 0 || this.length < start || this.length < end) {
+	    throw new RangeError('Out of range index')
+	  }
+
+	  if (end <= start) {
+	    return this
+	  }
+
+	  start = start >>> 0;
+	  end = end === undefined ? this.length : end >>> 0;
+
+	  if (!val) val = 0;
+
+	  var i;
+	  if (typeof val === 'number') {
+	    for (i = start; i < end; ++i) {
+	      this[i] = val;
+	    }
+	  } else {
+	    var bytes = Buffer.isBuffer(val)
+	      ? val
+	      : Buffer.from(val, encoding);
+	    var len = bytes.length;
+	    if (len === 0) {
+	      throw new TypeError('The value "' + val +
+	        '" is invalid for argument "value"')
+	    }
+	    for (i = 0; i < end - start; ++i) {
+	      this[i + start] = bytes[i % len];
+	    }
+	  }
+
+	  return this
+	};
+
+	// HELPER FUNCTIONS
+	// ================
+
+	var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
+
+	function base64clean (str) {
+	  // Node takes equal signs as end of the Base64 encoding
+	  str = str.split('=')[0];
+	  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+	  str = str.trim().replace(INVALID_BASE64_RE, '');
+	  // Node converts strings with length < 2 to ''
+	  if (str.length < 2) return ''
+	  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+	  while (str.length % 4 !== 0) {
+	    str = str + '=';
+	  }
+	  return str
+	}
+
+	function utf8ToBytes (string, units) {
+	  units = units || Infinity;
+	  var codePoint;
+	  var length = string.length;
+	  var leadSurrogate = null;
+	  var bytes = [];
+
+	  for (var i = 0; i < length; ++i) {
+	    codePoint = string.charCodeAt(i);
+
+	    // is surrogate component
+	    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+	      // last char was a lead
+	      if (!leadSurrogate) {
+	        // no lead yet
+	        if (codePoint > 0xDBFF) {
+	          // unexpected trail
+	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	          continue
+	        } else if (i + 1 === length) {
+	          // unpaired lead
+	          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	          continue
+	        }
+
+	        // valid lead
+	        leadSurrogate = codePoint;
+
+	        continue
+	      }
+
+	      // 2 leads in a row
+	      if (codePoint < 0xDC00) {
+	        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	        leadSurrogate = codePoint;
+	        continue
+	      }
+
+	      // valid surrogate pair
+	      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000;
+	    } else if (leadSurrogate) {
+	      // valid bmp char, but last char was a lead
+	      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD);
+	    }
+
+	    leadSurrogate = null;
+
+	    // encode utf8
+	    if (codePoint < 0x80) {
+	      if ((units -= 1) < 0) break
+	      bytes.push(codePoint);
+	    } else if (codePoint < 0x800) {
+	      if ((units -= 2) < 0) break
+	      bytes.push(
+	        codePoint >> 0x6 | 0xC0,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else if (codePoint < 0x10000) {
+	      if ((units -= 3) < 0) break
+	      bytes.push(
+	        codePoint >> 0xC | 0xE0,
+	        codePoint >> 0x6 & 0x3F | 0x80,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else if (codePoint < 0x110000) {
+	      if ((units -= 4) < 0) break
+	      bytes.push(
+	        codePoint >> 0x12 | 0xF0,
+	        codePoint >> 0xC & 0x3F | 0x80,
+	        codePoint >> 0x6 & 0x3F | 0x80,
+	        codePoint & 0x3F | 0x80
+	      );
+	    } else {
+	      throw new Error('Invalid code point')
+	    }
+	  }
+
+	  return bytes
+	}
+
+	function asciiToBytes (str) {
+	  var byteArray = [];
+	  for (var i = 0; i < str.length; ++i) {
+	    // Node's code seems to be doing this and not & 0x7F..
+	    byteArray.push(str.charCodeAt(i) & 0xFF);
+	  }
+	  return byteArray
+	}
+
+	function utf16leToBytes (str, units) {
+	  var c, hi, lo;
+	  var byteArray = [];
+	  for (var i = 0; i < str.length; ++i) {
+	    if ((units -= 2) < 0) break
+
+	    c = str.charCodeAt(i);
+	    hi = c >> 8;
+	    lo = c % 256;
+	    byteArray.push(lo);
+	    byteArray.push(hi);
+	  }
+
+	  return byteArray
+	}
+
+	function base64ToBytes (str) {
+	  return base64.toByteArray(base64clean(str))
+	}
+
+	function blitBuffer (src, dst, offset, length) {
+	  for (var i = 0; i < length; ++i) {
+	    if ((i + offset >= dst.length) || (i >= src.length)) break
+	    dst[i + offset] = src[i];
+	  }
+	  return i
+	}
+
+	// ArrayBuffer or Uint8Array objects from other contexts (i.e. iframes) do not pass
+	// the `instanceof` check but they should be treated as of that type.
+	// See: https://github.com/feross/buffer/issues/166
+	function isInstance (obj, type) {
+	  return obj instanceof type ||
+	    (obj != null && obj.constructor != null && obj.constructor.name != null &&
+	      obj.constructor.name === type.name)
+	}
+	function numberIsNaN (obj) {
+	  // For IE11 support
+	  return obj !== obj // eslint-disable-line no-self-compare
+	}
+
+	// Create lookup table for `toString('hex')`
+	// See: https://github.com/feross/buffer/issues/219
+	var hexSliceLookupTable = (function () {
+	  var alphabet = '0123456789abcdef';
+	  var table = new Array(256);
+	  for (var i = 0; i < 16; ++i) {
+	    var i16 = i * 16;
+	    for (var j = 0; j < 16; ++j) {
+	      table[i16 + j] = alphabet[i] + alphabet[j];
+	    }
+	  }
+	  return table
+	})();
+
+	},{"base64-js":29,"ieee754":32}],31:[function(require,module,exports){
+
+	/******************************************************************************
+	 * Created 2008-08-19.
+	 *
+	 * Dijkstra path-finding functions. Adapted from the Dijkstar Python project.
+	 *
+	 * Copyright (C) 2008
+	 *   Wyatt Baldwin <self@wyattbaldwin.com>
+	 *   All rights reserved
+	 *
+	 * Licensed under the MIT license.
+	 *
+	 *   http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	 * THE SOFTWARE.
+	 *****************************************************************************/
+	var dijkstra = {
+	  single_source_shortest_paths: function(graph, s, d) {
+	    // Predecessor map for each node that has been encountered.
+	    // node ID => predecessor node ID
+	    var predecessors = {};
+
+	    // Costs of shortest paths from s to all nodes encountered.
+	    // node ID => cost
+	    var costs = {};
+	    costs[s] = 0;
+
+	    // Costs of shortest paths from s to all nodes encountered; differs from
+	    // `costs` in that it provides easy access to the node that currently has
+	    // the known shortest path from s.
+	    // XXX: Do we actually need both `costs` and `open`?
+	    var open = dijkstra.PriorityQueue.make();
+	    open.push(s, 0);
+
+	    var closest,
+	        u, v,
+	        cost_of_s_to_u,
+	        adjacent_nodes,
+	        cost_of_e,
+	        cost_of_s_to_u_plus_cost_of_e,
+	        cost_of_s_to_v,
+	        first_visit;
+	    while (!open.empty()) {
+	      // In the nodes remaining in graph that have a known cost from s,
+	      // find the node, u, that currently has the shortest path from s.
+	      closest = open.pop();
+	      u = closest.value;
+	      cost_of_s_to_u = closest.cost;
+
+	      // Get nodes adjacent to u...
+	      adjacent_nodes = graph[u] || {};
+
+	      // ...and explore the edges that connect u to those nodes, updating
+	      // the cost of the shortest paths to any or all of those nodes as
+	      // necessary. v is the node across the current edge from u.
+	      for (v in adjacent_nodes) {
+	        if (adjacent_nodes.hasOwnProperty(v)) {
+	          // Get the cost of the edge running from u to v.
+	          cost_of_e = adjacent_nodes[v];
+
+	          // Cost of s to u plus the cost of u to v across e--this is *a*
+	          // cost from s to v that may or may not be less than the current
+	          // known cost to v.
+	          cost_of_s_to_u_plus_cost_of_e = cost_of_s_to_u + cost_of_e;
+
+	          // If we haven't visited v yet OR if the current known cost from s to
+	          // v is greater than the new cost we just found (cost of s to u plus
+	          // cost of u to v across e), update v's cost in the cost list and
+	          // update v's predecessor in the predecessor list (it's now u).
+	          cost_of_s_to_v = costs[v];
+	          first_visit = (typeof costs[v] === 'undefined');
+	          if (first_visit || cost_of_s_to_v > cost_of_s_to_u_plus_cost_of_e) {
+	            costs[v] = cost_of_s_to_u_plus_cost_of_e;
+	            open.push(v, cost_of_s_to_u_plus_cost_of_e);
+	            predecessors[v] = u;
+	          }
+	        }
+	      }
+	    }
+
+	    if (typeof d !== 'undefined' && typeof costs[d] === 'undefined') {
+	      var msg = ['Could not find a path from ', s, ' to ', d, '.'].join('');
+	      throw new Error(msg);
+	    }
+
+	    return predecessors;
+	  },
+
+	  extract_shortest_path_from_predecessor_list: function(predecessors, d) {
+	    var nodes = [];
+	    var u = d;
+	    var predecessor;
+	    while (u) {
+	      nodes.push(u);
+	      predecessor = predecessors[u];
+	      u = predecessors[u];
+	    }
+	    nodes.reverse();
+	    return nodes;
+	  },
+
+	  find_path: function(graph, s, d) {
+	    var predecessors = dijkstra.single_source_shortest_paths(graph, s, d);
+	    return dijkstra.extract_shortest_path_from_predecessor_list(
+	      predecessors, d);
+	  },
+
+	  /**
+	   * A very naive priority queue implementation.
+	   */
+	  PriorityQueue: {
+	    make: function (opts) {
+	      var T = dijkstra.PriorityQueue,
+	          t = {},
+	          key;
+	      opts = opts || {};
+	      for (key in T) {
+	        if (T.hasOwnProperty(key)) {
+	          t[key] = T[key];
+	        }
+	      }
+	      t.queue = [];
+	      t.sorter = opts.sorter || T.default_sorter;
+	      return t;
+	    },
+
+	    default_sorter: function (a, b) {
+	      return a.cost - b.cost;
+	    },
+
+	    /**
+	     * Add a new item to the queue and ensure the highest priority element
+	     * is at the front of the queue.
+	     */
+	    push: function (value, cost) {
+	      var item = {value: value, cost: cost};
+	      this.queue.push(item);
+	      this.queue.sort(this.sorter);
+	    },
+
+	    /**
+	     * Return the highest priority element in the queue.
+	     */
+	    pop: function () {
+	      return this.queue.shift();
+	    },
+
+	    empty: function () {
+	      return this.queue.length === 0;
+	    }
+	  }
+	};
+
+
+	// node.js module exports
+	if (typeof module !== 'undefined') {
+	  module.exports = dijkstra;
+	}
+
+	},{}],32:[function(require,module,exports){
+	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+	  var e, m;
+	  var eLen = (nBytes * 8) - mLen - 1;
+	  var eMax = (1 << eLen) - 1;
+	  var eBias = eMax >> 1;
+	  var nBits = -7;
+	  var i = isLE ? (nBytes - 1) : 0;
+	  var d = isLE ? -1 : 1;
+	  var s = buffer[offset + i];
+
+	  i += d;
+
+	  e = s & ((1 << (-nBits)) - 1);
+	  s >>= (-nBits);
+	  nBits += eLen;
+	  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+	  m = e & ((1 << (-nBits)) - 1);
+	  e >>= (-nBits);
+	  nBits += mLen;
+	  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+	  if (e === 0) {
+	    e = 1 - eBias;
+	  } else if (e === eMax) {
+	    return m ? NaN : ((s ? -1 : 1) * Infinity)
+	  } else {
+	    m = m + Math.pow(2, mLen);
+	    e = e - eBias;
+	  }
+	  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+	};
+
+	exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+	  var e, m, c;
+	  var eLen = (nBytes * 8) - mLen - 1;
+	  var eMax = (1 << eLen) - 1;
+	  var eBias = eMax >> 1;
+	  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0);
+	  var i = isLE ? 0 : (nBytes - 1);
+	  var d = isLE ? 1 : -1;
+	  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0;
+
+	  value = Math.abs(value);
+
+	  if (isNaN(value) || value === Infinity) {
+	    m = isNaN(value) ? 1 : 0;
+	    e = eMax;
+	  } else {
+	    e = Math.floor(Math.log(value) / Math.LN2);
+	    if (value * (c = Math.pow(2, -e)) < 1) {
+	      e--;
+	      c *= 2;
+	    }
+	    if (e + eBias >= 1) {
+	      value += rt / c;
+	    } else {
+	      value += rt * Math.pow(2, 1 - eBias);
+	    }
+	    if (value * c >= 2) {
+	      e++;
+	      c /= 2;
+	    }
+
+	    if (e + eBias >= eMax) {
+	      m = 0;
+	      e = eMax;
+	    } else if (e + eBias >= 1) {
+	      m = ((value * c) - 1) * Math.pow(2, mLen);
+	      e = e + eBias;
+	    } else {
+	      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+	      e = 0;
+	    }
+	  }
+
+	  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+	  e = (e << mLen) | m;
+	  eLen += mLen;
+	  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+	  buffer[offset + i - d] |= s * 128;
+	};
+
+	},{}],33:[function(require,module,exports){
+	var toString = {}.toString;
+
+	module.exports = Array.isArray || function (arr) {
+	  return toString.call(arr) == '[object Array]';
+	};
+
+	},{}]},{},[24])(24)
+	});
+
+
+	});
+
+	var index = {
+	  name: 'qrcode',
+	  props: {
+	    /**
+	     * The value of the QR code.
+	     */
+	    value: null,
+
+	    /**
+	     * The options for the QR code generator.
+	     * {@link https://github.com/soldair/node-qrcode#qr-code-options}
+	     */
+	    options: Object,
+
+	    /**
+	     * The tag name of the component's root element.
+	     */
+	    tag: {
+	      type: String,
+	      default: 'canvas'
+	    }
+	  },
+	  render: function render(createElement) {
+	    return createElement(this.tag, this.$slots.default);
+	  },
+	  watch: {
+	    $props: {
+	      deep: true,
+	      immediate: true,
+
+	      /**
+	       * Update the QR code when props changed.
+	       */
+	      handler: function handler() {
+	        if (this.$el) {
+	          this.generate();
+	        }
+	      }
+	    }
+	  },
+	  methods: {
+	    /**
+	     * Generate QR code.
+	     */
+	    generate: function generate() {
+	      var _this = this;
+
+	      var options = this.options,
+	          tag = this.tag;
+	      var value = String(this.value);
+
+	      if (tag === 'canvas') {
+	        qrcode.toCanvas(this.$el, value, options, function (error) {
+	          /* istanbul ignore if */
+	          if (error) {
+	            throw error;
+	          }
+	        });
+	      } else if (tag === 'img') {
+	        qrcode.toDataURL(value, options, function (error, url) {
+	          /* istanbul ignore if */
+	          if (error) {
+	            throw error;
+	          }
+
+	          _this.$el.src = url;
+	        });
+	      } else {
+	        qrcode.toString(value, options, function (error, string) {
+	          /* istanbul ignore if */
+	          if (error) {
+	            throw error;
+	          }
+
+	          _this.$el.innerHTML = string;
+	        });
+	      }
+	    }
+	  },
+	  mounted: function mounted() {
+	    this.generate();
+	  }
+	};
+
+	return index;
+
+})));
+
+
+/***/ }),
+
+/***/ "./node_modules/@nextcloud/vue/dist/Components/NcActionCheckbox.mjs":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@nextcloud/vue/dist/Components/NcActionCheckbox.mjs ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _chunks_NcActionCheckbox_DSMKeccY_mjs__WEBPACK_IMPORTED_MODULE_0__.N)
+/* harmony export */ });
+/* harmony import */ var _chunks_NcActionCheckbox_DSMKeccY_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chunks/NcActionCheckbox-DSMKeccY.mjs */ "./node_modules/@nextcloud/vue/dist/chunks/NcActionCheckbox-DSMKeccY.mjs");
+
+
+//# sourceMappingURL=NcActionCheckbox.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=script&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _store_authtoken_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/authtoken.ts */ "./apps/settings/src/store/authtoken.ts");
+/* harmony import */ var _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcActions */ "./node_modules/@nextcloud/vue/dist/Components/NcActions.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionCheckbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionCheckbox */ "./node_modules/@nextcloud/vue/dist/Components/NcActionCheckbox.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcDateTime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcDateTime */ "./node_modules/@nextcloud/vue/dist/Components/NcDateTime.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+
+
+
+
+
+
+
+
+
+
+
+// When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
+const userAgentMap = {
+  ie: /(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,
+  // Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
+  edge: /^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/,
+  // Firefox User Agent from https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
+  firefox: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) Gecko\/[0-9.]+ Firefox\/(\d+)(?:\.\d)?$/,
+  // Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
+  chrome: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/(\d+)[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+$/,
+  // Safari User Agent from http://www.useragentstring.com/pages/Safari/
+  safari: /^Mozilla\/5\.0 \([^)]*(Windows|OS X)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)(?: Version\/([0-9]+)[0-9.]+)? Safari\/[0-9.A-Z]+$/,
+  // Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
+  androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
+  iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
+  ipad: /\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
+  iosClient: /^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)-iOS.*$/,
+  androidClient: /^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)-android.*$/,
+  iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,
+  androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,
+  // DAVx5/3.3.8-beta2-gplay (2021/01/02; dav4jvm; okhttp/4.9.0) Android/10
+  davx5: /DAV(?:droid|x5)\/([^ ]+)/,
+  // Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
+  webPirate: /(Sailfish).*WebPirate\/(\d+)/,
+  // Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
+  sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/,
+  // Neon 1.0.0+1
+  neon: /Neon \d+\.\d+\.\d+\+\d+/
+};
+const nameMap = {
+  edge: 'Microsoft Edge',
+  firefox: 'Firefox',
+  chrome: 'Google Chrome',
+  safari: 'Safari',
+  androidChrome: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', 'Google Chrome for Android'),
+  iphone: 'iPhone',
+  ipad: 'iPad',
+  iosClient: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{productName} iOS app', {
+    productName: window.oc_defaults.productName
+  }),
+  androidClient: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{productName} Android app', {
+    productName: window.oc_defaults.productName
+  }),
+  iosTalkClient: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{productName} Talk for iOS', {
+    productName: window.oc_defaults.productName
+  }),
+  androidTalkClient: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{productName} Talk for Android', {
+    productName: window.oc_defaults.productName
+  }),
+  syncClient: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', 'Sync client'),
+  davx5: 'DAVx5',
+  webPirate: 'WebPirate',
+  sailfishBrowser: 'SailfishBrowser',
+  neon: 'Neon'
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_9__.defineComponent)({
+  name: 'AuthToken',
+  components: {
+    NcActions: _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_2__["default"],
+    NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    NcActionCheckbox: _nextcloud_vue_components_NcActionCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"],
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcDateTime: _nextcloud_vue_components_NcDateTime__WEBPACK_IMPORTED_MODULE_6__["default"],
+    NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_7__["default"],
+    NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_8__["default"]
+  },
+  props: {
+    token: {
+      type: Object,
+      required: true
+    }
+  },
+  setup() {
+    const authTokenStore = (0,_store_authtoken_ts__WEBPACK_IMPORTED_MODULE_1__.useAuthTokenStore)();
+    return {
+      authTokenStore
+    };
+  },
+  data() {
+    return {
+      actionOpen: false,
+      renaming: false,
+      newName: '',
+      oldName: '',
+      mdiCheck: _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiCheck
+    };
+  },
+  computed: {
+    canChangeScope() {
+      return this.token.type === _store_authtoken_ts__WEBPACK_IMPORTED_MODULE_1__.TokenType.PERMANENT_TOKEN;
+    },
+    /**
+     * Object ob the current user agent used by the token
+     * This either returns an object containing user agent information or `null` if unknown
+     */
+    client() {
+      // pretty format sync client user agent
+      const matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/);
+      if (matches) {
+        return {
+          id: 'syncClient',
+          os: matches[1],
+          version: matches[2]
+        };
+      }
+      for (const client in userAgentMap) {
+        const matches = this.token.name.match(userAgentMap[client]);
+        if (matches) {
+          return {
+            id: client,
+            os: matches[2] && matches[1],
+            version: matches[2] ?? matches[1]
+          };
+        }
+      }
+      return null;
+    },
+    /**
+     * Last activity of the token as ECMA timestamp (in ms)
+     */
+    tokenLastActivity() {
+      return this.token.lastActivity * 1000;
+    },
+    /**
+     * Icon to use for the current token
+     */
+    tokenIcon() {
+      // For custom created app tokens / app passwords
+      if (this.token.type === _store_authtoken_ts__WEBPACK_IMPORTED_MODULE_1__.TokenType.PERMANENT_TOKEN) {
+        return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiKey;
+      }
+      switch (this.client?.id) {
+        case 'edge':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiMicrosoftEdge;
+        case 'firefox':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiFirefox;
+        case 'chrome':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiGoogleChrome;
+        case 'safari':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiAppleSafari;
+        case 'androidChrome':
+        case 'androidClient':
+        case 'androidTalkClient':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiAndroid;
+        case 'iphone':
+        case 'iosClient':
+        case 'iosTalkClient':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiAppleIos;
+        case 'ipad':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiTablet;
+        case 'davx5':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiCellphone;
+        case 'syncClient':
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiMonitor;
+        case 'webPirate':
+        case 'sailfishBrowser':
+        default:
+          return _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiWeb;
+      }
+    },
+    /**
+     * Label to be shown for current token
+     */
+    tokenLabel() {
+      if (this.token.current) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', 'This session');
+      }
+      if (this.client === null) {
+        return this.token.name;
+      }
+      const name = nameMap[this.client.id];
+      if (this.client.os) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{client} - {version} ({system})', {
+          client: name,
+          system: this.client.os,
+          version: this.client.version
+        });
+      } else if (this.client.version) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('settings', '{client} - {version}', {
+          client: name,
+          version: this.client.version
+        });
+      }
+      return name;
+    },
+    /**
+     * If the current token is considered for remote wiping
+     */
+    wiping() {
+      return this.token.type === _store_authtoken_ts__WEBPACK_IMPORTED_MODULE_1__.TokenType.WIPING_TOKEN;
+    }
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate,
+    updateFileSystemScope(state) {
+      this.authTokenStore.setTokenScope(this.token, 'filesystem', state);
+    },
+    startRename() {
+      // Close action (popover menu)
+      this.actionOpen = false;
+      this.oldName = this.token.name;
+      this.newName = this.token.name;
+      this.renaming = true;
+      this.$nextTick(() => {
+        this.$refs.input.select();
+      });
+    },
+    cancelRename() {
+      this.renaming = false;
+    },
+    revoke() {
+      this.actionOpen = false;
+      this.authTokenStore.deleteToken(this.token);
+    },
+    rename() {
+      this.renaming = false;
+      this.authTokenStore.renameToken(this.token, this.newName);
+    },
+    wipe() {
+      this.actionOpen = false;
+      this.authTokenStore.wipeToken(this.token);
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _store_authtoken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/authtoken */ "./apps/settings/src/store/authtoken.ts");
+/* harmony import */ var _AuthToken_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthToken.vue */ "./apps/settings/src/components/AuthToken.vue");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_3__.defineComponent)({
+  name: 'AuthTokenList',
+  components: {
+    AuthToken: _AuthToken_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  setup() {
+    const authTokenStore = (0,_store_authtoken__WEBPACK_IMPORTED_MODULE_1__.useAuthTokenStore)();
+    return {
+      authTokenStore
+    };
+  },
+  computed: {
+    sortedTokens() {
+      return [...this.authTokenStore.tokens].sort((t1, t2) => t2.lastActivity - t1.lastActivity);
+    }
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _AuthTokenList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthTokenList.vue */ "./apps/settings/src/components/AuthTokenList.vue");
+/* harmony import */ var _AuthTokenSetup_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AuthTokenSetup.vue */ "./apps/settings/src/components/AuthTokenSetup.vue");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_4__.defineComponent)({
+  name: 'AuthTokenSection',
+  components: {
+    AuthTokenList: _AuthTokenList_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    AuthTokenSetup: _AuthTokenSetup_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  data() {
+    return {
+      canCreateToken: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('settings', 'can_create_app_token')
+    };
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _store_authtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/authtoken */ "./apps/settings/src/store/authtoken.ts");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _AuthTokenSetupDialog_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AuthTokenSetupDialog.vue */ "./apps/settings/src/components/AuthTokenSetupDialog.vue");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../logger */ "./apps/settings/src/logger.ts");
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_7__.defineComponent)({
+  name: 'AuthTokenSetup',
+  components: {
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__["default"],
+    AuthTokenSetupDialog: _AuthTokenSetupDialog_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  setup() {
+    const authTokenStore = (0,_store_authtoken__WEBPACK_IMPORTED_MODULE_2__.useAuthTokenStore)();
+    return {
+      authTokenStore
+    };
+  },
+  data() {
+    return {
+      deviceName: '',
+      loading: false,
+      newToken: null
+    };
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate,
+    reset() {
+      this.loading = false;
+      this.deviceName = '';
+      this.newToken = null;
+    },
+    async submit() {
+      try {
+        this.loading = true;
+        this.newToken = await this.authTokenStore.addToken(this.deviceName);
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error(error);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Error while creating device token'));
+        this.reset();
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _chenfengyuan_vue_qrcode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @chenfengyuan/vue-qrcode */ "./node_modules/@chenfengyuan/vue-qrcode/dist/vue-qrcode.js");
+/* harmony import */ var _chenfengyuan_vue_qrcode__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_chenfengyuan_vue_qrcode__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcDialog */ "./node_modules/@nextcloud/vue/dist/Components/NcDialog.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger */ "./apps/settings/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_9__.defineComponent)({
+  name: 'AuthTokenSetupDialog',
+  components: {
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_4__["default"],
+    NcDialog: _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_6__["default"],
+    NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_7__["default"],
+    QR: (_chenfengyuan_vue_qrcode__WEBPACK_IMPORTED_MODULE_3___default())
+  },
+  props: {
+    token: {
+      type: Object,
+      required: false,
+      default: null
+    }
+  },
+  data() {
+    return {
+      isNameCopied: false,
+      isPasswordCopied: false,
+      showQRCode: false
+    };
+  },
+  computed: {
+    open: {
+      get() {
+        return this.token !== null;
+      },
+      set(value) {
+        if (!value) {
+          this.$emit('close');
+        }
+      }
+    },
+    copyPasswordIcon() {
+      return this.isPasswordCopied ? _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiCheck : _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiContentCopy;
+    },
+    copyNameIcon() {
+      return this.isNameCopied ? _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiCheck : _mdi_js__WEBPACK_IMPORTED_MODULE_10__.mdiContentCopy;
+    },
+    appPassword() {
+      return this.token?.token ?? '';
+    },
+    loginName() {
+      return this.token?.loginName ?? '';
+    },
+    qrUrl() {
+      const server = window.location.protocol + '//' + window.location.host + (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.getRootUrl)();
+      return `nc://login/user:${this.loginName}&password:${this.appPassword}&server:${server}`;
+    },
+    copyPasswordLabel() {
+      if (this.isPasswordCopied) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'App password copied!');
+      }
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Copy app password');
+    },
+    copyLoginNameLabel() {
+      if (this.isNameCopied) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Login name copied!');
+      }
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Copy login name');
+    }
+  },
+  watch: {
+    token() {
+      // reset showing the QR code on token change
+      this.showQRCode = false;
+    },
+    open() {
+      if (this.open) {
+        this.$nextTick(() => {
+          this.$refs.appPassword.select();
+        });
+      }
+    }
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate,
+    async copyPassword() {
+      try {
+        await navigator.clipboard.writeText(this.appPassword);
+        this.isPasswordCopied = true;
+      } catch (e) {
+        this.isPasswordCopied = false;
+        _logger__WEBPACK_IMPORTED_MODULE_8__["default"].error(e);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Could not copy app password. Please copy it manually.'));
+      } finally {
+        setTimeout(() => {
+          this.isPasswordCopied = false;
+        }, 4000);
+      }
+    },
+    async copyLoginName() {
+      try {
+        await navigator.clipboard.writeText(this.loginName);
+        this.isNameCopied = true;
+      } catch (e) {
+        this.isNameCopied = false;
+        _logger__WEBPACK_IMPORTED_MODULE_8__["default"].error(e);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('settings', 'Could not copy login name. Please copy it manually.'));
+      } finally {
+        setTimeout(() => {
+          this.isNameCopied = false;
+        }, 4000);
+      }
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=template&id=1a411ac0&scoped=true ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("tr", {
+    class: ["auth-token", {
+      "auth-token--wiping": _vm.wiping
+    }],
+    attrs: {
+      "data-id": _vm.token.id
+    }
+  }, [_c("td", {
+    staticClass: "auth-token__name"
+  }, [_c("NcIconSvgWrapper", {
+    attrs: {
+      path: _vm.tokenIcon
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "auth-token__name-wrapper"
+  }, [_vm.token.canRename && _vm.renaming ? _c("form", {
+    staticClass: "auth-token__name-form",
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return _vm.rename.apply(null, arguments);
+      }
+    }
+  }, [_c("NcTextField", {
+    ref: "input",
+    attrs: {
+      value: _vm.newName,
+      label: _vm.t("settings", "Device name"),
+      "show-trailing-button": true,
+      "trailing-button-label": _vm.t("settings", "Cancel renaming")
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.newName = $event;
+      },
+      "trailing-button-click": _vm.cancelRename,
+      keyup: function ($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "esc", 27, $event.key, ["Esc", "Escape"])) return null;
+        return _vm.cancelRename.apply(null, arguments);
+      }
+    }
+  }), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      "aria-label": _vm.t("settings", "Save new name"),
+      type: "tertiary",
+      "native-type": "submit"
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            path: _vm.mdiCheck
+          }
+        })];
+      },
+      proxy: true
+    }], null, false, 1018299955)
+  })], 1) : _c("span", [_vm._v(_vm._s(_vm.tokenLabel))]), _vm._v(" "), _vm.wiping ? _c("span", {
+    staticClass: "wiping-warning"
+  }, [_vm._v("(" + _vm._s(_vm.t("settings", "Marked for remote wipe")) + ")")]) : _vm._e()])], 1), _vm._v(" "), _c("td", [_c("NcDateTime", {
+    staticClass: "auth-token__last-activity",
+    attrs: {
+      "ignore-seconds": true,
+      timestamp: _vm.tokenLastActivity
+    }
+  })], 1), _vm._v(" "), _c("td", {
+    staticClass: "auth-token__actions"
+  }, [!_vm.token.current ? _c("NcActions", {
+    attrs: {
+      title: _vm.t("settings", "Device settings"),
+      "aria-label": _vm.t("settings", "Device settings"),
+      open: _vm.actionOpen
+    },
+    on: {
+      "update:open": function ($event) {
+        _vm.actionOpen = $event;
+      }
+    }
+  }, [_vm.canChangeScope ? _c("NcActionCheckbox", {
+    attrs: {
+      checked: _vm.token.scope.filesystem
+    },
+    on: {
+      "update:checked": _vm.updateFileSystemScope
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "Allow filesystem access")) + "\n\t\t\t")]) : _vm._e(), _vm._v(" "), _vm.token.canRename ? _c("NcActionButton", {
+    attrs: {
+      icon: "icon-rename"
+    },
+    on: {
+      click: function ($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        return _vm.startRename.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "Rename")) + "\n\t\t\t")]) : _vm._e(), _vm._v(" "), _vm.token.canDelete ? [_vm.token.type !== 2 ? [_c("NcActionButton", {
+    attrs: {
+      icon: "icon-delete"
+    },
+    on: {
+      click: function ($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        return _vm.revoke.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.t("settings", "Revoke")) + "\n\t\t\t\t\t")]), _vm._v(" "), _c("NcActionButton", {
+    attrs: {
+      icon: "icon-delete"
+    },
+    on: {
+      click: function ($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        return _vm.wipe.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.t("settings", "Wipe device")) + "\n\t\t\t\t\t")])] : _vm.token.type === 2 ? _c("NcActionButton", {
+    attrs: {
+      icon: "icon-delete",
+      name: _vm.t("settings", "Revoke")
+    },
+    on: {
+      click: function ($event) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        return _vm.revoke.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("settings", "Revoking this token might prevent the wiping of your device if it has not started the wipe yet.")) + "\n\t\t\t\t")]) : _vm._e()] : _vm._e()], 2) : _vm._e()], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=template&id=04e85c7e&scoped=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("table", {
+    staticClass: "token-list",
+    attrs: {
+      id: "app-tokens-table"
+    }
+  }, [_c("thead", [_c("tr", [_c("th", {
+    staticClass: "token-list__header-device"
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "Device")) + "\n\t\t\t")]), _vm._v(" "), _c("th", {
+    staticClass: "toke-list__header-activity"
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "Last activity")) + "\n\t\t\t")]), _vm._v(" "), _c("th", [_c("span", {
+    staticClass: "hidden-visually"
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("settings", "Actions")) + "\n\t\t\t\t")])])])]), _vm._v(" "), _c("tbody", {
+    staticClass: "token-list__body"
+  }, _vm._l(_vm.sortedTokens, function (token) {
+    return _c("AuthToken", {
+      key: token.id,
+      attrs: {
+        token: token
+      }
+    });
+  }), 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5":
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSection.vue?vue&type=template&id=3d9b79b5 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("div", {
+    staticClass: "section",
+    attrs: {
+      id: "security"
+    }
+  }, [_c("h2", [_vm._v(_vm._s(_vm.t("settings", "Devices & sessions", {}, undefined, {
+    sanitize: false
+  })))]), _vm._v(" "), _c("p", {
+    staticClass: "settings-hint hidden-when-empty"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Web, desktop and mobile clients currently logged in to your account.")) + "\n\t")]), _vm._v(" "), _c("AuthTokenList"), _vm._v(" "), _vm.canCreateToken ? _c("AuthTokenSetup") : _vm._e()], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=template&id=4099f74d&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("form", {
+    staticClass: "row spacing",
+    attrs: {
+      id: "generate-app-token-section"
+    },
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.submit.apply(null, arguments);
+      }
+    }
+  }, [_c("NcTextField", {
+    staticClass: "app-name-text-field",
+    attrs: {
+      value: _vm.deviceName,
+      type: "text",
+      maxlength: 120,
+      disabled: _vm.loading,
+      label: _vm.t("settings", "App name"),
+      placeholder: _vm.t("settings", "App name")
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.deviceName = $event;
+      }
+    }
+  }), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      type: "primary",
+      disabled: _vm.loading || _vm.deviceName.length === 0,
+      "native-type": "submit"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Create new app password")) + "\n\t")]), _vm._v(" "), _c("AuthTokenSetupDialog", {
+    attrs: {
+      token: _vm.newToken
+    },
+    on: {
+      close: function ($event) {
+        _vm.newToken = null;
+      }
+    }
+  })], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=template&id=44fad0f5&scoped=true ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("NcDialog", {
+    attrs: {
+      open: _vm.open,
+      name: _vm.t("settings", "New app password"),
+      "content-classes": "token-dialog"
+    },
+    on: {
+      "update:open": function ($event) {
+        _vm.open = $event;
+      }
+    }
+  }, [_c("p", [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Use the credentials below to configure your app or device. For security reasons this password will only be shown once.")) + "\n\t")]), _vm._v(" "), _c("div", {
+    staticClass: "token-dialog__name"
+  }, [_c("NcTextField", {
+    attrs: {
+      label: _vm.t("settings", "Login"),
+      value: _vm.loginName,
+      readonly: ""
+    }
+  }), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      type: "tertiary",
+      title: _vm.copyLoginNameLabel,
+      "aria-label": _vm.copyLoginNameLabel
+    },
+    on: {
+      click: _vm.copyLoginName
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            path: _vm.copyNameIcon
+          }
+        })];
+      },
+      proxy: true
+    }])
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "token-dialog__password"
+  }, [_c("NcTextField", {
+    ref: "appPassword",
+    attrs: {
+      label: _vm.t("settings", "Password"),
+      value: _vm.appPassword,
+      readonly: ""
+    }
+  }), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      type: "tertiary",
+      title: _vm.copyPasswordLabel,
+      "aria-label": _vm.copyPasswordLabel
+    },
+    on: {
+      click: _vm.copyPassword
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            path: _vm.copyPasswordIcon
+          }
+        })];
+      },
+      proxy: true
+    }])
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "token-dialog__qrcode"
+  }, [!_vm.showQRCode ? _c("NcButton", {
+    on: {
+      click: function ($event) {
+        _vm.showQRCode = true;
+      }
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Show QR code for mobile apps")) + "\n\t\t")]) : _c("QR", {
+    attrs: {
+      value: _vm.qrUrl
+    }
+  })], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.auth-token[data-v-1a411ac0] {
+  border-top: 2px solid var(--color-border);
+  max-width: 200px;
+  white-space: normal;
+  vertical-align: middle;
+  position: relative;
+}
+.auth-token--wiping[data-v-1a411ac0] {
+  background-color: var(--color-background-dark);
+}
+.auth-token__name[data-v-1a411ac0] {
+  padding-block: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 355px;
+}
+.auth-token__name-wrapper[data-v-1a411ac0] {
+  display: flex;
+  flex-direction: column;
+}
+.auth-token__name-form[data-v-1a411ac0] {
+  align-items: end;
+  display: flex;
+  gap: 4px;
+}
+.auth-token__actions[data-v-1a411ac0] {
+  padding: 0 10px;
+}
+.auth-token__last-activity[data-v-1a411ac0] {
+  padding-inline-start: 10px;
+}
+.auth-token .wiping-warning[data-v-1a411ac0] {
+  color: var(--color-text-maxcontrast);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.token-list[data-v-04e85c7e] {
+  width: 100%;
+  min-height: 50px;
+  padding-top: 5px;
+  max-width: fit-content;
+}
+.token-list th[data-v-04e85c7e] {
+  padding-block: 10px;
+  padding-inline-start: 10px;
+}
+.token-list .token-list__header-device[data-v-04e85c7e] {
+  padding-inline-start: 50px;
+}
+.token-list__header-activity[data-v-04e85c7e] {
+  text-align: end;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.app-name-text-field[data-v-4099f74d] {
+  height: 44px !important;
+  padding-inline-start: 12px;
+  margin-inline-end: 12px;
+  width: 200px;
+}
+.row[data-v-4099f74d] {
+  display: flex;
+  align-items: center;
+}
+.spacing[data-v-4099f74d] {
+  padding-top: 16px;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `[data-v-44fad0f5] .token-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-inline: 22px;
+  padding-block-end: 20px;
+}
+[data-v-44fad0f5] .token-dialog > * {
+  box-sizing: border-box;
+}
+.token-dialog__name[data-v-44fad0f5], .token-dialog__password[data-v-44fad0f5] {
+  align-items: end;
+  display: flex;
+  gap: 10px;
+}
+.token-dialog__name[data-v-44fad0f5] input, .token-dialog__password[data-v-44fad0f5] input {
+  font-family: monospace;
+}
+.token-dialog__qrcode[data-v-44fad0f5] {
+  display: flex;
+  justify-content: center;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthToken.vue?vue&type=style&index=0&id=1a411ac0&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthToken_vue_vue_type_style_index_0_id_1a411ac0_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenList.vue?vue&type=style&index=0&id=04e85c7e&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenList_vue_vue_type_style_index_0_id_04e85c7e_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetup.vue?vue&type=style&index=0&id=4099f74d&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetup_vue_vue_type_style_index_0_id_4099f74d_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AuthTokenSetupDialog.vue?vue&type=style&index=0&id=44fad0f5&scoped=true&lang=scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthTokenSetupDialog_vue_vue_type_style_index_0_id_44fad0f5_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"0a21f85fb5edb886fad0","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"5414d4143400c9b713c3","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-391a6e":"87f84948225387ac2eec"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-vue-settings-personal-security": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/main-personal-security.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-vue-settings-personal-security.js.map?v=8ce7be76bb54c7dc4ee5

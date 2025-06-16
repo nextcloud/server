@@ -1,2 +1,2670 @@
-(()=>{"use strict";var e,t,n,i={7145:(e,t,n)=>{n.d(t,{A:()=>s});var i=n(87485),r=n(32981);class s{constructor(){var e,t,n;e=this,n=void 0,(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var n=t.call(e,"string");if("object"!=typeof n)return n;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t="_capabilities"))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,this._capabilities=(0,i.F)()}get defaultPermissions(){return this._capabilities.files_sharing?.default_permissions}get isPublicUploadEnabled(){return!0===this._capabilities.files_sharing?.public?.upload}get federatedShareDocLink(){return window.OC.appConfig.core.federatedCloudShareDoc}get defaultExpirationDate(){return this.isDefaultExpireDateEnabled&&null!==this.defaultExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultExpireDate)):null}get defaultInternalExpirationDate(){return this.isDefaultInternalExpireDateEnabled&&null!==this.defaultInternalExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultInternalExpireDate)):null}get defaultRemoteExpirationDateString(){return this.isDefaultRemoteExpireDateEnabled&&null!==this.defaultRemoteExpireDate?new Date((new Date).setDate((new Date).getDate()+this.defaultRemoteExpireDate)):null}get enforcePasswordForPublicLink(){return!0===window.OC.appConfig.core.enforcePasswordForPublicLink}get enableLinkPasswordByDefault(){return!0===window.OC.appConfig.core.enableLinkPasswordByDefault}get isDefaultExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultExpireDateEnforced}get isDefaultExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultExpireDateEnabled}get isDefaultInternalExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultInternalExpireDateEnforced}get isDefaultInternalExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultInternalExpireDateEnabled}get isDefaultRemoteExpireDateEnforced(){return!0===window.OC.appConfig.core.defaultRemoteExpireDateEnforced}get isDefaultRemoteExpireDateEnabled(){return!0===window.OC.appConfig.core.defaultRemoteExpireDateEnabled}get isRemoteShareAllowed(){return!0===window.OC.appConfig.core.remoteShareAllowed}get isPublicShareAllowed(){return!0===this._capabilities?.files_sharing?.public?.enabled}get isMailShareAllowed(){return!0===this._capabilities?.files_sharing?.sharebymail?.enabled&&!0===this.isPublicShareAllowed}get defaultExpireDate(){return window.OC.appConfig.core.defaultExpireDate}get defaultInternalExpireDate(){return window.OC.appConfig.core.defaultInternalExpireDate}get defaultRemoteExpireDate(){return window.OC.appConfig.core.defaultRemoteExpireDate}get isResharingAllowed(){return!0===window.OC.appConfig.core.resharingAllowed}get isPasswordForMailSharesRequired(){return!0===this._capabilities.files_sharing?.sharebymail?.password?.enforced}get shouldAlwaysShowUnique(){return!0===this._capabilities.files_sharing?.sharee?.always_show_unique}get allowGroupSharing(){return!0===window.OC.appConfig.core.allowGroupSharing}get maxAutocompleteResults(){return parseInt(window.OC.config["sharing.maxAutocompleteResults"],10)||25}get minSearchStringLength(){return parseInt(window.OC.config["sharing.minSearchStringLength"],10)||0}get passwordPolicy(){return this._capabilities?.password_policy||{}}get allowCustomTokens(){return this._capabilities?.files_sharing?.public?.custom_tokens}get showFederatedSharesAsInternal(){return(0,r.C)("files_sharing","showFederatedSharesAsInternal",!1)}}},9165:(e,t,n)=>{n.d(t,{Brj:()=>l,HzW:()=>h,IyB:()=>r,Krx:()=>i,NZC:()=>s,ZL5:()=>d,fEr:()=>o,jUz:()=>u,kHm:()=>c,kOJ:()=>a});var i="M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z",r="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z",s="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z",o="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z",a="M1,1V5H2V19H1V23H5V22H19V23H23V19H22V5H23V1H19V2H5V1M5,4H19V5H20V19H19V20H5V19H4V5H5M6,6V14H9V18H18V9H14V6M8,8H12V12H8M14,11H16V16H11V14H14",l="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z",c="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z",u="M17,3A2,2 0 0,1 19,5V15A2,2 0 0,1 17,17H13V19H14A1,1 0 0,1 15,20H22V22H15A1,1 0 0,1 14,23H10A1,1 0 0,1 9,22H2V20H9A1,1 0 0,1 10,19H11V17H7C5.89,17 5,16.1 5,15V5A2,2 0 0,1 7,3H17Z",d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z",h="M5.5,7A1.5,1.5 0 0,1 4,5.5A1.5,1.5 0 0,1 5.5,4A1.5,1.5 0 0,1 7,5.5A1.5,1.5 0 0,1 5.5,7M21.41,11.58L12.41,2.58C12.05,2.22 11.55,2 11,2H4C2.89,2 2,2.89 2,4V11C2,11.55 2.22,12.05 2.59,12.41L11.58,21.41C11.95,21.77 12.45,22 13,22C13.55,22 14.05,21.77 14.41,21.41L21.41,14.41C21.78,14.05 22,13.55 22,13C22,12.44 21.77,11.94 21.41,11.58Z"},18709:(e,t,n)=>{n.d(t,{C:()=>d,h:()=>h});var i=n(21777),r=n(35810),s=n(63814),o=n(65043),a=n(62746);const l={"Content-Type":"application/json"},c=async function(e){try{if(void 0!==e?.remote_id){if(!e.mimetype){const t=(await n.e(857).then(n.bind(n,10857))).default;e.mimetype=t.getType(e.name)}e.item_type=e.type||(e.mimetype?"file":"folder"),e.item_mtime=e.mtime,e.file_target=e.file_target||e.mountpoint,e.file_target.includes("TemporaryMountPointName")&&(e.file_target=e.name),e.accepted||(e.item_permissions=r.aX.NONE,e.permissions=r.aX.NONE),e.uid_owner=e.owner,e.displayname_owner=e.owner}const t="folder"===e?.item_type,i=!0===e?.has_preview,s=t?r.vd:r.ZH,o=e.file_source||e.file_id||e.id,a=e.path||e.file_target||e.name,l=`${r.PY}${r.lJ}/${a.replace(/^\/+/,"")}`;let c,u=e.item_mtime?new Date(1e3*e.item_mtime):void 0;return e?.stime>(e?.item_mtime||0)&&(u=new Date(1e3*e.stime)),"share_with"in e&&(c={sharee:{id:e.share_with,"display-name":e.share_with_displayname||e.share_with,type:e.share_type}}),new s({id:o,source:l,owner:e?.uid_owner,mime:e?.mimetype||"application/octet-stream",mtime:u,size:e?.item_size,permissions:e?.item_permissions||e?.permissions,root:r.lJ,attributes:{...e,"has-preview":i,"hide-download":1===e?.hide_download,"owner-id":e?.uid_owner,"owner-display-name":e?.displayname_owner,"share-types":e?.share_type,"share-attributes":e?.attributes||"[]",sharees:c,favorite:e?.tags?.includes(window.OC.TAG_FAVORITE)?1:0}})}catch(e){return a.A.error("Error while parsing OCS entry",{error:e}),null}},u=function(){let e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];const t=(0,s.KT)("apps/files_sharing/api/v1/shares");return o.Ay.get(t,{headers:l,params:{shared_with_me:e,include_tags:!0}})},d=function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"[]";const t=e=>"fileRequest"===e.scope&&"enabled"===e.key&&!0===e.value;try{return JSON.parse(e).some(t)}catch(e){return a.A.error("Error while parsing share attributes",{error:e}),!1}},h=async function(){let e=!(arguments.length>1&&void 0!==arguments[1])||arguments[1],t=arguments.length>2&&void 0!==arguments[2]&&arguments[2],n=arguments.length>3&&void 0!==arguments[3]&&arguments[3],a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:[];const d=[];(!(arguments.length>0&&void 0!==arguments[0])||arguments[0])&&d.push(u(!0),function(){const e=(0,s.KT)("apps/files_sharing/api/v1/remote_shares");return o.Ay.get(e,{headers:l,params:{include_tags:!0}})}()),e&&d.push(u()),t&&d.push(function(){const e=(0,s.KT)("apps/files_sharing/api/v1/shares/pending");return o.Ay.get(e,{headers:l,params:{include_tags:!0}})}(),function(){const e=(0,s.KT)("apps/files_sharing/api/v1/remote_shares/pending");return o.Ay.get(e,{headers:l,params:{include_tags:!0}})}()),n&&d.push(function(){const e=(0,s.KT)("apps/files_sharing/api/v1/deletedshares");return o.Ay.get(e,{headers:l,params:{include_tags:!0}})}());const h=(await Promise.all(d)).map((e=>e.data.ocs.data)).flat();let p=(await Promise.all(h.map(c))).filter((e=>null!==e));var f,g;return a.length>0&&(p=p.filter((e=>a.includes(e.attributes?.share_type)))),p=(f=p,g="source",Object.values(f.reduce((function(e,t){return(e[t[g]]=e[t[g]]||[]).push(t),e}),{}))).map((e=>{const t=e[0];return t.attributes["share-types"]=e.map((e=>e.attributes["share-types"])),t})),{folder:new r.vd({id:0,source:`${r.PY}${r.lJ}`,owner:(0,i.HW)()?.uid||null}),contents:p}}},23197:(e,t,n)=>{n.d(t,{A:()=>a});var i=n(71354),r=n.n(i),s=n(76314),o=n.n(s)()(r());o.push([e.id,"\n.files-list-filter__clear-button[data-v-00a77ab8] .action-button__text {\n\tcolor: var(--color-error-text);\n}\n[data-v-00a77ab8] .button-vue {\n\tfont-weight: normal !important;\n*[data-v-00a77ab8] {\n\t\tfont-weight: normal !important;\n}\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/FileListFilter/FileListFilter.vue"],names:[],mappings:";AAyCA;CACA,8BAAA;AACA;AAEA;CACA,8BAAA;AAEA;EACA,8BAAA;AACA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<NcActions force-menu\n\t\t:type=\"isActive ? 'secondary' : 'tertiary'\"\n\t\t:menu-name=\"filterName\">\n\t\t<template #icon>\n\t\t\t<slot name=\"icon\" />\n\t\t</template>\n\t\t<slot />\n\n\t\t<template v-if=\"isActive\">\n\t\t\t<NcActionSeparator />\n\t\t\t<NcActionButton class=\"files-list-filter__clear-button\"\n\t\t\t\tclose-after-click\n\t\t\t\t@click=\"$emit('reset-filter')\">\n\t\t\t\t{{ t('files', 'Clear filter') }}\n\t\t\t</NcActionButton>\n\t\t</template>\n\t</NcActions>\n</template>\n\n<script setup lang=\"ts\">\nimport { t } from '@nextcloud/l10n'\nimport NcActions from '@nextcloud/vue/components/NcActions'\nimport NcActionButton from '@nextcloud/vue/components/NcActionButton'\nimport NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'\n\ndefineProps<{\n\tisActive: boolean\n\tfilterName: string\n}>()\n\ndefineEmits<{\n\t(event: 'reset-filter'): void\n}>()\n<\/script>\n\n<style scoped>\n.files-list-filter__clear-button :deep(.action-button__text) {\n\tcolor: var(--color-error-text);\n}\n\n:deep(.button-vue) {\n\tfont-weight: normal !important;\n\n\t* {\n\t\tfont-weight: normal !important;\n\t}\n}\n</style>\n"],sourceRoot:""}]);const a=o},23887:(e,t,n)=>{n.d(t,{A:()=>a});var i=n(71354),r=n.n(i),s=n(76314),o=n.n(s)()(r());o.push([e.id,".file-list-filter-accounts__item[data-v-6a51fbde]{min-width:250px}.file-list-filter-accounts__avatar[data-v-6a51fbde]{margin:calc((var(--default-clickable-area) - 24px)/2)}","",{version:3,sources:["webpack://./apps/files_sharing/src/components/FileListFilterAccount.vue"],names:[],mappings:"AAEC,kDACC,eAAA,CAGD,oDAEC,qDAAA",sourcesContent:["\n.file-list-filter-accounts {\n\t&__item {\n\t\tmin-width: 250px;\n\t}\n\n\t&__avatar {\n\t\t// 24px is the avatar size\n\t\tmargin: calc((var(--default-clickable-area) - 24px) / 2)\n\t}\n}\n"],sourceRoot:""}]);const a=o},26483:(e,t,n)=>{var i=n(35810),r=n(77815),s=n(61338),o=n(77905),a=n(85471),l=n(53334),c=n(9165),u=n(24764),d=n(57505),h=n(15502);const p=(0,a.pM)({__name:"FileListFilter",props:{isActive:{type:Boolean},filterName:null},emits:["reset-filter"],setup:e=>({__sfc:!0,t:l.t,NcActions:u.A,NcActionButton:d.A,NcActionSeparator:h.A})});var f=n(85072),g=n.n(f),m=n(97825),w=n.n(m),v=n(77659),E=n.n(v),A=n(55056),b=n.n(A),y=n(10540),_=n.n(y),N=n(41113),x=n.n(N),I=n(23197),C={};C.styleTagTransform=x(),C.setAttributes=b(),C.insert=E().bind(null,"head"),C.domAPI=w(),C.insertStyleElement=_(),g()(I.A,C),I.A&&I.A.locals&&I.A.locals;var T=n(14486);const O=(0,T.A)(p,(function(){var e=this,t=e._self._c,n=e._self._setupProxy;return t(n.NcActions,{attrs:{"force-menu":"",type:e.isActive?"secondary":"tertiary","menu-name":e.filterName},scopedSlots:e._u([{key:"icon",fn:function(){return[e._t("icon")]},proxy:!0}],null,!0)},[e._v(" "),e._t("default"),e._v(" "),e.isActive?[t(n.NcActionSeparator),e._v(" "),t(n.NcActionButton,{staticClass:"files-list-filter__clear-button",attrs:{"close-after-click":""},on:{click:function(t){return e.$emit("reset-filter")}}},[e._v("\n\t\t\t"+e._s(n.t("files","Clear filter"))+"\n\t\t")])]:e._e()],2)}),[],!1,null,"00a77ab8",null).exports;var L=n(44131),S=n(41944),R=n(6695);const P=(0,a.pM)({__name:"FileListFilterAccount",emits:["update:accounts"],setup(e,t){let{expose:n,emit:i}=t;const r=(0,a.KR)(""),s=(0,a.KR)([]),o=(0,a.KR)([]),u=(0,a.EW)((()=>{if(!r.value)return s.value;const e=r.value.toLocaleLowerCase().trim().split(" ");return s.value.filter((t=>e.every((e=>t.user.toLocaleLowerCase().includes(e)||t.displayName.toLocaleLowerCase().includes(e)))))}));function h(e){const t=s.value.find((t=>{let{id:n}=t;return n===e}));t&&o.value.includes(t)?o.value=o.value.filter((t=>{let{id:n}=t;return n!==e})):t&&(o.value=[...o.value,t])}function p(){o.value=[],r.value=""}function f(e){s.value=e.map((e=>{let{uid:t,displayName:n}=e;return{displayName:n,id:t,user:t}}))}return(0,a.wB)(o,(()=>{const e=o.value.map((e=>{let{id:t,displayName:n}=e;return{uid:t,displayName:n}}));i("update:accounts",e)})),n({resetFilter:p,setAvailableAccounts:f,toggleAccount:h}),{__sfc:!0,emit:i,accountFilter:r,availableAccounts:s,selectedAccounts:o,shownAccounts:u,toggleAccount:h,resetFilter:p,setAvailableAccounts:f,t:l.Tl,mdiAccountMultiple:c.Krx,FileListFilter:O,NcActionButton:d.A,NcActionInput:L.A,NcAvatar:S.A,NcIconSvgWrapper:R.A}}});var V=n(23887),D={};D.styleTagTransform=x(),D.setAttributes=b(),D.insert=E().bind(null,"head"),D.domAPI=w(),D.insertStyleElement=_(),g()(V.A,D),V.A&&V.A.locals&&V.A.locals;const $=(0,T.A)(P,(function(){var e=this,t=e._self._c,n=e._self._setupProxy;return t(n.FileListFilter,{staticClass:"file-list-filter-accounts",attrs:{"is-active":n.selectedAccounts.length>0,"filter-name":n.t("files_sharing","People")},on:{"reset-filter":n.resetFilter},scopedSlots:e._u([{key:"icon",fn:function(){return[t(n.NcIconSvgWrapper,{attrs:{path:n.mdiAccountMultiple}})]},proxy:!0}])},[e._v(" "),n.availableAccounts.length>1?t(n.NcActionInput,{attrs:{label:n.t("files_sharing","Filter accounts"),"label-outside":!1,"show-trailing-button":!1,type:"search",value:n.accountFilter},on:{"update:value":function(e){n.accountFilter=e}}}):e._e(),e._v(" "),e._l(n.shownAccounts,(function(i){return t(n.NcActionButton,{key:i.id,staticClass:"file-list-filter-accounts__item",attrs:{type:"radio","model-value":n.selectedAccounts.includes(i),value:i.id},on:{click:function(e){return n.toggleAccount(i.id)}},scopedSlots:e._u([{key:"icon",fn:function(){return[t(n.NcAvatar,e._b({staticClass:"file-list-filter-accounts__avatar",attrs:{size:24,"disable-menu":"","show-user-status":!1}},"NcAvatar",i,!1))]},proxy:!0}],null,!0)},[e._v("\n\t\t"+e._s(i.displayName)+"\n\t")])}))],2)}),[],!1,null,"6a51fbde",null).exports;var F=n(82680);function M(e,t,n){return(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var n=t.call(e,"string");if("object"!=typeof n)return n;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}class H extends i.L3{constructor(){super("files_sharing:account",100),M(this,"availableAccounts",void 0),M(this,"currentInstance",void 0),M(this,"filterAccounts",void 0),this.availableAccounts=[],(0,s.B1)("files:list:updated",(e=>{let{contents:t}=e;this.updateAvailableAccounts(t)}))}mount(e){this.currentInstance&&this.currentInstance.$destroy();const t=a.Ay.extend($);this.currentInstance=new t({el:e}).$on("update:accounts",(e=>this.setAccounts(e))).$mount(),this.currentInstance.setAvailableAccounts(this.availableAccounts)}filter(e){if(!this.filterAccounts||0===this.filterAccounts.length)return e;const t=this.filterAccounts.map((e=>{let{uid:t}=e;return t}));return e.filter((e=>{const n=e.attributes.sharees?.sharee;return!e.owner&&!n||!(!e.owner||!t.includes(e.owner))||!(!n||![n].flat().some((e=>{let{id:n}=e;return t.includes(n)})))}))}reset(){this.currentInstance?.resetFilter()}setAccounts(e){this.filterAccounts=e;let t=[];this.filterAccounts&&this.filterAccounts.length>0&&(t=this.filterAccounts.map((e=>{let{displayName:t,uid:n}=e;return{text:t,user:n,onclick:()=>this.currentInstance?.toggleAccount(n)}}))),this.updateChips(t),this.filterUpdated()}updateAvailableAccounts(e){const t=new Map;for(const n of e){const e=n.owner;e&&!t.has(e)&&t.set(e,{uid:e,displayName:n.attributes["owner-display-name"]??n.owner});const i=[n.attributes.sharees?.sharee].flat().filter(Boolean);for(const e of[i].flat())""!==e.id&&(e.type!==o.I.User&&e.type!==o.I.Remote||t.has(e.id)||t.set(e.id,{uid:e.id,displayName:e["display-name"]}))}this.availableAccounts=[...t.values()],this.currentInstance&&this.currentInstance.setAvailableAccounts(this.availableAccounts)}}var k=n(85168);const B='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-upload" viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13.5,16V19H10.5V16H8L12,12L16,16H13.5M13,9V3.5L18.5,9H13Z" /></svg>',j=new(n(7145).A),G=(0,a.$V)((()=>Promise.all([n.e(4208),n.e(4039)]).then(n.bind(n,54039)))),X={id:"file-request",displayName:(0,l.Tl)("files_sharing","Create file request"),iconSvgInline:B,order:10,enabled:()=>!(0,F.f)()&&!!j.isPublicUploadEnabled&&j.isPublicShareAllowed,async handler(e,t){(0,k.Ss)(G,{context:e,content:t})}},U='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-group" viewBox="0 0 24 24"><path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" /></svg>',q='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-plus" viewBox="0 0 24 24"><path d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" /></svg>';var Z=n(45174);const Y='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-link" viewBox="0 0 24 24"><path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>';var z=n(18709),K=n(32981);const W="shareoverview",J="sharingin",Q="sharingout",ee="sharinglinks",te="deletedshares",ne="pendingshares";var ie=n(63814),re=n(65043),se=n(65659);const oe=new i.hY({id:"accept-share",displayName:e=>(0,l.zw)("files_sharing","Accept share","Accept shares",e.length),iconSvgInline:()=>se,enabled:(e,t)=>e.length>0&&t.id===ne,async exec(e){try{const t=!!e.attributes.remote,n=(0,ie.KT)("apps/files_sharing/api/v1/{shareBase}/pending/{id}",{shareBase:t?"remote_shares":"shares",id:e.attributes.id});return await re.Ay.post(n),(0,s.Ic)("files:node:deleted",e),!0}catch(e){return!1}},async execBatch(e,t,n){return Promise.all(e.map((e=>this.exec(e,t,n))))},order:1,inline:()=>!0});(0,i.Gg)(oe);const ae=new i.hY({id:"open-in-files",displayName:()=>(0,l.Tl)("files_sharing","Open in Files"),iconSvgInline:()=>"",enabled:(e,t)=>[W,J,Q,ee].includes(t.id),async exec(e){const t=e.type===i.pt.Folder;return window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(e.fileid)},{dir:t?e.path:e.dirname,openfile:t?void 0:"true"}),null},order:-1e3,default:i.m9.HIDDEN});(0,i.Gg)(ae);var le=n(5655);const ce=new i.hY({id:"reject-share",displayName:e=>(0,l.zw)("files_sharing","Reject share","Reject shares",e.length),iconSvgInline:()=>le,enabled:(e,t)=>t.id===ne&&0!==e.length&&!e.some((e=>e.attributes.remote_id&&e.attributes.share_type===o.I.RemoteGroup)),async exec(e){try{const t=!!e.attributes.remote,n=(0,ie.KT)("apps/files_sharing/api/v1/{shareBase}/{id}",{shareBase:t?"remote_shares":"shares",id:e.attributes.id});return await re.Ay.delete(n),(0,s.Ic)("files:node:deleted",e),!0}catch(e){return!1}},async execBatch(e,t,n){return Promise.all(e.map((e=>this.exec(e,t,n))))},order:2,inline:()=>!0});(0,i.Gg)(ce);const ue=new i.hY({id:"restore-share",displayName:e=>(0,l.zw)("files_sharing","Restore share","Restore shares",e.length),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-arrow-u-left-top" viewBox="0 0 24 24"><path d="M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" /></svg>',enabled:(e,t)=>e.length>0&&t.id===te,async exec(e){try{const t=(0,ie.KT)("apps/files_sharing/api/v1/deletedshares/{id}",{id:e.attributes.id});return await re.Ay.post(t),(0,s.Ic)("files:node:deleted",e),!0}catch(e){return!1}},async execBatch(e,t,n){return Promise.all(e.map((e=>this.exec(e,t,n))))},order:1,inline:()=>!0});(0,i.Gg)(ue);var de=n(21777),he=n(49981);const pe=(0,n(35947).YK)().setApp("files").detectUser().build(),fe=new i.hY({id:"details",displayName:()=>(0,l.Tl)("files","Open details"),iconSvgInline:()=>he,enabled:e=>!(0,F.f)()&&1===e.length&&!!e[0]&&!!window?.OCA?.Files?.Sidebar&&((e[0].root?.startsWith("/files/")&&e[0].permissions!==i.aX.NONE)??!1),async exec(e,t,n){try{return window.OCA.Files.Sidebar.file===e.path?(pe.debug("Sidebar already open for this file",{node:e}),null):(window.OCA.Files.Sidebar.setActiveTab("sharing"),await window.OCA.Files.Sidebar.open(e.path),window.OCP?.Files?.Router?.goToRoute(null,{view:t.id,fileid:String(e.fileid)},{...window.OCP.Files.Router.query,dir:n,opendetails:"true"},!0),null)}catch(e){return pe.error("Error while opening sidebar",{error:e}),!1}},order:-50});var ge=n(53168),me={};me.styleTagTransform=x(),me.setAttributes=b(),me.insert=E().bind(null,"head"),me.domAPI=w(),me.insertStyleElement=_(),g()(ge.A,me),ge.A&&ge.A.locals&&ge.A.locals;const we=e=>e.attributes?.["is-federated"]??!1,ve=new i.hY({id:"sharing-status",displayName(e){const t=e[0];return Object.values(t?.attributes?.["share-types"]||{}).flat().length>0||t.owner!==(0,de.HW)()?.uid||we(t)?(0,l.Tl)("files_sharing","Shared"):""},title(e){const t=e[0];if(t.owner&&(t.owner!==(0,de.HW)()?.uid||we(t))){const e=t?.attributes?.["owner-display-name"];return(0,l.Tl)("files_sharing","Shared by {ownerDisplayName}",{ownerDisplayName:e})}if(Object.values(t?.attributes?.["share-types"]||{}).flat().length>1)return(0,l.Tl)("files_sharing","Shared multiple times with different people");const n=t.attributes.sharees?.sharee;if(!n)return(0,l.Tl)("files_sharing","Show sharing options");const i=[n].flat()[0];switch(i.type){case o.I.User:return(0,l.Tl)("files_sharing","Shared with {user}",{user:i["display-name"]});case o.I.Group:return(0,l.Tl)("files_sharing","Shared with group {group}",{group:i["display-name"]??i.id});default:return(0,l.Tl)("files_sharing","Shared with others")}},iconSvgInline(e){const t=e[0],n=Object.values(t?.attributes?.["share-types"]||{}).flat();return Array.isArray(t.attributes?.["share-types"])&&t.attributes?.["share-types"].length>1?q:n.includes(o.I.Link)||n.includes(o.I.Email)?Y:n.includes(o.I.Group)||n.includes(o.I.RemoteGroup)?U:n.includes(o.I.Team)?'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z" /></svg>':t.owner&&(t.owner!==(0,de.HW)()?.uid||we(t))?function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];const n=`${t?`/avatar/guest/${e}`:`/avatar/${e}`}/32${!0===window?.matchMedia?.("(prefers-color-scheme: dark)")?.matches||null!==document.querySelector("[data-themes*=dark]")?"/dark":""}${t?"":"?guestFallback=true"}`;return`<svg width="32" height="32" viewBox="0 0 32 32"\n\t\txmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">\n\t\t<image href="${(0,ie.Jv)(n,{userId:e})}" height="32" width="32" />\n\t</svg>`}(t.owner,we(t)):q},enabled(e){if(1!==e.length)return!1;if((0,F.f)())return!1;const t=e[0],n=t.attributes?.["share-types"];return!!(Array.isArray(n)&&n.length>0||t.owner!==(0,de.HW)()?.uid||we(t)||t.permissions&i.aX.SHARE)},exec:async(e,t,n)=>e.permissions&i.aX.READ?(window.OCA?.Files?.Sidebar?.setActiveTab?.("sharing"),fe.exec(e,t,n)):null,inline:()=>!0});(0,i.Gg)(ve),(()=>{const e=(0,i.bh)();e.register(new i.Ss({id:W,name:(0,l.Tl)("files_sharing","Shares"),caption:(0,l.Tl)("files_sharing","Overview of shared files."),emptyTitle:(0,l.Tl)("files_sharing","No shares"),emptyCaption:(0,l.Tl)("files_sharing","Files and folders you shared or have been shared with you will show up here"),icon:q,order:20,columns:[],getContents:()=>(0,z.h)()})),e.register(new i.Ss({id:J,name:(0,l.Tl)("files_sharing","Shared with you"),caption:(0,l.Tl)("files_sharing","List of files that are shared with you."),emptyTitle:(0,l.Tl)("files_sharing","Nothing shared with you yet"),emptyCaption:(0,l.Tl)("files_sharing","Files and folders others shared with you will show up here"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>',order:1,parent:W,columns:[],getContents:()=>(0,z.h)(!0,!1,!1,!1)})),0!==(0,K.C)("files","storageStats",{quota:-1}).quota&&e.register(new i.Ss({id:Q,name:(0,l.Tl)("files_sharing","Shared with others"),caption:(0,l.Tl)("files_sharing","List of files that you shared with others."),emptyTitle:(0,l.Tl)("files_sharing","Nothing shared yet"),emptyCaption:(0,l.Tl)("files_sharing","Files and folders you shared will show up here"),icon:U,order:2,parent:W,columns:[],getContents:()=>(0,z.h)(!1,!0,!1,!1)})),e.register(new i.Ss({id:ee,name:(0,l.Tl)("files_sharing","Shared by link"),caption:(0,l.Tl)("files_sharing","List of files that are shared by link."),emptyTitle:(0,l.Tl)("files_sharing","No shared links"),emptyCaption:(0,l.Tl)("files_sharing","Files and folders you shared by link will show up here"),icon:Y,order:3,parent:W,columns:[],getContents:()=>(0,z.h)(!1,!0,!1,!1,[o.I.Link])})),e.register(new i.Ss({id:"filerequest",name:(0,l.Tl)("files_sharing","File requests"),caption:(0,l.Tl)("files_sharing","List of file requests."),emptyTitle:(0,l.Tl)("files_sharing","No file requests"),emptyCaption:(0,l.Tl)("files_sharing","File requests you have created will show up here"),icon:B,order:4,parent:W,columns:[],getContents:()=>(0,z.h)(!1,!0,!1,!1,[o.I.Link,o.I.Email]).then((e=>{let{folder:t,contents:n}=e;return{folder:t,contents:n.filter((e=>(0,z.C)(e.attributes?.["share-attributes"]||[])))}}))})),e.register(new i.Ss({id:te,name:(0,l.Tl)("files_sharing","Deleted shares"),caption:(0,l.Tl)("files_sharing","List of shares you left."),emptyTitle:(0,l.Tl)("files_sharing","No deleted shares"),emptyCaption:(0,l.Tl)("files_sharing","Shares you have left will show up here"),icon:Z,order:5,parent:W,columns:[],getContents:()=>(0,z.h)(!1,!1,!1,!0)})),e.register(new i.Ss({id:ne,name:(0,l.Tl)("files_sharing","Pending shares"),caption:(0,l.Tl)("files_sharing","List of unapproved shares."),emptyTitle:(0,l.Tl)("files_sharing","No pending shares"),emptyCaption:(0,l.Tl)("files_sharing","Shares you have received but not approved will show up here"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-clock" viewBox="0 0 24 24"><path d="M10.63,14.1C12.23,10.58 16.38,9.03 19.9,10.63C23.42,12.23 24.97,16.38 23.37,19.9C22.24,22.4 19.75,24 17,24C14.3,24 11.83,22.44 10.67,20H1V18C1.06,16.86 1.84,15.93 3.34,15.18C4.84,14.43 6.72,14.04 9,14C9.57,14 10.11,14.05 10.63,14.1V14.1M9,4C10.12,4.03 11.06,4.42 11.81,5.17C12.56,5.92 12.93,6.86 12.93,8C12.93,9.14 12.56,10.08 11.81,10.83C11.06,11.58 10.12,11.95 9,11.95C7.88,11.95 6.94,11.58 6.19,10.83C5.44,10.08 5.07,9.14 5.07,8C5.07,6.86 5.44,5.92 6.19,5.17C6.94,4.42 7.88,4.03 9,4M17,22A5,5 0 0,0 22,17A5,5 0 0,0 17,12A5,5 0 0,0 12,17A5,5 0 0,0 17,22M16,14H17.5V16.82L19.94,18.23L19.19,19.53L16,17.69V14Z" /></svg>',order:6,parent:W,columns:[],getContents:()=>(0,z.h)(!1,!1,!0,!1)}))})(),(0,i.zj)(X),(0,r.Yc)("nc:note",{nc:"http://nextcloud.org/ns"}),(0,r.Yc)("nc:sharees",{nc:"http://nextcloud.org/ns"}),(0,r.Yc)("nc:hide-download",{nc:"http://nextcloud.org/ns"}),(0,r.Yc)("nc:share-attributes",{nc:"http://nextcloud.org/ns"}),(0,r.Yc)("oc:share-types",{oc:"http://owncloud.org/ns"}),(0,r.Yc)("ocs:share-permissions",{ocs:"http://open-collaboration-services.org/ns"}),(0,F.f)()||(0,i.cZ)(new H),function(){let e,t;(0,i.Up)(new i.Y9({id:"note-to-recipient",order:0,enabled:e=>Boolean(e.attributes.note),updated:e=>{t&&t.updateFolder(e)},render:async(i,r)=>{if(void 0===e){const{default:t}=await Promise.all([n.e(4208),n.e(9491)]).then(n.bind(n,9491));e=a.Ay.extend(t)}t=(new e).$mount(i),t.updateFolder(r)}}))}()},27514:e=>{e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e"},27518:e=>{e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e"},35810:(e,t,n)=>{n.d(t,{Al:()=>i.r,Gg:()=>d,H4:()=>i.c,KT:()=>m,L3:()=>Ve,PY:()=>i.b,Q$:()=>i.e,R3:()=>i.n,Ss:()=>oe,Up:()=>p,VL:()=>i.l,Y9:()=>h,ZH:()=>i.q,aX:()=>i.P,bh:()=>_,cZ:()=>De,di:()=>g,hY:()=>u,lJ:()=>i.d,m9:()=>c,nF:()=>f,pt:()=>i.F,ur:()=>b,v7:()=>E,vd:()=>i.s,zj:()=>$e});var i=n(68251),r=n(87485),s=(n(43627),n(53334)),o=n(380),a=n(65606);class l{_entries=[];registerEntry(e){this.validateEntry(e),e.category=e.category??1,this._entries.push(e)}unregisterEntry(e){const t="string"==typeof e?this.getEntryIndex(e):this.getEntryIndex(e.id);-1!==t?this._entries.splice(t,1):i.o.warn("Entry not found, nothing removed",{entry:e,entries:this.getEntries()})}getEntries(e){return e?this._entries.filter((t=>"function"!=typeof t.enabled||t.enabled(e))):this._entries}getEntryIndex(e){return this._entries.findIndex((t=>t.id===e))}validateEntry(e){if(!e.id||!e.displayName||!e.iconSvgInline&&!e.iconClass||!e.handler)throw new Error("Invalid entry");if("string"!=typeof e.id||"string"!=typeof e.displayName)throw new Error("Invalid id or displayName property");if(e.iconClass&&"string"!=typeof e.iconClass||e.iconSvgInline&&"string"!=typeof e.iconSvgInline)throw new Error("Invalid icon provided");if(void 0!==e.enabled&&"function"!=typeof e.enabled)throw new Error("Invalid enabled property");if("function"!=typeof e.handler)throw new Error("Invalid handler property");if("order"in e&&"number"!=typeof e.order)throw new Error("Invalid order property");if(-1!==this.getEntryIndex(e.id))throw new Error("Duplicate entry")}}var c=(e=>(e.DEFAULT="default",e.HIDDEN="hidden",e))(c||{});class u{_action;constructor(e){this.validateAction(e),this._action=e}get id(){return this._action.id}get displayName(){return this._action.displayName}get title(){return this._action.title}get iconSvgInline(){return this._action.iconSvgInline}get enabled(){return this._action.enabled}get exec(){return this._action.exec}get execBatch(){return this._action.execBatch}get order(){return this._action.order}get parent(){return this._action.parent}get default(){return this._action.default}get destructive(){return this._action.destructive}get inline(){return this._action.inline}get renderInline(){return this._action.renderInline}validateAction(e){if(!e.id||"string"!=typeof e.id)throw new Error("Invalid id");if(!e.displayName||"function"!=typeof e.displayName)throw new Error("Invalid displayName function");if("title"in e&&"function"!=typeof e.title)throw new Error("Invalid title function");if(!e.iconSvgInline||"function"!=typeof e.iconSvgInline)throw new Error("Invalid iconSvgInline function");if(!e.exec||"function"!=typeof e.exec)throw new Error("Invalid exec function");if("enabled"in e&&"function"!=typeof e.enabled)throw new Error("Invalid enabled function");if("execBatch"in e&&"function"!=typeof e.execBatch)throw new Error("Invalid execBatch function");if("order"in e&&"number"!=typeof e.order)throw new Error("Invalid order");if(void 0!==e.destructive&&"boolean"!=typeof e.destructive)throw new Error("Invalid destructive flag");if("parent"in e&&"string"!=typeof e.parent)throw new Error("Invalid parent");if(e.default&&!Object.values(c).includes(e.default))throw new Error("Invalid default");if("inline"in e&&"function"!=typeof e.inline)throw new Error("Invalid inline function");if("renderInline"in e&&"function"!=typeof e.renderInline)throw new Error("Invalid renderInline function")}}const d=function(e){void 0===window._nc_fileactions&&(window._nc_fileactions=[],i.o.debug("FileActions initialized")),window._nc_fileactions.find((t=>t.id===e.id))?i.o.error(`FileAction ${e.id} already registered`,{action:e}):window._nc_fileactions.push(e)};class h{_header;constructor(e){this.validateHeader(e),this._header=e}get id(){return this._header.id}get order(){return this._header.order}get enabled(){return this._header.enabled}get render(){return this._header.render}get updated(){return this._header.updated}validateHeader(e){if(!e.id||!e.render||!e.updated)throw new Error("Invalid header: id, render and updated are required");if("string"!=typeof e.id)throw new Error("Invalid id property");if(void 0!==e.enabled&&"function"!=typeof e.enabled)throw new Error("Invalid enabled property");if(e.render&&"function"!=typeof e.render)throw new Error("Invalid render property");if(e.updated&&"function"!=typeof e.updated)throw new Error("Invalid updated property")}}const p=function(e){void 0===window._nc_filelistheader&&(window._nc_filelistheader=[],i.o.debug("FileListHeaders initialized")),window._nc_filelistheader.find((t=>t.id===e.id))?i.o.error(`Header ${e.id} already registered`,{header:e}):window._nc_filelistheader.push(e)};var f=(e=>(e.ReservedName="reserved name",e.Character="character",e.Extension="extension",e))(f||{});class g extends Error{constructor(e){super(`Invalid ${e.reason} '${e.segment}' in filename '${e.filename}'`,{cause:e})}get filename(){return this.cause.filename}get reason(){return this.cause.reason}get segment(){return this.cause.segment}}function m(e){const t=(0,r.F)().files,n=t.forbidden_filename_characters??window._oc_config?.forbidden_filenames_characters??["/","\\"];for(const t of n)if(e.includes(t))throw new g({segment:t,reason:"character",filename:e});if(e=e.toLocaleLowerCase(),(t.forbidden_filenames??[".htaccess"]).includes(e))throw new g({filename:e,segment:e,reason:"reserved name"});const i=e.indexOf(".",1),s=e.substring(0,-1===i?void 0:i);if((t.forbidden_filename_basenames??[]).includes(s))throw new g({filename:e,segment:s,reason:"reserved name"});const o=t.forbidden_filename_extensions??[".part",".filepart"];for(const t of o)if(e.length>t.length&&e.endsWith(t))throw new g({segment:t,reason:"extension",filename:e})}const w=["B","KB","MB","GB","TB","PB"],v=["B","KiB","MiB","GiB","TiB","PiB"];function E(e,t=!1,n=!1,i=!1){n=n&&!i,"string"==typeof e&&(e=Number(e));let r=e>0?Math.floor(Math.log(e)/Math.log(i?1e3:1024)):0;r=Math.min((n?v.length:w.length)-1,r);const o=n?v[r]:w[r];let a=(e/Math.pow(i?1e3:1024,r)).toFixed(1);return!0===t&&0===r?("0.0"!==a?"< 1 ":"0 ")+(n?v[1]:w[1]):(a=r<2?parseFloat(a).toFixed(0):parseFloat(a).toLocaleString((0,s.lO)()),a+" "+o)}function A(e){return e instanceof Date?e.toISOString():String(e)}function b(e,t={}){const n={sortingMode:"basename",sortingOrder:"asc",...t};return function(e,t,n){n=n??[];const i=(t=t??[e=>e]).map(((e,t)=>"asc"===(n[t]??"asc")?1:-1)),r=Intl.Collator([(0,s.Z0)(),(0,s.lO)()],{numeric:!0,usage:"sort"});return[...e].sort(((e,n)=>{for(const[s,o]of t.entries()){const t=r.compare(A(o(e)),A(o(n)));if(0!==t)return t*i[s]}return 0}))}(e,[...n.sortFavoritesFirst?[e=>1!==e.attributes?.favorite]:[],...n.sortFoldersFirst?[e=>"folder"!==e.type]:[],..."basename"!==n.sortingMode?[e=>e[n.sortingMode]]:[],e=>{return(t=e.displayname||e.attributes?.displayname||e.basename).lastIndexOf(".")>0?t.slice(0,t.lastIndexOf(".")):t;var t},e=>e.basename],[...n.sortFavoritesFirst?["asc"]:[],...n.sortFoldersFirst?["asc"]:[],..."mtime"===n.sortingMode?["asc"===n.sortingOrder?"desc":"asc"]:[],..."mtime"!==n.sortingMode&&"basename"!==n.sortingMode?[n.sortingOrder]:[],n.sortingOrder,n.sortingOrder])}class y extends o.m{_views=[];_currentView=null;register(e){if(this._views.find((t=>t.id===e.id)))throw new Error(`View id ${e.id} is already registered`);this._views.push(e),this.dispatchTypedEvent("update",new CustomEvent("update"))}remove(e){const t=this._views.findIndex((t=>t.id===e));-1!==t&&(this._views.splice(t,1),this.dispatchTypedEvent("update",new CustomEvent("update")))}setActive(e){this._currentView=e;const t=new CustomEvent("updateActive",{detail:e});this.dispatchTypedEvent("updateActive",t)}get active(){return this._currentView}get views(){return this._views}}const _=function(){return void 0===window._nc_navigation&&(window._nc_navigation=new y,i.o.debug("Navigation service initialized")),window._nc_navigation};class N{_column;constructor(e){x(e),this._column=e}get id(){return this._column.id}get title(){return this._column.title}get render(){return this._column.render}get sort(){return this._column.sort}get summary(){return this._column.summary}}const x=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("A column id is required");if(!e.title||"string"!=typeof e.title)throw new Error("A column title is required");if(!e.render||"function"!=typeof e.render)throw new Error("A render function is required");if(e.sort&&"function"!=typeof e.sort)throw new Error("Column sortFunction must be a function");if(e.summary&&"function"!=typeof e.summary)throw new Error("Column summary must be a function");return!0};function I(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var C,T,O={},L={};function S(){return C||(C=1,function(e){const t=":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD",n="["+t+"]["+t+"\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*",i=new RegExp("^"+n+"$");e.isExist=function(e){return void 0!==e},e.isEmptyObject=function(e){return 0===Object.keys(e).length},e.merge=function(e,t,n){if(t){const i=Object.keys(t),r=i.length;for(let s=0;s<r;s++)e[i[s]]="strict"===n?[t[i[s]]]:t[i[s]]}},e.getValue=function(t){return e.isExist(t)?t:""},e.isName=function(e){return!(null==i.exec(e))},e.getAllMatches=function(e,t){const n=[];let i=t.exec(e);for(;i;){const r=[];r.startIndex=t.lastIndex-i[0].length;const s=i.length;for(let e=0;e<s;e++)r.push(i[e]);n.push(r),i=t.exec(e)}return n},e.nameRegexp=n}(L)),L}function R(){if(T)return O;T=1;const e=S(),t={allowBooleanAttributes:!1,unpairedTags:[]};function n(e){return" "===e||"\t"===e||"\n"===e||"\r"===e}function i(e,t){const n=t;for(;t<e.length;t++)if("?"!=e[t]&&" "!=e[t]);else{const i=e.substr(n,t-n);if(t>5&&"xml"===i)return d("InvalidXml","XML declaration allowed only at the start of the document.",p(e,t));if("?"==e[t]&&">"==e[t+1]){t++;break}}return t}function r(e,t){if(e.length>t+5&&"-"===e[t+1]&&"-"===e[t+2]){for(t+=3;t<e.length;t++)if("-"===e[t]&&"-"===e[t+1]&&">"===e[t+2]){t+=2;break}}else if(e.length>t+8&&"D"===e[t+1]&&"O"===e[t+2]&&"C"===e[t+3]&&"T"===e[t+4]&&"Y"===e[t+5]&&"P"===e[t+6]&&"E"===e[t+7]){let n=1;for(t+=8;t<e.length;t++)if("<"===e[t])n++;else if(">"===e[t]&&(n--,0===n))break}else if(e.length>t+9&&"["===e[t+1]&&"C"===e[t+2]&&"D"===e[t+3]&&"A"===e[t+4]&&"T"===e[t+5]&&"A"===e[t+6]&&"["===e[t+7])for(t+=8;t<e.length;t++)if("]"===e[t]&&"]"===e[t+1]&&">"===e[t+2]){t+=2;break}return t}O.validate=function(s,o){o=Object.assign({},t,o);const l=[];let h=!1,f=!1;"\ufeff"===s[0]&&(s=s.substr(1));for(let t=0;t<s.length;t++)if("<"===s[t]&&"?"===s[t+1]){if(t+=2,t=i(s,t),t.err)return t}else{if("<"!==s[t]){if(n(s[t]))continue;return d("InvalidChar","char '"+s[t]+"' is not expected.",p(s,t))}{let m=t;if(t++,"!"===s[t]){t=r(s,t);continue}{let w=!1;"/"===s[t]&&(w=!0,t++);let v="";for(;t<s.length&&">"!==s[t]&&" "!==s[t]&&"\t"!==s[t]&&"\n"!==s[t]&&"\r"!==s[t];t++)v+=s[t];if(v=v.trim(),"/"===v[v.length-1]&&(v=v.substring(0,v.length-1),t--),g=v,!e.isName(g)){let e;return e=0===v.trim().length?"Invalid space after '<'.":"Tag '"+v+"' is an invalid name.",d("InvalidTag",e,p(s,t))}const E=a(s,t);if(!1===E)return d("InvalidAttr","Attributes for '"+v+"' have open quote.",p(s,t));let A=E.value;if(t=E.index,"/"===A[A.length-1]){const e=t-A.length;A=A.substring(0,A.length-1);const n=c(A,o);if(!0!==n)return d(n.err.code,n.err.msg,p(s,e+n.err.line));h=!0}else if(w){if(!E.tagClosed)return d("InvalidTag","Closing tag '"+v+"' doesn't have proper closing.",p(s,t));if(A.trim().length>0)return d("InvalidTag","Closing tag '"+v+"' can't have attributes or invalid starting.",p(s,m));if(0===l.length)return d("InvalidTag","Closing tag '"+v+"' has not been opened.",p(s,m));{const e=l.pop();if(v!==e.tagName){let t=p(s,e.tagStartPos);return d("InvalidTag","Expected closing tag '"+e.tagName+"' (opened in line "+t.line+", col "+t.col+") instead of closing tag '"+v+"'.",p(s,m))}0==l.length&&(f=!0)}}else{const e=c(A,o);if(!0!==e)return d(e.err.code,e.err.msg,p(s,t-A.length+e.err.line));if(!0===f)return d("InvalidXml","Multiple possible root nodes found.",p(s,t));-1!==o.unpairedTags.indexOf(v)||l.push({tagName:v,tagStartPos:m}),h=!0}for(t++;t<s.length;t++)if("<"===s[t]){if("!"===s[t+1]){t++,t=r(s,t);continue}if("?"!==s[t+1])break;if(t=i(s,++t),t.err)return t}else if("&"===s[t]){const e=u(s,t);if(-1==e)return d("InvalidChar","char '&' is not expected.",p(s,t));t=e}else if(!0===f&&!n(s[t]))return d("InvalidXml","Extra text at the end",p(s,t));"<"===s[t]&&t--}}}var g;return h?1==l.length?d("InvalidTag","Unclosed tag '"+l[0].tagName+"'.",p(s,l[0].tagStartPos)):!(l.length>0)||d("InvalidXml","Invalid '"+JSON.stringify(l.map((e=>e.tagName)),null,4).replace(/\r?\n/g,"")+"' found.",{line:1,col:1}):d("InvalidXml","Start tag expected.",1)};const s='"',o="'";function a(e,t){let n="",i="",r=!1;for(;t<e.length;t++){if(e[t]===s||e[t]===o)""===i?i=e[t]:i!==e[t]||(i="");else if(">"===e[t]&&""===i){r=!0;break}n+=e[t]}return""===i&&{value:n,index:t,tagClosed:r}}const l=new RegExp("(\\s*)([^\\s=]+)(\\s*=)?(\\s*(['\"])(([\\s\\S])*?)\\5)?","g");function c(t,n){const i=e.getAllMatches(t,l),r={};for(let e=0;e<i.length;e++){if(0===i[e][1].length)return d("InvalidAttr","Attribute '"+i[e][2]+"' has no space in starting.",f(i[e]));if(void 0!==i[e][3]&&void 0===i[e][4])return d("InvalidAttr","Attribute '"+i[e][2]+"' is without value.",f(i[e]));if(void 0===i[e][3]&&!n.allowBooleanAttributes)return d("InvalidAttr","boolean attribute '"+i[e][2]+"' is not allowed.",f(i[e]));const t=i[e][2];if(!h(t))return d("InvalidAttr","Attribute '"+t+"' is an invalid name.",f(i[e]));if(r.hasOwnProperty(t))return d("InvalidAttr","Attribute '"+t+"' is repeated.",f(i[e]));r[t]=1}return!0}function u(e,t){if(";"===e[++t])return-1;if("#"===e[t])return function(e,t){let n=/\d/;for("x"===e[t]&&(t++,n=/[\da-fA-F]/);t<e.length;t++){if(";"===e[t])return t;if(!e[t].match(n))break}return-1}(e,++t);let n=0;for(;t<e.length;t++,n++)if(!(e[t].match(/\w/)&&n<20)){if(";"===e[t])break;return-1}return t}function d(e,t,n){return{err:{code:e,msg:t,line:n.line||n,col:n.col}}}function h(t){return e.isName(t)}function p(e,t){const n=e.substring(0,t).split(/\r?\n/);return{line:n.length,col:n[n.length-1].length+1}}function f(e){return e.startIndex+e[1].length}return O}var P,V,D,$,F,M,H,k,B,j,G,X={};function U(){return B?k:(B=1,k=function(e){return"function"==typeof e?e:Array.isArray(e)?t=>{for(const n of e){if("string"==typeof n&&t===n)return!0;if(n instanceof RegExp&&n.test(t))return!0}}:()=>!1})}var q,Z,Y,z,K,W,J,Q,ee,te={};function ne(){if(q)return te;function e(r,s,o){let a;const l={};for(let c=0;c<r.length;c++){const u=r[c],d=t(u);let h="";if(h=void 0===o?d:o+"."+d,d===s.textNodeName)void 0===a?a=u[d]:a+=""+u[d];else{if(void 0===d)continue;if(u[d]){let t=e(u[d],s,h);const r=i(t,s);u[":@"]?n(t,u[":@"],h,s):1!==Object.keys(t).length||void 0===t[s.textNodeName]||s.alwaysCreateTextNode?0===Object.keys(t).length&&(s.alwaysCreateTextNode?t[s.textNodeName]="":t=""):t=t[s.textNodeName],void 0!==l[d]&&l.hasOwnProperty(d)?(Array.isArray(l[d])||(l[d]=[l[d]]),l[d].push(t)):s.isArray(d,h,r)?l[d]=[t]:l[d]=t}}}return"string"==typeof a?a.length>0&&(l[s.textNodeName]=a):void 0!==a&&(l[s.textNodeName]=a),l}function t(e){const t=Object.keys(e);for(let e=0;e<t.length;e++){const n=t[e];if(":@"!==n)return n}}function n(e,t,n,i){if(t){const r=Object.keys(t),s=r.length;for(let o=0;o<s;o++){const s=r[o];i.isArray(s,n+"."+s,!0,!0)?e[s]=[t[s]]:e[s]=t[s]}}}function i(e,t){const{textNodeName:n}=t,i=Object.keys(e).length;return 0===i||!(1!==i||!e[n]&&"boolean"!=typeof e[n]&&0!==e[n])}return q=1,te.prettify=function(t,n){return e(t,n)},te}function ie(){if(Y)return Z;Y=1;const{buildOptions:e}=function(){if(P)return X;P=1;const e={preserveOrder:!1,attributeNamePrefix:"@_",attributesGroupName:!1,textNodeName:"#text",ignoreAttributes:!0,removeNSPrefix:!1,allowBooleanAttributes:!1,parseTagValue:!0,parseAttributeValue:!1,trimValues:!0,cdataPropName:!1,numberParseOptions:{hex:!0,leadingZeros:!0,eNotation:!0},tagValueProcessor:function(e,t){return t},attributeValueProcessor:function(e,t){return t},stopNodes:[],alwaysCreateTextNode:!1,isArray:()=>!1,commentPropName:!1,unpairedTags:[],processEntities:!0,htmlEntities:!1,ignoreDeclaration:!1,ignorePiTags:!1,transformTagName:!1,transformAttributeName:!1,updateTag:function(e,t,n){return e}};return X.buildOptions=function(t){return Object.assign({},e,t)},X.defaultOptions=e,X}(),t=function(){if(G)return j;G=1;const e=S(),t=D?V:(D=1,V=class{constructor(e){this.tagname=e,this.child=[],this[":@"]={}}add(e,t){"__proto__"===e&&(e="#__proto__"),this.child.push({[e]:t})}addChild(e){"__proto__"===e.tagname&&(e.tagname="#__proto__"),e[":@"]&&Object.keys(e[":@"]).length>0?this.child.push({[e.tagname]:e.child,":@":e[":@"]}):this.child.push({[e.tagname]:e.child})}}),n=function(){if(F)return $;F=1;const e=S();function t(e,t){let n="";for(;t<e.length&&"'"!==e[t]&&'"'!==e[t];t++)n+=e[t];if(n=n.trim(),-1!==n.indexOf(" "))throw new Error("External entites are not supported");const i=e[t++];let r="";for(;t<e.length&&e[t]!==i;t++)r+=e[t];return[n,r,t]}function n(e,t){return"!"===e[t+1]&&"E"===e[t+2]&&"N"===e[t+3]&&"T"===e[t+4]&&"I"===e[t+5]&&"T"===e[t+6]&&"Y"===e[t+7]}function i(e,t){return"!"===e[t+1]&&"E"===e[t+2]&&"L"===e[t+3]&&"E"===e[t+4]&&"M"===e[t+5]&&"E"===e[t+6]&&"N"===e[t+7]&&"T"===e[t+8]}function r(e,t){return"!"===e[t+1]&&"A"===e[t+2]&&"T"===e[t+3]&&"T"===e[t+4]&&"L"===e[t+5]&&"I"===e[t+6]&&"S"===e[t+7]&&"T"===e[t+8]}function s(e,t){return"!"===e[t+1]&&"N"===e[t+2]&&"O"===e[t+3]&&"T"===e[t+4]&&"A"===e[t+5]&&"T"===e[t+6]&&"I"===e[t+7]&&"O"===e[t+8]&&"N"===e[t+9]}function o(t){if(e.isName(t))return t;throw new Error(`Invalid entity name ${t}`)}return $=function(e,a){const l={};if("O"!==e[a+3]||"C"!==e[a+4]||"T"!==e[a+5]||"Y"!==e[a+6]||"P"!==e[a+7]||"E"!==e[a+8])throw new Error("Invalid Tag instead of DOCTYPE");{a+=9;let c=1,u=!1,d=!1,h="";for(;a<e.length;a++)if("<"!==e[a]||d)if(">"===e[a]){if(d?"-"===e[a-1]&&"-"===e[a-2]&&(d=!1,c--):c--,0===c)break}else"["===e[a]?u=!0:h+=e[a];else{if(u&&n(e,a)){let n,i;a+=7,[n,i,a]=t(e,a+1),-1===i.indexOf("&")&&(l[o(n)]={regx:RegExp(`&${n};`,"g"),val:i})}else u&&i(e,a)||u&&r(e,a)?a+=8:u&&s(e,a)?a+=9:d=!0;c++,h=""}if(0!==c)throw new Error("Unclosed DOCTYPE")}return{entities:l,i:a}}}(),i=function(){if(H)return M;H=1;const e=/^[-+]?0x[a-fA-F0-9]+$/,t=/^([\-\+])?(0*)(\.[0-9]+([eE]\-?[0-9]+)?|[0-9]+(\.[0-9]+([eE]\-?[0-9]+)?)?)$/;!Number.parseInt&&window.parseInt&&(Number.parseInt=window.parseInt),!Number.parseFloat&&window.parseFloat&&(Number.parseFloat=window.parseFloat);const n={hex:!0,leadingZeros:!0,decimalPoint:".",eNotation:!0};return M=function(i,r={}){if(r=Object.assign({},n,r),!i||"string"!=typeof i)return i;let s=i.trim();if(void 0!==r.skipLike&&r.skipLike.test(s))return i;if(r.hex&&e.test(s))return Number.parseInt(s,16);{const e=t.exec(s);if(e){const t=e[1],n=e[2];let a=(o=e[3])&&-1!==o.indexOf(".")?("."===(o=o.replace(/0+$/,""))?o="0":"."===o[0]?o="0"+o:"."===o[o.length-1]&&(o=o.substr(0,o.length-1)),o):o;const l=e[4]||e[6];if(!r.leadingZeros&&n.length>0&&t&&"."!==s[2])return i;if(!r.leadingZeros&&n.length>0&&!t&&"."!==s[1])return i;{const e=Number(s),o=""+e;return-1!==o.search(/[eE]/)||l?r.eNotation?e:i:-1!==s.indexOf(".")?"0"===o&&""===a||o===a||t&&o==="-"+a?e:i:n?a===o||t+a===o?e:i:s===o||s===t+o?e:i}}return i}var o}}(),r=U();function s(e){const t=Object.keys(e);for(let n=0;n<t.length;n++){const i=t[n];this.lastEntities[i]={regex:new RegExp("&"+i+";","g"),val:e[i]}}}function o(e,t,n,i,r,s,o){if(void 0!==e&&(this.options.trimValues&&!i&&(e=e.trim()),e.length>0)){o||(e=this.replaceEntitiesValue(e));const i=this.options.tagValueProcessor(t,e,n,r,s);return null==i?e:typeof i!=typeof e||i!==e?i:this.options.trimValues||e.trim()===e?v(e,this.options.parseTagValue,this.options.numberParseOptions):e}}function a(e){if(this.options.removeNSPrefix){const t=e.split(":"),n="/"===e.charAt(0)?"/":"";if("xmlns"===t[0])return"";2===t.length&&(e=n+t[1])}return e}const l=new RegExp("([^\\s=]+)\\s*(=\\s*(['\"])([\\s\\S]*?)\\3)?","gm");function c(t,n,i){if(!0!==this.options.ignoreAttributes&&"string"==typeof t){const i=e.getAllMatches(t,l),r=i.length,s={};for(let e=0;e<r;e++){const t=this.resolveNameSpace(i[e][1]);if(this.ignoreAttributesFn(t,n))continue;let r=i[e][4],o=this.options.attributeNamePrefix+t;if(t.length)if(this.options.transformAttributeName&&(o=this.options.transformAttributeName(o)),"__proto__"===o&&(o="#__proto__"),void 0!==r){this.options.trimValues&&(r=r.trim()),r=this.replaceEntitiesValue(r);const e=this.options.attributeValueProcessor(t,r,n);s[o]=null==e?r:typeof e!=typeof r||e!==r?e:v(r,this.options.parseAttributeValue,this.options.numberParseOptions)}else this.options.allowBooleanAttributes&&(s[o]=!0)}if(!Object.keys(s).length)return;if(this.options.attributesGroupName){const e={};return e[this.options.attributesGroupName]=s,e}return s}}const u=function(e){e=e.replace(/\r\n?/g,"\n");const i=new t("!xml");let r=i,s="",o="";for(let a=0;a<e.length;a++)if("<"===e[a])if("/"===e[a+1]){const t=g(e,">",a,"Closing Tag is not closed.");let n=e.substring(a+2,t).trim();if(this.options.removeNSPrefix){const e=n.indexOf(":");-1!==e&&(n=n.substr(e+1))}this.options.transformTagName&&(n=this.options.transformTagName(n)),r&&(s=this.saveTextToParentTag(s,r,o));const i=o.substring(o.lastIndexOf(".")+1);if(n&&-1!==this.options.unpairedTags.indexOf(n))throw new Error(`Unpaired tag can not be used as closing tag: </${n}>`);let l=0;i&&-1!==this.options.unpairedTags.indexOf(i)?(l=o.lastIndexOf(".",o.lastIndexOf(".")-1),this.tagsNodeStack.pop()):l=o.lastIndexOf("."),o=o.substring(0,l),r=this.tagsNodeStack.pop(),s="",a=t}else if("?"===e[a+1]){let n=m(e,a,!1,"?>");if(!n)throw new Error("Pi Tag is not closed.");if(s=this.saveTextToParentTag(s,r,o),this.options.ignoreDeclaration&&"?xml"===n.tagName||this.options.ignorePiTags);else{const e=new t(n.tagName);e.add(this.options.textNodeName,""),n.tagName!==n.tagExp&&n.attrExpPresent&&(e[":@"]=this.buildAttributesMap(n.tagExp,o,n.tagName)),this.addChild(r,e,o)}a=n.closeIndex+1}else if("!--"===e.substr(a+1,3)){const t=g(e,"--\x3e",a+4,"Comment is not closed.");if(this.options.commentPropName){const n=e.substring(a+4,t-2);s=this.saveTextToParentTag(s,r,o),r.add(this.options.commentPropName,[{[this.options.textNodeName]:n}])}a=t}else if("!D"===e.substr(a+1,2)){const t=n(e,a);this.docTypeEntities=t.entities,a=t.i}else if("!["===e.substr(a+1,2)){const t=g(e,"]]>",a,"CDATA is not closed.")-2,n=e.substring(a+9,t);s=this.saveTextToParentTag(s,r,o);let i=this.parseTextData(n,r.tagname,o,!0,!1,!0,!0);null==i&&(i=""),this.options.cdataPropName?r.add(this.options.cdataPropName,[{[this.options.textNodeName]:n}]):r.add(this.options.textNodeName,i),a=t+2}else{let n=m(e,a,this.options.removeNSPrefix),l=n.tagName;const c=n.rawTagName;let u=n.tagExp,d=n.attrExpPresent,h=n.closeIndex;this.options.transformTagName&&(l=this.options.transformTagName(l)),r&&s&&"!xml"!==r.tagname&&(s=this.saveTextToParentTag(s,r,o,!1));const p=r;if(p&&-1!==this.options.unpairedTags.indexOf(p.tagname)&&(r=this.tagsNodeStack.pop(),o=o.substring(0,o.lastIndexOf("."))),l!==i.tagname&&(o+=o?"."+l:l),this.isItStopNode(this.options.stopNodes,o,l)){let i="";if(u.length>0&&u.lastIndexOf("/")===u.length-1)"/"===l[l.length-1]?(l=l.substr(0,l.length-1),o=o.substr(0,o.length-1),u=l):u=u.substr(0,u.length-1),a=n.closeIndex;else if(-1!==this.options.unpairedTags.indexOf(l))a=n.closeIndex;else{const t=this.readStopNodeData(e,c,h+1);if(!t)throw new Error(`Unexpected end of ${c}`);a=t.i,i=t.tagContent}const s=new t(l);l!==u&&d&&(s[":@"]=this.buildAttributesMap(u,o,l)),i&&(i=this.parseTextData(i,l,o,!0,d,!0,!0)),o=o.substr(0,o.lastIndexOf(".")),s.add(this.options.textNodeName,i),this.addChild(r,s,o)}else{if(u.length>0&&u.lastIndexOf("/")===u.length-1){"/"===l[l.length-1]?(l=l.substr(0,l.length-1),o=o.substr(0,o.length-1),u=l):u=u.substr(0,u.length-1),this.options.transformTagName&&(l=this.options.transformTagName(l));const e=new t(l);l!==u&&d&&(e[":@"]=this.buildAttributesMap(u,o,l)),this.addChild(r,e,o),o=o.substr(0,o.lastIndexOf("."))}else{const e=new t(l);this.tagsNodeStack.push(r),l!==u&&d&&(e[":@"]=this.buildAttributesMap(u,o,l)),this.addChild(r,e,o),r=e}s="",a=h}}else s+=e[a];return i.child};function d(e,t,n){const i=this.options.updateTag(t.tagname,n,t[":@"]);!1===i||("string"==typeof i?(t.tagname=i,e.addChild(t)):e.addChild(t))}const h=function(e){if(this.options.processEntities){for(let t in this.docTypeEntities){const n=this.docTypeEntities[t];e=e.replace(n.regx,n.val)}for(let t in this.lastEntities){const n=this.lastEntities[t];e=e.replace(n.regex,n.val)}if(this.options.htmlEntities)for(let t in this.htmlEntities){const n=this.htmlEntities[t];e=e.replace(n.regex,n.val)}e=e.replace(this.ampEntity.regex,this.ampEntity.val)}return e};function p(e,t,n,i){return e&&(void 0===i&&(i=0===Object.keys(t.child).length),void 0!==(e=this.parseTextData(e,t.tagname,n,!1,!!t[":@"]&&0!==Object.keys(t[":@"]).length,i))&&""!==e&&t.add(this.options.textNodeName,e),e=""),e}function f(e,t,n){const i="*."+n;for(const n in e){const r=e[n];if(i===r||t===r)return!0}return!1}function g(e,t,n,i){const r=e.indexOf(t,n);if(-1===r)throw new Error(i);return r+t.length-1}function m(e,t,n,i=">"){const r=function(e,t,n=">"){let i,r="";for(let s=t;s<e.length;s++){let t=e[s];if(i)t===i&&(i="");else if('"'===t||"'"===t)i=t;else if(t===n[0]){if(!n[1])return{data:r,index:s};if(e[s+1]===n[1])return{data:r,index:s}}else"\t"===t&&(t=" ");r+=t}}(e,t+1,i);if(!r)return;let s=r.data;const o=r.index,a=s.search(/\s/);let l=s,c=!0;-1!==a&&(l=s.substring(0,a),s=s.substring(a+1).trimStart());const u=l;if(n){const e=l.indexOf(":");-1!==e&&(l=l.substr(e+1),c=l!==r.data.substr(e+1))}return{tagName:l,tagExp:s,closeIndex:o,attrExpPresent:c,rawTagName:u}}function w(e,t,n){const i=n;let r=1;for(;n<e.length;n++)if("<"===e[n])if("/"===e[n+1]){const s=g(e,">",n,`${t} is not closed`);if(e.substring(n+2,s).trim()===t&&(r--,0===r))return{tagContent:e.substring(i,n),i:s};n=s}else if("?"===e[n+1])n=g(e,"?>",n+1,"StopNode is not closed.");else if("!--"===e.substr(n+1,3))n=g(e,"--\x3e",n+3,"StopNode is not closed.");else if("!["===e.substr(n+1,2))n=g(e,"]]>",n,"StopNode is not closed.")-2;else{const i=m(e,n,">");i&&((i&&i.tagName)===t&&"/"!==i.tagExp[i.tagExp.length-1]&&r++,n=i.closeIndex)}}function v(t,n,r){if(n&&"string"==typeof t){const e=t.trim();return"true"===e||"false"!==e&&i(t,r)}return e.isExist(t)?t:""}return j=class{constructor(e){this.options=e,this.currentNode=null,this.tagsNodeStack=[],this.docTypeEntities={},this.lastEntities={apos:{regex:/&(apos|#39|#x27);/g,val:"'"},gt:{regex:/&(gt|#62|#x3E);/g,val:">"},lt:{regex:/&(lt|#60|#x3C);/g,val:"<"},quot:{regex:/&(quot|#34|#x22);/g,val:'"'}},this.ampEntity={regex:/&(amp|#38|#x26);/g,val:"&"},this.htmlEntities={space:{regex:/&(nbsp|#160);/g,val:" "},cent:{regex:/&(cent|#162);/g,val:"¢"},pound:{regex:/&(pound|#163);/g,val:"£"},yen:{regex:/&(yen|#165);/g,val:"¥"},euro:{regex:/&(euro|#8364);/g,val:"€"},copyright:{regex:/&(copy|#169);/g,val:"©"},reg:{regex:/&(reg|#174);/g,val:"®"},inr:{regex:/&(inr|#8377);/g,val:"₹"},num_dec:{regex:/&#([0-9]{1,7});/g,val:(e,t)=>String.fromCharCode(Number.parseInt(t,10))},num_hex:{regex:/&#x([0-9a-fA-F]{1,6});/g,val:(e,t)=>String.fromCharCode(Number.parseInt(t,16))}},this.addExternalEntities=s,this.parseXml=u,this.parseTextData=o,this.resolveNameSpace=a,this.buildAttributesMap=c,this.isItStopNode=f,this.replaceEntitiesValue=h,this.readStopNodeData=w,this.saveTextToParentTag=p,this.addChild=d,this.ignoreAttributesFn=r(this.options.ignoreAttributes)}}}(),{prettify:n}=ne(),i=R();return Z=class{constructor(t){this.externalEntities={},this.options=e(t)}parse(e,r){if("string"==typeof e);else{if(!e.toString)throw new Error("XML data is accepted in String or Bytes[] form.");e=e.toString()}if(r){!0===r&&(r={});const t=i.validate(e,r);if(!0!==t)throw Error(`${t.err.msg}:${t.err.line}:${t.err.col}`)}const s=new t(this.options);s.addExternalEntities(this.externalEntities);const o=s.parseXml(e);return this.options.preserveOrder||void 0===o?o:n(o,this.options)}addEntity(e,t){if(-1!==t.indexOf("&"))throw new Error("Entity value can't have '&'");if(-1!==e.indexOf("&")||-1!==e.indexOf(";"))throw new Error("An entity must be set without '&' and ';'. Eg. use '#xD' for '&#xD;'");if("&"===t)throw new Error("An entity with value '&' is not permitted");this.externalEntities[e]=t}}}function re(){if(K)return z;function e(s,o,a,l){let c="",u=!1;for(let d=0;d<s.length;d++){const h=s[d],p=t(h);if(void 0===p)continue;let f="";if(f=0===a.length?p:`${a}.${p}`,p===o.textNodeName){let e=h[p];i(f,o)||(e=o.tagValueProcessor(p,e),e=r(e,o)),u&&(c+=l),c+=e,u=!1;continue}if(p===o.cdataPropName){u&&(c+=l),c+=`<![CDATA[${h[p][0][o.textNodeName]}]]>`,u=!1;continue}if(p===o.commentPropName){c+=l+`\x3c!--${h[p][0][o.textNodeName]}--\x3e`,u=!0;continue}if("?"===p[0]){const e=n(h[":@"],o),t="?xml"===p?"":l;let i=h[p][0][o.textNodeName];i=0!==i.length?" "+i:"",c+=t+`<${p}${i}${e}?>`,u=!0;continue}let g=l;""!==g&&(g+=o.indentBy);const m=l+`<${p}${n(h[":@"],o)}`,w=e(h[p],o,f,g);-1!==o.unpairedTags.indexOf(p)?o.suppressUnpairedNode?c+=m+">":c+=m+"/>":w&&0!==w.length||!o.suppressEmptyNode?w&&w.endsWith(">")?c+=m+`>${w}${l}</${p}>`:(c+=m+">",w&&""!==l&&(w.includes("/>")||w.includes("</"))?c+=l+o.indentBy+w+l:c+=w,c+=`</${p}>`):c+=m+"/>",u=!0}return c}function t(e){const t=Object.keys(e);for(let n=0;n<t.length;n++){const i=t[n];if(e.hasOwnProperty(i)&&":@"!==i)return i}}function n(e,t){let n="";if(e&&!t.ignoreAttributes)for(let i in e){if(!e.hasOwnProperty(i))continue;let s=t.attributeValueProcessor(i,e[i]);s=r(s,t),!0===s&&t.suppressBooleanAttributes?n+=` ${i.substr(t.attributeNamePrefix.length)}`:n+=` ${i.substr(t.attributeNamePrefix.length)}="${s}"`}return n}function i(e,t){let n=(e=e.substr(0,e.length-t.textNodeName.length-1)).substr(e.lastIndexOf(".")+1);for(let i in t.stopNodes)if(t.stopNodes[i]===e||t.stopNodes[i]==="*."+n)return!0;return!1}function r(e,t){if(e&&e.length>0&&t.processEntities)for(let n=0;n<t.entities.length;n++){const i=t.entities[n];e=e.replace(i.regex,i.val)}return e}return K=1,z=function(t,n){let i="";return n.format&&n.indentBy.length>0&&(i="\n"),e(t,n,"",i)}}var se=function(){if(ee)return Q;ee=1;const e=R(),t=ie(),n=function(){if(J)return W;J=1;const e=re(),t=U(),n={attributeNamePrefix:"@_",attributesGroupName:!1,textNodeName:"#text",ignoreAttributes:!0,cdataPropName:!1,format:!1,indentBy:"  ",suppressEmptyNode:!1,suppressUnpairedNode:!0,suppressBooleanAttributes:!0,tagValueProcessor:function(e,t){return t},attributeValueProcessor:function(e,t){return t},preserveOrder:!1,commentPropName:!1,unpairedTags:[],entities:[{regex:new RegExp("&","g"),val:"&amp;"},{regex:new RegExp(">","g"),val:"&gt;"},{regex:new RegExp("<","g"),val:"&lt;"},{regex:new RegExp("'","g"),val:"&apos;"},{regex:new RegExp('"',"g"),val:"&quot;"}],processEntities:!0,stopNodes:[],oneListGroup:!1};function i(e){this.options=Object.assign({},n,e),!0===this.options.ignoreAttributes||this.options.attributesGroupName?this.isAttribute=function(){return!1}:(this.ignoreAttributesFn=t(this.options.ignoreAttributes),this.attrPrefixLen=this.options.attributeNamePrefix.length,this.isAttribute=o),this.processTextOrObjNode=r,this.options.format?(this.indentate=s,this.tagEndChar=">\n",this.newLine="\n"):(this.indentate=function(){return""},this.tagEndChar=">",this.newLine="")}function r(e,t,n,i){const r=this.j2x(e,n+1,i.concat(t));return void 0!==e[this.options.textNodeName]&&1===Object.keys(e).length?this.buildTextValNode(e[this.options.textNodeName],t,r.attrStr,n):this.buildObjectNode(r.val,t,r.attrStr,n)}function s(e){return this.options.indentBy.repeat(e)}function o(e){return!(!e.startsWith(this.options.attributeNamePrefix)||e===this.options.textNodeName)&&e.substr(this.attrPrefixLen)}return i.prototype.build=function(t){return this.options.preserveOrder?e(t,this.options):(Array.isArray(t)&&this.options.arrayNodeName&&this.options.arrayNodeName.length>1&&(t={[this.options.arrayNodeName]:t}),this.j2x(t,0,[]).val)},i.prototype.j2x=function(e,t,n){let i="",r="";const s=n.join(".");for(let o in e)if(Object.prototype.hasOwnProperty.call(e,o))if(void 0===e[o])this.isAttribute(o)&&(r+="");else if(null===e[o])this.isAttribute(o)?r+="":"?"===o[0]?r+=this.indentate(t)+"<"+o+"?"+this.tagEndChar:r+=this.indentate(t)+"<"+o+"/"+this.tagEndChar;else if(e[o]instanceof Date)r+=this.buildTextValNode(e[o],o,"",t);else if("object"!=typeof e[o]){const n=this.isAttribute(o);if(n&&!this.ignoreAttributesFn(n,s))i+=this.buildAttrPairStr(n,""+e[o]);else if(!n)if(o===this.options.textNodeName){let t=this.options.tagValueProcessor(o,""+e[o]);r+=this.replaceEntitiesValue(t)}else r+=this.buildTextValNode(e[o],o,"",t)}else if(Array.isArray(e[o])){const i=e[o].length;let s="",a="";for(let l=0;l<i;l++){const i=e[o][l];if(void 0===i);else if(null===i)"?"===o[0]?r+=this.indentate(t)+"<"+o+"?"+this.tagEndChar:r+=this.indentate(t)+"<"+o+"/"+this.tagEndChar;else if("object"==typeof i)if(this.options.oneListGroup){const e=this.j2x(i,t+1,n.concat(o));s+=e.val,this.options.attributesGroupName&&i.hasOwnProperty(this.options.attributesGroupName)&&(a+=e.attrStr)}else s+=this.processTextOrObjNode(i,o,t,n);else if(this.options.oneListGroup){let e=this.options.tagValueProcessor(o,i);e=this.replaceEntitiesValue(e),s+=e}else s+=this.buildTextValNode(i,o,"",t)}this.options.oneListGroup&&(s=this.buildObjectNode(s,o,a,t)),r+=s}else if(this.options.attributesGroupName&&o===this.options.attributesGroupName){const t=Object.keys(e[o]),n=t.length;for(let r=0;r<n;r++)i+=this.buildAttrPairStr(t[r],""+e[o][t[r]])}else r+=this.processTextOrObjNode(e[o],o,t,n);return{attrStr:i,val:r}},i.prototype.buildAttrPairStr=function(e,t){return t=this.options.attributeValueProcessor(e,""+t),t=this.replaceEntitiesValue(t),this.options.suppressBooleanAttributes&&"true"===t?" "+e:" "+e+'="'+t+'"'},i.prototype.buildObjectNode=function(e,t,n,i){if(""===e)return"?"===t[0]?this.indentate(i)+"<"+t+n+"?"+this.tagEndChar:this.indentate(i)+"<"+t+n+this.closeTag(t)+this.tagEndChar;{let r="</"+t+this.tagEndChar,s="";return"?"===t[0]&&(s="?",r=""),!n&&""!==n||-1!==e.indexOf("<")?!1!==this.options.commentPropName&&t===this.options.commentPropName&&0===s.length?this.indentate(i)+`\x3c!--${e}--\x3e`+this.newLine:this.indentate(i)+"<"+t+n+s+this.tagEndChar+e+this.indentate(i)+r:this.indentate(i)+"<"+t+n+s+">"+e+r}},i.prototype.closeTag=function(e){let t="";return-1!==this.options.unpairedTags.indexOf(e)?this.options.suppressUnpairedNode||(t="/"):t=this.options.suppressEmptyNode?"/":`></${e}`,t},i.prototype.buildTextValNode=function(e,t,n,i){if(!1!==this.options.cdataPropName&&t===this.options.cdataPropName)return this.indentate(i)+`<![CDATA[${e}]]>`+this.newLine;if(!1!==this.options.commentPropName&&t===this.options.commentPropName)return this.indentate(i)+`\x3c!--${e}--\x3e`+this.newLine;if("?"===t[0])return this.indentate(i)+"<"+t+n+"?"+this.tagEndChar;{let r=this.options.tagValueProcessor(t,e);return r=this.replaceEntitiesValue(r),""===r?this.indentate(i)+"<"+t+n+this.closeTag(t)+this.tagEndChar:this.indentate(i)+"<"+t+n+">"+r+"</"+t+this.tagEndChar}},i.prototype.replaceEntitiesValue=function(e){if(e&&e.length>0&&this.options.processEntities)for(let t=0;t<this.options.entities.length;t++){const n=this.options.entities[t];e=e.replace(n.regex,n.val)}return e},W=i}();return Q={XMLParser:t,XMLValidator:e,XMLBuilder:n}}();class oe{_view;constructor(e){ae(e),this._view=e}get id(){return this._view.id}get name(){return this._view.name}get caption(){return this._view.caption}get emptyTitle(){return this._view.emptyTitle}get emptyCaption(){return this._view.emptyCaption}get getContents(){return this._view.getContents}get icon(){return this._view.icon}set icon(e){this._view.icon=e}get order(){return this._view.order}set order(e){this._view.order=e}get params(){return this._view.params}set params(e){this._view.params=e}get columns(){return this._view.columns}get emptyView(){return this._view.emptyView}get parent(){return this._view.parent}get sticky(){return this._view.sticky}get expanded(){return this._view.expanded}set expanded(e){this._view.expanded=e}get defaultSortKey(){return this._view.defaultSortKey}get loadChildViews(){return this._view.loadChildViews}}const ae=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("View id is required and must be a string");if(!e.name||"string"!=typeof e.name)throw new Error("View name is required and must be a string");if("caption"in e&&"string"!=typeof e.caption)throw new Error("View caption must be a string");if(!e.getContents||"function"!=typeof e.getContents)throw new Error("View getContents is required and must be a function");if(!e.icon||"string"!=typeof e.icon||!function(e){if("string"!=typeof e)throw new TypeError(`Expected a \`string\`, got \`${typeof e}\``);if(0===(e=e.trim()).length)return!1;if(!0!==se.XMLValidator.validate(e))return!1;let t;const n=new se.XMLParser;try{t=n.parse(e)}catch{return!1}return!!t&&!!Object.keys(t).some((e=>"svg"===e.toLowerCase()))}(e.icon))throw new Error("View icon is required and must be a valid svg string");if("order"in e&&"number"!=typeof e.order)throw new Error("View order must be a number");if(e.columns&&e.columns.forEach((e=>{if(!(e instanceof N))throw new Error("View columns must be an array of Column. Invalid column found")})),e.emptyView&&"function"!=typeof e.emptyView)throw new Error("View emptyView must be a function");if(e.parent&&"string"!=typeof e.parent)throw new Error("View parent must be a string");if("sticky"in e&&"boolean"!=typeof e.sticky)throw new Error("View sticky must be a boolean");if("expanded"in e&&"boolean"!=typeof e.expanded)throw new Error("View expanded must be a boolean");if(e.defaultSortKey&&"string"!=typeof e.defaultSortKey)throw new Error("View defaultSortKey must be a string");if(e.loadChildViews&&"function"!=typeof e.loadChildViews)throw new Error("View loadChildViews must be a function");return!0};var le,ce,ue,de;function he(){if(ce)return le;ce=1;const e="object"==typeof a&&a.env&&a.env.NODE_DEBUG&&/\bsemver\b/i.test(a.env.NODE_DEBUG)?(...e)=>console.error("SEMVER",...e):()=>{};return le=e}function pe(){if(de)return ue;de=1;const e=Number.MAX_SAFE_INTEGER||9007199254740991;return ue={MAX_LENGTH:256,MAX_SAFE_COMPONENT_LENGTH:16,MAX_SAFE_BUILD_LENGTH:250,MAX_SAFE_INTEGER:e,RELEASE_TYPES:["major","premajor","minor","preminor","patch","prepatch","prerelease"],SEMVER_SPEC_VERSION:"2.0.0",FLAG_INCLUDE_PRERELEASE:1,FLAG_LOOSE:2}}var fe,ge,me,we,ve,Ee,Ae,be,ye,_e,Ne,xe={exports:{}};function Ie(){if(Ae)return Ee;Ae=1;const e=he(),{MAX_LENGTH:t,MAX_SAFE_INTEGER:n}=pe(),{safeRe:i,t:r}=(fe||(fe=1,function(e,t){const{MAX_SAFE_COMPONENT_LENGTH:n,MAX_SAFE_BUILD_LENGTH:i,MAX_LENGTH:r}=pe(),s=he(),o=(t=e.exports={}).re=[],a=t.safeRe=[],l=t.src=[],c=t.t={};let u=0;const d="[a-zA-Z0-9-]",h=[["\\s",1],["\\d",r],[d,i]],p=(e,t,n)=>{const i=(e=>{for(const[t,n]of h)e=e.split(`${t}*`).join(`${t}{0,${n}}`).split(`${t}+`).join(`${t}{1,${n}}`);return e})(t),r=u++;s(e,r,t),c[e]=r,l[r]=t,o[r]=new RegExp(t,n?"g":void 0),a[r]=new RegExp(i,n?"g":void 0)};p("NUMERICIDENTIFIER","0|[1-9]\\d*"),p("NUMERICIDENTIFIERLOOSE","\\d+"),p("NONNUMERICIDENTIFIER",`\\d*[a-zA-Z-]${d}*`),p("MAINVERSION",`(${l[c.NUMERICIDENTIFIER]})\\.(${l[c.NUMERICIDENTIFIER]})\\.(${l[c.NUMERICIDENTIFIER]})`),p("MAINVERSIONLOOSE",`(${l[c.NUMERICIDENTIFIERLOOSE]})\\.(${l[c.NUMERICIDENTIFIERLOOSE]})\\.(${l[c.NUMERICIDENTIFIERLOOSE]})`),p("PRERELEASEIDENTIFIER",`(?:${l[c.NUMERICIDENTIFIER]}|${l[c.NONNUMERICIDENTIFIER]})`),p("PRERELEASEIDENTIFIERLOOSE",`(?:${l[c.NUMERICIDENTIFIERLOOSE]}|${l[c.NONNUMERICIDENTIFIER]})`),p("PRERELEASE",`(?:-(${l[c.PRERELEASEIDENTIFIER]}(?:\\.${l[c.PRERELEASEIDENTIFIER]})*))`),p("PRERELEASELOOSE",`(?:-?(${l[c.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${l[c.PRERELEASEIDENTIFIERLOOSE]})*))`),p("BUILDIDENTIFIER",`${d}+`),p("BUILD",`(?:\\+(${l[c.BUILDIDENTIFIER]}(?:\\.${l[c.BUILDIDENTIFIER]})*))`),p("FULLPLAIN",`v?${l[c.MAINVERSION]}${l[c.PRERELEASE]}?${l[c.BUILD]}?`),p("FULL",`^${l[c.FULLPLAIN]}$`),p("LOOSEPLAIN",`[v=\\s]*${l[c.MAINVERSIONLOOSE]}${l[c.PRERELEASELOOSE]}?${l[c.BUILD]}?`),p("LOOSE",`^${l[c.LOOSEPLAIN]}$`),p("GTLT","((?:<|>)?=?)"),p("XRANGEIDENTIFIERLOOSE",`${l[c.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`),p("XRANGEIDENTIFIER",`${l[c.NUMERICIDENTIFIER]}|x|X|\\*`),p("XRANGEPLAIN",`[v=\\s]*(${l[c.XRANGEIDENTIFIER]})(?:\\.(${l[c.XRANGEIDENTIFIER]})(?:\\.(${l[c.XRANGEIDENTIFIER]})(?:${l[c.PRERELEASE]})?${l[c.BUILD]}?)?)?`),p("XRANGEPLAINLOOSE",`[v=\\s]*(${l[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[c.XRANGEIDENTIFIERLOOSE]})(?:${l[c.PRERELEASELOOSE]})?${l[c.BUILD]}?)?)?`),p("XRANGE",`^${l[c.GTLT]}\\s*${l[c.XRANGEPLAIN]}$`),p("XRANGELOOSE",`^${l[c.GTLT]}\\s*${l[c.XRANGEPLAINLOOSE]}$`),p("COERCEPLAIN",`(^|[^\\d])(\\d{1,${n}})(?:\\.(\\d{1,${n}}))?(?:\\.(\\d{1,${n}}))?`),p("COERCE",`${l[c.COERCEPLAIN]}(?:$|[^\\d])`),p("COERCEFULL",l[c.COERCEPLAIN]+`(?:${l[c.PRERELEASE]})?(?:${l[c.BUILD]})?(?:$|[^\\d])`),p("COERCERTL",l[c.COERCE],!0),p("COERCERTLFULL",l[c.COERCEFULL],!0),p("LONETILDE","(?:~>?)"),p("TILDETRIM",`(\\s*)${l[c.LONETILDE]}\\s+`,!0),t.tildeTrimReplace="$1~",p("TILDE",`^${l[c.LONETILDE]}${l[c.XRANGEPLAIN]}$`),p("TILDELOOSE",`^${l[c.LONETILDE]}${l[c.XRANGEPLAINLOOSE]}$`),p("LONECARET","(?:\\^)"),p("CARETTRIM",`(\\s*)${l[c.LONECARET]}\\s+`,!0),t.caretTrimReplace="$1^",p("CARET",`^${l[c.LONECARET]}${l[c.XRANGEPLAIN]}$`),p("CARETLOOSE",`^${l[c.LONECARET]}${l[c.XRANGEPLAINLOOSE]}$`),p("COMPARATORLOOSE",`^${l[c.GTLT]}\\s*(${l[c.LOOSEPLAIN]})$|^$`),p("COMPARATOR",`^${l[c.GTLT]}\\s*(${l[c.FULLPLAIN]})$|^$`),p("COMPARATORTRIM",`(\\s*)${l[c.GTLT]}\\s*(${l[c.LOOSEPLAIN]}|${l[c.XRANGEPLAIN]})`,!0),t.comparatorTrimReplace="$1$2$3",p("HYPHENRANGE",`^\\s*(${l[c.XRANGEPLAIN]})\\s+-\\s+(${l[c.XRANGEPLAIN]})\\s*$`),p("HYPHENRANGELOOSE",`^\\s*(${l[c.XRANGEPLAINLOOSE]})\\s+-\\s+(${l[c.XRANGEPLAINLOOSE]})\\s*$`),p("STAR","(<|>)?=?\\s*\\*"),p("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$"),p("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")}(xe,xe.exports)),xe.exports),s=function(){if(me)return ge;me=1;const e=Object.freeze({loose:!0}),t=Object.freeze({});return ge=n=>n?"object"!=typeof n?e:n:t}(),{compareIdentifiers:o}=function(){if(ve)return we;ve=1;const e=/^[0-9]+$/,t=(t,n)=>{const i=e.test(t),r=e.test(n);return i&&r&&(t=+t,n=+n),t===n?0:i&&!r?-1:r&&!i?1:t<n?-1:1};return we={compareIdentifiers:t,rcompareIdentifiers:(e,n)=>t(n,e)}}();class a{constructor(o,l){if(l=s(l),o instanceof a){if(o.loose===!!l.loose&&o.includePrerelease===!!l.includePrerelease)return o;o=o.version}else if("string"!=typeof o)throw new TypeError(`Invalid version. Must be a string. Got type "${typeof o}".`);if(o.length>t)throw new TypeError(`version is longer than ${t} characters`);e("SemVer",o,l),this.options=l,this.loose=!!l.loose,this.includePrerelease=!!l.includePrerelease;const c=o.trim().match(l.loose?i[r.LOOSE]:i[r.FULL]);if(!c)throw new TypeError(`Invalid Version: ${o}`);if(this.raw=o,this.major=+c[1],this.minor=+c[2],this.patch=+c[3],this.major>n||this.major<0)throw new TypeError("Invalid major version");if(this.minor>n||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>n||this.patch<0)throw new TypeError("Invalid patch version");c[4]?this.prerelease=c[4].split(".").map((e=>{if(/^[0-9]+$/.test(e)){const t=+e;if(t>=0&&t<n)return t}return e})):this.prerelease=[],this.build=c[5]?c[5].split("."):[],this.format()}format(){return this.version=`${this.major}.${this.minor}.${this.patch}`,this.prerelease.length&&(this.version+=`-${this.prerelease.join(".")}`),this.version}toString(){return this.version}compare(t){if(e("SemVer.compare",this.version,this.options,t),!(t instanceof a)){if("string"==typeof t&&t===this.version)return 0;t=new a(t,this.options)}return t.version===this.version?0:this.compareMain(t)||this.comparePre(t)}compareMain(e){return e instanceof a||(e=new a(e,this.options)),o(this.major,e.major)||o(this.minor,e.minor)||o(this.patch,e.patch)}comparePre(t){if(t instanceof a||(t=new a(t,this.options)),this.prerelease.length&&!t.prerelease.length)return-1;if(!this.prerelease.length&&t.prerelease.length)return 1;if(!this.prerelease.length&&!t.prerelease.length)return 0;let n=0;do{const i=this.prerelease[n],r=t.prerelease[n];if(e("prerelease compare",n,i,r),void 0===i&&void 0===r)return 0;if(void 0===r)return 1;if(void 0===i)return-1;if(i!==r)return o(i,r)}while(++n)}compareBuild(t){t instanceof a||(t=new a(t,this.options));let n=0;do{const i=this.build[n],r=t.build[n];if(e("build compare",n,i,r),void 0===i&&void 0===r)return 0;if(void 0===r)return 1;if(void 0===i)return-1;if(i!==r)return o(i,r)}while(++n)}inc(e,t,n){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",t,n);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",t,n);break;case"prepatch":this.prerelease.length=0,this.inc("patch",t,n),this.inc("pre",t,n);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",t,n),this.inc("pre",t,n);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":{const e=Number(n)?1:0;if(!t&&!1===n)throw new Error("invalid increment argument: identifier is empty");if(0===this.prerelease.length)this.prerelease=[e];else{let i=this.prerelease.length;for(;--i>=0;)"number"==typeof this.prerelease[i]&&(this.prerelease[i]++,i=-2);if(-1===i){if(t===this.prerelease.join(".")&&!1===n)throw new Error("invalid increment argument: identifier already exists");this.prerelease.push(e)}}if(t){let i=[t,e];!1===n&&(i=[t]),0===o(this.prerelease[0],t)?isNaN(this.prerelease[1])&&(this.prerelease=i):this.prerelease=i}break}default:throw new Error(`invalid increment argument: ${e}`)}return this.raw=this.format(),this.build.length&&(this.raw+=`+${this.build.join(".")}`),this}}return Ee=a}const Ce=I(function(){if(Ne)return _e;Ne=1;const e=function(){if(ye)return be;ye=1;const e=Ie();return be=(t,n,i=!1)=>{if(t instanceof e)return t;try{return new e(t,n)}catch(e){if(!i)return null;throw e}}}();return _e=(t,n)=>{const i=e(t,n);return i?i.version:null}}());var Te,Oe;const Le=I(function(){if(Oe)return Te;Oe=1;const e=Ie();return Te=(t,n)=>new e(t,n).major}());class Se{bus;constructor(e){"function"==typeof e.getVersion&&Ce(e.getVersion())?Le(e.getVersion())!==Le(this.getVersion())&&console.warn("Proxying an event bus of version "+e.getVersion()+" with "+this.getVersion()):console.warn("Proxying an event bus with an unknown or invalid version"),this.bus=e}getVersion(){return"3.3.1"}subscribe(e,t){this.bus.subscribe(e,t)}unsubscribe(e,t){this.bus.unsubscribe(e,t)}emit(e,t){this.bus.emit(e,t)}}class Re{handlers=new Map;getVersion(){return"3.3.1"}subscribe(e,t){this.handlers.set(e,(this.handlers.get(e)||[]).concat(t))}unsubscribe(e,t){this.handlers.set(e,(this.handlers.get(e)||[]).filter((e=>e!==t)))}emit(e,t){(this.handlers.get(e)||[]).forEach((e=>{try{e(t)}catch(e){console.error("could not invoke event listener",e)}}))}}let Pe=null;class Ve extends o.m{id;order;constructor(e,t=100){super(),this.id=e,this.order=t}filter(e){throw new Error("Not implemented")}updateChips(e){this.dispatchTypedEvent("update:chips",new CustomEvent("update:chips",{detail:e}))}filterUpdated(){this.dispatchTypedEvent("update:filter",new CustomEvent("update:filter"))}}function De(e){if(window._nc_filelist_filters||(window._nc_filelist_filters=new Map),window._nc_filelist_filters.has(e.id))throw new Error(`File list filter "${e.id}" already registered`);var t,n;window._nc_filelist_filters.set(e.id,e),t="files:filter:added",n=e,(null!==Pe?Pe:"undefined"==typeof window?new Proxy({},{get:()=>()=>console.error("Window not available, EventBus can not be established!")}):(window.OC?._eventBus&&void 0===window._nc_event_bus&&(console.warn("found old event bus instance at OC._eventBus. Update your version!"),window._nc_event_bus=window.OC._eventBus),Pe=void 0!==window?._nc_event_bus?new Se(window._nc_event_bus):window._nc_event_bus=new Re,Pe)).emit(t,n)}const $e=function(e){return(void 0===window._nc_newfilemenu&&(window._nc_newfilemenu=new l,i.o.debug("NewFileMenu initialized")),window._nc_newfilemenu).registerEntry(e)}},53168:(e,t,n)=>{n.d(t,{A:()=>a});var i=n(71354),r=n.n(i),s=n(76314),o=n.n(s)()(r());o.push([e.id,".action-items>.files-list__row-action-sharing-status{direction:rtl;padding-inline-end:0 !important}svg.sharing-status__avatar{height:32px !important;width:32px !important;max-height:32px !important;max-width:32px !important;border-radius:32px;overflow:hidden}.files-list__row-action-sharing-status .button-vue__text{color:var(--color-primary-element)}.files-list__row-action-sharing-status .button-vue__icon{color:var(--color-primary-element)}","",{version:3,sources:["webpack://./apps/files_sharing/src/files_actions/sharingStatusAction.scss"],names:[],mappings:"AAKA,qDAEC,aAAA,CAEA,+BAAA,CAGD,2BACC,sBAAA,CACA,qBAAA,CACA,0BAAA,CACA,yBAAA,CACA,kBAAA,CACA,eAAA,CAIA,yDACC,kCAAA,CAED,yDACC,kCAAA",sourcesContent:["/**\n * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors\n * SPDX-License-Identifier: AGPL-3.0-or-later\n */\n // Only when rendered inline, when not enough space, this is put in the menu\n.action-items > .files-list__row-action-sharing-status {\n\t// put icon at the end of the button\n\tdirection: rtl;\n\t// align icons with text-less inline actions\n\tpadding-inline-end: 0 !important;\n}\n\nsvg.sharing-status__avatar {\n\theight: 32px !important;\n\twidth: 32px !important;\n\tmax-height: 32px !important;\n\tmax-width: 32px !important;\n\tborder-radius: 32px;\n\toverflow: hidden;\n}\n\n.files-list__row-action-sharing-status {\n\t.button-vue__text {\n\t\tcolor: var(--color-primary-element);\n\t}\n\t.button-vue__icon {\n\t\tcolor: var(--color-primary-element);\n\t}\n}\n"],sourceRoot:""}]);const a=o},62746:(e,t,n)=>{n.d(t,{A:()=>i});const i=(0,n(35947).YK)().setApp("files_sharing").detectUser().build()},79722:e=>{e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e"},86886:e=>{e.exports="data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e"}},r={};function s(e){var t=r[e];if(void 0!==t)return t.exports;var n=r[e]={id:e,loaded:!1,exports:{}};return i[e].call(n.exports,n,n.exports,s),n.loaded=!0,n.exports}s.m=i,e=[],s.O=(t,n,i,r)=>{if(!n){var o=1/0;for(u=0;u<e.length;u++){n=e[u][0],i=e[u][1],r=e[u][2];for(var a=!0,l=0;l<n.length;l++)(!1&r||o>=r)&&Object.keys(s.O).every((e=>s.O[e](n[l])))?n.splice(l--,1):(a=!1,r<o&&(o=r));if(a){e.splice(u--,1);var c=i();void 0!==c&&(t=c)}}return t}r=r||0;for(var u=e.length;u>0&&e[u-1][2]>r;u--)e[u]=e[u-1];e[u]=[n,i,r]},s.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return s.d(t,{a:t}),t},s.d=(e,t)=>{for(var n in t)s.o(t,n)&&!s.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},s.f={},s.e=e=>Promise.all(Object.keys(s.f).reduce(((t,n)=>(s.f[n](e,t),t)),[])),s.u=e=>e+"-"+e+".js?v="+{640:"b2fa23a809053c6305c5",857:"e91c54a0a2f8bb5ed755",4039:"b88707f1d8fb1ae6abe6",5771:"a4e2a98efcfb7393c5bd",5810:"8dfb2392d7107957a510",7432:"126e4e5eedf7af9a92fc",9491:"4fe60020eefb74ad0813"}[e],s.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),s.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},n="nextcloud:",s.l=(e,i,r,o)=>{if(t[e])t[e].push(i);else{var a,l;if(void 0!==r)for(var c=document.getElementsByTagName("script"),u=0;u<c.length;u++){var d=c[u];if(d.getAttribute("src")==e||d.getAttribute("data-webpack")==n+r){a=d;break}}a||(l=!0,(a=document.createElement("script")).charset="utf-8",a.timeout=120,s.nc&&a.setAttribute("nonce",s.nc),a.setAttribute("data-webpack",n+r),a.src=e),t[e]=[i];var h=(n,i)=>{a.onerror=a.onload=null,clearTimeout(p);var r=t[e];if(delete t[e],a.parentNode&&a.parentNode.removeChild(a),r&&r.forEach((e=>e(i))),n)return n(i)},p=setTimeout(h.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=h.bind(null,a.onerror),a.onload=h.bind(null,a.onload),l&&document.head.appendChild(a)}},s.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},s.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),s.j=5928,(()=>{var e;s.g.importScripts&&(e=s.g.location+"");var t=s.g.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var n=t.getElementsByTagName("script");if(n.length)for(var i=n.length-1;i>-1&&(!e||!/^http(s?):/.test(e));)e=n[i--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),s.p=e})(),(()=>{s.b=document.baseURI||self.location.href;var e={5810:0,5928:0};s.f.j=(t,n)=>{var i=s.o(e,t)?e[t]:void 0;if(0!==i)if(i)n.push(i[2]);else{var r=new Promise(((n,r)=>i=e[t]=[n,r]));n.push(i[2]=r);var o=s.p+s.u(t),a=new Error;s.l(o,(n=>{if(s.o(e,t)&&(0!==(i=e[t])&&(e[t]=void 0),i)){var r=n&&("load"===n.type?"missing":n.type),o=n&&n.target&&n.target.src;a.message="Loading chunk "+t+" failed.\n("+r+": "+o+")",a.name="ChunkLoadError",a.type=r,a.request=o,i[1](a)}}),"chunk-"+t,t)}},s.O.j=t=>0===e[t];var t=(t,n)=>{var i,r,o=n[0],a=n[1],l=n[2],c=0;if(o.some((t=>0!==e[t]))){for(i in a)s.o(a,i)&&(s.m[i]=a[i]);if(l)var u=l(s)}for(t&&t(n);c<o.length;c++)r=o[c],s.o(e,r)&&e[r]&&e[r][0](),e[r]=0;return s.O(u)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),s.nc=void 0;var o=s.O(void 0,[4208],(()=>s(26483)));o=s.O(o)})();
-//# sourceMappingURL=files_sharing-init.js.map?v=f9bab7be6680a3aa8db2
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/actions/sidebarAction.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/actions/sidebarAction.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_DETAILS: () => (/* binding */ ACTION_DETAILS),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _mdi_svg_svg_information_variant_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/information-variant.svg?raw */ "./node_modules/@mdi/svg/svg/information-variant.svg?raw");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+const ACTION_DETAILS = 'details';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: ACTION_DETAILS,
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'Open details'),
+  iconSvgInline: () => _mdi_svg_svg_information_variant_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+  // Sidebar currently supports user folder only, /files/USER
+  enabled: nodes => {
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__.isPublicShare)()) {
+      return false;
+    }
+    // Only works on single node
+    if (nodes.length !== 1) {
+      return false;
+    }
+    if (!nodes[0]) {
+      return false;
+    }
+    // Only work if the sidebar is available
+    if (!window?.OCA?.Files?.Sidebar) {
+      return false;
+    }
+    return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.NONE) ?? false;
+  },
+  async exec(node, view, dir) {
+    try {
+      // If the sidebar is already open for the current file, do nothing
+      if (window.OCA.Files.Sidebar.file === node.path) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Sidebar already open for this file', {
+          node
+        });
+        return null;
+      }
+      // Open sidebar and set active tab to sharing by default
+      window.OCA.Files.Sidebar.setActiveTab('sharing');
+      // TODO: migrate Sidebar to use a Node instead
+      await window.OCA.Files.Sidebar.open(node.path);
+      // Silently update current fileid
+      window.OCP?.Files?.Router?.goToRoute(null, {
+        view: view.id,
+        fileid: String(node.fileid)
+      }, {
+        ...window.OCP.Files.Router.query,
+        dir,
+        opendetails: 'true'
+      }, true);
+      return null;
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].error('Error while opening sidebar', {
+        error
+      });
+      return false;
+    }
+  },
+  order: -50
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue":
+/*!*********************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=template&id=5c291778&scoped=true */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true");
+/* harmony import */ var _FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "5c291778",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/FileListFilter/FileListFilter.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts":
+/*!********************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!*****************************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true":
+/*!***************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=template&id=5c291778&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/logger.ts":
+/*!**********************************!*\
+  !*** ./apps/files/src/logger.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue":
+/*!*********************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true");
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss */ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "40ba7127",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files_sharing/src/components/FileListFilterAccount.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts":
+/*!********************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss":
+/*!******************************************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss ***!
+  \******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss");
+
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true":
+/*!***************************************************************************************************************!*\
+  !*** ./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_template_id_40ba7127_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/acceptShareAction.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/acceptShareAction.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_check_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/check.svg?raw */ "./node_modules/@mdi/svg/svg/check.svg?raw");
+/* harmony import */ var _files_views_shares__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../files_views/shares */ "./apps/files_sharing/src/files_views/shares.ts");
+
+
+
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileAction({
+  id: 'accept-share',
+  displayName: nodes => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Accept share', 'Accept shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_check_svg_raw__WEBPACK_IMPORTED_MODULE_5__,
+  enabled: (nodes, view) => nodes.length > 0 && view.id === _files_views_shares__WEBPACK_IMPORTED_MODULE_6__.pendingSharesViewId,
+  async exec(node) {
+    try {
+      const isRemote = !!node.attributes.remote;
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
+        shareBase: isRemote ? 'remote_shares' : 'shares',
+        id: node.attributes.id
+      });
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].post(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:deleted', node);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+  async execBatch(nodes, view, dir) {
+    return Promise.all(nodes.map(node => this.exec(node, view, dir)));
+  },
+  order: 1,
+  inline: () => true
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.registerFileAction)(action);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/openInFilesAction.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/openInFilesAction.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _files_views_shares__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../files_views/shares */ "./apps/files_sharing/src/files_views/shares.ts");
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'open-in-files',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'Open in Files'),
+  iconSvgInline: () => '',
+  enabled: (nodes, view) => [_files_views_shares__WEBPACK_IMPORTED_MODULE_2__.sharesViewId, _files_views_shares__WEBPACK_IMPORTED_MODULE_2__.sharedWithYouViewId, _files_views_shares__WEBPACK_IMPORTED_MODULE_2__.sharedWithOthersViewId, _files_views_shares__WEBPACK_IMPORTED_MODULE_2__.sharingByLinksViewId
+  // Deleted and pending shares are not
+  // accessible in the files app.
+  ].includes(view.id),
+  async exec(node) {
+    const isFolder = node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder;
+    window.OCP.Files.Router.goToRoute(null,
+    // use default route
+    {
+      view: 'files',
+      fileid: String(node.fileid)
+    }, {
+      // If this node is a folder open the folder in files
+      dir: isFolder ? node.path : node.dirname,
+      // otherwise if this is a file, we should open it
+      openfile: isFolder ? undefined : 'true'
+    });
+    return null;
+  },
+  // Before openFolderAction
+  order: -1000,
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.DefaultType.HIDDEN
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(action);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/rejectShareAction.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/rejectShareAction.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.mjs");
+/* harmony import */ var _files_views_shares__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../files_views/shares */ "./apps/files_sharing/src/files_views/shares.ts");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/close.svg?raw */ "./node_modules/@mdi/svg/svg/close.svg?raw");
+
+
+
+
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileAction({
+  id: 'reject-share',
+  displayName: nodes => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Reject share', 'Reject shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_7__,
+  enabled: (nodes, view) => {
+    if (view.id !== _files_views_shares__WEBPACK_IMPORTED_MODULE_5__.pendingSharesViewId) {
+      return false;
+    }
+    if (nodes.length === 0) {
+      return false;
+    }
+    // disable rejecting group shares from the pending list because they anyway
+    // land back into that same list after rejecting them
+    if (nodes.some(node => node.attributes.remote_id && node.attributes.share_type === _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_4__.ShareType.RemoteGroup)) {
+      return false;
+    }
+    return true;
+  },
+  async exec(node) {
+    try {
+      const isRemote = !!node.attributes.remote;
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/files_sharing/api/v1/{shareBase}/{id}', {
+        shareBase: isRemote ? 'remote_shares' : 'shares',
+        id: node.attributes.id
+      });
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].delete(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:deleted', node);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+  async execBatch(nodes, view, dir) {
+    return Promise.all(nodes.map(node => this.exec(node, view, dir)));
+  },
+  order: 2,
+  inline: () => true
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.registerFileAction)(action);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/restoreShareAction.ts":
+/*!********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/restoreShareAction.ts ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_arrow_u_left_top_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/arrow-u-left-top.svg?raw */ "./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _files_views_shares__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../files_views/shares */ "./apps/files_sharing/src/files_views/shares.ts");
+
+
+
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: 'restore-share',
+  displayName: nodes => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translatePlural)('files_sharing', 'Restore share', 'Restore shares', nodes.length),
+  iconSvgInline: () => _mdi_svg_svg_arrow_u_left_top_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+  enabled: (nodes, view) => nodes.length > 0 && view.id === _files_views_shares__WEBPACK_IMPORTED_MODULE_6__.deletedSharesViewId,
+  async exec(node) {
+    try {
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/deletedshares/{id}', {
+        id: node.attributes.id
+      });
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_5__["default"].post(url);
+      // Remove from current view
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:deleted', node);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+  async execBatch(nodes, view, dir) {
+    return Promise.all(nodes.map(node => this.exec(node, view, dir)));
+  },
+  order: 1,
+  inline: () => true
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.registerFileAction)(action);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/sharingStatusAction.scss":
+/*!***********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/sharingStatusAction.scss ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./sharingStatusAction.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_actions/sharingStatusAction.ts":
+/*!*********************************************************************!*\
+  !*** ./apps/files_sharing/src/files_actions/sharingStatusAction.ts ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_SHARING_STATUS: () => (/* binding */ ACTION_SHARING_STATUS),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _mdi_svg_svg_account_group_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/account-group.svg?raw */ "./node_modules/@mdi/svg/svg/account-group.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_plus_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/account-plus.svg?raw */ "./node_modules/@mdi/svg/svg/account-plus.svg?raw");
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _core_img_apps_circles_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../core/img/apps/circles.svg?raw */ "./core/img/apps/circles.svg?raw");
+/* harmony import */ var _files_src_actions_sidebarAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../files/src/actions/sidebarAction */ "./apps/files/src/actions/sidebarAction.ts");
+/* harmony import */ var _utils_AccountIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/AccountIcon */ "./apps/files_sharing/src/utils/AccountIcon.ts");
+/* harmony import */ var _sharingStatusAction_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./sharingStatusAction.scss */ "./apps/files_sharing/src/files_actions/sharingStatusAction.scss");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+const isExternal = node => {
+  return node.attributes?.['is-federated'] ?? false;
+};
+const ACTION_SHARING_STATUS = 'sharing-status';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: ACTION_SHARING_STATUS,
+  displayName(nodes) {
+    const node = nodes[0];
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    if (shareTypes.length > 0 || node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || isExternal(node)) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared');
+    }
+    return '';
+  },
+  title(nodes) {
+    const node = nodes[0];
+    if (node.owner && (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || isExternal(node))) {
+      const ownerDisplayName = node?.attributes?.['owner-display-name'];
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared by {ownerDisplayName}', {
+        ownerDisplayName
+      });
+    }
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    if (shareTypes.length > 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared multiple times with different people');
+    }
+    const sharees = node.attributes.sharees?.sharee;
+    if (!sharees) {
+      // No sharees so just show the default message to create a new share
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Show sharing options');
+    }
+    const sharee = [sharees].flat()[0]; // the property is sometimes weirdly normalized, so we need to compensate
+    switch (sharee.type) {
+      case _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.User:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared with {user}', {
+          user: sharee['display-name']
+        });
+      case _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.Group:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared with group {group}', {
+          group: sharee['display-name'] ?? sharee.id
+        });
+      default:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files_sharing', 'Shared with others');
+    }
+  },
+  iconSvgInline(nodes) {
+    const node = nodes[0];
+    const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat();
+    // Mixed share types
+    if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+      return _mdi_svg_svg_account_plus_svg_raw__WEBPACK_IMPORTED_MODULE_6__;
+    }
+    // Link shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.Link) || shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.Email)) {
+      return _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_7__;
+    }
+    // Group shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.Group) || shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.RemoteGroup)) {
+      return _mdi_svg_svg_account_group_svg_raw__WEBPACK_IMPORTED_MODULE_5__;
+    }
+    // Circle shares
+    if (shareTypes.includes(_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_3__.ShareType.Team)) {
+      return _core_img_apps_circles_svg_raw__WEBPACK_IMPORTED_MODULE_8__;
+    }
+    if (node.owner && (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || isExternal(node))) {
+      return (0,_utils_AccountIcon__WEBPACK_IMPORTED_MODULE_10__.generateAvatarSvg)(node.owner, isExternal(node));
+    }
+    return _mdi_svg_svg_account_plus_svg_raw__WEBPACK_IMPORTED_MODULE_6__;
+  },
+  enabled(nodes) {
+    if (nodes.length !== 1) {
+      return false;
+    }
+    // Do not leak information about users to public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__.isPublicShare)()) {
+      return false;
+    }
+    const node = nodes[0];
+    const shareTypes = node.attributes?.['share-types'];
+    const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0;
+    // If the node is shared multiple times with
+    // different share types to the current user
+    if (isMixed) {
+      return true;
+    }
+    // If the node is shared by someone else
+    if (node.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || isExternal(node)) {
+      return true;
+    }
+    return (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.SHARE) !== 0;
+  },
+  async exec(node, view, dir) {
+    // You need read permissions to see the sidebar
+    if ((node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ) !== 0) {
+      window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing');
+      return _files_src_actions_sidebarAction__WEBPACK_IMPORTED_MODULE_9__.action.exec(node, view, dir);
+    }
+    return null;
+  },
+  inline: () => true
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.registerFileAction)(action);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_filters/AccountFilter.ts":
+/*!***************************************************************!*\
+  !*** ./apps/files_sharing/src/files_filters/AccountFilter.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerAccountFilter: () => (/* binding */ registerAccountFilter)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_FileListFilterAccount_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FileListFilterAccount.vue */ "./apps/files_sharing/src/components/FileListFilterAccount.vue");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+
+
+
+/**
+ * File list filter to filter by owner / sharee
+ */
+class AccountFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileListFilter {
+  constructor() {
+    super('files_sharing:account', 100);
+    _defineProperty(this, "availableAccounts", void 0);
+    _defineProperty(this, "currentInstance", void 0);
+    _defineProperty(this, "filterAccounts", void 0);
+    this.availableAccounts = [];
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:list:updated', _ref => {
+      let {
+        contents
+      } = _ref;
+      this.updateAvailableAccounts(contents);
+    });
+  }
+  mount(el) {
+    if (this.currentInstance) {
+      this.currentInstance.$destroy();
+    }
+    const View = vue__WEBPACK_IMPORTED_MODULE_5__["default"].extend(_components_FileListFilterAccount_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    this.currentInstance = new View({
+      el
+    }).$on('update:accounts', accounts => this.setAccounts(accounts)).$mount();
+    this.currentInstance.setAvailableAccounts(this.availableAccounts);
+  }
+  filter(nodes) {
+    if (!this.filterAccounts || this.filterAccounts.length === 0) {
+      return nodes;
+    }
+    const userIds = this.filterAccounts.map(_ref2 => {
+      let {
+        uid
+      } = _ref2;
+      return uid;
+    });
+    // Filter if the owner of the node is in the list of filtered accounts
+    return nodes.filter(node => {
+      const sharees = node.attributes.sharees?.sharee;
+      // If the node provides no information lets keep it
+      if (!node.owner && !sharees) {
+        return true;
+      }
+      // if the owner matches
+      if (node.owner && userIds.includes(node.owner)) {
+        return true;
+      }
+      // Or any of the sharees (if only one share this will be an object, otherwise an array. So using `.flat()` to make it always an array)
+      if (sharees && [sharees].flat().some(_ref3 => {
+        let {
+          id
+        } = _ref3;
+        return userIds.includes(id);
+      })) {
+        return true;
+      }
+      // Not a valid node for the current filter
+      return false;
+    });
+  }
+  reset() {
+    this.currentInstance?.resetFilter();
+  }
+  /**
+   * Set accounts that should be filtered.
+   *
+   * @param accounts - Account to filter or undefined if inactive.
+   */
+  setAccounts(accounts) {
+    this.filterAccounts = accounts;
+    let chips = [];
+    if (this.filterAccounts && this.filterAccounts.length > 0) {
+      chips = this.filterAccounts.map(_ref4 => {
+        let {
+          displayName,
+          uid
+        } = _ref4;
+        return {
+          text: displayName,
+          user: uid,
+          onclick: () => this.currentInstance?.toggleAccount(uid)
+        };
+      });
+    }
+    this.updateChips(chips);
+    this.filterUpdated();
+  }
+  /**
+   * Update the accounts owning nodes or have nodes shared to them.
+   *
+   * @param nodes - The current content of the file list.
+   */
+  updateAvailableAccounts(nodes) {
+    const available = new Map();
+    for (const node of nodes) {
+      const owner = node.owner;
+      if (owner && !available.has(owner)) {
+        available.set(owner, {
+          uid: owner,
+          displayName: node.attributes['owner-display-name'] ?? node.owner
+        });
+      }
+      // ensure sharees is an array (if only one share then it is just an object)
+      const sharees = [node.attributes.sharees?.sharee].flat().filter(Boolean);
+      for (const sharee of [sharees].flat()) {
+        // Skip link shares and other without user
+        if (sharee.id === '') {
+          continue;
+        }
+        if (sharee.type !== _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__.ShareType.User && sharee.type !== _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__.ShareType.Remote) {
+          continue;
+        }
+        // Add if not already added
+        if (!available.has(sharee.id)) {
+          available.set(sharee.id, {
+            uid: sharee.id,
+            displayName: sharee['display-name']
+          });
+        }
+      }
+    }
+    this.availableAccounts = [...available.values()];
+    if (this.currentInstance) {
+      this.currentInstance.setAvailableAccounts(this.availableAccounts);
+    }
+  }
+}
+/**
+ * Register the file list filter by owner or sharees
+ */
+function registerAccountFilter() {
+  if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__.isPublicShare)()) {
+    // We do not show the filter on public pages - it makes no sense
+    return;
+  }
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.registerFileListFilter)(new AccountFilter());
+}
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_headers/noteToRecipient.ts":
+/*!*****************************************************************!*\
+  !*** ./apps/files_sharing/src/files_headers/noteToRecipient.ts ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ registerNoteToRecipient)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+
+
+/**
+ * Register the  "note to recipient" as a files list header
+ */
+function registerNoteToRecipient() {
+  let FilesHeaderNoteToRecipient;
+  let instance;
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileListHeaders)(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Header({
+    id: 'note-to-recipient',
+    order: 0,
+    // Always if there is a note
+    enabled: folder => Boolean(folder.attributes.note),
+    // Update the root folder if needed
+    updated: folder => {
+      if (instance) {
+        instance.updateFolder(folder);
+      }
+    },
+    // render simply spawns the component
+    render: async (el, folder) => {
+      if (FilesHeaderNoteToRecipient === undefined) {
+        const {
+          default: component
+        } = await Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_sharing_src_views_FilesHeaderNoteToRecipient_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/FilesHeaderNoteToRecipient.vue */ "./apps/files_sharing/src/views/FilesHeaderNoteToRecipient.vue"));
+        FilesHeaderNoteToRecipient = vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend(component);
+      }
+      instance = new FilesHeaderNoteToRecipient().$mount(el);
+      instance.updateFolder(folder);
+    }
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_newMenu/newFileRequest.ts":
+/*!****************************************************************!*\
+  !*** ./apps/files_sharing/src/files_newMenu/newFileRequest.ts ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EntryId: () => (/* binding */ EntryId),
+/* harmony export */   entry: () => (/* binding */ entry)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_file_upload_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/file-upload.svg?raw */ "./node_modules/@mdi/svg/svg/file-upload.svg?raw");
+/* harmony import */ var _services_ConfigService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/ConfigService */ "./apps/files_sharing/src/services/ConfigService.ts");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+
+
+
+
+
+
+const sharingConfig = new _services_ConfigService__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const NewFileRequestDialogVue = (0,vue__WEBPACK_IMPORTED_MODULE_5__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_sharing_src_models_Share_ts-apps_files_sharing_src_utils_GeneratePassword_ts-node_-14f1ab"), __webpack_require__.e("apps_files_sharing_src_components_NewFileRequestDialog_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../components/NewFileRequestDialog.vue */ "./apps/files_sharing/src/components/NewFileRequestDialog.vue")));
+const EntryId = 'file-request';
+const entry = {
+  id: EntryId,
+  displayName: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'Create file request'),
+  iconSvgInline: _mdi_svg_svg_file_upload_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+  order: 10,
+  enabled() {
+    // not on public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_4__.isPublicShare)()) {
+      return false;
+    }
+    if (!sharingConfig.isPublicUploadEnabled) {
+      return false;
+    }
+    // We will check for the folder permission on the dialog
+    return sharingConfig.isPublicShareAllowed;
+  },
+  async handler(context, content) {
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.spawnDialog)(NewFileRequestDialogVue, {
+      context,
+      content
+    });
+  }
+};
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_views/shares.ts":
+/*!******************************************************!*\
+  !*** ./apps/files_sharing/src/files_views/shares.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   deletedSharesViewId: () => (/* binding */ deletedSharesViewId),
+/* harmony export */   fileRequestViewId: () => (/* binding */ fileRequestViewId),
+/* harmony export */   pendingSharesViewId: () => (/* binding */ pendingSharesViewId),
+/* harmony export */   sharedWithOthersViewId: () => (/* binding */ sharedWithOthersViewId),
+/* harmony export */   sharedWithYouViewId: () => (/* binding */ sharedWithYouViewId),
+/* harmony export */   sharesViewId: () => (/* binding */ sharesViewId),
+/* harmony export */   sharingByLinksViewId: () => (/* binding */ sharingByLinksViewId)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing */ "./node_modules/@nextcloud/sharing/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_account_clock_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/account-clock.svg?raw */ "./node_modules/@mdi/svg/svg/account-clock.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_group_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/account-group.svg?raw */ "./node_modules/@mdi/svg/svg/account-group.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_plus_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/account-plus.svg?raw */ "./node_modules/@mdi/svg/svg/account-plus.svg?raw");
+/* harmony import */ var _mdi_svg_svg_account_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/account.svg?raw */ "./node_modules/@mdi/svg/svg/account.svg?raw");
+/* harmony import */ var _mdi_svg_svg_delete_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/delete.svg?raw */ "./node_modules/@mdi/svg/svg/delete.svg?raw");
+/* harmony import */ var _mdi_svg_svg_file_upload_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mdi/svg/svg/file-upload.svg?raw */ "./node_modules/@mdi/svg/svg/file-upload.svg?raw");
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _services_SharingService__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../services/SharingService */ "./apps/files_sharing/src/services/SharingService.ts");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+const sharesViewId = 'shareoverview';
+const sharedWithYouViewId = 'sharingin';
+const sharedWithOthersViewId = 'sharingout';
+const sharingByLinksViewId = 'sharinglinks';
+const deletedSharesViewId = 'deletedshares';
+const pendingSharesViewId = 'pendingshares';
+const fileRequestViewId = 'filerequest';
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: sharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Overview of shared files.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Files and folders you shared or have been shared with you will show up here'),
+    icon: _mdi_svg_svg_account_plus_svg_raw__WEBPACK_IMPORTED_MODULE_5__,
+    order: 20,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)()
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: sharedWithYouViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shared with you'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of files that are shared with you.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Nothing shared with you yet'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Files and folders others shared with you will show up here'),
+    icon: _mdi_svg_svg_account_svg_raw__WEBPACK_IMPORTED_MODULE_6__,
+    order: 1,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(true, false, false, false)
+  }));
+  // Don't show this view if the user has no storage quota
+  const storageStats = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_11__.loadState)('files', 'storageStats', {
+    quota: -1
+  });
+  if (storageStats.quota !== 0) {
+    Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+      id: sharedWithOthersViewId,
+      name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shared with others'),
+      caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of files that you shared with others.'),
+      emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Nothing shared yet'),
+      emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Files and folders you shared will show up here'),
+      icon: _mdi_svg_svg_account_group_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+      order: 2,
+      parent: sharesViewId,
+      columns: [],
+      getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(false, true, false, false)
+    }));
+  }
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: sharingByLinksViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shared by link'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of files that are shared by link.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No shared links'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Files and folders you shared by link will show up here'),
+    icon: _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_9__,
+    order: 3,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(false, true, false, false, [_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__.ShareType.Link])
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: fileRequestViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'File requests'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of file requests.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No file requests'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'File requests you have created will show up here'),
+    icon: _mdi_svg_svg_file_upload_svg_raw__WEBPACK_IMPORTED_MODULE_8__,
+    order: 4,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(false, true, false, false, [_nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__.ShareType.Link, _nextcloud_sharing__WEBPACK_IMPORTED_MODULE_2__.ShareType.Email]).then(_ref => {
+      let {
+        folder,
+        contents
+      } = _ref;
+      return {
+        folder,
+        contents: contents.filter(node => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.isFileRequest)(node.attributes?.['share-attributes'] || []))
+      };
+    })
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: deletedSharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Deleted shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of shares you left.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No deleted shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shares you have left will show up here'),
+    icon: _mdi_svg_svg_delete_svg_raw__WEBPACK_IMPORTED_MODULE_7__,
+    order: 5,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(false, false, false, true)
+  }));
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: pendingSharesViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Pending shares'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'List of unapproved shares.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No pending shares'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Shares you have received but not approved will show up here'),
+    icon: _mdi_svg_svg_account_clock_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+    order: 6,
+    parent: sharesViewId,
+    columns: [],
+    getContents: () => (0,_services_SharingService__WEBPACK_IMPORTED_MODULE_10__.getContents)(false, false, true, false)
+  }));
+});
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/init.ts":
+/*!****************************************!*\
+  !*** ./apps/files_sharing/src/init.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _files_filters_AccountFilter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./files_filters/AccountFilter */ "./apps/files_sharing/src/files_filters/AccountFilter.ts");
+/* harmony import */ var _files_newMenu_newFileRequest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files_newMenu/newFileRequest */ "./apps/files_sharing/src/files_newMenu/newFileRequest.ts");
+/* harmony import */ var _files_headers_noteToRecipient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./files_headers/noteToRecipient */ "./apps/files_sharing/src/files_headers/noteToRecipient.ts");
+/* harmony import */ var _files_views_shares__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./files_views/shares */ "./apps/files_sharing/src/files_views/shares.ts");
+/* harmony import */ var _files_actions_acceptShareAction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./files_actions/acceptShareAction */ "./apps/files_sharing/src/files_actions/acceptShareAction.ts");
+/* harmony import */ var _files_actions_openInFilesAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./files_actions/openInFilesAction */ "./apps/files_sharing/src/files_actions/openInFilesAction.ts");
+/* harmony import */ var _files_actions_rejectShareAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./files_actions/rejectShareAction */ "./apps/files_sharing/src/files_actions/rejectShareAction.ts");
+/* harmony import */ var _files_actions_restoreShareAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./files_actions/restoreShareAction */ "./apps/files_sharing/src/files_actions/restoreShareAction.ts");
+/* harmony import */ var _files_actions_sharingStatusAction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./files_actions/sharingStatusAction */ "./apps/files_sharing/src/files_actions/sharingStatusAction.ts");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+(0,_files_views_shares__WEBPACK_IMPORTED_MODULE_5__["default"])();
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.addNewFileMenuEntry)(_files_newMenu_newFileRequest__WEBPACK_IMPORTED_MODULE_3__.entry);
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:note', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:sharees', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:hide-download', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('nc:share-attributes', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('oc:share-types', {
+  oc: 'http://owncloud.org/ns'
+});
+(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.registerDavProperty)('ocs:share-permissions', {
+  ocs: 'http://open-collaboration-services.org/ns'
+});
+(0,_files_filters_AccountFilter__WEBPACK_IMPORTED_MODULE_2__.registerAccountFilter)();
+// Add "note to recipient" message
+(0,_files_headers_noteToRecipient__WEBPACK_IMPORTED_MODULE_4__["default"])();
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/services/ConfigService.ts":
+/*!**********************************************************!*\
+  !*** ./apps/files_sharing/src/services/ConfigService.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Config)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+class Config {
+  constructor() {
+    _defineProperty(this, "_capabilities", void 0);
+    this._capabilities = (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__.getCapabilities)();
+  }
+  /**
+   * Get default share permissions, if any
+   */
+  get defaultPermissions() {
+    return this._capabilities.files_sharing?.default_permissions;
+  }
+  /**
+   * Is public upload allowed on link shares ?
+   * This covers File request and Full upload/edit option.
+   */
+  get isPublicUploadEnabled() {
+    return this._capabilities.files_sharing?.public?.upload === true;
+  }
+  /**
+   * Get the federated sharing documentation link
+   */
+  get federatedShareDocLink() {
+    return window.OC.appConfig.core.federatedCloudShareDoc;
+  }
+  /**
+   * Get the default link share expiration date
+   */
+  get defaultExpirationDate() {
+    if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Get the default internal expiration date
+   */
+  get defaultInternalExpirationDate() {
+    if (this.isDefaultInternalExpireDateEnabled && this.defaultInternalExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultInternalExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Get the default remote expiration date
+   */
+  get defaultRemoteExpirationDateString() {
+    if (this.isDefaultRemoteExpireDateEnabled && this.defaultRemoteExpireDate !== null) {
+      return new Date(new Date().setDate(new Date().getDate() + this.defaultRemoteExpireDate));
+    }
+    return null;
+  }
+  /**
+   * Are link shares password-enforced ?
+   */
+  get enforcePasswordForPublicLink() {
+    return window.OC.appConfig.core.enforcePasswordForPublicLink === true;
+  }
+  /**
+   * Is password asked by default on link shares ?
+   */
+  get enableLinkPasswordByDefault() {
+    return window.OC.appConfig.core.enableLinkPasswordByDefault === true;
+  }
+  /**
+   * Is link shares expiration enforced ?
+   */
+  get isDefaultExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new link shares ?
+   */
+  get isDefaultExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultExpireDateEnabled === true;
+  }
+  /**
+   * Is internal shares expiration enforced ?
+   */
+  get isDefaultInternalExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultInternalExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new internal shares ?
+   */
+  get isDefaultInternalExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultInternalExpireDateEnabled === true;
+  }
+  /**
+   * Is remote shares expiration enforced ?
+   */
+  get isDefaultRemoteExpireDateEnforced() {
+    return window.OC.appConfig.core.defaultRemoteExpireDateEnforced === true;
+  }
+  /**
+   * Is there a default expiration date for new remote shares ?
+   */
+  get isDefaultRemoteExpireDateEnabled() {
+    return window.OC.appConfig.core.defaultRemoteExpireDateEnabled === true;
+  }
+  /**
+   * Are users on this server allowed to send shares to other servers ?
+   */
+  get isRemoteShareAllowed() {
+    return window.OC.appConfig.core.remoteShareAllowed === true;
+  }
+  /**
+   * Is public sharing enabled ?
+   */
+  get isPublicShareAllowed() {
+    return this._capabilities?.files_sharing?.public?.enabled === true;
+  }
+  /**
+   * Is sharing my mail (link share) enabled ?
+   */
+  get isMailShareAllowed() {
+    // eslint-disable-next-line camelcase
+    return this._capabilities?.files_sharing?.sharebymail?.enabled === true
+    // eslint-disable-next-line camelcase
+    && this.isPublicShareAllowed === true;
+  }
+  /**
+   * Get the default days to link shares expiration
+   */
+  get defaultExpireDate() {
+    return window.OC.appConfig.core.defaultExpireDate;
+  }
+  /**
+   * Get the default days to internal shares expiration
+   */
+  get defaultInternalExpireDate() {
+    return window.OC.appConfig.core.defaultInternalExpireDate;
+  }
+  /**
+   * Get the default days to remote shares expiration
+   */
+  get defaultRemoteExpireDate() {
+    return window.OC.appConfig.core.defaultRemoteExpireDate;
+  }
+  /**
+   * Is resharing allowed ?
+   */
+  get isResharingAllowed() {
+    return window.OC.appConfig.core.resharingAllowed === true;
+  }
+  /**
+   * Is password enforced for mail shares ?
+   */
+  get isPasswordForMailSharesRequired() {
+    return this._capabilities.files_sharing?.sharebymail?.password?.enforced === true;
+  }
+  /**
+   * Always show the email or userid unique sharee label if enabled by the admin
+   */
+  get shouldAlwaysShowUnique() {
+    return this._capabilities.files_sharing?.sharee?.always_show_unique === true;
+  }
+  /**
+   * Is sharing with groups allowed ?
+   */
+  get allowGroupSharing() {
+    return window.OC.appConfig.core.allowGroupSharing === true;
+  }
+  /**
+   * Get the maximum results of a share search
+   */
+  get maxAutocompleteResults() {
+    return parseInt(window.OC.config['sharing.maxAutocompleteResults'], 10) || 25;
+  }
+  /**
+   * Get the minimal string length
+   * to initiate a share search
+   */
+  get minSearchStringLength() {
+    return parseInt(window.OC.config['sharing.minSearchStringLength'], 10) || 0;
+  }
+  /**
+   * Get the password policy configuration
+   */
+  get passwordPolicy() {
+    return this._capabilities?.password_policy || {};
+  }
+  /**
+   * Returns true if custom tokens are allowed
+   */
+  get allowCustomTokens() {
+    return this._capabilities?.files_sharing?.public?.custom_tokens;
+  }
+  /**
+   * Show federated shares as internal shares
+   * @return {boolean}
+   */
+  get showFederatedSharesAsInternal() {
+    return (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files_sharing', 'showFederatedSharesAsInternal', false);
+  }
+}
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/services/SharingService.ts":
+/*!***********************************************************!*\
+  !*** ./apps/files_sharing/src/services/SharingService.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   isFileRequest: () => (/* binding */ isFileRequest)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./logger */ "./apps/files_sharing/src/services/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+// TODO: Fix this instead of disabling ESLint!!!
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
+
+
+
+const headers = {
+  'Content-Type': 'application/json'
+};
+const ocsEntryToNode = async function (ocsEntry) {
+  try {
+    // Federated share handling
+    if (ocsEntry?.remote_id !== undefined) {
+      if (!ocsEntry.mimetype) {
+        const mime = (await __webpack_require__.e(/*! import() */ "node_modules_mime_dist_src_index_js").then(__webpack_require__.bind(__webpack_require__, /*! mime */ "./node_modules/mime/dist/src/index.js"))).default;
+        // This won't catch files without an extension, but this is the best we can do
+        ocsEntry.mimetype = mime.getType(ocsEntry.name);
+      }
+      ocsEntry.item_type = ocsEntry.type || (ocsEntry.mimetype ? 'file' : 'folder');
+      // different naming for remote shares
+      ocsEntry.item_mtime = ocsEntry.mtime;
+      ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint;
+      if (ocsEntry.file_target.includes('TemporaryMountPointName')) {
+        ocsEntry.file_target = ocsEntry.name;
+      }
+      // If the share is not accepted yet we don't know which permissions it will have
+      if (!ocsEntry.accepted) {
+        // Need to set permissions to NONE for federated shares
+        ocsEntry.item_permissions = _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE;
+        ocsEntry.permissions = _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE;
+      }
+      ocsEntry.uid_owner = ocsEntry.owner;
+      // TODO: have the real display name stored somewhere
+      ocsEntry.displayname_owner = ocsEntry.owner;
+    }
+    const isFolder = ocsEntry?.item_type === 'folder';
+    const hasPreview = ocsEntry?.has_preview === true;
+    const Node = isFolder ? _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder : _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.File;
+    // If this is an external share that is not yet accepted,
+    // we don't have an id. We can fallback to the row id temporarily
+    // local shares (this server) use `file_source`, but remote shares (federated) use `file_id`
+    const fileid = ocsEntry.file_source || ocsEntry.file_id || ocsEntry.id;
+    // Generate path and strip double slashes
+    const path = ocsEntry.path || ocsEntry.file_target || ocsEntry.name;
+    const source = `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath}/${path.replace(/^\/+/, '')}`;
+    let mtime = ocsEntry.item_mtime ? new Date(ocsEntry.item_mtime * 1000) : undefined;
+    // Prefer share time if more recent than item mtime
+    if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
+      mtime = new Date(ocsEntry.stime * 1000);
+    }
+    let sharees;
+    if ('share_with' in ocsEntry) {
+      sharees = {
+        sharee: {
+          id: ocsEntry.share_with,
+          'display-name': ocsEntry.share_with_displayname || ocsEntry.share_with,
+          type: ocsEntry.share_type
+        }
+      };
+    }
+    return new Node({
+      id: fileid,
+      source,
+      owner: ocsEntry?.uid_owner,
+      mime: ocsEntry?.mimetype || 'application/octet-stream',
+      mtime,
+      size: ocsEntry?.item_size,
+      permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
+      root: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath,
+      attributes: {
+        ...ocsEntry,
+        'has-preview': hasPreview,
+        'hide-download': ocsEntry?.hide_download === 1,
+        // Also check the sharingStatusAction.ts code
+        'owner-id': ocsEntry?.uid_owner,
+        'owner-display-name': ocsEntry?.displayname_owner,
+        'share-types': ocsEntry?.share_type,
+        'share-attributes': ocsEntry?.attributes || '[]',
+        sharees,
+        favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0
+      }
+    });
+  } catch (error) {
+    _logger__WEBPACK_IMPORTED_MODULE_4__["default"].error('Error while parsing OCS entry', {
+      error
+    });
+    return null;
+  }
+};
+const getShares = function () {
+  let shareWithMe = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/shares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(url, {
+    headers,
+    params: {
+      shared_with_me: shareWithMe,
+      include_tags: true
+    }
+  });
+};
+const getSharedWithYou = function () {
+  return getShares(true);
+};
+const getSharedWithOthers = function () {
+  return getShares();
+};
+const getRemoteShares = function () {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/remote_shares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+};
+const getPendingShares = function () {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/shares/pending');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+};
+const getRemotePendingShares = function () {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/remote_shares/pending');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+};
+const getDeletedShares = function () {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('apps/files_sharing/api/v1/deletedshares');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get(url, {
+    headers,
+    params: {
+      include_tags: true
+    }
+  });
+};
+/**
+ * Check if a file request is enabled
+ * @param attributes the share attributes json-encoded array
+ */
+const isFileRequest = function () {
+  let attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '[]';
+  const isFileRequest = attribute => {
+    return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true;
+  };
+  try {
+    const attributesArray = JSON.parse(attributes);
+    return attributesArray.some(isFileRequest);
+  } catch (error) {
+    _logger__WEBPACK_IMPORTED_MODULE_4__["default"].error('Error while parsing share attributes', {
+      error
+    });
+    return false;
+  }
+};
+/**
+ * Group an array of objects (here Nodes) by a key
+ * and return an array of arrays of them.
+ * @param nodes Nodes to group
+ * @param key The attribute to group by
+ */
+const groupBy = function (nodes, key) {
+  return Object.values(nodes.reduce(function (acc, curr) {
+    (acc[curr[key]] = acc[curr[key]] || []).push(curr);
+    return acc;
+  }, {}));
+};
+const getContents = async function () {
+  let sharedWithYou = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  let sharedWithOthers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  let pendingShares = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  let deletedshares = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  let filterTypes = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
+  const promises = [];
+  if (sharedWithYou) {
+    promises.push(getSharedWithYou(), getRemoteShares());
+  }
+  if (sharedWithOthers) {
+    promises.push(getSharedWithOthers());
+  }
+  if (pendingShares) {
+    promises.push(getPendingShares(), getRemotePendingShares());
+  }
+  if (deletedshares) {
+    promises.push(getDeletedShares());
+  }
+  const responses = await Promise.all(promises);
+  const data = responses.map(response => response.data.ocs.data).flat();
+  let contents = (await Promise.all(data.map(ocsEntryToNode))).filter(node => node !== null);
+  if (filterTypes.length > 0) {
+    contents = contents.filter(node => filterTypes.includes(node.attributes?.share_type));
+  }
+  // Merge duplicate shares and group their attributes
+  // Also check the sharingStatusAction.ts code
+  contents = groupBy(contents, 'source').map(nodes => {
+    const node = nodes[0];
+    node.attributes['share-types'] = nodes.map(node => node.attributes['share-types']);
+    return node;
+  });
+  return {
+    folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+      id: 0,
+      source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath}`,
+      owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || null
+    }),
+    contents
+  };
+};
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/services/logger.ts":
+/*!***************************************************!*\
+  !*** ./apps/files_sharing/src/services/logger.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files_sharing').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/utils/AccountIcon.ts":
+/*!*****************************************************!*\
+  !*** ./apps/files_sharing/src/utils/AccountIcon.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   generateAvatarSvg: () => (/* binding */ generateAvatarSvg)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const isDarkMode = () => {
+  return window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true || document.querySelector('[data-themes*=dark]') !== null;
+};
+const generateAvatarSvg = function (userId) {
+  let isGuest = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // normal avatar url: /avatar/{userId}/32?guestFallback=true
+  // dark avatar url: /avatar/{userId}/32/dark?guestFallback=true
+  // guest avatar url: /avatar/guest/{userId}/32
+  // guest dark avatar url: /avatar/guest/{userId}/32/dark
+  const basePath = isGuest ? `/avatar/guest/${userId}` : `/avatar/${userId}`;
+  const darkModePath = isDarkMode() ? '/dark' : '';
+  const guestFallback = isGuest ? '' : '?guestFallback=true';
+  const url = `${basePath}/32${darkModePath}${guestFallback}`;
+  const avatarUrl = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)(url, {
+    userId
+  });
+  return `<svg width="32" height="32" viewBox="0 0 32 32"
+		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
+		<image href="${avatarUrl}" height="32" width="32" />
+	</svg>`;
+};
+
+/***/ }),
+
+/***/ "./core/img/apps/circles.svg?raw":
+/*!***************************************!*\
+  !*** ./core/img/apps/circles.svg?raw ***!
+  \***************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/account-clock.svg?raw":
+/*!*********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-clock.svg?raw ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-clock\" viewBox=\"0 0 24 24\"><path d=\"M10.63,14.1C12.23,10.58 16.38,9.03 19.9,10.63C23.42,12.23 24.97,16.38 23.37,19.9C22.24,22.4 19.75,24 17,24C14.3,24 11.83,22.44 10.67,20H1V18C1.06,16.86 1.84,15.93 3.34,15.18C4.84,14.43 6.72,14.04 9,14C9.57,14 10.11,14.05 10.63,14.1V14.1M9,4C10.12,4.03 11.06,4.42 11.81,5.17C12.56,5.92 12.93,6.86 12.93,8C12.93,9.14 12.56,10.08 11.81,10.83C11.06,11.58 10.12,11.95 9,11.95C7.88,11.95 6.94,11.58 6.19,10.83C5.44,10.08 5.07,9.14 5.07,8C5.07,6.86 5.44,5.92 6.19,5.17C6.94,4.42 7.88,4.03 9,4M17,22A5,5 0 0,0 22,17A5,5 0 0,0 17,12A5,5 0 0,0 12,17A5,5 0 0,0 17,22M16,14H17.5V16.82L19.94,18.23L19.19,19.53L16,17.69V14Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/account-group.svg?raw":
+/*!*********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-group.svg?raw ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-group\" viewBox=\"0 0 24 24\"><path d=\"M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/account-plus.svg?raw":
+/*!********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-plus.svg?raw ***!
+  \********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-plus\" viewBox=\"0 0 24 24\"><path d=\"M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/account.svg?raw":
+/*!***************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account.svg?raw ***!
+  \***************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account\" viewBox=\"0 0 24 24\"><path d=\"M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw":
+/*!************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/arrow-u-left-top.svg?raw ***!
+  \************************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-arrow-u-left-top\" viewBox=\"0 0 24 24\"><path d=\"M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/file-upload.svg?raw":
+/*!*******************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-upload.svg?raw ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-upload\" viewBox=\"0 0 24 24\"><path d=\"M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13.5,16V19H10.5V16H8L12,12L16,16H13.5M13,9V3.5L18.5,9H13Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/link.svg?raw":
+/*!************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/link.svg?raw ***!
+  \************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-link\" viewBox=\"0 0 24 24\"><path d=\"M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/components/NcActions */ "./node_modules/@nextcloud/vue/dist/Components/NcActions.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionSeparator */ "./node_modules/@nextcloud/vue/dist/Components/NcActionSeparator.mjs");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_4__.defineComponent)({
+  __name: 'FileListFilter',
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    },
+    filterName: {
+      type: String,
+      required: true
+    }
+  },
+  emits: ["reset-filter"],
+  setup(__props) {
+    return {
+      __sfc: true,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t,
+      NcActions: _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_1__["default"],
+      NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_2__["default"],
+      NcActionSeparator: _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_3__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=script&setup=true&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _files_src_components_FileListFilter_FileListFilter_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../files/src/components/FileListFilter/FileListFilter.vue */ "./apps/files/src/components/FileListFilter/FileListFilter.vue");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionInput */ "./node_modules/@nextcloud/vue/dist/Components/NcActionInput.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcAvatar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcAvatar */ "./node_modules/@nextcloud/vue/dist/Components/NcAvatar.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_6__.defineComponent)({
+  __name: 'FileListFilterAccount',
+  emits: ["update:accounts"],
+  setup(__props, _ref) {
+    let {
+      expose,
+      emit
+    } = _ref;
+    const accountFilter = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)('');
+    const availableAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)([]);
+    const selectedAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)([]);
+    /**
+     * Currently shown accounts (filtered)
+     */
+    const shownAccounts = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(() => {
+      if (!accountFilter.value) {
+        return availableAccounts.value;
+      }
+      const queryParts = accountFilter.value.toLocaleLowerCase().trim().split(' ');
+      return availableAccounts.value.filter(account => queryParts.every(part => account.user.toLocaleLowerCase().includes(part) || account.displayName.toLocaleLowerCase().includes(part)));
+    });
+    /**
+     * Toggle an account as selected
+     * @param accountId The account to toggle
+     */
+    function toggleAccount(accountId) {
+      const account = availableAccounts.value.find(_ref2 => {
+        let {
+          id
+        } = _ref2;
+        return id === accountId;
+      });
+      if (account && selectedAccounts.value.includes(account)) {
+        selectedAccounts.value = selectedAccounts.value.filter(_ref3 => {
+          let {
+            id
+          } = _ref3;
+          return id !== accountId;
+        });
+      } else {
+        if (account) {
+          selectedAccounts.value = [...selectedAccounts.value, account];
+        }
+      }
+    }
+    // Watch selected account, on change we emit the new account data to the filter instance
+    (0,vue__WEBPACK_IMPORTED_MODULE_6__.watch)(selectedAccounts, () => {
+      // Emit selected accounts as account data
+      const accounts = selectedAccounts.value.map(_ref4 => {
+        let {
+          id: uid,
+          displayName
+        } = _ref4;
+        return {
+          uid,
+          displayName
+        };
+      });
+      emit('update:accounts', accounts);
+    });
+    /**
+     * Reset this filter
+     */
+    function resetFilter() {
+      selectedAccounts.value = [];
+      accountFilter.value = '';
+    }
+    /**
+     * Update list of available accounts in current view.
+     *
+     * @param accounts - Accounts to use
+     */
+    function setAvailableAccounts(accounts) {
+      availableAccounts.value = accounts.map(_ref5 => {
+        let {
+          uid,
+          displayName
+        } = _ref5;
+        return {
+          displayName,
+          id: uid,
+          user: uid
+        };
+      });
+    }
+    expose({
+      resetFilter,
+      setAvailableAccounts,
+      toggleAccount
+    });
+    return {
+      __sfc: true,
+      emit,
+      accountFilter,
+      availableAccounts,
+      selectedAccounts,
+      shownAccounts,
+      toggleAccount,
+      resetFilter,
+      setAvailableAccounts,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate,
+      mdiAccountMultiple: _mdi_js__WEBPACK_IMPORTED_MODULE_7__.mdiAccountMultiple,
+      FileListFilter: _files_src_components_FileListFilter_FileListFilter_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+      NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_2__["default"],
+      NcActionInput: _nextcloud_vue_components_NcActionInput__WEBPACK_IMPORTED_MODULE_3__["default"],
+      NcAvatar: _nextcloud_vue_components_NcAvatar__WEBPACK_IMPORTED_MODULE_4__["default"],
+      NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_5__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcActions, {
+    attrs: {
+      "force-menu": "",
+      type: _vm.isActive ? "secondary" : "tertiary",
+      "menu-name": _vm.filterName
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm._t("icon")];
+      },
+      proxy: true
+    }], null, true)
+  }, [_vm._v(" "), _vm._t("default"), _vm._v(" "), _vm.isActive ? [_c(_setup.NcActionSeparator), _vm._v(" "), _c(_setup.NcActionButton, {
+    staticClass: "files-list-filter__clear-button",
+    attrs: {
+      "close-after-click": ""
+    },
+    on: {
+      click: function ($event) {
+        return _vm.$emit("reset-filter");
+      }
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Clear filter")) + "\n\t\t")])] : _vm._e()], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=template&id=40ba7127&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.FileListFilter, {
+    staticClass: "file-list-filter-accounts",
+    attrs: {
+      "is-active": _setup.selectedAccounts.length > 0,
+      "filter-name": _setup.t("files_sharing", "People")
+    },
+    on: {
+      "reset-filter": _setup.resetFilter
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c(_setup.NcIconSvgWrapper, {
+          attrs: {
+            path: _setup.mdiAccountMultiple
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _setup.availableAccounts.length > 1 ? _c(_setup.NcActionInput, {
+    attrs: {
+      label: _setup.t("files_sharing", "Filter accounts"),
+      "label-outside": false,
+      "show-trailing-button": false,
+      type: "search",
+      value: _setup.accountFilter
+    },
+    on: {
+      "update:value": function ($event) {
+        _setup.accountFilter = $event;
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._l(_setup.shownAccounts, function (account) {
+    return _c(_setup.NcActionButton, {
+      key: account.id,
+      staticClass: "file-list-filter-accounts__item",
+      attrs: {
+        type: "radio",
+        "model-value": _setup.selectedAccounts.includes(account),
+        value: account.id
+      },
+      on: {
+        click: function ($event) {
+          return _setup.toggleAccount(account.id);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c(_setup.NcAvatar, _vm._b({
+            staticClass: "file-list-filter-accounts__avatar",
+            attrs: {
+              size: 24,
+              "disable-menu": "",
+              "show-user-status": false
+            }
+          }, "NcAvatar", account, false))];
+        },
+        proxy: true
+      }], null, true)
+    }, [_vm._v("\n\t\t" + _vm._s(account.displayName) + "\n\t")]);
+  })], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss":
+/*!****************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/files_sharing/src/files_actions/sharingStatusAction.scss ***!
+  \****************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.action-items > .files-list__row-action-sharing-status {
+  direction: rtl;
+  padding-inline-end: 0 !important;
+}
+
+svg.sharing-status__avatar {
+  height: 32px !important;
+  width: 32px !important;
+  max-height: 32px !important;
+  max-width: 32px !important;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.files-list__row-action-sharing-status .button-vue__text {
+  color: var(--color-primary-element);
+}
+.files-list__row-action-sharing-status .button-vue__icon {
+  color: var(--color-primary-element);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.file-list-filter-accounts__item[data-v-40ba7127] {
+  min-width: 250px;
+}
+.file-list-filter-accounts__avatar[data-v-40ba7127] {
+  margin: calc((var(--default-clickable-area) - 24px) / 2);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.files-list-filter__clear-button[data-v-5c291778] .action-button__text {
+	color: var(--color-error-text);
+}
+[data-v-5c291778] .button-vue {
+	font-weight: normal !important;
+*[data-v-5c291778] {
+		font-weight: normal !important;
+}
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files_sharing/src/components/FileListFilterAccount.vue?vue&type=style&index=0&id=40ba7127&scoped=true&lang=scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterAccount_vue_vue_type_style_index_0_id_40ba7127_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M15.4%2016.6L10.8%2012l4.6-4.6L14%206l-6%206%206%206%201.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ }),
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M18.4%207.4L17%206l-6%206%206%206%201.4-1.4-4.6-4.6%204.6-4.6m-6%200L11%206l-6%206%206%206%201.4-1.4L7.8%2012l4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ }),
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M5.6%207.4L7%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6m6%200L13%206l6%206-6%206-1.4-1.4%204.6-4.6-4.6-4.6z%27/%3e%3c/svg%3e";
+
+/***/ }),
+
+/***/ "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "data:image/svg+xml,%3c%21--%20-%20SPDX-FileCopyrightText:%202020%20Google%20Inc.%20-%20SPDX-License-Identifier:%20Apache-2.0%20--%3e%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20fill=%27%23222%27%3e%3cpath%20d=%27M8.6%2016.6l4.6-4.6-4.6-4.6L10%206l6%206-6%206-1.4-1.4z%27/%3e%3c/svg%3e";
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"0a21f85fb5edb886fad0","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"5414d4143400c9b713c3","apps_files_sharing_src_models_Share_ts-apps_files_sharing_src_utils_GeneratePassword_ts-node_-14f1ab":"963b868dfc2ea0bbe1f2","apps_files_sharing_src_components_NewFileRequestDialog_vue":"fff5bc65925e3ea5a423","apps_files_sharing_src_views_FilesHeaderNoteToRecipient_vue":"318e3396087c5e4ec9b3","node_modules_mime_dist_src_index_js":"81767346a574e7848085","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-391a6e":"87f84948225387ac2eec"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files_sharing-init": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files_sharing/src/init.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files_sharing-init.js.map?v=ea936dde5c9fced3e39c

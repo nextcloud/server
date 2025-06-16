@@ -1,2 +1,1242 @@
-(()=>{var e,n={24862:()=>{!function(e){if(e?.Files?.Client){_.extend(e.Files.Client,{PROPERTY_FILEID:"{"+e.Files.Client.NS_OWNCLOUD+"}id",PROPERTY_CAN_ASSIGN:"{"+e.Files.Client.NS_OWNCLOUD+"}can-assign",PROPERTY_DISPLAYNAME:"{"+e.Files.Client.NS_OWNCLOUD+"}display-name",PROPERTY_USERVISIBLE:"{"+e.Files.Client.NS_OWNCLOUD+"}user-visible",PROPERTY_USERASSIGNABLE:"{"+e.Files.Client.NS_OWNCLOUD+"}user-assignable"});const t=e.Backbone.Model.extend({sync:e.Backbone.davSync,defaults:{userVisible:!0,userAssignable:!0,canAssign:!0},davProperties:{id:e.Files.Client.PROPERTY_FILEID,name:e.Files.Client.PROPERTY_DISPLAYNAME,userVisible:e.Files.Client.PROPERTY_USERVISIBLE,userAssignable:e.Files.Client.PROPERTY_USERASSIGNABLE,canAssign:e.Files.Client.PROPERTY_CAN_ASSIGN},parse:e=>({id:e.id,name:e.name,userVisible:!0===e.userVisible||"true"===e.userVisible,userAssignable:!0===e.userAssignable||"true"===e.userAssignable,canAssign:!0===e.canAssign||"true"===e.canAssign})});e.SystemTags=e.SystemTags||{},e.SystemTags.SystemTagModel=t}}(OC)},33851:(e,t,n)=>{"use strict";n.d(t,{A:()=>o});var s=n(71354),l=n.n(s),i=n(76314),a=n.n(i)()(l());a.push([e.id,"/*!\n * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors\n * SPDX-FileCopyrightText: 2016 ownCloud, Inc.\n * SPDX-License-Identifier: AGPL-3.0-or-later\n */.systemtags-select2-dropdown .select2-result-label{height:25px}.systemtags-select2-dropdown .select2-result-label .checkmark{visibility:hidden;margin-inline:-5px 5px;padding:4px}.systemtags-select2-dropdown .select2-result-label .new-item .systemtags-actions{display:none}.systemtags-select2-dropdown .select2-selected .select2-result-label .checkmark{visibility:visible}.systemtags-select2-dropdown .select2-result-label .icon{display:inline-block;opacity:.5}.systemtags-select2-dropdown .select2-result-label .icon.rename{padding:4px}.systemtags-select2-dropdown .systemtags-actions{position:absolute;inset-inline-end:5px}.systemtags-select2-dropdown .systemtags-rename-form{display:inline-block;width:calc(100% - 20px);top:-6px;position:relative}.systemtags-select2-dropdown .systemtags-rename-form input{display:inline-block;height:30px;width:calc(100% - 40px)}.systemtags-select2-dropdown .label{width:85%;display:inline-block;overflow:hidden;text-overflow:ellipsis}.systemtags-select2-dropdown .label.hidden{display:none}.systemtags-select2-dropdown span{line-height:25px}.systemtags-select2-dropdown .systemtags-item{display:inline-block;height:25px;width:100%}.systemtags-select2-container{width:100%}.systemtags-select2-container .select2-choices{flex-wrap:nowrap !important;max-height:44px}.systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label{opacity:.5}#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result{padding:5px}","",{version:3,sources:["webpack://./core/css/systemtags.scss"],names:[],mappings:"AAAA;;;;EAAA,CAOC,mDACC,WAAA,CAEA,8DACC,iBAAA,CACA,sBAAA,CACA,WAAA,CAED,iFACC,YAAA,CAGF,gFACC,kBAAA,CAED,yDACC,oBAAA,CACA,UAAA,CACA,gEACC,WAAA,CAGF,iDACC,iBAAA,CACA,oBAAA,CAED,qDACC,oBAAA,CACA,uBAAA,CACA,QAAA,CACA,iBAAA,CACA,2DACC,oBAAA,CACA,WAAA,CACA,uBAAA,CAGF,oCACC,SAAA,CACA,oBAAA,CACA,eAAA,CACA,sBAAA,CACA,2CACC,YAAA,CAGF,kCACC,gBAAA,CAED,8CACC,oBAAA,CACA,WAAA,CACA,UAAA,CAIF,8BACC,UAAA,CAEA,+CACC,2BAAA,CACA,eAAA,CAGD,4FACC,UAAA,CAIF,6EACC,WAAA",sourcesContent:["/*!\n * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors\n * SPDX-FileCopyrightText: 2016 ownCloud, Inc.\n * SPDX-License-Identifier: AGPL-3.0-or-later\n */\n\n.systemtags-select2-dropdown {\n\t.select2-result-label {\n\t\theight: 25px;\n\n\t\t.checkmark {\n\t\t\tvisibility: hidden;\n\t\t\tmargin-inline: -5px 5px;\n\t\t\tpadding: 4px;\n\t\t}\n\t\t.new-item .systemtags-actions {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\t.select2-selected .select2-result-label .checkmark {\n\t\tvisibility: visible;\n\t}\n\t.select2-result-label .icon {\n\t\tdisplay: inline-block;\n\t\topacity: .5;\n\t\t&.rename {\n\t\t\tpadding: 4px;\n\t\t}\n\t}\n\t.systemtags-actions {\n\t\tposition: absolute;\n\t\tinset-inline-end: 5px;\n\t}\n\t.systemtags-rename-form {\n\t\tdisplay: inline-block;\n\t\twidth: calc(100% - 20px);\n\t\ttop: -6px;\n\t\tposition: relative;\n\t\tinput {\n\t\t\tdisplay: inline-block;\n\t\t\theight: 30px;\n\t\t\twidth: calc(100% - 40px);\n\t\t}\n\t}\n\t.label {\n\t\twidth: 85%;\n\t\tdisplay: inline-block;\n\t\toverflow: hidden;\n\t\ttext-overflow: ellipsis;\n\t\t&.hidden {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\tspan {\n\t\tline-height: 25px;\n\t}\n\t.systemtags-item {\n\t\tdisplay: inline-block;\n\t\theight: 25px;\n\t\twidth: 100%;\n\t}\n}\n\n.systemtags-select2-container {\n\twidth: 100%;\n\n\t.select2-choices {\n\t\tflex-wrap: nowrap !important;\n\t\tmax-height: 44px;\n\t}\n\n\t.select2-choices .select2-search-choice.select2-locked .label {\n\t\topacity: 0.5;\n\t}\n}\n\n#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result {\n\tpadding: 5px;\n}\n"],sourceRoot:""}]);const o=a},60121:(e,t,n)=>{var s=n(93633);e.exports=(s.default||s).template({1:function(e,t,n,s,l){var i,a,o=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t<span class="label">'+(null!=(i="function"==typeof(a=null!=(a=o(n,"tagMarkup")||(null!=t?o(t,"tagMarkup"):t))?a:e.hooks.helperMissing)?a.call(null!=t?t:e.nullContext||{},{name:"tagMarkup",hash:{},data:l,loc:{start:{line:2,column:21},end:{line:2,column:36}}}):a)?i:"")+"</span>\n"},3:function(e,t,n,s,l){var i,a=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t<span class="label">'+e.escapeExpression("function"==typeof(i=null!=(i=a(n,"name")||(null!=t?a(t,"name"):t))?i:e.hooks.helperMissing)?i.call(null!=t?t:e.nullContext||{},{name:"name",hash:{},data:l,loc:{start:{line:4,column:21},end:{line:4,column:29}}}):i)+"</span>\n"},compiler:[8,">= 4.3.0"],main:function(e,t,n,s,l){var i,a=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(i=a(n,"if").call(null!=t?t:e.nullContext||{},null!=t?a(t,"isAdmin"):t,{name:"if",hash:{},fn:e.program(1,l,0),inverse:e.program(3,l,0),data:l,loc:{start:{line:1,column:0},end:{line:5,column:7}}}))?i:""},useData:!0})},65796:(e,n,s)=>{"use strict";var l=s(70580),i=s.n(l);!function(e){e.SystemTags={getDescriptiveTag:function(e){_.isUndefined(e.name)&&!_.isUndefined(e.toJSON)&&(e=e.toJSON());var n,s=document.createElement("span");if(_.isUndefined(e.name))return s.classList.add("non-existing-tag"),s.textContent=t("core","Non-existing tag #{tag}",{tag:e}),s;if(s.textContent=i()(e.name),e.userAssignable||(n=t("core","Restricted")),e.userVisible||(n=t("core","Invisible")),n){var l=document.createElement("em");l.textContent=" ("+n+")",s.appendChild(l)}return s}}}(OC),s(24862);var a=s(63814);!function(e){const t=e.Backbone.Collection.extend({sync:e.Backbone.davSync,usePUT:!0,_objectId:null,_objectType:"files",model:e.SystemTags.SystemTagModel,url(){return(0,a.dC)("dav")+"/systemtags-relations/"+this._objectType+"/"+this._objectId},setObjectId(e){this._objectId=e},setObjectType(e){this._objectType=e},initialize(e,t){t=t||{},_.isUndefined(t.objectId)||(this._objectId=t.objectId),_.isUndefined(t.objectType)||(this._objectType=t.objectType)},getTagIds(){return this.map((function(e){return e.id}))}});e.SystemTags=e.SystemTags||{},e.SystemTags.SystemTagsMappingCollection=t}(OC),s(78974);var o=s(91424),r=s.n(o),c=s(74779),u=s.n(c),d=s(60121),p=s.n(d);!function(e){var n=e.Backbone.View.extend({_rendered:!1,_newTag:null,_lastUsedTags:[],className:"systemTagsInputFieldContainer",template:function(e){return'<input class="systemTagsInputField" type="hidden" name="tags" value=""/>'},initialize:function(t){t=t||{},this._multiple=!!t.multiple,this._allowActions=_.isUndefined(t.allowActions)||!!t.allowActions,this._allowCreate=_.isUndefined(t.allowCreate)||!!t.allowCreate,this._isAdmin=!!t.isAdmin,_.isFunction(t.initSelection)&&(this._initSelection=t.initSelection),this.collection=t.collection||e.SystemTags.collection;var n=this;this.collection.on("change:name remove",(function(){_.defer(n._refreshSelection)})),_.defer(_.bind(this._getLastUsedTags,this)),_.bindAll(this,"_refreshSelection","_onClickRenameTag","_onClickDeleteTag","_onSelectTag","_onDeselectTag","_onSubmitRenameTag")},_getLastUsedTags:function(){var t=this;$.ajax({type:"GET",url:e.generateUrl("/apps/systemtags/lastused"),success:function(e){t._lastUsedTags=e}})},_refreshSelection:function(){this.$tagsField.select2("val",this.$tagsField.val())},_onClickRenameTag:function(e){var n=$(e.target).closest(".systemtags-item"),s=n.attr("data-id"),l=this.collection.get(s).get("name"),i=$(u()({cid:this.cid,name:l,deleteTooltip:t("core","Delete"),renameLabel:t("core","Rename"),isAdmin:this._isAdmin}));return n.find(".label").after(i),n.find(".label, .systemtags-actions").addClass("hidden"),n.closest(".select2-result").addClass("has-form"),i.find("[title]").tooltip({placement:"bottom",container:"body"}),i.find("input").focus().selectRange(0,l.length),!1},_onSubmitRenameTag:function(e){e.preventDefault();var t=$(e.target),n=t.closest(".systemtags-item"),s=n.attr("data-id"),l=this.collection.get(s),i=$(e.target).find("input").val().trim();i&&i!==l.get("name")&&(l.save({name:i}),n.find(".label").text(i)),n.find(".label, .systemtags-actions").removeClass("hidden"),t.remove(),n.closest(".select2-result").removeClass("has-form")},_onClickDeleteTag:function(e){var t=$(e.target).closest(".systemtags-item"),n=t.attr("data-id");return this.collection.get(n).destroy(),$(e.target).tooltip("option","hide"),t.closest(".select2-result").remove(),!1},_addToSelect2Selection:function(e){var t=this.$tagsField.select2("data");t.push(e),this.$tagsField.select2("data",t)},_onSelectTag:function(e){var t,n=this;if(e.object&&e.object.isNew)return t=this.collection.create({name:e.object.name.trim(),userVisible:!0,userAssignable:!0,canAssign:!0},{success:function(e){n._addToSelect2Selection(e.toJSON()),n._lastUsedTags.unshift(e.id),n.trigger("select",e)},error:function(t,s){409===s.status&&(n.collection.reset(),n.collection.fetch({success:function(t){var s=t.where({name:e.object.name.trim(),userVisible:!0,userAssignable:!0});s.length&&(s=s[0],n._addToSelect2Selection(s.toJSON()),n.trigger("select",s))}}))}}),this.$tagsField.select2("close"),e.preventDefault(),!1;t=this.collection.get(e.object.id),this._lastUsedTags.unshift(t.id),this._newTag=null,this.trigger("select",t)},_onDeselectTag:function(e){this.trigger("deselect",e.choice.id)},_queryTagsAutocomplete:function(e){var t=this;this.collection.fetch({success:function(n){var s=n.filterByName(e.term.trim());t._isAdmin||(s=_.filter(s,(function(e){return e.get("canAssign")}))),e.callback({results:_.invoke(s,"toJSON")})}})},_preventDefault:function(e){e.stopPropagation()},_formatDropDownResult:function(n){return r()(_.extend({renameTooltip:t("core","Rename"),allowActions:this._allowActions,tagMarkup:this._isAdmin?e.SystemTags.getDescriptiveTag(n).innerHTML:null,isAdmin:this._isAdmin},n))},_formatSelection:function(t){return p()(_.extend({tagMarkup:this._isAdmin?e.SystemTags.getDescriptiveTag(t).innerHTML:null,isAdmin:this._isAdmin},t))},_createSearchChoice:function(e){if(e=e.trim(),!this.collection.filter((function(t){return t.get("name")===e})).length)return this._newTag?this._newTag.name=e:this._newTag={id:-1,name:e,userAssignable:!0,userVisible:!0,canAssign:!0,isNew:!0},this._newTag},_initSelection:function(e,t){var n=this,s=$(e).val().split(",");function l(e){var t=e.toJSON();return n._isAdmin||t.canAssign||(t.locked=!0),t}this.collection.fetch({success:function(){t(function(e){var t=n.collection.filter((function(t){return e.indexOf(t.id)>=0&&(n._isAdmin||t.get("userVisible"))}));return _.map(t,l)}(s))}})},render:function(){var n=this;this.$el.html(this.template()),this.$el.find("[title]").tooltip({placement:"bottom"}),this.$tagsField=this.$el.find("[name=tags]"),this.$tagsField.select2({placeholder:t("core","Collaborative tags"),containerCssClass:"systemtags-select2-container",dropdownCssClass:"systemtags-select2-dropdown",closeOnSelect:!1,allowClear:!1,multiple:this._multiple,toggleSelect:this._multiple,query:_.bind(this._queryTagsAutocomplete,this),id:function(e){return e.id},initSelection:_.bind(this._initSelection,this),formatResult:_.bind(this._formatDropDownResult,this),formatSelection:_.bind(this._formatSelection,this),createSearchChoice:this._allowCreate?_.bind(this._createSearchChoice,this):void 0,sortResults:function(t){var s=_.pluck(n.$tagsField.select2("data"),"id");return t.sort((function(t,l){var i=s.indexOf(t.id)>=0,a=s.indexOf(l.id)>=0;if(i===a){var o=n._lastUsedTags.indexOf(t.id),r=n._lastUsedTags.indexOf(l.id);return o!==r?-1===r?-1:-1===o?1:o<r?-1:1:e.Util.naturalSortCompare(t.name,l.name)}return i&&!a?-1:1})),t},formatNoMatches:function(){return t("core","No tags found")}}).on("select2-selecting",this._onSelectTag).on("select2-removing",this._onDeselectTag);var s=this.$tagsField.select2("dropdown");s.on("mouseup",".rename",this._onClickRenameTag),s.on("mouseup",".delete",this._onClickDeleteTag),s.on("mouseup",".select2-result-selectable.has-form",this._preventDefault),s.on("submit",".systemtags-rename-form",this._onSubmitRenameTag),this.delegateEvents()},remove:function(){this.$tagsField&&this.$tagsField.select2("destroy")},getValues:function(){this.$tagsField.select2("val")},setValues:function(e){this.$tagsField.select2("val",e)},setData:function(e){this.$tagsField.select2("data",e)}});e.SystemTags=e.SystemTags||{},e.SystemTags.SystemTagsInputField=n}(OC);var m=s(85072),h=s.n(m),g=s(97825),A=s.n(g),f=s(77659),y=s.n(f),C=s(55056),b=s.n(C),v=s(10540),T=s.n(v),S=s(41113),w=s.n(S),x=s(33851),k={};k.styleTagTransform=w(),k.setAttributes=b(),k.insert=y().bind(null,"head"),k.domAPI=A(),k.insertStyleElement=T(),h()(x.A,k),x.A&&x.A.locals&&x.A.locals},74779:(e,t,n)=>{var s=n(93633);e.exports=(s.default||s).template({1:function(e,t,n,s,l){var i,a=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<a href="#" class="delete icon icon-delete" title="'+e.escapeExpression("function"==typeof(i=null!=(i=a(n,"deleteTooltip")||(null!=t?a(t,"deleteTooltip"):t))?i:e.hooks.helperMissing)?i.call(null!=t?t:e.nullContext||{},{name:"deleteTooltip",hash:{},data:l,loc:{start:{line:5,column:53},end:{line:5,column:70}}}):i)+'"></a>\n'},compiler:[8,">= 4.3.0"],main:function(e,t,n,s,l){var i,a,o=null!=t?t:e.nullContext||{},r=e.hooks.helperMissing,c="function",u=e.escapeExpression,d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<form class="systemtags-rename-form">\n\t <label class="hidden-visually" for="'+u(typeof(a=null!=(a=d(n,"cid")||(null!=t?d(t,"cid"):t))?a:r)===c?a.call(o,{name:"cid",hash:{},data:l,loc:{start:{line:2,column:38},end:{line:2,column:45}}}):a)+'-rename-input">'+u(typeof(a=null!=(a=d(n,"renameLabel")||(null!=t?d(t,"renameLabel"):t))?a:r)===c?a.call(o,{name:"renameLabel",hash:{},data:l,loc:{start:{line:2,column:60},end:{line:2,column:75}}}):a)+'</label>\n\t<input id="'+u(typeof(a=null!=(a=d(n,"cid")||(null!=t?d(t,"cid"):t))?a:r)===c?a.call(o,{name:"cid",hash:{},data:l,loc:{start:{line:3,column:12},end:{line:3,column:19}}}):a)+'-rename-input" type="text" value="'+u(typeof(a=null!=(a=d(n,"name")||(null!=t?d(t,"name"):t))?a:r)===c?a.call(o,{name:"name",hash:{},data:l,loc:{start:{line:3,column:53},end:{line:3,column:61}}}):a)+'">\n'+(null!=(i=d(n,"if").call(o,null!=t?d(t,"isAdmin"):t,{name:"if",hash:{},fn:e.program(1,l,0),inverse:e.noop,data:l,loc:{start:{line:4,column:1},end:{line:6,column:8}}}))?i:"")+"</form>\n"},useData:!0})},78974:()=>{!function(e){var t=e.Backbone.Collection.extend({sync:e.Backbone.davSync,model:e.SystemTags.SystemTagModel,url:function(){return e.linkToRemote("dav")+"/systemtags/"},filterByName:function(e){return this.filter((function(t){return function(e,t){return e.get("name").substr(0,t.length).toLowerCase()===t.toLowerCase()}(t,e)}))},reset:function(){return this.fetched=!1,e.Backbone.Collection.prototype.reset.apply(this,arguments)},fetch:function(t){var n=this;if(t=t||{},this.fetched||this.working||t.force)return t.success&&t.success(this,null,t),this.trigger("sync",this,null,t),Promise.resolve();this.working=!0;var s=t.success;return(t=_.extend({},t)).success=function(){if(n.fetched=!0,n.working=!1,s)return s.apply(this,arguments)},e.Backbone.Collection.prototype.fetch.call(this,t)}});e.SystemTags=e.SystemTags||{},e.SystemTags.SystemTagsCollection=t,e.SystemTags.collection=new e.SystemTags.SystemTagsCollection}(OC)},91424:(e,t,n)=>{var s=n(93633);e.exports=(s.default||s).template({1:function(e,t,n,s,l){return" new-item"},3:function(e,t,n,s,l){var i,a,o=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<span class="label">'+(null!=(i="function"==typeof(a=null!=(a=o(n,"tagMarkup")||(null!=t?o(t,"tagMarkup"):t))?a:e.hooks.helperMissing)?a.call(null!=t?t:e.nullContext||{},{name:"tagMarkup",hash:{},data:l,loc:{start:{line:4,column:22},end:{line:4,column:37}}}):a)?i:"")+"</span>\n"},5:function(e,t,n,s,l){var i,a=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<span class="label">'+e.escapeExpression("function"==typeof(i=null!=(i=a(n,"name")||(null!=t?a(t,"name"):t))?i:e.hooks.helperMissing)?i.call(null!=t?t:e.nullContext||{},{name:"name",hash:{},data:l,loc:{start:{line:6,column:22},end:{line:6,column:30}}}):i)+"</span>\n"},7:function(e,t,n,s,l){var i,a=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<span class="systemtags-actions">\n\t\t\t<a href="#" class="rename icon icon-rename" title="'+e.escapeExpression("function"==typeof(i=null!=(i=a(n,"renameTooltip")||(null!=t?a(t,"renameTooltip"):t))?i:e.hooks.helperMissing)?i.call(null!=t?t:e.nullContext||{},{name:"renameTooltip",hash:{},data:l,loc:{start:{line:10,column:54},end:{line:10,column:71}}}):i)+'"></a>\n\t\t</span>\n'},compiler:[8,">= 4.3.0"],main:function(e,t,n,s,l){var i,a,o,r=null!=t?t:e.nullContext||{},c=e.hooks.helperMissing,u="function",d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]},p='<span class="systemtags-item'+(null!=(i=d(n,"if").call(r,null!=t?d(t,"isNew"):t,{name:"if",hash:{},fn:e.program(1,l,0),inverse:e.noop,data:l,loc:{start:{line:1,column:28},end:{line:1,column:57}}}))?i:"")+'" data-id="'+e.escapeExpression(typeof(a=null!=(a=d(n,"id")||(null!=t?d(t,"id"):t))?a:c)===u?a.call(r,{name:"id",hash:{},data:l,loc:{start:{line:1,column:68},end:{line:1,column:74}}}):a)+'">\n<span class="checkmark icon icon-checkmark"></span>\n'+(null!=(i=d(n,"if").call(r,null!=t?d(t,"isAdmin"):t,{name:"if",hash:{},fn:e.program(3,l,0),inverse:e.program(5,l,0),data:l,loc:{start:{line:3,column:1},end:{line:7,column:8}}}))?i:"");return a=null!=(a=d(n,"allowActions")||(null!=t?d(t,"allowActions"):t))?a:c,o={name:"allowActions",hash:{},fn:e.program(7,l,0),inverse:e.noop,data:l,loc:{start:{line:8,column:1},end:{line:12,column:18}}},i=typeof a===u?a.call(r,o):a,d(n,"allowActions")||(i=e.hooks.blockHelperMissing.call(t,i,o)),null!=i&&(p+=i),p+"</span>\n"},useData:!0})}},s={};function l(e){var t=s[e];if(void 0!==t)return t.exports;var i=s[e]={id:e,loaded:!1,exports:{}};return n[e].call(i.exports,i,i.exports,l),i.loaded=!0,i.exports}l.m=n,e=[],l.O=(t,n,s,i)=>{if(!n){var a=1/0;for(u=0;u<e.length;u++){n=e[u][0],s=e[u][1],i=e[u][2];for(var o=!0,r=0;r<n.length;r++)(!1&i||a>=i)&&Object.keys(l.O).every((e=>l.O[e](n[r])))?n.splice(r--,1):(o=!1,i<a&&(a=i));if(o){e.splice(u--,1);var c=s();void 0!==c&&(t=c)}}return t}i=i||0;for(var u=e.length;u>0&&e[u-1][2]>i;u--)e[u]=e[u-1];e[u]=[n,s,i]},l.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return l.d(t,{a:t}),t},l.d=(e,t)=>{for(var n in t)l.o(t,n)&&!l.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},l.e=()=>Promise.resolve(),l.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),l.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),l.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},l.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),l.j=6371,(()=>{l.b=document.baseURI||self.location.href;var e={6371:0};l.O.j=t=>0===e[t];var t=(t,n)=>{var s,i,a=n[0],o=n[1],r=n[2],c=0;if(a.some((t=>0!==e[t]))){for(s in o)l.o(o,s)&&(l.m[s]=o[s]);if(r)var u=r(l)}for(t&&t(n);c<a.length;c++)i=a[c],l.o(e,i)&&e[i]&&e[i][0](),e[i]=0;return l.O(u)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),l.nc=void 0;var i=l.O(void 0,[4208],(()=>l(65796)));i=l.O(i)})();
-//# sourceMappingURL=core-systemtags.js.map?v=0912cba95c1f5774e64c
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./core/css/systemtags.scss":
+/*!**********************************!*\
+  !*** ./core/css/systemtags.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_systemtags_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./systemtags.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./core/css/systemtags.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_systemtags_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_systemtags_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_systemtags_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_systemtags_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./core/src/systemtags/merged-systemtags.js":
+/*!**************************************************!*\
+  !*** ./core/src/systemtags/merged-systemtags.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _systemtags_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./systemtags.js */ "./core/src/systemtags/systemtags.js");
+/* harmony import */ var _systemtagmodel_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./systemtagmodel.js */ "./core/src/systemtags/systemtagmodel.js");
+/* harmony import */ var _systemtagmodel_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_systemtagmodel_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _systemtagsmappingcollection_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./systemtagsmappingcollection.js */ "./core/src/systemtags/systemtagsmappingcollection.js");
+/* harmony import */ var _systemtagscollection_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./systemtagscollection.js */ "./core/src/systemtags/systemtagscollection.js");
+/* harmony import */ var _systemtagscollection_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_systemtagscollection_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _systemtagsinputfield_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./systemtagsinputfield.js */ "./core/src/systemtags/systemtagsinputfield.js");
+/* harmony import */ var _css_systemtags_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../css/systemtags.scss */ "./core/css/systemtags.scss");
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./core/src/systemtags/systemtagmodel.js":
+/*!***********************************************!*\
+  !*** ./core/src/systemtags/systemtagmodel.js ***!
+  \***********************************************/
+/***/ (() => {
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * @param {object} OC The OC namespace
+ */
+
+(function (OC) {
+  if (OC?.Files?.Client) {
+    _.extend(OC.Files.Client, {
+      PROPERTY_FILEID: '{' + OC.Files.Client.NS_OWNCLOUD + '}id',
+      PROPERTY_CAN_ASSIGN: '{' + OC.Files.Client.NS_OWNCLOUD + '}can-assign',
+      PROPERTY_DISPLAYNAME: '{' + OC.Files.Client.NS_OWNCLOUD + '}display-name',
+      PROPERTY_USERVISIBLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-visible',
+      PROPERTY_USERASSIGNABLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-assignable'
+    });
+
+    /**
+     * @class OCA.SystemTags.SystemTagsCollection
+     * @classdesc
+     *
+     * System tag
+     *
+     */
+    const SystemTagModel = OC.Backbone.Model.extend(/** @lends OCA.SystemTags.SystemTagModel.prototype */{
+      sync: OC.Backbone.davSync,
+      defaults: {
+        userVisible: true,
+        userAssignable: true,
+        canAssign: true
+      },
+      davProperties: {
+        id: OC.Files.Client.PROPERTY_FILEID,
+        name: OC.Files.Client.PROPERTY_DISPLAYNAME,
+        userVisible: OC.Files.Client.PROPERTY_USERVISIBLE,
+        userAssignable: OC.Files.Client.PROPERTY_USERASSIGNABLE,
+        // read-only, effective permissions computed by the server,
+        canAssign: OC.Files.Client.PROPERTY_CAN_ASSIGN
+      },
+      parse(data) {
+        return {
+          id: data.id,
+          name: data.name,
+          userVisible: data.userVisible === true || data.userVisible === 'true',
+          userAssignable: data.userAssignable === true || data.userAssignable === 'true',
+          canAssign: data.canAssign === true || data.canAssign === 'true'
+        };
+      }
+    });
+    OC.SystemTags = OC.SystemTags || {};
+    OC.SystemTags.SystemTagModel = SystemTagModel;
+  }
+})(OC);
+
+/***/ }),
+
+/***/ "./core/src/systemtags/systemtags.js":
+/*!*******************************************!*\
+  !*** ./core/src/systemtags/systemtags.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var escape_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! escape-html */ "./node_modules/escape-html/index.js");
+/* harmony import */ var escape_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(escape_html__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* eslint-disable */
+
+(function (OC) {
+  /**
+   * @namespace
+   */
+  OC.SystemTags = {
+    /**
+     *
+     * @param {OC.SystemTags.SystemTagModel|Object|String} tag
+     * @returns {HTMLElement}
+     */
+    getDescriptiveTag: function (tag) {
+      if (_.isUndefined(tag.name) && !_.isUndefined(tag.toJSON)) {
+        tag = tag.toJSON();
+      }
+      var $span = document.createElement('span');
+      if (_.isUndefined(tag.name)) {
+        $span.classList.add('non-existing-tag');
+        $span.textContent = t('core', 'Non-existing tag #{tag}', {
+          tag: tag
+        });
+        return $span;
+      }
+      $span.textContent = escape_html__WEBPACK_IMPORTED_MODULE_0___default()(tag.name);
+      var scope;
+      if (!tag.userAssignable) {
+        scope = t('core', 'Restricted');
+      }
+      if (!tag.userVisible) {
+        // invisible also implicitly means not assignable
+        scope = t('core', 'Invisible');
+      }
+      if (scope) {
+        var $scope = document.createElement('em');
+        $scope.textContent = ' (' + scope + ')';
+        $span.appendChild($scope);
+      }
+      return $span;
+    }
+  };
+})(OC);
+
+/***/ }),
+
+/***/ "./core/src/systemtags/systemtagscollection.js":
+/*!*****************************************************!*\
+  !*** ./core/src/systemtags/systemtagscollection.js ***!
+  \*****************************************************/
+/***/ (() => {
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* eslint-disable */
+(function (OC) {
+  function filterFunction(model, term) {
+    return model.get('name').substr(0, term.length).toLowerCase() === term.toLowerCase();
+  }
+
+  /**
+   * @class OCA.SystemTags.SystemTagsCollection
+   * @classdesc
+   *
+   * Collection of tags assigned to a file
+   *
+   */
+  var SystemTagsCollection = OC.Backbone.Collection.extend(/** @lends OC.SystemTags.SystemTagsCollection.prototype */{
+    sync: OC.Backbone.davSync,
+    model: OC.SystemTags.SystemTagModel,
+    url: function () {
+      return OC.linkToRemote('dav') + '/systemtags/';
+    },
+    filterByName: function (name) {
+      return this.filter(function (model) {
+        return filterFunction(model, name);
+      });
+    },
+    reset: function () {
+      this.fetched = false;
+      return OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+    },
+    /**
+    * Lazy fetch.
+    * Only fetches once, subsequent calls will directly call the success handler.
+    *
+    * @param {any} options -
+    * @param [options.force] true to force fetch even if cached entries exist
+    *
+    * @see Backbone.Collection#fetch
+    */
+    fetch: function (options) {
+      var self = this;
+      options = options || {};
+      if (this.fetched || this.working || options.force) {
+        // directly call handler
+        if (options.success) {
+          options.success(this, null, options);
+        }
+        // trigger sync event
+        this.trigger('sync', this, null, options);
+        return Promise.resolve();
+      }
+      this.working = true;
+      var success = options.success;
+      options = _.extend({}, options);
+      options.success = function () {
+        self.fetched = true;
+        self.working = false;
+        if (success) {
+          return success.apply(this, arguments);
+        }
+      };
+      return OC.Backbone.Collection.prototype.fetch.call(this, options);
+    }
+  });
+  OC.SystemTags = OC.SystemTags || {};
+  OC.SystemTags.SystemTagsCollection = SystemTagsCollection;
+
+  /**
+   * @type OC.SystemTags.SystemTagsCollection
+   */
+  OC.SystemTags.collection = new OC.SystemTags.SystemTagsCollection();
+})(OC);
+
+/***/ }),
+
+/***/ "./core/src/systemtags/systemtagsinputfield.js":
+/*!*****************************************************!*\
+  !*** ./core/src/systemtags/systemtagsinputfield.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _templates_result_handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./templates/result.handlebars */ "./core/src/systemtags/templates/result.handlebars");
+/* harmony import */ var _templates_result_handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_templates_result_handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _templates_result_form_handlebars__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates/result_form.handlebars */ "./core/src/systemtags/templates/result_form.handlebars");
+/* harmony import */ var _templates_result_form_handlebars__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_templates_result_form_handlebars__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _templates_selection_handlebars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/selection.handlebars */ "./core/src/systemtags/templates/selection.handlebars");
+/* harmony import */ var _templates_selection_handlebars__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_templates_selection_handlebars__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* eslint-disable */
+
+
+
+(function (OC) {
+  /**
+   * @class OC.SystemTags.SystemTagsInputField
+   * @classdesc
+   *
+   * Displays a file's system tags
+   *
+   */
+  var SystemTagsInputField = OC.Backbone.View.extend(/** @lends OC.SystemTags.SystemTagsInputField.prototype */{
+    _rendered: false,
+    _newTag: null,
+    _lastUsedTags: [],
+    className: 'systemTagsInputFieldContainer',
+    template: function (data) {
+      return '<input class="systemTagsInputField" type="hidden" name="tags" value=""/>';
+    },
+    /**
+    * Creates a new SystemTagsInputField
+    *
+    * @param {Object} [options]
+    * @param {string} [options.objectType=files] object type for which tags are assigned to
+    * @param {boolean} [options.multiple=false] whether to allow selecting multiple tags
+    * @param {boolean} [options.allowActions=true] whether tags can be renamed/delete within the dropdown
+    * @param {boolean} [options.allowCreate=true] whether new tags can be created
+    * @param {boolean} [options.isAdmin=true] whether the user is an administrator
+    * @param {Function} options.initSelection function to convert selection to data
+    */
+    initialize: function (options) {
+      options = options || {};
+      this._multiple = !!options.multiple;
+      this._allowActions = _.isUndefined(options.allowActions) || !!options.allowActions;
+      this._allowCreate = _.isUndefined(options.allowCreate) || !!options.allowCreate;
+      this._isAdmin = !!options.isAdmin;
+      if (_.isFunction(options.initSelection)) {
+        this._initSelection = options.initSelection;
+      }
+      this.collection = options.collection || OC.SystemTags.collection;
+      var self = this;
+      this.collection.on('change:name remove', function () {
+        // refresh selection
+        _.defer(self._refreshSelection);
+      });
+      _.defer(_.bind(this._getLastUsedTags, this));
+      _.bindAll(this, '_refreshSelection', '_onClickRenameTag', '_onClickDeleteTag', '_onSelectTag', '_onDeselectTag', '_onSubmitRenameTag');
+    },
+    _getLastUsedTags: function () {
+      var self = this;
+      $.ajax({
+        type: 'GET',
+        url: OC.generateUrl('/apps/systemtags/lastused'),
+        success: function (response) {
+          self._lastUsedTags = response;
+        }
+      });
+    },
+    /**
+    * Refreshes the selection, triggering a call to
+    * select2's initSelection
+    */
+    _refreshSelection: function () {
+      this.$tagsField.select2('val', this.$tagsField.val());
+    },
+    /**
+    * Event handler whenever the user clicked the "rename" action.
+    * This will display the rename field.
+    */
+    _onClickRenameTag: function (ev) {
+      var $item = $(ev.target).closest('.systemtags-item');
+      var tagId = $item.attr('data-id');
+      var tagModel = this.collection.get(tagId);
+      var oldName = tagModel.get('name');
+      var $renameForm = $(_templates_result_form_handlebars__WEBPACK_IMPORTED_MODULE_1___default()({
+        cid: this.cid,
+        name: oldName,
+        deleteTooltip: t('core', 'Delete'),
+        renameLabel: t('core', 'Rename'),
+        isAdmin: this._isAdmin
+      }));
+      $item.find('.label').after($renameForm);
+      $item.find('.label, .systemtags-actions').addClass('hidden');
+      $item.closest('.select2-result').addClass('has-form');
+      $renameForm.find('[title]').tooltip({
+        placement: 'bottom',
+        container: 'body'
+      });
+      $renameForm.find('input').focus().selectRange(0, oldName.length);
+      return false;
+    },
+    /**
+    * Event handler whenever the rename form has been submitted after
+    * the user entered a new tag name.
+    * This will submit the change to the server.
+    *
+    * @param {Object} ev event
+    */
+    _onSubmitRenameTag: function (ev) {
+      ev.preventDefault();
+      var $form = $(ev.target);
+      var $item = $form.closest('.systemtags-item');
+      var tagId = $item.attr('data-id');
+      var tagModel = this.collection.get(tagId);
+      var newName = $(ev.target).find('input').val().trim();
+      if (newName && newName !== tagModel.get('name')) {
+        tagModel.save({
+          'name': newName
+        });
+        // TODO: spinner, and only change text after finished saving
+        $item.find('.label').text(newName);
+      }
+      $item.find('.label, .systemtags-actions').removeClass('hidden');
+      $form.remove();
+      $item.closest('.select2-result').removeClass('has-form');
+    },
+    /**
+    * Event handler whenever a tag must be deleted
+    *
+    * @param {Object} ev event
+    */
+    _onClickDeleteTag: function (ev) {
+      var $item = $(ev.target).closest('.systemtags-item');
+      var tagId = $item.attr('data-id');
+      this.collection.get(tagId).destroy();
+      $(ev.target).tooltip('option', 'hide');
+      $item.closest('.select2-result').remove();
+      // TODO: spinner
+      return false;
+    },
+    _addToSelect2Selection: function (selection) {
+      var data = this.$tagsField.select2('data');
+      data.push(selection);
+      this.$tagsField.select2('data', data);
+    },
+    /**
+    * Event handler whenever a tag is selected.
+    * Also called whenever tag creation is requested through the dummy tag object.
+    *
+    * @param {Object} e event
+    */
+    _onSelectTag: function (e) {
+      var self = this;
+      var tag;
+      if (e.object && e.object.isNew) {
+        // newly created tag, check if existing
+        // create a new tag
+        tag = this.collection.create({
+          name: e.object.name.trim(),
+          userVisible: true,
+          userAssignable: true,
+          canAssign: true
+        }, {
+          success: function (model) {
+            self._addToSelect2Selection(model.toJSON());
+            self._lastUsedTags.unshift(model.id);
+            self.trigger('select', model);
+          },
+          error: function (model, xhr) {
+            if (xhr.status === 409) {
+              // re-fetch collection to get the missing tag
+              self.collection.reset();
+              self.collection.fetch({
+                success: function (collection) {
+                  // find the tag in the collection
+                  var model = collection.where({
+                    name: e.object.name.trim(),
+                    userVisible: true,
+                    userAssignable: true
+                  });
+                  if (model.length) {
+                    model = model[0];
+                    // the tag already exists or was already assigned,
+                    // add it to the list anyway
+                    self._addToSelect2Selection(model.toJSON());
+                    self.trigger('select', model);
+                  }
+                }
+              });
+            }
+          }
+        });
+        this.$tagsField.select2('close');
+        e.preventDefault();
+        return false;
+      } else {
+        tag = this.collection.get(e.object.id);
+        this._lastUsedTags.unshift(tag.id);
+      }
+      this._newTag = null;
+      this.trigger('select', tag);
+    },
+    /**
+    * Event handler whenever a tag gets deselected.
+    *
+    * @param {Object} e event
+    */
+    _onDeselectTag: function (e) {
+      this.trigger('deselect', e.choice.id);
+    },
+    /**
+    * Autocomplete function for dropdown results
+    *
+    * @param {Object} query select2 query object
+    */
+    _queryTagsAutocomplete: function (query) {
+      var self = this;
+      this.collection.fetch({
+        success: function (collection) {
+          var tagModels = collection.filterByName(query.term.trim());
+          if (!self._isAdmin) {
+            tagModels = _.filter(tagModels, function (tagModel) {
+              return tagModel.get('canAssign');
+            });
+          }
+          query.callback({
+            results: _.invoke(tagModels, 'toJSON')
+          });
+        }
+      });
+    },
+    _preventDefault: function (e) {
+      e.stopPropagation();
+    },
+    /**
+    * Formats a single dropdown result
+    *
+    * @param {Object} data data to format
+    * @returns {string} HTML markup
+    */
+    _formatDropDownResult: function (data) {
+      return _templates_result_handlebars__WEBPACK_IMPORTED_MODULE_0___default()(_.extend({
+        renameTooltip: t('core', 'Rename'),
+        allowActions: this._allowActions,
+        tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
+        isAdmin: this._isAdmin
+      }, data));
+    },
+    /**
+    * Formats a single selection item
+    *
+    * @param {Object} data data to format
+    * @returns {string} HTML markup
+    */
+    _formatSelection: function (data) {
+      return _templates_selection_handlebars__WEBPACK_IMPORTED_MODULE_2___default()(_.extend({
+        tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data).innerHTML : null,
+        isAdmin: this._isAdmin
+      }, data));
+    },
+    /**
+    * Create new dummy choice for select2 when the user
+    * types an arbitrary string
+    *
+    * @param {string} term entered term
+    * @returns {Object} dummy tag
+    */
+    _createSearchChoice: function (term) {
+      term = term.trim();
+      if (this.collection.filter(function (entry) {
+        return entry.get('name') === term;
+      }).length) {
+        return;
+      }
+      if (!this._newTag) {
+        this._newTag = {
+          id: -1,
+          name: term,
+          userAssignable: true,
+          userVisible: true,
+          canAssign: true,
+          isNew: true
+        };
+      } else {
+        this._newTag.name = term;
+      }
+      return this._newTag;
+    },
+    _initSelection: function (element, callback) {
+      var self = this;
+      var ids = $(element).val().split(',');
+      function modelToSelection(model) {
+        var data = model.toJSON();
+        if (!self._isAdmin && !data.canAssign) {
+          // lock static tags for non-admins
+          data.locked = true;
+        }
+        return data;
+      }
+      function findSelectedObjects(ids) {
+        var selectedModels = self.collection.filter(function (model) {
+          return ids.indexOf(model.id) >= 0 && (self._isAdmin || model.get('userVisible'));
+        });
+        return _.map(selectedModels, modelToSelection);
+      }
+      this.collection.fetch({
+        success: function () {
+          callback(findSelectedObjects(ids));
+        }
+      });
+    },
+    /**
+    * Renders this details view
+    */
+    render: function () {
+      var self = this;
+      this.$el.html(this.template());
+      this.$el.find('[title]').tooltip({
+        placement: 'bottom'
+      });
+      this.$tagsField = this.$el.find('[name=tags]');
+      this.$tagsField.select2({
+        placeholder: t('core', 'Collaborative tags'),
+        containerCssClass: 'systemtags-select2-container',
+        dropdownCssClass: 'systemtags-select2-dropdown',
+        closeOnSelect: false,
+        allowClear: false,
+        multiple: this._multiple,
+        toggleSelect: this._multiple,
+        query: _.bind(this._queryTagsAutocomplete, this),
+        id: function (tag) {
+          return tag.id;
+        },
+        initSelection: _.bind(this._initSelection, this),
+        formatResult: _.bind(this._formatDropDownResult, this),
+        formatSelection: _.bind(this._formatSelection, this),
+        createSearchChoice: this._allowCreate ? _.bind(this._createSearchChoice, this) : undefined,
+        sortResults: function (results) {
+          var selectedItems = _.pluck(self.$tagsField.select2('data'), 'id');
+          results.sort(function (a, b) {
+            var aSelected = selectedItems.indexOf(a.id) >= 0;
+            var bSelected = selectedItems.indexOf(b.id) >= 0;
+            if (aSelected === bSelected) {
+              var aLastUsed = self._lastUsedTags.indexOf(a.id);
+              var bLastUsed = self._lastUsedTags.indexOf(b.id);
+              if (aLastUsed !== bLastUsed) {
+                if (bLastUsed === -1) {
+                  return -1;
+                }
+                if (aLastUsed === -1) {
+                  return 1;
+                }
+                return aLastUsed < bLastUsed ? -1 : 1;
+              }
+
+              // Both not found
+              return OC.Util.naturalSortCompare(a.name, b.name);
+            }
+            if (aSelected && !bSelected) {
+              return -1;
+            }
+            return 1;
+          });
+          return results;
+        },
+        formatNoMatches: function () {
+          return t('core', 'No tags found');
+        }
+      }).on('select2-selecting', this._onSelectTag).on('select2-removing', this._onDeselectTag);
+      var $dropDown = this.$tagsField.select2('dropdown');
+      // register events for inside the dropdown
+      $dropDown.on('mouseup', '.rename', this._onClickRenameTag);
+      $dropDown.on('mouseup', '.delete', this._onClickDeleteTag);
+      $dropDown.on('mouseup', '.select2-result-selectable.has-form', this._preventDefault);
+      $dropDown.on('submit', '.systemtags-rename-form', this._onSubmitRenameTag);
+      this.delegateEvents();
+    },
+    remove: function () {
+      if (this.$tagsField) {
+        this.$tagsField.select2('destroy');
+      }
+    },
+    getValues: function () {
+      this.$tagsField.select2('val');
+    },
+    setValues: function (values) {
+      this.$tagsField.select2('val', values);
+    },
+    setData: function (data) {
+      this.$tagsField.select2('data', data);
+    }
+  });
+  OC.SystemTags = OC.SystemTags || {};
+  OC.SystemTags.SystemTagsInputField = SystemTagsInputField;
+})(OC);
+
+/***/ }),
+
+/***/ "./core/src/systemtags/systemtagsmappingcollection.js":
+/*!************************************************************!*\
+  !*** ./core/src/systemtags/systemtagsmappingcollection.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+(function (OC) {
+  /**
+   * @class OC.SystemTags.SystemTagsMappingCollection
+   * @classdesc
+   *
+   * Collection of tags assigned to a an object
+   *
+   */
+  const SystemTagsMappingCollection = OC.Backbone.Collection.extend(/** @lends OC.SystemTags.SystemTagsMappingCollection.prototype */{
+    sync: OC.Backbone.davSync,
+    /**
+     * Use PUT instead of PROPPATCH
+     */
+    usePUT: true,
+    /**
+     * Id of the file for which to filter activities by
+     *
+     * @member int
+     */
+    _objectId: null,
+    /**
+     * Type of the object to filter by
+     *
+     * @member string
+     */
+    _objectType: 'files',
+    model: OC.SystemTags.SystemTagModel,
+    url() {
+      return (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateRemoteUrl)('dav') + '/systemtags-relations/' + this._objectType + '/' + this._objectId;
+    },
+    /**
+     * Sets the object id to filter by or null for all.
+     *
+     * @param {number} objectId file id or null
+     */
+    setObjectId(objectId) {
+      this._objectId = objectId;
+    },
+    /**
+     * Sets the object type to filter by or null for all.
+     *
+     * @param {number} objectType file id or null
+     */
+    setObjectType(objectType) {
+      this._objectType = objectType;
+    },
+    initialize(models, options) {
+      options = options || {};
+      if (!_.isUndefined(options.objectId)) {
+        this._objectId = options.objectId;
+      }
+      if (!_.isUndefined(options.objectType)) {
+        this._objectType = options.objectType;
+      }
+    },
+    getTagIds() {
+      return this.map(function (model) {
+        return model.id;
+      });
+    }
+  });
+  OC.SystemTags = OC.SystemTags || {};
+  OC.SystemTags.SystemTagsMappingCollection = SystemTagsMappingCollection;
+})(OC);
+
+/***/ }),
+
+/***/ "./core/src/systemtags/templates/result.handlebars":
+/*!*********************************************************!*\
+  !*** ./core/src/systemtags/templates/result.handlebars ***!
+  \*********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    return " new-item";
+},"3":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<span class=\"label\">"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"tagMarkup") || (depth0 != null ? lookupProperty(depth0,"tagMarkup") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"tagMarkup","hash":{},"data":data,"loc":{"start":{"line":4,"column":22},"end":{"line":4,"column":37}}}) : helper))) != null ? stack1 : "")
+    + "</span>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<span class=\"label\">"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":6,"column":22},"end":{"line":6,"column":30}}}) : helper)))
+    + "</span>\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<span class=\"systemtags-actions\">\n			<a href=\"#\" class=\"rename icon icon-rename\" title=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"renameTooltip") || (depth0 != null ? lookupProperty(depth0,"renameTooltip") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"renameTooltip","hash":{},"data":data,"loc":{"start":{"line":10,"column":54},"end":{"line":10,"column":71}}}) : helper)))
+    + "\"></a>\n		</span>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, options, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    }, buffer = 
+  "<span class=\"systemtags-item"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isNew") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":28},"end":{"line":1,"column":57}}})) != null ? stack1 : "")
+    + "\" data-id=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"id") || (depth0 != null ? lookupProperty(depth0,"id") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data,"loc":{"start":{"line":1,"column":68},"end":{"line":1,"column":74}}}) : helper)))
+    + "\">\n<span class=\"checkmark icon icon-checkmark\"></span>\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isAdmin") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(5, data, 0),"data":data,"loc":{"start":{"line":3,"column":1},"end":{"line":7,"column":8}}})) != null ? stack1 : "");
+  stack1 = ((helper = (helper = lookupProperty(helpers,"allowActions") || (depth0 != null ? lookupProperty(depth0,"allowActions") : depth0)) != null ? helper : alias2),(options={"name":"allowActions","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":1},"end":{"line":12,"column":18}}}),(typeof helper === alias3 ? helper.call(alias1,options) : helper));
+  if (!lookupProperty(helpers,"allowActions")) { stack1 = container.hooks.blockHelperMissing.call(depth0,stack1,options)}
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</span>\n";
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/systemtags/templates/result_form.handlebars":
+/*!**************************************************************!*\
+  !*** ./core/src/systemtags/templates/result_form.handlebars ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<a href=\"#\" class=\"delete icon icon-delete\" title=\""
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"deleteTooltip") || (depth0 != null ? lookupProperty(depth0,"deleteTooltip") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"deleteTooltip","hash":{},"data":data,"loc":{"start":{"line":5,"column":53},"end":{"line":5,"column":70}}}) : helper)))
+    + "\"></a>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<form class=\"systemtags-rename-form\">\n	 <label class=\"hidden-visually\" for=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"cid") || (depth0 != null ? lookupProperty(depth0,"cid") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"cid","hash":{},"data":data,"loc":{"start":{"line":2,"column":38},"end":{"line":2,"column":45}}}) : helper)))
+    + "-rename-input\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"renameLabel") || (depth0 != null ? lookupProperty(depth0,"renameLabel") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"renameLabel","hash":{},"data":data,"loc":{"start":{"line":2,"column":60},"end":{"line":2,"column":75}}}) : helper)))
+    + "</label>\n	<input id=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"cid") || (depth0 != null ? lookupProperty(depth0,"cid") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"cid","hash":{},"data":data,"loc":{"start":{"line":3,"column":12},"end":{"line":3,"column":19}}}) : helper)))
+    + "-rename-input\" type=\"text\" value=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":53},"end":{"line":3,"column":61}}}) : helper)))
+    + "\">\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isAdmin") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":1},"end":{"line":6,"column":8}}})) != null ? stack1 : "")
+    + "</form>\n";
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/systemtags/templates/selection.handlebars":
+/*!************************************************************!*\
+  !*** ./core/src/systemtags/templates/selection.handlebars ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<span class=\"label\">"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"tagMarkup") || (depth0 != null ? lookupProperty(depth0,"tagMarkup") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"tagMarkup","hash":{},"data":data,"loc":{"start":{"line":2,"column":21},"end":{"line":2,"column":36}}}) : helper))) != null ? stack1 : "")
+    + "</span>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<span class=\"label\">"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":21},"end":{"line":4,"column":29}}}) : helper)))
+    + "</span>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"isAdmin") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":5,"column":7}}})) != null ? stack1 : "");
+},"useData":true});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./core/css/systemtags.scss":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./core/css/systemtags.scss ***!
+  \***************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/*!
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.systemtags-select2-dropdown .select2-result-label {
+  height: 25px;
+}
+.systemtags-select2-dropdown .select2-result-label .checkmark {
+  visibility: hidden;
+  margin-inline: -5px 5px;
+  padding: 4px;
+}
+.systemtags-select2-dropdown .select2-result-label .new-item .systemtags-actions {
+  display: none;
+}
+.systemtags-select2-dropdown .select2-selected .select2-result-label .checkmark {
+  visibility: visible;
+}
+.systemtags-select2-dropdown .select2-result-label .icon {
+  display: inline-block;
+  opacity: 0.5;
+}
+.systemtags-select2-dropdown .select2-result-label .icon.rename {
+  padding: 4px;
+}
+.systemtags-select2-dropdown .systemtags-actions {
+  position: absolute;
+  inset-inline-end: 5px;
+}
+.systemtags-select2-dropdown .systemtags-rename-form {
+  display: inline-block;
+  width: calc(100% - 20px);
+  top: -6px;
+  position: relative;
+}
+.systemtags-select2-dropdown .systemtags-rename-form input {
+  display: inline-block;
+  height: 30px;
+  width: calc(100% - 40px);
+}
+.systemtags-select2-dropdown .label {
+  width: 85%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.systemtags-select2-dropdown .label.hidden {
+  display: none;
+}
+.systemtags-select2-dropdown span {
+  line-height: 25px;
+}
+.systemtags-select2-dropdown .systemtags-item {
+  display: inline-block;
+  height: 25px;
+  width: 100%;
+}
+
+.systemtags-select2-container {
+  width: 100%;
+}
+.systemtags-select2-container .select2-choices {
+  flex-wrap: nowrap !important;
+  max-height: 44px;
+}
+.systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label {
+  opacity: 0.5;
+}
+
+#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result {
+  padding: 5px;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"core-systemtags": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./core/src/systemtags/merged-systemtags.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=core-systemtags.js.map?v=caab1e41cb7b1bcda0d4

@@ -1,2 +1,1712 @@
-(()=>{var t,e,s,a={6919:(t,e,s)=>{"use strict";s.d(e,{A:()=>o});var a=s(71354),r=s.n(a),n=s(76314),i=s.n(n)()(r());i.push([t.id,".system-tag-form[data-v-2e1d5eac]{display:flex;flex-direction:column;max-width:400px;gap:8px 0}.system-tag-form__group[data-v-2e1d5eac]{display:flex;flex-direction:column}.system-tag-form__row[data-v-2e1d5eac]{margin-top:8px;display:flex;gap:0 4px}","",{version:3,sources:["webpack://./apps/systemtags/src/components/SystemTagForm.vue"],names:[],mappings:"AACA,kCACC,YAAA,CACA,qBAAA,CACA,eAAA,CACA,SAAA,CAEA,yCACC,YAAA,CACA,qBAAA,CAGD,uCACC,cAAA,CACA,YAAA,CACA,SAAA",sourcesContent:["\n.system-tag-form {\n\tdisplay: flex;\n\tflex-direction: column;\n\tmax-width: 400px;\n\tgap: 8px 0;\n\n\t&__group {\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t}\n\n\t&__row {\n\t\tmargin-top: 8px;\n\t\tdisplay: flex;\n\t\tgap: 0 4px;\n\t}\n}\n"],sourceRoot:""}]);const o=i},42634:()=>{},59169:()=>{},63779:()=>{},77199:()=>{},86833:()=>{},95869:(t,e,s)=>{"use strict";var a=s(21777),r=s(85471),n=s(59892),i=s(88837),o=s(53334),l=s(85168),d=s(97012),c=s(67607),g=s(5212),m=s(82182),u=s(71654);const p={userVisible:!0,userAssignable:!0,canAssign:!0};var y=s(65043),h=s(63814),v=s(60669);const b=(0,h.dC)("dav"),f=(0,v.UU)(b),A=t=>{f.setHeaders({"X-Requested-With":"XMLHttpRequest",requesttoken:t??""})};(0,a.zo)(A),A((0,a.do)());const T=(0,s(35947).YK)().setApp("systemtags").detectUser().build();var C=s(61338),_=s(56760);var w;!function(t){t.Public="Public",t.Restricted="Restricted",t.Invisible="Invisible"}(w||(w={}));const x=[{id:w.Public,label:(0,o.Tl)("systemtags","Public")},{id:w.Restricted,label:(0,o.Tl)("systemtags","Restricted")},{id:w.Invisible,label:(0,o.Tl)("systemtags","Invisible")}],N=(t,e)=>({[[!0,!0].join(",")]:w.Public,[[!0,!1].join(",")]:w.Restricted,[[!1,!1].join(",")]:w.Invisible}[[t,e].join(",")]),S=r.Ay.extend({name:"SystemTagForm",components:{NcButton:d.A,NcLoadingIcon:n.A,NcSelect:c.A,NcSelectTags:g.A,NcTextField:m.A},props:{tags:{type:Array,required:!0}},data:()=>({loading:!1,tagLevelOptions:x,selectedTag:null,errorMessage:"",tagName:"",tagLevel:w.Public}),watch:{selectedTag(t){this.tagName=t?t.displayName:"",this.tagLevel=t?N(t.userVisible,t.userAssignable):w.Public}},computed:{isCreating(){return null===this.selectedTag},isCreateDisabled(){return""===this.tagName},isUpdateDisabled(){return""===this.tagName||this.selectedTag?.displayName===this.tagName&&N(this.selectedTag?.userVisible,this.selectedTag?.userAssignable)===this.tagLevel},isResetDisabled(){return this.isCreating?""===this.tagName&&this.tagLevel===w.Public:null===this.selectedTag},userVisible(){return{[w.Public]:!0,[w.Restricted]:!0,[w.Invisible]:!1}[this.tagLevel]},userAssignable(){return{[w.Public]:!0,[w.Restricted]:!1,[w.Invisible]:!1}[this.tagLevel]},tagProperties(){return{displayName:this.tagName,userVisible:this.userVisible,userAssignable:this.userAssignable}}},methods:{t:o.Tl,async handleSubmit(){this.isCreating?await this.create():await this.update()},async create(){const t={...p,...this.tagProperties};this.loading=!0;try{const e=await(async t=>{const e=(t=>{if("name"in t&&!("displayName"in t))return{...t};const e={...t};return e.name=e.displayName,delete e.displayName,e})(t);try{const{headers:s}=await f.customRequest("/systemtags",{method:"POST",data:e}),a=s.get("content-location");if(a)return(0,C.Ic)("systemtags:tag:created",t),(t=>{const e=t.indexOf("?");e>0&&(t=t.substring(0,e));const s=t.split("/");let a;do{a=s[s.length-1],s.pop()}while(!a&&s.length>0);return Number(a)})(a);throw T.error((0,o.t)("systemtags",'Missing "Content-Location" header')),new Error((0,o.t)("systemtags",'Missing "Content-Location" header'))}catch(t){if(409===t?.response?.status)throw T.error((0,o.t)("systemtags","A tag with the same name already exists"),{error:t}),new Error((0,o.t)("systemtags","A tag with the same name already exists"));throw T.error((0,o.t)("systemtags","Failed to create tag"),{error:t}),new Error((0,o.t)("systemtags","Failed to create tag"))}})(t),s={...t,id:e};this.$emit("tag:created",s),(0,l.Te)((0,o.Tl)("systemtags","Created tag")),this.reset()}catch(t){this.errorMessage=(0,o.Tl)("systemtags","Failed to create tag")}this.loading=!1},async update(){if(null===this.selectedTag)return;const t={...this.selectedTag,...this.tagProperties};this.loading=!0;try{await(async t=>{const e="/systemtags/"+t.id,s=`<?xml version="1.0"?>\n\t<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n\t\t<d:set>\n\t\t\t<d:prop>\n\t\t\t\t<oc:display-name>${t.displayName}</oc:display-name>\n\t\t\t\t<oc:user-visible>${t.userVisible}</oc:user-visible>\n\t\t\t\t<oc:user-assignable>${t.userAssignable}</oc:user-assignable>\n\t\t\t\t<nc:color>${t?.color||null}</nc:color>\n\t\t\t</d:prop>\n\t\t</d:set>\n\t</d:propertyupdate>`;try{await f.customRequest(e,{method:"PROPPATCH",data:s}),(0,C.Ic)("systemtags:tag:updated",t)}catch(t){throw T.error((0,o.t)("systemtags","Failed to update tag"),{error:t}),new Error((0,o.t)("systemtags","Failed to update tag"))}})(t),this.selectedTag=t,this.$emit("tag:updated",t),(0,l.Te)((0,o.Tl)("systemtags","Updated tag")),this.$refs.tagNameInput?.focus()}catch(t){this.errorMessage=(0,o.Tl)("systemtags","Failed to update tag")}this.loading=!1},async handleDelete(){if(null!==this.selectedTag){this.loading=!0;try{await(async t=>{const e="/systemtags/"+t.id;try{await f.deleteFile(e),(0,C.Ic)("systemtags:tag:deleted",t)}catch(t){throw T.error((0,o.t)("systemtags","Failed to delete tag"),{error:t}),new Error((0,o.t)("systemtags","Failed to delete tag"))}})(this.selectedTag),this.$emit("tag:deleted",this.selectedTag),(0,l.Te)((0,o.Tl)("systemtags","Deleted tag")),this.reset()}catch(t){this.errorMessage=(0,o.Tl)("systemtags","Failed to delete tag")}this.loading=!1}},reset(){this.selectedTag=null,this.errorMessage="",this.tagName="",this.tagLevel=w.Public,this.$refs.tagNameInput?.focus()}}});var R=s(85072),P=s.n(R),k=s(97825),I=s.n(k),L=s(77659),O=s.n(L),D=s(55056),F=s.n(D),j=s(10540),E=s.n(j),M=s(41113),$=s.n(M),U=s(6919),B={};B.styleTagTransform=$(),B.setAttributes=F(),B.insert=O().bind(null,"head"),B.domAPI=I(),B.insertStyleElement=E(),P()(U.A,B),U.A&&U.A.locals&&U.A.locals;var V=s(14486);const q=(0,V.A)(S,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("form",{staticClass:"system-tag-form",attrs:{disabled:t.loading,"aria-labelledby":"system-tag-form-heading"},on:{submit:function(e){return e.preventDefault(),t.handleSubmit.apply(null,arguments)},reset:t.reset}},[e("h4",{attrs:{id:"system-tag-form-heading"}},[t._v("\n\t\t"+t._s(t.t("systemtags","Create or edit tags"))+"\n\t")]),t._v(" "),e("div",{staticClass:"system-tag-form__group"},[e("label",{attrs:{for:"system-tags-input"}},[t._v(t._s(t.t("systemtags","Search for a tag to edit")))]),t._v(" "),e("NcSelectTags",{attrs:{"input-id":"system-tags-input",placeholder:t.t("systemtags","Collaborative tags …"),"fetch-tags":!1,options:t.tags,multiple:!1,passthru:""},scopedSlots:t._u([{key:"no-options",fn:function(){return[t._v("\n\t\t\t\t"+t._s(t.t("systemtags","No tags to select"))+"\n\t\t\t")]},proxy:!0}]),model:{value:t.selectedTag,callback:function(e){t.selectedTag=e},expression:"selectedTag"}})],1),t._v(" "),e("div",{staticClass:"system-tag-form__group"},[e("label",{attrs:{for:"system-tag-name"}},[t._v(t._s(t.t("systemtags","Tag name")))]),t._v(" "),e("NcTextField",{ref:"tagNameInput",attrs:{id:"system-tag-name",value:t.tagName,error:Boolean(t.errorMessage),"helper-text":t.errorMessage,"label-outside":""},on:{"update:value":function(e){t.tagName=e}}})],1),t._v(" "),e("div",{staticClass:"system-tag-form__group"},[e("label",{attrs:{for:"system-tag-level"}},[t._v(t._s(t.t("systemtags","Tag level")))]),t._v(" "),e("NcSelect",{attrs:{"input-id":"system-tag-level",options:t.tagLevelOptions,reduce:t=>t.id,clearable:!1,disabled:t.loading},model:{value:t.tagLevel,callback:function(e){t.tagLevel=e},expression:"tagLevel"}})],1),t._v(" "),e("div",{staticClass:"system-tag-form__row"},[t.isCreating?e("NcButton",{attrs:{"native-type":"submit",disabled:t.isCreateDisabled||t.loading}},[t._v("\n\t\t\t"+t._s(t.t("systemtags","Create"))+"\n\t\t")]):[e("NcButton",{attrs:{"native-type":"submit",disabled:t.isUpdateDisabled||t.loading}},[t._v("\n\t\t\t\t"+t._s(t.t("systemtags","Update"))+"\n\t\t\t")]),t._v(" "),e("NcButton",{attrs:{disabled:t.loading},on:{click:t.handleDelete}},[t._v("\n\t\t\t\t"+t._s(t.t("systemtags","Delete"))+"\n\t\t\t")])],t._v(" "),e("NcButton",{attrs:{"native-type":"reset",disabled:t.isResetDisabled||t.loading}},[t._v("\n\t\t\t"+t._s(t.t("systemtags","Reset"))+"\n\t\t")]),t._v(" "),t.loading?e("NcLoadingIcon",{attrs:{name:t.t("systemtags","Loading …"),size:32}}):t._e()],2)])}),[],!1,null,"2e1d5eac",null).exports;var Y=s(32981);const z={name:"SystemTagsCreationControl",components:{NcCheckboxRadioSwitch:s(32073).A},setup:()=>({t:o.t}),data:()=>({systemTagsCreationRestrictedToAdmin:(0,Y.C)("systemtags","restrictSystemTagsCreationToAdmin",!1)}),methods:{async updateSystemTagsDefault(t){try{const e=await(async t=>{const e=t?"1":"0",s=(0,h.KT)("/apps/provisioning_api/api/v1/config/apps/{appId}/{key}",{appId:"systemtags",key:"restrict_creation_to_admin"});return await(0,_.C5)(),(await y.Ay.post(s,{value:e})).data})(t);console.debug("updateSystemTagsDefault",e),this.handleResponse({isRestricted:t,status:e.ocs?.meta?.status})}catch(t){this.handleResponse({errorMessage:(0,o.t)("systemtags","Unable to update setting"),error:t})}},handleResponse(t){let{isRestricted:e,status:s,errorMessage:a,error:r}=t;if("ok"===s)return this.systemTagsCreationRestrictedToAdmin=e,void(0,l.Te)(e?(0,o.t)("systemtags","System tag creation is now restricted to administrators"):(0,o.t)("systemtags","System tag creation is now allowed for everybody"));a&&((0,l.Qg)(a),T.error(a,r))}}},H=(0,V.A)(z,(function(){var t=this,e=t._self._c;return e("div",{attrs:{id:"system-tags-creation-control"}},[e("h4",{staticClass:"inlineblock"},[t._v("\n\t\t"+t._s(t.t("systemtags","System tag management"))+"\n\t")]),t._v(" "),e("p",{staticClass:"settings-hint"},[t._v("\n\t\t"+t._s(t.t("systemtags","If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files."))+"\n\t")]),t._v(" "),e("NcCheckboxRadioSwitch",{attrs:{type:"switch",checked:t.systemTagsCreationRestrictedToAdmin},on:{"update:checked":[function(e){t.systemTagsCreationRestrictedToAdmin=e},t.updateSystemTagsDefault]}},[t._v("\n\t\t"+t._s(t.t("systemtags","Restrict tag creation and editing to administrators"))+"\n\t")])],1)}),[],!1,null,null,null).exports,K=r.Ay.extend({name:"SystemTagsSection",components:{NcLoadingIcon:n.A,NcSettingsSection:i.A,SystemTagForm:q,SystemTagsCreationControl:H},data:()=>({loadingTags:!1,tags:[]}),async created(){this.loadingTags=!0;try{this.tags=await(async()=>{try{const{data:t}=await f.getDirectoryContents("/systemtags",{data:'<?xml version="1.0"?>\n<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n\t<d:prop>\n\t\t<oc:id />\n\t\t<oc:display-name />\n\t\t<oc:user-visible />\n\t\t<oc:user-assignable />\n\t\t<oc:can-assign />\n\t\t<d:getetag />\n\t\t<nc:color />\n\t</d:prop>\n</d:propfind>',details:!0,glob:"/systemtags/*"});return(t=>t.map((t=>{let{props:e}=t;return Object.fromEntries(Object.entries(e).map((t=>{let[e,s]=t;return[(0,u.A)(e),"displayName"===(0,u.A)(e)?String(s):s]})))})))(t)}catch(t){throw T.error((0,o.t)("systemtags","Failed to load tags"),{error:t}),new Error((0,o.t)("systemtags","Failed to load tags"))}})()}catch(t){(0,l.Qg)((0,o.Tl)("systemtags","Failed to load tags"))}this.loadingTags=!1},methods:{t:o.Tl,handleCreate(t){this.tags.unshift(t)},handleUpdate(t){const e=this.tags.findIndex((e=>e.id===t.id));this.tags.splice(e,1),this.tags.unshift(t)},handleDelete(t){const e=this.tags.findIndex((e=>e.id===t.id));this.tags.splice(e,1)}}}),Q=(0,V.A)(K,(function(){var t=this,e=t._self._c;return t._self._setupProxy,e("NcSettingsSection",{attrs:{name:t.t("systemtags","Collaborative tags"),description:t.t("systemtags","Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.")}},[e("SystemTagsCreationControl"),t._v(" "),t.loadingTags?e("NcLoadingIcon",{attrs:{name:t.t("systemtags","Loading collaborative tags …"),size:32}}):e("SystemTagForm",{attrs:{tags:t.tags},on:{"tag:created":t.handleCreate,"tag:updated":t.handleUpdate,"tag:deleted":t.handleDelete}})],1)}),[],!1,null,null,null).exports;s.nc=(0,a.aV)(),(new(r.Ay.extend(Q))).$mount("#vue-admin-systemtags")}},r={};function n(t){var e=r[t];if(void 0!==e)return e.exports;var s=r[t]={id:t,loaded:!1,exports:{}};return a[t].call(s.exports,s,s.exports,n),s.loaded=!0,s.exports}n.m=a,t=[],n.O=(e,s,a,r)=>{if(!s){var i=1/0;for(c=0;c<t.length;c++){s=t[c][0],a=t[c][1],r=t[c][2];for(var o=!0,l=0;l<s.length;l++)(!1&r||i>=r)&&Object.keys(n.O).every((t=>n.O[t](s[l])))?s.splice(l--,1):(o=!1,r<i&&(i=r));if(o){t.splice(c--,1);var d=a();void 0!==d&&(e=d)}}return e}r=r||0;for(var c=t.length;c>0&&t[c-1][2]>r;c--)t[c]=t[c-1];t[c]=[s,a,r]},n.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return n.d(e,{a:e}),e},n.d=(t,e)=>{for(var s in e)n.o(e,s)&&!n.o(t,s)&&Object.defineProperty(t,s,{enumerable:!0,get:e[s]})},n.f={},n.e=t=>Promise.all(Object.keys(n.f).reduce(((e,s)=>(n.f[s](t,e),e)),[])),n.u=t=>t+"-"+t+".js?v="+{640:"b2fa23a809053c6305c5",5771:"a4e2a98efcfb7393c5bd",5810:"8dfb2392d7107957a510",7432:"126e4e5eedf7af9a92fc"}[t],n.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),n.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),e={},s="nextcloud:",n.l=(t,a,r,i)=>{if(e[t])e[t].push(a);else{var o,l;if(void 0!==r)for(var d=document.getElementsByTagName("script"),c=0;c<d.length;c++){var g=d[c];if(g.getAttribute("src")==t||g.getAttribute("data-webpack")==s+r){o=g;break}}o||(l=!0,(o=document.createElement("script")).charset="utf-8",o.timeout=120,n.nc&&o.setAttribute("nonce",n.nc),o.setAttribute("data-webpack",s+r),o.src=t),e[t]=[a];var m=(s,a)=>{o.onerror=o.onload=null,clearTimeout(u);var r=e[t];if(delete e[t],o.parentNode&&o.parentNode.removeChild(o),r&&r.forEach((t=>t(a))),s)return s(a)},u=setTimeout(m.bind(null,void 0,{type:"timeout",target:o}),12e4);o.onerror=m.bind(null,o.onerror),o.onload=m.bind(null,o.onload),l&&document.head.appendChild(o)}},n.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),n.j=6349,(()=>{var t;n.g.importScripts&&(t=n.g.location+"");var e=n.g.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var s=e.getElementsByTagName("script");if(s.length)for(var a=s.length-1;a>-1&&(!t||!/^http(s?):/.test(t));)t=s[a--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),n.p=t})(),(()=>{n.b=document.baseURI||self.location.href;var t={6349:0};n.f.j=(e,s)=>{var a=n.o(t,e)?t[e]:void 0;if(0!==a)if(a)s.push(a[2]);else{var r=new Promise(((s,r)=>a=t[e]=[s,r]));s.push(a[2]=r);var i=n.p+n.u(e),o=new Error;n.l(i,(s=>{if(n.o(t,e)&&(0!==(a=t[e])&&(t[e]=void 0),a)){var r=s&&("load"===s.type?"missing":s.type),i=s&&s.target&&s.target.src;o.message="Loading chunk "+e+" failed.\n("+r+": "+i+")",o.name="ChunkLoadError",o.type=r,o.request=i,a[1](o)}}),"chunk-"+e,e)}},n.O.j=e=>0===t[e];var e=(e,s)=>{var a,r,i=s[0],o=s[1],l=s[2],d=0;if(i.some((e=>0!==t[e]))){for(a in o)n.o(o,a)&&(n.m[a]=o[a]);if(l)var c=l(n)}for(e&&e(s);d<i.length;d++)r=i[d],n.o(t,r)&&t[r]&&t[r][0](),t[r]=0;return n.O(c)},s=self.webpackChunknextcloud=self.webpackChunknextcloud||[];s.forEach(e.bind(null,0)),s.push=e.bind(null,s.push.bind(s))})(),n.nc=void 0;var i=n.O(void 0,[4208],(()=>n(95869)));i=n.O(i)})();
-//# sourceMappingURL=systemtags-admin.js.map?v=8d1f5205d8332a982bb7
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/systemtags/src/admin.ts":
+/*!**************************************!*\
+  !*** ./apps/systemtags/src/admin.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_SystemTagsSection_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/SystemTagsSection.vue */ "./apps/systemtags/src/views/SystemTagsSection.vue");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+__webpack_require__.nc = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCSPNonce)();
+const SystemTagsSectionView = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_views_SystemTagsSection_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new SystemTagsSectionView().$mount('#vue-admin-systemtags');
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagForm.vue":
+/*!**********************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagForm.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true */ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true");
+/* harmony import */ var _SystemTagForm_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemTagForm.vue?vue&type=script&lang=ts */ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts");
+/* harmony import */ var _SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true */ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _SystemTagForm_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "5e6ae519",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/systemtags/src/components/SystemTagForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagForm.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true":
+/*!*******************************************************************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true":
+/*!****************************************************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_template_id_5e6ae519_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagsCreationControl.vue":
+/*!**********************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagsCreationControl.vue ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemTagsCreationControl.vue?vue&type=template&id=ab380480 */ "./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480");
+/* harmony import */ var _SystemTagsCreationControl_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemTagsCreationControl.vue?vue&type=script&lang=ts */ "./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SystemTagsCreationControl_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/systemtags/src/components/SystemTagsCreationControl.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts":
+/*!**********************************************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsCreationControl_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagsCreationControl.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsCreationControl_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480":
+/*!****************************************************************************************************!*\
+  !*** ./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480 ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsCreationControl_vue_vue_type_template_id_ab380480__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagsCreationControl.vue?vue&type=template&id=ab380480 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480");
+
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/logger.ts":
+/*!***************************************!*\
+  !*** ./apps/systemtags/src/logger.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('systemtags').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/api.ts":
+/*!*********************************************!*\
+  !*** ./apps/systemtags/src/services/api.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createTag: () => (/* binding */ createTag),
+/* harmony export */   deleteTag: () => (/* binding */ deleteTag),
+/* harmony export */   fetchLastUsedTagIds: () => (/* binding */ fetchLastUsedTagIds),
+/* harmony export */   fetchTag: () => (/* binding */ fetchTag),
+/* harmony export */   fetchTags: () => (/* binding */ fetchTags),
+/* harmony export */   fetchTagsPayload: () => (/* binding */ fetchTagsPayload),
+/* harmony export */   getTagObjects: () => (/* binding */ getTagObjects),
+/* harmony export */   setTagObjects: () => (/* binding */ setTagObjects),
+/* harmony export */   updateSystemTagsAdminRestriction: () => (/* binding */ updateSystemTagsAdminRestriction),
+/* harmony export */   updateTag: () => (/* binding */ updateTag)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _davClient_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./davClient.js */ "./apps/systemtags/src/services/davClient.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./apps/systemtags/src/utils.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/systemtags/src/logger.ts");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+const fetchTagsPayload = `<?xml version="1.0"?>
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+	<d:prop>
+		<oc:id />
+		<oc:display-name />
+		<oc:user-visible />
+		<oc:user-assignable />
+		<oc:can-assign />
+		<d:getetag />
+		<nc:color />
+	</d:prop>
+</d:propfind>`;
+const fetchTags = async () => {
+  const path = '/systemtags';
+  try {
+    const {
+      data: tags
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.getDirectoryContents(path, {
+      data: fetchTagsPayload,
+      details: true,
+      glob: '/systemtags/*' // Filter out first empty tag
+    });
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseTags)(tags);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tags'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tags'));
+  }
+};
+const fetchTag = async tagId => {
+  const path = '/systemtags/' + tagId;
+  try {
+    const {
+      data: tag
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.stat(path, {
+      data: fetchTagsPayload,
+      details: true
+    });
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseTags)([tag])[0];
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tag'));
+  }
+};
+const fetchLastUsedTagIds = async () => {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/apps/systemtags/lastused');
+  try {
+    const {
+      data: lastUsedTagIds
+    } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+    return lastUsedTagIds.map(Number);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load last used tags'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load last used tags'));
+  }
+};
+/**
+ * Create a tag and return the Id of the newly created tag.
+ *
+ * @param tag The tag to create
+ */
+const createTag = async tag => {
+  const path = '/systemtags';
+  const tagToPost = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.formatTag)(tag);
+  try {
+    const {
+      headers
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+      method: 'POST',
+      data: tagToPost
+    });
+    const contentLocation = headers.get('content-location');
+    if (contentLocation) {
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:created', tag);
+      return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseIdFromLocation)(contentLocation);
+    }
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Missing "Content-Location" header'));
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Missing "Content-Location" header'));
+  } catch (error) {
+    if (error?.response?.status === 409) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'A tag with the same name already exists'), {
+        error
+      });
+      throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'A tag with the same name already exists'));
+    }
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to create tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to create tag'));
+  }
+};
+const updateTag = async tag => {
+  const path = '/systemtags/' + tag.id;
+  const data = `<?xml version="1.0"?>
+	<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+		<d:set>
+			<d:prop>
+				<oc:display-name>${tag.displayName}</oc:display-name>
+				<oc:user-visible>${tag.userVisible}</oc:user-visible>
+				<oc:user-assignable>${tag.userAssignable}</oc:user-assignable>
+				<nc:color>${tag?.color || null}</nc:color>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`;
+  try {
+    await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+      method: 'PROPPATCH',
+      data
+    });
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:updated', tag);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to update tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to update tag'));
+  }
+};
+const deleteTag = async tag => {
+  const path = '/systemtags/' + tag.id;
+  try {
+    await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.deleteFile(path);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:deleted', tag);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to delete tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to delete tag'));
+  }
+};
+const getTagObjects = async function (tag, type) {
+  const path = `/systemtags/${tag.id}/${type}`;
+  const data = `<?xml version="1.0"?>
+	<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:prop>
+			<nc:object-ids />
+			<d:getetag />
+		</d:prop>
+	</d:propfind>`;
+  const response = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.stat(path, {
+    data,
+    details: true
+  });
+  const etag = response?.data?.props?.getetag || '""';
+  const objects = Object.values(response?.data?.props?.['object-ids'] || []).flat();
+  return {
+    etag,
+    objects
+  };
+};
+/**
+ * Set the objects for a tag.
+ * Warning: This will overwrite the existing objects.
+ * @param tag The tag to set the objects for
+ * @param type The type of the objects
+ * @param objectIds The objects to set
+ * @param etag Strongly recommended to avoid conflict and data loss.
+ */
+const setTagObjects = async function (tag, type, objectIds) {
+  let etag = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  const path = `/systemtags/${tag.id}/${type}`;
+  let data = `<?xml version="1.0"?>
+	<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:set>
+			<d:prop>
+				<nc:object-ids>${objectIds.map(_ref => {
+    let {
+      id,
+      type
+    } = _ref;
+    return `<nc:object-id><nc:id>${id}</nc:id><nc:type>${type}</nc:type></nc:object-id>`;
+  }).join('')}</nc:object-ids>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`;
+  if (objectIds.length === 0) {
+    data = `<?xml version="1.0"?>
+		<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+			<d:remove>
+				<d:prop>
+					<nc:object-ids />
+				</d:prop>
+			</d:remove>
+		</d:propertyupdate>`;
+  }
+  await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+    method: 'PROPPATCH',
+    data,
+    headers: {
+      'if-match': etag
+    }
+  });
+};
+const updateSystemTagsAdminRestriction = async isAllowed => {
+  // Convert to string for compatibility
+  const isAllowedString = isAllowed ? '1' : '0';
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+    appId: 'systemtags',
+    key: 'restrict_creation_to_admin'
+  });
+  await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_7__.confirmPassword)();
+  const res = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, {
+    value: isAllowedString
+  });
+  return res.data;
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/davClient.ts":
+/*!***************************************************!*\
+  !*** ./apps/systemtags/src/services/davClient.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   davClient: () => (/* binding */ davClient)
+/* harmony export */ });
+/* harmony import */ var webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! webdav/dist/node/index.js */ "./node_modules/webdav/dist/node/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+// init webdav client
+const rootUrl = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateRemoteUrl)('dav');
+const davClient = (0,webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__.createClient)(rootUrl);
+// set CSRF token header
+const setHeaders = token => {
+  davClient.setHeaders({
+    // Add this so the server knows it is an request from the browser
+    'X-Requested-With': 'XMLHttpRequest',
+    // Inject user auth
+    requesttoken: token ?? ''
+  });
+};
+// refresh headers when request token changes
+(0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.onRequestTokenUpdate)(setHeaders);
+setHeaders((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.getRequestToken)());
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/utils.ts":
+/*!**************************************!*\
+  !*** ./apps/systemtags/src/utils.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultBaseTag: () => (/* binding */ defaultBaseTag),
+/* harmony export */   formatTag: () => (/* binding */ formatTag),
+/* harmony export */   getNodeSystemTags: () => (/* binding */ getNodeSystemTags),
+/* harmony export */   parseIdFromLocation: () => (/* binding */ parseIdFromLocation),
+/* harmony export */   parseTags: () => (/* binding */ parseTags),
+/* harmony export */   setNodeSystemTags: () => (/* binding */ setNodeSystemTags)
+/* harmony export */ });
+/* harmony import */ var camelcase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! camelcase */ "./node_modules/camelcase/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+const defaultBaseTag = {
+  userVisible: true,
+  userAssignable: true,
+  canAssign: true
+};
+const parseTags = tags => {
+  return tags.map(_ref => {
+    let {
+      props
+    } = _ref;
+    return Object.fromEntries(Object.entries(props).map(_ref2 => {
+      let [key, value] = _ref2;
+      return [(0,camelcase__WEBPACK_IMPORTED_MODULE_0__["default"])(key), (0,camelcase__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === 'displayName' ? String(value) : value];
+    }));
+  });
+};
+/**
+ * Parse id from `Content-Location` header
+ * @param url URL to parse
+ */
+const parseIdFromLocation = url => {
+  const queryPos = url.indexOf('?');
+  if (queryPos > 0) {
+    url = url.substring(0, queryPos);
+  }
+  const parts = url.split('/');
+  let result;
+  do {
+    result = parts[parts.length - 1];
+    parts.pop();
+    // note: first result can be empty when there is a trailing slash,
+    // so we take the part before that
+  } while (!result && parts.length > 0);
+  return Number(result);
+};
+const formatTag = initialTag => {
+  if ('name' in initialTag && !('displayName' in initialTag)) {
+    return {
+      ...initialTag
+    };
+  }
+  const tag = {
+    ...initialTag
+  };
+  tag.name = tag.displayName;
+  delete tag.displayName;
+  return tag;
+};
+const getNodeSystemTags = function (node) {
+  const attribute = node.attributes?.['system-tags']?.['system-tag'];
+  if (attribute === undefined) {
+    return [];
+  }
+  // if there is only one tag it is a single string or prop object
+  // if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+  return [attribute].flat().map(tag => typeof tag === 'string'
+  // its a plain text prop (the tag name) without prop attributes
+  ? tag
+  // its a prop object with attributes, the tag name is in the 'text' attribute
+  : tag.text);
+};
+const setNodeSystemTags = function (node, tags) {
+  vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(node.attributes, 'system-tags', {
+    'system-tag': tags
+  });
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/views/SystemTagsSection.vue":
+/*!*********************************************************!*\
+  !*** ./apps/systemtags/src/views/SystemTagsSection.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SystemTagsSection.vue?vue&type=template&id=32a39e09 */ "./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09");
+/* harmony import */ var _SystemTagsSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SystemTagsSection.vue?vue&type=script&lang=ts */ "./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SystemTagsSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/systemtags/src/views/SystemTagsSection.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts":
+/*!*********************************************************************************!*\
+  !*** ./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagsSection.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsSection_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09":
+/*!***************************************************************************************!*\
+  !*** ./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09 ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagsSection_vue_vue_type_template_id_32a39e09__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagsSection.vue?vue&type=template&id=32a39e09 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09");
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/components/NcLoadingIcon */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcSelect */ "./node_modules/@nextcloud/vue/dist/Components/NcSelect.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSelectTags__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcSelectTags */ "./node_modules/@nextcloud/vue/dist/Components/NcSelectTags.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils.js */ "./apps/systemtags/src/utils.ts");
+/* harmony import */ var _services_api_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/api.js */ "./apps/systemtags/src/services/api.ts");
+/* eslint-disable */
+
+
+
+
+
+
+
+
+
+
+var TagLevel;
+(function (TagLevel) {
+  TagLevel["Public"] = "Public";
+  TagLevel["Restricted"] = "Restricted";
+  TagLevel["Invisible"] = "Invisible";
+})(TagLevel || (TagLevel = {}));
+const tagLevelOptions = [{
+  id: TagLevel.Public,
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Public')
+}, {
+  id: TagLevel.Restricted,
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Restricted')
+}, {
+  id: TagLevel.Invisible,
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Invisible')
+}];
+const getTagLevel = (userVisible, userAssignable) => {
+  const matchLevel = {
+    [[true, true].join(',')]: TagLevel.Public,
+    [[true, false].join(',')]: TagLevel.Restricted,
+    [[false, false].join(',')]: TagLevel.Invisible
+  };
+  return matchLevel[[userVisible, userAssignable].join(',')];
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_9__["default"].extend({
+  name: 'SystemTagForm',
+  components: {
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_0__["default"],
+    NcLoadingIcon: _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
+    NcSelect: _nextcloud_vue_components_NcSelect__WEBPACK_IMPORTED_MODULE_2__["default"],
+    NcSelectTags: _nextcloud_vue_components_NcSelectTags__WEBPACK_IMPORTED_MODULE_3__["default"],
+    NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  props: {
+    tags: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      tagLevelOptions,
+      selectedTag: null,
+      errorMessage: '',
+      tagName: '',
+      tagLevel: TagLevel.Public
+    };
+  },
+  watch: {
+    selectedTag(tag) {
+      this.tagName = tag ? tag.displayName : '';
+      this.tagLevel = tag ? getTagLevel(tag.userVisible, tag.userAssignable) : TagLevel.Public;
+    }
+  },
+  computed: {
+    isCreating() {
+      return this.selectedTag === null;
+    },
+    isCreateDisabled() {
+      return this.tagName === '';
+    },
+    isUpdateDisabled() {
+      return this.tagName === '' || this.selectedTag?.displayName === this.tagName && getTagLevel(this.selectedTag?.userVisible, this.selectedTag?.userAssignable) === this.tagLevel;
+    },
+    isResetDisabled() {
+      if (this.isCreating) {
+        return this.tagName === '' && this.tagLevel === TagLevel.Public;
+      }
+      return this.selectedTag === null;
+    },
+    userVisible() {
+      const matchLevel = {
+        [TagLevel.Public]: true,
+        [TagLevel.Restricted]: true,
+        [TagLevel.Invisible]: false
+      };
+      return matchLevel[this.tagLevel];
+    },
+    userAssignable() {
+      const matchLevel = {
+        [TagLevel.Public]: true,
+        [TagLevel.Restricted]: false,
+        [TagLevel.Invisible]: false
+      };
+      return matchLevel[this.tagLevel];
+    },
+    tagProperties() {
+      return {
+        displayName: this.tagName,
+        userVisible: this.userVisible,
+        userAssignable: this.userAssignable
+      };
+    }
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate,
+    async handleSubmit() {
+      if (this.isCreating) {
+        await this.create();
+        return;
+      }
+      await this.update();
+    },
+    async create() {
+      const tag = {
+        ..._utils_js__WEBPACK_IMPORTED_MODULE_7__.defaultBaseTag,
+        ...this.tagProperties
+      };
+      this.loading = true;
+      try {
+        const id = await (0,_services_api_js__WEBPACK_IMPORTED_MODULE_8__.createTag)(tag);
+        const createdTag = {
+          ...tag,
+          id
+        };
+        this.$emit('tag:created', createdTag);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_6__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Created tag'));
+        this.reset();
+      } catch (error) {
+        this.errorMessage = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Failed to create tag');
+      }
+      this.loading = false;
+    },
+    async update() {
+      if (this.selectedTag === null) {
+        return;
+      }
+      const tag = {
+        ...this.selectedTag,
+        ...this.tagProperties
+      };
+      this.loading = true;
+      try {
+        await (0,_services_api_js__WEBPACK_IMPORTED_MODULE_8__.updateTag)(tag);
+        this.selectedTag = tag;
+        this.$emit('tag:updated', tag);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_6__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Updated tag'));
+        this.$refs.tagNameInput?.focus();
+      } catch (error) {
+        this.errorMessage = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Failed to update tag');
+      }
+      this.loading = false;
+    },
+    async handleDelete() {
+      if (this.selectedTag === null) {
+        return;
+      }
+      this.loading = true;
+      try {
+        await (0,_services_api_js__WEBPACK_IMPORTED_MODULE_8__.deleteTag)(this.selectedTag);
+        this.$emit('tag:deleted', this.selectedTag);
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_6__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Deleted tag'));
+        this.reset();
+      } catch (error) {
+        this.errorMessage = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('systemtags', 'Failed to delete tag');
+      }
+      this.loading = false;
+    },
+    reset() {
+      this.selectedTag = null;
+      this.errorMessage = '';
+      this.tagName = '';
+      this.tagLevel = TagLevel.Public;
+      this.$refs.tagNameInput?.focus();
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _services_api_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/api.js */ "./apps/systemtags/src/services/api.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/systemtags/src/logger.ts");
+/* harmony import */ var _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcCheckboxRadioSwitch */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'SystemTagsCreationControl',
+  components: {
+    NcCheckboxRadioSwitch: _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  setup() {
+    return {
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t
+    };
+  },
+  data() {
+    return {
+      // By default, system tags creation is not restricted to admins
+      systemTagsCreationRestrictedToAdmin: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('systemtags', 'restrictSystemTagsCreationToAdmin', false)
+    };
+  },
+  methods: {
+    async updateSystemTagsDefault(isRestricted) {
+      try {
+        const responseData = await (0,_services_api_js__WEBPACK_IMPORTED_MODULE_3__.updateSystemTagsAdminRestriction)(isRestricted);
+        console.debug('updateSystemTagsDefault', responseData);
+        this.handleResponse({
+          isRestricted,
+          status: responseData.ocs?.meta?.status
+        });
+      } catch (e) {
+        this.handleResponse({
+          errorMessage: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Unable to update setting'),
+          error: e
+        });
+      }
+    },
+    handleResponse(_ref) {
+      let {
+        isRestricted,
+        status,
+        errorMessage,
+        error
+      } = _ref;
+      if (status === 'ok') {
+        this.systemTagsCreationRestrictedToAdmin = isRestricted;
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showSuccess)(isRestricted ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'System tag creation is now restricted to administrators') : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'System tag creation is now allowed for everybody'));
+        return;
+      }
+      if (errorMessage) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)(errorMessage);
+        _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].error(errorMessage, error);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=script&lang=ts ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/components/NcLoadingIcon */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/components/NcSettingsSection */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _components_SystemTagForm_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/SystemTagForm.vue */ "./apps/systemtags/src/components/SystemTagForm.vue");
+/* harmony import */ var _components_SystemTagsCreationControl_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/SystemTagsCreationControl.vue */ "./apps/systemtags/src/components/SystemTagsCreationControl.vue");
+/* harmony import */ var _services_api_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/api.js */ "./apps/systemtags/src/services/api.ts");
+/* eslint-disable */
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (vue__WEBPACK_IMPORTED_MODULE_7__["default"].extend({
+  name: 'SystemTagsSection',
+  components: {
+    NcLoadingIcon: _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_0__["default"],
+    NcSettingsSection: _nextcloud_vue_components_NcSettingsSection__WEBPACK_IMPORTED_MODULE_1__["default"],
+    SystemTagForm: _components_SystemTagForm_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    SystemTagsCreationControl: _components_SystemTagsCreationControl_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  data() {
+    return {
+      loadingTags: false,
+      tags: []
+    };
+  },
+  async created() {
+    this.loadingTags = true;
+    try {
+      this.tags = await (0,_services_api_js__WEBPACK_IMPORTED_MODULE_6__.fetchTags)();
+    } catch (error) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('systemtags', 'Failed to load tags'));
+    }
+    this.loadingTags = false;
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate,
+    handleCreate(tag) {
+      this.tags.unshift(tag);
+    },
+    handleUpdate(tag) {
+      const tagIndex = this.tags.findIndex(currTag => currTag.id === tag.id);
+      this.tags.splice(tagIndex, 1);
+      this.tags.unshift(tag);
+    },
+    handleDelete(tag) {
+      const tagIndex = this.tags.findIndex(currTag => currTag.id === tag.id);
+      this.tags.splice(tagIndex, 1);
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=template&id=5e6ae519&scoped=true ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("form", {
+    staticClass: "system-tag-form",
+    attrs: {
+      disabled: _vm.loading,
+      "aria-labelledby": "system-tag-form-heading"
+    },
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.handleSubmit.apply(null, arguments);
+      },
+      reset: _vm.reset
+    }
+  }, [_c("h4", {
+    attrs: {
+      id: "system-tag-form-heading"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("systemtags", "Create or edit tags")) + "\n\t")]), _vm._v(" "), _c("div", {
+    staticClass: "system-tag-form__group"
+  }, [_c("label", {
+    attrs: {
+      for: "system-tags-input"
+    }
+  }, [_vm._v(_vm._s(_vm.t("systemtags", "Search for a tag to edit")))]), _vm._v(" "), _c("NcSelectTags", {
+    attrs: {
+      "input-id": "system-tags-input",
+      placeholder: _vm.t("systemtags", "Collaborative tags …"),
+      "fetch-tags": false,
+      options: _vm.tags,
+      multiple: false,
+      passthru: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "no-options",
+      fn: function () {
+        return [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("systemtags", "No tags to select")) + "\n\t\t\t")];
+      },
+      proxy: true
+    }]),
+    model: {
+      value: _vm.selectedTag,
+      callback: function ($$v) {
+        _vm.selectedTag = $$v;
+      },
+      expression: "selectedTag"
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "system-tag-form__group"
+  }, [_c("label", {
+    attrs: {
+      for: "system-tag-name"
+    }
+  }, [_vm._v(_vm._s(_vm.t("systemtags", "Tag name")))]), _vm._v(" "), _c("NcTextField", {
+    ref: "tagNameInput",
+    attrs: {
+      id: "system-tag-name",
+      value: _vm.tagName,
+      error: Boolean(_vm.errorMessage),
+      "helper-text": _vm.errorMessage,
+      "label-outside": ""
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.tagName = $event;
+      }
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "system-tag-form__group"
+  }, [_c("label", {
+    attrs: {
+      for: "system-tag-level"
+    }
+  }, [_vm._v(_vm._s(_vm.t("systemtags", "Tag level")))]), _vm._v(" "), _c("NcSelect", {
+    attrs: {
+      "input-id": "system-tag-level",
+      options: _vm.tagLevelOptions,
+      reduce: level => level.id,
+      clearable: false,
+      disabled: _vm.loading
+    },
+    model: {
+      value: _vm.tagLevel,
+      callback: function ($$v) {
+        _vm.tagLevel = $$v;
+      },
+      expression: "tagLevel"
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "system-tag-form__row"
+  }, [_vm.isCreating ? _c("NcButton", {
+    attrs: {
+      "native-type": "submit",
+      disabled: _vm.isCreateDisabled || _vm.loading
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("systemtags", "Create")) + "\n\t\t")]) : [_c("NcButton", {
+    attrs: {
+      "native-type": "submit",
+      disabled: _vm.isUpdateDisabled || _vm.loading
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("systemtags", "Update")) + "\n\t\t\t")]), _vm._v(" "), _c("NcButton", {
+    attrs: {
+      disabled: _vm.loading
+    },
+    on: {
+      click: _vm.handleDelete
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("systemtags", "Delete")) + "\n\t\t\t")])], _vm._v(" "), _c("NcButton", {
+    attrs: {
+      "native-type": "reset",
+      disabled: _vm.isResetDisabled || _vm.loading
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("systemtags", "Reset")) + "\n\t\t")]), _vm._v(" "), _vm.loading ? _c("NcLoadingIcon", {
+    attrs: {
+      name: _vm.t("systemtags", "Loading …"),
+      size: 32
+    }
+  }) : _vm._e()], 2)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagsCreationControl.vue?vue&type=template&id=ab380480 ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    attrs: {
+      id: "system-tags-creation-control"
+    }
+  }, [_c("h4", {
+    staticClass: "inlineblock"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("systemtags", "System tag management")) + "\n\t")]), _vm._v(" "), _c("p", {
+    staticClass: "settings-hint"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("systemtags", "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.")) + "\n\t")]), _vm._v(" "), _c("NcCheckboxRadioSwitch", {
+    attrs: {
+      type: "switch",
+      checked: _vm.systemTagsCreationRestrictedToAdmin
+    },
+    on: {
+      "update:checked": [function ($event) {
+        _vm.systemTagsCreationRestrictedToAdmin = $event;
+      }, _vm.updateSystemTagsDefault]
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("systemtags", "Restrict tag creation and editing to administrators")) + "\n\t")])], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09":
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/views/SystemTagsSection.vue?vue&type=template&id=32a39e09 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("NcSettingsSection", {
+    attrs: {
+      name: _vm.t("systemtags", "Collaborative tags"),
+      description: _vm.t("systemtags", "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.")
+    }
+  }, [_c("SystemTagsCreationControl"), _vm._v(" "), _vm.loadingTags ? _c("NcLoadingIcon", {
+    attrs: {
+      name: _vm.t("systemtags", "Loading collaborative tags …"),
+      size: 32
+    }
+  }) : _c("SystemTagForm", {
+    attrs: {
+      tags: _vm.tags
+    },
+    on: {
+      "tag:created": _vm.handleCreate,
+      "tag:updated": _vm.handleUpdate,
+      "tag:deleted": _vm.handleDelete
+    }
+  })], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.system-tag-form[data-v-5e6ae519] {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 8px 0;
+}
+.system-tag-form__group[data-v-5e6ae519] {
+  display: flex;
+  flex-direction: column;
+}
+.system-tag-form__row[data-v-5e6ae519] {
+  margin-top: 8px;
+  display: flex;
+  gap: 0 4px;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/systemtags/src/components/SystemTagForm.vue?vue&type=style&index=0&id=5e6ae519&lang=scss&scoped=true");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_SystemTagForm_vue_vue_type_style_index_0_id_5e6ae519_lang_scss_scoped_true__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "?0cc0":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?19e6":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?3e83":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?4f7e":
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?aeb7":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"0a21f85fb5edb886fad0","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"5414d4143400c9b713c3","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-391a6e":"87f84948225387ac2eec"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"systemtags-admin": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/systemtags/src/admin.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=systemtags-admin.js.map?v=9bfec5e00661b2e95a9f
