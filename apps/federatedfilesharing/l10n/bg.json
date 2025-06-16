@@ -19,6 +19,7 @@
     "Sharing" : "Споделяне",
     "Federated file sharing" : "Федерирано споделяне на файлове",
     "Provide federated file sharing across servers" : "Осигуряване на федерирано споделяне на файлове между сървъри",
+    "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Когато тази опция е включена, всички потребителски полета (напр. е-мейл адреси), които са със зададена видимост \"Публично\" ще бъдат автоматично синхронизирани и изпратени към външна система, която да ги направи достъпни чрез публична, глобална адресна книга.",
     "Unable to update federated files sharing config" : "Не може да се актуализира конфигурацията за споделяне на обединени файлове",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Споделете с мен чрез моя #Nextcloud Federated Cloud ID, вижте {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете с мен, чрез моя #Nextcloud Federated Cloud ID",
