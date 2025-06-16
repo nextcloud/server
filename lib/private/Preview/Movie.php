@@ -343,6 +343,8 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = '';
 		if (is_resource($proc)) {
+			stream_set_blocking($pipes[1], false);
+			stream_set_blocking($pipes[2], false);
 			// Read stderr before stdout: ffmpeg's stderr can exceed 64KB (OS pipe buffer) for certain
 			// files, causing a deadlock if stdout is read first. stdout is always empty.
 			$stderr = trim(stream_get_contents($pipes[2]));
