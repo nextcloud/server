@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework;
 
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
 use OCP\IConfig;
 use OCP\Server;
@@ -70,9 +71,10 @@ class App {
 					$setUpViaQuery = true;
 					break;
 				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === \ReflectionClass::class &&
-					$step['function'] === 'initializeLazyObject' &&
+					$step['class'] === SimpleContainer::class &&
+					preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function']) &&
 					$step['args'][0] === $this) {
+					/* We are setup through a lazy ghost, fine */
 					$setUpViaQuery = true;
 					break;
 				}
