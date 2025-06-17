@@ -332,11 +332,19 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		// if we rename a movable mount point, then the versions don't have
-		// to be renamed
+		// if we rename a movable mount point, then the versions don't have to be renamed
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
+
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user === null) {
+			return;
+		}
+
+		$absOldPath = Filesystem::normalizePath('/' . $user . '/files' . $oldPath);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
@@ -344,7 +352,7 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$view = new View(\OC_User::getUser() . '/files');
+		$view = new View($user . '/files');
 		if ($view->file_exists($newPath)) {
 			Storage::store($newPath);
 		} else {
