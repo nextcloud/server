@@ -22,12 +22,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
+use Psr\Container\ContainerInterface;
 
 /**
  * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
@@ -43,7 +43,7 @@ class DeletedShareAPIController extends OCSController {
 		private IGroupManager $groupManager,
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 	) {
 		parent::__construct($appName, $request);
 	}
