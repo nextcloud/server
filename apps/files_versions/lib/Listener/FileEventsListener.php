@@ -12,6 +12,7 @@ use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
@@ -443,7 +444,7 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
-		try {
+		if (!($node instanceof NonExistingFile) && !($node instanceof NonExistingFolder)) {
 			$this->logger->debug('Failed to compute path for node', [
 				'node' => [
 					'path' => $node->getPath(),
@@ -453,7 +454,7 @@ class FileEventsListener implements IEventListener {
 					'mtime' => $node->getMTime(),
 				]
 			]);
-		} catch (NotFoundException) {
+		} else {
 			$this->logger->debug('Failed to compute path for node', [
 				'node' => [
 					'path' => $node->getPath(),
