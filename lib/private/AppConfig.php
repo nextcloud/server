@@ -480,6 +480,7 @@ class AppConfig implements IAppConfig {
 
 		// in case the key was modified while running matchAndApplyLexiconDefinition() we are
 		// interested to check options in case a modification of the value is needed
+		// ie inverting value from previous key when using lexicon option RENAME_INVERT_BOOLEAN
 		if ($origKey !== $key && $type === self::VALUE_BOOL) {
 			$configManager = Server::get(ConfigManager::class);
 			$value = ($configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
