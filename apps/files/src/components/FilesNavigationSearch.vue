@@ -6,22 +6,56 @@
 <script setup lang="ts">
 import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
-import { computed } from 'vue'
+import { computed, onBeforeMount } from 'vue'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router/composables'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSearchStore } from '../store/search.ts'
+import { VIEW_ID } from '../views/search.ts'
+
+const { currentView } = useNavigation(true)
+const { directory } = useRouteParameters()
 
 const filesStore = useFilesStore()
 const searchStore = useSearchStore()
 
-const { directory } = useRouteParameters()
+const route = useRoute()
+
+/**
+ * Restore search from URL if mounted
+ */
+onBeforeMount(() => {
+	if (searchStore.query === '') {
+		const query = [route.query.query].flat()[0] ?? ''
+		if (query) {
+			searchStore.scope = 'globally'
+			searchStore.query = query
+		}
+	}
+})
+
+/**
+ * When the route is changed from search view to something different
+ * we need to clear the search box.
+ */
+onBeforeRouteUpdate((to, from, next) => {
+	if (from.params.view === VIEW_ID && to.params.view !== VIEW_ID) {
+		searchStore.query = ''
+	}
+	next()
+})
+
+/**
+ * Local search is only possible on real DAV resources within the files root
+ */
 const canSearchLocally = computed(() => {
-	const folder = filesStore.getDirectoryByPath(directory.value)
-	return folder?.isDavResource && folder?.root?.includes('/files/')
+	const folder = filesStore.getDirectoryByPath(currentView.value.id, directory.value)
+	return folder?.isDavResource && folder?.root?.startsWith('/files/')
 })
 
 /**
