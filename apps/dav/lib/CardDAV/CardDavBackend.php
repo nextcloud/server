@@ -922,16 +922,18 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				// Fetching all changes
 				$stmt = $qb->executeQuery();
+				$rowCount = $stmt->rowCount();
 
 				$changes = [];
+				$highestSyncToken = 0;
 
 				// This loop ensures that any duplicates are overwritten, only the
 				// last change on a node is relevant.
 				while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 					$changes[$row['uri']] = $row['operation'];
-					// get the last synctoken, needed in case a limit was set
-					$result['syncToken'] = $row['synctoken'];
+					$highestSyncToken = $row['synctoken'];
 				}
+
 				$stmt->closeCursor();
 
 				foreach ($changes as $uri => $operation) {
@@ -946,6 +948,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 							$result['deleted'][] = $uri;
 							break;
 					}
+				}
+
+				/*
+				 * The synctoken in oc_addressbooks is always the highest synctoken in oc_addressbookchanges for a given addressbook plus one (see addChange).
+				 *
+				 * For truncated results, it is expected that we return the highest token from the response, so the client can continue from the latest change.
+				 *
+				 * For non-truncated results, it is expected to return the currentToken. If we return the highest token, as with truncated results, the client will always think it is one change behind.
+				 *
+				 * Therefore, we differentiate between truncated and non-truncated results when returning the synctoken.
+				 */
+				if ($rowCount === $limit && $highestSyncToken < $currentToken) {
+					$result['syncToken'] = $highestSyncToken;
 				}
 			} else {
 				$qb = $this->db->getQueryBuilder();
