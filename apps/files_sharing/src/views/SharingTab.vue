@@ -100,7 +100,7 @@
 					:file-info="fileInfo"
 					@open-sharing-details="toggleShareDetailsView" />
 				<!-- link shares list -->
-				<SharingLinkList v-if="!loading"
+				<SharingLinkList v-if="!loading && isLinkSharingAllowed"
 					ref="linkShareList"
 					:can-reshare="canReshare"
 					:file-info="fileInfo"
@@ -157,6 +157,7 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -242,7 +243,24 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return Object.keys(this.sharedWithMe).length > 0
+			return this.sharedWithMe !== null
+				&& this.sharedWithMe !== undefined
+		},
+
+		/**
+		 * Is link sharing allowed for the current user?
+		 *
+		 * @return {boolean}
+		 */
+		isLinkSharingAllowed() {
+			const currentUser = getCurrentUser()
+			if (!currentUser) {
+				return false
+			}
+
+			const capabilities = getCapabilities()
+			const publicSharing = capabilities.files_sharing?.public || {}
+			return publicSharing.enabled === true
 		},
 
 		canReshare() {
@@ -257,6 +275,9 @@ export default {
 		},
 
 		externalShareInputPlaceholder() {
+			if (!this.isLinkSharingAllowed) {
+				return t('files_sharing', 'Federated cloud ID')
+			}
 			return this.config.showFederatedSharesAsInternal
 				? t('files_sharing', 'Email')
 				: t('files_sharing', 'Email, federated cloud ID')
