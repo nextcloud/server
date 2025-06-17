@@ -55,7 +55,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn('1');
+			->willReturn(['1', false]);
 
 		/** @var SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
@@ -114,7 +114,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn('0');
+			->willReturn(['0', false]);
 
 		/** @var SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
