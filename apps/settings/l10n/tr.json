@@ -763,7 +763,7 @@
     "Adding your device …" : "Aygıtınız ekleniyor …",
     "Unnamed device" : "Adsız aygıt",
     "Passwordless Authentication" : "Parolasız kimlik doğrulaması",
-    "Set up your account for passwordless authentication following the FIDO2 standard." : "Hesabınız için FIDO2 standardına uygun parolasız kimlik doğrulamasını kurun.",
+    "Set up your account for passwordless authentication following the FIDO2 standard." : "Hesabınız için FIDO2 standardına uygun parolasız kimlik doğrulamasını yapılandırın.",
     "No devices configured." : "Herhangi bir aygıt yapılandırılmamış.",
     "The following devices are configured for your account:" : "Hesabınız için şu aygıtlar yapılandırılmış:",
     "Your browser does not support WebAuthn." : "Tarayıcınız WebAuthn desteklemiyor.",
