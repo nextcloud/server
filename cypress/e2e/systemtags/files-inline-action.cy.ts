@@ -22,8 +22,10 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 	it('See first assigned tag in the file list', () => {
 		const tag = randomBytes(8).toString('base64')
 
+		cy.intercept('PROPFIND', `**/remote.php/dav/files/${user.userId}/file.txt`).as('getNode')
 		getRowForFile('file.txt').should('be.visible')
 		triggerActionForFile('file.txt', 'details')
+		cy.wait('@getNode')
 
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
@@ -36,13 +38,14 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 			.click()
 
 		cy.intercept('PUT', '**/remote.php/dav/systemtags-relations/files/**').as('assignTag')
-		cy.get('[data-cy-sidebar]')
-			.findByRole('combobox', { name: /collaborative tags/i })
-			.should('be.visible')
-			.type(`${tag}{enter}`)
-		cy.wait('@assignTag')
-		closeSidebar()
 
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
+
+		// Close the sidebar and reload to check the file list
+		closeSidebar()
 		cy.reload()
 
 		getRowForFile('file.txt')
@@ -56,8 +59,10 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 		const tag1 = randomBytes(5).toString('base64')
 		const tag2 = randomBytes(5).toString('base64')
 
+		cy.intercept('PROPFIND', `**/remote.php/dav/files/${user.userId}/file.txt`).as('getNode')
 		getRowForFile('file.txt').should('be.visible')
 		triggerActionForFile('file.txt', 'details')
+		cy.wait('@getNode')
 
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
@@ -70,17 +75,20 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 			.click()
 
 		cy.intercept('PUT', '**/remote.php/dav/systemtags-relations/files/**').as('assignTag')
-		cy.get('[data-cy-sidebar]').within(() => {
-			cy.findByRole('combobox', { name: /collaborative tags/i })
-				.should('be.visible')
-				.type(`${tag1}{enter}`)
-			cy.wait('@assignTag')
-			cy.findByRole('combobox', { name: /collaborative tags/i })
-				.should('be.visible')
-				.type(`${tag2}{enter}`)
-			cy.wait('@assignTag')
-		})
 
+		// Assign first tag
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag1}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
+
+		// Assign second tag
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag2}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
+
+		// Close the sidebar and reload to check the file list
 		closeSidebar()
 		cy.reload()
 
@@ -97,11 +105,10 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 		const tag2 = randomBytes(4).toString('base64')
 		const tag3 = randomBytes(4).toString('base64')
 
+		cy.intercept('PROPFIND', `**/remote.php/dav/files/${user.userId}/file.txt`).as('getNode')
 		getRowForFile('file.txt').should('be.visible')
-
-		cy.intercept('PROPFIND', '**/remote.php/dav/**').as('sidebarLoaded')
 		triggerActionForFile('file.txt', 'details')
-		cy.wait('@sidebarLoaded')
+		cy.wait('@getNode')
 
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
@@ -114,23 +121,26 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 			.click()
 
 		cy.intercept('PUT', '**/remote.php/dav/systemtags-relations/files/**').as('assignTag')
-		cy.get('[data-cy-sidebar]').within(() => {
-			cy.findByRole('combobox', { name: /collaborative tags/i })
-				.should('be.visible')
-				.type(`${tag1}{enter}`)
-			cy.wait('@assignTag')
 
-			cy.findByRole('combobox', { name: /collaborative tags/i })
-				.should('be.visible')
-				.type(`${tag2}{enter}`)
-			cy.wait('@assignTag')
+		// Assign first tag
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag1}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
 
-			cy.findByRole('combobox', { name: /collaborative tags/i })
-				.should('be.visible')
-				.type(`${tag3}{enter}`)
-			cy.wait('@assignTag')
-		})
+		// Assign second tag
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag2}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
 
+		// Assign third tag
+		getCollaborativeTagsInput()
+			.type(`{selectAll}${tag3}{enter}`)
+		cy.wait('@assignTag')
+		cy.wait('@getNode')
+
+		// Close the sidebar and reload to check the file list
 		closeSidebar()
 		cy.reload()
 
@@ -153,3 +163,10 @@ describe('Systemtags: Files integration', { testIsolation: true }, () => {
 			})
 	})
 })
+
+function getCollaborativeTagsInput(): Cypress.Chainable<JQuery<HTMLElement>> {
+	return cy.get('[data-cy-sidebar]')
+		.findByRole('combobox', { name: /collaborative tags/i })
+		.should('be.visible')
+		.should('not.have.attr', 'disabled', { timeout: 5000 })
+}
