@@ -44,7 +44,7 @@ class InfoParser {
 		}
 		$array = $this->xmlToArray($xml);
 
-		if (is_null($array)) {
+		if (is_string($array)) {
 			return null;
 		}
 
@@ -208,11 +208,7 @@ class InfoParser {
 		return $array;
 	}
 
-	/**
-	 * @param $data
-	 * @return bool
-	 */
-	private function isNavigationItem($data): bool {
+	private function isNavigationItem(array $data): bool {
 		// Allow settings navigation items with no route entry
 		$type = $data['type'] ?? 'link';
 		if ($type === 'settings') {
@@ -221,17 +217,17 @@ class InfoParser {
 		return isset($data['name'], $data['route']);
 	}
 
-	/**
-	 * @param \SimpleXMLElement $xml
-	 * @return array
-	 */
-	public function xmlToArray($xml) {
-		if (!$xml->children()) {
+	public function xmlToArray(\SimpleXMLElement $xml): array|string {
+		$children = $xml->children();
+		if ($children === null) {
 			return (string)$xml;
 		}
 
 		$array = [];
-		foreach ($xml->children() as $element => $node) {
+		foreach ($children as $element => $node) {
+			if ($element === null) {
+				throw new \InvalidArgumentException('xml contains a null element');
+			}
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
@@ -243,15 +239,18 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())) {
-					$value = (string)$node;
-					if (!empty($value)) {
-						$data['@value'] = $value;
+				$converted = $this->xmlToArray($node);
+				if (is_string($converted)) {
+					if (!empty($converted)) {
+						$data['@value'] = $converted;
 					}
 				} else {
-					$data = array_merge($data, $this->xmlToArray($node));
+					$data = array_merge($data, $converted);
 				}
 				foreach ($attributes as $attr => $value) {
+					if ($attr === null) {
+						throw new \InvalidArgumentException('xml contains a null element');
+					}
 					$data['@attributes'][$attr] = (string)$value;
 				}
 
