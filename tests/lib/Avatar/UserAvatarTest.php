@@ -27,7 +27,7 @@ class UserAvatarTest extends \Test\TestCase {
 	private SimpleFolder&MockObject $folder;
 	private IConfig&MockObject $config;
 	private User&MockObject $user;
-	
+
 	protected function setUp(): void {
 		parent::setUp();
 
