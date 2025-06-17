@@ -325,16 +325,7 @@ export default defineComponent({
 				return
 			}
 
-			if (this.directory === '/') {
-				return this.filesStore.getRoot(this.currentView.id)
-			}
-
-			const source = this.pathsStore.getPath(this.currentView.id, this.directory)
-			if (source === undefined) {
-				return
-			}
-
-			return this.filesStore.getNode(source) as Folder
+			return this.filesStore.getDirectoryByPath(this.currentView.id, this.directory)
 		},
 
 		dirContents(): Node[] {
