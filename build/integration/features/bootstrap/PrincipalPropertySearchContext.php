@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -120,8 +121,8 @@ class PrincipalPropertySearchContext implements Context {
 	 * @throws \Exception
 	 */
 	public function theHttpStatusCodeShouldBe(string $code): void {
-		if ((int)$code !== $this->response->getStatusCode()) {
-			throw new \Exception('Expected ' . (int)$code . ' got ' . $this->response->getStatusCode());
+		if ((int) $code !== $this->response->getStatusCode()) {
+			throw new \Exception('Expected ' . (int) $code . ' got ' . $this->response->getStatusCode());
 		}
 	}
 
