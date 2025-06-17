@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Оригинална локација",
     "Deleted by" : "Обрисао је",
     "Deleted" : "Обрисано",
+    "few seconds ago" : "пре неколико секунди",
     "A long time ago" : "Пре доста времена",
     "Unknown" : "Непознато",
     "All files" : "Сви фајлови",
