@@ -771,7 +771,7 @@ class AppManager implements IAppManager {
 		$data = $parser->parse($path);
 
 		if (is_array($data)) {
-			$data = \OC_App::parseAppInfo($data, $lang);
+			$data = $parser->applyL10N($data, $lang);
 		}
 
 		return $data;

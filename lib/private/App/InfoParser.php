@@ -23,7 +23,7 @@ class InfoParser {
 	 * @param string $file the xml file to be loaded
 	 * @return null|array where null is an indicator for an error
 	 */
-	public function parse($file) {
+	public function parse(string $file): ?array {
 		if (!file_exists($file)) {
 			return null;
 		}
@@ -219,7 +219,7 @@ class InfoParser {
 
 	public function xmlToArray(\SimpleXMLElement $xml): array|string {
 		$children = $xml->children();
-		if ($children === null) {
+		if ($children === null || count($children) === 0) {
 			return (string)$xml;
 		}
 
@@ -270,5 +270,79 @@ class InfoParser {
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Select the appropriate l10n version for fields name, summary and description
+	 */
+	public function applyL10N(array $data, ?string $lang = null): array {
+		if ($lang !== '' && $lang !== null) {
+			if (isset($data['name']) && is_array($data['name'])) {
+				$data['name'] = $this->findBestL10NOption($data['name'], $lang);
+			}
+			if (isset($data['summary']) && is_array($data['summary'])) {
+				$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
+			}
+			if (isset($data['description']) && is_array($data['description'])) {
+				$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
+			}
+		} elseif (isset($data['description']) && is_string($data['description'])) {
+			$data['description'] = trim($data['description']);
+		} else {
+			$data['description'] = '';
+		}
+
+		return $data;
+	}
+
+	protected function findBestL10NOption(array $options, string $lang): string {
+		// only a single option
+		if (isset($options['@value'])) {
+			return $options['@value'];
+		}
+
+		$fallback = $similarLangFallback = $englishFallback = false;
+
+		$lang = strtolower($lang);
+		$similarLang = $lang;
+		$pos = strpos($similarLang, '_');
+		if ($pos !== false && $pos > 0) {
+			// For "de_DE" we want to find "de" and the other way around
+			$similarLang = substr($lang, 0, $pos);
+		}
+
+		foreach ($options as $option) {
+			if (is_array($option)) {
+				if ($fallback === false) {
+					$fallback = $option['@value'];
+				}
+
+				if (!isset($option['@attributes']['lang'])) {
+					continue;
+				}
+
+				$attributeLang = strtolower($option['@attributes']['lang']);
+				if ($attributeLang === $lang) {
+					return $option['@value'];
+				}
+
+				if ($attributeLang === $similarLang) {
+					$similarLangFallback = $option['@value'];
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
+					if ($similarLangFallback === false) {
+						$similarLangFallback = $option['@value'];
+					}
+				}
+			} else {
+				$englishFallback = $option;
+			}
+		}
+
+		if ($similarLangFallback !== false) {
+			return $similarLangFallback;
+		} elseif ($englishFallback !== false) {
+			return $englishFallback;
+		}
+		return (string)$fallback;
 	}
 }
