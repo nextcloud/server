@@ -232,7 +232,7 @@ class FilenameValidator implements IFilenameValidator {
 		$forbiddenCharacters = $this->getForbiddenCharacters();
 
 		if ($charReplacement === null) {
-			$charReplacement = array_diff([' ', '_', '-'], $forbiddenCharacters);
+			$charReplacement = array_diff(['_', '-', ' '], $forbiddenCharacters);
 			$charReplacement = reset($charReplacement) ?: '';
 		}
 		if (mb_strlen($charReplacement) !== 1) {

@@ -43,7 +43,7 @@ interface IFilenameValidator {
 	 * If no sanitizing is needed the same name is returned.
 	 *
 	 * @param string $name The filename to sanitize
-	 * @param null|string $charReplacement Character to use for replacing forbidden ones - by default space, dash or underscore is used if allowed.
+	 * @param null|string $charReplacement Character to use for replacing forbidden ones - by default underscore, dash or space is used if allowed.
 	 * @throws \InvalidArgumentException if no character replacement was given (and the default could not be applied) or the replacement is not valid.
 	 * @since 32.0.0
 	 */
