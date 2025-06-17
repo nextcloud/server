@@ -205,7 +205,7 @@ class ConfigManager {
 	}
 
 	public function convertToInt(string $value): int {
-		if ($value !== ((string)((int)$value))) {
+		if (!is_numeric($value) || (float)$value <> (int)$value) {
 			throw new TypeConflictException('Value is not an integer');
 		}
 
@@ -213,7 +213,7 @@ class ConfigManager {
 	}
 
 	public function convertToFloat(string $value): float {
-		if ($value !== ((string)((float)$value))) {
+		if (!is_numeric($value)) {
 			throw new TypeConflictException('Value is not a float');
 		}
 
