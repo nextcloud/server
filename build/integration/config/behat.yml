@@ -80,6 +80,8 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+        - PrincipalPropertySearchContext:
+            baseUrl: http://localhost:8080
     federation:
       paths:
         - "%paths.base%/../federation_features"
