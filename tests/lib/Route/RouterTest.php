@@ -66,6 +66,12 @@ class RouterTest extends TestCase {
 		$this->appManager->expects(self::atLeastOnce())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects(self::atLeastOnce())
+			->method('isEnabledForUser')
+			->willReturn(true);
+		$this->appManager->expects(self::exactly(2))
+			->method('getEnabledApps')
+			->willReturn(['files', 'dav']);
 
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 
