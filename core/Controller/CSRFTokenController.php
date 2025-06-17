@@ -49,6 +49,7 @@ class CSRFTokenController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @NoTwoFactorRequired
 	 */
 	#[FrontpageRoute(verb: 'GET', url: '/csrftoken')]
 	public function index(): JSONResponse {
