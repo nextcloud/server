@@ -44,6 +44,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
@@ -110,8 +111,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerDeprecatedAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('userId', function (ContainerInterface $c): string {
-			return $c->get(IUserSession::class)->getSession()->get('user_id');
+		$this->registerService('userId', function (ContainerInterface $c): ?string {
+			return $c->get(ISession::class)->get('user_id');
 		});
 
 		$this->registerService('webRoot', function (ContainerInterface $c): string {
@@ -358,6 +359,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
 		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
+			return parent::query($name);
+		} elseif (str_starts_with($name, 'OC\\AppFramework\\Services\\')) {
+			/* AppFramework services are scoped to the application */
 			return parent::query($name);
 		}
 

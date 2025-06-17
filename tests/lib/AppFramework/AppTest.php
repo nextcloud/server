@@ -29,7 +29,7 @@ function rrmdir($directory) {
 
 
 class AppTest extends \Test\TestCase {
-	private $container;
+	private DIContainer $container;
 	private $io;
 	private $api;
 	private $controller;
@@ -55,8 +55,8 @@ class AppTest extends \Test\TestCase {
 		$this->controllerMethod = 'method';
 
 		$this->container[$this->controllerName] = $this->controller;
-		$this->container['Dispatcher'] = $this->dispatcher;
-		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
+		$this->container[Dispatcher::class] = $this->dispatcher;
+		$this->container[IOutput::class] = $this->io;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
@@ -165,7 +165,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testCoreApp(): void {
-		$this->container['AppName'] = 'core';
+		$this->container['appName'] = 'core';
 		$this->container['OC\Core\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
@@ -183,7 +183,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testSettingsApp(): void {
-		$this->container['AppName'] = 'settings';
+		$this->container['appName'] = 'settings';
 		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
@@ -201,7 +201,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testApp(): void {
-		$this->container['AppName'] = 'bar';
+		$this->container['appName'] = 'bar';
 		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
