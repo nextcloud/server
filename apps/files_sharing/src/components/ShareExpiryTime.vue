@@ -9,7 +9,7 @@
 				<NcButton v-if="expiryTime"
 					class="hint-icon"
 					type="tertiary"
-					:aria-label="t('files_sharing', 'Share expiration: ') + new Date(expiryTime).toLocaleString()">
+					:aria-label="t('files_sharing', 'Share expiration: {date}', { date: new Date(expiryTime).toLocaleString() })">
 					<template #icon>
 						<ClockIcon :size="20" />
 					</template>
