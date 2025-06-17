@@ -28,6 +28,7 @@ class CoreConfigLexicon implements IConfigLexicon {
 	public function getAppConfigs(): array {
 		return [
 			new ConfigLexiconEntry('lastcron', ValueType::INT, 0, 'timestamp of last cron execution'),
+			new ConfigLexiconEntry('loadedConfigPreset', ValueType::STRING, '', 'used to confirm the loading of config.preset', true),
 		];
 	}
 
