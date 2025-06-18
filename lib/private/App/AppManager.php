@@ -192,7 +192,7 @@ class AppManager implements IAppManager {
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getEnabledAppsForUser(IUser $user) {
 		$apps = $this->getInstalledAppsValues();
