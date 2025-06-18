@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\BackgroundJobs;
 
 use OC\Files\Mount\MoveableMount;
+use OC\FilesMetadata\Job\UpdateSingleMetadata;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -43,6 +44,13 @@ class GenerateMetadataJob extends TimedJob {
 
 	protected function run(mixed $argument): void {
 		if ($this->appConfig->getValueBool('core', 'metadataGenerationDone', false)) {
+			return;
+		}
+
+		// This prevent the job from piling up UpdateSingleMetadata jobs
+		$pendingUpdateSingleMetadataJobs = $this->jobList->countByClass(UpdateSingleMetadata::class);
+		if (isset($pendingUpdateSingleMetadataJobs[0]) && $pendingUpdateSingleMetadataJobs[0]['count'] > 1000) {
+			$this->logger->debug('Skipping metadata generation job as there are more than 1000 pending UpdateSingleMetadata jobs.');
 			return;
 		}
 
