@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Määra vastuvõetava jaosmeedia jaoks vaikimisi kaust",
     "Reset" : "Lähtesta",
     "Reset folder to system default" : "Kasuta süsteemi vaikimisi kausta",
-    "Share expiration: " : "Jagamise aegumine:",
     "Share Expiration" : "Jagamise aegumine",
     "group" : "grupp",
     "conversation" : "vestlus",

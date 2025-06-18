@@ -73,6 +73,7 @@
     "Empty file" : "Leeg bestand",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Module met ID: %s bestaat niet. Schakel die in binnen de app-instellingen of neem contact op met je beheerder.",
     "Dot files are not allowed" : "Punt-bestanden zijn niet toegestaan",
+    "renamed file" : "bestand hernoemd",
     "File already exists" : "Bestand bestaat al",
     "Invalid path" : "Ongeldig pad",
     "Failed to create file from template" : "Kon geen bestand van het sjabloon maken",

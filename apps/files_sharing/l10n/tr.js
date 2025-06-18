@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Onaylanmış paylaşımların varsayılan klasörünü ayarlayın",
     "Reset" : "Sıfırla",
     "Reset folder to system default" : "Sistem varsayılan klasörüne sıfırlar",
-    "Share expiration: " : "Paylaşım geçerlilik sonu:",
     "Share Expiration" : "Paylaşım geçerlilik sonu",
     "group" : "grup",
     "conversation" : "görüşme",

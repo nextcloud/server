@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Definir pasta padrão para compartilhamentos aceitos",
     "Reset" : "Redefinir",
     "Reset folder to system default" : "Redefinir pasta para o padrão do sistema",
-    "Share expiration: " : "Expiração do compartilhamento:",
     "Share Expiration" : "Expiração do Compartilhamento",
     "group" : "grupo",
     "conversation" : "conversa",

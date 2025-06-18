@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Imposta cartella predefinita per condivisioni accettate",
     "Reset" : "Ripristina",
     "Reset folder to system default" : "Ripristina la cartella alla predefinita di sistema",
-    "Share expiration: " : "Scadenza condivisione:",
     "Share Expiration" : "Scadenza Condivisione",
     "group" : "gruppo",
     "conversation" : "conversazione",

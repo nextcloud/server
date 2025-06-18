@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Socraigh fillteán réamhshocraithe le haghaidh scaireanna glactha",
     "Reset" : "Athshocraigh",
     "Reset folder to system default" : "Athshocraigh an fillteán go réamhshocrú an chórais",
-    "Share expiration: " : "Éaga scaireanna:",
     "Share Expiration" : "Comhroinn Éaga",
     "group" : "grúpa",
     "conversation" : "comhrá",

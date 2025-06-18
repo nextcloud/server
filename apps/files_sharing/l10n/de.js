@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Standardordner für angenommene Freigaben",
     "Reset" : "Zurücksetzen",
     "Reset folder to system default" : "Ordner auf Systemstandard zurücksetzen",
-    "Share expiration: " : "Freigabe-Ablaufdatum:",
     "Share Expiration" : "Freigabe-Ablaufdatum",
     "group" : "Gruppe",
     "conversation" : "Unterhaltung",

@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Nastaviť predvolený priečinok pre prijaté zdieľania",
     "Reset" : "Resetovať",
     "Reset folder to system default" : "Obnoviť priečinok na predvolené hodnoty systému",
-    "Share expiration: " : "Vypršanie platnosti zdieľania:",
     "Share Expiration" : "Vypršanie platnosti zdieľania",
     "group" : "skupina",
     "conversation" : "rozhovor",

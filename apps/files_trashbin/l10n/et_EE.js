@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Algasukoht",
     "Deleted by" : "Kustutas",
     "Deleted" : "Kustutatud",
+    "few seconds ago" : "mõne sekundi eest",
     "A long time ago" : "Pikka aega tagasi",
     "Unknown" : "Teadmata",
     "All files" : "Kõik failid",
