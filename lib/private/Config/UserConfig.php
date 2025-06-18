@@ -1720,7 +1720,7 @@ class UserConfig implements IUserConfig {
 			} else {
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
-			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)$row['flags']];
+			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)($row['flags'] ?? 0)];
 		}
 		$result->closeCursor();
 		$this->setAsLoaded($userId, $lazy);
