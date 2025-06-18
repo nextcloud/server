@@ -10,56 +10,60 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Service;
 
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\Service\DefaultContactService;
+use OCA\DAV\Service\ExampleContactService;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 use Test\TestCase;
 
-class DefaultContactServiceTest extends TestCase {
-	protected DefaultContactService $service;
+class ExampleContactServiceTest extends TestCase {
+	protected ExampleContactService $service;
 	protected CardDavBackend&MockObject $cardDav;
 	protected IAppManager&MockObject $appManager;
 	protected IAppDataFactory&MockObject $appDataFactory;
 	protected LoggerInterface&MockObject $logger;
-	protected IAppConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
+	protected IAppData&MockObject $appData;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->cardDav = $this->createMock(CardDavBackend::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->config = $this->createMock(IAppConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
-		$this->service = new DefaultContactService(
-			$this->cardDav,
-			$this->appManager,
+		$this->appData = $this->createMock(IAppData::class);
+		$this->appDataFactory->method('get')
+			->with('dav')
+			->willReturn($this->appData);
+
+		$this->service = new ExampleContactService(
 			$this->appDataFactory,
-			$this->config,
+			$this->appConfig,
 			$this->logger,
+			$this->cardDav,
 		);
 	}
 
 	public function testCreateDefaultContactWithInvalidCard(): void {
 		// Invalid vCard missing required FN property
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nEND:VCARD";
-		$this->config->method('getValueString')->willReturn('yes');
-		$appData = $this->createMock(IAppData::class);
+		$this->appConfig->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($vcardContent);
 		$folder->method('getFile')->willReturn($file);
-		$appData->method('getFolder')->willReturn($folder);
-		$this->appDataFactory->method('get')->willReturn($appData);
+		$this->appData->method('getFolder')->willReturn($folder);
 
 		$this->logger->expects($this->once())
 			->method('error')
@@ -76,14 +80,14 @@ class DefaultContactServiceTest extends TestCase {
 		$originalRev = '20200101T000000Z';
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nFN:Test User\nUID:$originalUid\nREV:$originalRev\nEND:VCARD";
 
-		$this->config->method('getValueString')->willReturn('yes');
-		$appData = $this->createMock(IAppData::class);
+		$this->appConfig->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($vcardContent);
 		$folder->method('getFile')->willReturn($file);
-		$appData->method('getFolder')->willReturn($folder);
-		$this->appDataFactory->method('get')->willReturn($appData);
+		$this->appData->method('getFolder')->willReturn($folder);
 
 		$capturedCardData = null;
 		$this->cardDav->expects($this->once())
@@ -107,10 +111,10 @@ class DefaultContactServiceTest extends TestCase {
 	}
 
 	public function testDefaultContactFileDoesNotExist(): void {
-		$appData = $this->createMock(IAppData::class);
-		$this->config->method('getValueString')->willReturn('yes');
-		$appData->method('getFolder')->willThrowException(new NotFoundException());
-		$this->appDataFactory->method('get')->willReturn($appData);
+		$this->appConfig->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn(true);
+		$this->appData->method('getFolder')->willThrowException(new NotFoundException());
 
 		$this->cardDav->expects($this->never())
 			->method('createCard');
@@ -121,14 +125,14 @@ class DefaultContactServiceTest extends TestCase {
 	public function testUidAndRevAreAddedIfMissing(): void {
 		$vcardContent = "BEGIN:VCARD\nVERSION:3.0\nFN:Test User\nEND:VCARD";
 
-		$this->config->method('getValueString')->willReturn('yes');
-		$appData = $this->createMock(IAppData::class);
+		$this->appConfig->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn(true);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getContent')->willReturn($vcardContent);
 		$folder->method('getFile')->willReturn($file);
-		$appData->method('getFolder')->willReturn($folder);
-		$this->appDataFactory->method('get')->willReturn($appData);
+		$this->appData->method('getFolder')->willReturn($folder);
 
 		$capturedCardData = 'new-card-data';
 
@@ -154,12 +158,37 @@ class DefaultContactServiceTest extends TestCase {
 	}
 
 	public function testDefaultContactIsNotCreatedIfEnabled(): void {
-		$this->config->method('getValueString')->willReturn('no');
+		$this->appConfig->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn(false);
 		$this->logger->expects($this->never())
 			->method('error');
 		$this->cardDav->expects($this->never())
 			->method('createCard');
 
 		$this->service->createDefaultContact(123);
+	}
+
+	public static function provideDefaultContactEnableData(): array {
+		return [[true], [false]];
+	}
+
+	/** @dataProvider provideDefaultContactEnableData */
+	public function testIsDefaultContactEnabled(bool $enabled): void {
+		$this->appConfig->expects(self::once())
+			->method('getAppValueBool')
+			->with('enableDefaultContact', true)
+			->willReturn($enabled);
+
+		$this->assertEquals($enabled, $this->service->isDefaultContactEnabled());
+	}
+
+	/** @dataProvider provideDefaultContactEnableData */
+	public function testSetDefaultContactEnabled(bool $enabled): void {
+		$this->appConfig->expects(self::once())
+			->method('setAppValueBool')
+			->with('enableDefaultContact', $enabled);
+
+		$this->service->setDefaultContactEnabled($enabled);
 	}
 }

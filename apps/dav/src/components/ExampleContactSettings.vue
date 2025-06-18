@@ -63,7 +63,7 @@ import IconCheck from '@mdi/svg/svg/check.svg?raw'
 import logger from '../service/logger.js'
 import ExampleContentDownloadButton from './ExampleContentDownloadButton.vue'
 
-const enableDefaultContact = loadState('dav', 'enableDefaultContact') === 'yes'
+const enableDefaultContact = loadState('dav', 'enableDefaultContact')
 const hasCustomDefaultContact = loadState('dav', 'hasCustomDefaultContact')
 
 export default {
@@ -106,7 +106,7 @@ export default {
 	methods: {
 		updateEnableDefaultContact() {
 			axios.put(generateUrl('apps/dav/api/defaultcontact/config'), {
-				allow: this.enableDefaultContact ? 'no' : 'yes',
+				allow: !this.enableDefaultContact,
 			}).then(() => {
 				this.enableDefaultContact = !this.enableDefaultContact
 			}).catch(() => {

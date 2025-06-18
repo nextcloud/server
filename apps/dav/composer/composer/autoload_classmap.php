@@ -366,7 +366,7 @@ return array(
     'OCA\\DAV\\Server' => $baseDir . '/../lib/Server.php',
     'OCA\\DAV\\ServerFactory' => $baseDir . '/../lib/ServerFactory.php',
     'OCA\\DAV\\Service\\AbsenceService' => $baseDir . '/../lib/Service/AbsenceService.php',
-    'OCA\\DAV\\Service\\DefaultContactService' => $baseDir . '/../lib/Service/DefaultContactService.php',
+    'OCA\\DAV\\Service\\ExampleContactService' => $baseDir . '/../lib/Service/ExampleContactService.php',
     'OCA\\DAV\\Service\\ExampleEventService' => $baseDir . '/../lib/Service/ExampleEventService.php',
     'OCA\\DAV\\Settings\\Admin\\SystemAddressBookSettings' => $baseDir . '/../lib/Settings/Admin/SystemAddressBookSettings.php',
     'OCA\\DAV\\Settings\\AvailabilitySettings' => $baseDir . '/../lib/Settings/AvailabilitySettings.php',

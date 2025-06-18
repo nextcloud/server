@@ -381,7 +381,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Server' => __DIR__ . '/..' . '/../lib/Server.php',
         'OCA\\DAV\\ServerFactory' => __DIR__ . '/..' . '/../lib/ServerFactory.php',
         'OCA\\DAV\\Service\\AbsenceService' => __DIR__ . '/..' . '/../lib/Service/AbsenceService.php',
-        'OCA\\DAV\\Service\\DefaultContactService' => __DIR__ . '/..' . '/../lib/Service/DefaultContactService.php',
+        'OCA\\DAV\\Service\\ExampleContactService' => __DIR__ . '/..' . '/../lib/Service/ExampleContactService.php',
         'OCA\\DAV\\Service\\ExampleEventService' => __DIR__ . '/..' . '/../lib/Service/ExampleEventService.php',
         'OCA\\DAV\\Settings\\Admin\\SystemAddressBookSettings' => __DIR__ . '/..' . '/../lib/Settings/Admin/SystemAddressBookSettings.php',
         'OCA\\DAV\\Settings\\AvailabilitySettings' => __DIR__ . '/..' . '/../lib/Settings/AvailabilitySettings.php',

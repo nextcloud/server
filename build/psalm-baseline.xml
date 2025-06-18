@@ -782,12 +782,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Controller/ExampleContentController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
     <UndefinedPropertyAssignment>
       <code><![CDATA[$vEvent->DTSTAMP]]></code>
@@ -1017,11 +1011,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Settings/CalDAVSettings.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Settings/ExampleContentSettings.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
