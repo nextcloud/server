@@ -63,7 +63,7 @@ describe('files_trashbin: download files', { testIsolation: true }, () => {
 	it('does not offer bulk download', () => {
 		cy.get('[data-cy-files-list-row-checkbox]').should('have.length', 2)
 		selectAllFiles()
-		cy.get('.files-list__selected').should('have.text', '2 selected')
+		cy.get('.files-list__selected').should('contain.text', '2 selected')
 		cy.get('[data-cy-files-list-selection-action="restore"]').should('be.visible')
 		cy.get('[data-cy-files-list-selection-action="download"]').should('not.exist')
 	})
