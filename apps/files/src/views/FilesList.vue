@@ -449,7 +449,7 @@ export default defineComponent({
 		 * Update the window title to match the page heading
 		 */
 		 pageHeading() {
-			document.title = `${this.pageHeading} - ${getCapabilities().theming?.productName ?? 'Nextcloud'}`
+			document.title = `${this.pageHeading} - ${getCapabilities().theming?.name ?? 'Nextcloud'}`
 		},
 
 		currentView(newView, oldView) {
@@ -494,7 +494,7 @@ export default defineComponent({
 
 		// Reload on settings change
 		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
-		
+
 		// Finally, fetch the current directory contents
 		await this.fetchContent()
 		if (this.fileId) {
