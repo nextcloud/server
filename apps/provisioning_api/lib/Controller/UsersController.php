@@ -21,6 +21,7 @@ use OCA\Settings\Settings\Admin\Users;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -79,6 +80,7 @@ class UsersController extends AUserDataOCSController {
 		private KnownUserService $knownUserService,
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
+		private IAppManager $appManager,
 	) {
 		parent::__construct(
 			$appName,
@@ -707,6 +709,19 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
+	}
+
+	/**
+	 * Get a list of enabled apps for the current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apps: list<string>}, array{}>
+	 *
+	 * 200: Enabled apps returned
+	 */
+	#[NoAdminRequired]
+	public function getEnabledApps(): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		return new DataResponse(['apps' => $this->appManager->getEnabledAppsForUser($currentLoggedInUser)]);
 	}
 
 	/**

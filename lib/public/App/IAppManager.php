@@ -184,7 +184,7 @@ interface IAppManager {
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user
-	 * @return string[]
+	 * @return list<string>
 	 * @since 8.1.0
 	 */
 	public function getEnabledAppsForUser(IUser $user);
