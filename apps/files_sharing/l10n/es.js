@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Establecer la carpeta por defecto para los recursos compartidos aceptados",
     "Reset" : "Restaurar",
     "Reset folder to system default" : "Restaurar la carpeta por defecto del sistema",
-    "Share expiration: " : "El recurso compartido caduca:",
     "Share Expiration" : "Caducidad del recurso compartido",
     "group" : "grupo",
     "conversation" : "conversación",

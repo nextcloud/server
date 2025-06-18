@@ -184,7 +184,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Встановити типовий каталог для прийнятих спільних ресурсів",
     "Reset" : "Скидання",
     "Reset folder to system default" : "Відновити типові системні налаштування для каталогу",
-    "Share expiration: " : "Термін дії спільного ресурсу:",
     "Share Expiration" : "Термін дії спільного ресурсу:",
     "group" : "група",
     "conversation" : "розмова",

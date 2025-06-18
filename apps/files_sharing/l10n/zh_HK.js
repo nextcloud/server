@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "為已接受的分享選擇一個默認資料夾",
     "Reset" : "重設",
     "Reset folder to system default" : "將資料夾重置為系統默認值",
-    "Share expiration: " : "共享有效期‌：",
     "Share Expiration" : "共享有效期‌",
     "group" : "群組",
     "conversation" : "對話",

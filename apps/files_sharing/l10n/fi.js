@@ -130,7 +130,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Aseta oletuskansio hyväksytyille jaoille",
     "Reset" : "Palauta",
     "Reset folder to system default" : "Palauta kansio järjestelmän oletukseksi",
-    "Share expiration: " : "Jaon vanhentuminen:",
     "group" : "ryhmä",
     "conversation" : "keskustelu",
     "remote" : "etä",
