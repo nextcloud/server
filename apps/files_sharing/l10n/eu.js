@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Ezarri onartutako partekatzeen karpeta lehenetsia",
     "Reset" : "Berrezarri",
     "Reset folder to system default" : "Berrezarri karpeta sistemaren balio lehenetsietara",
-    "Share expiration: " : "Partekatzearen iraungitze-data:",
     "Share Expiration" : "Partekatzearen iraungitze-data",
     "group" : "taldea",
     "conversation" : "elkarrizketa",

@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "设置已接受共享的默认文件夹",
     "Reset" : "重置",
     "Reset folder to system default" : "重置文件夹为系统默认值",
-    "Share expiration: " : "共享有效期‌：",
     "Share Expiration" : "共享有效期‌",
     "group" : "分组",
     "conversation" : "会话",
