@@ -54,7 +54,7 @@ Feature: Windows compatible filenames
 		And invoking occ with "files:windows-compatible-filenames --enable"
 		And invoking occ with "files:sanitize-filenames user0"
 		Then as "user0" the file "/2*2=4.txt" does not exist
-		And as "user0" the file "/2 2=4.txt" exists
+		And as "user0" the file "/2_2=4.txt" exists
 
 	Scenario: renaming a file with invalid character and replacement setup
 		Given As an "admin"
