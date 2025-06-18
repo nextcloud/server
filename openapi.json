@@ -4047,6 +4047,7 @@
                         "type": "object",
                         "required": [
                             "name",
+                            "productName",
                             "url",
                             "slogan",
                             "color",
@@ -4064,6 +4065,9 @@
                         ],
                         "properties": {
                             "name": {
+                                "type": "string"
+                            },
+                            "productName": {
                                 "type": "string"
                             },
                             "url": {
