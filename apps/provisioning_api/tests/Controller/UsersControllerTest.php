@@ -20,6 +20,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -64,6 +65,7 @@ class UsersControllerTest extends TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
+	private IAppManager $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -84,6 +86,7 @@ class UsersControllerTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
@@ -110,6 +113,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -501,6 +505,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -3796,6 +3801,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3887,6 +3893,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
