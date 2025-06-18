@@ -1649,6 +1649,7 @@ return array(
     'OC\\Files\\ObjectStore\\Mapper' => $baseDir . '/lib/private/Files/ObjectStore/Mapper.php',
     'OC\\Files\\ObjectStore\\ObjectStoreScanner' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
     'OC\\Files\\ObjectStore\\ObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
+    'OC\\Files\\ObjectStore\\ObjectStoreUpdater' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreUpdater.php',
     'OC\\Files\\ObjectStore\\PrimaryObjectStoreConfig' => $baseDir . '/lib/private/Files/ObjectStore/PrimaryObjectStoreConfig.php',
     'OC\\Files\\ObjectStore\\S3' => $baseDir . '/lib/private/Files/ObjectStore/S3.php',
     'OC\\Files\\ObjectStore\\S3ConfigTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConfigTrait.php',
