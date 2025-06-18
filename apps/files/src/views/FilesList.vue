@@ -483,13 +483,6 @@ export default defineComponent({
 
 	watch: {
 		/**
-		 * Update the window title to match the page heading
-		 */
-		pageHeading() {
-			document.title = `${this.pageHeading} - ${getCapabilities().theming?.name ?? 'Nextcloud'}`
-		},
-
-		/**
 		 * Handle rendering the custom empty view
 		 * @param show The current state if the custom empty view should be rendered
 		 */
