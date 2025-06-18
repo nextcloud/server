@@ -46,26 +46,16 @@ class GenerateMetadataJob extends TimedJob {
 			return;
 		}
 
-		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
+		$offset = $this->appConfig->getValueInt('core', 'metadataGenerationOffset', 0);
+		$users = $this->userManager->getSeenUsers($offset);
 
-		$users = $this->userManager->search('');
+		$startTime = time();
 
-		// we'll only start timer once we have found a valid user to handle
-		// meaning NOW if we have not handled any user from a previous run
-		$startTime = ($lastHandledUser === '') ? time() : null;
 		foreach ($users as $user) {
-			$userId = $user->getUID();
+			$this->appConfig->getValueInt('core', 'metadataGenerationOffset', ++$offset);
 
-			// if we already handled a previous run, we start timer only when we face the last handled user
-			if ($startTime === null) {
-				if ($userId === $lastHandledUser) {
-					$startTime = time();
-				}
-				continue;
-			}
-
-			$this->appConfig->setValueString('core', 'metadataGenerationLastHandledUser', $userId);
-			$this->scanFilesForUser($user->getUID());
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$this->scanFolder($userFolder);
 
 			// Stop if execution time is more than one hour.
 			if (time() - $startTime > 3600) {
@@ -73,13 +63,8 @@ class GenerateMetadataJob extends TimedJob {
 			}
 		}
 
-		$this->appConfig->deleteKey('core', 'metadataGenerationLastHandledUser');
+		$this->appConfig->deleteKey('core', 'metadataGenerationOffset');
 		$this->appConfig->setValueBool('core', 'metadataGenerationDone', true);
-	}
-
-	private function scanFilesForUser(string $userId): void {
-		$userFolder = $this->rootFolder->getUserFolder($userId);
-		$this->scanFolder($userFolder);
 	}
 
 	private function scanFolder(Folder $folder): void {
