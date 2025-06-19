@@ -884,7 +884,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
-		$this->registerService(\OCP\IRequest::class, function (ContainerInterface $c) {
+		$this->registerService(Request::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
 				$urlParams = $this['urlParams'];
 			} else {
@@ -918,6 +918,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream
 			);
 		});
+		$this->registerAlias(\OCP\IRequest::class, Request::class);
 
 		$this->registerService(IRequestId::class, function (ContainerInterface $c): IRequestId {
 			return new RequestId(
