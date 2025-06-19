@@ -223,13 +223,14 @@
 </template>
 
 <script>
-import { emit } from '@nextcloud/event-bus'
-import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { ShareType } from '@nextcloud/sharing'
-import VueQrcode from '@chenfengyuan/vue-qrcode'
+import { emit } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
 
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
@@ -258,7 +259,7 @@ import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import { getLoggerBuilder } from '@nextcloud/logger'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingEntryLink',
@@ -313,10 +314,6 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
-			logger: getLoggerBuilder()
-				.setApp('files_sharing')
-				.detectUser()
-				.build(),
 
 			// tracks whether modal should be opened or not
 			showQRCode: false,
@@ -330,6 +327,8 @@ export default {
 		 * @return {string}
 		 */
 		title() {
+			const l10nOptions = { escape: false /* no escape as this string is already escaped by Vue */ }
+
 			// if we have a valid existing share (not pending)
 			if (this.share && this.share.id) {
 				if (!this.isShareOwner && this.share.ownerDisplayName) {
@@ -337,26 +336,26 @@ export default {
 						return t('files_sharing', '{shareWith} by {initiator}', {
 							shareWith: this.share.shareWith,
 							initiator: this.share.ownerDisplayName,
-						})
+						}, l10nOptions)
 					}
 					return t('files_sharing', 'Shared via link by {initiator}', {
 						initiator: this.share.ownerDisplayName,
-					})
+					}, l10nOptions)
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
 					if (this.isEmailShareType) {
 						if (this.isFileRequest) {
 							return t('files_sharing', 'File request ({label})', {
 								label: this.share.label.trim(),
-							})
+							}, l10nOptions)
 						}
 						return t('files_sharing', 'Mail share ({label})', {
 							label: this.share.label.trim(),
-						})
+						}, l10nOptions)
 					}
 					return t('files_sharing', 'Share link ({label})', {
 						label: this.share.label.trim(),
-					})
+					}, l10nOptions)
 				}
 				if (this.isEmailShareType) {
 					if (!this.share.shareWith || this.share.shareWith.trim() === '') {
@@ -391,6 +390,7 @@ export default {
 			}
 			return null
 		},
+
 		passwordExpirationTime() {
 			if (this.share.passwordExpirationTime === null) {
 				return null
@@ -613,7 +613,7 @@ export default {
 		 * @param {boolean} shareReviewComplete if the share was reviewed
 		 */
 		async onNewLinkShare(shareReviewComplete = false) {
-			this.logger.debug('onNewLinkShare called (with this.share)', this.share)
+			logger.debug('onNewLinkShare called (with this.share)', this.share)
 			// do not run again if already loading
 			if (this.loading) {
 				return
@@ -628,7 +628,7 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
-			this.logger.debug('Missing required properties?', this.enforcedPropertiesMissing)
+			logger.debug('Missing required properties?', this.enforcedPropertiesMissing)
 			// Do not push yet if we need a password or an expiration date: show pending menu
 			// A share would require a review for example is default expiration date is set but not enforced, this allows
 			// the user to review the share and remove the expiration date if they don't want it
@@ -636,7 +636,7 @@ export default {
 				this.pending = true
 				this.shareCreationComplete = false
 
-				this.logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
+				logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
 
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
@@ -664,13 +664,13 @@ export default {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
 						try {
-							this.logger.info('Sending existing share to server', this.share)
+							logger.info('Sending existing share to server', this.share)
 							await this.pushNewLinkShare(this.share, true)
 							this.shareCreationComplete = true
-							this.logger.info('Share created on server', this.share)
+							logger.info('Share created on server', this.share)
 						} catch (e) {
 							this.pending = false
-							this.logger.error('Error creating share', e)
+							logger.error('Error creating share', e)
 							return false
 						}
 						return true
