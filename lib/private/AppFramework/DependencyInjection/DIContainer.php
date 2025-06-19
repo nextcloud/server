@@ -97,7 +97,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		// Log wrappers
-		$this->registerAlias(LoggerInterface::class, ScopedPsrLogger::class);
+		$this->registerService(LoggerInterface::class, function (ContainerInterface $c) {
+			/* Cannot be an alias because it uses LoggerInterface so it would infinite loop */
+			return new ScopedPsrLogger(
+				$c->get(PsrLoggerAdapter::class),
+				$c->get('appName')
+			);
+		});
 
 		$this->registerService(IServerContainer::class, function () {
 			return $this->getServer();
