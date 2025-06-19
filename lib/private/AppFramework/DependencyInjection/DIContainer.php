@@ -25,6 +25,7 @@ use OC\AppFramework\ScopedPsrLogger;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
+use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OCA\WorkflowEngine\Manager;
@@ -34,6 +35,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
@@ -90,7 +92,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
-			return $c->get(\OCP\Files\AppData\IAppDataFactory::class)->get($c->get('appName'));
+			return $c->get(IAppDataFactory::class)->get($c->get('appName'));
 		});
 
 		$this->registerService(IL10N::class, function (ContainerInterface $c) {
@@ -98,7 +100,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		// Log wrappers
-		$this->registerAlias(LoggerInterface::class, ScopedPsrLogger::class);
+		$this->registerService(LoggerInterface::class, function (ContainerInterface $c) {
+			/* Cannot be an alias because it uses LoggerInterface so it would infinite loop */
+			return new ScopedPsrLogger(
+				$c->get(PsrLoggerAdapter::class),
+				$c->get('appName')
+			);
+		});
 
 		$this->registerService(IServerContainer::class, function () {
 			return $this->getServer();
