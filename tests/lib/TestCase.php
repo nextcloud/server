@@ -19,6 +19,7 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Template\Base;
+use OCP\AppFramework\QueryException;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
@@ -89,7 +90,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			return false;
 		}
 
-		$this->services[$name] = Server::get($name);
+		try {
+			$this->services[$name] = Server::get($name);
+		} catch (QueryException $e) {
+			$this->services[$name] = false;
+		}
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 
@@ -111,9 +116,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$container = \OC::$server->getAppContainerForService($name);
 			$container = $container ?? \OC::$server;
 
-			$container->registerService($name, function () use ($oldService) {
-				return $oldService;
-			});
+			if ($oldService !== false) {
+				$container->registerService($name, function () use ($oldService) {
+					return $oldService;
+				});
+			} else {
+				unset($container[$oldService]);
+			}
 
 
 			unset($this->services[$name]);
