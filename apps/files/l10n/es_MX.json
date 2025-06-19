@@ -104,7 +104,6 @@
     "Column headers with buttons are sortable." : "Las columnas con botones en la cabecera son ordenables.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navega por la lista.",
     "File not found" : "Archivo no encontrado",
-    "{count} selected" : "{count} seleccionados",
     "{usedQuotaByte} used" : "{usedQuotaByte} utilizados",
     "{used} of {quota} used" : "{used} de {quota} usados",
     "{relative}% used" : "{relative}% utilizado",

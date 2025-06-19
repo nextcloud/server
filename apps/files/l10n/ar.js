@@ -120,7 +120,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "ترويسات الأعمدة ذات الأزرار قابلة للترتيب.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "لم يتم عرض هذه القائمة بالكامل لأسباب تتعلق بالأداء. سيتم عرض الملفات تباعاً أثناء التنقل عبر القائمة.",
     "File not found" : "تعذر العثور على الملف",
-    "{count} selected" : "{count} تم تحديده",
+    "_{count} selected_::_{count} selected_" : ["{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده"],
     "{usedQuotaByte} used" : "{usedQuotaByte} مستخدمة",
     "{used} of {quota} used" : "{used} من {quota} مستخدم",
     "{relative}% used" : "{relative}% مستخدمة",

@@ -78,6 +78,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "Действието „{displayName}“ е неуспешно",
     "Actions" : "Действия",
     "File not found" : "Файлът не е намерен",
+    "_{count} selected_::_{count} selected_" : ["{count} избрани","{count} избрани"],
     "{usedQuotaByte} used" : "{usedQuotaByte} използвано",
     "{used} of {quota} used" : "{used} от {quota} използвани",
     "{relative}% used" : "{relative}% използвано",

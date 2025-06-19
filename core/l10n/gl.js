@@ -232,7 +232,7 @@ OC.L10N.register(
     "Continue with this unsupported browser" : "Continuar con este navegador non compatíbel",
     "Supported versions" : "Versións compatíbeis",
     "Search {types} …" : "Buscando {types}…",
-    "Choose {file}" : "Escoller  {file}",
+    "Choose {file}" : "Escoller {file}",
     "Choose" : "Escoller",
     "Copy to {target}" : "Copiar en {target}",
     "Copy" : "Copiar",

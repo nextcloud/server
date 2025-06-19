@@ -122,7 +122,6 @@
     "Column headers with buttons are sortable." : "带有按钮的列标题可进行排序。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出于性能考虑，此列表未完全呈现。文件将在您浏览列表时呈现。",
     "File not found" : "文件未找到",
-    "{count} selected" : "已选中 {count}",
     "{usedQuotaByte} used" : "{usedQuotaByte} 已使用",
     "{used} of {quota} used" : "已使用 {used} / {quota}",
     "{relative}% used" : "{relative}% 已使用",

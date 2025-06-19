@@ -124,7 +124,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Spaltenüberschriften mit Schaltflächen sind sortierbar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Diese Liste wird aus Performance-Gründen nicht vollständig angezeigt. Die Dateien werden angezeigt, wenn du durch die Liste navigierst.",
     "File not found" : "Datei nicht gefunden",
-    "{count} selected" : "{count} ausgewählt",
+    "_{count} selected_::_{count} selected_" : ["{count} ausgewählt","{count} ausgewählt"],
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{used} of {quota} used" : "{used} von {quota} verwendet",
     "{relative}% used" : "{relative} % verwendet",

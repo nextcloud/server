@@ -99,7 +99,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Насловите на колоните со копчиња се сортираат.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Оваа листа не е целосно прикажана поради заштеда на перформанси. Датотеките ќе се прикажуваат додека се движите низ листата.",
     "File not found" : "Датотеката не е пронајдена",
-    "{count} selected" : "{count} селектирани",
     "{usedQuotaByte} used" : "искористено {usedQuotaByte}",
     "{used} of {quota} used" : "Искористени {used} од {quota}",
     "{relative}% used" : "искористено {relative}% ",
