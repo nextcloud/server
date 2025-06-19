@@ -45,7 +45,10 @@
 						disable-menu
 						disable-tooltip
 						:show-user-status="false" />
-					<div>{{ versionAuthor }}</div>
+					<div class="version__info__author_name"
+						:title="versionAuthor">
+						{{ versionAuthor }}
+					</div>
 				</div>
 			</div>
 		</template>
@@ -349,10 +352,17 @@ export default defineComponent({
 		gap: 0.5rem;
 		color: var(--color-main-text);
 		font-weight: 500;
+		overflow: hidden;
 
 		&__label {
 			font-weight: 700;
 			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+			min-width: 110px;
+		}
+
+		&__author_name {
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
