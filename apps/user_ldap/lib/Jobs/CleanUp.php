@@ -67,7 +67,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
-			$this->ldapHelper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+			$this->ldapHelper = Server::get(Helper::class);
 		}
 
 		if (isset($arguments['ocConfig'])) {

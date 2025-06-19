@@ -1,8 +1,6 @@
 <?php
 
 use OCA\User_LDAP\Helper;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Util;
 
@@ -17,7 +15,7 @@ use OCP\Util;
 \OC_JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+$helper = Server::get(Helper::class);
 if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {
