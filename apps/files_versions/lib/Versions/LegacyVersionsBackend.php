@@ -246,7 +246,27 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$versionEntity->setSize($file->getSize());
 		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
 		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
+
+		$tries = 1;
+		while ($tries < 5) {
+			try {
+				$this->versionsMapper->insert($versionEntity);
+				/* No errors, get out of the method */
+				return;
+			} catch (\OCP\DB\Exception $e) {
+				if (!in_array($e->getReason(), [
+					\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
+					\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
+				])
+				) {
+					throw $e;
+				}
+				/* Conflict with another version, increase mtime and try again */
+				$versionEntity->setTimestamp($versionEntity->getTimestamp() + 1);
+				$tries++;
+				$this->logger->warning('Constraint violation while inserting version, retrying with increased timestamp', ['exception' => $e]);
+			}
+		}
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
