@@ -116,6 +116,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerAlias(\OCP\WorkflowEngine\IManager::class, Manager::class);
 
+		$this->registerService(ContainerInterface::class, fn (ContainerInterface $c) => $c);
 		$this->registerDeprecatedAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
