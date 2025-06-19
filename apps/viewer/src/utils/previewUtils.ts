@@ -27,7 +27,7 @@ export function getPreviewIfAny({ fileid, filename, previewUrl, hasPreview, davP
 		+ `&x=${Math.floor(screen.width * devicePixelRatio)}`
 		+ `&y=${Math.floor(screen.height * devicePixelRatio)}`
 		+ '&a=true'
-		+ (etag !== null ? `&etag=${etag.replace(/&quot;/g, '')}` : '')
+		+ (etag ? `&etag=${String(etag).replace(/&quot;/g, '')}` : '')
 
 	if (hasPreview) {
 		// TODO: find a nicer standard way of doing this?
