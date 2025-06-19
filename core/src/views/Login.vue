@@ -105,6 +105,8 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
+
 import queryString from 'query-string'
 
 import LoginForm from '../components/login/LoginForm.vue'
@@ -162,8 +164,7 @@ export default {
 
 	methods: {
 		passwordResetFinished() {
-			this.resetPasswordTarget = ''
-			this.directLogin = true
+			window.location.href = generateUrl('login')
 		},
 	},
 }
