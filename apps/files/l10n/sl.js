@@ -118,7 +118,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Naslove stolpcev z gumbi je mogoče sortirati.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali med brskanjem.",
     "File not found" : "Datoteke ni mogoče najti",
-    "{count} selected" : "{count} izbranih",
     "{usedQuotaByte} used" : "Zasedeno {usedQuotaByte}",
     "{used} of {quota} used" : "V uporabi je {used} od {quota}",
     "{relative}% used" : "Zasedeno {relative} %",

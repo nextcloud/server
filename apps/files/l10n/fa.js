@@ -124,7 +124,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Column headers with buttons are sortable.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل عملکرد به طور کامل ارائه نشده است. در حین حرکت در لیست، فایل ها ارائه می شوند.",
     "File not found" : "فایل یافت نشد",
-    "{count} selected" : "{count} selected",
     "{usedQuotaByte} used" : "{usedQuotaByte} استفاده شده است",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
     "{relative}% used" : "{relative}% used",

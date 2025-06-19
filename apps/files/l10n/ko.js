@@ -116,7 +116,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "버튼이 있는 열 머리글은 정렬할 수 있습니다.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "성능 상의 이유로 목록을 전부 표시하지 않았습니다. 목록을 탐색하면 파일들이 표시됩니다.",
     "File not found" : "파일을 찾을 수 없음",
-    "{count} selected" : "{count}개 선택됨",
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{used} of {quota} used" : "{quota} 중 {used} 사용함",
     "{relative}% used" : "{relative}% 사용",

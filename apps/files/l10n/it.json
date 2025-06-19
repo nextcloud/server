@@ -122,7 +122,7 @@
     "Column headers with buttons are sortable." : "Le intestazioni di colonna con pulsanti sono ordinabili.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Questa lista non è stata mostrata completamente per ragioni di prestazioni. I file verranno mostrati durante la navigazione della lista.",
     "File not found" : "File non trovato",
-    "{count} selected" : "{count} selezionati",
+    "_{count} selected_::_{count} selected_" : ["{count} selezionato","{count} selezionati","{count} selezionati"],
     "{usedQuotaByte} used" : "{usedQuotaByte} usato",
     "{used} of {quota} used" : "{used} di {quota} utilizzati",
     "{relative}% used" : "{relative}% usato",

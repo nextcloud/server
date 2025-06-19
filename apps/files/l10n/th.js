@@ -69,6 +69,7 @@ OC.L10N.register(
     "Size" : "ขนาด",
     "Actions" : "การกระทำ",
     "File not found" : "ไม่พบไฟล์",
+    "_{count} selected_::_{count} selected_" : ["เลือก {count} รายการ"],
     "{usedQuotaByte} used" : "ใช้ไป {usedQuotaByte}",
     "{used} of {quota} used" : "ใช้ไป {used} จาก {quota}",
     "{relative}% used" : "ใช้ไป {relative}%",

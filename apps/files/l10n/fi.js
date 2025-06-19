@@ -110,7 +110,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Painikkeilla varustetut sarakeotsikot ovat järjestettävissä.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "File not found" : "Tiedostoa ei löytynyt",
-    "{count} selected" : "{count} valittu",
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
     "{used} of {quota} used" : "{used}/{quota} käytetty",
     "{relative}% used" : "{relative} % käytetty",

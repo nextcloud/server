@@ -111,7 +111,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Botoiak dituzten zutabeen goiburuak ordena daitezke.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "File not found" : "Ez da fitxategia aurkitu",
-    "{count} selected" : "{count} hautatuta",
+    "_{count} selected_::_{count} selected_" : ["{count} hautatuta","{count} hautatuta"],
     "{usedQuotaByte} used" : "{usedQuotaByte} erabilita",
     "{used} of {quota} used" : "{used} / {quota} erabilita",
     "{relative}% used" : "%{relative} erabilita",

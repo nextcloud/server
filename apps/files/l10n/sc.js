@@ -76,7 +76,6 @@ OC.L10N.register(
     "(selected)" : "(seletzionados)",
     "List of files and folders." : "Lista de archìvios e cartellas.",
     "File not found" : "Archìviu no agatadu",
-    "{count} selected" : "seletzionados: {count}",
     "{usedQuotaByte} used" : "{usedQuotaByte} impreadu",
     "{used} of {quota} used" : "{used} de {quota} impreadu",
     "{relative}% used" : "{relative}% impreadu",

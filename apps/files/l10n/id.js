@@ -69,6 +69,7 @@ OC.L10N.register(
     "Size" : "Ukuran",
     "Actions" : "Tindakan",
     "File not found" : "Berkas tidak ditemukan",
+    "_{count} selected_::_{count} selected_" : ["{count} dipilih"],
     "{usedQuotaByte} used" : "{usedQuotaByte} digunakan",
     "{used} of {quota} used" : "{used} dari {quota} terpakai",
     "{relative}% used" : "{relative}% digunakan",

@@ -120,7 +120,6 @@
     "Column headers with buttons are sortable." : "Kolomkoppen met knoppen zijn sorteerbaar",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "De lijst is niet volledig verwerkt om de prestatie niet te beperken. De bestanden worden verder verwerkt als je door de lijst navigeert.",
     "File not found" : "Bestand niet gevonden",
-    "{count} selected" : "{count} geselecteerd",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{used} of {quota} used" : "{used} van {quota} gebruikt",
     "{relative}% used" : "{relative}% gebruikt",

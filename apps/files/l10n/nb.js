@@ -112,7 +112,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Kolonneoverskrifter med knapper kan sorteres.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denne listen er ikke fullstendig gjengitt av ytelsesgrunner. Filene gjengis når du navigerer gjennom listen.",
     "File not found" : "Finner ikke filen",
-    "{count} selected" : "{count} valgt",
     "{usedQuotaByte} used" : "{usedQuotaByte} brukt",
     "{used} of {quota} used" : "{used} av {quota} brukt",
     "{relative}% used" : "{relative}% brukt",
