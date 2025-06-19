@@ -9,21 +9,21 @@ declare(strict_types=1);
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Service\ExampleContactService;
 use OCA\DAV\Service\ExampleEventService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\Settings\ISettings;
 
 class ExampleContentSettings implements ISettings {
 	public function __construct(
-		private readonly IConfig $config,
 		private readonly IAppConfig $appConfig,
 		private readonly IInitialState $initialState,
 		private readonly IAppManager $appManager,
 		private readonly ExampleEventService $exampleEventService,
+		private readonly ExampleContactService $exampleContactService,
 	) {
 	}
 
@@ -43,11 +43,13 @@ class ExampleContentSettings implements ISettings {
 		}
 
 		if ($contactsEnabled) {
-			$enableDefaultContact = $this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'yes');
-			$this->initialState->provideInitialState('enableDefaultContact', $enableDefaultContact);
+			$this->initialState->provideInitialState(
+				'enableDefaultContact',
+				$this->exampleContactService->isDefaultContactEnabled(),
+			);
 			$this->initialState->provideInitialState(
 				'hasCustomDefaultContact',
-				$this->appConfig->getValueBool(Application::APP_ID, 'hasCustomDefaultContact'),
+				$this->appConfig->getAppValueBool('hasCustomDefaultContact'),
 			);
 		}
 

@@ -12,7 +12,7 @@ namespace OCA\DAV\Listener;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
-use OCA\DAV\Service\DefaultContactService;
+use OCA\DAV\Service\ExampleContactService;
 use OCA\DAV\Service\ExampleEventService;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\Defaults;
@@ -46,7 +46,7 @@ class UserEventsListener implements IEventListener {
 		private CalDavBackend $calDav,
 		private CardDavBackend $cardDav,
 		private Defaults $themingDefaults,
-		private DefaultContactService $defaultContactService,
+		private ExampleContactService $exampleContactService,
 		private ExampleEventService $exampleEventService,
 		private LoggerInterface $logger,
 	) {
@@ -175,7 +175,7 @@ class UserEventsListener implements IEventListener {
 			}
 		}
 		if ($addressBookId) {
-			$this->defaultContactService->createDefaultContact($addressBookId);
+			$this->exampleContactService->createDefaultContact($addressBookId);
 		}
 	}
 }
