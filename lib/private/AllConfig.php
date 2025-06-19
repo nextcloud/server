@@ -404,10 +404,6 @@ class AllConfig implements IConfig {
 	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
-		if ($appName === 'settings' && $key === 'email') {
-			return $this->getUsersForUserValue($appName, $key, strtolower($value));
-		}
-
 		/** @var list<string> $result */
 		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
 		return $result;
