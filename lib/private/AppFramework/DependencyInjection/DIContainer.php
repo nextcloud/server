@@ -82,7 +82,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerAlias(IOutput::class, Output::class);
+		/* Cannot be an alias because Output is not in OCA */
+		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
 
 		$this->registerService(Folder::class, function () {
 			return $this->getServer()->getUserFolder();
