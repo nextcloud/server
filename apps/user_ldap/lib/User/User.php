@@ -492,6 +492,8 @@ class User {
 			}
 		}
 		if ($email !== '') {
+			// Emails are expected to be lower case by Nextcloud
+			$email = strtolower($email);
 			$user = $this->userManager->get($this->uid);
 			if (!is_null($user)) {
 				$currentEmail = (string)$user->getSystemEMailAddress();
