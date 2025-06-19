@@ -88,7 +88,6 @@ OC.L10N.register(
     "Actions" : "Veiksmai",
     "List of files and folders." : "Failų ir aplankų sąrašas.",
     "File not found" : "Failas nerastas",
-    "{count} selected" : "Pažymėta {count}",
     "{usedQuotaByte} used" : "Naudojama {usedQuotaByte}",
     "{used} of {quota} used" : "panaudota {used} iš {quota}",
     "{relative}% used" : "Naudojama {relative}",

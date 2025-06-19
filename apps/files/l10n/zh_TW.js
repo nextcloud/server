@@ -124,7 +124,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "帶有按鈕的欄位標頭為可排序。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "File not found" : "找不到檔案",
-    "{count} selected" : "已選取 {count} 個",
+    "_{count} selected_::_{count} selected_" : ["已選取 {count} 個"],
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}，共 {quota}",
     "{relative}% used" : "已使用 {relative}%",

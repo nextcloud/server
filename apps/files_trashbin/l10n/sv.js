@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Ursprunglig plats",
     "Deleted by" : "Raderad av",
     "Deleted" : "Borttagen",
+    "few seconds ago" : "några sekunder sedan",
     "A long time ago" : "För länge sedan",
     "Unknown" : "Okänd",
     "All files" : "Alla filer",

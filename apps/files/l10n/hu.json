@@ -112,7 +112,6 @@
     "Column headers with buttons are sortable." : "A gombot tartalmazó oszlopfejlécek rendezhetők.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg.",
     "File not found" : "A fájl nem található",
-    "{count} selected" : "{count}kiválasztva",
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{used} of {quota} used" : "{used} / {quota} felhasználva",
     "{relative}% used" : "{relative}% felhasználva",

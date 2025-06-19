@@ -124,7 +124,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Podle těch sloupců, které mají v záhlaví tlačítko, je možné řadit.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "File not found" : "Soubor nenalezen",
-    "{count} selected" : "vybráno {count}",
+    "_{count} selected_::_{count} selected_" : ["vybráno {count}","vybráno {count}","vybráno {count}","vybráno {count}"],
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",
     "{used} of {quota} used" : "Využito {used} z {quota} ",
     "{relative}% used" : "{relative}% využito",

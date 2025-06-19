@@ -114,7 +114,7 @@
     "Column headers with buttons are sortable." : "Düğmeler olan sütunlar sıralanabilir.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "File not found" : "Dosya bulunamadı",
-    "{count} selected" : "{count} seçilmiş",
+    "_{count} selected_::_{count} selected_" : ["{count} seçilmiş","{count} seçilmiş"],
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{used} of {quota} used" : "{used} / {quota} kullanılmış",
     "{relative}% used" : "%{relative} kullanılmış",

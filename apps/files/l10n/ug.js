@@ -104,7 +104,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "كۇنۇپكىلار بار ئىستون ماۋزۇلىرى تەرتىپلىك.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "بۇ تىزىملىك ئىقتىدار سەۋەبىدىن تولۇق كۆرسىتىلمىگەن. ھۆججەتلەر تىزىملىكتىن ئۆتكەندە كۆرسىتىلىدۇ.",
     "File not found" : "ھۆججەت تېپىلمىدى",
-    "{count} selected" : "{count} تاللانغان",
     "{usedQuotaByte} used" : "{usedQuotaByte} ئىشلىتىلگەن",
     "{used} of {quota} used" : "{used} {quota} ئىشلىتىلگەن",
     "{relative}% used" : "{relative}% ئىشلىتىلگەن",

@@ -122,7 +122,7 @@
     "Column headers with buttons are sortable." : "Kolumnrubriker med knappar är sorterbara.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "File not found" : "Filen kunde inte hittas",
-    "{count} selected" : "{count} valda",
+    "_{count} selected_::_{count} selected_" : ["{count} vald","{count} valda"],
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{used} of {quota} used" : "{used} av {quota} använt",
     "{relative}% used" : "{relative}% använt",

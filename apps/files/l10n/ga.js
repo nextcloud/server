@@ -124,7 +124,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Is féidir ceanntásca colún le cnaipí a shórtáil.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Níl an liosta seo le fáil go hiomlán ar chúiseanna feidhmíochta. Déanfar na comhaid a rindreáil agus tú ag dul tríd an liosta.",
     "File not found" : "Comhad gan aimsiú",
-    "{count} selected" : "{count} roghnaithe",
+    "_{count} selected_::_{count} selected_" : ["{count} roghnaithe","{count} roghnaithe","{count} roghnaithe","{count} roghnaithe","{count} roghnaithe"],
     "{usedQuotaByte} used" : "{usedQuotaByte} úsáidte",
     "{used} of {quota} used" : "{used} de {quota} in úsáid",
     "{relative}% used" : "{relative}% in úsáid",

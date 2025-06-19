@@ -122,7 +122,6 @@
     "Column headers with buttons are sortable." : "Заголовки столбцов с кнопками можно сортировать.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "File not found" : "Файл не найден",
-    "{count} selected" : "{count} выбрано",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{used} of {quota} used" : "использовано {used} из {quota}",
     "{relative}% used" : "Использовано {relative}%",

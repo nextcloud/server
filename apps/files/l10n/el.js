@@ -96,7 +96,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Οι επικεφαλίδες στηλών με κουμπιά είναι ταξινομήσιμες.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "File not found" : "Δε βρέθηκε το αρχείο",
-    "{count} selected" : "{count} έχουν επιλεγεί",
     "{usedQuotaByte} used" : "{usedQuotaByte} χρησιμοποιείται",
     "{used} of {quota} used" : "Χρήση {used} από {quota} ",
     "{relative}% used" : "{relative}% χρησιμοποιείται",

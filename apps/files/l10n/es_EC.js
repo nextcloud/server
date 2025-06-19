@@ -78,6 +78,7 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "La acción \"{displayName}\" falló.",
     "Actions" : "Acciones",
     "List of files and folders." : "Lista de archivos y carpetas. ",
+    "_{count} selected_::_{count} selected_" : ["{count} seleccionado","{count} seleccionados","{count} seleccionado"],
     "{usedQuotaByte} used" : "{usedQuotaByte} usados.",
     "{used} of {quota} used" : "{used} de {quota} usados",
     "{relative}% used" : "{relative}% usados.",

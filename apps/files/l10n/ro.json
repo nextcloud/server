@@ -80,6 +80,7 @@
     "List of files and folders." : "Listă fișiere și foldere",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Această lista este incomplet afișată din motive de performanță. Fișierele vor fi afișate pe măsură ce navigați prin listă.",
     "File not found" : "Fișierul nu a fost găsit",
+    "_{count} selected_::_{count} selected_" : ["{count}selectat","{count}selectate","{count}selectate"],
     "{usedQuotaByte} used" : "{usedQuotaByte} utilizați",
     "{used} of {quota} used" : "{used} din {quota} folosiți",
     "{relative}% used" : "{relative}% utilizat",

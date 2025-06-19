@@ -114,7 +114,6 @@
     "Column headers with buttons are sortable." : "Les capçaleres de columna amb botons es poder ordenar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "File not found" : "No s'ha trobat el fitxer",
-    "{count} selected" : "Selecció: {count}",
     "{usedQuotaByte} used" : "{usedQuotaByte} en ús",
     "{used} of {quota} used" : "{used} de {quota} en ús",
     "{relative}% used" : "{relative}% en ús",
