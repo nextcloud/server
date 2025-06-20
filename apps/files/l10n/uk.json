@@ -122,6 +122,7 @@
     "Column headers with buttons are sortable." : "Назви стовпців з кнопками можна впорядковувати",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Список не подається повністю з міркувань обчислювальних потужностей. Файли показуватимуться під час прокручування списку.",
     "File not found" : "Файл не знайдено",
+    "_{count} selected_::_{count} selected_" : ["Вибрано {count}","Вибрано {count}","Вибрано {count} ","Вибрано {count} "],
     "{usedQuotaByte} used" : "{usedQuotaByte} використано",
     "{used} of {quota} used" : "Використано {used} із {quota}",
     "{relative}% used" : "{relative}% використано",

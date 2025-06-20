@@ -122,7 +122,7 @@ OC.L10N.register(
     "Create new app password" : "Izveidot jaunu lietotnes paroli",
     "New app password" : "Jauna lietotnes parole",
     "Use the credentials below to configure your app or device. For security reasons this password will only be shown once." : "Zemāk esošie piekļuves dati jāizmanto, lai konfigurētu lietotni vai ierīci. Drošības iemeslu dēļ šī parole tiks parādīta tikai vienu reizi.",
-    "Login" : "Pieteikumvārds",
+    "Login" : "Pieteikties",
     "Password" : "Parole",
     "Show QR code for mobile apps" : "Parādīt kvadrātkodu tālruņa lietotnēm",
     "Profile" : "Profils",

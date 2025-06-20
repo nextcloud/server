@@ -4,7 +4,7 @@ OC.L10N.register(
     "Invalid Federated Cloud ID" : "Vigane liitpilve ID",
     "Server to server sharing is not enabled on this server" : "Serveritevaheline jagamine ei ole selle pilves aktiiveeritud",
     "Couldn't establish a federated share." : "Liitjagamist ei õnnestunud luua",
-    "Couldn't establish a federated share, maybe the password was wrong." : "Liitjagamist ei õnnestunud luua, ehk oli parool vale.",
+    "Couldn't establish a federated share, maybe the password was wrong." : "Liitjagamist ei õnnestunud luua, vast oli salasõna vale.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Liitjagamise päring edastatud, sulle saadetakse kutse. Kontrolli oma teateid.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Liitjagamist ei saanud luua, näib, et liitmiseks mõeldud server on liiga vana (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Sellest serverist ei ole lubatud liitrühma jagamisi saata.",
@@ -65,7 +65,7 @@ OC.L10N.register(
     "Add remote share" : "Lisa kaugjagamine",
     "Remote share" : "Kaugjagamine",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
-    "Remote share password" : "Kaugjagamise parool",
+    "Remote share password" : "Kaugjagamise salasõna",
     "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda"
 },
 "nplurals=2; plural=(n != 1);");
