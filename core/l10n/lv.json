@@ -27,7 +27,7 @@
     "Your login token is invalid or has expired" : "Pieteikšanās pilnvara nav derīga vai ir beigusies",
     "Please use original client" : "Lūgums izmantot sākotnējo klientu",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Šis Nextcloud kopienas laidiens nav atbalstīts un pašpiegādes paziņojumi ir ierobežoti.",
-    "Login" : "Pieteikumvārds",
+    "Login" : "Pieteikties",
     "Unsupported email length (>255)" : "Neatbalstīts e-pasta adreses garums (>255)",
     "Password reset is disabled" : "Paroles atiestatīšana ir atspējota",
     "Could not reset password because the token is expired" : "Nevarēja atiestatīt paroli, jo ir beidzies tekstvienības derīgums",

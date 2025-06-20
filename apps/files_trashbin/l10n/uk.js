@@ -15,6 +15,7 @@ OC.L10N.register(
     "Original location" : "Звідки вилучено",
     "Deleted by" : "Ким вилучено",
     "Deleted" : "Вилучено",
+    "few seconds ago" : "кілька секунд тому",
     "A long time ago" : "Давно",
     "Unknown" : "Невідомо",
     "All files" : "Усі файли",

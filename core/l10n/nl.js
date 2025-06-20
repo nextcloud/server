@@ -12,7 +12,7 @@ OC.L10N.register(
     "No file was uploaded" : "Er is geen bestand geüpload",
     "Missing a temporary folder" : "Tijdelijke map ontbreekt",
     "Could not write file to disk" : "Kon bestand niet naar schijf schrijven",
-    "A PHP extension stopped the file upload" : "Een PHP-extensie blokkeerde de upload.",
+    "A PHP extension stopped the file upload" : "Een PHP-extensie blokkeerde de upload",
     "Invalid file provided" : "Ongeldig bestand opgegeven",
     "No image or file provided" : "Geen afbeelding of bestand opgegeven",
     "Unknown filetype" : "Onbekend bestandsformaat",
