@@ -137,24 +137,14 @@ class ReminderMapper extends QBMapper {
 	 * @return Reminder[]
 	 */
 	public function findAllInFolder(IUser $user, Folder $folder) {
-		$fileIds = array_values(array_filter(array_map(
-			function (Node $node) {
-				try {
-					return $node->getId();
-				} catch (NotFoundException $e) {
-					return null;
-				}
-			},
-			$folder->getDirectoryListing(),
-		)));
-
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('id', 'user_id', 'file_id', 'due_date', 'updated_at', 'created_at', 'notified')
-			->from($this->getTableName())
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
-			->andWhere($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
-			->orderBy('due_date', 'ASC');
+		$qb->select('r.id', 'r.user_id', 'r.file_id', 'r.due_date', 'r.updated_at', 'r.created_at', 'r.notified')
+			->from($this->getTableName(), 'r')
+			->innerJoin('r', 'oc_filecache', 'f', $qb->expr()->eq('r.file_id', 'f.fileid'))
+			->where($qb->expr()->eq('r.user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($folder->getId(), IQueryBuilder::PARAM_INT)))
+			->orderBy('r.due_date', 'ASC');
 
 		return $this->findEntities($qb);
 	}
