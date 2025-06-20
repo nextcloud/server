@@ -469,13 +469,26 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * This may speed up certain requests, especially with large cards.
 	 *
 	 * @param mixed $addressbookId
+	 * @param int|null $offset
+	 * @param int|null $limit
 	 * @return array
 	 */
-	public function getCards($addressbookId) {
+	public function getCards($addressbookId, $offset = null, $limit = null) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
-			->from($this->dbCardsTable)
-			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
+		$query->select(['c.id', 'c.uri', 'c.lastmodified', 'c.etag', 'c.size', 'c.carddata', 'c.uid'])
+			->from($this->dbCardsTable, 'c')
+			->join('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'))
+			->where($query->expr()->eq('c.addressbookid', $query->createNamedParameter($addressbookId)))
+			->andWhere($query->expr()->eq('cp.name', $query->createNamedParameter('FN')));
+
+		if(isset($offset)) {
+			$query->orderBy('cp.value');
+			$query->setFirstResult($offset);
+		}
+
+		if(isset($limit)) {
+			$query->setMaxResults($limit);
+		}
 
 		$cards = [];
 
