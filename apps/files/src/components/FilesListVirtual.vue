@@ -21,7 +21,9 @@
 		</template>
 
 		<template v-if="!isNoneSelected" #header-overlay>
-			<span class="files-list__selected">{{ t('files', '{count} selected', { count: selectedNodes.length }) }}</span>
+			<span class="files-list__selected">
+				{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
+			</span>
 			<FilesListTableHeaderActions :current-view="currentView"
 				:selected-nodes="selectedNodes" />
 		</template>
@@ -65,8 +67,8 @@ import type { Location } from 'vue-router'
 
 import { Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { n, t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -130,6 +132,9 @@ export default defineComponent({
 
 			userConfigStore,
 			selectionStore,
+
+			n,
+			t,
 		}
 	},
 
@@ -353,8 +358,6 @@ export default defineComponent({
 				tableElement.scrollTop = tableElement.scrollTop + 25
 			}
 		},
-
-		t,
 	},
 })
 </script>
