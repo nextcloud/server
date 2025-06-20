@@ -62,9 +62,9 @@ class Add extends Command {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('NC_PASS') ?? getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but NC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
