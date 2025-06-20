@@ -60,26 +60,27 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @param callable $callback
 	 */
 	public function addCloudFederationProvider($resourceType, $displayName, callable $callback) {
-		$this->cloudFederationProvider[$resourceType] = [
+		$provider = call_user_func($callback);
+		$this->cloudFederationProvider[$provider::class] = [
 			'resourceType' => $resourceType,
 			'displayName' => $displayName,
-			'callback' => $callback,
+			'provider' => $provider,
 		];
 	}
 
 	/**
 	 * remove cloud federation provider
 	 *
-	 * @param string $providerId
+	 * @param string $providerClass
 	 */
-	public function removeCloudFederationProvider($providerId) {
-		unset($this->cloudFederationProvider[$providerId]);
+	public function removeCloudFederationProvider($providerClass) {
+		unset($this->cloudFederationProvider[$providerClass]);
 	}
 
 	/**
 	 * get a list of all cloudFederationProviders
 	 *
-	 * @return array [resourceType => ['resourceType' => $resourceType, 'displayName' => $displayName, 'callback' => callback]]
+	 * @return array [providerClass => ['resourceType' => $resourceType, 'displayName' => $displayName, 'provider' => ICloudFederationProvider]]
 	 */
 	public function getAllCloudFederationProviders() {
 		return $this->cloudFederationProvider;
@@ -89,15 +90,20 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * get a specific cloud federation provider
 	 *
 	 * @param string $resourceType
+	 * @param string|null $shareType
 	 * @return ICloudFederationProvider
 	 * @throws ProviderDoesNotExistsException
 	 */
-	public function getCloudFederationProvider($resourceType) {
-		if (isset($this->cloudFederationProvider[$resourceType])) {
-			return call_user_func($this->cloudFederationProvider[$resourceType]['callback']);
-		} else {
-			throw new ProviderDoesNotExistsException($resourceType);
+	public function getCloudFederationProvider($resourceType, $shareType = null) {
+		foreach ($this->cloudFederationProvider as $providerWrapper) {
+			$provider = $providerWrapper['provider'];
+			if ($providerWrapper['resourceType'] === $resourceType) {
+				if (is_null($shareType) || in_array($shareType, $provider->getSupportedShareTypes())) {
+					return $provider;
+				}
+			}
 		}
+		throw new ProviderDoesNotExistsException($resourceType, $shareType);
 	}
 
 	/**
