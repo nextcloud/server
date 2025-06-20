@@ -253,6 +253,10 @@ class AllConfig implements IConfig {
 			}
 		}
 
+		if ($appName === 'settings' && $key === 'email') {
+			$value = strtolower((string)$value);
+		}
+
 		$userPreferences->setValueMixed($userId, $appName, $key, (string)$value);
 	}
 
