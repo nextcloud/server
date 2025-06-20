@@ -410,6 +410,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\FutureFile' => __DIR__ . '/..' . '/../lib/Upload/FutureFile.php',
         'OCA\\DAV\\Upload\\PartFile' => __DIR__ . '/..' . '/../lib/Upload/PartFile.php',
         'OCA\\DAV\\Upload\\RootCollection' => __DIR__ . '/..' . '/../lib/Upload/RootCollection.php',
+        'OCA\\DAV\\Upload\\UploadAutoMkcolPlugin' => __DIR__ . '/..' . '/../lib/Upload/UploadAutoMkcolPlugin.php',
         'OCA\\DAV\\Upload\\UploadFile' => __DIR__ . '/..' . '/../lib/Upload/UploadFile.php',
         'OCA\\DAV\\Upload\\UploadFolder' => __DIR__ . '/..' . '/../lib/Upload/UploadFolder.php',
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
