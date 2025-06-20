@@ -572,6 +572,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
+		$this->registerAlias(IAppManager::class, AppManager::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
@@ -780,21 +781,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(ITempManager::class, TempManager::class);
-
-		$this->registerService(AppManager::class, function (ContainerInterface $c) {
-			// TODO: use auto-wiring
-			return new \OC\App\AppManager(
-				$c->get(IUserSession::class),
-				$c->get(\OCP\IConfig::class),
-				$c->get(IGroupManager::class),
-				$c->get(ICacheFactory::class),
-				$c->get(IEventDispatcher::class),
-				$c->get(LoggerInterface::class),
-				$c->get(ServerVersion::class),
-			);
-		});
-		$this->registerAlias(IAppManager::class, AppManager::class);
-
 		$this->registerAlias(IDateTimeZone::class, DateTimeZone::class);
 
 		$this->registerService(IDateTimeFormatter::class, function (Server $c) {

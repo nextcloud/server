@@ -25,8 +25,9 @@ class TestConfigLexicon_I implements IConfigLexicon {
 	public function getAppConfigs(): array {
 		return [
 			new ConfigLexiconEntry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
-			new ConfigLexiconEntry('key2', ValueType::INT, 12345, 'test key', false)
-
+			new ConfigLexiconEntry('key2', ValueType::INT, 12345, 'test key', false),
+			new ConfigLexiconEntry('key3', ValueType::INT, 12345, 'test key', true, rename: 'old_key3'),
+			new ConfigLexiconEntry('key4', ValueType::BOOL, 12345, 'test key', true, rename: 'old_key4', options: ConfigLexiconEntry::RENAME_INVERT_BOOLEAN),
 		];
 	}
 

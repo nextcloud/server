@@ -16,7 +16,7 @@ class AdapterTest extends TestCase {
 
 	public function setUp(): void {
 		$this->connection = Server::get(IDBConnection::class);
-		$this->appId = uniqid('test_db_adapter', true);
+		$this->appId = substr(uniqid('test_db_adapter', true), 0, 32);
 	}
 
 	public function tearDown(): void {
