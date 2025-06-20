@@ -907,14 +907,18 @@ class Trashbin implements IEventListener {
 	public static function deleteExpiredFiles($files, $user) {
 		/** @var Expiration $expiration */
 		$expiration = Server::get(Expiration::class);
-		$size = 0;
+		$totalSize = 0;
 		$count = 0;
+		$trashbinSize = self::getTrashbinSize($user);
+		$freeSpace = self::calculateFreeSpace($trashbinSize, $user);
 		foreach ($files as $file) {
 			$timestamp = $file['mtime'];
 			$filename = $file['name'];
-			if ($expiration->isExpired($timestamp)) {
+			if ($expiration->isExpired($timestamp, $freeSpace <= 0)) {
 				try {
-					$size += self::delete($filename, $user, $timestamp);
+					$size = self::delete($filename, $user, $timestamp);
+					$freeSpace += $size;
+					$totalSize += $size;
 					$count++;
 				} catch (NotPermittedException $e) {
 					Server::get(LoggerInterface::class)->warning('Removing "' . $filename . '" from trashbin failed for user "{user}"',
@@ -937,7 +941,7 @@ class Trashbin implements IEventListener {
 			}
 		}
 
-		return [$size, $count];
+		return [$totalSize, $count];
 	}
 
 	/**
