@@ -1,6 +1,8 @@
 { "translations": {
     "Shared with {email}" : "Jagatud aadressile {email}",
     "Shared with {email} by {actor}" : "Jagatud aadressile {email} {actor} poolt",
+    "Unshared from {email}" : "Jagamine {email} aadressile on lõpetatud",
+    "Unshared from {email} by {actor}" : "{actor} lõpetas jagamise {email} aadressile",
     "Password for mail share sent to {email}" : "E-kirjaga jagamise salasõna on saadetud aadressile {email}",
     "Password for mail share sent to you" : "Sulle saadetud e-kirjaga jagamise salasõna",
     "Password to access {file} was sent to {email}" : "Salasõna ligipääsuks „{file}“ failile saadeti aadressile {email}",
@@ -8,6 +10,7 @@
     "Share by mail" : "Jaga e-postiga",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s jagamine ebaõnnestus, kuna seda üksust on juba jagatud kontoga %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Me ei saa sulle automaatselt loodud salasõna saata. Palun määra oma isiklikes seadistustes korrektne e-posti aadress ja proovi uuesti.",
+    "Failed to send share by email. Got an invalid email address" : "Jaosmeedia saatmine e-postiga ei õnnestunud. Ilmselt oli e-posti aadress vale.",
     "Failed to send share by email" : "Jaosmeediat polnud võimalik e-kirjaga saata",
     "%1$s shared %2$s with you" : "%1$s jagas sinuga: %2$s",
     "Note:" : "Märkus:",
@@ -29,7 +32,8 @@
     "You can choose a different password at any time in the share dialog." : "Salasõna saad alati jagamisvaatest muuta.",
     "Could not find share" : "Jagamist ei leitud.",
     "Share provider which allows you to share files by mail" : "Jagamisteenuse pakkuja, mis võimaldab sul meediat jagada e-posti vahendusel",
-    "Send password by mail" : "Saada parool e-postiga",
+    "Unable to update share by mail config" : "E-postiga jagamise seadistuste uuendamine ei õnnestu.",
+    "Send password by mail" : "Saada salasõna e-postiga",
     "Reply to initiator" : "Vasta algatajale"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

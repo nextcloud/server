@@ -455,6 +455,7 @@ OC.L10N.register(
     "New text file.txt" : "Nuovo file di testo.txt",
     "%1$s (renamed)" : "%1$s (rinominato)",
     "renamed file" : "file rinominato",
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Dopo aver abilitato i nomi file compatibili con Windows, i file esistenti non potranno più essere modificati, ma potranno essere rinominati con nuovi nomi validi dal rispettivo proprietario.",
     "{count} files could not be converted" : "{count} file non possono essere convertiti",
     "{count} files successfully converted" : "{count} file convertiti con successo"
 },
