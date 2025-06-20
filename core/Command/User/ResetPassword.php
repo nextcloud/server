@@ -41,7 +41,7 @@ class ResetPassword extends Base {
 				'password-from-env',
 				null,
 				InputOption::VALUE_NONE,
-				'read password from environment variable OC_PASS'
+				'read password from environment variable NC_PASS/OC_PASS'
 			)
 		;
 	}
@@ -56,9 +56,9 @@ class ResetPassword extends Base {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
