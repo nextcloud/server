@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace NCU\Config\Lexicon;
 
+use Closure;
 use NCU\Config\ValueType;
 
 /**
@@ -22,6 +23,8 @@ class ConfigLexiconEntry {
 
 	private string $definition = '';
 	private ?string $default = null;
+	private ?Closure $initialize = null;
+	private ?Closure $onSet = null;
 
 	/**
 	 * @param string $key config key
@@ -134,6 +137,48 @@ class ConfigLexiconEntry {
 		}
 
 		return $this->default;
+	}
+
+	/**
+	 * set a closure to be executed when reading a non-set config value
+	 * first param of the closure is the default value of the config key.
+	 *
+	 * @experimental 32.0.0
+	 */
+	public function initialize(Closure $closure): self {
+		$this->initialize = $closure;
+		return $this;
+	}
+
+	/**
+	 * returns if something needs to be executed when reading a non-set config value
+	 *
+	 * @return Closure|null NULL if nothing is supposed to happens
+	 * @experimental 32.0.0
+	 */
+	public function executeOnInit(): ?Closure {
+		return $this->initialize;
+	}
+
+	/**
+	 * set a closure to be executed when setting a value to this config key
+	 * first param of the closure is future value.
+	 *
+	 * @experimental 32.0.0
+	 */
+	public function onSet(Closure $closure): self {
+		$this->onSet = $closure;
+		return $this;
+	}
+
+	/**
+	 * returns if something needs to be executed when writing a new value
+	 *
+	 * @return Closure|null NULL if nothing is supposed to happens
+	 * @experimental 32.0.0
+	 */
+	public function executeOnSet(): ?Closure {
+		return $this->onSet;
 	}
 
 	/**

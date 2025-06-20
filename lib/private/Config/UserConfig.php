@@ -721,7 +721,8 @@ class UserConfig implements IUserConfig {
 	): string {
 		$this->assertParams($userId, $app, $key);
 		$origKey = $key;
-		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default)) {
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default, lexiconEntry: $lexiconEntry)) {
 			// returns default if strictness of lexicon is set to WARNING (block and report)
 			return $default;
 		}
@@ -753,6 +754,13 @@ class UserConfig implements IUserConfig {
 		} elseif (isset($this->fastCache[$userId][$app][$key])) {
 			$value = $this->fastCache[$userId][$app][$key];
 		} else {
+			// unknown value, might want to execute something instead of just returning default.
+			// default value will be stored in database, unless false is returned
+			if (($lexiconEntry?->executeOnInit() !== null)
+				&& $lexiconEntry->executeOnInit()($default) !== false) {
+				$this->setTypedValue($userId, $app, $key, $default, $lazy, 0, $type);
+			}
+
 			return $default;
 		}
 
@@ -1067,17 +1075,19 @@ class UserConfig implements IUserConfig {
 		int $flags,
 		ValueType $type,
 	): bool {
-		// Primary email addresses are always(!) expected to be lowercase
-		if ($app === 'settings' && $key === 'email') {
-			$value = strtolower($value);
-		}
-
 		$this->assertParams($userId, $app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags, lexiconEntry: $lexiconEntry)) {
 			// returns false as database is not updated
 			return false;
 		}
 		$this->loadConfig($userId, $lazy);
+
+		// might want to execute something before storing new value
+		// will cancel storing of new value in database if false is returned
+		if ($lexiconEntry?->executeOnSet() !== null && $lexiconEntry?->executeOnSet()($value) === false) {
+			return false;
+		}
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
@@ -1887,6 +1897,7 @@ class UserConfig implements IUserConfig {
 		ValueType &$type = ValueType::MIXED,
 		int &$flags = 0,
 		string &$default = '',
+		?ConfigLexiconEntry &$lexiconEntry = null,
 	): bool {
 		$configDetails = $this->getConfigDetailsFromLexicon($app);
 		if (array_key_exists($key, $configDetails['aliases']) && !$this->ignoreLexiconAliases) {
@@ -1903,18 +1914,18 @@ class UserConfig implements IUserConfig {
 			return true;
 		}
 
-		/** @var ConfigLexiconEntry $configValue */
-		$configValue = $configDetails['entries'][$key];
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		$lexiconEntry = $configDetails['entries'][$key];
 		if ($type === ValueType::MIXED) {
 			// we overwrite if value was requested as mixed
-			$type = $configValue->getValueType();
-		} elseif ($configValue->getValueType() !== $type) {
+			$type = $lexiconEntry->getValueType();
+		} elseif ($lexiconEntry->getValueType() !== $type) {
 			throw new TypeConflictException('The user config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
 
-		$lazy = $configValue->isLazy();
-		$flags = $configValue->getFlags();
-		if ($configValue->isDeprecated()) {
+		$lazy = $lexiconEntry->isLazy();
+		$flags = $lexiconEntry->getFlags();
+		if ($lexiconEntry->isDeprecated()) {
 			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
@@ -1925,7 +1936,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		// default from Lexicon got priority but it can still be overwritten by admin
-		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault() ?? $default;
+		$default = $this->getSystemDefault($app, $lexiconEntry) ?? $lexiconEntry->getDefault() ?? $default;
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;

@@ -438,7 +438,8 @@ class AppConfig implements IAppConfig {
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
 		$origKey = $key;
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default)) {
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default, lexiconEntry: $lexiconEntry)) {
 			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
 		}
 		$this->loadConfig($app, $lazy);
@@ -469,6 +470,13 @@ class AppConfig implements IAppConfig {
 		} elseif (isset($this->fastCache[$app][$key])) {
 			$value = $this->fastCache[$app][$key];
 		} else {
+			// unknown value, might want to execute something instead of just returning default.
+			// default value will be stored in database, unless false is returned
+			if (($lexiconEntry?->executeOnInit() !== null)
+				&& $lexiconEntry->executeOnInit()($default) !== false) {
+				$this->setTypedValue($app, $key, $default, $lazy, $type);
+			}
+
 			return $default;
 		}
 
@@ -748,10 +756,17 @@ class AppConfig implements IAppConfig {
 		int $type,
 	): bool {
 		$this->assertParams($app, $key);
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, lexiconEntry: $lexiconEntry)) {
 			return false; // returns false as database is not updated
 		}
 		$this->loadConfig(null, $lazy);
+
+		// might want to execute something before storing new value
+		// will cancel storing of new value in database if false is returned
+		if ($lexiconEntry?->executeOnSet() !== null && $lexiconEntry?->executeOnSet()($value) === false) {
+			return false;
+		}
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
@@ -1593,6 +1608,7 @@ class AppConfig implements IAppConfig {
 		?bool &$lazy = null,
 		int &$type = self::VALUE_MIXED,
 		string &$default = '',
+		?ConfigLexiconEntry &$lexiconEntry = null,
 	): bool {
 		if (in_array($key,
 			[
@@ -1617,23 +1633,23 @@ class AppConfig implements IAppConfig {
 			return true;
 		}
 
-		/** @var ConfigLexiconEntry $configValue */
-		$configValue = $configDetails['entries'][$key];
+		/** @var ConfigLexiconEntry $lexiconEntry */
+		$lexiconEntry = $configDetails['entries'][$key];
 		$type &= ~self::VALUE_SENSITIVE;
 
-		$appConfigValueType = $configValue->getValueType()->toAppConfigFlag();
+		$appConfigValueType = $lexiconEntry->getValueType()->toAppConfigFlag();
 		if ($type === self::VALUE_MIXED) {
 			$type = $appConfigValueType; // we overwrite if value was requested as mixed
 		} elseif ($appConfigValueType !== $type) {
 			throw new AppConfigTypeConflictException('The app config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
 
-		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
-		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
+		$lazy = $lexiconEntry->isLazy();
+		$default = $lexiconEntry->getDefault() ?? $default; // default from Lexicon got priority
+		if ($lexiconEntry->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
-		if ($configValue->isDeprecated()) {
+		if ($lexiconEntry->isDeprecated()) {
 			$this->logger->notice('App config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
