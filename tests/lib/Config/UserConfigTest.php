@@ -1241,6 +1241,19 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
+	/**
+	 * This test needs to stay! Emails are expected to be lowercase due to performance reasons.
+	 * This way we can skip the expensive casing change on the database.
+	 */
+	public function testSetValueMixedWithSettingsEmail(): void {
+		$userConfig = $this->generateUserConfig();
+
+		$edited = $userConfig->setValueMixed('user1', 'settings', 'email', 'mixed.CASE@Nextcloud.com');
+		$this->assertTrue($edited);
+
+		$actual = $userConfig->getValueMixed('user1', 'settings', 'email');
+		$this->assertEquals('mixed.case@nextcloud.com', $actual);
+	}
 
 	public static function providerSetValueString(): array {
 		return [
