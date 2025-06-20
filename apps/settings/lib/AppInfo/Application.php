@@ -12,6 +12,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
@@ -128,6 +129,9 @@ class Application extends App implements IBootstrap {
 
 		// Register Settings Form(s)
 		$context->registerDeclarativeSettings(MailProvider::class);
+
+		// Register Config Lexicon
+		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		/**
 		 * Core class wrappers
