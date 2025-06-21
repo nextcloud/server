@@ -14,7 +14,7 @@ use OCP\Files\File;
  * @since 28.0.0
  */
 interface INeedSyncVersionBackend {
-	public function createVersionEntity(File $file): void;
+	public function createVersionEntity(File $file): ?int;
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void;
 	public function deleteVersionsEntity(File $file): void;
 }
