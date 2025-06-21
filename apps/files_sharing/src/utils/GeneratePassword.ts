@@ -38,10 +38,29 @@ export default async function(verbose = false): Promise<string> {
 
 	const array = new Uint8Array(10)
 	const ratio = passwordSet.length / 255
-	self.crypto.getRandomValues(array)
+	getRandomValues(array)
 	let password = ''
 	for (let i = 0; i < array.length; i++) {
 		password += passwordSet.charAt(array[i] * ratio)
 	}
 	return password
+}
+
+/**
+ * Fills the given array with cryptographically secure random values.
+ * If the crypto API is not available, it falls back to less secure Math.random().
+ * Crypto API is available in modern browsers on secure contexts (HTTPS).
+ *
+ * @param {Uint8Array} array - The array to fill with random values.
+ */
+function getRandomValues(array: Uint8Array): void {
+	if (self?.crypto?.getRandomValues) {
+		self.crypto.getRandomValues(array)
+		return
+	}
+
+	let len = array.length
+	while (len--) {
+		array[len] = Math.floor(Math.random() * 256)
+	}
 }
