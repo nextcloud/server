@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "初始位置",
     "Deleted by" : "删除者",
     "Deleted" : "已删除",
+    "few seconds ago" : "几秒钟前",
     "A long time ago" : "很久之前",
     "Unknown" : "未知",
     "All files" : "全部文件",

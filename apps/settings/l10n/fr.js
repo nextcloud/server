@@ -131,6 +131,7 @@ OC.L10N.register(
     "Unlimited" : "Illimité",
     "Verifying" : "Vérification en cours",
     "Allowed admin IP ranges" : "Plage d'adresses IP autorisées pour l'admin",
+    "Admin IP filtering isn't applied." : "Le filtrage IP admin n'est pas activé",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "La clé de configuration \"%1$s\" attends un tableau (trouver %2$s). La plage d'adresses IP de l'admin ne sera pas appliquée.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "La clé de configuration \"%1$s\" contient une ou plusieurs plages d'adresses IP invalides: \"%2$s\"",
     "Admin IP filtering is correctly configured." : "Le filtrage IP admin est bien configuré.",

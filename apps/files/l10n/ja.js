@@ -124,6 +124,7 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "ボタン付きの列ヘッダはソート可能です。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "File not found" : "ファイルが見つかりません",
+    "_{count} selected_::_{count} selected_" : ["{count}選択済み"],
     "{usedQuotaByte} used" : "{usedQuotaByte} 使用されています",
     "{used} of {quota} used" : "{used} / {quota} 使用中",
     "{relative}% used" : "{relative}% 使用されています",
