@@ -30,8 +30,7 @@
     "npm"
   ],
   "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true
+    "enabled": false,
   },
   "packageRules": [
     {
