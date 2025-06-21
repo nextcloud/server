@@ -24,7 +24,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['main', 'master', 'stable31', 'stable30']
+        branches:
+          - ${{ github.event.repository.default_branch }}
+          - 'stable31'
+          - 'stable30'
 
     name: npm-audit-fix-${{ matrix.branches }}
 
