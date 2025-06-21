@@ -13,10 +13,10 @@ use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\Job;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 
-class ScheduledNotifications extends Job {
+class ScheduledNotifications extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		protected ReminderMapper $reminderMapper,
@@ -24,6 +24,8 @@ class ScheduledNotifications extends Job {
 		protected LoggerInterface $logger,
 	) {
 		parent::__construct($time);
+
+		$this->setInterval(60);
 	}
 
 	/**
