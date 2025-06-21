@@ -13,16 +13,10 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class SameSiteCookieMiddleware extends Middleware {
-	/** @var Request */
-	private $request;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	public function __construct(Request $request,
-		ControllerMethodReflector $reflector) {
-		$this->request = $request;
-		$this->reflector = $reflector;
+	public function __construct(
+		private Request $request,
+		private ControllerMethodReflector $reflector,
+	) {
 	}
 
 	public function beforeController($controller, $methodName) {
@@ -58,7 +52,7 @@ class SameSiteCookieMiddleware extends Middleware {
 		throw $exception;
 	}
 
-	protected function setSameSiteCookie() {
+	protected function setSameSiteCookie(): void {
 		$cookieParams = $this->request->getCookieParams();
 		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
 		$policies = [
