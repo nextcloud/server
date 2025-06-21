@@ -2939,18 +2939,16 @@
 								// TODO: 409 means current folder does not exist, redirect ?
 								if (status === 404) {
 									// source not found, so remove it from the list
-									OC.Notification.show(t('files', 'Could not rename "{fileName}", it does not exist any more',
-										{fileName: oldName}), {timeout: 7, type: 'error'}
-									);
+									OC.Notification.show(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }), {timeout: 7, type: 'error'});
 
 									self.remove(newName, {updateSummary: true});
 									return;
 								} else if (status === 412) {
 									// target exists
 									OC.Notification.show(
-										t('files', 'The name "{targetName}" is already used in the folder "{dir}". Please choose a different name.',
+										t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.',
 										{
-											targetName: newName,
+											newName,
 											dir: self.getCurrentDirectory(),
 										}),
 										{
@@ -2959,9 +2957,7 @@
 									);
 								} else {
 									// restore the item to its previous state
-									OC.Notification.show(t('files', 'Could not rename "{fileName}"',
-										{fileName: oldName}), {type: 'error'}
-									);
+									OC.Notification.show(t('files', 'Could not rename "{oldName}"', { oldName }), { type: 'error' });
 								}
 								updateInList(oldFileInfo);
 							});
