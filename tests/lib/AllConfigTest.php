@@ -93,6 +93,27 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userSet', 'appSet', 'keySet');
 	}
 
+	/**
+	 * This test needs to stay! Emails are expected to be lowercase due to performance reasons.
+	 * This way we can skip the expensive casing change on the database.
+	 */
+	public function testSetUserValueSettingsEmail(): void {
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+		$config = $this->getConfig();
+
+		$config->setUserValue('userSet', 'settings', 'email', 'mixed.CASE@domain.COM');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals([
+			'userid' => 'userSet',
+			'appid' => 'settings',
+			'configkey' => 'email',
+			'configvalue' => 'mixed.case@domain.com'
+		], $result[0]);
+	}
+
 	public function testSetUserValueWithPreCondition(): void {
 		$config = $this->getConfig();
 
