@@ -7,6 +7,7 @@ OC.L10N.register(
     "Your browser does not support audio." : "Votre navigateur web ne prend pas en charge l'audio.",
     "Error loading {name}" : "Erreur au chargement de {name}",
     "Cancel" : "Annuler",
+    "Overwrite" : "Remplacer",
     "Image saved" : "Image sauvegardée",
     "Error saving image" : "Erreur lors de l'enregistrement de l'image",
     "Play the live photo" : "Lire la live photo",

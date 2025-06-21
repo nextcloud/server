@@ -33,7 +33,7 @@ OC.L10N.register(
     "Loading …" : "Lade …",
     "Reset" : "Zurücksetzen",
     "All changes will be lost." : "Alle Änderungen gehen verloren.",
-    "Are you sure you want to continue?" : "Bist du dir sicher, dass du fortsetzen möchtest?",
+    "Are you sure you want to continue?" : "Möchtest du wirklich fortsetzen?",
     "Apply" : "Anwenden",
     "Warning" : "Warnung",
     "Confirm" : "Bestätigen",
