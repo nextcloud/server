@@ -35,7 +35,7 @@ declare(strict_types=1);
 		</li>
 	<?php endforeach; ?>
 	</ul>
-	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
 		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>
