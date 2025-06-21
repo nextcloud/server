@@ -324,6 +324,7 @@ OC.L10N.register(
     "Login form is disabled." : "Le formulaire de connexion est désactivé.",
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Le formulaire de connexion Nextcloud est désactivé. Utilisez une autre option de connexion si disponible ou contactez votre administration.",
     "More actions" : "Plus d'actions…",
+    "User menu" : "Menu utilisateur",
     "Password is too weak" : "Mot de passe trop faible",
     "Password is weak" : "Mot de passe faible",
     "Password is average" : "Mot de passe moyen",

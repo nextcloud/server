@@ -216,6 +216,8 @@ OC.L10N.register(
     "Expires {relativetime}" : "Lejárat: {relativetime}",
     "this share just expired." : "ez a megosztás épp most járt le.",
     "Shared with you by {owner}" : "{owner} megosztotta Önnel",
+    "Internal shares" : "Belső megosztások",
+    "External shares" : "Külső megosztások",
     "Link to a file" : "Hivatkozás egy fájlhoz",
     "_Accept share_::_Accept shares_" : ["Megosztás elfogadása","Megosztások elfogadása"],
     "Open in Files" : "Megnyitás a Fájlokban",

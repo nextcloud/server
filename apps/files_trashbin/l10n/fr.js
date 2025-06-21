@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Emplacement original",
     "Deleted by" : "Supprimé par",
     "Deleted" : "Supprimé",
+    "few seconds ago" : "Il y a quelques secondes",
     "A long time ago" : "Il y a longtemps",
     "Unknown" : "Inconnu",
     "All files" : "Tous les fichiers",
