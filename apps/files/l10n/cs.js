@@ -115,7 +115,7 @@ OC.L10N.register(
     "File type" : "Typ souboru",
     "Size" : "Velikost",
     "\"{displayName}\" failed on some elements" : "„{displayName}“ se pro některé prvky nezdařilo",
-    "\"{displayName}\" batch action executed successfully" : "hromadná akce „{displayName}“ úspěšně vykonána",
+    "\"{displayName}\" batch action executed successfully" : "Hromadná akce „{displayName}“ úspěšně vykonána",
     "\"{displayName}\" action failed" : "akce „{displayName}“ se nezdařila",
     "Actions" : "Akce",
     "(selected)" : "(vybráno)",
