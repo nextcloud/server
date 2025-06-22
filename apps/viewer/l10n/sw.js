@@ -9,10 +9,15 @@ OC.L10N.register(
     "Name" : "Jina",
     "Save" : "Hifadhi",
     "Back" : "Rudi",
+    "Loading …" : "Inapakia",
+    "Reset" : "Pangilia upya",
     "Confirm" : "Thibitisha",
     "Undo" : "Tendua",
+    "Zoom in" : "Kuza ndani",
+    "Zoom out" : "Kuza nje",
     "Image" : "Picha",
     "Text" : "Maandishi",
-    "Size" : "Ukubwa"
+    "Size" : "Ukubwa",
+    "Menu" : "Mwongozo"
 },
 "nplurals=2; plural=(n != 1);");
