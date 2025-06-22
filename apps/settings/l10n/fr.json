@@ -312,6 +312,7 @@
     "Architecture" : "Architecture",
     "64-bit" : "64 bits",
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Il semblerait que vous exécutiez une version 32 bits de PHP. Nextcloud nécessite 64 bits pour fonctionner correctement. Veuillez mettre votre système d'exploitation et PHP à niveau vers du 64 bits !",
+    "_No scheduled tasks in the last %n hour._::_No scheduled tasks in the last %n hours._" : ["Aucune tâche planifiée au cours de la dernière heure.","Aucune tâche planifiée au cours des %n dernières heures.","Aucune tâche planifiée au cours des %n dernières heures."],
     "Temporary space available" : "Espace temporaire disponible",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Erreur lors de la vérification du chemin PHP temporaire - il n'a pas été correctement défini sur un répertoire. Valeur retournée : %s",
     "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "La fonction PHP \"disk_free_space\" est désactivée, ce qui empêche la vérification de l'espace suffisant dans les répertoires temporaires.",
@@ -581,6 +582,7 @@
     "This is the final warning: Do you really want to enable encryption?" : "Dernier avertissement : Voulez-vous vraiment activer le chiffrement ?",
     "Failed to delete group \"{group}\"" : "Échec de la suppression du groupe \"{group}\"",
     "Please confirm the group removal" : "Merci de confirmer la suppression du groupe",
+    "You are about to delete the group \"{group}\". The accounts will NOT be deleted." : "Vous êtes sur le point de supprimer le groupe \"{group}\". Les comptes associés ne seront pas supprimés.",
     "Submit" : "Soumettre",
     "Rename group" : "Renommer le groupe",
     "Delete group" : "Supprimer le groupe",
@@ -713,6 +715,8 @@
     "Remote wipe of devices" : "Effacer les appareils à distance",
     "Wipe {userid}'s devices" : "Effacer les appareils de {userid}",
     "Wiped {userid}'s devices" : "Les appareils de {userid} ont été effacés",
+    "Failed to load groups with details" : "Échec du chargement des groupes avec les détails",
+    "Failed to load sub admin groups with details" : "Échec du chargement du sous-administrateur de groupes avec les détails",
     "Failed to update line manager" : "Échec de la mise à jour du responsable hiérarchique",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Supprime totalement le compte de {userid} et toutes ses données associées (fichiers personnels, données des applications, etc.)",
     "Account deletion" : "Suppression de compte",
@@ -890,6 +894,7 @@
     "Set default expiration date for shares" : "Définir par défaut une date d’expiration pour les partages",
     "Your biography" : "Votre biographie",
     "You are using <strong>{usage}</strong>" : "Vous utilisez <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Vous utilisez <strong>{usage}</strong> sur <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Vous utilisez <strong>{usage}</strong> sur <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "Failed to load subadmin groups with details" : "Échec du chargement des sous-administrateurs de groupes avec les détails"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
