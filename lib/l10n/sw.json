@@ -1,7 +1,10 @@
 { "translations": {
+    "Authentication" : "Uthibitisho",
     "Unknown filetype" : "Aina ya faili haijulikani",
     "Invalid image" : "Taswira si halisi",
     "Files" : "Mafaili",
+    "View profile" : "Angalia wasifu",
+    "_%n year ago_::_%n years ago_" : ["%n year ago","%n years ago"],
     "seconds ago" : "sukunde zilizopita",
     "%1$s (renamed)" : "%1$s (iliyopew jina jipya)",
     "renamed file" : "Faili iliyopewa jina jipya",
@@ -10,8 +13,10 @@
     "Templates" : "Violezo",
     "Apps" : "Maombi",
     "Settings" : "Mipangilio",
+    "Log out" : "Ondoka",
     "Accounts" : "Akaunti",
     "Email" : "Barua pepe",
+    "About" : "Kuhusu",
     "Additional settings" : "Mipangilio ya nyongeza",
     "Sunday" : "Jumapili",
     "Monday" : "Jumatatu",
@@ -23,6 +28,7 @@
     "Storage is temporarily not available" : "Uhifadhi haupo kwa muda",
     "Confirmation" : "Uthibitisho",
     "Text" : "Maandishi",
-    "Summary" : "Muhtasari"
+    "Summary" : "Muhtasari",
+    "Translate" : "Tafsiri"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
