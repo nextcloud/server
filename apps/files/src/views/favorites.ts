@@ -22,10 +22,9 @@
 import type { Folder, Node } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
-import { FileType, View, getNavigation } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
+import { FileType, View, getFavoriteNodes, getNavigation } from '@nextcloud/files'
 import { getLanguage, translate as t } from '@nextcloud/l10n'
-import { basename } from 'path'
+import { client } from '../services/WebdavClient.ts'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
@@ -33,22 +32,17 @@ import { getContents } from '../services/Favorites'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
 
-// The return type of the initial state
-interface IFavoriteFolder {
-	fileid: number
-	path: string
-}
-
-export const generateFavoriteFolderView = function(folder: IFavoriteFolder, index = 0): View {
+const generateFavoriteFolderView = function(folder: Folder, index = 0): View {
 	return new View({
 		id: generateIdFromPath(folder.path),
-		name: basename(folder.path),
+		name: folder.displayname,
 
 		icon: FolderSvg,
 		order: index,
+
 		params: {
 			dir: folder.path,
-			fileid: folder.fileid.toString(),
+			fileid: String(folder.fileid),
 			view: 'favorites',
 		},
 
@@ -60,16 +54,11 @@ export const generateFavoriteFolderView = function(folder: IFavoriteFolder, inde
 	})
 }
 
-export const generateIdFromPath = function(path: string): string {
+const generateIdFromPath = function(path: string): string {
 	return `favorite-${hashCode(path)}`
 }
 
-export default () => {
-	// Load state in function for mock testing purposes
-	const favoriteFolders = loadState<IFavoriteFolder[]>('files', 'favoriteFolders', [])
-	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index)) as View[]
-	logger.debug('Generating favorites view', { favoriteFolders })
-
+export const registerFavoritesView = async () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'favorites',
@@ -87,6 +76,9 @@ export default () => {
 		getContents,
 	}))
 
+	const favoriteFolders = (await getFavoriteNodes(client)).filter(node => node.type === FileType.Folder) as Folder[]
+	const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index)) as View[]
+	logger.debug('Generating favorites view', { favoriteFolders })
 	favoriteFoldersViews.forEach(view => Navigation.register(view))
 
 	/**
@@ -154,8 +146,7 @@ export default () => {
 
 	// Add a folder to the favorites paths array and update the views
 	const addToFavorites = function(node: Folder) {
-		const newFavoriteFolder: IFavoriteFolder = { path: node.path, fileid: node.fileid! }
-		const view = generateFavoriteFolderView(newFavoriteFolder)
+		const view = generateFavoriteFolderView(node)
 
 		// Skip if already exists
 		if (favoriteFolders.find((folder) => folder.path === node.path)) {
@@ -163,7 +154,7 @@ export default () => {
 		}
 
 		// Update arrays
-		favoriteFolders.push(newFavoriteFolder)
+		favoriteFolders.push(node)
 		favoriteFoldersViews.push(view)
 
 		// Update and sort views

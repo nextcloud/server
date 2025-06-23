@@ -35,7 +35,7 @@ import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { entry as newTemplatesFolder } from './newMenu/newTemplatesFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
-import registerFavoritesView from './views/favorites'
+import { registerFavoritesView } from './views/favorites.ts'
 import registerRecentView from './views/recent'
 import registerPersonalFilesView from './views/personal-files'
 import registerFilesView from './views/files'
