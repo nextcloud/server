@@ -38,7 +38,7 @@ $template = $_['template'];
 		</a>
 	</p>
 	<?php endif; ?>
-	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
 		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>
