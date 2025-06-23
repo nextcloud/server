@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use Closure;
+use Exception;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\User\NoUserException;
@@ -17,6 +18,7 @@ use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
@@ -158,13 +160,12 @@ class OwnershipTransferService {
 			$sourceShares = $this->collectIncomingShares(
 				$sourceUid,
 				$output,
-				$view
+				$sourcePath,
 			);
 			$destinationShares = $this->collectIncomingShares(
 				$destinationUid,
 				$output,
-				$view,
-				true
+				null,
 			);
 			$this->transferIncomingShares(
 				$sourceUid,
@@ -333,7 +334,7 @@ class OwnershipTransferService {
 							return mb_strpos(
 								Filesystem::normalizePath($relativePath . '/', false),
 								$normalizedPath . '/') === 0;
-						} catch (\Exception $e) {
+						} catch (Exception $e) {
 							return false;
 						}
 					});
@@ -361,14 +362,16 @@ class OwnershipTransferService {
 		}, $shares)));
 	}
 
-	private function collectIncomingShares(string $sourceUid,
+	private function collectIncomingShares(
+		string $sourceUid,
 		OutputInterface $output,
-		View $view,
-		bool $addKeys = false): array {
+		?string $path,
+	): array {
 		$output->writeln("Collecting all incoming share information for files and folders of $sourceUid ...");
 
 		$shares = [];
 		$progress = new ProgressBar($output);
+		$normalizedPath = Filesystem::normalizePath($path);
 
 		$offset = 0;
 		while (true) {
@@ -377,14 +380,19 @@ class OwnershipTransferService {
 			if (empty($sharePage)) {
 				break;
 			}
-			if ($addKeys) {
-				foreach ($sharePage as $singleShare) {
-					$shares[$singleShare->getNodeId()] = $singleShare;
-				}
-			} else {
-				foreach ($sharePage as $singleShare) {
-					$shares[] = $singleShare;
-				}
+
+			if ($path !== null && $path !== "$sourceUid/files") {
+				$sharePage = array_filter($sharePage, static function (IShare $share) use ($sourceUid, $normalizedPath) {
+					try {
+						return str_starts_with(Filesystem::normalizePath($sourceUid . '/files' . $share->getTarget() . '/', false), $normalizedPath . '/');
+					} catch (Exception) {
+						return false;
+					}
+				});
+			}
+
+			foreach ($sharePage as $share) {
+				$shares[$share->getNodeId()] = $share;
 			}
 
 			$offset += 50;
