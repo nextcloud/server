@@ -141,7 +141,7 @@ class ReminderMapper extends QBMapper {
 
 		$qb->select('r.id', 'r.user_id', 'r.file_id', 'r.due_date', 'r.updated_at', 'r.created_at', 'r.notified')
 			->from($this->getTableName(), 'r')
-			->innerJoin('r', 'oc_filecache', 'f', $qb->expr()->eq('r.file_id', 'f.fileid'))
+			->innerJoin('r', 'filecache', 'f', $qb->expr()->eq('r.file_id', 'f.fileid'))
 			->where($qb->expr()->eq('r.user_id', $qb->createNamedParameter($user->getUID(), IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($folder->getId(), IQueryBuilder::PARAM_INT)))
 			->orderBy('r.due_date', 'ASC');
