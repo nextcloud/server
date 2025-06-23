@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -62,7 +63,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapExpertUsernameAttr
  * @property string $ldapExpertUUIDUserAttr
  * @property string $ldapExpertUUIDGroupAttr
- * @property string $markRemnantsAsDisabled
+ * @property bool $markRemnantsAsDisabled
  * @property string $lastJpegPhotoLookup
  * @property string $ldapNestedGroups
  * @property string $ldapPagingSize
@@ -320,6 +321,9 @@ class Configuration {
 					case 'ldapAttributePronouns':
 						$readMethod = 'getLcValue';
 						break;
+					case 'markRemnantsAsDisabled':
+						$readMethod = 'getGlobalAppValueAsBool';
+						break;
 					case 'ldapUserDisplayName':
 					default:
 						// user display name does not lower case because
@@ -364,6 +368,7 @@ class Configuration {
 				case 'ldapIgnoreNamingRules':
 				case 'ldapUuidUserAttribute':
 				case 'ldapUuidGroupAttribute':
+				case 'markRemnantsAsDisabled':
 					continue 2;
 			}
 			if (is_null($value)) {
@@ -436,6 +441,14 @@ class Configuration {
 
 	protected function getLcValue(string $varName): string {
 		return mb_strtolower($this->getValue($varName), 'UTF-8');
+	}
+
+	protected function getGlobalAppValueAsBool(string $varName): bool {
+		static $appConfig;
+		if (!$appConfig) {
+			$appConfig = \OCP\Server::get(IAppConfig::class);
+		}
+		return $appConfig->getValueBool('user_ldap', $varName, false);
 	}
 
 	protected function getSystemValue(string $varName): string {
@@ -538,7 +551,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => '',
 			'has_memberof_filter_support' => 0,
 			'use_memberof_to_detect_membership' => 1,
-			'ldap_mark_remnants_as_disabled' => 0,
+			'backend_mark_remnants_as_disabled' => 0,
 			'last_jpegPhoto_lookup' => 0,
 			'ldap_nested_groups' => 0,
 			'ldap_paging_size' => 500,
@@ -618,7 +631,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support' => 'hasMemberOfFilterSupport',
 			'use_memberof_to_detect_membership' => 'useMemberOfToDetectMembership',
-			'ldap_mark_remnants_as_disabled' => 'markRemnantsAsDisabled',
+			'backend_mark_remnants_as_disabled' => 'markRemnantsAsDisabled',
 			'last_jpegPhoto_lookup' => 'lastJpegPhotoLookup',
 			'ldap_nested_groups' => 'ldapNestedGroups',
 			'ldap_paging_size' => 'ldapPagingSize',
