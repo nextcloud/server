@@ -402,7 +402,7 @@ OC.L10N.register(
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ja {nbfiles} teist faili kopeeritud kausta {destination}",
     "{newName} already exists" : "{newName} on juba olemas",
     "Could not rename \"{oldName}\", it does not exist any more" : "„{oldName}“ faili nime muutmine ei õnnestunud, seda pole enam olemas",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Nimi \"{newName}\" on juba \"{dir}\" kaustas kasutusel. Palun vali teine nimi.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "„{newName}“ nimi on juba „{dir}“ kaustas kasutusel. Palun vali teine nimi.",
     "Could not rename \"{oldName}\"" : "„{oldName}“ faili nime muutmine ei õnnestunud",
     "Could not create file \"{file}\"" : "Faili \"{file}\" loomine ebaõnnestus",
     "Could not create file \"{file}\" because it already exists" : "Faili \"{file}\" loomine ebaõnnestus, sest see on juba olemas",

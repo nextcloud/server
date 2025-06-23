@@ -65,7 +65,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "A transferência da sua propriedade de {path} para {user} foi concluída.",
     "The ownership transfer of {path} from {user} has completed." : "A transferência da propriedade de {path} de {user} foi concluída.",
     "in %s" : "em %s",
-    "Transferred from %1$s on %2$s" : "Transferido de %1$s para %2$s",
+    "Transferred from %1$s on %2$s" : "Transferido de %1$s em %2$s",
     "Files compatibility" : "Compatibilidade de arquivos",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Permitir restringir nomes de arquivos para garantir que os arquivos possam ser sincronizados com todos os clientes. Por padrão, todos os nomes de arquivos válidos em POSIX (p. ex., Linux ou macOS) são permitidos.",
     "After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Depois de ativar os nomes de arquivos compatíveis com o Windows, os arquivos existentes não podem mais ser modificados, mas podem ser renomeados para novos nomes válidos pelo proprietário.",
