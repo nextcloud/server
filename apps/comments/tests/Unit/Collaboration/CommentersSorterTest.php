@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -60,8 +61,8 @@ class CommentersSorterTest extends TestCase {
 				#1 – sort properly and otherwise keep existing order
 				'actors' => ['users' => ['celia' => 3, 'darius' => 7, 'faruk' => 5, 'gail' => 5], 'bots' => ['r2-d2' => 8]],
 				'input' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -76,8 +77,8 @@ class CommentersSorterTest extends TestCase {
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'darius']],
 							['value' => ['shareWith' => 'faruk']],
 							['value' => ['shareWith' => 'gail']],
@@ -96,8 +97,8 @@ class CommentersSorterTest extends TestCase {
 				#2 – no commentors, input equals output
 				'actors' => [],
 				'input' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -112,8 +113,8 @@ class CommentersSorterTest extends TestCase {
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],

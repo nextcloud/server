@@ -67,9 +67,9 @@ class Notifier implements INotifier {
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'files_sharing' ||
-			($notification->getSubject() !== 'expiresTomorrow' &&
-				$notification->getObjectType() !== 'share')) {
+		if ($notification->getApp() !== 'files_sharing'
+			|| ($notification->getSubject() !== 'expiresTomorrow'
+				&& $notification->getObjectType() !== 'share')) {
 			throw new UnknownNotificationException('Unhandled app or subject');
 		}
 

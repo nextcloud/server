@@ -82,8 +82,8 @@ class UserAvatar extends Avatar {
 
 		$img = new \OCP\Image();
 		if (
-			(is_resource($data) && get_resource_type($data) === 'gd') ||
-			(is_object($data) && get_class($data) === \GdImage::class)
+			(is_resource($data) && get_resource_type($data) === 'gd')
+			|| (is_object($data) && get_class($data) === \GdImage::class)
 		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {

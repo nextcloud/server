@@ -48,10 +48,10 @@ class ClearNotificationsTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($this->callback(function (INotification $n) {
-				return $n->getUser() === 'fritz' &&
-					$n->getApp() === 'twofactor_backupcodes' &&
-					$n->getObjectType() === 'create' &&
-					$n->getObjectId() === 'codes';
+				return $n->getUser() === 'fritz'
+					&& $n->getApp() === 'twofactor_backupcodes'
+					&& $n->getObjectType() === 'create'
+					&& $n->getObjectId() === 'codes';
 			}));
 
 		$this->listener->handle($event);

@@ -256,8 +256,8 @@ class FilesPlugin extends ServerPlugin {
 
 		// adds a 'Content-Disposition: attachment' header in case no disposition
 		// header has been set before
-		if ($this->downloadAttachment &&
-			$response->getHeader('Content-Disposition') === null) {
+		if ($this->downloadAttachment
+			&& $response->getHeader('Content-Disposition') === null) {
 			$filename = $node->getName();
 			if ($this->request->isUserAgent(
 				[
@@ -534,8 +534,8 @@ class FilesPlugin extends ServerPlugin {
 			$ocmPermissions[] = 'read';
 		}
 
-		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
-			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+		if (($ncPermissions & Constants::PERMISSION_CREATE)
+			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
 			$ocmPermissions[] = 'write';
 		}
 

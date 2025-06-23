@@ -185,11 +185,11 @@ class Encryption extends Wrapper {
 	public function rename(string $source, string $target): bool {
 		$result = $this->storage->rename($source, $target);
 
-		if ($result &&
+		if ($result
 			// versions always use the keys from the original file, so we can skip
 			// this step for versions
-			$this->isVersion($target) === false &&
-			$this->encryptionManager->isEnabled()) {
+			&& $this->isVersion($target) === false
+			&& $this->encryptionManager->isEnabled()) {
 			$sourcePath = $this->getFullPath($source);
 			if (!$this->util->isExcluded($sourcePath)) {
 				$targetPath = $this->getFullPath($target);
@@ -210,9 +210,9 @@ class Encryption extends Wrapper {
 	public function rmdir(string $path): bool {
 		$result = $this->storage->rmdir($path);
 		$fullPath = $this->getFullPath($path);
-		if ($result &&
-			$this->util->isExcluded($fullPath) === false &&
-			$this->encryptionManager->isEnabled()
+		if ($result
+			&& $this->util->isExcluded($fullPath) === false
+			&& $this->encryptionManager->isEnabled()
 		) {
 			$this->keyStorage->deleteAllFileKeys($fullPath);
 		}
@@ -225,9 +225,9 @@ class Encryption extends Wrapper {
 
 		$metaData = $this->getMetaData($path);
 		if (
-			!$this->is_dir($path) &&
-			isset($metaData['encrypted']) &&
-			$metaData['encrypted'] === true
+			!$this->is_dir($path)
+			&& isset($metaData['encrypted'])
+			&& $metaData['encrypted'] === true
 		) {
 			$fullPath = $this->getFullPath($path);
 			$module = $this->getEncryptionModule($path);
@@ -384,9 +384,9 @@ class Encryption extends Wrapper {
 		$size = $this->storage->filesize($path);
 		$result = $unencryptedSize;
 
-		if ($unencryptedSize < 0 ||
-			($size > 0 && $unencryptedSize === $size) ||
-			$unencryptedSize > $size
+		if ($unencryptedSize < 0
+			|| ($size > 0 && $unencryptedSize === $size)
+			|| $unencryptedSize > $size
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions
@@ -634,8 +634,8 @@ class Encryption extends Wrapper {
 	): bool {
 		// for versions we have nothing to do, because versions should always use the
 		// key from the original file. Just create a 1:1 copy and done
-		if ($this->isVersion($targetInternalPath) ||
-			$this->isVersion($sourceInternalPath)) {
+		if ($this->isVersion($targetInternalPath)
+			|| $this->isVersion($sourceInternalPath)) {
 			// remember that we try to create a version so that we can detect it during
 			// fopen($sourceInternalPath) and by-pass the encryption in order to
 			// create a 1:1 copy of the file

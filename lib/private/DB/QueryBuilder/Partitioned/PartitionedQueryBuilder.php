@@ -126,8 +126,8 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				$selectPartition = null;
 			}
 			if (
-				($select === $checkColumn || $select === '*') &&
-				$selectPartition === $partition
+				($select === $checkColumn || $select === '*')
+				&& $selectPartition === $partition
 			) {
 				return;
 			}
@@ -151,8 +151,8 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		foreach ($this->selects as $select) {
 			foreach ($this->partitions as $partition) {
 				if (is_string($select['select']) && (
-					$select['select'] === '*' ||
-					$partition->isColumnInPartition($select['select']))
+					$select['select'] === '*'
+					|| $partition->isColumnInPartition($select['select']))
 				) {
 					if (isset($this->splitQueries[$partition->name])) {
 						if ($select['alias']) {

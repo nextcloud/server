@@ -50,7 +50,7 @@ class BaseResponseTest extends \Test\TestCase {
 			$writer->outputMemory(true)
 		);
 	}
-	
+
 	public function testToXmlJsonSerializable(): void {
 		/** @var BaseResponse $response */
 		$response = $this->createMock(BaseResponse::class);

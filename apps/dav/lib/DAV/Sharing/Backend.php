@@ -64,8 +64,8 @@ abstract class Backend {
 			}
 
 			$principalparts[2] = urldecode($principalparts[2]);
-			if (($principalparts[1] === 'users' && !$this->userManager->userExists($principalparts[2])) ||
-				($principalparts[1] === 'groups' && !$this->groupManager->groupExists($principalparts[2]))) {
+			if (($principalparts[1] === 'users' && !$this->userManager->userExists($principalparts[2]))
+				|| ($principalparts[1] === 'groups' && !$this->groupManager->groupExists($principalparts[2]))) {
 				// User or group does not exist
 				continue;
 			}
@@ -199,7 +199,7 @@ abstract class Backend {
 
 	public function unshare(IShareable $shareable, string $principalUri): bool {
 		$this->shareCache->clear();
-		
+
 		$principal = $this->principalBackend->findByUri($principalUri, '');
 		if (empty($principal)) {
 			return false;

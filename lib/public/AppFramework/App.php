@@ -58,22 +58,22 @@ class App {
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
 
 			foreach ($e->getTrace() as $step) {
-				if (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === ServerContainer::class &&
-					$step['function'] === 'query' &&
-					$step['args'][0] === $applicationClassName) {
+				if (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === ServerContainer::class
+					&& $step['function'] === 'query'
+					&& $step['args'][0] === $applicationClassName) {
 					$setUpViaQuery = true;
 					break;
-				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === ServerContainer::class &&
-					$step['function'] === 'getAppContainer' &&
-					$step['args'][1] === $classNameParts[1]) {
+				} elseif (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === ServerContainer::class
+					&& $step['function'] === 'getAppContainer'
+					&& $step['args'][1] === $classNameParts[1]) {
 					$setUpViaQuery = true;
 					break;
-				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === SimpleContainer::class &&
-					preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function']) &&
-					$step['args'][0] === $this) {
+				} elseif (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === SimpleContainer::class
+					&& preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function'])
+					&& $step['args'][0] === $this) {
 					/* We are setup through a lazy ghost, fine */
 					$setUpViaQuery = true;
 					break;

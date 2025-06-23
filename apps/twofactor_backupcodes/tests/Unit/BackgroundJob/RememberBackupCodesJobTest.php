@@ -154,12 +154,12 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('notify')
 			->with($this->callback(function (INotification $n) {
-				return $n->getApp() === 'twofactor_backupcodes' &&
-					$n->getUser() === 'validUID' &&
-					$n->getDateTime()->getTimestamp() === 10000000 &&
-					$n->getObjectType() === 'create' &&
-					$n->getObjectId() === 'codes' &&
-					$n->getSubject() === 'create_backupcodes';
+				return $n->getApp() === 'twofactor_backupcodes'
+					&& $n->getUser() === 'validUID'
+					&& $n->getDateTime()->getTimestamp() === 10000000
+					&& $n->getObjectType() === 'create'
+					&& $n->getObjectId() === 'codes'
+					&& $n->getSubject() === 'create_backupcodes';
 			}));
 
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
@@ -198,11 +198,11 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($this->callback(function (INotification $n) {
-				return $n->getApp() === 'twofactor_backupcodes' &&
-					$n->getUser() === 'validUID' &&
-					$n->getObjectType() === 'create' &&
-					$n->getObjectId() === 'codes' &&
-					$n->getSubject() === 'create_backupcodes';
+				return $n->getApp() === 'twofactor_backupcodes'
+					&& $n->getUser() === 'validUID'
+					&& $n->getObjectType() === 'create'
+					&& $n->getObjectId() === 'codes'
+					&& $n->getSubject() === 'create_backupcodes';
 			}));
 
 		$this->notificationManager->expects($this->never())

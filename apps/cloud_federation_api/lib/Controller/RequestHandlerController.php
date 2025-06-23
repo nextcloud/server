@@ -118,16 +118,16 @@ class RequestHandlerController extends Controller {
 
 		// check if all required parameters are set
 		if (
-			$shareWith === null ||
-			$name === null ||
-			$providerId === null ||
-			$resourceType === null ||
-			$shareType === null ||
-			!is_array($protocol) ||
-			!isset($protocol['name']) ||
-			!isset($protocol['options']) ||
-			!is_array($protocol['options']) ||
-			!isset($protocol['options']['sharedSecret'])
+			$shareWith === null
+			|| $name === null
+			|| $providerId === null
+			|| $resourceType === null
+			|| $shareType === null
+			|| !is_array($protocol)
+			|| !isset($protocol['name'])
+			|| !isset($protocol['options'])
+			|| !is_array($protocol['options'])
+			|| !isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
 				[
@@ -340,10 +340,10 @@ class RequestHandlerController extends Controller {
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if (
-			$notificationType === null ||
-			$resourceType === null ||
-			$providerId === null ||
-			!is_array($notification)
+			$notificationType === null
+			|| $resourceType === null
+			|| $providerId === null
+			|| !is_array($notification)
 		) {
 			return new JSONResponse(
 				[

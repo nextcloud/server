@@ -661,8 +661,8 @@ class Connection extends LDAPUtility {
 			$this->doConnect($this->configuration->ldapBackupHost ?? '', $this->configuration->ldapBackupPort ?? '');
 			$this->bindResult = [];
 			$bindStatus = $this->bind();
-			$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-				$this->ldap->errno($this->ldapConnectionRes) : -1;
+			$error = $this->ldap->isResource($this->ldapConnectionRes)
+				? $this->ldap->errno($this->ldapConnectionRes) : -1;
 			if ($bindStatus && $error === 0 && !$forceBackupHost) {
 				//when bind to backup server succeeded and failed to main server,
 				//skip contacting it for 15min

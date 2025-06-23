@@ -37,12 +37,12 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 				[
 					'url' => 'https://cloud.drop.box',
 					'url_hash' => 'sha1',
-					'shared_secret' => 'iloveowncloud',
+					'shared_secret' => 'nopineappleonpizza',
 					'sync_token' => '0'
 				]
 			]);
-		$dbHandler->expects($this->once())->method('setServerStatus')->
-			with('https://cloud.drop.box', 1, '1');
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.drop.box', 1, '1');
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
 			->willReturn('1');
@@ -58,15 +58,15 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	public function testException(): void {
 		/** @var DbHandler&MockObject $dbHandler */
 		$dbHandler = $this->createMock(DbHandler::class);
-		$dbHandler->method('getAllServer')->
-		willReturn([
-			[
-				'url' => 'https://cloud.drop.box',
-				'url_hash' => 'sha1',
-				'shared_secret' => 'iloveowncloud',
-				'sync_token' => '0'
-			]
-		]);
+		$dbHandler->method('getAllServer')
+			->willReturn([
+				[
+					'url' => 'https://cloud.drop.box',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'nopineappleonpizza',
+					'sync_token' => '0'
+				]
+			]);
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
 			->willThrowException(new \Exception('something did not work out'));
@@ -92,8 +92,8 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 				]
 			]);
 		$dbHandler->method('getServerStatus')->willReturn(TrustedServers::STATUS_FAILURE);
-		$dbHandler->expects($this->once())->method('setServerStatus')->
-			with('https://cloud.drop.box', 1);
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.drop.box', 1);
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
 			->willReturn('0');

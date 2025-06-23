@@ -946,17 +946,17 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			if (
-				$this->config->getSystemValue('force_language', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_language', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if (
-				$this->config->getSystemValue('force_locale', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_locale', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
@@ -1000,8 +1000,8 @@ class UsersController extends AUserDataOCSController {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user

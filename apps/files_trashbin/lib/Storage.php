@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -49,8 +50,8 @@ class Storage extends Wrapper {
 			} catch (GenericEncryptionException $e) {
 				// in case of a encryption exception we delete the file right away
 				$this->logger->info(
-					"Can't move file " . $path .
-					' to the trash bin, therefore it was deleted right away');
+					"Can't move file " . $path
+					. ' to the trash bin, therefore it was deleted right away');
 
 				return $this->storage->unlink($path);
 			}

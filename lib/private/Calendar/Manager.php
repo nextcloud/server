@@ -236,7 +236,7 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message could not be processed because user has no calendars');
 			return false;
 		}
-		
+
 		try {
 			/** @var VCalendar $vObject|null */
 			$calendarObject = Reader::read($calendarData);

@@ -40,8 +40,8 @@ class Listener {
 			$group = $this->groupManager->get($share->getSharedWith());
 
 			foreach ($group->getUsers() as $user) {
-				if ($user->getUID() === $share->getShareOwner() ||
-					$user->getUID() === $share->getSharedBy()) {
+				if ($user->getUID() === $share->getShareOwner()
+					|| $user->getUID() === $share->getSharedBy()) {
 					continue;
 				}
 
@@ -72,8 +72,8 @@ class Listener {
 					continue;
 				}
 
-				if ($user->getUID() === $share->getShareOwner() ||
-					$user->getUID() === $share->getSharedBy()) {
+				if ($user->getUID() === $share->getShareOwner()
+					|| $user->getUID() === $share->getSharedBy()) {
 					continue;
 				}
 

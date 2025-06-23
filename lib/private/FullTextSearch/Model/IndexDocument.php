@@ -512,8 +512,8 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @since 16.0.0
 	 */
 	final public function addExcerpt(string $source, string $excerpt): IIndexDocument {
-		$this->excerpts[] =
-			[
+		$this->excerpts[]
+			= [
 				'source' => $source,
 				'excerpt' => $this->cleanExcerpt($excerpt)
 			];

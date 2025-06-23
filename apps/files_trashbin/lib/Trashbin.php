@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -467,9 +468,9 @@ class Trashbin implements IEventListener {
 				Server::get(LoggerInterface::class)->error('trash bin database inconsistent! ($user: ' . $user . ' $filename: ' . $filename . ', $timestamp: ' . $timestamp . ')', ['app' => 'files_trashbin']);
 			} else {
 				// if location no longer exists, restore file in the root directory
-				if ($location !== '/' &&
-					(!$view->is_dir('files/' . $location) ||
-						!$view->isCreatable('files/' . $location))
+				if ($location !== '/'
+					&& (!$view->is_dir('files/' . $location)
+						|| !$view->isCreatable('files/' . $location))
 				) {
 					$location = '';
 				}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -77,10 +78,10 @@ class MountProvider implements IMountProvider {
 				/** @var IShare $parentShare */
 				$parentShare = $share[0];
 
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
-					($parentShare->getShareType() === IShare::TYPE_GROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USER)) {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
+					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USER)) {
 					continue;
 				}
 

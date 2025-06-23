@@ -159,8 +159,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 						// New share can not have more permissions then the old one.
 						continue;
 					}
-					if (isset($addressBooks[$row['id']][$readOnlyPropertyName]) &&
-						$addressBooks[$row['id']][$readOnlyPropertyName] === 0) {
+					if (isset($addressBooks[$row['id']][$readOnlyPropertyName])
+						&& $addressBooks[$row['id']][$readOnlyPropertyName] === 0) {
 						// Old share is already read-write, no more permissions can be gained
 						continue;
 					}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -68,8 +69,8 @@ abstract class AbstractStringCheck implements ICheck {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (in_array($operator, ['matches', '!matches']) &&
-			  @preg_match($value, null) === false) {
+		if (in_array($operator, ['matches', '!matches'])
+			  && @preg_match($value, null) === false) {
 			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}
 	}

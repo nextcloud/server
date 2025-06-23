@@ -45,7 +45,7 @@ class SystemTagsObjectList implements XmlSerializable, XmlDeserializable {
 		if ($tree === null) {
 			return null;
 		}
-		
+
 		$objects = [];
 		foreach ($tree as $elem) {
 			if ($elem['name'] === self::OBJECTID_ROOT_PROPERTYNAME) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -600,8 +601,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testAfterExceptionReturnsRedirectForNotLoggedInUser(): void {
 		$this->request = new Request(
 			[
-				'server' =>
-					[
+				'server'
+					=> [
 						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]
@@ -680,8 +681,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception): void {
 		$this->request = new Request(
 			[
-				'server' =>
-					[
+				'server'
+					=> [
 						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 						'REQUEST_URI' => 'nextcloud/index.php/apps/specialapp'
 					]

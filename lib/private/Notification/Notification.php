@@ -429,8 +429,7 @@ class Notification implements INotification {
 	public function isValid(): bool {
 		return
 			$this->isValidCommon()
-			&&
-			$this->getSubject() !== ''
+			&& $this->getSubject() !== ''
 		;
 	}
 
@@ -456,8 +455,7 @@ class Notification implements INotification {
 
 		return
 			$this->isValidCommon()
-			&&
-			$this->getParsedSubject() !== ''
+			&& $this->getParsedSubject() !== ''
 		;
 	}
 
@@ -468,14 +466,10 @@ class Notification implements INotification {
 
 		return
 			$this->getApp() !== ''
-			&&
-			$this->getUser() !== ''
-			&&
-			$this->getDateTime()->getTimestamp() !== 0
-			&&
-			$this->getObjectType() !== ''
-			&&
-			$this->getObjectId() !== ''
+			&& $this->getUser() !== ''
+			&& $this->getDateTime()->getTimestamp() !== 0
+			&& $this->getObjectType() !== ''
+			&& $this->getObjectId() !== ''
 		;
 	}
 }

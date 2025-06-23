@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -121,8 +122,8 @@ class ShareRecipientSorterTest extends TestCase {
 				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => ['celia', 'darius', 'faruk', 'gail'], 'bots' => ['r2-d2']],
 				'input' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -137,8 +138,8 @@ class ShareRecipientSorterTest extends TestCase {
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'celia']],
 							['value' => ['shareWith' => 'darius']],
 							['value' => ['shareWith' => 'faruk']],
@@ -158,8 +159,8 @@ class ShareRecipientSorterTest extends TestCase {
 				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => false],
 				'input' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -174,8 +175,8 @@ class ShareRecipientSorterTest extends TestCase {
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -195,8 +196,8 @@ class ShareRecipientSorterTest extends TestCase {
 				'context' => ['itemType' => 'announcements', 'itemId' => '42'],
 				'accessList' => null, // not needed
 				'input' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],
@@ -211,8 +212,8 @@ class ShareRecipientSorterTest extends TestCase {
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
+					'users'
+						=> [
 							['value' => ['shareWith' => 'alice']],
 							['value' => ['shareWith' => 'bob']],
 							['value' => ['shareWith' => 'celia']],

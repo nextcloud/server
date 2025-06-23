@@ -59,8 +59,8 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$connection = Server::get(IDBConnection::class);
 		$deleteStatement = $connection->prepare(
-			'DELETE FROM `*PREFIX*properties`' .
-			' WHERE `userid` = ?'
+			'DELETE FROM `*PREFIX*properties`'
+			. ' WHERE `userid` = ?'
 		);
 		$deleteStatement->execute(
 			[

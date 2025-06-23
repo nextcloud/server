@@ -28,23 +28,23 @@ class ContactsSearchProviderTest extends TestCase {
 	private CardDavBackend&MockObject $backend;
 	private ContactsSearchProvider $provider;
 
-	private string $vcardTest0 = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'UID:Test' . PHP_EOL .
-		'FN:FN of Test' . PHP_EOL .
-		'N:Test;;;;' . PHP_EOL .
-		'EMAIL:forrestgump@example.com' . PHP_EOL .
-		'END:VCARD';
+	private string $vcardTest0 = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'UID:Test' . PHP_EOL
+		. 'FN:FN of Test' . PHP_EOL
+		. 'N:Test;;;;' . PHP_EOL
+		. 'EMAIL:forrestgump@example.com' . PHP_EOL
+		. 'END:VCARD';
 
-	private string $vcardTest1 = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'PHOTO;ENCODING=b;TYPE=image/jpeg:' . PHP_EOL .
-		'UID:Test2' . PHP_EOL .
-		'FN:FN of Test2' . PHP_EOL .
-		'N:Test2;;;;' . PHP_EOL .
-		'END:VCARD';
+	private string $vcardTest1 = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'PHOTO;ENCODING=b;TYPE=image/jpeg:' . PHP_EOL
+		. 'UID:Test2' . PHP_EOL
+		. 'FN:FN of Test2' . PHP_EOL
+		. 'N:Test2;;;;' . PHP_EOL
+		. 'END:VCARD';
 
 	protected function setUp(): void {
 		parent::setUp();

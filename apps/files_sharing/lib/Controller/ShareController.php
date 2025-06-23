@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -251,9 +252,9 @@ class ShareController extends AuthPublicShareController {
 	 * Emit a ShareLinkAccessedEvent event when a share is accessed, downloaded, auth...
 	 */
 	protected function emitShareAccessEvent(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = ''): void {
-		if ($step !== self::SHARE_ACCESS &&
-			$step !== self::SHARE_AUTH &&
-			$step !== self::SHARE_DOWNLOAD) {
+		if ($step !== self::SHARE_ACCESS
+			&& $step !== self::SHARE_AUTH
+			&& $step !== self::SHARE_DOWNLOAD) {
 			return;
 		}
 		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessedEvent($share, $step, $errorCode, $errorMessage));

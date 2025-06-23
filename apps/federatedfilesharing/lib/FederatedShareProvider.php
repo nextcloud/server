@@ -88,8 +88,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$shareType = $share->getShareType();
 		$expirationDate = $share->getExpirationDate();
 
-		if ($shareType === IShare::TYPE_REMOTE_GROUP &&
-			!$this->isOutgoingServer2serverGroupShareEnabled()
+		if ($shareType === IShare::TYPE_REMOTE_GROUP
+			&& !$this->isOutgoingServer2serverGroupShareEnabled()
 		) {
 			$message = 'It is not allowed to send federated group shares from this server.';
 			$message_t = $this->l->t('It is not allowed to send federated group shares from this server.');

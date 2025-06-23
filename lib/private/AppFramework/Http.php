@@ -102,7 +102,7 @@ class Http extends BaseHttp {
 			$status = self::STATUS_FOUND;
 		}
 
-		return $this->protocolVersion . ' ' . $status . ' ' .
-			$this->headers[$status];
+		return $this->protocolVersion . ' ' . $status . ' '
+			. $this->headers[$status];
 	}
 }

@@ -29,8 +29,8 @@ class Version29000Date20240131122720 extends SimpleMigrationStep {
 
 		$tableProperties = $schema->getTable('properties');
 
-		if ($tableProperties->hasIndex('property_index') &&
-			$tableProperties->hasIndex('properties_path_index')) {
+		if ($tableProperties->hasIndex('property_index')
+			&& $tableProperties->hasIndex('properties_path_index')) {
 
 			$tableProperties->dropIndex('property_index');
 		}

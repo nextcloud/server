@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -592,9 +593,9 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
 
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_LINK) {
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_LINK) {
 			$share->method('getFullId')->willReturn('ocinternal:' . $id);
 		}
 
@@ -1897,15 +1898,15 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('createShare')
 			->with($this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-					$share->getPermissions() === (
-						Constants::PERMISSION_ALL &
-						~Constants::PERMISSION_DELETE &
-						~Constants::PERMISSION_CREATE
-					) &&
-					$share->getShareType() === IShare::TYPE_USER &&
-					$share->getSharedWith() === 'validUser' &&
-					$share->getSharedBy() === 'currentUser';
+				return $share->getNode() === $path
+					&& $share->getPermissions() === (
+						Constants::PERMISSION_ALL
+						& ~Constants::PERMISSION_DELETE
+						& ~Constants::PERMISSION_CREATE
+					)
+					&& $share->getShareType() === IShare::TYPE_USER
+					&& $share->getSharedWith() === 'validUser'
+					&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
@@ -2008,11 +2009,11 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('createShare')
 			->with($this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-				$share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getShareType() === IShare::TYPE_GROUP &&
-				$share->getSharedWith() === 'validGroup' &&
-				$share->getSharedBy() === 'currentUser';
+				return $share->getNode() === $path
+				&& $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getShareType() === IShare::TYPE_GROUP
+				&& $share->getSharedWith() === 'validGroup'
+				&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
@@ -2125,7 +2126,7 @@ class ShareAPIControllerTest extends TestCase {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
 		$file->method('getStorage')->willReturn($storage);
-	
+
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($file);
 		$this->rootFolder->method('getById')
@@ -2161,12 +2162,12 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-					$share->getShareType() === IShare::TYPE_LINK &&
-					$share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE) &&
-					$share->getSharedBy() === 'currentUser' &&
-					$share->getPassword() === null &&
-					$share->getExpirationDate() === null;
+				return $share->getNode() === $path
+					&& $share->getShareType() === IShare::TYPE_LINK
+					&& $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+					&& $share->getSharedBy() === 'currentUser'
+					&& $share->getPassword() === null
+					&& $share->getExpirationDate() === null;
 			})
 		)->willReturnArgument(0);
 
@@ -2241,13 +2242,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-				$share->getShareType() === IShare::TYPE_LINK &&
-				$share->getPermissions() === (Constants::PERMISSION_ALL & ~(Constants::PERMISSION_SHARE)) &&
-				$share->getSharedBy() === 'currentUser' &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() === null;
+				return $share->getNode() === $path
+				&& $share->getShareType() === IShare::TYPE_LINK
+				&& $share->getPermissions() === (Constants::PERMISSION_ALL & ~(Constants::PERMISSION_SHARE))
+				&& $share->getSharedBy() === 'currentUser'
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() === null;
 			})
 		)->willReturnArgument(0);
 
@@ -2327,12 +2328,12 @@ class ShareAPIControllerTest extends TestCase {
 				$date = new \DateTime('2000-01-01');
 				$date->setTime(0, 0, 0);
 
-				return $share->getNode() === $path &&
-				$share->getShareType() === IShare::TYPE_LINK &&
-				$share->getPermissions() === Constants::PERMISSION_READ | Constants::PERMISSION_SHARE &&
-				$share->getSharedBy() === 'currentUser' &&
-				$share->getPassword() === null &&
-				$share->getExpirationDate() == $date;
+				return $share->getNode() === $path
+				&& $share->getShareType() === IShare::TYPE_LINK
+				&& $share->getPermissions() === Constants::PERMISSION_READ | Constants::PERMISSION_SHARE
+				&& $share->getSharedBy() === 'currentUser'
+				&& $share->getPassword() === null
+				&& $share->getExpirationDate() == $date;
 			})
 		)->willReturnArgument(0);
 
@@ -2421,15 +2422,15 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('createShare')
 			->with($this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-					$share->getPermissions() === (
-						Constants::PERMISSION_ALL &
-						~Constants::PERMISSION_DELETE &
-						~Constants::PERMISSION_CREATE
-					) &&
-					$share->getShareType() === IShare::TYPE_REMOTE &&
-					$share->getSharedWith() === 'user@example.org' &&
-					$share->getSharedBy() === 'currentUser';
+				return $share->getNode() === $path
+					&& $share->getPermissions() === (
+						Constants::PERMISSION_ALL
+						& ~Constants::PERMISSION_DELETE
+						& ~Constants::PERMISSION_CREATE
+					)
+					&& $share->getShareType() === IShare::TYPE_REMOTE
+					&& $share->getSharedWith() === 'user@example.org'
+					&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
@@ -2492,15 +2493,15 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('createShare')
 			->with($this->callback(function (IShare $share) use ($path) {
-				return $share->getNode() === $path &&
-					$share->getPermissions() === (
-						Constants::PERMISSION_ALL &
-						~Constants::PERMISSION_DELETE &
-						~Constants::PERMISSION_CREATE
-					) &&
-					$share->getShareType() === IShare::TYPE_REMOTE_GROUP &&
-					$share->getSharedWith() === 'group@example.org' &&
-					$share->getSharedBy() === 'currentUser';
+				return $share->getNode() === $path
+					&& $share->getPermissions() === (
+						Constants::PERMISSION_ALL
+						& ~Constants::PERMISSION_DELETE
+						& ~Constants::PERMISSION_CREATE
+					)
+					&& $share->getShareType() === IShare::TYPE_REMOTE_GROUP
+					&& $share->getSharedWith() === 'group@example.org'
+					&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
@@ -2550,9 +2551,9 @@ class ShareAPIControllerTest extends TestCase {
 			->with(
 				$share,
 				'recipientRoom',
-				Constants::PERMISSION_ALL &
-				~Constants::PERMISSION_DELETE &
-				~Constants::PERMISSION_CREATE,
+				Constants::PERMISSION_ALL
+				& ~Constants::PERMISSION_DELETE
+				& ~Constants::PERMISSION_CREATE,
 				''
 			)->willReturnCallback(
 				function ($share): void {
@@ -2842,14 +2843,14 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
-				return $share->getPermissions() === Constants::PERMISSION_READ &&
-				$share->getPassword() === null &&
-				$share->getExpirationDate() === null &&
+				return $share->getPermissions() === Constants::PERMISSION_READ
+				&& $share->getPassword() === null
+				&& $share->getExpirationDate() === null
 				// Once set a note or a label are never back to null, only to an
 				// empty string.
-				$share->getNote() === '' &&
-				$share->getLabel() === '' &&
-				$share->getHideDownload() === false;
+				&& $share->getNote() === ''
+				&& $share->getLabel() === ''
+				&& $share->getHideDownload() === false;
 			})
 		)->willReturnArgument(0);
 
@@ -2901,12 +2902,12 @@ class ShareAPIControllerTest extends TestCase {
 				$date = new \DateTime('2000-01-01');
 				$date->setTime(0, 0, 0);
 
-				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE) &&
-				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() == $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+				&& $share->getPassword() === 'password'
+				&& $share->getExpirationDate() == $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -2957,9 +2958,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
-				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE) &&
-				$share->getPassword() === 'password' &&
-				$share->getExpirationDate() === null;
+				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+				&& $share->getPassword() === 'password'
+				&& $share->getExpirationDate() === null;
 			})
 		)->willReturnArgument(0);
 
@@ -3225,13 +3226,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
-				return $share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getPassword() === 'newpassword' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getPassword() === 'newpassword'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3279,13 +3280,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
-				return $share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3377,13 +3378,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
-				return $share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === false &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === false
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3427,13 +3428,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
-				return $share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === false &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === false
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3495,13 +3496,13 @@ class ShareAPIControllerTest extends TestCase {
 				$date = new \DateTime('2010-12-23');
 				$date->setTime(0, 0, 0);
 
-				return $share->getPermissions() === Constants::PERMISSION_ALL &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() == $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === Constants::PERMISSION_ALL
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() == $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3553,13 +3554,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
-				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE) &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3614,13 +3615,13 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date): bool {
-				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE) &&
-				$share->getPassword() === 'password' &&
-				$share->getSendPasswordByTalk() === true &&
-				$share->getExpirationDate() === $date &&
-				$share->getNote() === 'note' &&
-				$share->getLabel() === 'label' &&
-				$share->getHideDownload() === true;
+				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
+				&& $share->getPassword() === 'password'
+				&& $share->getSendPasswordByTalk() === true
+				&& $share->getExpirationDate() === $date
+				&& $share->getNote() === 'note'
+				&& $share->getLabel() === 'label'
+				&& $share->getHideDownload() === true;
 			})
 		)->willReturnArgument(0);
 
@@ -3676,13 +3677,13 @@ class ShareAPIControllerTest extends TestCase {
 			->method('updateShare')
 			->with(
 				$this->callback(function (IShare $share) use ($date) {
-					return $share->getPermissions() === Constants::PERMISSION_ALL &&
-						$share->getPassword() === 'password' &&
-						$share->getSendPasswordByTalk() === true &&
-						$share->getExpirationDate() === $date &&
-						$share->getNote() === 'note' &&
-						$share->getLabel() === 'label' &&
-						$share->getHideDownload() === true;
+					return $share->getPermissions() === Constants::PERMISSION_ALL
+						&& $share->getPassword() === 'password'
+						&& $share->getSendPasswordByTalk() === true
+						&& $share->getExpirationDate() === $date
+						&& $share->getNote() === 'note'
+						&& $share->getLabel() === 'label'
+						&& $share->getHideDownload() === true;
 				})
 			)->willReturnArgument(0);
 

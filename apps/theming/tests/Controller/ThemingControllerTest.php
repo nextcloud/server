@@ -114,8 +114,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $message,
 					],
 				'status' => 'success',
@@ -172,8 +172,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $message,
 					],
 				'status' => 'error',
@@ -203,8 +203,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'No file uploaded',
 					],
 				'status' => 'failure',
@@ -233,8 +233,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Invalid key',
 					],
 				'status' => 'failure',
@@ -282,8 +282,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -323,8 +323,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -387,8 +387,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
@@ -436,8 +436,8 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('imageUrl');
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
@@ -481,8 +481,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -532,8 +532,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $expectedErrorMessage,
 					],
 				'status' => 'failure'
@@ -571,8 +571,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $expectedErrorMessage
 					],
 				'status' => 'failure'
@@ -596,8 +596,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => 'MyValue',
 						'message' => 'Saved'
 					],
@@ -631,8 +631,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => $value,
 						'message' => 'Saved',
 					],
@@ -748,8 +748,8 @@ class ThemingControllerTest extends TestCase {
 		$response = new JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',
-			'icons' =>
-				[
+			'icons'
+				=> [
 					[
 						'src' => 'touchicon?v=0',
 						'type' => 'image/png',

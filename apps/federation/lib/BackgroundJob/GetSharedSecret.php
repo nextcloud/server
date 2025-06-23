@@ -99,8 +99,8 @@ class GetSharedSecret extends Job {
 			$result = $this->httpClient->get(
 				$url,
 				[
-					'query' =>
-						[
+					'query'
+						=> [
 							'url' => $source,
 							'token' => $token,
 							'format' => 'json',

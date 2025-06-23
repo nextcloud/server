@@ -13,7 +13,7 @@ namespace OCP\Calendar;
  * @since 32.0.0
  */
 interface ICalendarIsEnabled {
-	
+
 	/**
 	 * Indicates whether the calendar is enabled
 	 *

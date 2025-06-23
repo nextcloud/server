@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -240,11 +241,11 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| Constants::PERMISSION_SHARE,
 			$data['permissions']
 		);
 		$this->assertEmpty($data['expiration']);
@@ -1021,11 +1022,11 @@ class ApiTest extends TestCase {
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| Constants::PERMISSION_SHARE,
 			$share1->getPermissions()
 		);
 

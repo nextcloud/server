@@ -80,10 +80,10 @@ class MigrateKeyStorage extends Command {
 				continue;
 			}
 
-			if ($node['name'] === 'fileKey' ||
-				str_ends_with($node['name'], '.privateKey') ||
-				str_ends_with($node['name'], '.publicKey') ||
-				str_ends_with($node['name'], '.shareKey')) {
+			if ($node['name'] === 'fileKey'
+				|| str_ends_with($node['name'], '.privateKey')
+				|| str_ends_with($node['name'], '.publicKey')
+				|| str_ends_with($node['name'], '.shareKey')) {
 				$path = $folder . '/' . $node['name'];
 
 				$content = $this->rootView->file_get_contents($path);
@@ -127,10 +127,10 @@ class MigrateKeyStorage extends Command {
 					return (substr($haystack, -$length) === $needle);
 				};
 
-				if ($node['name'] === 'fileKey' ||
-					$endsWith($node['name'], '.privateKey') ||
-					$endsWith($node['name'], '.publicKey') ||
-					$endsWith($node['name'], '.shareKey')) {
+				if ($node['name'] === 'fileKey'
+					|| $endsWith($node['name'], '.privateKey')
+					|| $endsWith($node['name'], '.publicKey')
+					|| $endsWith($node['name'], '.shareKey')) {
 					$path = $folder . '/' . $node['name'];
 
 					$content = $this->rootView->file_get_contents($path);

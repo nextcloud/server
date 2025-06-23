@@ -52,9 +52,9 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 
 	private function operatorPairIsPathPrefix(ISearchOperator $like, ISearchOperator $equal): bool {
 		return (
-			$like instanceof ISearchComparison && $equal instanceof ISearchComparison &&
-			!$like->getExtra() && !$equal->getExtra() && $like->getField() === 'path' && $equal->getField() === 'path' &&
-			$like->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $equal->getType() === ISearchComparison::COMPARE_EQUAL
+			$like instanceof ISearchComparison && $equal instanceof ISearchComparison
+			&& !$like->getExtra() && !$equal->getExtra() && $like->getField() === 'path' && $equal->getField() === 'path'
+			&& $like->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $equal->getType() === ISearchComparison::COMPARE_EQUAL
 			&& $like->getValue() === SearchComparison::escapeLikeParameter($equal->getValue()) . '/%'
 		);
 	}

@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Manager implements IManager {
-	
+
 	protected ?array $providersCollection = null;
 
 	public function __construct(
@@ -63,7 +63,7 @@ class Manager implements IManager {
 	 * @return array<string,string> collection of provider id and label ['jmap' => 'JMap Connector']
 	 */
 	public function types(): array {
-		
+
 		// construct types collection
 		$types = [];
 		// extract id and name from providers collection
@@ -72,7 +72,7 @@ class Manager implements IManager {
 		}
 		// return types collection
 		return $types;
-		
+
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Manager implements IManager {
 		if (!is_array($this->providersCollection)) {
 			$this->providers();
 		}
-		
+
 		if (isset($this->providersCollection[$providerId])) {
 			return $this->providersCollection[$providerId];
 		}
@@ -150,7 +150,7 @@ class Manager implements IManager {
 	 * @return array<string,array<string,IService>> collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
 	 */
 	public function services(string $userId): array {
-		
+
 		// initilize collection
 		$services = [];
 		// retrieve and iterate through mail providers
@@ -164,7 +164,7 @@ class Manager implements IManager {
 		}
 		// return collection
 		return $services;
-		
+
 	}
 
 	/**
@@ -179,7 +179,7 @@ class Manager implements IManager {
 	 * @return IService|null returns service object or null if none found
 	 */
 	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService {
-		
+
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
 			// find provider
@@ -204,7 +204,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-		
+
 		// return null if no match was found
 		return null;
 
@@ -223,7 +223,7 @@ class Manager implements IManager {
 	 * @return IService|null returns service object or null if none found
 	 */
 	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService {
-		
+
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
 			// find provider

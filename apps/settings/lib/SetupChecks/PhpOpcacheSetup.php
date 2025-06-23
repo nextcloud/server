@@ -72,15 +72,15 @@ class PhpOpcacheSetup implements ISetupCheck {
 
 			// Recommend to raise value, if more than 90% of max value is reached
 			if (
-				empty($status['opcache_statistics']['max_cached_keys']) ||
-				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
+				empty($status['opcache_statistics']['max_cached_keys'])
+				|| ($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
 			) {
 				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply "opcache.max_accelerated_files" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
 			}
 
 			if (
-				empty($status['memory_usage']['free_memory']) ||
-				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
+				empty($status['memory_usage']['free_memory'])
+				|| ($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
 			) {
 				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply "opcache.memory_consumption" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
 			}
@@ -89,10 +89,10 @@ class PhpOpcacheSetup implements ISetupCheck {
 			$memory_consumption = $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0;
 			if (
 				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($interned_strings_buffer < ($memory_consumption / 4)) &&
-				(
-					empty($status['interned_strings_usage']['free_memory']) ||
-					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
+				($interned_strings_buffer < ($memory_consumption / 4))
+				&& (
+					empty($status['interned_strings_usage']['free_memory'])
+					|| ($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
 				)
 			) {
 				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply "opcache.interned_strings_buffer" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);
