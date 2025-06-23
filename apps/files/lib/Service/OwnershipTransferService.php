@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use Closure;
+use Exception;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\User\NoUserException;
@@ -19,6 +20,7 @@ use OCA\Files_External\Config\ConfigAdapter;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
@@ -161,13 +163,12 @@ class OwnershipTransferService {
 			$sourceShares = $this->collectIncomingShares(
 				$sourceUid,
 				$output,
-				$view
+				$sourcePath,
 			);
 			$destinationShares = $this->collectIncomingShares(
 				$destinationUid,
 				$output,
-				$view,
-				true
+				null,
 			);
 			$this->transferIncomingShares(
 				$sourceUid,
@@ -344,7 +345,7 @@ class OwnershipTransferService {
 							return mb_strpos(
 								Filesystem::normalizePath($relativePath . '/', false),
 								$normalizedPath . '/') === 0;
-						} catch (\Exception $e) {
+						} catch (Exception $e) {
 							return false;
 						}
 					});
@@ -372,10 +373,11 @@ class OwnershipTransferService {
 		}, $shares)));
 	}
 
-	private function collectIncomingShares(string $sourceUid,
+	private function collectIncomingShares(
+		string $sourceUid,
 		OutputInterface $output,
-		View $view,
-		bool $addKeys = false): array {
+		?string $path,
+	): array {
 		$output->writeln("Collecting all incoming share information for files and folders of $sourceUid ...");
 
 		$shares = [];
@@ -388,14 +390,22 @@ class OwnershipTransferService {
 			if (empty($sharePage)) {
 				break;
 			}
-			if ($addKeys) {
-				foreach ($sharePage as $singleShare) {
-					$shares[$singleShare->getNodeId()] = $singleShare;
-				}
-			} else {
-				foreach ($sharePage as $singleShare) {
-					$shares[] = $singleShare;
-				}
+
+			if ($path !== null && $path !== "$sourceUid/files") {
+				$userFolder = $this->rootFolder->getUserFolder($sourceUid);
+				$normalizedPath = Filesystem::normalizePath($path);
+
+				$sharePage = array_filter($sharePage, static function (IShare $share) use ($userFolder, $normalizedPath) {
+					try {
+						return str_starts_with(Filesystem::normalizePath($userFolder->getFirstNodeById($share->getNodeId())->getPath() . '/', false), $normalizedPath . '/');
+					} catch (Exception) {
+						return false;
+					}
+				});
+			}
+
+			foreach ($sharePage as $share) {
+				$shares[$share->getNodeId()] = $share;
 			}
 
 			$offset += 50;
