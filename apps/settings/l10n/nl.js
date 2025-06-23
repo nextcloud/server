@@ -307,6 +307,7 @@ OC.L10N.register(
     "Categories" : "Categorieën",
     "Resources" : "Bronnen",
     "Documentation" : "Documentatie",
+    "Interact" : "Interacteren",
     "Report a bug" : "Rapporteer een fout",
     "Request feature" : "Vraag functionaliteit aan",
     "Ask questions or discuss" : "Stel vragen of discussieer",
