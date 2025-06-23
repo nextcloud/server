@@ -9,15 +9,18 @@
 			:readable="propertyReadable" />
 
 		<Language v-if="isEditable"
+			data-test="language-select"
 			:input-id="inputId"
 			:common-languages="commonLanguages"
 			:other-languages="otherLanguages"
 			:language.sync="language" />
 
-		<span v-else-if="forcedLanguage && forcedLanguage.name">
+		<span v-else-if="forcedLanguage && forcedLanguage.name"
+			data-test="forced-language-message">
 			{{ t('settings', 'Language is forced to {language} by the administrator', { language: forcedLanguage.name }) }}
 		</span>
-		<span v-else>
+		<span v-else
+			data-test="no-language-message">
 			{{ t('settings', 'No language set') }}
 		</span>
 	</section>
@@ -76,8 +79,7 @@ export default {
 
 	methods: {
 		t,
-	}
-
+	},
 }
 </script>
 

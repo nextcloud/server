@@ -228,14 +228,20 @@ class PersonalInfo implements ISettings {
 	 * Validates a forced language setting against available languages
 	 */
 	private function validateForcedLanguage(string $forcedLanguage, array $languages): ?array {
-		$allLanguages = array_merge($languages['commonLanguages'], $languages['otherLanguages']);
-		$forcedLang = array_filter($allLanguages, fn($lang) => $lang['code'] === $forcedLanguage);
-		$forcedLang = reset($forcedLang);
-		
-		if ($forcedLang && isset($forcedLang['name'])) {
+		$allLanguages = array_merge(
+			$languages['commonLanguages'] ?? [],
+			$languages['otherLanguages'] ?? []
+		);
+		$matchingLanguages = array_filter(
+			$allLanguages,
+			fn($lang) => $lang['code'] === $forcedLanguage
+		);
+		$matchingLanguage = reset($matchingLanguages);
+
+		if ($matchingLanguage && isset($matchingLanguage['name'])) {
 			return [
 				'code' => $forcedLanguage,
-				'name' => $forcedLang['name']
+				'name' => $matchingLanguage['name']
 			];
 		}
 
@@ -288,13 +294,16 @@ class PersonalInfo implements ISettings {
 	 * Validates a forced locale setting against available locales
 	 */
 	private function validateForcedLocale(string $forcedLocale, array $localeCodes): ?array {
-		$forcedLocaleObj = array_filter($localeCodes, fn($locale) => $locale['code'] === $forcedLocale);
-		$forcedLocaleObj = reset($forcedLocaleObj);
-		
-		if ($forcedLocaleObj && isset($forcedLocaleObj['name'])) {
+		$matchingLocales = array_filter(
+			$localeCodes,
+			fn($locale) => $locale['code'] === $forcedLocale
+		);
+		$matchingLocale = reset($matchingLocales);
+
+		if ($matchingLocale && isset($matchingLocale['name'])) {
 			return [
 				'code' => $forcedLocale,
-				'name' => $forcedLocaleObj['name']
+				'name' => $matchingLocale['name']
 			];
 		}
 

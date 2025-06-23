@@ -9,15 +9,18 @@
 			:readable="propertyReadable" />
 
 		<Locale v-if="isEditable"
+			data-test="locale-select"
 			:input-id="inputId"
 			:locales-for-language="localesForLanguage"
 			:other-locales="otherLocales"
 			:locale.sync="locale" />
 
-		<span v-else-if="forcedLocale && forcedLocale.name">
+		<span v-else-if="forcedLocale && forcedLocale.name"
+			data-test="forced-locale-message">
 			{{ t('settings', 'Locale is forced to {locale} by the administrator', { locale: forcedLocale.name }) }}
 		</span>
-		<span v-else>
+		<span v-else
+			data-test="no-locale-message">
 			{{ t('settings', 'No locale set') }}
 		</span>
 	</section>
