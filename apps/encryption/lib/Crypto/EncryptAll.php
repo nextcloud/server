@@ -20,6 +20,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
@@ -50,6 +51,7 @@ class EncryptAll {
 		protected IFactory $l10nFactory,
 		protected QuestionHelper $questionHelper,
 		protected ISecureRandom $secureRandom,
+		protected LoggerInterface $logger,
 	) {
 		// store one time passwords for the users
 		$this->userPasswords = [];
@@ -207,9 +209,22 @@ class EncryptAll {
 				} else {
 					$progress->setMessage("encrypt files for user $userCount: $path");
 					$progress->advance();
-					if ($this->encryptFile($path) === false) {
-						$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+					try {
+						if ($this->encryptFile($path) === false) {
+							$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+							$progress->advance();
+						}
+					} catch (\Exception $e) {
+						$progress->setMessage("Failed to encrypt path $path: " . $e->getMessage());
 						$progress->advance();
+						$this->logger->error(
+							'Failed to encrypt path {path}',
+							[
+								'user' => $uid,
+								'path' => $path,
+								'exception' => $e,
+							]
+						);
 					}
 				}
 			}
