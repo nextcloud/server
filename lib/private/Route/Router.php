@@ -74,6 +74,14 @@ class Router implements IRouter {
 		$this->root = $this->getCollection('root');
 	}
 
+	public function setContext(RequestContext $context): void {
+		$this->context = $context;
+	}
+
+	public function getRouteCollection() {
+		return $this->root;
+	}
+
 	/**
 	 * Get the files to load the routes from
 	 *
@@ -102,7 +110,7 @@ class Router implements IRouter {
 	 *
 	 * @param null|string $app
 	 */
-	public function loadRoutes($app = null) {
+	public function loadRoutes(?string $app = null, bool $skipLoadingCore = false): void {
 		if (is_string($app)) {
 			$app = $this->appManager->cleanAppId($app);
 		}
@@ -165,7 +173,7 @@ class Router implements IRouter {
 		}
 		$this->eventLogger->end('route:load:files');
 
-		if (!isset($this->loadedApps['core'])) {
+		if (!$skipLoadingCore && !isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
 			$this->useCollection('root');
 			$this->setupRoutes($this->getAttributeRoutes('core'), 'core');

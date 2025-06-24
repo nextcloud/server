@@ -71,6 +71,8 @@ use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Core\Command\Memcache\RedisCommand;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
+use OC\Core\Command\Router\ListRoutes;
+use OC\Core\Command\Router\MatchRoute;
 use OC\Core\Command\Security\BruteforceAttempts;
 use OC\Core\Command\Security\BruteforceResetAttempts;
 use OC\Core\Command\Security\ExportCertificates;
@@ -110,6 +112,8 @@ $application->add(Server::get(SignApp::class));
 $application->add(Server::get(SignCore::class));
 $application->add(Server::get(CheckApp::class));
 $application->add(Server::get(CheckCore::class));
+$application->add(Server::get(ListRoutes::class));
+$application->add(Server::get(MatchRoute::class));
 
 $config = Server::get(IConfig::class);
 
