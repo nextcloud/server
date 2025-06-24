@@ -2562,6 +2562,9 @@
                             1
                         ]
                     },
+                    "is_trusted_server": {
+                        "type": "boolean"
+                    },
                     "is-mount-root": {
                         "type": "boolean"
                     },
