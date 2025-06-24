@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFileListFilter, Node } from '@nextcloud/files'
+import type { IFileListFilter, Node, View } from '@nextcloud/files'
 import type { SearchScope } from './types'
 
 declare module '@nextcloud/event-bus' {
@@ -19,6 +19,8 @@ declare module '@nextcloud/event-bus' {
 		'files:filter:removed': string
 		// the state of some filters has changed
 		'files:filters:changed': undefined
+
+		'files:navigation:changed': View
 
 		'files:node:created': Node
 		'files:node:deleted': Node
