@@ -8,6 +8,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Core\Command;
+use OC\Core\Command\Router\ListRoutes;
+use OC\Core\Command\Router\MatchRoute;
 use OCP\IConfig;
 use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
@@ -20,6 +22,8 @@ $application->add(Server::get(Command\Integrity\SignApp::class));
 $application->add(Server::get(Command\Integrity\SignCore::class));
 $application->add(Server::get(Command\Integrity\CheckApp::class));
 $application->add(Server::get(Command\Integrity\CheckCore::class));
+$application->add(Server::get(ListRoutes::class));
+$application->add(Server::get(MatchRoute::class));
 
 $config = Server::get(IConfig::class);
 
