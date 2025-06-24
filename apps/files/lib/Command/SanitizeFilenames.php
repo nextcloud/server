@@ -137,8 +137,9 @@ class SanitizeFilenames extends Base {
 				$this->output->writeln('<comment>skipping: ' . $node->getPath() . ' (file is locked)</>');
 			} catch (NotPermittedException) {
 				$this->output->writeln('<comment>skipping: ' . $node->getPath() . ' (no permissions)</>');
-			} catch (Exception) {
+			} catch (Exception $error) {
 				$this->output->writeln('<error>failed: ' . $node->getPath() . '</>');
+				$this->output->writeln('<error>' . $error->getMessage() . '</>', OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_VERBOSE);
 			}
 
 			if ($node instanceof Folder) {
