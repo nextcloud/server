@@ -153,7 +153,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			return false;
 		}
 
-		return $this->rmObjects($entry);
+		$result = $this->rmObjects($entry);
+		if ($result) {
+			$this->removeFromCache($entry);
+		}
+		return $result;
+	}
+
+	/**
+	 * Remove an item from cache and propagate the change to the parent folders.
+	 *
+	 * Similar logic to the `Updater` but done in-storage because we have the correct info to avoid expensive
+	 * folder size calculations.
+	 */
+	private function removeFromCache(ICacheEntry $entry): void {
+		$this->cache->remove($entry->getId());
+		$this->getUpdater()->correctParentStorageMtime($entry->getPath());
+		$this->propagator->propagateChange($entry->getPath(), time(), -$entry->getSize());
 	}
 
 	private function rmObjects(ICacheEntry $entry): bool {
@@ -180,15 +196,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
+		$result = false;
 
 		if ($entry instanceof ICacheEntry) {
 			if ($entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
-				return $this->rmObjects($entry);
+				$result = $this->rmObjects($entry);
 			} else {
-				return $this->rmObject($entry);
+				$result = $this->rmObject($entry);
 			}
 		}
-		return false;
+
+		if ($result) {
+			$this->removeFromCache($entry);
+		}
+
+		return $result;
 	}
 
 	public function rmObject(ICacheEntry $entry): bool {

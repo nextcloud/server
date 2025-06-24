@@ -18,4 +18,8 @@ class ObjectStoreUpdater extends Updater {
 	public function update($path, $time = null, ?int $sizeDifference = null) {
 		// Noop
 	}
+
+	public function remove($path) {
+		// Noop
+	}
 }
