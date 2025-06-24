@@ -192,14 +192,27 @@ export default {
 				lookup = true
 			}
 
-			let shareType = []
-
 			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
+			const shareType = []
 
-			if (this.isExternal && !this.config.showFederatedSharesAsInternal) {
-				shareType.push(...remoteTypes)
+			const showFederatedAsInternal
+	= this.config.showFederatedSharesAsInternal
+	|| this.config.showFederatedSharesToTrustedServersAsInternal
+
+			const shouldAddRemoteTypes
+	// For internal users, add remote types if config says to show them as internal
+	= (!this.isExternal && showFederatedAsInternal)
+	// For external users, add them if config *doesn't* say to show them as internal
+	|| (this.isExternal && !showFederatedAsInternal)
+	// Edge case: federated-to-trusted is a separate "add" trigger for external users
+	|| (this.isExternal && this.config.showFederatedSharesToTrustedServersAsInternal)
+
+			if (this.isExternal) {
+				if (getCapabilities().files_sharing.public.enabled === true) {
+					shareType.push(ShareType.Email)
+				}
 			} else {
-				shareType = shareType.concat([
+				shareType.push(
 					ShareType.User,
 					ShareType.Group,
 					ShareType.Team,
@@ -207,15 +220,11 @@ export default {
 					ShareType.Guest,
 					ShareType.Deck,
 					ShareType.ScienceMesh,
-				])
-
-				if (this.config.showFederatedSharesAsInternal) {
-					shareType.push(...remoteTypes)
-				}
+				)
 			}
 
-			if (getCapabilities().files_sharing.public.enabled === true && this.isExternal) {
-				shareType.push(ShareType.Email)
+			if (shouldAddRemoteTypes) {
+				shareType.push(...remoteTypes)
 			}
 
 			let request = null
@@ -366,6 +375,11 @@ export default {
 
 					// filter out existing mail shares
 					if (share.value.shareType === ShareType.Email) {
+						// When sharing internally, we don't want to suggest email addresses
+						// that the user previously created shares to
+						if (!this.isExternal) {
+							return arr
+						}
 						const emails = this.linkShares.map(elem => elem.shareWith)
 						if (emails.indexOf(share.value.shareWith.trim()) !== -1) {
 							return arr
