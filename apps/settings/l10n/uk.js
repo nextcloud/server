@@ -477,6 +477,7 @@ OC.L10N.register(
     "Please confirm the group removal" : "Підтвердіть вилучення групи",
     "Submit" : "Продовжити",
     "Rename group" : "Перейменувати групу",
+    "Delete group" : "Вилучити групу",
     "Current password" : "Поточний пароль",
     "New password" : "Новий пароль",
     "Change password" : "Змінити пароль",

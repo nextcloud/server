@@ -114,6 +114,7 @@
     "This account is disabled" : "Оваа сметка е оневозможена",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Детектирани се повеќе неуспешни најавувања од вашата IP адреса. Затоа вашиот следен обид за најавување е одложено за 30 секунди.",
     "Account name or email" : "Корисничко име или е-пошта",
+    "Account name" : "Корисничко име",
     "Server side authentication failed!" : "Автентификацијата на серверската страна е неуспешна!",
     "Please contact your administrator." : "Ве молиме контактирајте го вашиот администратор.",
     "An internal error occurred." : "Се случи внатрешна грешка.",

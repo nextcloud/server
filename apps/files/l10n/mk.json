@@ -158,7 +158,7 @@
     "Rename a file" : "Преименувај датотека",
     "Delete a file" : "Избриши датотека",
     "Navigation" : "Навигација",
-    "View" : "Погледни",
+    "View" : "Поглед",
     "You" : "Вас",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",
     "Owner" : "Сопственик",
@@ -230,6 +230,8 @@
     "All files" : "Сите датотеки",
     "List of your files and folders." : "Листа на вашите датотеки и папки.",
     "All folders" : "Сите папки",
+    "Personal files" : "Лични датотеки",
+    "No personal files found" : "Не се пронајдени лични датотеки ",
     "Recent" : "Неодамнешни",
     "List of recently modified files and folders." : "Листа на скоро изменети датотеки и папки.",
     "No recently modified files" : "Нема скоро изменети датотеки",
@@ -322,7 +324,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 датотека и {folderCount} папки","1 датотека и {folderCount} папки"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} датотека и 1 папка","{fileCount} датотеки и 1 папка"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} датотеки и {folderCount} папки",
-    "Personal Files" : "Персонални датотеки",
+    "Personal Files" : "Лични датотеки",
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
