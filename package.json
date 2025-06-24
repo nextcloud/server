@@ -153,7 +153,7 @@
     "cypress-if": "^1.13.2",
     "cypress-split": "^1.24.18",
     "cypress-wait-until": "^3.0.2",
-    "dockerode": "^4.0.6",
+    "dockerode": "^4.0.7",
     "eslint-plugin-cypress": "^3.6.0",
     "eslint-plugin-es": "^4.1.0",
     "exports-loader": "^5.0.0",
