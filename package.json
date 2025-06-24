@@ -180,7 +180,7 @@
     "sass-loader": "^16.0.5",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
-    "stylelint": "^16.20.0",
+    "stylelint": "^16.21.0",
     "stylelint-use-logical": "^2.1.2",
     "tar": "^7.4.3",
     "ts-loader": "^9.5.2",
