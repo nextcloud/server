@@ -118,7 +118,7 @@ OC.L10N.register(
     "Sharing" : "Compartilhamento",
     "Availability" : "Disponibilidade",
     "Calendar" : "Calendário",
-    "Personal info" : "Informação pessoal",
+    "Personal info" : "Informações pessoais",
     "Mobile & desktop" : "Móvel & desktop",
     "Email server" : "Servidor de e-mail",
     "Mail Providers" : "Provedores de E-mail",
