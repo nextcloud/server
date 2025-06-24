@@ -111,6 +111,11 @@ export interface ActiveStore {
 	activeAction: FileAction|null
 }
 
+/**
+ * Search scope for the in-files-search
+ */
+export type SearchScope = 'filter'|'locally'|'globally'
+
 export interface TemplateFile {
 	app: string
 	label: string
