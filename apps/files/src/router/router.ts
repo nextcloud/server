@@ -74,6 +74,15 @@ const router = new Router({
 	},
 })
 
+// Handle aborted navigation (NavigationGuards) gracefully
+router.onError((error) => {
+	if (isNavigationFailure(error, NavigationFailureType.aborted)) {
+		logger.debug('Navigation was aboorted', { error })
+	} else {
+		throw error
+	}
+})
+
 // If navigating back from a folder to a parent folder,
 // we need to keep the current dir fileid so it's highlighted
 // and scrolled into view.
