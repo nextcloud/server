@@ -33,6 +33,7 @@ import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import { initLivePhotos } from './services/LivePhotos'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { registerConvertActions } from './actions/convertAction.ts'
+import { registerFilenameFilter } from './filters/FilenameFilter.ts'
 
 // Register file actions
 registerConvertActions()
@@ -65,6 +66,7 @@ if (isPublicShare() === false) {
 registerHiddenFilesFilter()
 registerTypeFilter()
 registerModifiedFilter()
+registerFilenameFilter()
 
 // Register preview service worker
 registerPreviewServiceWorker()
