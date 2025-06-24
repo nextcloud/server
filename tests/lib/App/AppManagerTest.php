@@ -12,6 +12,7 @@ namespace Test\App;
 
 use OC\App\AppManager;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -36,10 +37,7 @@ use Test\TestCase;
  * @package Test\App
  */
 class AppManagerTest extends TestCase {
-	/**
-	 * @return AppConfig|MockObject
-	 */
-	protected function getAppConfig() {
+	protected function getAppConfig(): AppConfig&MockObject {
 		$appConfig = [];
 		$config = $this->createMock(AppConfig::class);
 
@@ -86,33 +84,17 @@ class AppManagerTest extends TestCase {
 		return $config;
 	}
 
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var AppConfig|MockObject */
-	protected $appConfig;
-
-	/** @var ICache|MockObject */
-	protected $cache;
-
-	/** @var ICacheFactory|MockObject */
-	protected $cacheFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	protected $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-
+	protected IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	protected IGroupManager&MockObject $groupManager;
+	protected AppConfig&MockObject $appConfig;
+	protected ICache&MockObject $cache;
+	protected ICacheFactory&MockObject $cacheFactory;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
 	protected IURLGenerator&MockObject $urlGenerator;
-
 	protected ServerVersion&MockObject $serverVersion;
+	protected ConfigManager&MockObject $configManager;
 
 	/** @var IAppManager */
 	protected $manager;
@@ -130,6 +112,7 @@ class AppManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->configManager = $this->createMock(ConfigManager::class);
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -152,6 +135,7 @@ class AppManagerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->logger,
 			$this->serverVersion,
+			$this->configManager,
 		);
 	}
 
@@ -295,6 +279,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -349,6 +334,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -411,6 +397,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -616,6 +603,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -676,6 +664,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -817,6 +806,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -848,6 +838,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -878,6 +869,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',
