@@ -1058,6 +1058,11 @@ class UserConfig implements IUserConfig {
 		int $flags,
 		ValueType $type,
 	): bool {
+		// Primary email addresses are always(!) expected to be lowercase
+		if ($app === 'settings' && $key === 'email') {
+			$value = strtolower($value);
+		}
+
 		$this->assertParams($userId, $app, $key);
 		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, $flags)) {
 			// returns false as database is not updated
