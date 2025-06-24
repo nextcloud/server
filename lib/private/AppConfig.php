@@ -22,6 +22,7 @@ use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -72,6 +73,7 @@ class AppConfig implements IAppConfig {
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		protected ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -1233,20 +1235,31 @@ class AppConfig implements IAppConfig {
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig');
+		$cache = $this->cacheFactory->isLocalCacheAvailable() ? $this->cacheFactory->createLocal() : null;
+		$cacheKey = 'app-config' . ($lazy !== null ? '-' . ($lazy === true ? 'lazy' : 'non-lazy') : '');
 
-		// we only need value from lazy when loadConfig does not specify it
-		$qb->select('appid', 'configkey', 'configvalue', 'type');
+		$rows = $cache?->get($cacheKey);
+		if ($rows === null) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->from('appconfig');
 
-		if ($lazy !== null) {
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
-		} else {
-			$qb->addSelect('lazy');
+			// we only need value from lazy when loadConfig does not specify it
+			$qb->select('appid', 'configkey', 'configvalue', 'type');
+
+			if ($lazy !== null) {
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+			} else {
+				$qb->addSelect('lazy');
+			}
+
+			$result = $qb->executeQuery();
+			$rows = $result->fetchAll();
+			$result->closeCursor();
+
+			// The TTL is low to avoid syncing issues in clustered setups, but it still greatly improves performance when many requests per second are sent.
+			$cache?->set($cacheKey, $rows, 1);
 		}
 
-		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
 			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
@@ -1256,7 +1269,6 @@ class AppConfig implements IAppConfig {
 			}
 			$this->valueTypes[$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
 		}
-		$result->closeCursor();
 		$this->setAsLoaded($lazy);
 	}
 

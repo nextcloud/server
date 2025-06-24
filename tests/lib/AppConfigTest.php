@@ -12,6 +12,7 @@ use OC\AppConfig;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Server;
@@ -29,6 +30,7 @@ class AppConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
+	private ICacheFactory $cacheFactory;
 
 	private array $originalConfig;
 
@@ -91,6 +93,7 @@ class AppConfigTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
+		$this->cacheFactory = Server::get(ICacheFactory::class);
 
 		// storing current config and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -181,6 +184,7 @@ class AppConfigTest extends TestCase {
 			$this->connection,
 			$this->logger,
 			$this->crypto,
+			$this->cacheFactory,
 		);
 		$msg = ' generateAppConfig() failed to confirm cache status';
 
