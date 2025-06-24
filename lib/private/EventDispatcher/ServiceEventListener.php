@@ -12,7 +12,7 @@ namespace OC\EventDispatcher;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use function sprintf;
 
@@ -23,24 +23,13 @@ use function sprintf;
  * created by the service container
  */
 final class ServiceEventListener {
-	/** @var IServerContainer */
-	private $container;
+	private ?IEventListener $service = null;
 
-	/** @var string */
-	private $class;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var null|IEventListener */
-	private $service;
-
-	public function __construct(IServerContainer $container,
-		string $class,
-		LoggerInterface $logger) {
-		$this->container = $container;
-		$this->class = $class;
-		$this->logger = $logger;
+	public function __construct(
+		private ContainerInterface $container,
+		private string $class,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function __invoke(Event $event) {
