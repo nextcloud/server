@@ -77,9 +77,9 @@ export default {
 				title += ` (${t('files_sharing', 'group')})`
 			} else if (this.share.type === ShareType.Room) {
 				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === ShareType.Remote) {
+			} else if (this.share.type === ShareType.Remote && !this.share.isTrustedServer) {
 				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === ShareType.RemoteGroup) {
+			} else if (this.share.type === ShareType.RemoteGroup && !this.share.isTrustedServer) {
 				title += ` (${t('files_sharing', 'remote group')})`
 			} else if (this.share.type === ShareType.Guest) {
 				title += ` (${t('files_sharing', 'guest')})`
