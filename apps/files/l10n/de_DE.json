@@ -400,7 +400,7 @@
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} und {nbfiles} weitere Dateien wurden nach {destination} kopiert",
     "{newName} already exists" : "{newName} existiert bereits",
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" konnte nicht umbenannt werden, da es nicht mehr existiert",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Der Name \"{newName}“ wird bereits im Ordner \"{dir}“ verwendet. Bitte wählen Sie einen anderen Namen.",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Der Name \"{newName}“ wird bereits im Ordner \"{dir}“ verwendet. Bitte einen anderen Namen wählen.",
     "Could not rename \"{oldName}\"" : "\"{oldName}\" konnte nicht umbenannt werden",
     "Could not create file \"{file}\"" : "Die Datei konnte nicht erstellt werden \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Die Datei \"{file}\" konnte nicht erstellt werden, da diese bereits existiert",
