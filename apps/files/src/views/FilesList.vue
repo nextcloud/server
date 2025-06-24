@@ -160,6 +160,7 @@ import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
+import { useThrottleFn } from '@vueuse/core'
 import { defineComponent } from 'vue'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -470,6 +471,10 @@ export default defineComponent({
 			const hidden = this.dirContents.length - this.dirContentsFiltered.length
 			return getSummaryFor(this.dirContentsFiltered, hidden)
 		},
+
+		debouncedFetchContent() {
+			return useThrottleFn(this.fetchContent, 800, true)
+		},
 	},
 
 	watch: {
@@ -531,14 +536,16 @@ export default defineComponent({
 		// filter content if filter were changed
 		subscribe('files:filters:changed', this.filterDirContent)
 
+		subscribe('files:search:updated', this.onUpdateSearch)
+
 		// Finally, fetch the current directory contents
 		await this.fetchContent()
 		if (this.fileId) {
 			// If we have a fileId, let's check if the file exists
-			const node = this.dirContents.find(node => node.fileid.toString() === this.fileId.toString())
+			const node = this.dirContents.find(node => node.fileid?.toString() === this.fileId?.toString())
 			// If the file isn't in the current directory nor if
 			// the current directory is the file, we show an error
-			if (!node && this.currentFolder.fileid.toString() !== this.fileId.toString()) {
+			if (!node && this.currentFolder?.fileid?.toString() !== this.fileId.toString()) {
 				showError(t('files', 'The file could not be found'))
 			}
 		}
@@ -548,9 +555,17 @@ export default defineComponent({
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('files:config:updated', this.fetchContent)
+		unsubscribe('files:filters:changed', this.filterDirContent)
+		unsubscribe('files:search:updated', this.onUpdateSearch)
 	},
 
 	methods: {
+		onUpdateSearch({ query, scope }) {
+			if (query && scope !== 'filter') {
+				this.debouncedFetchContent()
+			}
+		},
+
 		async fetchContent() {
 			this.loading = true
 			this.error = null
