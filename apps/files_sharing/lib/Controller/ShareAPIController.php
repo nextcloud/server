@@ -12,6 +12,7 @@ namespace OCA\Files_Sharing\Controller;
 use Exception;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
+use OCA\Federation\TrustedServers;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
@@ -95,6 +96,7 @@ class ShareAPIController extends OCSController {
 		private IProviderFactory $factory,
 		private IMailer $mailer,
 		private ITagManager $tagManager,
+		private ?TrustedServers $trustedServers,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -196,6 +198,22 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+
+		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP])) {
+			$result['is_trusted_server'] = false;
+			$sharedWith = $share->getSharedWith();
+			$remoteIdentifier = is_string($sharedWith) ? strrchr($sharedWith, '@') : false;
+			if ($remoteIdentifier !== false) {
+				$remote = substr($remoteIdentifier, 1);
+				try {
+					if ($this->trustedServers->isTrustedServer($remote)) {
+						$result['is_trusted_server'] = true;
+					}
+				} catch (\Exception $e) {
+					// Server not found or other issue, we consider it not trusted
+				}
+			}
+		}
 
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
