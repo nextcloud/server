@@ -304,6 +304,7 @@ class OC_Util {
 	 */
 	public static function checkServer(\OC\SystemConfig $config) {
 		$l = \OC::$server->getL10N('lib');
+		$localCache = \OCP\Server::get(\OCP\ICacheFactory::class)->createLocal('system');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -312,8 +313,8 @@ class OC_Util {
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
+		// Skip re-evaluation if everything is fine
+		if ($localCache->get('checkServer_succeeded') === true) {
 			return $errors;
 		}
 
@@ -511,8 +512,8 @@ class OC_Util {
 			}
 		}
 
-		// Cache the result of this function
-		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
+		// Cache the result of this function for an hour
+		$localCache->set('checkServer_succeeded', $errors === [], 3600);
 
 		return $errors;
 	}
