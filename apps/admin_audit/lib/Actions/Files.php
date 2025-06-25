@@ -73,7 +73,7 @@ class Files extends Action {
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
-			$originalSource = $this->renamedNodes[$target->getId()];
+			$originalSource = $this->renamedNodes[$target->getId()] ?? $event->getSource();
 			$params = [
 				'newid' => $target->getId(),
 				'oldpath' => $originalSource->getPath(),
