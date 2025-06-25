@@ -98,7 +98,7 @@ class OCSAuthAPIController extends OCSController {
 	public function requestSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
-			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret');
 			throw new OCSForbiddenException();
 		}
 
@@ -107,8 +107,7 @@ class OCSAuthAPIController extends OCSController {
 		$localToken = $this->dbHandler->getToken($url);
 		if (strcmp($localToken, $token) > 0) {
 			$this->logger->info(
-				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.',
-				['app' => 'federation']
+				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
 			);
 			throw new OCSForbiddenException();
 		}
@@ -141,7 +140,7 @@ class OCSAuthAPIController extends OCSController {
 	public function getSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
-			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret');
 			throw new OCSForbiddenException();
 		}
 
@@ -149,8 +148,7 @@ class OCSAuthAPIController extends OCSController {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
 			$expectedToken = $this->dbHandler->getToken($url);
 			$this->logger->error(
-				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "' . $expectedToken . '") while getting shared secret',
-				['app' => 'federation']
+				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "' . $expectedToken . '") while getting shared secret'
 			);
 			throw new OCSForbiddenException();
 		}
