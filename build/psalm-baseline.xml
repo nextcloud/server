@@ -4112,31 +4112,12 @@
     </InvalidOperand>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullCache.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[get]]></code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$file !== '' ? null :
-			new CacheEntry([
-				'fileid' => -1,
-				'parent' => -1,
-				'name' => '',
-				'path' => '',
-				'size' => '0',
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => '',
-				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ
-			])]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <TooManyArguments>
