@@ -8,7 +8,7 @@
 /** @var \OCP\Defaults $theme */
 ?>
 
-<div class="update">
+<div class="guest-box">
 	<h2><?php p($_['title']) ?></h2>
 	<p><?php p($_['message']) ?></p>
 	<p><a class="button primary" href="<?php p(\OC::$server->get(\OCP\IURLGenerator::class)->linkTo('', 'index.php')) ?>">
