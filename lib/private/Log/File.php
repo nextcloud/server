@@ -8,7 +8,6 @@
 namespace OC\Log;
 
 use OC\SystemConfig;
-use OCP\ILogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 
