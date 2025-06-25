@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC\SystemConfig;
+use OCP\ICacheFactory;
 use OCP\ISession;
 use OCP\ITempManager;
 use OCP\Server;
@@ -47,7 +48,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		$this->datadir = Server::get(ITempManager::class)->getTemporaryFolder();
 
 		file_put_contents($this->datadir . '/.ncdata', '# Nextcloud data directory');
-		Server::get(ISession::class)->set('checkServer_succeeded', false);
+		Server::get(ICacheFactory::class)->createLocal('system')->set('checkServer_succeeded', false, 10);
 	}
 
 	#[\Override]
