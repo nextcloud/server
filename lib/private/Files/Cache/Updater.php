@@ -152,6 +152,11 @@ class Updater implements IUpdater {
 
 		$this->cache->remove($path);
 
+		$appDataPath = 'appdata_' . \OC_Util::getInstanceId() . '/end_to_end_encryption/meta-data';
+		if (str_starts_with($path, $appDataPath)) {
+			return;
+		}
+
 		$this->correctParentStorageMtime($path);
 		if ($entry instanceof ICacheEntry) {
 			$this->propagator->propagateChange($path, time(), -$entry->getSize());
