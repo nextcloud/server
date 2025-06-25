@@ -260,6 +260,8 @@ OC.L10N.register(
     "{fileCount} files and {folderCount} folders" : "{fileCount} ficheiros e {folderCount} pastas",
     "Personal Files" : "Ficheiros pessoais",
     "Text file" : "Ficheiro de Texto",
-    "New text file.txt" : "Novo texto ficheiro.txt"
+    "New text file.txt" : "Novo texto ficheiro.txt",
+    "%1$s (renamed)" : "%1$s (renomeado)",
+    "renamed file" : "ficheiro renomeado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
