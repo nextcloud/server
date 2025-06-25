@@ -79,6 +79,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
+			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+				throw new NotConfirmedException('Required authorization header missing');
+			}
 			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
