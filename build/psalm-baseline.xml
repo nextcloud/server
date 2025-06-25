@@ -4059,16 +4059,6 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Http/Client/Response.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string|resource]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents()]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Installer.php">
     <InvalidArgument>
       <code><![CDATA[false]]></code>
