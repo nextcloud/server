@@ -22,6 +22,7 @@ foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
 		continue;
 	}
 	\OC_App::loadApp($file->getFilename());
+	\OC_App::updateApp($file->getFilename());
 }
 
 OC_Hook::clear();
