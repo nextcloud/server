@@ -169,7 +169,7 @@ OC.L10N.register(
     "View only" : "Csak megtekintés",
     "Can edit" : "Szerkesztheti",
     "Custom permissions" : "Egyéni jogosultságok",
-    "Resharing is not allowed" : "A megosztás továbbadása nem engedélyezett",
+    "Resharing is not allowed" : "A továbbosztás nem engedélyezett",
     "Name or email …" : "Név vagy e-mail-cím…",
     "Name, email, or Federated Cloud ID …" : "Név, e-mail-cím vagy föderált felhőazonosító…",
     "Searching …" : "Keresés…",
