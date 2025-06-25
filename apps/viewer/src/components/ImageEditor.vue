@@ -253,11 +253,16 @@ export default {
 			try {
 				const blob = await new Promise(resolve => imageCanvas.toBlob(resolve, mimeType, quality))
 				const response = await axios.put(putUrl, new File([blob], fullName))
-
 				logger.info('Edited image saved!', { response })
 				showSuccess(t('viewer', 'Image saved'))
 				if (putUrl !== this.src) {
-					emit('files:node:created', { fileid: parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null })
+					const fileId = parseInt(response?.headers?.['oc-fileid']?.split('oc')[0]) || null
+					emit('editor:file:created', putUrl)
+					if (fileId) {
+						const newParams = window.OCP.Files.Router.params
+						newParams.fileId = fileId
+						window.OCP.Files.Router.goToRoute(null, newParams, window.OCP.Files.Router.query)
+					}
 				} else {
 					this.$emit('updated')
 					const updatedFile = await rawStat(origin, decodeURI(pathname))
