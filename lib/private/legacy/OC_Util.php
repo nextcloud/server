@@ -187,14 +187,13 @@ class OC_Util {
 					$child = $target->newFolder($file);
 					self::copyr($source . '/' . $file, $child);
 				} else {
-					$child = $target->newFile($file);
 					$sourceStream = fopen($source . '/' . $file, 'r');
 					if ($sourceStream === false) {
 						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
 						closedir($dir);
 						return;
 					}
-					$child->putContent($sourceStream);
+					$target->newFile($file, $sourceStream);
 				}
 			}
 		}
