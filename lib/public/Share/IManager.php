@@ -473,6 +473,15 @@ interface IManager {
 	public function allowCustomTokens(): bool;
 
 	/**
+	 * Check if the current user can view the share
+	 * even if the download is disabled.
+	 *
+	 * @return bool
+	 * @since 32.0.0
+	 */
+	public function allowViewWithoutDownload(): bool;
+
+	/**
 	 * Check if the current user can enumerate the target user
 	 *
 	 * @param IUser|null $currentUser

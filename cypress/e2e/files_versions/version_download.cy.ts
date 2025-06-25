@@ -14,6 +14,7 @@ describe('Versions download', () => {
 	before(() => {
 		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
 
+		cy.runOccCommand('config:app:set --value no core shareapi_allow_view_without_download')
 		cy.createRandomUser()
 			.then((_user) => {
 				user = _user
@@ -22,6 +23,10 @@ describe('Versions download', () => {
 				cy.visit('/apps/files')
 				openVersionsPanel(randomFileName)
 			})
+	})
+
+	after(() => {
+		cy.runOccCommand('config:app:delete core shareapi_allow_view_without_download')
 	})
 
 	it('Download versions and assert their content', () => {

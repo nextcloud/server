@@ -19,7 +19,6 @@ use OCP\Files\Storage\IStorage;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
-use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -196,15 +195,9 @@ class PreviewControllerTest extends \Test\TestCase {
 			->with($this->equalTo($file))
 			->willReturn(true);
 
-		$shareAttributes = $this->createMock(IAttributes::class);
-		$shareAttributes->expects(self::atLeastOnce())
-			->method('getAttribute')
-			->with('permissions', 'download')
-			->willReturn(false);
-
 		$share = $this->createMock(IShare::class);
-		$share->method('getAttributes')
-			->willReturn($shareAttributes);
+		$share->method('canSeeContent')
+			->willReturn(false);
 
 		$storage = $this->createMock(ISharedStorage::class);
 		$storage->method('instanceOfStorage')
@@ -242,14 +235,9 @@ class PreviewControllerTest extends \Test\TestCase {
 			->with($this->equalTo($file))
 			->willReturn(true);
 
-		$shareAttributes = $this->createMock(IAttributes::class);
-		$shareAttributes->method('getAttribute')
-			->with('permissions', 'download')
-			->willReturn(false);
-
 		$share = $this->createMock(IShare::class);
-		$share->method('getAttributes')
-			->willReturn($shareAttributes);
+		$share->method('canSeeContent')
+			->willReturn(false);
 
 		$storage = $this->createMock(ISharedStorage::class);
 		$storage->method('instanceOfStorage')
@@ -341,8 +329,8 @@ class PreviewControllerTest extends \Test\TestCase {
 
 		// No attributes set -> download permitted
 		$share = $this->createMock(IShare::class);
-		$share->method('getAttributes')
-			->willReturn(null);
+		$share->method('canSeeContent')
+			->willReturn(true);
 
 		$storage = $this->createMock(ISharedStorage::class);
 		$storage->method('instanceOfStorage')
