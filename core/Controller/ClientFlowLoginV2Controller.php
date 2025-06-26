@@ -43,6 +43,7 @@ use function OCP\Log\logger;
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
+	public const STATE_EXPIRATION = 'client.flow.v2.state.token.expiration';
 	// Denotes that the session was created for the login flow and should therefore be ephemeral.
 	public const EPHEMERAL_NAME = 'client.flow.v2.state.ephemeral';
 
@@ -119,11 +120,27 @@ class ClientFlowLoginV2Controller extends Controller {
 			'existingStateToken' => $oldStateToken,
 		]);
 
-		$stateToken = $this->random->generate(
+		if ($oldStateToken !== null) {
+			$expiration = $this->session->get(self::STATE_EXPIRATION);
+			if ($expiration !== null && $expiration < time()) {
+				$oldStateToken = null;
+
+				logger('core')->error('Old state token found, but has expired - nulling it', [
+					'loginFlow' => 'v2',
+				]);
+			} else {
+				logger('core')->error('Old state token found and still valid – using it', [
+					'loginFlow' => 'v2',
+				]);
+			}
+		}
+
+		$stateToken = $oldStateToken ?? $this->random->generate(
 			64,
 			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+		$this->session->set(self::STATE_EXPIRATION, time() + 60 * 60); // in an hour
 
 		$setStateToken = $this->session->get(self::STATE_NAME);
 		logger('core')->error('Fetching set state token - expected to match generated one', [
@@ -138,6 +155,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'stateToken' => $stateToken,
 			]);
 			$this->session->set(self::STATE_NAME, $stateToken);
+			$this->session->set(self::STATE_EXPIRATION, time() + 60 * 60); // in an hour
 		}
 
 		return new StandaloneTemplateResponse(
@@ -218,6 +236,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		// Clear session variables
 		$this->session->remove(self::TOKEN_NAME);
 		$this->session->remove(self::STATE_NAME);
+		$this->session->remove(self::STATE_EXPIRATION);
 
 		try {
 			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
@@ -264,6 +283,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		// Clear session variables
 		$this->session->remove(self::TOKEN_NAME);
 		$this->session->remove(self::STATE_NAME);
+		$this->session->remove(self::STATE_EXPIRATION);
 		$sessionId = $this->session->getId();
 
 		$result = $this->loginFlowV2Service->flowDone($loginToken, $sessionId, $this->getServerPath(), $this->userId);
@@ -332,6 +352,19 @@ class ClientFlowLoginV2Controller extends Controller {
 			]);
 			return false;
 		}
+
+		$expiration = $this->session->get(self::STATE_EXPIRATION);
+		if ($expiration !== null && $expiration < time()) {
+			logger('core')->error('Client login flow state token is expired', [
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+				'entryNamesInSession' => implode(',', method_exists($this->session, 'dumpKeys') ? $this->session->dumpKeys() : ['(unexpected session instance)']),
+				'loginFlow' => 'v2',
+				'backingSessionClass' => get_class($this->session),
+			]);
+			return false;
+		}
+
 		$isValid = hash_equals($currentToken, $stateToken);
 		if (!$isValid) {
 			logger('core')->error('Client login flow state token does not match',

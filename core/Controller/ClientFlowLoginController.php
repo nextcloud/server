@@ -42,6 +42,7 @@ use function OCP\Log\logger;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ClientFlowLoginController extends Controller {
 	public const STATE_NAME = 'client.flow.state.token';
+	public const STATE_EXPIRATION = 'client.flow.state.token.expiration';
 
 	public function __construct(
 		string $appName,
@@ -78,6 +79,17 @@ class ClientFlowLoginController extends Controller {
 			]);
 			return false;
 		}
+
+		$expiration = $this->session->get(self::STATE_EXPIRATION);
+		if ($expiration !== null && $expiration < time()) {
+			logger('core')->error('Client login flow state token is expired', [
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+				'loginFlow' => 'v1',
+			]);
+			return false;
+		}
+
 		$isValid = hash_equals($currentToken, $stateToken);
 		if (!$isValid) {
 			logger('core')->error('Client login flow state token does not match',
@@ -141,11 +153,27 @@ class ClientFlowLoginController extends Controller {
 			'existingStateToken' => $oldStateToken,
 		]);
 
-		$stateToken = $this->random->generate(
+		if ($oldStateToken !== null) {
+			$expiration = $this->session->get(self::STATE_EXPIRATION);
+			if ($expiration !== null && $expiration < time()) {
+				$oldStateToken = null;
+
+				logger('core')->error('Old state token found, but has expired - nulling it', [
+					'loginFlow' => 'v1',
+				]);
+			} else {
+				logger('core')->error('Old state token found and still valid – using it', [
+					'loginFlow' => 'v1',
+				]);
+			}
+		}
+
+		$stateToken = $oldStateToken ?? $this->random->generate(
 			64,
 			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+		$this->session->set(self::STATE_EXPIRATION, time() + 60 * 60); // in an hour
 		logger('core')->error('Client login flow state token set', [
 			'token' => $stateToken,
 		]);
@@ -163,6 +191,7 @@ class ClientFlowLoginController extends Controller {
 				'stateToken' => $stateToken,
 			]);
 			$this->session->set(self::STATE_NAME, $stateToken);
+			$this->session->set(self::STATE_EXPIRATION, time() + 60 * 60); // in an hour
 		}
 
 		$csp = new Http\ContentSecurityPolicy();
@@ -262,10 +291,12 @@ class ClientFlowLoginController extends Controller {
 	): Response {
 		if (!$this->isValidToken($stateToken)) {
 			$this->session->remove(self::STATE_NAME);
+			$this->session->remove(self::STATE_EXPIRATION);
 			return $this->stateTokenForbiddenResponse();
 		}
 
 		$this->session->remove(self::STATE_NAME);
+		$this->session->remove(self::STATE_EXPIRATION);
 
 		try {
 			$sessionId = $this->session->getId();
