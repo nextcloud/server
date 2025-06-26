@@ -3943,12 +3943,6 @@
       <code><![CDATA[ArrayCache]]></code>
       <code><![CDATA[ArrayCache]]></code>
     </InvalidClass>
-    <InvalidReturnStatement>
-      <code><![CDATA[$response->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[fopen]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
     <TypeDoesNotContainNull>
@@ -4197,12 +4191,6 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Remote/Instance.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$request->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$response]]></code>
     </InvalidScalarArgument>
