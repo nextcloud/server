@@ -24,7 +24,7 @@ class SanitizeAccountPropertiesJobTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IAccountManager&MockObject $accountManager;
 	private LoggerInterface&MockObject $logger;
-	
+
 	private SanitizeAccountPropertiesJob $job;
 
 	protected function setUp(): void {

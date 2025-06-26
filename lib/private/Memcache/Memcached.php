@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -48,8 +49,8 @@ class Memcached extends Cache implements IMemcache {
 			 * @psalm-suppress TypeDoesNotContainType
 			 */
 			if (\Memcached::HAVE_IGBINARY) {
-				$defaultOptions[\Memcached::OPT_SERIALIZER] =
-					\Memcached::SERIALIZER_IGBINARY;
+				$defaultOptions[\Memcached::OPT_SERIALIZER]
+					= \Memcached::SERIALIZER_IGBINARY;
 			}
 			$options = \OC::$server->getConfig()->getSystemValue('memcached_options', []);
 			if (is_array($options)) {

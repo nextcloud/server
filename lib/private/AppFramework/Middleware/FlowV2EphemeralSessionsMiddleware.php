@@ -33,8 +33,8 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 		}
 
 		if (
-			$controller instanceof ClientFlowLoginV2Controller &&
-			($methodName === 'grantPage' || $methodName === 'generateAppPassword')
+			$controller instanceof ClientFlowLoginV2Controller
+			&& ($methodName === 'grantPage' || $methodName === 'generateAppPassword')
 		) {
 			return;
 		}

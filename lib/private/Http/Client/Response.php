@@ -38,9 +38,9 @@ class Response implements IResponse {
 	 * @return string|resource
 	 */
 	public function getBody() {
-		return $this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents();
+		return $this->stream
+			? $this->response->getBody()->detach()
+			:$this->response->getBody()->getContents();
 	}
 
 	/**

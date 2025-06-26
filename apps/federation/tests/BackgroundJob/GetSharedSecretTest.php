@@ -155,8 +155,8 @@ class GetSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret',
 				[
-					'query' =>
-						[
+					'query'
+						=> [
 							'url' => $source,
 							'token' => $token,
 							'format' => 'json',
@@ -247,8 +247,8 @@ class GetSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/shared-secret',
 				[
-					'query' =>
-						[
+					'query'
+						=> [
 							'url' => $source,
 							'token' => $token,
 							'format' => 'json',

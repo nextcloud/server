@@ -815,8 +815,8 @@ class AppConfig implements IAppConfig {
 			 * we only accept a different type from the one stored in database
 			 * if the one stored in database is not-defined (VALUE_MIXED)
 			 */
-			if (!$this->isTyped(self::VALUE_MIXED, $currType) &&
-				($type | self::VALUE_SENSITIVE) !== ($currType | self::VALUE_SENSITIVE)) {
+			if (!$this->isTyped(self::VALUE_MIXED, $currType)
+				&& ($type | self::VALUE_SENSITIVE) !== ($currType | self::VALUE_SENSITIVE)) {
 				try {
 					$currType = $this->convertTypeToString($currType);
 					$type = $this->convertTypeToString($type);

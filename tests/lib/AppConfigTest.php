@@ -36,8 +36,8 @@ class AppConfigTest extends TestCase {
 	 * @var array<string, array<string, array<string, string, int, bool, bool>>>
 	 *                                                                           [appId => [configKey, configValue, valueType, lazy, sensitive]]
 	 */
-	private static array $baseStruct =
-		[
+	private static array $baseStruct
+		= [
 			'testapp' => [
 				'enabled' => ['enabled', 'yes'],
 				'installed_version' => ['installed_version', '1.2.3'],

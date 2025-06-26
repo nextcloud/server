@@ -247,8 +247,8 @@ class ProfileManager implements IProfileManager {
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
 				case IAccountManager::PROPERTY_PRONOUNS:
-					$profileParameters[$property] =
-						$this->isProfileFieldVisible($property, $targetUser, $visitingUser)
+					$profileParameters[$property]
+						= $this->isProfileFieldVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
 						? ($account->getProperty($property)->getValue() ?: null)
 						: null;

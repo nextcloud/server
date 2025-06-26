@@ -18,9 +18,9 @@ use OCP\Files\Search\ISearchOperator;
 class SplitLargeIn extends ReplacingOptimizerStep {
 	public function processOperator(ISearchOperator &$operator): bool {
 		if (
-			$operator instanceof ISearchComparison &&
-			$operator->getType() === ISearchComparison::COMPARE_IN &&
-			count($operator->getValue()) > 1000
+			$operator instanceof ISearchComparison
+			&& $operator->getType() === ISearchComparison::COMPARE_IN
+			&& count($operator->getValue()) > 1000
 		) {
 			$chunks = array_chunk($operator->getValue(), 1000);
 			$chunkComparisons = array_map(function (array $values) use ($operator) {

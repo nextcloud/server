@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -53,7 +54,7 @@ class OCSTest extends TestCase {
 		$this->assertEquals('user', $user->getUserId());
 	}
 
-	
+
 	public function testGetUserInvalidResponse(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid user response, expected field email not found');
@@ -67,7 +68,7 @@ class OCSTest extends TestCase {
 		$client->getUser('user');
 	}
 
-	
+
 	public function testInvalidPassword(): void {
 		$this->expectException(ForbiddenException::class);
 

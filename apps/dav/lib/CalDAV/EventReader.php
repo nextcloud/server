@@ -169,9 +169,9 @@ class EventReader {
 		if (isset($this->baseEvent->DTEND)) {
 			$this->baseEventEndDate = $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone);
 			$this->baseEventEndDateFloating = $this->baseEvent->DTEND->isFloating();
-			$this->baseEventDuration =
-				$this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp() -
-				$this->baseEventStartDate->getTimeStamp();
+			$this->baseEventDuration
+				= $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp()
+				- $this->baseEventStartDate->getTimeStamp();
 		}
 		// evaluate if duration exists
 		// extract duration and calculate end date
@@ -362,8 +362,8 @@ class EventReader {
 	public function recurringConcludes(): bool {
 
 		// retrieve rrule conclusions
-		if ($this->rruleIterator?->concludesOn() !== null ||
-			$this->rruleIterator?->concludesAfter() !== null) {
+		if ($this->rruleIterator?->concludesOn() !== null
+			|| $this->rruleIterator?->concludesAfter() !== null) {
 			return true;
 		}
 		// retrieve rdate conclusions

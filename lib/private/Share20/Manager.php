@@ -182,8 +182,8 @@ class Manager implements IManager {
 		}
 
 		// Cannot share with yourself
-		if ($share->getShareType() === IShare::TYPE_USER &&
-			$share->getSharedWith() === $share->getSharedBy()) {
+		if ($share->getShareType() === IShare::TYPE_USER
+			&& $share->getSharedWith() === $share->getSharedBy()) {
 			throw new \InvalidArgumentException($this->l->t('Cannot share with yourself'));
 		}
 
@@ -193,8 +193,8 @@ class Manager implements IManager {
 		}
 
 		// And it should be a file or a folder
-		if (!($share->getNode() instanceof \OCP\Files\File) &&
-			!($share->getNode() instanceof \OCP\Files\Folder)) {
+		if (!($share->getNode() instanceof \OCP\Files\File)
+			&& !($share->getNode() instanceof \OCP\Files\Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
 		}
 
@@ -251,8 +251,8 @@ class Manager implements IManager {
 		// Link shares are allowed to have no read permissions to allow upload to hidden folders
 		$noReadPermissionRequired = $share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL;
-		if (!$noReadPermissionRequired &&
-			($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
+		if (!$noReadPermissionRequired
+			&& ($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException($this->l->t('Shares need at least read permissions'));
 		}
 
@@ -561,8 +561,8 @@ class Manager implements IManager {
 		}
 
 		// Check if public upload is allowed
-		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload() &&
-			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
+		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()
+			&& ($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException($this->l->t('Public upload is not allowed'));
 		}
 	}
@@ -698,8 +698,8 @@ class Manager implements IManager {
 			}
 
 			// Cannot share with the owner
-			if ($share->getShareType() === IShare::TYPE_USER &&
-				$share->getSharedWith() === $share->getShareOwner()) {
+			if ($share->getShareType() === IShare::TYPE_USER
+				&& $share->getSharedWith() === $share->getShareOwner()) {
 				throw new \InvalidArgumentException($this->l->t('Cannot share with the share owner'));
 			}
 
@@ -791,14 +791,14 @@ class Manager implements IManager {
 		}
 
 		// We can only change the recipient on user shares
-		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
-			$share->getShareType() !== IShare::TYPE_USER) {
+		if ($share->getSharedWith() !== $originalShare->getSharedWith()
+			&& $share->getShareType() !== IShare::TYPE_USER) {
 			throw new \InvalidArgumentException($this->l->t('Can only update recipient on user shares'));
 		}
 
 		// Cannot share with the owner
-		if ($share->getShareType() === IShare::TYPE_USER &&
-			$share->getSharedWith() === $share->getShareOwner()) {
+		if ($share->getShareType() === IShare::TYPE_USER
+			&& $share->getSharedWith() === $share->getShareOwner()) {
 			throw new \InvalidArgumentException($this->l->t('Cannot share with the share owner'));
 		}
 
@@ -949,11 +949,11 @@ class Manager implements IManager {
 	 * @return boolean whether the password was updated or not.
 	 */
 	private function updateSharePasswordIfNeeded(IShare $share, IShare $originalShare) {
-		$passwordsAreDifferent = ($share->getPassword() !== $originalShare->getPassword()) &&
-			(($share->getPassword() !== null && $originalShare->getPassword() === null) ||
-				($share->getPassword() === null && $originalShare->getPassword() !== null) ||
-				($share->getPassword() !== null && $originalShare->getPassword() !== null &&
-					!$this->hasher->verify($share->getPassword(), $originalShare->getPassword())));
+		$passwordsAreDifferent = ($share->getPassword() !== $originalShare->getPassword())
+			&& (($share->getPassword() !== null && $originalShare->getPassword() === null)
+				|| ($share->getPassword() === null && $originalShare->getPassword() !== null)
+				|| ($share->getPassword() !== null && $originalShare->getPassword() !== null
+					&& !$this->hasher->verify($share->getPassword(), $originalShare->getPassword())));
 
 		// Password updated.
 		if ($passwordsAreDifferent) {
@@ -1237,9 +1237,9 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, bool $onlyValid = true) {
-		if ($path !== null &&
-			!($path instanceof \OCP\Files\File) &&
-			!($path instanceof \OCP\Files\Folder)) {
+		if ($path !== null
+			&& !($path instanceof \OCP\Files\File)
+			&& !($path instanceof \OCP\Files\Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Invalid path'));
 		}
 
@@ -1798,8 +1798,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkDefaultExpireDateEnforced() {
-		return $this->shareApiLinkDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+		return $this->shareApiLinkDefaultExpireDate()
+			&& $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
 	}
 
 
@@ -1836,8 +1836,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
-		return $this->shareApiInternalDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+		return $this->shareApiInternalDefaultExpireDate()
+			&& $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 	}
 
 	/**
@@ -1846,8 +1846,8 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
-		return $this->shareApiRemoteDefaultExpireDate() &&
-			$this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+		return $this->shareApiRemoteDefaultExpireDate()
+			&& $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 	}
 
 	/**
@@ -1915,13 +1915,13 @@ class Manager implements IManager {
 	}
 
 	public function limitEnumerationToGroups(): bool {
-		return $this->allowEnumeration() &&
-			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		return $this->allowEnumeration()
+			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 	}
 
 	public function limitEnumerationToPhone(): bool {
-		return $this->allowEnumeration() &&
-			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		return $this->allowEnumeration()
+			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	public function allowEnumerationFullMatch(): bool {

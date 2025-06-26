@@ -62,7 +62,7 @@ class SanitizeFilenames extends Base {
 				mode: InputOption::VALUE_REQUIRED,
 				description: 'Replacement for invalid character (by default space, underscore or dash is used)',
 			);
-			
+
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

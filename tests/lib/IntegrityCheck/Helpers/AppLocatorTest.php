@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,7 +24,7 @@ class AppLocatorTest extends TestCase {
 		$this->assertSame(\OC_App::getAppPath('files'), $this->locator->getAppPath('files'));
 	}
 
-	
+
 	public function testGetAppPathNotExistentApp(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App not found');

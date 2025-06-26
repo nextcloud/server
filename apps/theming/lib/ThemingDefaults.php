@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -120,8 +121,8 @@ class ThemingDefaults extends \OC_Defaults {
 
 		if ($entity !== '') {
 			if ($baseUrl !== '') {
-				$footer = '<a href="' . $baseUrl . '" target="_blank"' .
-					' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
+				$footer = '<a href="' . $baseUrl . '" target="_blank"'
+					. ' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
 			} else {
 				$footer = '<span class="entity-name">' . $entity . '</span>';
 			}
@@ -154,8 +155,8 @@ class ThemingDefaults extends \OC_Defaults {
 			if ($link['url'] !== ''
 				&& filter_var($link['url'], FILTER_VALIDATE_URL)
 			) {
-				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"' .
-					' rel="noreferrer noopener">' . $link['text'] . '</a>';
+				$legalLinks .= $divider . '<a href="' . $link['url'] . '" class="legal" target="_blank"'
+					. ' rel="noreferrer noopener">' . $link['text'] . '</a>';
 				$divider = ' · ';
 			}
 		}

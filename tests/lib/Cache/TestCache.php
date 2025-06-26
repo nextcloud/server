@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -24,7 +25,7 @@ abstract class TestCache extends \Test\TestCase {
 	public function testSimple(): void {
 		$this->assertNull($this->instance->get('value1'));
 		$this->assertFalse($this->instance->hasKey('value1'));
-		
+
 		$value = 'foobar';
 		$this->instance->set('value1', $value);
 		$this->assertTrue($this->instance->hasKey('value1'));

@@ -341,8 +341,8 @@ class Access extends LDAPUtility {
 		$cr = $this->connection->getConnectionResource();
 		try {
 			// try PASSWD extended operation first
-			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
-				@$this->invokeLDAPMethod('modReplace', $userDN, $password);
+			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password)
+				|| @$this->invokeLDAPMethod('modReplace', $userDN, $password);
 		} catch (ConstraintViolationException $e) {
 			throw new HintException('Password change rejected.', Util::getL10N('user_ldap')->t('Password change rejected. Hint: %s', $e->getMessage()), (int)$e->getCode());
 		}
@@ -1811,8 +1811,8 @@ class Access extends LDAPUtility {
 			 * user. Instead we write a log message.
 			 */
 			$this->logger->info(
-				'Passed string does not resemble a valid GUID. Known UUID ' .
-				'({uuid}) probably does not match UUID configuration.',
+				'Passed string does not resemble a valid GUID. Known UUID '
+				. '({uuid}) probably does not match UUID configuration.',
 				['app' => 'user_ldap', 'uuid' => $guid]
 			);
 			return $guid;

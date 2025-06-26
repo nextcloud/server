@@ -42,9 +42,9 @@ class PublishingTest extends TestCase {
 		$root = new SimpleCollection('calendars');
 		$this->server = new Server($root);
 		/** @var SimpleCollection $node */
-		$this->book = $this->getMockBuilder(Calendar::class)->
-			disableOriginalConstructor()->
-			getMock();
+		$this->book = $this->getMockBuilder(Calendar::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->book->method('getName')->willReturn('cal1');
 		$root->addChild($this->book);
 		$this->plugin->initialize($this->server);

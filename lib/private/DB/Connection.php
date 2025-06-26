@@ -894,9 +894,9 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function reconnectIfNeeded(): void {
 		if (
-			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			!isset($this->lastConnectionCheck[$this->getConnectionName()])
+			|| time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30
+			|| $this->isTransactionActive()
 		) {
 			return;
 		}

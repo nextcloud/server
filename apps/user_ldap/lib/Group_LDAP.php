@@ -1019,9 +1019,9 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			return $groupUsers;
 		}
 		$search = $this->access->escapeFilterPart($search, true);
-		$isMemberUid =
-			($this->ldapGroupMemberAssocAttr === 'memberuid' ||
-				$this->ldapGroupMemberAssocAttr === 'zimbramailforwardingaddress');
+		$isMemberUid
+			= ($this->ldapGroupMemberAssocAttr === 'memberuid'
+				|| $this->ldapGroupMemberAssocAttr === 'zimbramailforwardingaddress');
 
 		//we need to apply the search filter
 		//alternatives that need to be checked:
@@ -1199,10 +1199,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
 	public function implementsActions($actions): bool {
-		return (bool)((GroupInterface::COUNT_USERS |
-				GroupInterface::DELETE_GROUP |
-				GroupInterface::IS_ADMIN |
-				$this->groupPluginManager->getImplementedActions()) & $actions);
+		return (bool)((GroupInterface::COUNT_USERS
+				| GroupInterface::DELETE_GROUP
+				| GroupInterface::IS_ADMIN
+				| $this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
 	/**

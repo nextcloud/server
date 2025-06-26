@@ -110,8 +110,8 @@ class SectionSearch implements IProvider {
 		foreach ($sections as $priority => $sectionsByPriority) {
 			foreach ($sectionsByPriority as $section) {
 				if (
-					stripos($section->getName(), $query->getTerm()) === false &&
-					stripos($section->getID(), $query->getTerm()) === false
+					stripos($section->getName(), $query->getTerm()) === false
+					&& stripos($section->getID(), $query->getTerm()) === false
 				) {
 					continue;
 				}

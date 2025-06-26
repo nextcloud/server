@@ -22,8 +22,8 @@ class DropColumn extends ColumnMigrationAttribute {
 	 * @since 30.0.0
 	 */
 	public function definition(): string {
-		return empty($this->getName()) ?
-			'Deletion of a column from table \'' . $this->getTable() . '\''
+		return empty($this->getName())
+			? 'Deletion of a column from table \'' . $this->getTable() . '\''
 			: 'Deletion of column \'' . $this->getName() . '\' from table \'' . $this->getTable() . '\'';
 	}
 }

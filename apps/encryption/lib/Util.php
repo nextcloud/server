@@ -121,8 +121,8 @@ class Util {
 		if (count($parts) > 1) {
 			$owner = $parts[1];
 			if ($this->userManager->userExists($owner) === false) {
-				throw new \BadMethodCallException('Unknown user: ' .
-				'method expects path to a user folder relative to the data folder');
+				throw new \BadMethodCallException('Unknown user: '
+				. 'method expects path to a user folder relative to the data folder');
 			}
 		}
 

@@ -62,7 +62,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 					)
 				);
 			}
-			
+
 		}
 
 		return $access;

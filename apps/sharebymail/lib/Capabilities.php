@@ -48,10 +48,10 @@ class Capabilities implements ICapability {
 			return [];
 		}
 		return [
-			'files_sharing' =>
-				[
-					'sharebymail' =>
-						[
+			'files_sharing'
+				=> [
+					'sharebymail'
+						=> [
 							'enabled' => $this->manager->shareApiAllowLinks(),
 							'send_password_by_mail' => $this->settingsManager->sendPasswordByMail(),
 							'upload_files_drop' => [

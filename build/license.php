@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -220,7 +221,7 @@ With help from many libraries and frameworks including:
 				$index++;
 				continue;
 			}
-	
+
 			if (strpos($line, '<?php declare(strict_types') !== false) {
 				$isStrict = true;
 				array_splice($lines, $index, 1);
@@ -262,7 +263,7 @@ With help from many libraries and frameworks including:
 	private function getCopyrightNotices($path, $file) {
 		$licenseHeaderCopyrightAtLines = trim(shell_exec("grep -ni 'copyright' $path | cut -d ':' -f 1"));
 		$lineByLine = explode(PHP_EOL, $file);
-		
+
 		$copyrightNotice = [];
 		if (trim($licenseHeaderCopyrightAtLines !== '')) {
 			$copyrightNotice = array_map(function ($line) use ($lineByLine) {
@@ -355,7 +356,7 @@ With help from many libraries and frameworks including:
 		}
 
 		$authors = $this->filterAuthors($authors);
-		
+
 		if ($gitRoot) {
 			$authors = array_map([$this, 'checkCoreMailMap'], $authors);
 			$authors = array_unique($authors);

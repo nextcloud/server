@@ -258,8 +258,8 @@ class OwnershipTransferService {
 							$mount = $fileInfo->getMountPoint();
 							// only analyze into folders from main storage,
 							if (
-								$mount->getMountProvider() instanceof IHomeMountProvider ||
-								($includeExternalStorage && $mount->getMountProvider() instanceof ConfigAdapter)
+								$mount->getMountProvider() instanceof IHomeMountProvider
+								|| ($includeExternalStorage && $mount->getMountProvider() instanceof ConfigAdapter)
 							) {
 								if ($fileInfo->isEncrypted()) {
 									/* Encrypted folder means e2ee encrypted, we cannot transfer it */
@@ -487,8 +487,8 @@ class OwnershipTransferService {
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
 				$output->writeln('Transfering share ' . $share->getId() . ' of type ' . $share->getShareType(), OutputInterface::VERBOSITY_VERBOSE);
-				if ($share->getShareType() === IShare::TYPE_USER &&
-					$share->getSharedWith() === $destinationUid) {
+				if ($share->getShareType() === IShare::TYPE_USER
+					&& $share->getSharedWith() === $destinationUid) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $destinationUid . '/files' . $share->getTarget());
 					if ($shareMountPoint) {
@@ -503,8 +503,8 @@ class OwnershipTransferService {
 						$share->setSharedBy($destinationUid);
 					}
 
-					if ($share->getShareType() === IShare::TYPE_USER &&
-						!$this->userManager->userExists($share->getSharedWith())) {
+					if ($share->getShareType() === IShare::TYPE_USER
+						&& !$this->userManager->userExists($share->getSharedWith())) {
 						// stray share with deleted user
 						$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted user "' . $share->getSharedWith() . '", deleting</error>');
 						$this->shareManager->deleteShare($share);
@@ -569,8 +569,8 @@ class OwnershipTransferService {
 				}
 				$shareTarget = $share->getTarget();
 				$shareTarget = $finalShareTarget . $shareTarget;
-				if ($share->getShareType() === IShare::TYPE_USER &&
-					$share->getSharedBy() === $destinationUid) {
+				if ($share->getShareType() === IShare::TYPE_USER
+					&& $share->getSharedBy() === $destinationUid) {
 					$this->shareManager->deleteShare($share);
 				} elseif (isset($destinationShares[$share->getNodeId()])) {
 					$destinationShare = $destinationShares[$share->getNodeId()];

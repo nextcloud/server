@@ -418,8 +418,8 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function isExpired() {
-		return $this->getExpirationDate() !== null &&
-			$this->getExpirationDate() <= new \DateTime();
+		return $this->getExpirationDate() !== null
+			&& $this->getExpirationDate() <= new \DateTime();
 	}
 
 	/**

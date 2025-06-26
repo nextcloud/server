@@ -152,8 +152,8 @@ class RedisFactory {
 	}
 
 	public function isAvailable(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
 	}
 
 	/**
@@ -163,7 +163,7 @@ class RedisFactory {
 	 * @return boolean
 	 */
 	private function isConnectionParametersSupported(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
 	}
 }

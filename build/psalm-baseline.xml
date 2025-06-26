@@ -4063,11 +4063,7 @@
     <InvalidNullableReturnType>
       <code><![CDATA[string|resource]]></code>
     </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents()]]></code>
-    </NullableReturnStatement>
+    <NullableReturnStatement/>
   </file>
   <file src="lib/private/Installer.php">
     <InvalidArgument>
@@ -4121,22 +4117,7 @@
     <InvalidReturnType>
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$file !== '' ? null :
-			new CacheEntry([
-				'fileid' => -1,
-				'parent' => -1,
-				'name' => '',
-				'path' => '',
-				'size' => '0',
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => '',
-				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ
-			])]]></code>
-    </NullableReturnStatement>
+    <NullableReturnStatement/>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <TooManyArguments>

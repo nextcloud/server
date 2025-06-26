@@ -45,7 +45,7 @@ use Sabre\VObject\Reader;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-	
+
 	private ?VCalendar $vCalendar = null;
 	public const MAX_DATE = '2038-01-01';
 	public const METHOD_REQUEST = 'request';

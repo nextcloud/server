@@ -53,8 +53,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI && strcasecmp($this->calendarInfo['{DAV:}displayname'], 'Contact birthdays') === 0) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
-		if ($this->getName() === CalDavBackend::PERSONAL_CALENDAR_URI &&
-			$this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
+		if ($this->getName() === CalDavBackend::PERSONAL_CALENDAR_URI
+			&& $this->calendarInfo['{DAV:}displayname'] === CalDavBackend::PERSONAL_CALENDAR_NAME) {
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
 		$this->l10n = $l10n;

@@ -31,7 +31,7 @@ class Version30000Date20240906095113 extends SimpleMigrationStep {
 		if ($schema->hasTable('taskprocessing_tasks')) {
 			$table = $schema->getTable('taskprocessing_tasks');
 			$column = $table->getColumn('error_message');
-	
+
 			if ($column->getLength() < 4000) {
 				$column->setLength(4000);
 			}

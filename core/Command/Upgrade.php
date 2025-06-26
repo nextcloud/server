@@ -227,9 +227,9 @@ class Upgrade extends Command {
 		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		if (empty($trustedDomains)) {
 			$output->write(
-				'<warning>The setting "trusted_domains" could not be ' .
-				'set automatically by the upgrade script, ' .
-				'please set it manually</warning>'
+				'<warning>The setting "trusted_domains" could not be '
+				. 'set automatically by the upgrade script, '
+				. 'please set it manually</warning>'
 			);
 		}
 	}
