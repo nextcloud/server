@@ -39,7 +39,7 @@ class ApplicationTest extends TestCase {
 
 	public function testContainerAppName(): void {
 		$this->app = new Application();
-		$this->assertEquals('settings', $this->container->getAppName());
+		$this->assertEquals('settings', $this->container->get('appName'));
 	}
 
 	public static function dataContainerQuery(): array {
