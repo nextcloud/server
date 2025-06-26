@@ -19,7 +19,7 @@ const recentView = {
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
-		expect(action.id).toBe('open-in-files-recent')
+		expect(action.id).toBe('open-in-files')
 		expect(action.displayName([], recentView)).toBe('Open in Files')
 		expect(action.iconSvgInline([], recentView)).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
