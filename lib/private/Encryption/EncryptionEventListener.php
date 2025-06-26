@@ -17,6 +17,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -50,10 +51,14 @@ class EncryptionEventListener implements IEventListener {
 		} elseif ($event instanceof ShareCreatedEvent) {
 			$this->getUpdate()->postShared($event->getShare()->getNode());
 		} elseif ($event instanceof ShareDeletedEvent) {
-			// In case the unsharing happens in a background job, we don't have
-			// a session and we load instead the user from the UserManager
-			$owner = $event->getShare()->getNode()->getOwner();
-			$this->getUpdate($owner)->postUnshared($event->getShare()->getNode());
+			try {
+				// In case the unsharing happens in a background job, we don't have
+				// a session and we load instead the user from the UserManager
+				$owner = $event->getShare()->getShareOwner();
+				$this->getUpdate($owner)->postUnshared($event->getShare()->getNode());
+			} catch (NotFoundException $e) {
+				/* The node was deleted already, nothing to update */
+			}
 		} elseif ($event instanceof NodeRestoredEvent) {
 			$this->getUpdate()->postRestore($event->getTarget());
 		}
