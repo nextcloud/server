@@ -37,6 +37,8 @@ return array(
     'OCA\\Files\\Command\\Object\\Get' => $baseDir . '/../lib/Command/Object/Get.php',
     'OCA\\Files\\Command\\Object\\Info' => $baseDir . '/../lib/Command/Object/Info.php',
     'OCA\\Files\\Command\\Object\\ListObject' => $baseDir . '/../lib/Command/Object/ListObject.php',
+    'OCA\\Files\\Command\\Object\\Multi\\Rename' => $baseDir . '/../lib/Command/Object/Multi/Rename.php',
+    'OCA\\Files\\Command\\Object\\Multi\\Users' => $baseDir . '/../lib/Command/Object/Multi/Users.php',
     'OCA\\Files\\Command\\Object\\ObjectUtil' => $baseDir . '/../lib/Command/Object/ObjectUtil.php',
     'OCA\\Files\\Command\\Object\\Orphans' => $baseDir . '/../lib/Command/Object/Orphans.php',
     'OCA\\Files\\Command\\Object\\Put' => $baseDir . '/../lib/Command/Object/Put.php',
