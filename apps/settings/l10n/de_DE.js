@@ -633,7 +633,7 @@ OC.L10N.register(
     "Unable to delete additional email address" : "Zusätzliche E-Mail-Adresse konnte nicht gelöscht werden",
     "Primary email for password reset and notifications" : "Primäre E-Mail-Adresse für Benachrichtigungen und zum Zurücksetzen des Passworts",
     "No email address set" : "Keine E-Mail-Adresse angegeben",
-    "Your handle" : "Dein Online-Name",
+    "Your handle" : "Ihr Online-Name",
     "Derived from your locale ({weekDayName})" : "Abgeleitet von Ihrem Gebietsschema ({weekDayName})",
     "Unable to update first day of week" : "Der erste Tag der Woche kann nicht aktualisiert werden",
     "Day to use as the first day of week" : "Tag, der als erster Tag der Woche verwendet werden soll",
