@@ -5,7 +5,7 @@
 import { generateUrl, getRootUrl } from '@nextcloud/router'
 import logger from '../logger.ts'
 
-export default () => {
+export const registerPreviewServiceWorker = () => {
 	if ('serviceWorker' in navigator) {
 		// Use the window load event to keep the page load performant
 		window.addEventListener('load', async () => {

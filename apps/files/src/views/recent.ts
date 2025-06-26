@@ -8,7 +8,7 @@ import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
 import { getContents } from '../services/Recent'
 
-export default () => {
+export const registerRecentView = () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'recent',
