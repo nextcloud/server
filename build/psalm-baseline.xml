@@ -3189,7 +3189,6 @@
     </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[$object]]></code>
-      <code><![CDATA[Task]]></code>
       <code><![CDATA[private]]></code>
     </DeprecatedInterface>
   </file>
@@ -3340,18 +3339,6 @@
     <NullableReturnStatement>
       <code><![CDATA[version_compare($first, $second, $operator)]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/private/App/InfoParser.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$array[$element][]]]></code>
-      <code><![CDATA[$array[$element][]]]></code>
-    </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[(string)$xml]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/AppConfig.php">
     <NullableReturnStatement>
