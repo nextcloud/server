@@ -174,6 +174,7 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: -1,
+			total: 50 * 1024 * 1024 * 1024,
 		})
 
 		cy.mount(NavigationView, {
@@ -193,6 +194,7 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: 5 * 1024 * 1024 * 1024,
+			total: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
@@ -215,6 +217,7 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 5 * 1024 * 1024 * 1024,
 			quota: 1024 * 1024 * 1024,
+			total: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 
