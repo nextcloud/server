@@ -476,7 +476,6 @@ interface IManager {
 	 * Check if the current user can view the share
 	 * even if the download is disabled.
 	 *
-	 * @return bool
 	 * @since 32.0.0
 	 */
 	public function allowViewWithoutDownload(): bool;
