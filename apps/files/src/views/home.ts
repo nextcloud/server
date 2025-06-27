@@ -2,12 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ComponentPublicInstance, VueConstructor } from 'vue'
-import { translate as t } from '@nextcloud/l10n'
+import type { VueConstructor } from 'vue'
+import { getCanonicalLocale, getLanguage, translate as t } from '@nextcloud/l10n'
 import HomeSvg from '@mdi/svg/svg/home.svg?raw'
 
 import { getContents } from '../services/RecommendedFiles'
-import { Folder, getNavigation, Header, registerFileListHeaders, View } from '@nextcloud/files'
+import { Column, Folder, getNavigation, Header, registerFileListHeaders, View } from '@nextcloud/files'
 import Vue from 'vue'
 
 export const registerHomeView = () => {
@@ -19,7 +19,27 @@ export const registerHomeView = () => {
 		icon: HomeSvg,
 		order: -50,
 
+		defaultSortKey: 'mtime',
+
 		getContents,
+
+		columns: [
+			new Column({
+				id: 'recommendation-reason',
+				title: t('files', 'Reason'),
+				sort(a, b) {
+					const aReason = a.attributes?.['recommendation-reason-label'] || t('files', 'Suggestion')
+					const bReason = b.attributes?.['recommendation-reason-label'] || t('files', 'Suggestion')
+					return aReason.localeCompare(bReason, [getLanguage(), getCanonicalLocale()], { numeric: true, usage: 'sort' })
+				},
+				render(node) {
+					const reason = node.attributes?.['recommendation-reason-label'] || t('files', 'Suggestion')
+					const span = document.createElement('span')
+					span.textContent = reason
+					return span
+				},
+			}),
+		],
 	}))
 
 	let FilesHeaderHomeSearch: VueConstructor

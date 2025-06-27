@@ -56,7 +56,7 @@ export default defineComponent({
 <style lang="scss">
 // Align everything in the middle
 .files-list__header-home-search-wrapper,
-.files-list__filters {
+.files-content__home .files-list__filters {
 	display: flex !important;
 	max-width: var(--breakpoint-mobile) !important;
 	height: auto !important;
@@ -71,7 +71,7 @@ export default defineComponent({
 }
 
 // Align the filters with the search input for the Home view
-.files-list__filters {
+.files-content__home .files-list__filters {
 	padding-block: calc(var(--default-grid-baseline, 4px) * 2) !important;
 }
 </style>

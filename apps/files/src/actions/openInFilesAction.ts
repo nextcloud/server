@@ -14,9 +14,11 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled(nodes, view) {
-		return view.id === 'recent' || view.id === SEARCH_VIEW_ID
-	},
+	enabled: (nodes, view: View) => [
+		'home',
+		'recent',
+		SEARCH_VIEW_ID,
+	].includes(view.id),
 
 	async exec(node: Node) {
 		let dir = node.dirname

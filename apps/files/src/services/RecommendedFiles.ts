@@ -3,75 +3,63 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ContentsWithRoot } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
-import { File, Folder, Permission,  } from '@nextcloud/files'
-import { generateOcsUrl } from '@nextcloud/router'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
-import axios from '@nextcloud/axios'
+import { getDefaultPropfind, getRemoteURL, registerDavProperty, resultToNode } from '@nextcloud/files/dav'
+import { client } from './WebdavClient'
+import logger from '../logger'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getContents as getRecentContents } from './Recent'
 
-import { getContents as getDefaultContents } from './Files'
-
-type RecommendedFiles = {
-	'id': string
-	'timestamp': number
-	'name': string
-	'directory': string
-	'extension': string
-	'mimeType': string
-	'hasPreview': boolean
-	'reason': string
+// Check if the recommendations capability is enabled
+// If not, we'll just use recent files
+const isRecommendationEnabled = getCapabilities()?.recommendations?.enabled === true
+if (isRecommendationEnabled) {
+	registerDavProperty('nc:recommendation-reason', { nc: 'http://nextcloud.org/ns' })
+	registerDavProperty('nc:recommendation-reason-label', { nc: 'http://nextcloud.org/ns' })
 }
 
-type RecommendedFilesResponse = {
-	'recommendations': RecommendedFiles[]
-}
-
-const fetchRecommendedFiles = (controller: AbortController): Promise<RecommendedFilesResponse> => {
-	const url = generateOcsUrl('apps/recommendations/api/v1/recommendations/always')
-
-	return axios.get(url, {
-		signal: controller.signal,
-		headers: {
-			'OCS-APIRequest': 'true',
-			'Content-Type': 'application/json',
-		},
-	}).then(resp => resp.data.ocs.data as RecommendedFilesResponse)
-}
-
-export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
-	if (path !== '/') {
-		return getDefaultContents(path)
+export const getContents = (): CancelablePromise<ContentsWithRoot> => {
+	if (!isRecommendationEnabled) {
+		logger.debug('Recommendations capability is not enabled, falling back to recent files')
+		return getRecentContents()
 	}
 
 	const controller = new AbortController()
-	return new CancelablePromise(async (resolve, reject, cancel) => {
-		cancel(() => controller.abort())
-		try {
-			const { recommendations } = await fetchRecommendedFiles(controller)
+	const propfindPayload = getDefaultPropfind()
 
+	return new CancelablePromise(async (resolve, reject, onCancel) => {
+		onCancel(() => controller.abort())
+
+		const root = `/recommendations/${getCurrentUser()?.uid}`
+		try {
+			const contentsResponse = await client.getDirectoryContents(root, {
+				details: true,
+				data: propfindPayload,
+				includeSelf: false,
+				signal: controller.signal,
+			}) as ResponseDataDetailed<FileStat[]>
+
+			const contents = contentsResponse.data
 			resolve({
 				folder: new Folder({
 					id: 0,
-					source: `${getRemoteURL()}${getRootPath()}`,
-					root: getRootPath(),
+					source: `${getRemoteURL()}${root}`,
+					root,
 					owner: getCurrentUser()?.uid || null,
 					permissions: Permission.READ,
 				}),
-				contents: recommendations.map((rec) => {
-					const Node = rec.mimeType === 'httpd/unix-directory' ? Folder : File
-					return new Node({
-						id: parseInt(rec.id),
-						source: `${getRemoteURL()}/${getRootPath()}/${rec.directory}/${rec.name}`.replace(/\/\//g, '/'),
-						root: getRootPath(),
-						mime: rec.mimeType,
-						mtime: new Date(rec.timestamp * 1000),
-						owner: getCurrentUser()?.uid || null,
-						permissions: Permission.READ,
-						attributes: rec,
-					})
-				}),
+				contents: contents.map((result) => {
+					try {
+						return resultToNode(result, root)
+					} catch (error) {
+						logger.error(`Invalid node detected '${result.basename}'`, { error })
+						return null
+					}
+				}).filter(Boolean) as File[],
 			})
 		} catch (error) {
 			reject(error)
