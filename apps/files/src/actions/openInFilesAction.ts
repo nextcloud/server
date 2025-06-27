@@ -2,8 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { Node, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { type Node, FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { DefaultType, FileAction, FileType } from '@nextcloud/files'
 
 /**
  * TODO: Move away from a redirect and handle
@@ -14,7 +15,7 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled: (nodes, view) => view.id === 'recent',
+	enabled: (nodes, view: View) => ['home', 'recent'].includes(view.id),
 
 	async exec(node: Node) {
 		let dir = node.dirname

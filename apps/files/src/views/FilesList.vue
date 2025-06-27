@@ -3,7 +3,9 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
+	<NcAppContent :class="['files-content', `files-content__${currentView?.id}`]"
+		:page-heading="pageHeading"
+		data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="directory" @reload="fetchContent">
@@ -89,6 +91,7 @@
 					:current-view="currentView"
 					:header="header" />
 			</div>
+
 			<!-- Empty due to error -->
 			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
 				<template #action>
@@ -103,10 +106,12 @@
 					<IconAlertCircleOutline />
 				</template>
 			</NcEmptyContent>
+
 			<!-- Custom empty view -->
 			<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
 				<div ref="customEmptyView" />
 			</div>
+
 			<!-- Default empty directory view -->
 			<NcEmptyContent v-else
 				:name="currentView?.emptyTitle || t('files', 'No files in here')"
