@@ -34,7 +34,6 @@ class ServerContainer extends SimpleContainer {
 	 * ServerContainer constructor.
 	 */
 	public function __construct() {
-		parent::__construct();
 		$this->appContainers = [];
 		$this->namespaces = [];
 		$this->hasNoAppContainer = [];
@@ -119,26 +118,23 @@ class ServerContainer extends SimpleContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	public function query(string $name, bool $autoload = true) {
+		// if we have a resolved instance ourselves, there is no need to try and delegate
+		// we check this before doing any sanitization, because usually the name already is sanitized
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
+		}
 		$name = $this->sanitizeName($name);
 
-		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
+		// In case the service starts with OCA\ we try to find the service in
+		// the apps container first.
+		if (!array_key_exists($name, $this->items) && !array_key_exists($name, $this->aliases) && ($appContainer = $this->getAppContainerForService($name)) !== null) {
 			try {
-				return parent::query($name, false);
+				return $appContainer->queryNoFallback($name);
 			} catch (QueryException $e) {
-				// Continue with general autoloading then
-			}
-			// In case the service starts with OCA\ we try to find the service in
-			// the apps container first.
-			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-				try {
-					return $appContainer->queryNoFallback($name);
-				} catch (QueryException $e) {
-					// Didn't find the service or the respective app container
-					// In this case the service won't be part of the core container,
-					// so we can throw directly
-					throw $e;
-				}
+				// Didn't find the service or the respective app container
+				// In this case the service won't be part of the core container,
+				// so we can throw directly
+				throw $e;
 			}
 		} elseif (str_starts_with($name, 'OC\\Settings\\') && substr_count($name, '\\') >= 3) {
 			$segments = explode('\\', $name);
@@ -151,6 +147,13 @@ class ServerContainer extends SimpleContainer {
 			}
 		}
 
+		return parent::query($name, $autoload);
+	}
+
+	public function queryNoApps(string $name, bool $autoload = true) {
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
+		}
 		return parent::query($name, $autoload);
 	}
 
