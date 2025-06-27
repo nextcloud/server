@@ -381,16 +381,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.0.17",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "caa4ffda1d48bde44434e6ba95d132ec32e7fd40"
+                "reference": "d513dea45a94394b660e15c155d1fa27826f8e30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/caa4ffda1d48bde44434e6ba95d132ec32e7fd40",
-                "reference": "caa4ffda1d48bde44434e6ba95d132ec32e7fd40",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d513dea45a94394b660e15c155d1fa27826f8e30",
+                "reference": "d513dea45a94394b660e15c155d1fa27826f8e30",
                 "shasum": ""
             },
             "require": {
@@ -420,6 +420,7 @@
                 "MIT"
             ],
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
+            "homepage": "https://getrector.com/",
             "keywords": [
                 "automation",
                 "dev",
@@ -428,7 +429,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.0.17"
+                "source": "https://github.com/rectorphp/rector/tree/2.1.0"
             },
             "funding": [
                 {
@@ -436,7 +437,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-30T10:59:08+00:00"
+            "time": "2025-06-24T20:26:57+00:00"
         },
         {
             "name": "webmozart/assert",
