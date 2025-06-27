@@ -40,7 +40,7 @@ OC.L10N.register(
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Domein",
     "Rackspace" : "Rackspace",
-    "API key" : "API sleutel",
+    "API key" : "API-sleutel",
     "Global credentials" : "Globale inloggegevens",
     "Log-in credentials, save in database" : "Inloggegevens, bewaren in de database",
     "Login and password" : "Login en wachtwoord",
