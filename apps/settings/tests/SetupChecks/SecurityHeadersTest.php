@@ -84,7 +84,7 @@ class SecurityHeadersTest extends TestCase {
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals(
-			"Some headers are not set correctly on your instance\n- The `X-Content-Type-Options` HTTP header is not set to `nosniff`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n- The `X-XSS-Protection` HTTP header does not contain `1; mode=block`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n",
+			"Some headers are not set correctly on your instance\n- The `X-Content-Type-Options` HTTP header is not set to `nosniff`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n- The `X-XSS-Protection` HTTP header does not contain `0`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n",
 			$result->getDescription()
 		);
 		$this->assertEquals(SetupResult::WARNING, $result->getSeverity());
@@ -94,7 +94,7 @@ class SecurityHeadersTest extends TestCase {
 		return [
 			// description => modifiedHeaders
 			'basic' => [[]],
-			'extra-xss-protection' => [['X-XSS-Protection' => '1; mode=block; report=https://example.com']],
+			'extra-xss-protection' => [['X-XSS-Protection' => '0; report=https://example.com']],
 			'no-space-in-x-robots' => [['X-Robots-Tag' => 'noindex,nofollow']],
 			'strict-origin-when-cross-origin' => [['Referrer-Policy' => 'strict-origin-when-cross-origin']],
 			'referrer-no-referrer-when-downgrade' => [['Referrer-Policy' => 'no-referrer-when-downgrade']],
@@ -113,7 +113,7 @@ class SecurityHeadersTest extends TestCase {
 	public function testSuccess(array $headers): void {
 		$headers = array_merge(
 			[
-				'X-XSS-Protection' => '1; mode=block',
+				'X-XSS-Protection' => '0',
 				'X-Content-Type-Options' => 'nosniff',
 				'X-Robots-Tag' => 'noindex, nofollow',
 				'X-Frame-Options' => 'SAMEORIGIN',
@@ -140,8 +140,8 @@ class SecurityHeadersTest extends TestCase {
 		return [
 			// description => modifiedHeaders
 			'x-robots-none' => [['X-Robots-Tag' => 'none'], "- The `X-Robots-Tag` HTTP header is not set to `noindex,nofollow`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
-			'xss-protection-1' => [['X-XSS-Protection' => '1'], "- The `X-XSS-Protection` HTTP header does not contain `1; mode=block`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
-			'xss-protection-0' => [['X-XSS-Protection' => '0'], "- The `X-XSS-Protection` HTTP header does not contain `1; mode=block`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
+			'xss-protection-1' => [['X-XSS-Protection' => '1'], "- The `X-XSS-Protection` HTTP header does not contain `0`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
+			'xss-protection-0' => [['X-XSS-Protection' => 'mode=block'], "- The `X-XSS-Protection` HTTP header does not contain `0`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
 			'referrer-origin' => [['Referrer-Policy' => 'origin'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'referrer-origin-when-cross-origin' => [['Referrer-Policy' => 'origin-when-cross-origin'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'referrer-unsafe-url' => [['Referrer-Policy' => 'unsafe-url'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
@@ -157,7 +157,7 @@ class SecurityHeadersTest extends TestCase {
 	public function testFailure(array $headers, string $msg): void {
 		$headers = array_merge(
 			[
-				'X-XSS-Protection' => '1; mode=block',
+				'X-XSS-Protection' => '0',
 				'X-Content-Type-Options' => 'nosniff',
 				'X-Robots-Tag' => 'noindex, nofollow',
 				'X-Frame-Options' => 'SAMEORIGIN',
