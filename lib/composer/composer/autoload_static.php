@@ -1337,6 +1337,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Preview\\Generate' => __DIR__ . '/../../..' . '/core/Command/Preview/Generate.php',
         'OC\\Core\\Command\\Preview\\Repair' => __DIR__ . '/../../..' . '/core/Command/Preview/Repair.php',
         'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => __DIR__ . '/../../..' . '/core/Command/Preview/ResetRenderedTexts.php',
+        'OC\\Core\\Command\\Router\\ListRoutes' => __DIR__ . '/../../..' . '/core/Command/Router/ListRoutes.php',
+        'OC\\Core\\Command\\Router\\MatchRoute' => __DIR__ . '/../../..' . '/core/Command/Router/MatchRoute.php',
         'OC\\Core\\Command\\Security\\BruteforceAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/BruteforceAttempts.php',
         'OC\\Core\\Command\\Security\\BruteforceResetAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/BruteforceResetAttempts.php',
         'OC\\Core\\Command\\Security\\ExportCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ExportCertificates.php',
