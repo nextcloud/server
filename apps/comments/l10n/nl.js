@@ -19,7 +19,7 @@ OC.L10N.register(
     "New comment" : "Nieuwe reactie",
     "Write a comment …" : "Schrijf een reactie…",
     "Post comment" : "Reactie plaatsen",
-    "@ for mentions, : for emoji, / for smart picker" : "@ voor vermeldingen, : voor emoji, / voor smart picker",
+    "@ for mentions, : for emoji, / for smart picker" : "@ voor vermeldingen, : voor emoji, / voor Smart Picker",
     "Could not reload comments" : "Kon reactie niet opnieuw laden",
     "Failed to mark comments as read" : "Kon reacties niet als gelezen markeren",
     "Unable to load the comments list" : "Kan reactielijst niet laden",
