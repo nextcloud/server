@@ -210,6 +210,11 @@ class Session implements IUserSession, Emitter {
 			// Session was invalidated
 			$this->logout();
 		}
+
+		// Update last seen timestamp
+		if ($this->isLoggedIn()) {
+			$this->getUser()->updateLastLoginTimestamp();
+		}
 	}
 
 	/**
