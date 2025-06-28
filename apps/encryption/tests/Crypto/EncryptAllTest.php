@@ -20,6 +20,8 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -71,6 +73,8 @@ class EncryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Security\ISecureRandom */
 	protected $secureRandom;
 
+	protected LoggerInterface&MockObject $logger;
+
 	/** @var EncryptAll */
 	protected $encryptAll;
 
@@ -101,6 +105,7 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		/**
 		 * We need format method to return a string
@@ -131,12 +136,13 @@ class EncryptAllTest extends TestCase {
 			$this->l,
 			$this->l10nFactory,
 			$this->questionHelper,
-			$this->secureRandom
+			$this->secureRandom,
+			$this->logger,
 		);
 	}
 
-	public function testEncryptAll() {
-		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
+	public function testEncryptAll(): void {
+		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
@@ -150,7 +156,8 @@ class EncryptAllTest extends TestCase {
 					$this->l,
 					$this->l10nFactory,
 					$this->questionHelper,
-					$this->secureRandom
+					$this->secureRandom,
+					$this->logger,
 				]
 			)
 			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
@@ -164,8 +171,8 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 	}
 
-	public function testEncryptAllWithMasterKey() {
-		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
+	public function testEncryptAllWithMasterKey(): void {
+		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
@@ -179,7 +186,8 @@ class EncryptAllTest extends TestCase {
 					$this->l,
 					$this->l10nFactory,
 					$this->questionHelper,
-					$this->secureRandom
+					$this->secureRandom,
+					$this->logger,
 				]
 			)
 			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
@@ -194,8 +202,8 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 	}
 
-	public function testCreateKeyPairs() {
-		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
+	public function testCreateKeyPairs(): void {
+		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
@@ -209,7 +217,8 @@ class EncryptAllTest extends TestCase {
 					$this->l,
 					$this->l10nFactory,
 					$this->questionHelper,
-					$this->secureRandom
+					$this->secureRandom,
+					$this->logger,
 				]
 			)
 			->setMethods(['setupUserFS', 'generateOneTimePassword'])
@@ -259,7 +268,8 @@ class EncryptAllTest extends TestCase {
 					$this->l,
 					$this->l10nFactory,
 					$this->questionHelper,
-					$this->secureRandom
+					$this->secureRandom,
+					$this->logger,
 				]
 			)
 			->setMethods(['encryptUsersFiles'])
@@ -295,7 +305,8 @@ class EncryptAllTest extends TestCase {
 					$this->l,
 					$this->l10nFactory,
 					$this->questionHelper,
-					$this->secureRandom
+					$this->secureRandom,
+					$this->logger,
 				]
 			)
 			->setMethods(['encryptFile', 'setupUserFS'])
