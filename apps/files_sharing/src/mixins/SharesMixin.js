@@ -289,95 +289,6 @@ export default {
 		},
 
 		/**
-		 * Send an update of the share to the queue
-		 *
-		 * @param {Array<string>} propertyNames the properties to sync
-		 */
-		queueUpdate(...propertyNames) {
-			if (propertyNames.length === 0) {
-				// Nothing to update
-				return
-			}
-
-			if (this.share.id) {
-				const properties = {}
-				// force value to string because that is what our
-				// share api controller accepts
-				propertyNames.forEach(name => {
-					if (this.share[name] === null || this.share[name] === undefined) {
-						properties[name] = ''
-					} else if ((typeof this.share[name]) === 'object') {
-						properties[name] = JSON.stringify(this.share[name])
-					} else {
-						properties[name] = this.share[name].toString()
-					}
-				})
-
-				return this.updateQueue.add(async () => {
-					this.saving = true
-					this.errors = {}
-					try {
-						const updatedShare = await this.updateShare(this.share.id, properties)
-
-						if (propertyNames.indexOf('password') >= 0) {
-							// reset password state after sync
-							this.$delete(this.share, 'newPassword')
-
-							// updates password expiration time after sync
-							this.share.passwordExpirationTime = updatedShare.password_expiration_time
-						}
-
-						// clear any previous errors
-						this.$delete(this.errors, propertyNames[0])
-						showSuccess(this.updateSuccessMessage(propertyNames))
-					} catch (error) {
-						logger.error('Could not update share', { error, share: this.share, propertyNames })
-
-						const { message } = error
-						if (message && message !== '') {
-							this.onSyncError(propertyNames[0], message)
-							showError(message)
-						} else {
-							// We do not have information what happened, but we should still inform the user
-							showError(t('files_sharing', 'Could not update share'))
-						}
-					} finally {
-						this.saving = false
-					}
-				})
-			}
-
-			// This share does not exists on the server yet
-			console.debug('Updated local share', this.share)
-		},
-
-		/**
-		 * @param {string[]} names Properties changed
-		 */
-		updateSuccessMessage(names) {
-			if (names.length !== 1) {
-				return t('files_sharing', 'Share saved')
-			}
-
-			switch (names[0]) {
-			case 'expireDate':
-				return t('files_sharing', 'Share expiry date saved')
-			case 'hideDownload':
-				return t('files_sharing', 'Share hide-download state saved')
-			case 'label':
-				return t('files_sharing', 'Share label saved')
-			case 'note':
-				return t('files_sharing', 'Share note for recipient saved')
-			case 'password':
-				return t('files_sharing', 'Share password saved')
-			case 'permissions':
-				return t('files_sharing', 'Share permissions saved')
-			default:
-				return t('files_sharing', 'Share saved')
-			}
-		},
-
-		/**
 		 * Manage sync errors
 		 *
 		 * @param {string} property the errored property, e.g. 'password'
@@ -425,7 +336,6 @@ export default {
 		 * @param {string} property the property to sync
 		 */
 		debounceQueueUpdate: debounce(function(property) {
-			this.queueUpdate(property)
 		}, 500),
 	},
 }
