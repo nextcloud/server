@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -79,6 +80,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IProviderFactory&MockObject $factory;
 	private IMailer&MockObject $mailer;
 	private ITagManager&MockObject $tagManager;
+	private TrustedServers&MockObject $trustedServers;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -115,6 +117,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->factory = $this->createMock(IProviderFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->tagManager = $this->createMock(ITagManager::class);
+		$this->trustedServers = $this->createMock(TrustedServers::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -135,8 +138,10 @@ class ShareAPIControllerTest extends TestCase {
 			$this->factory,
 			$this->mailer,
 			$this->tagManager,
-			$this->currentUser,
+			$this->trustedServers,
+			$this->currentUser
 		);
+
 	}
 
 	/**
@@ -163,6 +168,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -848,6 +854,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])
 			->onlyMethods(['canAccessShare'])
@@ -1481,6 +1488,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])
 			->onlyMethods(['formatShare'])
@@ -1872,6 +1880,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -1970,6 +1979,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2396,6 +2406,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2467,6 +2478,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2705,6 +2717,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -4497,6 +4510,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'is_trusted_server' => false,
 			], $share, [], false
 		];
 
@@ -4550,6 +4564,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'is_trusted_server' => false,
 			], $share, [], false
 		];
 
@@ -5232,5 +5247,139 @@ class ShareAPIControllerTest extends TestCase {
 			['file_source' => 22, 'foo' => 'bar', 'tags' => []],
 			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
 		], $result);
+	}
+
+	public function trustedServerProvider(): array {
+		return [
+			'Trusted server' => [true, true],
+			'Untrusted server' => [false, false],
+		];
+	}
+
+	/**
+	 * @dataProvider trustedServerProvider
+	 */
+	public function testFormatShareWithFederatedShare(bool $isKnownServer, bool $isTrusted): void {
+		$nodeId = 12;
+		$nodePath = '/test.txt';
+		$share = $this->createShare(
+			1,
+			IShare::TYPE_REMOTE,
+			'recipient@remoteserver.com', // shared with
+			'sender@testserver.com',      // shared by
+			'shareOwner',                 // share owner
+			$nodePath,                  // path
+			Constants::PERMISSION_READ,
+			time(),
+			null,
+			null,
+			$nodePath,
+			$nodeId
+		);
+
+		$node = $this->createMock(\OCP\Files\File::class);
+		$node->method('getId')->willReturn($nodeId);
+		$node->method('getPath')->willReturn($nodePath);
+		$node->method('getInternalPath')->willReturn(ltrim($nodePath, '/'));
+		$mountPoint = $this->createMock(\OCP\Files\Mount\IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('local');
+		$node->method('getMountPoint')->willReturn($mountPoint);
+		$node->method('getMimetype')->willReturn('text/plain');
+		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storageCache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$storageCache->method('getNumericStorageId')->willReturn(1);
+		$storage->method('getCache')->willReturn($storageCache);
+		$storage->method('getId')->willReturn('home::shareOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$parent = $this->createMock(\OCP\Files\Folder::class);
+		$parent->method('getId')->willReturn(2);
+		$node->method('getParent')->willReturn($parent);
+		$node->method('getSize')->willReturn(1234);
+		$node->method('getMTime')->willReturn(1234567890);
+
+		$this->previewManager->method('isAvailable')->with($node)->willReturn(false);
+
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturnSelf();
+
+		$this->rootFolder->method('getFirstNodeById')
+			->with($share->getNodeId())
+			->willReturn($node);
+
+		$this->rootFolder->method('getRelativePath')
+			->with($node->getPath())
+			->willReturnArgument(0);
+
+		$serverName = 'remoteserver.com';
+		$this->trustedServers->method('isTrustedServer')
+			->with($serverName)
+			->willReturn($isKnownServer);
+
+		$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
+
+		$this->assertSame($isTrusted, $result['is_trusted_server']);
+	}
+
+	public function testFormatShareWithFederatedShareWithAtInUsername(): void {
+		$nodeId = 12;
+		$nodePath = '/test.txt';
+		$share = $this->createShare(
+			1,
+			IShare::TYPE_REMOTE,
+			'recipient@domain.com@remoteserver.com',
+			'sender@testserver.com',
+			'shareOwner',
+			$nodePath,
+			Constants::PERMISSION_READ,
+			time(),
+			null,
+			null,
+			$nodePath,
+			$nodeId
+		);
+
+		$node = $this->createMock(\OCP\Files\File::class);
+		$node->method('getId')->willReturn($nodeId);
+		$node->method('getPath')->willReturn($nodePath);
+		$node->method('getInternalPath')->willReturn(ltrim($nodePath, '/'));
+		$mountPoint = $this->createMock(\OCP\Files\Mount\IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('local');
+		$node->method('getMountPoint')->willReturn($mountPoint);
+		$node->method('getMimetype')->willReturn('text/plain');
+		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$storageCache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$storageCache->method('getNumericStorageId')->willReturn(1);
+		$storage->method('getCache')->willReturn($storageCache);
+		$storage->method('getId')->willReturn('home::shareOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$parent = $this->createMock(\OCP\Files\Folder::class);
+		$parent->method('getId')->willReturn(2);
+		$node->method('getParent')->willReturn($parent);
+		$node->method('getSize')->willReturn(1234);
+		$node->method('getMTime')->willReturn(1234567890);
+
+		$this->previewManager->method('isAvailable')->with($node)->willReturn(false);
+
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser)
+			->willReturnSelf();
+
+		$this->rootFolder->method('getFirstNodeById')
+			->with($share->getNodeId())
+			->willReturn($node);
+
+		$this->rootFolder->method('getRelativePath')
+			->with($node->getPath())
+			->willReturnArgument(0);
+
+		$serverName = 'remoteserver.com';
+		$this->trustedServers->method('isTrustedServer')
+			->with($serverName)
+			->willReturn(true);
+
+		$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
+
+		$this->assertTrue($result['is_trusted_server']);
 	}
 }
