@@ -407,6 +407,7 @@ return array(
     'OCP\\Files\\Events\\FileCacheUpdated' => $baseDir . '/lib/public/Files/Events/FileCacheUpdated.php',
     'OCP\\Files\\Events\\FileScannedEvent' => $baseDir . '/lib/public/Files/Events/FileScannedEvent.php',
     'OCP\\Files\\Events\\FolderScannedEvent' => $baseDir . '/lib/public/Files/Events/FolderScannedEvent.php',
+    'OCP\\Files\\Events\\InternalLinkRequestEvent' => $baseDir . '/lib/public/Files/Events/InternalLinkRequestEvent.php',
     'OCP\\Files\\Events\\InvalidateMountCacheEvent' => $baseDir . '/lib/public/Files/Events/InvalidateMountCacheEvent.php',
     'OCP\\Files\\Events\\NodeAddedToCache' => $baseDir . '/lib/public/Files/Events/NodeAddedToCache.php',
     'OCP\\Files\\Events\\NodeAddedToFavorite' => $baseDir . '/lib/public/Files/Events/NodeAddedToFavorite.php',
