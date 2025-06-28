@@ -157,10 +157,7 @@ class PreviewController extends Controller {
 		if ($isNextcloudPreview === false && $storage->instanceOfStorage(ISharedStorage::class)) {
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			// No "allow preview" header set, so we must check if
-			// the share has not explicitly disabled download permissions
-			if ($attributes?->getAttribute('permissions', 'download') === false) {
+			if (!$share->canSeeContent()) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}

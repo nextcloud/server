@@ -14,8 +14,10 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class Share implements IShare {
@@ -621,5 +623,24 @@ class Share implements IShare {
 
 	public function getReminderSent(): bool {
 		return $this->reminderSent;
+	}
+
+	public function canSeeContent(): bool {
+		$shareManager = Server::get(IManager::class);
+
+		$allowViewWithoutDownload = $shareManager->allowViewWithoutDownload();
+		// If the share manager allows viewing without download, we can always see the content.
+		if ($allowViewWithoutDownload) {
+			return true;
+		}
+		
+		// No "allow preview" header set, so we must check if
+		// the share has not explicitly disabled download permissions
+		$attributes = $this->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return false;
+		}
+
+		return true;
 	}
 }

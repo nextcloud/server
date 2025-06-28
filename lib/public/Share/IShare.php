@@ -633,4 +633,11 @@ interface IShare {
 	 * @since 31.0.0
 	 */
 	public function getReminderSent(): bool;
+
+	/**
+	 * Check if the current user can see this share files contents.
+	 * This will check the download permissions as well as the global
+	 * admin setting to allow viewing files without downloading.
+	 */
+	public function canSeeContent(): bool;
 }

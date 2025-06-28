@@ -102,9 +102,9 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$attributes = $share->getAttributes();
 		// Only explicitly set to false will forbid the download!
-		$downloadForbidden = $attributes?->getAttribute('permissions', 'download') === false;
+		$downloadForbidden = !$share->canSeeContent();
+
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
 		$isPublicPreview = $this->request->getHeader('x-nc-preview') === 'true';
@@ -181,8 +181,7 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$attributes = $share->getAttributes();
-		if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+		if (!$share->canSeeContent()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

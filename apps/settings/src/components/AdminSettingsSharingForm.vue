@@ -27,6 +27,15 @@
 					:label="t('settings', 'Ignore the following groups when checking group membership')"
 					style="width: 100%" />
 			</div>
+			<NcCheckboxRadioSwitch :checked.sync="settings.allowViewWithoutDownload">
+				{{ t('settings', 'Allow users to preview files even if download is disabled') }}
+			</NcCheckboxRadioSwitch>
+			<NcNoteCard v-show="settings.allowViewWithoutDownload"
+				id="settings-sharing-api-view-without-download-hint"
+				class="sharing__note"
+				type="warning">
+				{{ t('settings', 'Users will still be able to screenshot or record the screen. This does not provide any definitive protection.') }}
+			</NcNoteCard>
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-api" class="sharing__section">
@@ -258,6 +267,7 @@ interface IShareSettings {
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
 	allowCustomTokens: boolean
+	allowViewWithoutDownload: boolean
 }
 
 export default defineComponent({

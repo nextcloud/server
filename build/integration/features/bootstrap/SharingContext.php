@@ -29,6 +29,7 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_expire_after_n_days');
 		$this->deleteServerConfig('core', 'link_defaultExpDays');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
+		$this->deleteServerConfig('core', 'shareapi_allow_view_without_download');
 
 		$this->runOcc(['config:system:delete', 'share_folder']);
 	}
