@@ -354,6 +354,7 @@ class Server {
 						\OCP\Server::get(IAppManager::class)
 					));
 					$lazySearchBackend->setBackend(new FileSearchBackend(
+						$this->server,
 						$this->server->tree,
 						$user,
 						\OCP\Server::get(IRootFolder::class),
