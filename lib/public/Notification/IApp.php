@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface IApp
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Implementable;
+
+#[Implementable(since: '9.0.0')]
 interface IApp {
 	/**
 	 * @param INotification $notification
