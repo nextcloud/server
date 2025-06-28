@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\EventDispatcher;
 
+use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OCP\Files\FileInfo;
 use OCP\IUser;
 
@@ -24,10 +26,16 @@ final class JsonSerializer {
 	 * @since 30.0.0
 	 */
 	public static function serializeFileInfo(FileInfo $node): array {
-		return [
-			'id' => $node->getId(),
-			'path' => $node->getPath(),
-		];
+		if ($node instanceof NonExistingFile || $node instanceof NonExistingFolder) {
+			return [
+				'path' => $node->getPath(),
+			];
+		} else {
+			return [
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
+			];
+		}
 	}
 
 	/**
