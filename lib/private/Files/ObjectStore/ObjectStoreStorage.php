@@ -14,6 +14,7 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\Updater;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -152,7 +153,23 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			return false;
 		}
 
-		return $this->rmObjects($entry);
+		$result = $this->rmObjects($entry);
+		if ($result) {
+			$this->removeFromCache($entry);
+		}
+		return $result;
+	}
+
+	/**
+	 * Remove an item from cache and propagate the change to the parent folders.
+	 *
+	 * Similar logic to the `Updater` but done in-storage because we have the correct info to avoid expensive
+	 * folder size calculations.
+	 */
+	private function removeFromCache(ICacheEntry $entry): void {
+		$this->cache->remove($entry->getId());
+		$this->getUpdater()->correctParentStorageMtime($entry->getPath());
+		$this->propagator->propagateChange($entry->getPath(), time(), -$entry->getSize());
 	}
 
 	private function rmObjects(ICacheEntry $entry): bool {
@@ -179,15 +196,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
+		$result = false;
 
 		if ($entry instanceof ICacheEntry) {
 			if ($entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
-				return $this->rmObjects($entry);
+				$result = $this->rmObjects($entry);
 			} else {
-				return $this->rmObject($entry);
+				$result = $this->rmObject($entry);
 			}
 		}
-		return false;
+
+		if ($result) {
+			$this->removeFromCache($entry);
+		}
+
+		return $result;
 	}
 
 	public function rmObject(ICacheEntry $entry): bool {
@@ -464,6 +487,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 		// update stat with new data
 		$mTime = time();
+		$oldSize = $stat['size'] ?? 0;
 		$stat['size'] = (int)$size;
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
@@ -560,6 +584,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				throw new \Exception("Object not found after writing (urn: $urn, path: $path)", 404);
 			}
 		}
+
+		$this->getUpdater()->correctParentStorageMtime($path);
+		$this->propagator->propagateChange($path, $mTime, $stat['size'] - $oldSize);
 
 		return $size;
 	}
@@ -813,5 +840,19 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
+	}
+
+	public function getUpdater(?IStorage $storage = null): Updater {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
+		/** @var self $storage */
+		if (!isset($storage->updater)) {
+			$storage->updater = new ObjectStoreUpdater($storage);
+		}
+		return $storage->updater;
 	}
 }
