@@ -16,9 +16,4 @@ interface IFileBased {
 	 * @since 14.0.0
 	 */
 	public function getLogFilePath():string;
-
-	/**
-	 * @since 14.0.0
-	 */
-	public function getEntries(int $limit = 50, int $offset = 0): array;
 }
