@@ -13,6 +13,7 @@ use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterfac
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\UseSpecificWillMethodRector;
+use Rector\PHPUnit\PHPUnit100\Rector\Class_\StaticDataProviderClassMethodRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\ValueObject\Application\File;
 
@@ -81,7 +82,8 @@ $config = RectorConfig::configure()
 	->withImportNames(importShortClasses:false)
 	->withTypeCoverageLevel(0)
 	->withRules([
-		UseSpecificWillMethodRector::class
+		UseSpecificWillMethodRector::class,
+		StaticDataProviderClassMethodRector::class,
 	])
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
