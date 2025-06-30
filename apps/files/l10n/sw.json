@@ -266,6 +266,7 @@
     "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["You are about to delete {count} item","Unakaribia kufuta vipengee{count}"],
     "Confirm deletion" : "Thibitisha ufutaji",
     "Cancel" : "Sitisha",
+    "Download" : "Pakua",
     "Moving \"{source}\" to \"{destination}\" …" : "Sogeza \"{source}\" mpaka \"{destination}\"",
     "Copying \"{source}\" to \"{destination}\" …" : "Inanakili \"{source}\" hadi \"{destination}\" ...",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Huwezi kuhamisha faili/folda kwenye yenyewe au kwenye folda yenyewe",
@@ -329,6 +330,9 @@
     "Files moved successfully" : "Faili limeondolewa kikamilifu",
     "Conflicts resolution skipped" : "Utatuzi wa migogoro ulirukwa",
     "Upload cancelled" : "Upakiaji umesitishwa",
+    "Could not rename \"{oldName}\", it does not exist any more" : "Haikuweza kuita jina jipya \"{oldName}\", halipo tena",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Jina \"{newName}\" tayari linatumika katika kisanduku \"{dir}\". Tafadhali chagua jina tofauti",
+    "Could not rename \"{oldName}\"" : "Haikuweza kuita jina jipya \"{oldName}\"",
     "This operation is forbidden" : "Opereshini hii imezuiwa",
     "This directory is unavailable, please check the logs or contact the administrator" : "Orodha haipatikani, tafadhali angalia uingiaji au wasiliana na msimamizi",
     "Storage is temporarily not available" : "Uhifadhi haupo kwa muda",
@@ -360,7 +364,6 @@
     "Upload too large" : "Upakiaji mkubwa mno",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Faili unazojaribu kupakia zinazidi ukubwa wa juu zaidi wa upakiaji wa faili kwenye seva hii.",
     "File could not be found" : "Faili isingeweza kupatikana",
-    "Download" : "Pakua",
     "Show list view" : "Onesha mwonekeno wa orodha",
     "Show grid view" : "Onesha mwonekano wa mstariramani",
     "Close" : "Funga",
@@ -399,9 +402,6 @@
     "Copied {origin} inside {destination}" : "Imenakili {origin} ndani ya {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Imenakili {origin} na {nbfiles} faili zingine ndani ya {destination}",
     "{newName} already exists" : "{newName} lipo tayari",
-    "Could not rename \"{oldName}\", it does not exist any more" : "Haikuweza kuita jina jipya \"{oldName}\", halipo tena",
-    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Jina \"{newName}\" tayari linatumika katika kisanduku \"{dir}\". Tafadhali chagua jina tofauti",
-    "Could not rename \"{oldName}\"" : "Haikuweza kuita jina jipya \"{oldName}\"",
     "Could not create file \"{file}\"" : "Haikuweza kutengeneza faili \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Haikuweza kuteengeneza faili \"{file}\" kwa sababu lipo tayari",
     "Could not create folder \"{dir}\" because it already exists" : "Haikuweza kutengeneza kisanduku \"{dir}\" kwa sababu kipo tayari",
@@ -453,8 +453,6 @@
     "New text file.txt" : "Faili mpya ya maandishi.txt",
     "%1$s (renamed)" : "%1$s (iliyopew jina jipya)",
     "renamed file" : "Faili iliyopewa jina jipya",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Baada ya kuwezesha majina ya windows ya faili yanayooana, faili zilizopo haziwezi kurekebishwa tena lakini zinaweza kubadilishwa kuwa majina mapya halali na mmiliki wao.",
-    "{count} files could not be converted" : "{count} files could not be converted",
-    "{count} files successfully converted" : "{count} files successfully converted"
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Baada ya kuwezesha majina ya windows ya faili yanayooana, faili zilizopo haziwezi kurekebishwa tena lakini zinaweza kubadilishwa kuwa majina mapya halali na mmiliki wao."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

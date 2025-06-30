@@ -63,7 +63,7 @@ OC.L10N.register(
     "Select a request URL" : "Bir istek adresi seçin",
     "Android client" : "Android istemcisi",
     "iOS client" : "iOS istemcisi",
-    "Desktop client" : "Masaüstü istemcisi",
+    "Desktop client" : "Bilgisayar istemcisi",
     "Thunderbird & Outlook addons" : "Thunderbird ve Outlook eklentileri",
     "Custom user agent" : "Özel kullanıcı uygulaması",
     "Select a user agent" : "Bir kullanıcı uygulaması seçin",
