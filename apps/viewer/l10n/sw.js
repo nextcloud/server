@@ -15,6 +15,7 @@ OC.L10N.register(
     "Undo" : "Tendua",
     "Zoom in" : "Kuza ndani",
     "Zoom out" : "Kuza nje",
+    "Custom" : "Mteja",
     "Image" : "Picha",
     "Text" : "Maandishi",
     "Size" : "Ukubwa",
