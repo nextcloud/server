@@ -1,0 +1,94 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\DAV\Paginate;
+
+use Override;
+
+/**
+ * This iterator converts file properties coming from SabreDAV calls to event
+ * handlers of the 'beforeMultiStatus' event to a format that SabreDAV can still
+ * serialize to XML, but is also serializable into JSON. This is essential to
+ * store them without loss into a cache (e.g. Redis) as JSON strings.
+ *
+ * @implements \Iterator<int, array>
+ */
+class MakePropsSerializableIterator implements \Iterator {
+
+	private \Iterator $inner;
+
+	private ArrayWriter $writer;
+
+	public function __construct(
+		\Traversable $inner,
+		ArrayWriter $writer,
+	) {
+		$this->inner = $inner instanceof \Iterator ? $inner : new \IteratorIterator($inner);
+		$this->writer = $writer;
+	}
+
+	#[Override]
+	public function current(): array {
+		$current = $this->inner->current();
+
+		foreach ($current as &$value) {
+			if (!is_array($value)) {
+				// no need to handle simple properties like 'href'
+				continue;
+			}
+
+			$value = $this->getSerializable($value);
+		}
+
+		return $current;
+	}
+
+	/**
+	 * This function takes the array containing properties for files and makes
+	 * sure it's serializable using ArrayWriter.
+	 *
+	 * Example input values:
+	 *   $properties = [
+	 *     '{DAV:}resourcetype' => ResourceType(),
+	 *     '{DAV:}getlastmodified' => GetLastModified(),
+	 *     '{DAV:}getetag' => '"etag"'
+	 * 	 ]
+	 *
+	 * Return value:
+	 * [
+	 *   [ 'name' => '{DAV:}resourcetype', 'value' => ..., 'attributes' => ...],
+	 *   [ 'name' => '{DAV:}getlastmodified', 'value' => ..., 'attributes' => ...],
+	 *   [ 'name' => '{DAV:}getetag', 'value' => ..., 'attributes' => ...],
+	 * ]
+	 */
+	public function getSerializable(array $properties): array {
+		$this->writer->openMemory();
+		// we need to add a bogus root element that will contain the properties
+		$this->writer->startElement('root');
+		$this->writer->write($properties);
+		$this->writer->endElement();
+		return $this->writer->getDocument()[0]['value'] ?? [];
+	}
+
+	public function next(): void {
+		$this->inner->next();
+	}
+
+	public function key(): mixed {
+		return $this->inner->key();
+	}
+
+	public function valid(): bool {
+		return $this->inner->valid();
+	}
+
+	public function rewind(): void {
+		$this->inner->rewind();
+	}
+}

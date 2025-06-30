@@ -18,7 +18,6 @@ use OCP\Security\ISecureRandom;
 class PaginateCache {
 	public const TTL = 60 * 60;
 	private const CACHE_COUNT_SUFFIX = 'count';
-
 	private ICache $cache;
 
 	public function __construct(
@@ -61,7 +60,8 @@ class PaginateCache {
 
 		$lastItem = min($nbItems, $offset + $count);
 		for ($i = $offset; $i < $lastItem; ++$i) {
-			yield $this->cache->get($cacheKey . $i);
+			$element = $this->cache->get($cacheKey . $i);
+			yield $element;
 		}
 	}
 

@@ -22,7 +22,7 @@ class PaginatePlugin extends ServerPlugin {
 	public const PAGINATE_COUNT_HEADER = 'X-NC-Paginate-Count';
 
 	/** @var Server */
-	private $server;
+	private Server $server;
 
 	public function __construct(
 		private PaginateCache $cache,
@@ -42,54 +42,62 @@ class PaginatePlugin extends ServerPlugin {
 		return ['nc-paginate'];
 	}
 
-	public function onMultiStatus(&$fileProperties): void {
+	public function onMultiStatus(iterable &$fileProperties): void {
 		$request = $this->server->httpRequest;
+		if (!$request->hasHeader(self::PAGINATE_HEADER)) {
+			return;
+		}
+
+		$url = $request->getUrl();
+
+		if ($request->hasHeader(self::PAGINATE_TOKEN_HEADER)
+			&& $this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))) {
+			return;
+		}
+
 		if (is_array($fileProperties)) {
 			$fileProperties = new \ArrayIterator($fileProperties);
 		}
-		$url = $request->getUrl();
-		if (
-			$request->hasHeader(self::PAGINATE_HEADER)
-			&& (!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER)))
-		) {
-			$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
-			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
-			$copyIterator = new LimitedCopyIterator($fileProperties, $pageSize, $offset);
-			['token' => $token, 'count' => $count] = $this->cache->store($url, $copyIterator);
+		$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
+		$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
+		$transformResourceTypeIterator = new MakePropsSerializableIterator($fileProperties, new ArrayWriter());
+		$copyIterator = new LimitedCopyIterator($transformResourceTypeIterator, $pageSize, $offset);
+		['token' => $token, 'count' => $count] = $this->cache->store($url, $copyIterator);
 
-			$fileProperties = $copyIterator->getRequestedItems();
-			$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
-			$this->server->httpResponse->addHeader(self::PAGINATE_TOKEN_HEADER, $token);
-			$this->server->httpResponse->addHeader(self::PAGINATE_TOTAL_HEADER, (string)$count);
-			$request->setHeader(self::PAGINATE_TOKEN_HEADER, $token);
-		}
+		$fileProperties = $copyIterator->getRequestedItems();
+		$this->server->httpResponse->addHeader(self::PAGINATE_HEADER, 'true');
+		$this->server->httpResponse->addHeader(self::PAGINATE_TOKEN_HEADER, $token);
+		$this->server->httpResponse->addHeader(self::PAGINATE_TOTAL_HEADER, (string)$count);
+		$request->setHeader(self::PAGINATE_TOKEN_HEADER, $token);
 	}
 
-	public function onMethod(RequestInterface $request, ResponseInterface $response) {
+	public function onMethod(RequestInterface $request, ResponseInterface $response): bool {
 		$url = $this->server->httpRequest->getUrl();
 		if (
-			$request->hasHeader(self::PAGINATE_TOKEN_HEADER)
-			&& $request->hasHeader(self::PAGINATE_OFFSET_HEADER)
-			&& $this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
+			!$request->hasHeader(self::PAGINATE_TOKEN_HEADER)
+			|| !$request->hasHeader(self::PAGINATE_OFFSET_HEADER)
+			|| !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
 		) {
-			$token = $request->getHeader(self::PAGINATE_TOKEN_HEADER);
-			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
-			$count = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
-
-			$items = $this->cache->get($url, $token, $offset, $count);
-
-			$response->setStatus(207);
-			$response->addHeader(self::PAGINATE_HEADER, 'true');
-			$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
-			$response->setHeader('Vary', 'Brief,Prefer');
-
-			$prefer = $this->server->getHTTPPrefer();
-			$minimal = $prefer['return'] === 'minimal';
-
-			$data = $this->server->generateMultiStatus($items, $minimal);
-			$response->setBody($data);
-
-			return false;
+			return true;
 		}
+
+		$token = $request->getHeader(self::PAGINATE_TOKEN_HEADER);
+		$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
+		$count = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
+
+		$items = $this->cache->get($url, $token, $offset, $count);
+
+		$response->setStatus(207);
+		$response->addHeader(self::PAGINATE_HEADER, 'true');
+		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
+		$response->setHeader('Vary', 'Brief,Prefer');
+
+		$prefer = $this->server->getHTTPPrefer();
+		$minimal = $prefer['return'] === 'minimal';
+
+		$data = $this->server->generateMultiStatus($items, $minimal);
+		$response->setBody($data);
+
+		return false;
 	}
 }
