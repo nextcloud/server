@@ -470,13 +470,6 @@ class AppConfig implements IAppConfig {
 		} elseif (isset($this->fastCache[$app][$key])) {
 			$value = $this->fastCache[$app][$key];
 		} else {
-			// unknown value, might want to execute something instead of just returning default.
-			// default value will be stored in database, unless false is returned
-			if (($lexiconEntry?->executeOnInit() !== null)
-				&& $lexiconEntry->executeOnInit()($default) !== false) {
-				$this->setTypedValue($app, $key, $default, $lazy, $type);
-			}
-
 			return $default;
 		}
 

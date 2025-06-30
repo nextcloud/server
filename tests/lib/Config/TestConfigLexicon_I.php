@@ -42,16 +42,6 @@ class TestConfigLexicon_I implements IConfigLexicon {
 					return true;
 				}
 			),
-			(new ConfigLexiconEntry('key6', ValueType::STRING, '', 'test key'))->initialize(
-				function (string &$d): void {
-					$d = 'random_string';
-				}
-			),
-			(new ConfigLexiconEntry('key6', ValueType::STRING, '', 'test key'))->initialize(
-				function (string &$d): void {
-					$d = 'random_string';
-				}
-			),
 			(new ConfigLexiconEntry('email', ValueType::STRING, '', 'email'))->onSet(
 				function (string &$value): void {
 					$value = strtolower($value);
@@ -73,11 +63,6 @@ class TestConfigLexicon_I implements IConfigLexicon {
 					$v = (string)($i - 10);
 
 					return true;
-				}
-			),
-			(new ConfigLexiconEntry('key6', ValueType::STRING, '', 'test key'))->initialize(
-				function (string &$d): void {
-					$d = 'random_string';
 				}
 			),
 		];

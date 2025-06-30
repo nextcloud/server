@@ -754,13 +754,6 @@ class UserConfig implements IUserConfig {
 		} elseif (isset($this->fastCache[$userId][$app][$key])) {
 			$value = $this->fastCache[$userId][$app][$key];
 		} else {
-			// unknown value, might want to execute something instead of just returning default.
-			// default value will be stored in database, unless false is returned
-			if (($lexiconEntry?->executeOnInit() !== null)
-				&& $lexiconEntry->executeOnInit()($default) !== false) {
-				$this->setTypedValue($userId, $app, $key, $default, $lazy, 0, $type);
-			}
-
 			return $default;
 		}
 

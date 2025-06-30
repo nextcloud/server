@@ -223,13 +223,4 @@ class LexiconTest extends TestCase {
 		$this->userConfig->setValueInt('user1', TestConfigLexicon_I::APPID, 'key5', 142);
 		$this->assertSame(12, $this->userConfig->getValueInt('user1', TestConfigLexicon_I::APPID, 'key5'));
 	}
-
-	public function testAppConfigInitialize() {
-		$this->assertSame('random_string', $this->appConfig->getValueString(TestConfigLexicon_I::APPID, 'key6'));
-	}
-
-	public function testUserConfigInitialize() {
-		$this->assertSame('random_string', $this->userConfig->getValueString('user1', TestConfigLexicon_I::APPID, 'key6'));
-	}
-
 }
