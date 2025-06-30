@@ -12,6 +12,7 @@ use PhpParser\Node;
 use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\PHPUnit\AnnotationsToAttributes\Rector\ClassMethod\DataProviderAnnotationToAttributeRector;
 use Rector\PHPUnit\CodeQuality\Rector\MethodCall\UseSpecificWillMethodRector;
 use Rector\PHPUnit\PHPUnit100\Rector\Class_\StaticDataProviderClassMethodRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
@@ -84,6 +85,7 @@ $config = RectorConfig::configure()
 	->withRules([
 		UseSpecificWillMethodRector::class,
 		StaticDataProviderClassMethodRector::class,
+		DataProviderAnnotationToAttributeRector::class,
 	])
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
