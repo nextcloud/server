@@ -14,9 +14,11 @@ namespace Test;
  *
  * @package Test
  */
-
+use OC\AllConfig;
 use OC\SystemConfig;
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
+use OCP\Server;
 
 class AllConfigTest extends \Test\TestCase {
 	/** @var \OCP\IDBConnection */
@@ -24,7 +26,7 @@ class AllConfigTest extends \Test\TestCase {
 
 	protected function getConfig($systemConfig = null, $connection = null) {
 		if ($this->connection === null) {
-			$this->connection = \OC::$server->getDatabaseConnection();
+			$this->connection = Server::get(IDBConnection::class);
 		}
 		if ($connection === null) {
 			$connection = $this->connection;
@@ -34,7 +36,7 @@ class AllConfigTest extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return new \OC\AllConfig($systemConfig, $connection);
+		return new AllConfig($systemConfig, $connection);
 	}
 
 	public function testDeleteUserValue(): void {
@@ -89,6 +91,27 @@ class AllConfigTest extends \Test\TestCase {
 
 		// cleanup - it therefore relies on the successful execution of the previous test
 		$config->deleteUserValue('userSet', 'appSet', 'keySet');
+	}
+
+	/**
+	 * This test needs to stay! Emails are expected to be lowercase due to performance reasons.
+	 * This way we can skip the expensive casing change on the database.
+	 */
+	public function testSetUserValueSettingsEmail(): void {
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+		$config = $this->getConfig();
+
+		$config->setUserValue('userSet', 'settings', 'email', 'mixed.CASE@domain.COM');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals([
+			'userid' => 'userSet',
+			'appid' => 'settings',
+			'configkey' => 'email',
+			'configvalue' => 'mixed.case@domain.com'
+		], $result[0]);
 	}
 
 	public function testSetUserValueWithPreCondition(): void {
@@ -147,7 +170,7 @@ class AllConfigTest extends \Test\TestCase {
 
 
 	public function testSetUserValueWithPreConditionFailure(): void {
-		$this->expectException(\OCP\PreConditionNotMetException::class);
+		$this->expectException(PreConditionNotMetException::class);
 
 		$config = $this->getConfig();
 
@@ -183,7 +206,7 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 	public function testSetUserValueWithPreConditionFailureWhenResultStillMatches(): void {
-		$this->expectException(\OCP\PreConditionNotMetException::class);
+		$this->expectException(PreConditionNotMetException::class);
 
 		$config = $this->getConfig();
 

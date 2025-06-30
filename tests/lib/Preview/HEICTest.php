@@ -6,6 +6,8 @@
 
 namespace Test\Preview;
 
+use OC\Preview\HEIC;
+
 /**
  * Class BitmapTest
  *
@@ -24,7 +26,7 @@ class HEICTest extends Provider {
 			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 			$this->width = 1680;
 			$this->height = 1050;
-			$this->provider = new \OC\Preview\HEIC;
+			$this->provider = new HEIC;
 		}
 	}
 }

@@ -17,6 +17,9 @@ use NCU\Config\ValueType;
  * @experimental 31.0.0
  */
 class ConfigLexiconEntry {
+	/** @experimental 32.0.0 */
+	public const RENAME_INVERT_BOOLEAN = 1;
+
 	private string $definition = '';
 	private ?string $default = null;
 
@@ -26,6 +29,7 @@ class ConfigLexiconEntry {
 	 * @param string $definition optional description of config key available when using occ command
 	 * @param bool $lazy set config value as lazy
 	 * @param int $flags set flags
+	 * @param string|null $rename previous config key to migrate config value from
 	 * @param bool $deprecated set config key as deprecated
 	 *
 	 * @experimental 31.0.0
@@ -40,6 +44,8 @@ class ConfigLexiconEntry {
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
 		private readonly bool $deprecated = false,
+		private readonly ?string $rename = null,
+		private readonly int $options = 0,
 	) {
 		/** @psalm-suppress UndefinedClass */
 		if (\OC::$CLI) { // only store definition if ran from CLI
@@ -196,6 +202,25 @@ class ConfigLexiconEntry {
 	 */
 	public function isFlagged(int $flag): bool {
 		return (($flag & $this->getFlags()) === $flag);
+	}
+
+	/**
+	 * should be called/used only during migration/upgrade.
+	 * link to an old config key.
+	 *
+	 * @return string|null not NULL if value can be imported from a previous key
+	 * @experimental 32.0.0
+	 */
+	public function getRename(): ?string {
+		return $this->rename;
+	}
+
+	/**
+	 * @experimental 32.0.0
+	 * @return bool TRUE if $option was set during the creation of the entry.
+	 */
+	public function hasOption(int $option): bool {
+		return (($option & $this->options) !== 0);
 	}
 
 	/**

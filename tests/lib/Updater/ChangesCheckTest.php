@@ -333,10 +333,10 @@ class ChangesCheckTest extends TestCase {
 
 	public static function changeDataProvider():array {
 		$testDataFound = $testDataNotFound = self::versionProvider();
-		array_walk($testDataFound, static function (&$params) {
+		array_walk($testDataFound, static function (&$params): void {
 			$params[] = true;
 		});
-		array_walk($testDataNotFound, static function (&$params) {
+		array_walk($testDataNotFound, static function (&$params): void {
 			$params[] = false;
 		});
 		return array_merge($testDataFound, $testDataNotFound);

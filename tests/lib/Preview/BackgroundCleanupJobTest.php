@@ -7,11 +7,14 @@
 
 namespace Test\Preview;
 
+use OC\Files\Storage\Temporary;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
+use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
@@ -46,7 +49,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->userId = $this->getUniqueID();
 		$user = $this->createUser($this->userId, $this->userId);
 
-		$storage = new \OC\Files\Storage\Temporary([]);
+		$storage = new Temporary([]);
 		$this->registerMount($this->userId, $storage, '');
 
 		$this->loginAsUser($this->userId);
@@ -77,8 +80,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 	private function getRoot(): Root {
 		return new Root(
-			\OC::$server->get(IRootFolder::class),
-			\OC::$server->getSystemConfig()
+			Server::get(IRootFolder::class),
+			Server::get(SystemConfig::class)
 		);
 	}
 
@@ -173,7 +176,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 			$this->markTestSkipped('old previews are not supported for sharded setups');
 			return;
 		}
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 
 		$f1 = $appdata->newFolder('123456781');
 		$f1->newFile('foo.jpg', 'foo');
@@ -189,7 +192,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$appdata->getFolder('/')->newFile('not-a-directory', 'foo');
 		$appdata->getFolder('/')->newFile('133742', 'bar');
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 		// AppData::getDirectoryListing filters all non-folders
 		$this->assertSame(3, count($appdata->getDirectoryListing()));
 		try {
@@ -206,7 +209,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 
 		// Check if the files created above are still present
 		// Remember: AppData::getDirectoryListing filters all non-folders

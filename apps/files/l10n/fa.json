@@ -122,7 +122,6 @@
     "Column headers with buttons are sortable." : "Column headers with buttons are sortable.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل عملکرد به طور کامل ارائه نشده است. در حین حرکت در لیست، فایل ها ارائه می شوند.",
     "File not found" : "فایل یافت نشد",
-    "{count} selected" : "{count} selected",
     "{usedQuotaByte} used" : "{usedQuotaByte} استفاده شده است",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
     "{relative}% used" : "{relative}% used",
@@ -266,6 +265,7 @@
     "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["You are about to delete {count} item","You are about to delete {count} items"],
     "Confirm deletion" : "Confirm deletion",
     "Cancel" : "لغو",
+    "Download" : "دانلود",
     "Moving \"{source}\" to \"{destination}\" …" : "Moving \"{source}\" to \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copying \"{source}\" to \"{destination}\" …",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "You cannot move a file/folder onto itself or into a subfolder of itself",
@@ -329,6 +329,9 @@
     "Files moved successfully" : "Files moved successfully",
     "Conflicts resolution skipped" : "Conflicts resolution skipped",
     "Upload cancelled" : "Upload cancelled",
+    "Could not rename \"{oldName}\", it does not exist any more" : "نمی‌توان نام «{oldName}» را تغییر داد، دیگر وجود ندارد",
+    "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "نام \"{newName}\" در پوشه \"{dir}\" به کار رفته است.\nلطفا نام دیگری برگزینید.",
+    "Could not rename \"{oldName}\"" : "تغییر نام \"{oldName}\" ممکن نیست",
     "This operation is forbidden" : "این عملیات غیرمجاز است",
     "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
     "Storage is temporarily not available" : "ذخیره سازی به طور موقت در دسترس نیست",
@@ -360,7 +363,6 @@
     "Upload too large" : "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
     "File could not be found" : "پرونده پیدا نشد",
-    "Download" : "دانلود",
     "Show list view" : "نمایش فهرستی",
     "Show grid view" : "نمایش شبکه‌ای",
     "Close" : "بستن",
@@ -399,9 +401,6 @@
     "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "رونوشت شده از {origin} و {nbfiles} پرونده‌های دیگر در {destination}",
     "{newName} already exists" : "{newName} قبلاً موجود است",
-    "Could not rename \"{fileName}\", it does not exist any more" : "نمی‌توان نام «{fileName}» را تغییر داد، دیگر وجود ندارد",
-    "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "عنوان \"{targetName}\" هم اکنون در پوشه \"{dir}\" وجود دارد. لطفا نام دیگری انتخاب کنید",
-    "Could not rename \"{fileName}\"" : "\"{fileName}\" تغییر نام داده نمی‌شود",
     "Could not create file \"{file}\"" : "پروندهٔ \"{file}\" ساخته نشد",
     "Could not create file \"{file}\" because it already exists" : "نمی توان پرونده \"{file}\" ایجاد کرد زیرا در حال حاضر وجود دارد",
     "Could not create folder \"{dir}\" because it already exists" : "شاخه \"{dir}\" به علت موجود بودن ساخته نشد",
@@ -453,8 +452,6 @@
     "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt",
     "%1$s (renamed)" : "%1$s (renamed)",
     "renamed file" : "renamed file",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.",
-    "{count} files could not be converted" : "{count} files could not be converted",
-    "{count} files successfully converted" : "{count} files successfully converted"
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

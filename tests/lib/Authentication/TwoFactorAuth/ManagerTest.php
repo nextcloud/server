@@ -8,8 +8,9 @@
 
 namespace Test\Authentication\TwoFactorAuth;
 
-use OC;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
+use OC\Authentication\Token\IToken;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
@@ -363,7 +364,7 @@ class ManagerTest extends TestCase {
 		];
 		$this->session->expects($this->exactly(2))
 			->method('remove')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -404,7 +405,7 @@ class ManagerTest extends TestCase {
 				'provider' => 'Fake 2FA',
 			]))
 			->willReturnSelf();
-		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
 			->willReturn($token);
@@ -496,7 +497,7 @@ class ManagerTest extends TestCase {
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
-		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
 			->willReturn($token);
@@ -567,14 +568,14 @@ class ManagerTest extends TestCase {
 		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
-		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
 			->willReturn($token);
@@ -601,14 +602,14 @@ class ManagerTest extends TestCase {
 		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
-		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
 			->willReturn($token);
@@ -669,7 +670,7 @@ class ManagerTest extends TestCase {
 		$this->session->method('getId')
 			->willReturn('mysessionid');
 
-		$token = $this->createMock(OC\Authentication\Token\IToken::class);
+		$token = $this->createMock(IToken::class);
 		$token->method('getId')
 			->willReturn(40);
 
@@ -704,7 +705,7 @@ class ManagerTest extends TestCase {
 
 		$this->tokenProvider->method('getToken')
 			->with('mysessionid')
-			->willThrowException(new OC\Authentication\Exceptions\InvalidTokenException());
+			->willThrowException(new InvalidTokenException());
 
 		$this->config->method('getUserKeys')->willReturn([]);
 
@@ -736,7 +737,7 @@ class ManagerTest extends TestCase {
 		];
 		$this->config->expects($this->exactly(3))
 			->method('deleteUserValue')
-			->willReturnCallback(function () use (&$deleteUserValueCalls) {
+			->willReturnCallback(function () use (&$deleteUserValueCalls): void {
 				$expected = array_shift($deleteUserValueCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -748,7 +749,7 @@ class ManagerTest extends TestCase {
 		];
 		$this->tokenProvider->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->willReturnCallback(function () use (&$invalidateCalls) {
+			->willReturnCallback(function () use (&$invalidateCalls): void {
 				$expected = array_shift($invalidateCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -770,7 +771,7 @@ class ManagerTest extends TestCase {
 		];
 		$this->config->expects($this->exactly(3))
 			->method('deleteUserValue')
-			->willReturnCallback(function () use (&$deleteUserValueCalls) {
+			->willReturnCallback(function () use (&$deleteUserValueCalls): void {
 				$expected = array_shift($deleteUserValueCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -782,7 +783,7 @@ class ManagerTest extends TestCase {
 		];
 		$this->tokenProvider->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->willReturnCallback(function ($user, $tokenId) use (&$invalidateCalls) {
+			->willReturnCallback(function ($user, $tokenId) use (&$invalidateCalls): void {
 				$expected = array_shift($invalidateCalls);
 				$this->assertEquals($expected, func_get_args());
 				if ($tokenId === 43) {

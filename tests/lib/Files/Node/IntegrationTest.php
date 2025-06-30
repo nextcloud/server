@@ -16,6 +16,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
@@ -47,7 +48,7 @@ class IntegrationTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$manager = \OCP\Server::get(IMountManager::class);
+		$manager = Server::get(IMountManager::class);
 
 		\OC_Hook::clear('OC_Filesystem');
 
@@ -64,7 +65,7 @@ class IntegrationTest extends \Test\TestCase {
 			$manager,
 			$this->view,
 			$user,
-			\OCP\Server::get(IUserMountCache::class),
+			Server::get(IUserMountCache::class),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),

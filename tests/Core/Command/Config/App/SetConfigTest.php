@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Tests\Core\Command\Config\App;
 
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OC\Core\Command\Config\App\SetConfig;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -21,6 +22,7 @@ use Test\TestCase;
 
 class SetConfigTest extends TestCase {
 	protected IAppConfig&MockObject $appConfig;
+	protected ConfigManager&MockObject $configManager;
 	protected InputInterface&MockObject $consoleInput;
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
@@ -29,10 +31,11 @@ class SetConfigTest extends TestCase {
 		parent::setUp();
 
 		$this->appConfig = $this->createMock(AppConfig::class);
+		$this->configManager = $this->createMock(ConfigManager::class);
 		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = new SetConfig($this->appConfig);
+		$this->command = new SetConfig($this->appConfig, $this->configManager);
 	}
 
 

@@ -6,7 +6,7 @@
  */
 namespace Test\App;
 
-use OC;
+use OC\App\PlatformRepository;
 
 class PlatformRepositoryTest extends \Test\TestCase {
 	/**
@@ -15,7 +15,7 @@ class PlatformRepositoryTest extends \Test\TestCase {
 	 * @param $input
 	 */
 	public function testVersion($input, $expected): void {
-		$pr = new OC\App\PlatformRepository();
+		$pr = new PlatformRepository();
 		$normalizedVersion = $pr->normalizeVersion($input);
 		$this->assertEquals($expected, $normalizedVersion);
 	}

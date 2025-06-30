@@ -111,11 +111,11 @@ class AddTest extends TestCase {
 			->method('sendMail');
 
 		$this->consoleInput->method('getOption')
-			->will(static::returnValueMap([
+			->willReturnMap([
 				['generate-password', 'true'],
 				['email', $email],
 				['group', []],
-			]));
+			]);
 
 		$this->invokePrivate($this->addCommand, 'execute', [
 			$this->consoleInput,

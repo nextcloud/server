@@ -12,6 +12,7 @@ use OC\EventDispatcher\EventDispatcher;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
+use OC\TaskProcessing\SynchronousBackgroundJob;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -19,6 +20,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
@@ -27,11 +29,13 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
+use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
@@ -551,7 +555,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			ConflictingExternalTaskType::class => new ConflictingExternalTaskType(),
 		];
 
-		$userManager = \OCP\Server::get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		if (!$userManager->userExists(self::TEST_USER)) {
 			$userManager->createUser(self::TEST_USER, 'test');
 		}
@@ -564,19 +568,19 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->eventDispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
 			$this->serverContainer,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator->expects($this->any())->method('getRegistrationContext')->willReturn($this->registrationContext);
 
-		$this->rootFolder = \OCP\Server::get(IRootFolder::class);
+		$this->rootFolder = Server::get(IRootFolder::class);
 
-		$this->taskMapper = \OCP\Server::get(TaskMapper::class);
+		$this->taskMapper = Server::get(TaskMapper::class);
 
 		$this->jobList = $this->createPartialMock(DummyJobList::class, ['add']);
-		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function () {
+		$this->jobList->expects($this->any())->method('add')->willReturnCallback(function (): void {
 		});
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -585,34 +589,34 @@ class TaskProcessingTest extends \Test\TestCase {
 		$text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
 			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->jobList,
-			\OC::$server->get(\OC\TextToImage\Db\TaskMapper::class),
-			\OC::$server->get(IConfig::class),
-			\OC::$server->get(IAppDataFactory::class),
+			Server::get(\OC\TextToImage\Db\TaskMapper::class),
+			Server::get(IConfig::class),
+			Server::get(IAppDataFactory::class),
 		);
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
-		$this->config = \OC::$server->get(IConfig::class);
+		$this->config = Server::get(IConfig::class);
 		$this->manager = new Manager(
 			$this->config,
 			$this->coordinator,
 			$this->serverContainer,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->taskMapper,
 			$this->jobList,
 			$this->eventDispatcher,
-			\OC::$server->get(IAppDataFactory::class),
-			\OC::$server->get(IRootFolder::class),
+			Server::get(IAppDataFactory::class),
+			Server::get(IRootFolder::class),
 			$text2imageManager,
 			$this->userMountCache,
-			\OC::$server->get(IClientService::class),
-			\OC::$server->get(IAppManager::class),
-			\OC::$server->get(ICacheFactory::class),
+			Server::get(IClientService::class),
+			Server::get(IAppManager::class),
+			Server::get(ICacheFactory::class),
 		);
 	}
 
-	private function getFile(string $name, string $content): \OCP\Files\File {
+	private function getFile(string $name, string $content): File {
 		$folder = $this->rootFolder->getUserFolder(self::TEST_USER);
 		$file = $folder->newFile($name, $content);
 		return $file;
@@ -622,7 +626,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
 		self::assertCount(0, $this->manager->getAvailableTaskTypes());
 		self::assertFalse($this->manager->hasProviders());
-		self::expectException(\OCP\TaskProcessing\Exception\PreConditionNotMetException::class);
+		self::expectException(PreConditionNotMetException::class);
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
@@ -637,7 +641,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertCount(0, $this->manager->getAvailableTaskTypes());
 		self::assertCount(1, $this->manager->getAvailableTaskTypes(true));
 		self::assertTrue($this->manager->hasProviders());
-		self::expectException(\OCP\TaskProcessing\Exception\PreConditionNotMetException::class);
+		self::expectException(PreConditionNotMetException::class);
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
@@ -694,11 +698,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -722,11 +726,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -767,11 +771,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -803,11 +807,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -854,7 +858,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->setTaskProgress($task2->getId(), 0.1);
 		$input = $this->manager->prepareInputData($task2);
 		self::assertTrue(isset($input['audio']));
-		self::assertInstanceOf(\OCP\Files\File::class, $input['audio']);
+		self::assertInstanceOf(File::class, $input['audio']);
 		self::assertEquals($audioId, $input['audio']->getId());
 
 		$this->manager->setTaskResult($task2->getId(), null, ['spectrogram' => 'World']);
@@ -865,7 +869,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue(isset($task->getOutput()['spectrogram']));
 		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 		self::assertNotNull($node);
-		self::assertInstanceOf(\OCP\Files\File::class, $node);
+		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('World', $node->getContent());
 	}
 
@@ -904,7 +908,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->setTaskProgress($task2->getId(), 0.1);
 		$input = $this->manager->prepareInputData($task2);
 		self::assertTrue(isset($input['audio']));
-		self::assertInstanceOf(\OCP\Files\File::class, $input['audio']);
+		self::assertInstanceOf(File::class, $input['audio']);
 		self::assertEquals($audioId, $input['audio']->getId());
 
 		$outputFileId = $this->getFile('audioOutput', 'World')->getId();
@@ -917,12 +921,12 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue(isset($task->getOutput()['spectrogram']));
 		$node = $this->rootFolder->getFirstNodeById($task->getOutput()['spectrogram']);
 		self::assertNotNull($node, 'fileId:' . $task->getOutput()['spectrogram']);
-		self::assertInstanceOf(\OCP\Files\File::class, $node);
+		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('World', $node->getContent());
 	}
 
 	public function testNonexistentTask(): void {
-		$this->expectException(\OCP\TaskProcessing\Exception\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
 	}
 
@@ -933,7 +937,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$timeFactory->expects($this->any())->method('getTime')->willReturnCallback(fn () => $currentTime->getTimestamp());
 
 		$this->taskMapper = new TaskMapper(
-			\OCP\Server::get(IDBConnection::class),
+			Server::get(IDBConnection::class),
 			$timeFactory,
 		);
 
@@ -947,11 +951,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -962,8 +966,8 @@ class TaskProcessingTest extends \Test\TestCase {
 		$bgJob = new RemoveOldTasksBackgroundJob(
 			$timeFactory,
 			$this->taskMapper,
-			\OC::$server->get(LoggerInterface::class),
-			\OCP\Server::get(IAppDataFactory::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IAppDataFactory::class),
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);
@@ -987,11 +991,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -1018,11 +1022,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -1048,11 +1052,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -1065,7 +1069,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertTrue($this->providers[SuccessfulTextToImageProvider::class]->ran);
 		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['images'][0], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 		self::assertNotNull($node);
-		self::assertInstanceOf(\OCP\Files\File::class, $node);
+		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('test', $node->getContent());
 	}
 
@@ -1084,11 +1088,11 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskFailedEvent::class));
 
-		$backgroundJob = new \OC\TaskProcessing\SynchronousBackgroundJob(
-			\OCP\Server::get(ITimeFactory::class),
+		$backgroundJob = new SynchronousBackgroundJob(
+			Server::get(ITimeFactory::class),
 			$this->manager,
 			$this->jobList,
-			\OCP\Server::get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 		);
 		$backgroundJob->start($this->jobList);
 
@@ -1237,28 +1241,28 @@ class TaskProcessingTest extends \Test\TestCase {
 		$text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
 			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->jobList,
-			\OC::$server->get(\OC\TextToImage\Db\TaskMapper::class),
+			Server::get(\OC\TextToImage\Db\TaskMapper::class),
 			$this->config, // Use the shared config mock
-			\OC::$server->get(IAppDataFactory::class),
+			Server::get(IAppDataFactory::class),
 		);
 
 		return new Manager(
 			$this->config,
 			$this->coordinator,
 			$this->serverContainer,
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->taskMapper,
 			$this->jobList,
 			$this->eventDispatcher, // Use the potentially reconfigured mock
-			\OC::$server->get(IAppDataFactory::class),
+			Server::get(IAppDataFactory::class),
 			$this->rootFolder,
 			$text2imageManager,
 			$this->userMountCache,
-			\OC::$server->get(IClientService::class),
-			\OC::$server->get(IAppManager::class),
-			\OC::$server->get(ICacheFactory::class),
+			Server::get(IClientService::class),
+			Server::get(IAppManager::class),
+			Server::get(ICacheFactory::class),
 		);
 	}
 
@@ -1271,7 +1275,7 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($dispatchExpectation)
 			->method('dispatchTyped')
-			->willReturnCallback(function (object $event) use ($providersToAdd, $taskTypesToAdd) {
+			->willReturnCallback(function (object $event) use ($providersToAdd, $taskTypesToAdd): void {
 				if ($event instanceof GetTaskProcessingProvidersEvent) {
 					foreach ($providersToAdd as $providerInstance) {
 						$event->addProvider($providerInstance);

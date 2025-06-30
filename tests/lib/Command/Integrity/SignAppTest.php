@@ -58,7 +58,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) use (&$calls) {
+			->willReturnCallback(function (string $message) use (&$calls): void {
 				$expected = array_shift($calls);
 				if ($expected === '*') {
 					$this->assertNotEmpty($message);
@@ -91,7 +91,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) use (&$calls) {
+			->willReturnCallback(function (string $message) use (&$calls): void {
 				$expected = array_shift($calls);
 				if ($expected === '*') {
 					$this->assertNotEmpty($message);
@@ -124,7 +124,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) use (&$calls) {
+			->willReturnCallback(function (string $message) use (&$calls): void {
 				$expected = array_shift($calls);
 				if ($expected === '*') {
 					$this->assertNotEmpty($message);
@@ -160,7 +160,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) {
+			->willReturnCallback(function (string $message): void {
 				$this->assertEquals('Private key "privateKey" does not exists.', $message);
 			});
 
@@ -191,7 +191,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) {
+			->willReturnCallback(function (string $message): void {
 				$this->assertEquals('Certificate "certificate" does not exists.', $message);
 			});
 
@@ -227,7 +227,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) {
+			->willReturnCallback(function (string $message): void {
 				$this->assertEquals('Error: My error message', $message);
 			});
 
@@ -262,7 +262,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $message) {
+			->willReturnCallback(function (string $message): void {
 				$this->assertEquals('Successfully signed "AppId"', $message);
 			});
 

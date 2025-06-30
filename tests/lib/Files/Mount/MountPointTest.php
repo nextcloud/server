@@ -7,6 +7,7 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Files\Storage\IStorage;
@@ -23,7 +24,7 @@ class MountPointTest extends \Test\TestCase {
 			->method('wrap')
 			->willReturn($storage);
 
-		$mountPoint = new \OC\Files\Mount\MountPoint(
+		$mountPoint = new MountPoint(
 			// just use this because a real class is needed
 			NullStorage::class,
 			'/mountpoint',
@@ -43,14 +44,14 @@ class MountPointTest extends \Test\TestCase {
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
-			->will($this->throwException(new \Exception('Test storage init exception')));
+			->willThrowException(new \Exception('Test storage init exception'));
 
 		$called = false;
-		$wrapper = function ($mountPoint, $storage) use ($called) {
+		$wrapper = function ($mountPoint, $storage) use ($called): void {
 			$called = true;
 		};
 
-		$mountPoint = new \OC\Files\Mount\MountPoint(
+		$mountPoint = new MountPoint(
 			// just use this because a real class is needed
 			NullStorage::class,
 			'/mountpoint',

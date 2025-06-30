@@ -217,7 +217,7 @@ class DecryptAllTest extends TestCase {
 			];
 			$instance->expects($this->exactly(2))
 				->method('decryptUsersFiles')
-				->willReturnCallback(function ($user) use (&$calls) {
+				->willReturnCallback(function ($user) use (&$calls): void {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, $user);
 				});
@@ -297,7 +297,7 @@ class DecryptAllTest extends TestCase {
 		];
 		$instance->expects($this->exactly(2))
 			->method('decryptFile')
-			->willReturnCallback(function ($path) use (&$calls) {
+			->willReturnCallback(function ($path) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $path);
 			});
@@ -387,7 +387,7 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->once())
 			->method('copy')
 			->with($path, $path . '.decrypted.42')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new DecryptionFailedException();
 			});
 

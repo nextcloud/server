@@ -438,7 +438,7 @@ class FilenameValidatorTest extends TestCase {
 				'.thumbs.db', ['.htaccess'], ['.thumbs'], [], [], '.thumbs (renamed).db'
 			],
 			'invalid character' => [
-				'a: b.txt', ['.htaccess'], [], [], [':'], 'a  b.txt',
+				'a: b.txt', ['.htaccess'], [], [], [':'], 'a_ b.txt',
 			],
 			'invalid extension' => [
 				'a: b.txt', ['.htaccess'], [], ['.txt'], [], 'a: b'
@@ -492,13 +492,13 @@ class FilenameValidatorTest extends TestCase {
 	public static function dataSanitizeFilenameCharacterReplacement(): array {
 		return [
 			'default' => [
-				'foo*bar', ['*'], null, 'foo bar'
+				'foo*bar', ['*'], null, 'foo_bar'
 			],
-			'default - space not allowed' => [
-				'foo*bar', ['*', ' '], null, 'foo_bar'
+			'default - underscore not allowed' => [
+				'foo*bar', ['*', '_'], null, 'foo-bar'
 			],
-			'default - space and underscore not allowed' => [
-				'foo*bar', ['*', ' ', '_'], null, 'foo-bar'
+			'default - dash and underscore not allowed' => [
+				'foo*bar', ['*', '-', '_'], null, 'foo bar'
 			],
 			'default - no replacement' => [
 				'foo*bar', ['*', ' ', '_', '-'], null, null

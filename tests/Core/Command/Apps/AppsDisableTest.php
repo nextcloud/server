@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Tests\Core\Command\Config;
 
 use OC\Core\Command\App\Disable;
+use OCP\App\IAppManager;
+use OCP\Server;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -25,13 +27,13 @@ class AppsDisableTest extends TestCase {
 		parent::setUp();
 
 		$command = new Disable(
-			\OC::$server->getAppManager()
+			Server::get(IAppManager::class)
 		);
 
 		$this->commandTester = new CommandTester($command);
 
-		\OC::$server->getAppManager()->enableApp('admin_audit');
-		\OC::$server->getAppManager()->enableApp('comments');
+		Server::get(IAppManager::class)->enableApp('admin_audit');
+		Server::get(IAppManager::class)->enableApp('comments');
 	}
 
 	/**

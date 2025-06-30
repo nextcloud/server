@@ -10,11 +10,16 @@ declare(strict_types=1);
 
 namespace Test\Security;
 
+use OC\Files\Filesystem;
+use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Security\Certificate;
 use OC\Security\CertificateManager;
 use OCP\Files\InvalidPathException;
 use OCP\IConfig;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -37,12 +42,12 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->username = $this->getUniqueID('', 20);
 		$this->createUser($this->username, '');
 
-		$storage = new \OC\Files\Storage\Temporary();
+		$storage = new Temporary();
 		$this->registerMount($this->username, $storage, '/' . $this->username . '/');
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId($this->username);
-		\OC\Files\Filesystem::tearDown();
+		Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
 		$config = $this->createMock(IConfig::class);
@@ -54,7 +59,7 @@ class CertificateManagerTest extends \Test\TestCase {
 			->willReturn('random');
 
 		$this->certificateManager = new CertificateManager(
-			new \OC\Files\View(),
+			new View(),
 			$config,
 			$this->createMock(LoggerInterface::class),
 			$this->random
@@ -62,7 +67,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$user = \OC::$server->getUserManager()->get($this->username);
+		$user = Server::get(IUserManager::class)->get($this->username);
 		if ($user !== null) {
 			$user->delete();
 		}
@@ -83,12 +88,12 @@ class CertificateManagerTest extends \Test\TestCase {
 		// Add some certificates
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$certificateStore = [];
-		$certificateStore[] = new \OC\Security\Certificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
+		$certificateStore[] = new Certificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 
 		// Add another certificates
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), 'ExpiredCertificate');
-		$certificateStore[] = new \OC\Security\Certificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), 'ExpiredCertificate');
+		$certificateStore[] = new Certificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), 'ExpiredCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 	}
 

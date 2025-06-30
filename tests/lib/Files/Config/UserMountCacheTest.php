@@ -26,6 +26,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
@@ -45,7 +46,7 @@ class UserMountCacheTest extends TestCase {
 
 		$this->fileIds = [];
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()

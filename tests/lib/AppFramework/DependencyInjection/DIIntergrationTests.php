@@ -21,16 +21,14 @@ class ClassA2 implements Interface1 {
 }
 
 class ClassB {
-	/** @var Interface1 */
-	public $interface1;
-
 	/**
 	 * ClassB constructor.
 	 *
 	 * @param Interface1 $interface1
 	 */
-	public function __construct(Interface1 $interface1) {
-		$this->interface1 = $interface1;
+	public function __construct(
+		public Interface1 $interface1,
+	) {
 	}
 }
 

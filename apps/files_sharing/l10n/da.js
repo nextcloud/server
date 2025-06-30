@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Angiv standard mappe for accepterede delinger",
     "Reset" : "Nulstil",
     "Reset folder to system default" : "Nulstil mappe til systemstandard",
-    "Share expiration: " : "Delings udløb:",
     "Share Expiration" : "Delings Udløb",
     "group" : "gruppe",
     "conversation" : "samtale",

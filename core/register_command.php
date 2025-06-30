@@ -68,9 +68,15 @@ use OC\Core\Command\Maintenance\Repair;
 use OC\Core\Command\Maintenance\RepairShareOwnership;
 use OC\Core\Command\Maintenance\UpdateHtaccess;
 use OC\Core\Command\Maintenance\UpdateTheme;
+use OC\Core\Command\Memcache\DistributedClear;
+use OC\Core\Command\Memcache\DistributedDelete;
+use OC\Core\Command\Memcache\DistributedGet;
+use OC\Core\Command\Memcache\DistributedSet;
 use OC\Core\Command\Memcache\RedisCommand;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
+use OC\Core\Command\Router\ListRoutes;
+use OC\Core\Command\Router\MatchRoute;
 use OC\Core\Command\Security\BruteforceAttempts;
 use OC\Core\Command\Security\BruteforceResetAttempts;
 use OC\Core\Command\Security\ExportCertificates;
@@ -92,6 +98,7 @@ use OC\Core\Command\User\ClearGeneratedAvatarCacheCommand;
 use OC\Core\Command\User\Info;
 use OC\Core\Command\User\Keys\Verify;
 use OC\Core\Command\User\LastSeen;
+use OC\Core\Command\User\Profile;
 use OC\Core\Command\User\Report;
 use OC\Core\Command\User\ResetPassword;
 use OC\Core\Command\User\Setting;
@@ -109,6 +116,8 @@ $application->add(Server::get(SignApp::class));
 $application->add(Server::get(SignCore::class));
 $application->add(Server::get(CheckApp::class));
 $application->add(Server::get(CheckCore::class));
+$application->add(Server::get(ListRoutes::class));
+$application->add(Server::get(MatchRoute::class));
 
 $config = Server::get(IConfig::class);
 
@@ -206,6 +215,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Report::class));
 	$application->add(Server::get(ResetPassword::class));
 	$application->add(Server::get(Setting::class));
+	$application->add(Server::get(Profile::class));
 	$application->add(Server::get(Command\User\ListCommand::class));
 	$application->add(Server::get(ClearGeneratedAvatarCacheCommand::class));
 	$application->add(Server::get(Info::class));
@@ -243,6 +253,10 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Statistics::class));
 
 	$application->add(Server::get(RedisCommand::class));
+	$application->add(Server::get(DistributedClear::class));
+	$application->add(Server::get(DistributedDelete::class));
+	$application->add(Server::get(DistributedGet::class));
+	$application->add(Server::get(DistributedSet::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

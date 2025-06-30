@@ -16,6 +16,7 @@ use OCP\EventDispatcher\Event;
 use OCP\IConfig;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -37,6 +38,21 @@ class LoadAdditionalListenerTest extends TestCase {
 		$this->factory = $this->createMock(IFactory::class);
 		$this->initialStateService = $this->createMock(InitialStateService::class);
 		$this->config = $this->createMock(IConfig::class);
+
+		/* Empty static array to avoid inter-test conflicts */
+		\OC_Util::$styles = [];
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
+		self::invokePrivate(Util::class, 'scriptsInit', [[]]);
+	}
+
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		\OC_Util::$styles = [];
+		self::invokePrivate(Util::class, 'scripts', [[]]);
+		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
+		self::invokePrivate(Util::class, 'scriptsInit', [[]]);
 	}
 
 	public function testHandleIgnoresNonMatchingEvent(): void {
@@ -61,7 +77,7 @@ class LoadAdditionalListenerTest extends TestCase {
 		$this->overwriteService(InitialStateService::class, $this->initialStateService);
 		$this->overwriteService(IConfig::class, $this->config);
 
-		$scriptsBefore = \OCP\Util::getScripts();
+		$scriptsBefore = Util::getScripts();
 		$this->assertNotContains('files_sharing/l10n/language_mock', $scriptsBefore);
 		$this->assertNotContains('files_sharing/js/additionalScripts', $scriptsBefore);
 		$this->assertNotContains('files_sharing/js/init', $scriptsBefore);
@@ -71,14 +87,12 @@ class LoadAdditionalListenerTest extends TestCase {
 		$listener->handle($this->event);
 
 		// assert array $scripts contains the expected scripts
-		$scriptsAfter = \OCP\Util::getScripts();
+		$scriptsAfter = Util::getScripts();
 		$this->assertContains('files_sharing/l10n/language_mock', $scriptsAfter);
 		$this->assertContains('files_sharing/js/additionalScripts', $scriptsAfter);
 		$this->assertNotContains('files_sharing/js/init', $scriptsAfter);
 
 		$this->assertContains('files_sharing/css/icons', \OC_Util::$styles);
-
-		$this->assertTrue(true);
 	}
 
 	public function testHandleWithLoadAdditionalScriptsEventWithShareApiEnabled(): void {
@@ -92,17 +106,15 @@ class LoadAdditionalListenerTest extends TestCase {
 		$this->overwriteService(IConfig::class, $this->config);
 		$this->overwriteService(IFactory::class, $this->factory);
 
-		$scriptsBefore = \OCP\Util::getScripts();
+		$scriptsBefore = Util::getScripts();
 		$this->assertNotContains('files_sharing/js/init', $scriptsBefore);
 
 		// Util static methods can't be easily mocked, so just ensure no exceptions
 		$listener->handle($this->event);
 
-		$scriptsAfter = \OCP\Util::getScripts();
+		$scriptsAfter = Util::getScripts();
 
 		// assert array $scripts contains the expected scripts
 		$this->assertContains('files_sharing/js/init', $scriptsAfter);
-
-		$this->assertTrue(true);
 	}
 }

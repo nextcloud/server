@@ -967,6 +967,7 @@ class Session implements IUserSession, Emitter {
 		if ($webRoot === '') {
 			$webRoot = '/';
 		}
+		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		\OC\Http\CookieHelper::setCookie(
@@ -974,7 +975,7 @@ class Session implements IUserSession, Emitter {
 			$username,
 			$maxAge,
 			$webRoot,
-			'',
+			$domain,
 			$secureCookie,
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
@@ -984,7 +985,7 @@ class Session implements IUserSession, Emitter {
 			$token,
 			$maxAge,
 			$webRoot,
-			'',
+			$domain,
 			$secureCookie,
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
@@ -995,7 +996,7 @@ class Session implements IUserSession, Emitter {
 				$this->session->getId(),
 				$maxAge,
 				$webRoot,
-				'',
+				$domain,
 				$secureCookie,
 				true,
 				\OC\Http\CookieHelper::SAMESITE_LAX
@@ -1011,18 +1012,19 @@ class Session implements IUserSession, Emitter {
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		unset($_COOKIE['nc_username']); //TODO: DI
 		unset($_COOKIE['nc_token']);
 		unset($_COOKIE['nc_session_id']);
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
 	}
 
 	/**

@@ -9,6 +9,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
+use OC\User\NoUserException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Accounts\IAccountManager;
@@ -374,7 +375,13 @@ class FilesPlugin extends ServerPlugin {
 				}
 
 				// Check if the user published their display name
-				$ownerAccount = $this->accountManager->getAccount($owner);
+				try {
+					$ownerAccount = $this->accountManager->getAccount($owner);
+				} catch (NoUserException) {
+					// do not lock process if owner is not local
+					return null;
+				}
+
 				$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 
 				// Since we are not logged in, we need to have at least the published scope

@@ -79,7 +79,7 @@ class DecryptAllTest extends TestCase {
 		];
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValue')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -137,7 +137,7 @@ class DecryptAllTest extends TestCase {
 			];
 			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->willReturnCallback(function () use (&$calls) {
+				->willReturnCallback(function () use (&$calls): void {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, func_get_args());
 				});
@@ -188,7 +188,7 @@ class DecryptAllTest extends TestCase {
 		];
 		$this->config->expects($this->exactly(2))
 			->method('setAppValue')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -208,7 +208,7 @@ class DecryptAllTest extends TestCase {
 		$this->decryptAll->expects($this->once())
 			->method('decryptAll')
 			->with($this->consoleInput, $this->consoleOutput, 'user1')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new \Exception();
 			});
 

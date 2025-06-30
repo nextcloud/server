@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Suíomh bunaidh",
     "Deleted by" : "Scriosta ag",
     "Deleted" : "Scriosta",
+    "few seconds ago" : "cúpla soicind ó shin",
     "A long time ago" : "Fadó fadó",
     "Unknown" : "Anaithnid",
     "All files" : "Gach comhad",

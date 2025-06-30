@@ -126,16 +126,16 @@ class RequestSharedSecret extends Job {
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
-				$this->logger->info($target . ' refused to ask for a shared secret.', ['app' => 'federation']);
+				$this->logger->info($target . ' refused to ask for a shared secret.');
 			} else {
-				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
+				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage());
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->info('Could not connect to ' . $target, ['app' => 'federation']);
+			$this->logger->info('Could not connect to ' . $target);
 		} catch (\Throwable $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
-			$this->logger->error($e->getMessage(), ['app' => 'federation', 'exception' => $e]);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		// if we received a unexpected response we try again later

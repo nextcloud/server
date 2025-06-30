@@ -59,6 +59,7 @@
     "No LDAP base DN was given" : "Non se indicou un DN base de LDAP",
     "User base DN is not a subnode of global base DN" : "O DN base do usuario non é un subnodo do DN base global",
     "Group base DN is not a subnode of global base DN" : "O DN base de grupo non é un subnodo do DN base global",
+    "Login filter does not contain %s placeholder." : "O filtro de inicio de sesión non contén o marcador de substitución %s.",
     "Please login with the new password" : "Acceda co novo contrasinal",
     "LDAP User backend" : "Infraestrutura do usuario LDAP",
     "Your password will expire tomorrow." : "O seu contrasinal caduca mañá.",

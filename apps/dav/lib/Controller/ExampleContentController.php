@@ -10,77 +10,89 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\AppInfo\Application;
-use OCP\App\IAppManager;
+use OCA\DAV\Service\ExampleContactService;
+use OCA\DAV\Service\ExampleEventService;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
-use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 class ExampleContentController extends ApiController {
-	private IAppData $appData;
 	public function __construct(
 		IRequest $request,
-		private IConfig $config,
-		private IAppDataFactory $appDataFactory,
-		private IAppManager $appManager,
-		private LoggerInterface $logger,
+		private readonly LoggerInterface $logger,
+		private readonly ExampleEventService $exampleEventService,
+		private readonly ExampleContactService $exampleContactService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
-		$this->appData = $this->appDataFactory->get('dav');
 	}
 
-	public function setEnableDefaultContact($allow) {
-		if ($allow === 'yes' && !$this->defaultContactExists()) {
+	#[FrontpageRoute(verb: 'PUT', url: '/api/defaultcontact/config')]
+	public function setEnableDefaultContact(bool $allow): JSONResponse {
+		if ($allow && !$this->exampleContactService->defaultContactExists()) {
 			try {
-				$this->setCard();
+				$this->exampleContactService->setCard();
 			} catch (\Exception $e) {
 				$this->logger->error('Could not create default contact', ['exception' => $e]);
 				return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
 		}
-		$this->config->setAppValue(Application::APP_ID, 'enableDefaultContact', $allow);
+		$this->exampleContactService->setDefaultContactEnabled($allow);
 		return new JSONResponse([], Http::STATUS_OK);
 	}
 
+	#[NoCSRFRequired]
+	#[FrontpageRoute(verb: 'GET', url: '/api/defaultcontact/contact')]
+	public function getDefaultContact(): DataDownloadResponse {
+		$cardData = $this->exampleContactService->getCard()
+			?? file_get_contents(__DIR__ . '/../ExampleContentFiles/exampleContact.vcf');
+		return new DataDownloadResponse($cardData, 'example_contact.vcf', 'text/vcard');
+	}
+
+	#[FrontpageRoute(verb: 'PUT', url: '/api/defaultcontact/contact')]
 	public function setDefaultContact(?string $contactData = null) {
-		if (!$this->config->getAppValue(Application::APP_ID, 'enableDefaultContact', 'no')) {
+		if (!$this->exampleContactService->isDefaultContactEnabled()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
-		$this->setCard($contactData);
+		$this->exampleContactService->setCard($contactData);
 		return new JSONResponse([], Http::STATUS_OK);
 	}
 
-	private function setCard(?string $cardData = null) {
-		try {
-			$folder = $this->appData->getFolder('defaultContact');
-		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder('defaultContact');
-		}
-
-		if (is_null($cardData)) {
-			$cardData = file_get_contents(__DIR__ . '/../ExampleContentFiles/exampleContact.vcf');
-		}
-
-		if (!$cardData) {
-			throw new \Exception('Could not read exampleContact.vcf');
-		}
-
-		$file = (!$folder->fileExists('defaultContact.vcf')) ? $folder->newFile('defaultContact.vcf') : $folder->getFile('defaultContact.vcf');
-		$file->putContent($cardData);
+	#[FrontpageRoute(verb: 'POST', url: '/api/exampleEvent/enable')]
+	public function setCreateExampleEvent(bool $enable): JSONResponse {
+		$this->exampleEventService->setCreateExampleEvent($enable);
+		return new JsonResponse([]);
 	}
 
-	private function defaultContactExists(): bool {
-		try {
-			$folder = $this->appData->getFolder('defaultContact');
-		} catch (NotFoundException $e) {
-			return false;
+	#[FrontpageRoute(verb: 'GET', url: '/api/exampleEvent/event')]
+	#[NoCSRFRequired]
+	public function downloadExampleEvent(): DataDownloadResponse {
+		$exampleEvent = $this->exampleEventService->getExampleEvent();
+		return new DataDownloadResponse(
+			$exampleEvent->getIcs(),
+			'example_event.ics',
+			'text/calendar',
+		);
+	}
+
+	#[FrontpageRoute(verb: 'POST', url: '/api/exampleEvent/event')]
+	public function uploadExampleEvent(string $ics): JSONResponse {
+		if (!$this->exampleEventService->shouldCreateExampleEvent()) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
-		return $folder->fileExists('defaultContact.vcf');
+
+		$this->exampleEventService->saveCustomExampleEvent($ics);
+		return new JsonResponse([]);
+	}
+
+	#[FrontpageRoute(verb: 'DELETE', url: '/api/exampleEvent/event')]
+	public function deleteExampleEvent(): JSONResponse {
+		$this->exampleEventService->deleteCustomExampleEvent();
+		return new JsonResponse([]);
 	}
 
 }

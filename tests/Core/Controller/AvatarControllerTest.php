@@ -130,7 +130,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarNoAvatar(): void {
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
-		$this->avatarMock->method('getFile')->will($this->throwException(new NotFoundException()));
+		$this->avatarMock->method('getFile')->willThrowException(new NotFoundException());
 		$response = $this->avatarController->getAvatar('userId', 32);
 
 		//Comment out until JS is fixed
@@ -183,7 +183,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarManager
 			->method('getAvatar')
 			->with('userDoesNotExist')
-			->will($this->throwException(new \Exception('user does not exist')));
+			->willThrowException(new \Exception('user does not exist'));
 
 		$response = $this->avatarController->getAvatar('userDoesNotExist', 32);
 
@@ -287,7 +287,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test what happens if the removing of the avatar fails
 	 */
 	public function testDeleteAvatarException(): void {
-		$this->avatarMock->method('remove')->will($this->throwException(new \Exception('foo')));
+		$this->avatarMock->method('remove')->willThrowException(new \Exception('foo'));
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
@@ -469,7 +469,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostAvatarException(): void {
 		$this->cache->expects($this->once())
 			->method('set')
-			->will($this->throwException(new \Exception('foo')));
+			->willThrowException(new \Exception('foo'));
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->once())
@@ -514,7 +514,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostCroppedAvatarNoSquareCrop(): void {
 		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.jpg'));
 
-		$this->avatarMock->method('set')->will($this->throwException(new \OC\NotSquareException));
+		$this->avatarMock->method('set')->willThrowException(new \OC\NotSquareException);
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 		$response = $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]);
 
@@ -539,7 +539,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostCroppedAvatarException(): void {
 		$this->cache->method('get')->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.jpg'));
 
-		$this->avatarMock->method('set')->will($this->throwException(new \Exception('foo')));
+		$this->avatarMock->method('set')->willThrowException(new \Exception('foo'));
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())

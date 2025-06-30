@@ -1,6 +1,6 @@
 <?php
 /**
- * SPDX-FileCopyrightText: 2016-2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -8,11 +8,8 @@
 require_once __DIR__ . '/../lib/base.php';
 
 function enableApp($app) {
-	try {
-		(new \OC_App())->enable($app);
-	} catch (Exception $e) {
-		echo $e;
-	}
+	(new \OC_App())->enable($app);
+	echo "Enabled application {$app}\n";
 }
 
 foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {

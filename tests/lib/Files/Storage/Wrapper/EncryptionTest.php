@@ -8,7 +8,6 @@
 namespace Test\Files\Storage\Wrapper;
 
 use Exception;
-use OC;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\File;
 use OC\Encryption\Util;
@@ -28,6 +27,8 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Files\Storage\Storage;
@@ -726,7 +727,7 @@ class EncryptionTest extends Storage {
 		$storage2->expects($this->any())
 			->method('fopen')
 			->willReturnCallback(function ($path, $mode) {
-				$temp = OC::$server->getTempManager();
+				$temp = Server::get(ITempManager::class);
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
 		$storage2->method('getId')
@@ -775,7 +776,7 @@ class EncryptionTest extends Storage {
 		$storage2->expects($this->any())
 			->method('fopen')
 			->willReturnCallback(function ($path, $mode) {
-				$temp = OC::$server->getTempManager();
+				$temp = Server::get(ITempManager::class);
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
 		$storage2->method('getId')

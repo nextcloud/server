@@ -38,9 +38,9 @@ class LoggerTest extends TestCase implements IWriter {
 	private function mockDefaultLogLevel(): void {
 		$this->config->expects($this->any())
 			->method('getValue')
-			->will(($this->returnValueMap([
+			->willReturnMap([
 				['loglevel', ILogger::WARN, ILogger::WARN],
-			])));
+			]);
 	}
 
 	public function testInterpolation(): void {
@@ -55,10 +55,10 @@ class LoggerTest extends TestCase implements IWriter {
 	public function testAppCondition(): void {
 		$this->config->expects($this->any())
 			->method('getValue')
-			->will(($this->returnValueMap([
+			->willReturnMap([
 				['loglevel', ILogger::WARN, ILogger::WARN],
 				['log.condition', [], ['apps' => ['files']]]
-			])));
+			]);
 		$logger = $this->logger;
 
 		$logger->info('Don\'t display info messages');
@@ -291,7 +291,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 */
 	public function testDetectclosure(string $user, string $password): void {
 		$this->mockDefaultLogLevel();
-		$a = function ($user, $password) {
+		$a = function ($user, $password): void {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())

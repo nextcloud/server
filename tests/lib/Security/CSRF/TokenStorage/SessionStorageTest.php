@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Test\Security\CSRF\TokenStorage;
 
+use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OCP\ISession;
 
 class SessionStorageTest extends \Test\TestCase {
@@ -22,7 +23,7 @@ class SessionStorageTest extends \Test\TestCase {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
-		$this->sessionStorage = new \OC\Security\CSRF\TokenStorage\SessionStorage($this->session);
+		$this->sessionStorage = new SessionStorage($this->session);
 	}
 
 	/**

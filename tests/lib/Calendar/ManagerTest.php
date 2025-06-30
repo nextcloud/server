@@ -11,6 +11,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\AvailabilityResult;
 use OC\Calendar\Manager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendar;
@@ -1725,7 +1726,7 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with('principals/users/admin');
 
-		$server = $this->createMock(\OCA\DAV\Connector\Sabre\Server::class);
+		$server = $this->createMock(Server::class);
 		$server->expects(self::once())
 			->method('getPlugin')
 			->with('auth')
@@ -1736,7 +1737,7 @@ EOF;
 				RequestInterface $request,
 				ResponseInterface $response,
 				bool $sendResponse,
-			) {
+			): void {
 				$requestBody = file_get_contents(__DIR__ . '/../../data/ics/free-busy-request.ics');
 				$this->assertEquals('POST', $request->getMethod());
 				$this->assertEquals('calendars/admin/outbox', $request->getPath());
@@ -1792,7 +1793,7 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with('principals/users/admin');
 
-		$server = $this->createMock(\OCA\DAV\Connector\Sabre\Server::class);
+		$server = $this->createMock(Server::class);
 		$server->expects(self::once())
 			->method('getPlugin')
 			->with('auth')
@@ -1803,7 +1804,7 @@ EOF;
 				RequestInterface $request,
 				ResponseInterface $response,
 				bool $sendResponse,
-			) {
+			): void {
 				$requestBody = file_get_contents(__DIR__ . '/../../data/ics/free-busy-request.ics');
 				$this->assertEquals('POST', $request->getMethod());
 				$this->assertEquals('calendars/admin/outbox', $request->getPath());

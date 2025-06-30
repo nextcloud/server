@@ -16,8 +16,11 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\SystemTag\TagNotFoundException;
 use Test\TestCase;
 
 /**
@@ -37,7 +40,7 @@ class SystemTagManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -239,7 +242,7 @@ class SystemTagManagerTest extends TestCase {
 	 * @dataProvider oneTagMultipleFlagsProvider
 	 */
 	public function testCreateDuplicate($name, $userVisible, $userAssignable): void {
-		$this->expectException(\OCP\SystemTag\TagAlreadyExistsException::class);
+		$this->expectException(TagAlreadyExistsException::class);
 
 		try {
 			$this->tagManager->createTag($name, $userVisible, $userAssignable);
@@ -278,14 +281,14 @@ class SystemTagManagerTest extends TestCase {
 
 
 	public function testGetNonExistingTag(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagManager->getTag('nonexist', false, false);
 	}
 
 
 	public function testGetNonExistingTagsById(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
@@ -360,7 +363,7 @@ class SystemTagManagerTest extends TestCase {
 	 * @dataProvider updateTagProvider
 	 */
 	public function testUpdateTagDuplicate($tagCreate, $tagUpdated): void {
-		$this->expectException(\OCP\SystemTag\TagAlreadyExistsException::class);
+		$this->expectException(TagAlreadyExistsException::class);
 
 		$this->tagManager->createTag(
 			$tagCreate[0],
@@ -396,7 +399,7 @@ class SystemTagManagerTest extends TestCase {
 
 
 	public function testDeleteNonExistingTag(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagManager->deleteTags([100]);
 	}

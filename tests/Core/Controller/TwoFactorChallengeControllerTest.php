@@ -301,14 +301,14 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
-			->will($this->throwException($exception));
+			->willThrowException($exception);
 		$calls = [
 			['two_factor_auth_error_message', '2FA failed'],
 			['two_factor_auth_error', true],
 		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

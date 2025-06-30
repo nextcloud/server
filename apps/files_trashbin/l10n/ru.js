@@ -16,6 +16,7 @@ OC.L10N.register(
     "Original location" : "Исходный путь",
     "Deleted by" : "Удалено",
     "Deleted" : "Удалён",
+    "few seconds ago" : "несколько секунд назад",
     "A long time ago" : "Очень давно",
     "Unknown" : "Неизвестно",
     "All files" : "Все файлы",

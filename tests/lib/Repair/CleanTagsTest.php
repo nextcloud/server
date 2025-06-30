@@ -7,10 +7,12 @@
 
 namespace Test\Repair;
 
+use OC\Repair\CleanTags;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -23,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class CleanTagsTest extends \Test\TestCase {
 
 	private ?int $createdFile = null;
-	private \OC\Repair\CleanTags $repair;
+	private CleanTags $repair;
 	private IDBConnection $connection;
 
 	private IUserManager&MockObject $userManager;
@@ -40,8 +42,8 @@ class CleanTagsTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
-		$this->repair = new \OC\Repair\CleanTags($this->connection, $this->userManager);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->repair = new CleanTags($this->connection, $this->userManager);
 		$this->cleanUpTables();
 	}
 

@@ -14,6 +14,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 
 /**
  * Tests for the converting of legacy storages to home storages.
@@ -32,8 +33,8 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mimetypeLoader = \OCP\Server::get(IMimeTypeLoader::class);
-		$this->db = \OCP\Server::get(IDBConnection::class);
+		$this->mimetypeLoader = Server::get(IMimeTypeLoader::class);
+		$this->db = Server::get(IDBConnection::class);
 
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
@@ -55,7 +56,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->repair = new RepairMimeTypes(
 			$config,
 			$appConfig,
-			\OCP\Server::get(IDBConnection::class),
+			Server::get(IDBConnection::class),
 		);
 	}
 

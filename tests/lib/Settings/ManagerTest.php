@@ -8,6 +8,7 @@ namespace OC\Settings\Tests\AppInfo;
 
 use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
+use OCA\WorkflowEngine\Settings\Section;
 use OCP\Group\ISubAdmin;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -15,6 +16,7 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -65,11 +67,11 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetAdminSections(): void {
-		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
+		$this->manager->registerSection('admin', Section::class);
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = Server::get(Section::class);
 		$this->container->method('get')
-			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->with(Section::class)
 			->willReturn($section);
 
 		$this->assertEquals([
@@ -78,11 +80,11 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetPersonalSections(): void {
-		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
+		$this->manager->registerSection('personal', Section::class);
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = Server::get(Section::class);
 		$this->container->method('get')
-			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->with(Section::class)
 			->willReturn($section);
 
 		$this->assertEquals([
@@ -202,13 +204,13 @@ class ManagerTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
-		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
+		$this->manager->registerSection('personal', Section::class);
+		$this->manager->registerSection('admin', Section::class);
 
 
-		$section = \OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class);
+		$section = Server::get(Section::class);
 		$this->container->method('get')
-			->with(\OCA\WorkflowEngine\Settings\Section::class)
+			->with(Section::class)
 			->willReturn($section);
 
 		$this->assertEquals([

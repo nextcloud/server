@@ -189,6 +189,7 @@ OC.L10N.register(
     "No deleted shares" : "Nema izbrisanih dijeljenja",
     "Pending shares" : "Dijeljenja na čekanju",
     "No pending shares" : "Nema dijeljenja na čekanju",
+    "Error deleting the share" : "Pogreška pri brisanju dijeljenja",
     "Error updating the share: {errorMessage}" : "Pogreška pri ažuriranju dijeljenja: {errorMessage}",
     "Error updating the share" : "Pogreška pri ažuriranju dijeljenja",
     "Shared by" : "Podijeljeno od",

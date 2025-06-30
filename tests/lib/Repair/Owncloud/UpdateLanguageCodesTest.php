@@ -11,6 +11,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -29,7 +30,7 @@ class UpdateLanguageCodesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 	}
 
@@ -91,7 +92,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->exactly(7))
 			->method('info')
-			->willReturnCallback(function () use (&$outputMessages) {
+			->willReturnCallback(function () use (&$outputMessages): void {
 				$outputMessages[] = func_get_args();
 			});
 

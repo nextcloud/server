@@ -8,9 +8,11 @@
 namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use OCP\Share\IShare;
 use Test\TestCase;
 
@@ -37,7 +39,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->with('version')
 			->willReturn('12.0.0.0');
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->deleteAllShares();
 
 		$this->repair = new RepairInvalidShares($config, $this->connection);
@@ -133,14 +135,14 @@ class RepairInvalidSharesTest extends TestCase {
 			// unchanged for read-write + share
 			[
 				'file',
-				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
-				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
 			],
 			// fixed for all perms
 			[
 				'file',
-				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_SHARE,
-				\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE | Constants::PERMISSION_SHARE,
+				Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
 			],
 		];
 	}

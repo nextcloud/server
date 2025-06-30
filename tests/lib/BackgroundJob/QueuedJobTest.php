@@ -9,6 +9,7 @@ namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\Server;
 
 class TestQueuedJobNew extends QueuedJob {
 	public bool $ran = false;
@@ -28,7 +29,7 @@ class QueuedJobTest extends \Test\TestCase {
 	}
 
 	public function testJobShouldBeRemovedNew(): void {
-		$job = new TestQueuedJobNew(\OCP\Server::get(ITimeFactory::class));
+		$job = new TestQueuedJobNew(Server::get(ITimeFactory::class));
 		$job->setId(42);
 		$this->jobList->add($job);
 

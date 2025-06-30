@@ -199,6 +199,7 @@ use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
@@ -321,7 +322,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Profiler($c->get(SystemConfig::class));
 		});
 
-		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c): Encryption\Manager {
+		$this->registerService(Encryption\Manager::class, function (Server $c): Encryption\Manager {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -338,6 +339,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
+		$this->registerAlias(\OCP\Encryption\IManager::class, Encryption\Manager::class);
 
 		$this->registerService(IFile::class, function (ContainerInterface $c) {
 			$util = new Encryption\Util(
@@ -570,6 +572,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
+		$this->registerAlias(IAppManager::class, AppManager::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
@@ -778,21 +781,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(ITempManager::class, TempManager::class);
-
-		$this->registerService(AppManager::class, function (ContainerInterface $c) {
-			// TODO: use auto-wiring
-			return new \OC\App\AppManager(
-				$c->get(IUserSession::class),
-				$c->get(\OCP\IConfig::class),
-				$c->get(IGroupManager::class),
-				$c->get(ICacheFactory::class),
-				$c->get(IEventDispatcher::class),
-				$c->get(LoggerInterface::class),
-				$c->get(ServerVersion::class),
-			);
-		});
-		$this->registerAlias(IAppManager::class, AppManager::class);
-
 		$this->registerAlias(IDateTimeZone::class, DateTimeZone::class);
 
 		$this->registerService(IDateTimeFormatter::class, function (Server $c) {
@@ -1273,6 +1261,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
 		$this->registerAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 

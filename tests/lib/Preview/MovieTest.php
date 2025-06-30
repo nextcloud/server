@@ -7,6 +7,7 @@
 
 namespace Test\Preview;
 
+use OC\Preview\Movie;
 use OCP\IBinaryFinder;
 use OCP\Server;
 
@@ -33,7 +34,7 @@ class MovieTest extends Provider {
 			parent::setUp();
 
 			$this->imgPath = $this->prepareTestFile($this->fileName, \OC::$SERVERROOT . '/tests/data/' . $this->fileName);
-			$this->provider = new \OC\Preview\Movie(['movieBinary' => $movieBinary]);
+			$this->provider = new Movie(['movieBinary' => $movieBinary]);
 		} else {
 			$this->markTestSkipped('No Movie provider present');
 		}

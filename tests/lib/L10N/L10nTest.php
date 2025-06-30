@@ -16,6 +16,8 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
+use OCP\Util;
 use Test\TestCase;
 
 /**
@@ -203,12 +205,12 @@ class L10nTest extends TestCase {
 	}
 
 	public function testServiceGetLanguageCode(): void {
-		$l = \OCP\Util::getL10N('lib', 'de');
+		$l = Util::getL10N('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
 
 	public function testWeekdayName(): void {
-		$l = \OCP\Util::getL10N('lib', 'de');
+		$l = Util::getL10N('lib', 'de');
 		$this->assertEquals('Mo.', $l->l('weekdayName', new \DateTime('2017-11-6'), ['width' => 'abbreviated']));
 	}
 
@@ -220,7 +222,7 @@ class L10nTest extends TestCase {
 	public function testFindLanguageFromLocale($locale, $language): void {
 		$this->assertEquals(
 			$language,
-			\OC::$server->get(IFactory::class)->findLanguageFromLocale('lib', $locale)
+			Server::get(IFactory::class)->findLanguageFromLocale('lib', $locale)
 		);
 	}
 

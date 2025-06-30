@@ -103,7 +103,7 @@ class FileTest extends TestCase {
 		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->willReturnCallback(function (string $message) use (&$calls) {
+			->willReturnCallback(function (string $message) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected[0], $message);
 			});

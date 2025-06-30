@@ -8,6 +8,7 @@
 namespace Test\OCS;
 
 use OC\OCS\Provider;
+use OCP\AppFramework\Http\JSONResponse;
 
 class ProviderTest extends \Test\TestCase {
 	/** @var \OCP\IRequest */
@@ -36,7 +37,7 @@ class ProviderTest extends \Test\TestCase {
 				['provisioning_api', null, false],
 			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -66,7 +67,7 @@ class ProviderTest extends \Test\TestCase {
 				['provisioning_api', null, false],
 			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -109,7 +110,7 @@ class ProviderTest extends \Test\TestCase {
 				['provisioning_api', null, false],
 			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -142,7 +143,7 @@ class ProviderTest extends \Test\TestCase {
 			->method('isEnabledForUser')
 			->willReturn(true);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [

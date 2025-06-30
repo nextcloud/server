@@ -782,12 +782,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Controller/ExampleContentController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
     <UndefinedPropertyAssignment>
       <code><![CDATA[$vEvent->DTSTAMP]]></code>
@@ -1017,11 +1011,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Settings/CalDAVSettings.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Settings/ExampleContentSettings.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
@@ -2597,14 +2586,6 @@
       <code><![CDATA[$gid]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/user_ldap/lib/Helper.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[getAppKeys]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -3962,12 +3943,6 @@
       <code><![CDATA[ArrayCache]]></code>
       <code><![CDATA[ArrayCache]]></code>
     </InvalidClass>
-    <InvalidReturnStatement>
-      <code><![CDATA[$response->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[fopen]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
     <TypeDoesNotContainNull>
@@ -4078,16 +4053,6 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Http/Client/Response.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string|resource]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents()]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Installer.php">
     <InvalidArgument>
       <code><![CDATA[false]]></code>
@@ -4131,31 +4096,12 @@
     </InvalidOperand>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullCache.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[get]]></code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$file !== '' ? null :
-			new CacheEntry([
-				'fileid' => -1,
-				'parent' => -1,
-				'name' => '',
-				'path' => '',
-				'size' => '0',
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => '',
-				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ
-			])]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <TooManyArguments>
@@ -4245,12 +4191,6 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Remote/Instance.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$request->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$response]]></code>
     </InvalidScalarArgument>

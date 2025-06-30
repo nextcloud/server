@@ -6,6 +6,7 @@
 
 namespace Test\Remote\Api;
 
+use OC\ForbiddenException;
 use OC\Memcache\ArrayCache;
 use OC\Remote\Api\OCS;
 use OC\Remote\Credentials;
@@ -68,7 +69,7 @@ class OCSTest extends TestCase {
 
 	
 	public function testInvalidPassword(): void {
-		$this->expectException(\OC\ForbiddenException::class);
+		$this->expectException(ForbiddenException::class);
 
 		$client = $this->getOCSClient();
 

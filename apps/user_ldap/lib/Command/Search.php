@@ -12,7 +12,6 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Server;
 
 use Symfony\Component\Console\Command\Command;
@@ -83,7 +82,7 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper($this->ocConfig, Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 

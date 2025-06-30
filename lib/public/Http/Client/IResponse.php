@@ -15,8 +15,9 @@ namespace OCP\Http\Client;
  */
 interface IResponse {
 	/**
-	 * @return string|resource
+	 * @return null|resource|string
 	 * @since 8.1.0
+	 * @sicne 8.2.0 with stream enabled, the function returns null or a resource
 	 */
 	public function getBody();
 

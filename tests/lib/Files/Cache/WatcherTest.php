@@ -7,6 +7,9 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Temporary;
+
 /**
  * Class WatcherTest
  *
@@ -44,7 +47,7 @@ class WatcherTest extends \Test\TestCase {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
+		$updater->setPolicy(Watcher::CHECK_ONCE);
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('', ['storage_mtime' => 10]);
@@ -85,7 +88,7 @@ class WatcherTest extends \Test\TestCase {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
+		$updater->setPolicy(Watcher::CHECK_ONCE);
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('', ['storage_mtime' => 10]);
@@ -102,7 +105,7 @@ class WatcherTest extends \Test\TestCase {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
+		$updater->setPolicy(Watcher::CHECK_ONCE);
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('foo.txt', ['storage_mtime' => 10]);
@@ -124,7 +127,7 @@ class WatcherTest extends \Test\TestCase {
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('foo.txt', ['storage_mtime' => 10]);
 
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_NEVER);
+		$updater->setPolicy(Watcher::CHECK_NEVER);
 
 		$storage->file_put_contents('foo.txt', 'q');
 		$this->assertFalse($updater->checkUpdate('foo.txt'));
@@ -142,7 +145,7 @@ class WatcherTest extends \Test\TestCase {
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('foo.txt', ['storage_mtime' => 10]);
 
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
+		$updater->setPolicy(Watcher::CHECK_ONCE);
 
 		$storage->file_put_contents('foo.txt', 'q');
 		$this->assertTrue($updater->checkUpdate('foo.txt'));
@@ -160,7 +163,7 @@ class WatcherTest extends \Test\TestCase {
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('foo.txt', ['storage_mtime' => 10]);
 
-		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ALWAYS);
+		$updater->setPolicy(Watcher::CHECK_ALWAYS);
 
 		$storage->file_put_contents('foo.txt', 'q');
 		$this->assertTrue($updater->checkUpdate('foo.txt'));
@@ -175,7 +178,7 @@ class WatcherTest extends \Test\TestCase {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function getTestStorage($scan = true) {
-		$storage = new \OC\Files\Storage\Temporary([]);
+		$storage = new Temporary([]);
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$storage->mkdir('folder');

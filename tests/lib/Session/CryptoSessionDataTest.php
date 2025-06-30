@@ -8,6 +8,7 @@
 namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
+use OC\Session\Memory;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
@@ -20,7 +21,7 @@ class CryptoSessionDataTest extends Session {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->wrappedSession = new \OC\Session\Memory();
+		$this->wrappedSession = new Memory();
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->crypto->expects($this->any())
 			->method('encrypt')

@@ -66,16 +66,16 @@ class ClientTest extends \Test\TestCase {
 	public function testGetProxyUriProxyHostEmptyPassword(): void {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['proxyexclude', [], []],
-			]));
+			]);
 
 		$this->config
 			->method('getSystemValueString')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
-			]));
+			]);
 
 		$this->assertEquals([
 			'http' => 'foo',
@@ -254,21 +254,21 @@ class ClientTest extends \Test\TestCase {
 	private function setUpDefaultRequestOptions(): void {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['proxyexclude', [], []],
-			]));
+			]);
 		$this->config
 			->method('getSystemValueString')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
-			]));
+			]);
 		$this->config
 			->method('getSystemValueBool')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, true],
-			]));
+			]);
 
 		$this->certificateManager
 			->expects($this->once())
@@ -481,7 +481,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
@@ -532,7 +532,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
@@ -584,7 +584,7 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
 					\Psr\Http\Message\UriInterface $uri,
-				) {
+				): void {
 				},
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));

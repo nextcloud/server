@@ -187,6 +187,18 @@ Feature: provisioning
       | timezoneOffset | 0 |
       | pronouns | NULL |
 
+  Scenario: Edit a user with mixed case emails
+    Given As an "admin"
+    And user "brand-new-user" exists
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | email |
+      | value | mixed-CASE@Nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | email | mixed-case@nextcloud.com |
+
   Scenario: Edit a user account properties scopes
     Given user "brand-new-user" exists
     And As an "brand-new-user"
@@ -452,6 +464,7 @@ Feature: provisioning
     Then groups returned are
       | España |
       | admin |
+      | hidden_group |
       | new-group |
 
   Scenario: create a subadmin

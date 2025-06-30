@@ -8,6 +8,7 @@
 namespace Tests\Core\Command\Encryption;
 
 use OC\Core\Command\Encryption\ChangeKeyStorageRoot;
+use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\View;
 use OCP\IConfig;
@@ -157,7 +158,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 			->willReturn(true);
 
 		$this->view->expects($this->once())->method('file_put_contents')
-			->with('newRoot/' . \OC\Encryption\Keys\Storage::KEY_STORAGE_MARKER,
+			->with('newRoot/' . Storage::KEY_STORAGE_MARKER,
 				'Nextcloud will detect this folder as key storage root only if this file exists')->willReturn(true);
 
 		$this->invokePrivate($this->changeKeyStorageRoot, 'prepareNewRoot', ['newRoot']);

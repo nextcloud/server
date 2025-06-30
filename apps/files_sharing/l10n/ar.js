@@ -185,7 +185,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "تعيين المجلد الافتراضي للمشاركات المقبولة",
     "Reset" : "إعادة تعيين",
     "Reset folder to system default" : "إعادة تعيين المجلد إلى افتراضات النظام",
-    "Share expiration: " : "تاريخ انتهاء صلاحية المشاركة:",
     "Share Expiration" : "تاريخ انتهاء صلاحية المشاركة",
     "group" : "مجموعة",
     "conversation" : "محادثة",

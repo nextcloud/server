@@ -8,10 +8,10 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\Job;
+use OCP\Server;
 
-class TestJob extends \OCP\BackgroundJob\Job {
-	private $testCase;
-
+class TestJob extends Job {
 	/**
 	 * @var callable $callback
 	 */
@@ -21,9 +21,12 @@ class TestJob extends \OCP\BackgroundJob\Job {
 	 * @param JobTest $testCase
 	 * @param callable $callback
 	 */
-	public function __construct(?ITimeFactory $time = null, $testCase = null, $callback = null) {
-		parent::__construct($time ?? \OCP\Server::get(ITimeFactory::class));
-		$this->testCase = $testCase;
+	public function __construct(
+		?ITimeFactory $time = null,
+		private $testCase = null,
+		$callback = null,
+	) {
+		parent::__construct($time ?? Server::get(ITimeFactory::class));
 		$this->callback = $callback;
 	}
 

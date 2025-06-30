@@ -38,6 +38,8 @@
     "_%n minute ago_::_%n minutes ago_" : ["pirms %n minūtēm","pirms %n minūtes","pirms %n minūtēm"],
     "seconds ago" : "pirms vairākām sekundēm",
     "Empty file" : "Tukša datne",
+    "%1$s (renamed)" : "%1$s (pārdēvēta)",
+    "renamed file" : "pārdēvēja datni",
     "File already exists" : "Datne jau pastāv",
     "Filename contains at least one invalid character" : "Datnes nosaukums satur vismaz vienu nederīgu rakstzīmi",
     "Empty filename is not allowed" : "Tukšs datnes nosaukums nav atļauts",

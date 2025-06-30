@@ -9,10 +9,11 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security\Mock;
 
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\CORS;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 
-class CORSMiddlewareController extends \OCP\AppFramework\Controller {
+class CORSMiddlewareController extends Controller {
 	/**
 	 * @CORS
 	 */

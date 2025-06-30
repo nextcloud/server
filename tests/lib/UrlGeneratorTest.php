@@ -8,6 +8,7 @@
 namespace Test;
 
 use OC\Route\Router;
+use OC\URLGenerator;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -42,7 +43,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->router = $this->createMock(Router::class);
-		$this->urlGenerator = new \OC\URLGenerator(
+		$this->urlGenerator = new URLGenerator(
 			$this->config,
 			$this->userSession,
 			$this->cacheFactory,

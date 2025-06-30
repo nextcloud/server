@@ -49,9 +49,7 @@ import {
 	getPort,
 	getProtocol,
 } from './host.js'
-import {
-	getToken as getRequestToken,
-} from './requesttoken.js'
+import { getRequestToken } from './requesttoken.ts'
 import {
 	hideMenus,
 	registerMenu,

@@ -111,7 +111,7 @@ class StoreTest extends TestCase {
 	public function testGetLoginCredentialsSessionNotAvailable(): void {
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->throwException(new SessionNotAvailableException()));
+			->willThrowException(new SessionNotAvailableException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
@@ -124,7 +124,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
@@ -141,7 +141,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -181,7 +181,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -222,7 +222,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -248,7 +248,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new PasswordlessTokenException()));
+			->willThrowException(new PasswordlessTokenException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
@@ -276,7 +276,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new PasswordlessTokenException()));
+			->willThrowException(new PasswordlessTokenException());
 
 		$this->session->expects($this->once())
 			->method('exists')

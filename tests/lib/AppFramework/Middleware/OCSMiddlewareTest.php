@@ -12,6 +12,7 @@ use OC\AppFramework\OCS\V1Response;
 use OC\AppFramework\OCS\V2Response;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -82,7 +83,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
@@ -112,7 +113,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
@@ -141,7 +142,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
@@ -151,16 +152,16 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	public static function dataAfterController(): array {
 		return [
 			[OCSController::class, new Response(), false],
-			[OCSController::class, new Http\JSONResponse(), false],
-			[OCSController::class, new Http\JSONResponse(['message' => 'foo']), false],
-			[OCSController::class, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true, OCSController::RESPOND_UNAUTHORISED],
-			[OCSController::class, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
+			[OCSController::class, new JSONResponse(), false],
+			[OCSController::class, new JSONResponse(['message' => 'foo']), false],
+			[OCSController::class, new JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true, OCSController::RESPOND_UNAUTHORISED],
+			[OCSController::class, new JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
 
 			[Controller::class, new Response(), false],
-			[Controller::class, new Http\JSONResponse(), false],
-			[Controller::class, new Http\JSONResponse(['message' => 'foo']), false],
-			[Controller::class, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
-			[Controller::class, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
+			[Controller::class, new JSONResponse(), false],
+			[Controller::class, new JSONResponse(['message' => 'foo']), false],
+			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
+			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
 
 		];
 	}

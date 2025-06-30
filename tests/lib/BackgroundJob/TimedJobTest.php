@@ -8,6 +8,7 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Server;
 
 class TimedJobTest extends \Test\TestCase {
 	private DummyJobList $jobList;
@@ -17,7 +18,7 @@ class TimedJobTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
-		$this->time = \OCP\Server::get(ITimeFactory::class);
+		$this->time = Server::get(ITimeFactory::class);
 	}
 
 	public function testShouldRunAfterIntervalNew(): void {

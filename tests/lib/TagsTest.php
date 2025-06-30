@@ -7,6 +7,8 @@
 
 namespace Test;
 
+use OC\Tagging\TagMapper;
+use OC\TagManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -50,12 +52,12 @@ class TagsTest extends \Test\TestCase {
 			->willReturn($this->user);
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->get(IDBConnection::class));
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(IEventDispatcher::class));
+		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
 	}
 
 	protected function tearDown(): void {
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = Server::get(IDBConnection::class);
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
 
@@ -68,7 +70,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(IEventDispatcher::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
@@ -194,7 +196,7 @@ class TagsTest extends \Test\TestCase {
 		$tagId = $tagData[0]['id'];
 		$tagType = $tagData[0]['type'];
 
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = Server::get(IDBConnection::class);
 		$statement = $conn->prepare(
 			'INSERT INTO `*PREFIX*vcategory_to_object` ' .
 			'(`objid`, `categoryid`, `type`) VALUES ' .

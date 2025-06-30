@@ -7,6 +7,7 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
@@ -19,7 +20,7 @@ class StorageNoRecursiveCopy extends Temporary {
 }
 
 class CopyDirectoryStorage extends StorageNoRecursiveCopy {
-	use \OC\Files\Storage\PolyFill\CopyDirectory;
+	use CopyDirectory;
 }
 
 /**

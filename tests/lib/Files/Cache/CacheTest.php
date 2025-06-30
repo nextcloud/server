@@ -11,13 +11,18 @@ use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Temporary;
+use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchComparison;
 use OCP\IDBConnection;
+use OCP\ITagManager;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Server;
 
-class LongId extends \OC\Files\Storage\Temporary {
+class LongId extends Temporary {
 	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
@@ -52,10 +57,10 @@ class CacheTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
-		$this->storage2 = new \OC\Files\Storage\Temporary([]);
-		$this->cache = new \OC\Files\Cache\Cache($this->storage);
-		$this->cache2 = new \OC\Files\Cache\Cache($this->storage2);
+		$this->storage = new Temporary([]);
+		$this->storage2 = new Temporary([]);
+		$this->cache = new Cache($this->storage);
+		$this->cache2 = new Cache($this->storage2);
 		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 	}
@@ -162,8 +167,8 @@ class CacheTest extends \Test\TestCase {
 	public function testFolder($folder): void {
 		if (strpos($folder, 'F09F9890')) {
 			// 4 byte UTF doesn't work on mysql
-			$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
-			if (\OC::$server->getDatabaseConnection()->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL && $params['charset'] !== 'utf8mb4') {
+			$params = Server::get(\OC\DB\Connection::class)->getParams();
+			if (Server::get(IDBConnection::class)->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL && $params['charset'] !== 'utf8mb4') {
 				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 			}
 		}
@@ -311,13 +316,13 @@ class CacheTest extends \Test\TestCase {
 	}
 
 	public function testStatus(): void {
-		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->getStatus('foo'));
+		$this->assertEquals(Cache::NOT_FOUND, $this->cache->getStatus('foo'));
 		$this->cache->put('foo', ['size' => -1]);
-		$this->assertEquals(\OC\Files\Cache\Cache::PARTIAL, $this->cache->getStatus('foo'));
+		$this->assertEquals(Cache::PARTIAL, $this->cache->getStatus('foo'));
 		$this->cache->put('foo', ['size' => -1, 'mtime' => 20, 'mimetype' => 'foo/file']);
-		$this->assertEquals(\OC\Files\Cache\Cache::SHALLOW, $this->cache->getStatus('foo'));
+		$this->assertEquals(Cache::SHALLOW, $this->cache->getStatus('foo'));
 		$this->cache->put('foo', ['size' => 10]);
-		$this->assertEquals(\OC\Files\Cache\Cache::COMPLETE, $this->cache->getStatus('foo'));
+		$this->assertEquals(Cache::COMPLETE, $this->cache->getStatus('foo'));
 	}
 
 	public static function putWithAllKindOfQuotesData(): array {
@@ -333,7 +338,7 @@ class CacheTest extends \Test\TestCase {
 	 * @param $fileName
 	 */
 	public function testPutWithAllKindOfQuotes($fileName): void {
-		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->get($fileName));
+		$this->assertEquals(Cache::NOT_FOUND, $this->cache->get($fileName));
 		$this->cache->put($fileName, ['size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file', 'etag' => $fileName]);
 
 		$cacheEntry = $this->cache->get($fileName);
@@ -371,9 +376,9 @@ class CacheTest extends \Test\TestCase {
 
 	public function testSearchQueryByTag(): void {
 		$userId = static::getUniqueID('user');
-		\OC::$server->getUserManager()->createUser($userId, $userId);
+		Server::get(IUserManager::class)->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new \OC\User\User($userId, null, \OC::$server->get(IEventDispatcher::class));
+		$user = new User($userId, null, Server::get(IEventDispatcher::class));
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
@@ -393,7 +398,7 @@ class CacheTest extends \Test\TestCase {
 		$id4 = $this->cache->put($file4, $fileData['foo2']);
 		$id5 = $this->cache->put($file5, $fileData['foo3']);
 
-		$tagManager = \OCP\Server::get(\OCP\ITagManager::class)->load('files', [], false, $userId);
+		$tagManager = Server::get(ITagManager::class)->load('files', [], false, $userId);
 		$this->assertTrue($tagManager->tagAs($id1, 'tag1'));
 		$this->assertTrue($tagManager->tagAs($id1, 'tag2'));
 		$this->assertTrue($tagManager->tagAs($id2, 'tag2'));
@@ -418,7 +423,7 @@ class CacheTest extends \Test\TestCase {
 		$tagManager->delete('tag2');
 
 		static::logout();
-		$user = \OC::$server->getUserManager()->get($userId);
+		$user = Server::get(IUserManager::class)->get($userId);
 		if ($user !== null) {
 			try {
 				$user->delete();
@@ -550,7 +555,7 @@ class CacheTest extends \Test\TestCase {
 		if (strlen($storageId) > 64) {
 			$storageId = md5($storageId);
 		}
-		$this->assertEquals([$storageId, 'foo'], \OC\Files\Cache\Cache::getById($id));
+		$this->assertEquals([$storageId, 'foo'], Cache::getById($id));
 	}
 
 	public function testStorageMTime(): void {
@@ -577,7 +582,7 @@ class CacheTest extends \Test\TestCase {
 		$storageId = $storage->getId();
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$id = $cache->put('foo', $data);
-		$this->assertEquals([md5($storageId), 'foo'], \OC\Files\Cache\Cache::getById($id));
+		$this->assertEquals([md5($storageId), 'foo'], Cache::getById($id));
 	}
 
 	/**

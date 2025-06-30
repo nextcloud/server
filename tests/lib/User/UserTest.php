@@ -11,6 +11,7 @@ namespace Test\User;
 use OC\AllConfig;
 use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Hooks\PublicEmitter;
+use OC\User\Database;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -218,7 +219,7 @@ class UserTest extends TestCase {
 
 	public function testDeleteWithDifferentHome(): void {
 		/** @var ObjectHomeMountProvider $homeProvider */
-		$homeProvider = \OC::$server->get(ObjectHomeMountProvider::class);
+		$homeProvider = Server::get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('foo');
@@ -284,7 +285,7 @@ class UserTest extends TestCase {
 	public function testGetBackendClassName(): void {
 		$user = new User('foo', new \Test\Util\User\Dummy(), $this->dispatcher);
 		$this->assertEquals('Dummy', $user->getBackendClassName());
-		$user = new User('foo', new \OC\User\Database(), $this->dispatcher);
+		$user = new User('foo', new Database(), $this->dispatcher);
 		$this->assertEquals('Database', $user->getBackendClassName());
 	}
 
@@ -392,7 +393,7 @@ class UserTest extends TestCase {
 		/**
 		 * @var Backend | MockObject $backend
 		 */
-		$backend = $this->createMock(\OC\User\Database::class);
+		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -421,7 +422,7 @@ class UserTest extends TestCase {
 		/**
 		 * @var Backend | MockObject $backend
 		 */
-		$backend = $this->createMock(\OC\User\Database::class);
+		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -442,7 +443,7 @@ class UserTest extends TestCase {
 		/**
 		 * @var Backend | MockObject $backend
 		 */
-		$backend = $this->createMock(\OC\User\Database::class);
+		$backend = $this->createMock(Database::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -471,7 +472,7 @@ class UserTest extends TestCase {
 		 * @param User $user
 		 * @param string $password
 		 */
-		$hook = function ($user, $password) use ($test, &$hooksCalled) {
+		$hook = function ($user, $password) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('foo', $user->getUID());
 			$test->assertEquals('bar', $password);
@@ -537,7 +538,7 @@ class UserTest extends TestCase {
 		/**
 		 * @param User $user
 		 */
-		$hook = function ($user) use ($test, &$hooksCalled) {
+		$hook = function ($user) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('foo', $user->getUID());
 		};
@@ -586,14 +587,14 @@ class UserTest extends TestCase {
 				->method('markProcessed');
 		}
 
-		$this->overwriteService(\OCP\Notification\IManager::class, $notificationManager);
-		$this->overwriteService(\OCP\Comments\ICommentsManager::class, $commentsManager);
+		$this->overwriteService(INotificationManager::class, $notificationManager);
+		$this->overwriteService(ICommentsManager::class, $commentsManager);
 
 		$this->assertSame($result, $user->delete());
 
 		$this->restoreService(AllConfig::class);
-		$this->restoreService(\OCP\Comments\ICommentsManager::class);
-		$this->restoreService(\OCP\Notification\IManager::class);
+		$this->restoreService(ICommentsManager::class);
+		$this->restoreService(INotificationManager::class);
 
 		$this->assertEquals($expectedHooks, $hooksCalled);
 	}
@@ -617,7 +618,7 @@ class UserTest extends TestCase {
 		$userConfig = [];
 		$config->expects(self::atLeast(2))
 			->method('setUserValue')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				$userConfig[] = func_get_args();
 			});
 
@@ -626,7 +627,7 @@ class UserTest extends TestCase {
 			->method('deleteReferencesOfActor')
 			->willThrowException(new \Error('Test exception'));
 
-		$this->overwriteService(\OCP\Comments\ICommentsManager::class, $commentsManager);
+		$this->overwriteService(ICommentsManager::class, $commentsManager);
 		$this->expectException(\Error::class);
 
 		$user = $this->getMockBuilder(User::class)
@@ -648,7 +649,7 @@ class UserTest extends TestCase {
 			$userConfig,
 		);
 
-		$this->restoreService(\OCP\Comments\ICommentsManager::class);
+		$this->restoreService(ICommentsManager::class);
 	}
 
 	public static function dataGetCloudId(): array {
@@ -686,7 +687,7 @@ class UserTest extends TestCase {
 		 * @param string $feature
 		 * @param string $value
 		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('eMailAddress', $feature);
 			$test->assertEquals('', $value);
@@ -722,7 +723,7 @@ class UserTest extends TestCase {
 		 * @param string $feature
 		 * @param string $value
 		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('eMailAddress', $feature);
 			$test->assertEquals('foo@bar.com', $value);
@@ -785,7 +786,7 @@ class UserTest extends TestCase {
 		 * @param string $feature
 		 * @param string $value
 		 */
-		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled) {
+		$hook = function (IUser $user, $feature, $value) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
 			$test->assertEquals('quota', $feature);
 			$test->assertEquals('23 TB', $value);
@@ -831,9 +832,9 @@ class UserTest extends TestCase {
 			['files', 'allow_unlimited_quota', '1', '1'],
 		];
 		$config->method('getUserValue')
-			->will($this->returnValueMap($userValueMap));
+			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
-			->will($this->returnValueMap($appValueMap));
+			->willReturnMap($appValueMap);
 
 		$this->assertEquals('none', $user->getQuota());
 		$this->assertEquals(FileInfo::SPACE_UNLIMITED, $user->getQuotaBytes());
@@ -865,9 +866,9 @@ class UserTest extends TestCase {
 			['files', 'default_quota', '1 GB', '1 GB'],
 		];
 		$config->method('getUserValue')
-			->will($this->returnValueMap($userValueMap));
+			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
-			->will($this->returnValueMap($appValueMap));
+			->willReturnMap($appValueMap);
 
 		$this->assertEquals('1 GB', $user->getQuota());
 		$this->assertEquals(1024 * 1024 * 1024, $user->getQuotaBytes());
