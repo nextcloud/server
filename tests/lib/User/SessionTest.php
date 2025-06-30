@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -216,9 +217,9 @@ class SessionTest extends \Test\TestCase {
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function (PostLoginEvent $e) {
-					return $e->getUser()->getUID() === 'foo' &&
-						$e->getPassword() === 'bar' &&
-						$e->isTokenLogin() === false;
+					return $e->getUser()->getUID() === 'foo'
+						&& $e->getPassword() === 'bar'
+						&& $e->isTokenLogin() === false;
 				})
 			);
 

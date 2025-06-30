@@ -91,9 +91,9 @@ class TestUserSettings extends Command {
 
 			if (!$access->isDNPartOfBase($knownDn, $access->getConnection()->ldapBaseUsers)) {
 				$output->writeln(
-					"User <info>$knownDn</info> is not in one of the configured user bases: <info>" .
-					implode(',', $access->getConnection()->ldapBaseUsers) .
-					'</info>.'
+					"User <info>$knownDn</info> is not in one of the configured user bases: <info>"
+					. implode(',', $access->getConnection()->ldapBaseUsers)
+					. '</info>.'
 				);
 			}
 

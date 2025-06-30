@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -59,7 +60,7 @@ abstract class LockingProvider extends TestCase {
 		$this->assertFalse($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
 	}
 
-	
+
 	public function testDoubleExclusiveLock(): void {
 		$this->expectException(LockedException::class);
 
@@ -76,7 +77,7 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
+
 	public function testExclusiveLockAfterShared(): void {
 		$this->expectException(LockedException::class);
 
@@ -150,7 +151,7 @@ abstract class LockingProvider extends TestCase {
 	}
 
 
-	
+
 	public function testSharedLockAfterExclusive(): void {
 		$this->expectException(LockedException::class);
 
@@ -197,7 +198,7 @@ abstract class LockingProvider extends TestCase {
 		$this->assertTrue($this->instance->isLocked('foo', ILockingProvider::LOCK_SHARED));
 	}
 
-	
+
 	public function testChangeLockToExclusiveDoubleShared(): void {
 		$this->expectException(LockedException::class);
 
@@ -206,14 +207,14 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
+
 	public function testChangeLockToExclusiveNoShared(): void {
 		$this->expectException(LockedException::class);
 
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
+
 	public function testChangeLockToExclusiveFromExclusive(): void {
 		$this->expectException(LockedException::class);
 
@@ -221,14 +222,14 @@ abstract class LockingProvider extends TestCase {
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
-	
+
 	public function testChangeLockToSharedNoExclusive(): void {
 		$this->expectException(LockedException::class);
 
 		$this->instance->changeLock('foo', ILockingProvider::LOCK_SHARED);
 	}
 
-	
+
 	public function testChangeLockToSharedFromShared(): void {
 		$this->expectException(LockedException::class);
 

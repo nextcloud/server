@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -440,7 +441,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return parent::query($name);
 		}
 
-		throw new QueryException('Could not resolve ' . $name . '!' .
-			' Class can not be instantiated', 1);
+		throw new QueryException('Could not resolve ' . $name . '!'
+			. ' Class can not be instantiated', 1);
 	}
 }

@@ -104,8 +104,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 			'core',
 			'error',
 			[
-				'errors' =>
-					[
+				'errors'
+					=> [
 						[
 							'error' => 'Access Forbidden',
 							'hint' => 'Invalid request',

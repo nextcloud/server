@@ -149,8 +149,8 @@ class Client implements IClient {
 	}
 
 	private function isLocalAddressAllowed(array $options) : bool {
-		if (($options['nextcloud']['allow_local_address'] ?? false) ||
-			$this->config->getSystemValueBool('allow_local_remote_servers', false)) {
+		if (($options['nextcloud']['allow_local_address'] ?? false)
+			|| $this->config->getSystemValueBool('allow_local_remote_servers', false)) {
 			return true;
 		}
 

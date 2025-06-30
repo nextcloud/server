@@ -41,7 +41,7 @@ abstract class PHPMongoQuery {
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Execute a Mongo query on a document
 	 *
@@ -59,14 +59,14 @@ abstract class PHPMongoQuery {
 		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('executeQuery called', ['query' => $query, 'document' => $document, 'options' => $options]);
 		}
-		
+
 		if (!is_array($query)) {
 			return (bool)$query;
 		}
-		
+
 		return self::_executeQuery($query, $document, $options);
 	}
-	
+
 	/**
 	 * Internal execute query
 	 *
@@ -145,7 +145,7 @@ abstract class PHPMongoQuery {
 				return false;
 		}
 	}
-	
+
 	/**
 	 * Execute a query object on an element
 	 *
@@ -163,7 +163,7 @@ abstract class PHPMongoQuery {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Check if an operator is equal to a value
 	 *
@@ -184,7 +184,7 @@ abstract class PHPMongoQuery {
 		}
 		return $operatorValue === $v;
 	}
-	
+
 	/**
 	 * Execute a Mongo Operator on an element
 	 *
@@ -199,11 +199,11 @@ abstract class PHPMongoQuery {
 		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('_executeOperatorOnElement called', ['operator' => $operator, 'operatorValue' => $operatorValue, 'element' => $element, 'document' => $document]);
 		}
-		
+
 		if ($operator === '$not') {
 			return !self::_executeQueryOnElement($operatorValue, $element, $document, $options);
 		}
-		
+
 		$elementSpecifier = explode('.', $element);
 		$v = & $document;
 		$exists = true;
@@ -230,7 +230,7 @@ abstract class PHPMongoQuery {
 				break;
 			}
 		}
-		
+
 		switch ($operator) {
 			case '$all':
 				if (!$exists) {
@@ -287,7 +287,7 @@ abstract class PHPMongoQuery {
 					return count(array_intersect($v, $operatorValue)) === 0;
 				}
 				return !in_array($v, $operatorValue);
-			
+
 			case '$exists':	return ($operatorValue && $exists) || (!$operatorValue && !$exists);
 			case '$mod':
 				if (!$exists) {
@@ -300,12 +300,12 @@ abstract class PHPMongoQuery {
 					throw new Exception('$mod requires two parameters in array: divisor and remainder');
 				}
 				return $v % $operatorValue[0] === $operatorValue[1];
-				
+
 			default:
 				if (empty($options['unknownOperatorCallback']) || !is_callable($options['unknownOperatorCallback'])) {
 					throw new Exception('Operator ' . $operator . ' is unknown');
 				}
-				
+
 				$res = call_user_func($options['unknownOperatorCallback'], $operator, $operatorValue, $element, $document);
 				if ($res === null) {
 					throw new Exception('Operator ' . $operator . ' is unknown');
@@ -317,7 +317,7 @@ abstract class PHPMongoQuery {
 		}
 		throw new Exception('Didn\'t return in switch');
 	}
-	
+
 	/**
 	 * Get the fields this query depends on
 	 *

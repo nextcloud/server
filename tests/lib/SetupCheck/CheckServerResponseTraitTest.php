@@ -19,7 +19,7 @@ use Test\TestCase;
 class CheckServerResponseTraitTest extends TestCase {
 
 	protected const BASE_URL = 'https://nextcloud.local';
-	
+
 	private IL10N&MockObject $l10n;
 	private IConfig&MockObject $config;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -38,7 +38,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		
+
 		$this->trait = new CheckServerResponseTraitImplementation(
 			$this->l10n,
 			$this->config,
@@ -103,7 +103,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		$this->urlGenerator->expects(self::atLeastOnce())
 			->method('getBaseUrl')
 			->willReturn(self::BASE_URL . $webRoot);
-		
+
 		$result = $this->trait->getTestUrls($url, $isRootRequest);
 		$this->assertEquals($expected, $result);
 	}

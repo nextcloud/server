@@ -68,8 +68,8 @@ class CORSMiddleware extends Middleware {
 
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
-			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)
+			&& (!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
@@ -134,10 +134,10 @@ class CORSMiddleware extends Middleware {
 				// allow credentials headers must not be true or CSRF is possible
 				// otherwise
 				foreach ($response->getHeaders() as $header => $value) {
-					if (strtolower($header) === 'access-control-allow-credentials' &&
-					   strtolower(trim($value)) === 'true') {
-						$msg = 'Access-Control-Allow-Credentials must not be ' .
-							   'set to true in order to prevent CSRF';
+					if (strtolower($header) === 'access-control-allow-credentials'
+					   && strtolower(trim($value)) === 'true') {
+						$msg = 'Access-Control-Allow-Credentials must not be '
+							   . 'set to true in order to prevent CSRF';
 						throw new SecurityException($msg);
 					}
 				}

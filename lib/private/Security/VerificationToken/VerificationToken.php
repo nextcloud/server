@@ -85,9 +85,9 @@ class VerificationToken implements IVerificationToken {
 	): string {
 		$token = $this->secureRandom->generate(
 			21,
-			ISecureRandom::CHAR_DIGITS .
-			ISecureRandom::CHAR_LOWER .
-			ISecureRandom::CHAR_UPPER
+			ISecureRandom::CHAR_DIGITS
+			. ISecureRandom::CHAR_LOWER
+			. ISecureRandom::CHAR_UPPER
 		);
 		$tokenValue = $this->timeFactory->getTime() . ':' . $token;
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $passwordPrefix . $this->config->getSystemValueString('secret'));

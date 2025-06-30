@@ -175,9 +175,9 @@ class User {
 		$cacheKey = 'getUserProfile-' . $username;
 		$profileCached = $this->connection->getFromCache($cacheKey);
 		// honoring profile disabled in config.php and check if user profile was refreshed
-		if ($this->config->getSystemValueBool('profile.enabled', true) &&
-			($profileCached === null) && // no cache or TTL not expired
-			!$this->wasRefreshed('profile')) {
+		if ($this->config->getSystemValueBool('profile.enabled', true)
+			&& ($profileCached === null) // no cache or TTL not expired
+			&& !$this->wasRefreshed('profile')) {
 			// check current data
 			$profileValues = [];
 			//User Profile Field - Phone number

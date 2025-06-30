@@ -14,7 +14,7 @@ namespace OCP\Calendar;
  * @since 31.0.0
  */
 interface ICalendarIsWritable {
-	
+
 	/**
 	 * Indicates whether the calendar can be modified
 	 *

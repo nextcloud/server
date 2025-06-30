@@ -57,7 +57,7 @@ class AuthorizedGroupController extends Controller {
 				$this->authorizedGroupService->create($groupData['gid'], $class);
 			}
 		}
-		
+
 		return new DataResponse(['valid' => true]);
 	}
 }

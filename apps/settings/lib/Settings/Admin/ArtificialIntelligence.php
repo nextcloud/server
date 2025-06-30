@@ -158,7 +158,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 					}
 					continue;
 				}
-				
+
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.taskprocessing_type_preferences':

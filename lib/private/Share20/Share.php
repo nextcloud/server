@@ -420,8 +420,8 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function isExpired() {
-		return $this->getExpirationDate() !== null &&
-			$this->getExpirationDate() <= new \DateTime();
+		return $this->getExpirationDate() !== null
+			&& $this->getExpirationDate() <= new \DateTime();
 	}
 
 	/**
@@ -633,7 +633,7 @@ class Share implements IShare {
 		if ($allowViewWithoutDownload) {
 			return true;
 		}
-		
+
 		// No "allow preview" header set, so we must check if
 		// the share has not explicitly disabled download permissions
 		$attributes = $this->getAttributes();
