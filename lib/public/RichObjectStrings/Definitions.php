@@ -374,6 +374,12 @@ class Definitions {
 					'description' => 'The blurhash of the image',
 					'example' => 'LEHV9uae2yk8pyo0adR*.7kCMdnj',
 				],
+				'hide-download' => [
+					'since' => '31.0.5',
+					'required' => false,
+					'description' => 'Whether the download option should be hidden. If not set to `yes` the option can be shown',
+					'example' => 'yes',
+				],
 			],
 		],
 		'forms-form' => [
