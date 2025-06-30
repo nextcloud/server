@@ -42,7 +42,7 @@ class Factory implements ICacheFactory {
 	private IProfiler $profiler;
 
 	/**
-	 * @param Closure $globalPrefixClosure
+	 * @param Closure(self) $globalPrefixClosure
 	 * @param LoggerInterface $logger
 	 * @param ?class-string<ICache> $localCacheClass
 	 * @param ?class-string<ICache> $distributedCacheClass
@@ -110,7 +110,7 @@ class Factory implements ICacheFactory {
 
 	private function getGlobalPrefix(): ?string {
 		if (is_null($this->globalPrefix)) {
-			$this->globalPrefix = ($this->globalPrefixClosure)();
+			$this->globalPrefix = ($this->globalPrefixClosure)($this);
 		}
 		return $this->globalPrefix;
 	}
@@ -175,10 +175,14 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
-	public function createLocal(string $prefix = ''): ICache {
-		$globalPrefix = $this->getGlobalPrefix();
-		if (is_null($globalPrefix)) {
-			return new ArrayCache($prefix);
+	public function createLocal(string $prefix = '', bool $disableGlobalPrefix = false): ICache {
+		if ($disableGlobalPrefix) {
+			$globalPrefix = '';
+		} else {
+			$globalPrefix = $this->getGlobalPrefix();
+			if (is_null($globalPrefix)) {
+				return new ArrayCache($prefix);
+			}
 		}
 
 		assert($this->localCacheClass !== null);

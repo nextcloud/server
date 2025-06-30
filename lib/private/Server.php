@@ -14,6 +14,7 @@ use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\App\InfoParser;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
@@ -163,7 +164,6 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -602,24 +602,36 @@ class Server extends ServerContainer implements IServerContainer {
 			$serverVersion = $c->get(ServerVersion::class);
 
 			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
-					if (!$logQuery) {
-						try {
-							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions(true);
-						} catch (\Doctrine\DBAL\Exception $e) {
-							// Database service probably unavailable
-							// Probably related to https://github.com/nextcloud/server/issues/37424
-							return null;
+				$prefixClosure = function (Factory $factory) use ($serverVersion): string {
+					// It is impossible to rely on OC_App or AppManager at this point, as they rely on the cache itself.
+					$appInfoFiles = [];
+					foreach (\OC::$APPSROOTS as $apps_dir) {
+						if (!is_readable($apps_dir['path'])) {
+							continue;
 						}
-					} else {
-						// If the log_query is enabled, we can not get the app versions
-						// as that does a query, which will be logged and the logging
-						// depends on redis and here we are back again in the same function.
-						$v = [
-							'log_query' => 'enabled',
-						];
+
+						$dh = opendir($apps_dir['path']);
+						if (!is_resource($dh)) {
+							continue;
+						}
+
+						while (($file = readdir($dh)) !== false) {
+							if (
+								$file[0] !== '.'
+								&& is_dir($apps_dir['path'] . '/' . $file)
+								&& is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')
+							) {
+								$appInfoFiles[$file] = $apps_dir['path'] . '/' . $file . '/appinfo/info.xml';
+							}
+						}
 					}
+
+					// We must disable the global prefix here, in order to compute the global prefix in this closure and avoid infinite recursion.
+					$prefixlessCache = $factory->createLocal(disableGlobalPrefix: true);
+
+					$infoParser = new InfoParser($prefixlessCache);
+
+					$v = array_map(static fn ($file): string => (string)$infoParser->parse($file)['version'], $appInfoFiles);
 					$v['core'] = implode(',', $serverVersion->getVersion());
 					$version = implode(',', array_keys($v)) . implode(',', $v);
 					$instanceId = \OC_Util::getInstanceId();
