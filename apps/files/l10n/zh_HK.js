@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "顯示這些快捷鍵",
     "You" : "您",
     "Shared multiple times with different people" : "與不同的人多次分享",
+    "Unable to change the favorite state of the file" : "無法更改檔案的最愛狀態",
     "Error while loading the file data" : "載入檔案資料失敗",
     "Owner" : "擁有者",
     "Remove from favorites" : "從最愛中移除",

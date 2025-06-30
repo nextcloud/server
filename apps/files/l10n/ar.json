@@ -222,6 +222,7 @@
     "Show those shortcuts" : "أعرُض تلك الاختصارات",
     "You" : "أنت",
     "Shared multiple times with different people" : "تمّت مشاركته عدة مرات مع أشخاص متعددين",
+    "Unable to change the favorite state of the file" : "تعذّر تغيير حالة المُفضَّلة للملف",
     "Error while loading the file data" : "خطأ اثناء تحميل بيانات الملف",
     "Owner" : "المالك",
     "Remove from favorites" : "إزالة من المفضلة",

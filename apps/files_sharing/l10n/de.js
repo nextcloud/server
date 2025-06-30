@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Liste ungeprüfter Freigaben.",
     "No pending shares" : "Keine ausstehenden Freigaben",
     "Shares you have received but not approved will show up here" : "Freigaben, die du erhalten, aber nicht bestätigt hast, werden hier angezeigt",
+    "Error deleting the share" : "Fehler beim Löschen der Freigabe",
     "Error updating the share: {errorMessage}" : "Fehler beim Aktualisieren der Freigabe: {errorMessage}",
     "Error updating the share" : "Fehler beim Aktualisieren der Freigabe",
     "File \"{path}\" has been unshared" : "Freigabe für die Datei \"{path}\" wurde entfernt",

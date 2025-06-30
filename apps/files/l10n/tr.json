@@ -217,6 +217,7 @@
     "Show those shortcuts" : "Bu kısayolları görüntüler",
     "You" : "Siz",
     "Shared multiple times with different people" : "Farklı kişilerle birkaç kez paylaşılmış",
+    "Unable to change the favorite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
     "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
     "Owner" : "Sahibi",
     "Remove from favorites" : "Sık kullanılanlardan kaldır",

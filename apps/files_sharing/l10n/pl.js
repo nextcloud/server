@@ -366,6 +366,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Lista niezatwierdzonych udostępnień.",
     "No pending shares" : "Brak oczekujących udostępnień",
     "Shares you have received but not approved will show up here" : "Tutaj pojawią się udostępnienia, które otrzymałeś, ale nie zostały zatwierdzone",
+    "Error deleting the share" : "Błąd podczas usuwania udostępnienia",
     "Error updating the share: {errorMessage}" : "Błąd podczas aktualizacji udostępnienia: {errorMessage}",
     "Error updating the share" : "Błąd podczas aktualizacji udostępnienia",
     "File \"{path}\" has been unshared" : "Zatrzymane udostępnienie dla pliku \"{path}\"",

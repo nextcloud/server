@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Zobrazit tyto zkratky",
     "You" : "Vy",
     "Shared multiple times with different people" : "Nasdílet několikrát různým lidem",
+    "Unable to change the favorite state of the file" : "Nebylo možné změnit stav zařazení mezi oblíbené souboru",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
     "Owner" : "Vlastník",
     "Remove from favorites" : "Odebrat z oblíbených",

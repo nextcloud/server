@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "显示快捷键",
     "You" : "您",
     "Shared multiple times with different people" : "与不同的用户多次分享",
+    "Unable to change the favorite state of the file" : "无法更改文件的收藏状态",
     "Error while loading the file data" : "加载文件数据时出错",
     "Owner" : "拥有者",
     "Remove from favorites" : "从收藏中移除",

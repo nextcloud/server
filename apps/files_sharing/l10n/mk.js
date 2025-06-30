@@ -353,6 +353,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Листа на неодобрени споделувања.",
     "No pending shares" : "Нема споделувања на чекање",
     "Shares you have received but not approved will show up here" : "Листа на споделувањата кој сте ги добиле но не се адобрени ќе се појават овде",
+    "Error deleting the share" : "Грешка при отстранување на споделувањето",
     "Error updating the share: {errorMessage}" : "Грешка при ажурирање на споделувањето: {errorMessage}",
     "Error updating the share" : "Грешка при ажурирање на споделувањето",
     "File \"{path}\" has been unshared" : "Датотеката \"{path}\" повеќе не се споделува",

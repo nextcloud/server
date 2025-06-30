@@ -366,6 +366,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Onartu gabeko partekatzeen zerrenda.",
     "No pending shares" : "Ez dago zain dagoen partekatzerik",
     "Shares you have received but not approved will show up here" : "Jaso dituzun baina berretsi gabe dauden partekatzeak hemen agertukon dira",
+    "Error deleting the share" : "Errorea partekatzea ezabatzean",
     "Error updating the share: {errorMessage}" : " Errorea partekatzea eguneratzean {errorMessage}",
     "Error updating the share" : "Errorea partekatzea eguneratzen",
     "File \"{path}\" has been unshared" : "\"{path}\" fitxategiaren partekatzea eten da",

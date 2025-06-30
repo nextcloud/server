@@ -360,6 +360,7 @@
     "List of unapproved shares." : "Lista de comparticións non aprobadas.",
     "No pending shares" : "Non hai comparticións pendentes",
     "Shares you have received but not approved will show up here" : "As comparticións que recibiu mais non aprobou amosaranse aquí",
+    "Error deleting the share" : "Produciuse un erro ao eliminar a compartición",
     "Error updating the share: {errorMessage}" : "Produciuse un erro ao actualizar a compartición: {errorMessage}",
     "Error updating the share" : "Produciuse un erro ao actualizar a compartición",
     "File \"{path}\" has been unshared" : "Foi retirado o ficheiro compartido «{path}».",

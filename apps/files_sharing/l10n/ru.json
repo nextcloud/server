@@ -366,6 +366,7 @@
     "List of unapproved shares." : "Список ресурсов общего доступа, которые вы еще не приняли",
     "No pending shares" : "Ожидающие общие ресурсы отсуствуют",
     "Shares you have received but not approved will show up here" : "Здесь появятся ресурсы общего доступа, которые Вам предоставлены, но еще не подтверждены с Вашей стороны",
+    "Error deleting the share" : "Ошибка прекращения общего доступа",
     "Error updating the share: {errorMessage}" : "Не удалось изменить общий ресурс: {errorMessage}",
     "Error updating the share" : "Ошибка изменения параметров общего доступа",
     "File \"{path}\" has been unshared" : "Закрыт общий доступ к файлу «{path}»",
