@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "未批准的分享列表",
     "No pending shares" : "没有待定共享",
     "Shares you have received but not approved will show up here" : "您已收到但未批准的分享将显示在这里",
+    "Error deleting the share" : "删除分享时出错",
     "Error updating the share: {errorMessage}" : "更新共享失败：{errorMessage}",
     "Error updating the share" : "更新共享时出错",
     "File \"{path}\" has been unshared" : "文件“{path}”已取消共享",

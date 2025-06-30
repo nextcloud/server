@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Показувати ці скорочення",
     "You" : "Ви",
     "Shared multiple times with different people" : "Поділилися кілька разів з різними людьми",
+    "Unable to change the favorite state of the file" : "Неможливо змінити статус вподобаного файлу",
     "Error while loading the file data" : "Помилка під час отримання даних щодо файлу",
     "Owner" : "Власник",
     "Remove from favorites" : "Прибрати зірочку",

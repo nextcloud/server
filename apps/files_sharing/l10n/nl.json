@@ -366,6 +366,7 @@
     "List of unapproved shares." : "Lijst van niet-goedgekeurde shares.",
     "No pending shares" : "Geen deellinks in behandeling",
     "Shares you have received but not approved will show up here" : "Shares die je hebt ontvangen maar niet hebt goedgekeurd, verschijnen hier",
+    "Error deleting the share" : "Fout bij verwijderen share",
     "Error updating the share: {errorMessage}" : "Fout bij aanpassen van de share: {errorMessage}",
     "Error updating the share" : "Fout tijdens bijwerken share",
     "File \"{path}\" has been unshared" : "Bestand \"{path}\" is niet meer gedeeld",

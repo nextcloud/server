@@ -361,6 +361,7 @@
     "List of unapproved shares." : "Kabul edilmemiş paylaşımların listesi.",
     "No pending shares" : "Bekleyen paylaşım yok",
     "Shares you have received but not approved will show up here" : "Aldığınız ancak henüz kabul etmediğiniz paylaşımlar burada görüntülenir",
+    "Error deleting the share" : "Paylaşım silinirken sorun çıktı",
     "Error updating the share: {errorMessage}" : "Paylaşım güncellenirken sorun çıktı: {errorMessage}",
     "Error updating the share" : "Paylaşım güncellenirken sorun çıktı",
     "File \"{path}\" has been unshared" : "\"{path}\" dosyası paylaşımdan kaldırıldı",

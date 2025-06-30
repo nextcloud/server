@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Visa dessa genvägar",
     "You" : "Du",
     "Shared multiple times with different people" : "Delad flera gånger med olika personer",
+    "Unable to change the favorite state of the file" : "Kan inte ändra filens favoritstatus",
     "Error while loading the file data" : "Fel vid inläsning av fildata",
     "Owner" : "Ägare",
     "Remove from favorites" : "Ta bort från favoriter",

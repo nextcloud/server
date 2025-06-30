@@ -232,6 +232,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Λίστα μη αποδεκτών κοινόχρηστων.",
     "No pending shares" : "Δεν εκκρεμούν κοινόχρηστα",
     "Shares you have received but not approved will show up here" : "Κοινόχρηστα που έχετε λάβει αλλά δεν έχετε εγκρίνει θα εμφανιστούν εδώ",
+    "Error deleting the share" : "Σφάλμα διαγραφής του κοινόχρηστου",
     "Error updating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
     "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",

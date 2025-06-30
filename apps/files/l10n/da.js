@@ -218,6 +218,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Vis disse genveje",
     "You" : "Dig",
     "Shared multiple times with different people" : "Delt flere gange med forskellige mennesker",
+    "Unable to change the favorite state of the file" : "Kan ikke ændre favoritstatus for filen",
     "Error while loading the file data" : "Fejl under indlæsning af fildata",
     "Owner" : "Ejer",
     "Remove from favorites" : "Fjern fra favoritter",

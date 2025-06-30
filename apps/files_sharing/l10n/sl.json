@@ -234,6 +234,7 @@
     "No deleted shares" : "Ni izbrisanih povezav za souporabo.",
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "No pending shares" : "Ni nobenega predmeta za souporabo na čakanju",
+    "Error deleting the share" : " Napaka brisanja mesta souporabe",
     "Error updating the share: {errorMessage}" : "Napaka pri posodabljanju mesta souporabe: {errorMessage}",
     "Error updating the share" : "Napaka posodabljanja mesta souporabe",
     "File \"{path}\" has been unshared" : "Souporaba datoteke »{path}« je odstranjena",

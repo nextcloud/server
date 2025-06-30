@@ -363,6 +363,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Lista de recursos compartidos no aprobados",
     "No pending shares" : "No hay recursos compartidos pendientes",
     "Shares you have received but not approved will show up here" : "Aquí aparecerán los compartidos que ha recibido pero que no ha aprobado",
+    "Error deleting the share" : "Error borrando el recurso compartido",
     "Error updating the share: {errorMessage}" : "Error al actualizar el recurso compartido: {errorMessage}",
     "Error updating the share" : "Error actualizando el recurso compartido",
     "File \"{path}\" has been unshared" : "El archivo \"{path}\" se dejó de compartir",
