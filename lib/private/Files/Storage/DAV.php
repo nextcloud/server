@@ -350,7 +350,13 @@ class DAV extends Common {
 					}
 				}
 
-				return $response->getBody();
+				$content = $response->getBody();
+
+				if ($content === null || is_string($content)) {
+					return false;
+				}
+
+				return $content;
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -390,6 +396,8 @@ class DAV extends Common {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
+
+		return false;
 	}
 
 	public function writeBack(string $tmpFile, string $path): void {
