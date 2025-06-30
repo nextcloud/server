@@ -210,9 +210,7 @@ class ViewControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestShortRedirect
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShortRedirect')]
 	public function testShortRedirect(?string $openfile, ?string $opendetails, string $result): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')

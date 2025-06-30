@@ -153,8 +153,8 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProvider')]
 	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
@@ -222,8 +222,8 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProviderCopyRename
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProviderCopyRename')]
 	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();

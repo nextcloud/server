@@ -225,11 +225,11 @@ class SharedMountTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataProviderTestStripUserFilesPath
 	 * @param string $path
 	 * @param string $expectedResult
 	 * @param bool $exception if a exception is expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderTestStripUserFilesPath')]
 	public function testStripUserFilesPath($path, $expectedResult, $exception): void {
 		$testClass = new DummyTestClassSharedMount(null, null);
 		try {
@@ -244,7 +244,7 @@ class SharedMountTest extends TestCase {
 		}
 	}
 
-	public function dataProviderTestStripUserFilesPath() {
+	public static function dataProviderTestStripUserFilesPath() {
 		return [
 			['/user/files/foo.txt', '/foo.txt', false],
 			['/user/files/folder/foo.txt', '/folder/foo.txt', false],

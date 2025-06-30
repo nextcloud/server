@@ -80,9 +80,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		return $testCases;
 	}
 
-	/**
-	 * @dataProvider dataTestSplitUserRemote
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemote')]
 	public function testSplitUserRemote(string $remote, string $expectedUser, string $expectedUrl): void {
 		$this->contactsManager->expects($this->any())
 			->method('search')
@@ -111,18 +109,14 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestSplitUserRemoteError
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemoteError')]
 	public function testSplitUserRemoteError(string $id): void {
 		$this->expectException(HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}
 
-	/**
-	 * @dataProvider dataTestCompareAddresses
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCompareAddresses')]
 	public function testCompareAddresses(string $user1, string $server1, string $user2, string $server2, bool $expected): void {
 		$this->assertSame($expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
@@ -149,9 +143,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestRemoveProtocolFromUrl
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRemoveProtocolFromUrl')]
 	public function testRemoveProtocolFromUrl(string $url, string $expectedResult): void {
 		$result = $this->addressHandler->removeProtocolFromUrl($url);
 		$this->assertSame($expectedResult, $result);
@@ -165,9 +157,7 @@ class AddressHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestUrlContainProtocol
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUrlContainProtocol')]
 	public function testUrlContainProtocol(string $url, bool $expectedResult): void {
 		$result = $this->addressHandler->urlContainProtocol($url);
 		$this->assertSame($expectedResult, $result);

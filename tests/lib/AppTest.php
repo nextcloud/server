@@ -314,9 +314,7 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider appVersionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('appVersionsProvider')]
 	public function testIsAppCompatible($ocVersion, $appInfo, $expectedResult): void {
 		$this->assertEquals($expectedResult, \OC_App::isAppCompatible($ocVersion, $appInfo));
 	}
@@ -468,9 +466,8 @@ class AppTest extends \Test\TestCase {
 
 	/**
 	 * Test enabled apps
-	 *
-	 * @dataProvider appConfigValuesProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('appConfigValuesProvider')]
 	public function testEnabledApps($user, $expectedApps, $forceAll): void {
 		$userManager = Server::get(IUserManager::class);
 		$groupManager = Server::get(IGroupManager::class);
@@ -575,7 +572,7 @@ class AppTest extends \Test\TestCase {
 			Server::get(IEventDispatcher::class),
 			Server::get(LoggerInterface::class),
 			Server::get(ServerVersion::class),
-			\OCP\Server::get(ConfigManager::class),
+			Server::get(ConfigManager::class),
 		));
 	}
 
@@ -624,10 +621,10 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * Test app info parser
 	 *
-	 * @dataProvider appDataProvider
 	 * @param array $data
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('appDataProvider')]
 	public function testParseAppInfo(array $data, array $expected): void {
 		$this->assertSame($expected, \OC_App::parseAppInfo($data));
 	}

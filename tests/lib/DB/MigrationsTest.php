@@ -185,10 +185,10 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetMigration
 	 * @param string $alias
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetMigration')]
 	public function testGetMigration($alias, $expected): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['getMigratedVersions', 'findMigrations'])

@@ -58,9 +58,7 @@ class LanguageIteratorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider languageSettingsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('languageSettingsProvider')]
 	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues): void {
 		$this->config->expects($this->any())
 			->method('getSystemValue')

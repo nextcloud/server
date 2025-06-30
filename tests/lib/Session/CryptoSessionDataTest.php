@@ -10,13 +10,14 @@ namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
 use OC\Session\Memory;
+use OCP\ISession;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
 	protected $crypto;
 
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	protected $wrappedSession;
 
 	protected function setUp(): void {

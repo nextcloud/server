@@ -223,7 +223,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
-	public function invalidClientProvider() {
+	public static function invalidClientProvider() {
 		return [
 			['invalidClientId', 'invalidClientSecret'],
 			['clientId', 'invalidClientSecret'],
@@ -232,11 +232,11 @@ class OauthApiControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider invalidClientProvider
 	 *
 	 * @param string $clientId
 	 * @param string $clientSecret
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidClientProvider')]
 	public function testRefreshTokenInvalidClient($clientId, $clientSecret): void {
 		$expected = new JSONResponse([
 			'error' => 'invalid_client',

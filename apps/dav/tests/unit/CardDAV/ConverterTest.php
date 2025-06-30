@@ -79,9 +79,7 @@ class ConverterTest extends TestCase {
 		return $accountManager;
 	}
 
-	/**
-	 * @dataProvider providesNewUsers
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesNewUsers')]
 	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
@@ -189,9 +187,7 @@ class ConverterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesNames
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesNames')]
 	public function testNameSplitter(string $expected, string $fullName): void {
 		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$r = $converter->splitFullName($fullName);

@@ -45,11 +45,11 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider shouldRunDataProvider
 	 *
 	 * @param string $from
 	 * @param boolean $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('shouldRunDataProvider')]
 	public function testShouldRun($from, $expected): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueString')

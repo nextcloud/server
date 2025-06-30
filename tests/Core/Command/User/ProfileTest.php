@@ -166,9 +166,7 @@ class ProfileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckInput
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckInput')]
 	public function testCheckInput(array $arguments, array $options, array $parameterOptions, bool $existingUser, ?string $expectedException): void {
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
@@ -233,9 +231,8 @@ class ProfileTest extends TestCase {
 
 	/**
 	 * Tests the deletion mechanism on profile settings.
-	 *
-	 * @dataProvider dataExecuteDeleteProfileProperty
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteDeleteProfileProperty')]
 	public function testExecuteDeleteProfileProperty(string $configKey, string $value, bool $errorIfNotExists, ?string $expectedLine, int $expectedReturn): void {
 		$uid = 'username';
 		$appName = 'profile';
@@ -327,9 +324,7 @@ class ProfileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteGet
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteGet')]
 	public function testExecuteGet(string $key, string $value, ?string $defaultValue, string $expectedLine, int $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',

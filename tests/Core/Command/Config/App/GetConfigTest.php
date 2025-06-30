@@ -80,9 +80,7 @@ class GetConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGet
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGet')]
 	public function testGet(string $configName, mixed $value, bool $configExists, mixed $defaultValue, bool $hasDefault, string $outputFormat, int $expectedReturn, ?string $expectedMessage): void {
 		if (!$expectedReturn) {
 			if ($configExists) {

@@ -8,6 +8,7 @@
 
 namespace Test\Files\Cache\Wrapper;
 
+use OC\Files\Cache\Cache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\CacheWrapper;
 use OC\Files\Search\SearchComparison;
@@ -28,7 +29,7 @@ use Test\Files\Cache\CacheTest;
  */
 class CacheJailTest extends CacheTest {
 	/**
-	 * @var \OC\Files\Cache\Cache $sourceCache
+	 * @var Cache $sourceCache
 	 */
 	protected $sourceCache;
 

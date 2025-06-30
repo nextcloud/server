@@ -51,9 +51,7 @@ class NodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider davPermissionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('davPermissionsProvider')]
 	public function testDavPermissions(int $permissions, string $type, bool $shared, int $shareRootPermissions, bool $mounted, string $internalPath, string $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
@@ -141,9 +139,7 @@ class NodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sharePermissionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sharePermissionsProvider')]
 	public function testSharePermissions(string $type, ?string $user, int $permissions, int $expected): void {
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('getPermissions')->willReturn($permissions);
@@ -242,9 +238,7 @@ class NodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sanitizeMtimeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sanitizeMtimeProvider')]
 	public function testSanitizeMtime(string|int $mtime, int $expected): void {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -264,9 +258,7 @@ class NodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidSanitizeMtimeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidSanitizeMtimeProvider')]
 	public function testInvalidSanitizeMtime(int|string $mtime): void {
 		$this->expectException(\InvalidArgumentException::class);
 

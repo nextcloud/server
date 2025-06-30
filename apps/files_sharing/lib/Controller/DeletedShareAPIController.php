@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -210,7 +211,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws QueryException
 	 */
 	private function getDeckShareHelper() {
@@ -227,7 +228,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the sciencemesh application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws QueryException
 	 */
 	private function getSciencemeshShareHelper() {

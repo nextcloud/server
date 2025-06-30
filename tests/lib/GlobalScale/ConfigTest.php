@@ -48,12 +48,12 @@ class ConfigTest extends TestCase {
 
 
 	/**
-	 * @dataProvider dataTestOnlyInternalFederation
 	 *
 	 * @param bool $gsEnabled
 	 * @param string $gsFederation
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestOnlyInternalFederation')]
 	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected): void {
 		$gsConfig = $this->getInstance(['isGlobalScaleEnabled']);
 

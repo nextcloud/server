@@ -279,13 +279,13 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataNotNullEmptyValuesFailOracle
 	 *
 	 * @param int $parameterType
 	 * @param bool|int|string $value
 	 * @param string $columnType
 	 * @param bool $oracleThrows
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNotNullEmptyValuesFailOracle')]
 	public function testNotNullEmptyValuesFailOracle(int $parameterType, $value, string $columnType, bool $oracleThrows): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);

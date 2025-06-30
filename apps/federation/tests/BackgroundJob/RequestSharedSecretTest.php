@@ -66,9 +66,7 @@ class RequestSharedSecretTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestStart
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStart')]
 	public function testStart(bool $isTrustedServer, bool $retainBackgroundJob): void {
 		/** @var RequestSharedSecret&MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder(RequestSharedSecret::class)
@@ -127,9 +125,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
 	public function testRun(int $statusCode, int $attempt = 0): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';

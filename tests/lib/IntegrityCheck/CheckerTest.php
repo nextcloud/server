@@ -1079,8 +1079,8 @@ class CheckerTest extends TestCase {
 	/**
 	 * @param string $channel
 	 * @param bool $isCodeSigningEnforced
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->serverVersion
 			->expects($this->once())
@@ -1097,8 +1097,8 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @param string $channel
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->serverVersion
 			->expects($this->once())

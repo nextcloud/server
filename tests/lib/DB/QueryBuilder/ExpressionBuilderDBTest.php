@@ -20,7 +20,7 @@ use Test\TestCase;
  * @group DB
  */
 class ExpressionBuilderDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 	protected $schemaSetup = false;
 
@@ -48,12 +48,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider likeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('likeProvider')]
 	public function testLike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -85,12 +85,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider ilikeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('ilikeProvider')]
 	public function testILike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 

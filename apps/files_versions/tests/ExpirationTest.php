@@ -81,9 +81,7 @@ class ExpirationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider expirationData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('expirationData')]
 	public function testExpiration(string $retentionObligation, int $timeNow, int $timestamp, bool $quotaExceeded, bool $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);

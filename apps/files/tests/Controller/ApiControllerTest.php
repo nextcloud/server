@@ -119,7 +119,7 @@ class ApiControllerTest extends TestCase {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
-			->will($this->throwException(new NotFoundException('My error message')));
+			->willThrowException(new NotFoundException('My error message'));
 
 		$expected = new DataResponse(['message' => 'My error message'], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
@@ -129,7 +129,7 @@ class ApiControllerTest extends TestCase {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
-			->will($this->throwException(new StorageNotAvailableException('My error message')));
+			->willThrowException(new StorageNotAvailableException('My error message'));
 
 		$expected = new DataResponse(['message' => 'My error message'], Http::STATUS_SERVICE_UNAVAILABLE);
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
@@ -139,7 +139,7 @@ class ApiControllerTest extends TestCase {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
-			->will($this->throwException(new \Exception('My error message')));
+			->willThrowException(new \Exception('My error message'));
 
 		$expected = new DataResponse(['message' => 'My error message'], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));

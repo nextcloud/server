@@ -78,9 +78,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatTimeSpanData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatTimeSpanData')]
 	public function testFormatTimeSpan($expected, $timestamp, $compare, $locale = null): void {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatTimeSpan($timestamp, $compare, $locale));
 	}
@@ -144,9 +142,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateSpanData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateSpanData')]
 	public function testFormatDateSpan($expected, $timestamp, $compare = null, $locale = null): void {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatDateSpan($timestamp, $compare, $locale));
 	}
@@ -157,9 +153,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateData')]
 	public function testFormatDate($timestamp, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDate($timestamp));
 	}
@@ -171,9 +165,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateTimeData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateTimeData')]
 	public function testFormatDateTime($timestamp, $timeZone, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}

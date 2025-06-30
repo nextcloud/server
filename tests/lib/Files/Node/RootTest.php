@@ -12,11 +12,14 @@ use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Node\Folder;
 use OC\Files\Node\Root;
+use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OC\User\NoUserException;
+use OC\User\User;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\ICacheFactory;
@@ -30,11 +33,11 @@ use Psr\Log\LoggerInterface;
  * @package Test\Files\Node
  */
 class RootTest extends \Test\TestCase {
-	/** @var \OC\User\User */
+	/** @var User */
 	private $user;
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
-	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMountCache;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
@@ -66,7 +69,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 * @return View|\PHPUnit\Framework\MockObject\MockObject $view
 	 */
 	protected function getRootViewMock() {
 		$view = $this->createMock(View::class);
@@ -82,7 +85,7 @@ class RootTest extends \Test\TestCase {
 
 	public function testGet(): void {
 		/**
-		 * @var \OC\Files\Storage\Storage $storage
+		 * @var Storage $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
@@ -115,7 +118,7 @@ class RootTest extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		/**
-		 * @var \OC\Files\Storage\Storage $storage
+		 * @var Storage $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()

@@ -74,7 +74,7 @@ class PluginTest extends TestCase {
 		];
 		$this->server->expects($this->exactly(count($calls)))
 			->method('on')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -251,9 +251,7 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider propFindDefaultCalendarUrlProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propFindDefaultCalendarUrlProvider')]
 	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $deleted = false, bool $hasExistingCalendars = false, bool $propertiesForPath = true): void {
 		$propFind = new PropFind(
 			$principalUri,

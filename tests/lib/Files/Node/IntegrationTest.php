@@ -9,6 +9,7 @@
 namespace Test\Files\Node;
 
 use OC\Files\Node\Root;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
@@ -37,12 +38,12 @@ class IntegrationTest extends \Test\TestCase {
 	private $root;
 
 	/**
-	 * @var \OC\Files\Storage\Storage[]
+	 * @var Storage[]
 	 */
 	private $storages;
 
 	/**
-	 * @var \OC\Files\View $view
+	 * @var View $view
 	 */
 	private $view;
 

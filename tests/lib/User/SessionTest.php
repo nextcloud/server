@@ -112,9 +112,7 @@ class SessionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isLoggedInData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isLoggedInData')]
 	public function testIsLoggedIn($isLoggedIn): void {
 		$session = $this->createMock(Memory::class);
 

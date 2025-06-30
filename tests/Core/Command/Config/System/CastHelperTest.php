@@ -37,9 +37,7 @@ class CastHelperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider castValueProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('castValueProvider')]
 	public function testCastValue($value, $type, $expectedValue): void {
 		$this->assertSame(
 			$expectedValue,
@@ -59,9 +57,7 @@ class CastHelperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider castValueInvalidProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('castValueInvalidProvider')]
 	public function testCastValueInvalid($value, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 

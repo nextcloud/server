@@ -204,9 +204,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAvatarScopes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAvatarScopes')]
 	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;

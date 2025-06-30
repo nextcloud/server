@@ -174,7 +174,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->comment->expects($this->once())
 			->method('setMessage')
 			->with($msg)
-			->will($this->throwException(new \Exception('buh!')));
+			->willThrowException(new \Exception('buh!'));
 
 		$this->comment->expects($this->any())
 			->method('getActorType')
@@ -209,7 +209,7 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$this->comment->expects($this->once())
 			->method('setMessage')
-			->will($this->throwException(new MessageTooLongException()));
+			->willThrowException(new MessageTooLongException());
 
 		$this->comment->expects($this->any())
 			->method('getActorType')
@@ -469,9 +469,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider readCommentProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('readCommentProvider')]
 	public function testGetPropertiesUnreadProperty(\DateTime $creationDT, ?\DateTime $readDT, string $expected): void {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')

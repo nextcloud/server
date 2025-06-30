@@ -50,7 +50,7 @@ class HomeTest extends Storage {
 	private $userId;
 
 	/**
-	 * @var \OC\User\User $user
+	 * @var User $user
 	 */
 	private $user;
 

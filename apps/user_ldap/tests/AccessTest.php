@@ -132,10 +132,10 @@ class AccessTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider convertSID2StrSuccessData
 	 * @param array $sidArray
 	 * @param $sidExpected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('convertSID2StrSuccessData')]
 	public function testConvertSID2StrSuccess(array $sidArray, $sidExpected): void {
 		$sidBinary = implode('', $sidArray);
 		$this->assertSame($sidExpected, $this->access->convertSID2Str($sidBinary));
@@ -219,9 +219,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dnInputDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
 	public function testStringResemblesDN(string $input, array|bool $interResult, bool $expectedResult): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig&MockObject $config */
@@ -240,9 +238,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($expectedResult, $access->stringResemblesDN($input));
 	}
 
-	/**
-	 * @dataProvider dnInputDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig&MockObject $config */
@@ -414,9 +410,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dNAttributeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dNAttributeProvider')]
 	public function testSanitizeDN(string $attribute): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig&MockObject $config */
@@ -698,9 +692,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider intUsernameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('intUsernameProvider')]
 	public function testSanitizeUsername(string $name, ?string $expected): void {
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
@@ -709,9 +701,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $sanitizedName);
 	}
 
-	/**
-	 * @dataProvider groupIDCandidateProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('groupIDCandidateProvider')]
 	public function testSanitizeGroupIDCandidate(string $name, string $expected): void {
 		$sanitizedName = $this->access->sanitizeGroupIDCandidate($name);
 		$this->assertSame($expected, $sanitizedName);

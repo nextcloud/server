@@ -43,12 +43,12 @@ trait EncryptionTrait {
 	private $setupManager;
 
 	/**
-	 * @var \OCP\IConfig
+	 * @var IConfig
 	 */
 	private $config;
 
 	/**
-	 * @var \OCA\Encryption\AppInfo\Application
+	 * @var Application
 	 */
 	private $encryptionApp;
 

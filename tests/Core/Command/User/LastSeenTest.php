@@ -35,7 +35,7 @@ class LastSeenTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IUserManager $userManager */
+		/** @var IUserManager $userManager */
 		$this->command = new LastSeen($userManager);
 	}
 
@@ -47,11 +47,11 @@ class LastSeenTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validUserLastSeen
 	 *
 	 * @param int $lastSeen
 	 * @param string $expectedString
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('validUserLastSeen')]
 	public function testValidUser($lastSeen, $expectedString): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())

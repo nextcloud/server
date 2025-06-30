@@ -41,7 +41,7 @@ class FakeLockerPluginTest extends TestCase {
 		];
 		$server->expects($this->exactly(count($calls)))
 			->method('on')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -74,7 +74,7 @@ class FakeLockerPluginTest extends TestCase {
 		];
 		$propFind->expects($this->exactly(count($calls)))
 			->method('handle')
-			->willReturnCallback(function ($propertyName) use (&$calls) {
+			->willReturnCallback(function ($propertyName) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $propertyName);
 			});
@@ -119,9 +119,7 @@ class FakeLockerPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider tokenDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenDataProvider')]
 	public function testValidateTokens(array $input, array $expected): void {
 		$request = $this->createMock(RequestInterface::class);
 		$this->fakeLockerPlugin->validateTokens($request, $input);

@@ -58,9 +58,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @dataProvider tagsGetPropertiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagsGetPropertiesDataProvider')]
 	public function testGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
 		$node = $this->createMock(Node::class);
 		$node->expects($this->any())
@@ -95,9 +93,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	/**
-	 * @dataProvider tagsGetPropertiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagsGetPropertiesDataProvider')]
 	public function testPreloadThenGetProperties(array $tags, array $requestedProperties, array $expectedProperties): void {
 		$node1 = $this->createMock(File::class);
 		$node1->expects($this->any())
@@ -269,7 +265,7 @@ class TagsPluginTest extends \Test\TestCase {
 		];
 		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -322,7 +318,7 @@ class TagsPluginTest extends \Test\TestCase {
 		];
 		$this->tagger->expects($this->exactly(count($calls)))
 			->method('tagAs')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

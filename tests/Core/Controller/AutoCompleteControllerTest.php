@@ -154,9 +154,7 @@ class AutoCompleteControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider searchDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testGet(array $searchResults, array $expected, string $searchTerm, ?string $itemType, ?string $itemId, ?string $sorter): void {
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')

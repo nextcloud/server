@@ -40,7 +40,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 	}
 
-	/** @dataProvider dataVersionHash */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
 	public function testVersionHash($path, $file, $installed, $debug, $expected): void {
 		$this->appManager->expects(self::any())
 			->method('getAppVersion')

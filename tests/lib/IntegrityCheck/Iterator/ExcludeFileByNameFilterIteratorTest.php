@@ -36,10 +36,10 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForFiles($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()
@@ -58,10 +58,10 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForDirs($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()

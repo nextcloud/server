@@ -168,9 +168,7 @@ class RegistryTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataForUserLimitCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForUserLimitCheck')]
 	public function testDelegateIsHardUserLimitReachedWithoutSupportAppAndUserCount($userLimit, $userCount, $disabledUsers, $expectedResult): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')

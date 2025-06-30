@@ -16,7 +16,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 
 class ResponseTest extends \Test\TestCase {
 	/**
-	 * @var \OCP\AppFramework\Http\Response
+	 * @var Response
 	 */
 	private $childResponse;
 

@@ -50,9 +50,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteStringCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteStringCheck')]
 	public function testExecuteStringCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$check = $this->getCheckMock();
 
@@ -69,9 +67,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheck')]
 	public function testValidateCheck(string $operator, string $value): void {
 		$check = $this->getCheckMock();
 
@@ -90,9 +86,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheckInvalid')]
 	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
 		$check = $this->getCheckMock();
 
@@ -112,9 +106,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataMatch
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatch')]
 	public function testMatch(string $pattern, string $subject, array $matches, bool $expected): void {
 		$check = $this->getCheckMock();
 

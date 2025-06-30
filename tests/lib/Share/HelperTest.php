@@ -36,21 +36,19 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider expireDateProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('expireDateProvider')]
 	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected): void {
 		$result = Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
 		$this->assertSame($expected, $result);
 	}
 
 	/**
-	 * @dataProvider dataTestCompareServerAddresses
 	 *
 	 * @param string $server1
 	 * @param string $server2
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCompareServerAddresses')]
 	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
 			Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)

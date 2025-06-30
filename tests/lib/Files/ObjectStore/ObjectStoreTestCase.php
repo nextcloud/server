@@ -7,6 +7,7 @@
 
 namespace Test\Files\ObjectStore;
 
+use OCP\Files\ObjectStore\IObjectStore;
 use Test\TestCase;
 
 abstract class ObjectStoreTestCase extends TestCase {
@@ -16,7 +17,7 @@ abstract class ObjectStoreTestCase extends TestCase {
 	private $instance = null;
 
 	/**
-	 * @return \OCP\Files\ObjectStore\IObjectStore
+	 * @return IObjectStore
 	 */
 	abstract protected function getInstance();
 

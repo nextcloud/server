@@ -368,9 +368,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateUserInvalid
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateUserInvalid')]
 	public function testCreateUserInvalid($uid, $password, $exception): void {
 		/** @var \Test\Util\User\Dummy|\PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);

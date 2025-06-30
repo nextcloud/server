@@ -46,9 +46,7 @@ class SecurityTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider encryptionSettingsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionSettingsProvider')]
 	public function testGetFormWithOnlyOneBackend(bool $enabled): void {
 		$this->manager
 			->expects($this->once())
@@ -76,9 +74,9 @@ class SecurityTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider encryptionSettingsProvider
 	 * @param bool $enabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionSettingsProvider')]
 	public function testGetFormWithMultipleBackends($enabled): void {
 		$this->manager
 			->expects($this->once())

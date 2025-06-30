@@ -37,12 +37,12 @@ class AppsDisableTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataCommandInput
 	 * @param $appId
 	 * @param $groups
 	 * @param $statusCode
 	 * @param $pattern
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCommandInput')]
 	public function testCommandInput($appId, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];
 

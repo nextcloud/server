@@ -30,9 +30,7 @@ class IpAddressClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider publicIpAddressData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('publicIpAddressData')]
 	public function testPublicAddress(string $ip): void {
 		$isLocal = $this->classifier->isLocalAddress($ip);
 
@@ -54,9 +52,7 @@ class IpAddressClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localIpAddressData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localIpAddressData')]
 	public function testLocalAddress(string $ip): void {
 		$isLocal = $this->classifier->isLocalAddress($ip);
 

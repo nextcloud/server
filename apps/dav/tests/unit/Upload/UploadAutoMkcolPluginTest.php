@@ -50,9 +50,7 @@ class UploadAutoMkcolPluginTest extends TestCase {
 		$this->assertTrue($return);
 	}
 
-	/**
-	 * @dataProvider dataMissingHeaderShouldReturnTrue
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMissingHeaderShouldReturnTrue')]
 	public function testBeforeMethodWithMissingHeaderShouldReturnTrue(?string $header): void {
 		$this->request->expects(self::once())
 			->method('getHeader')

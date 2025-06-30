@@ -44,7 +44,6 @@ class HooksTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestChangeUserHook
 	 *
 	 * @param $params
 	 * @param $data
@@ -52,6 +51,7 @@ class HooksTest extends TestCase {
 	 * @param $setDisplayName
 	 * @param $error
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestChangeUserHook')]
 	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error): void {
 		if ($error) {
 			$this->accountManager->expects($this->never())->method('updateAccount');

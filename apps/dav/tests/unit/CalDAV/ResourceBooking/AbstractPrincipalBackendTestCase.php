@@ -246,9 +246,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 		$this->assertEquals(0, $actual);
 	}
 
-	/**
-	 * @dataProvider dataSearchPrincipals
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchPrincipals')]
 	public function testSearchPrincipals($expected, $test): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())

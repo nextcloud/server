@@ -376,9 +376,7 @@ class ManagerTest extends TestCase {
 		], $amount);
 	}
 
-	/**
-	 * @dataProvider dataGetForObjectSince
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForObjectSince')]
 	public function testGetForObjectSince(?int $lastKnown, string $order, int $limit, int $resultFrom, int $resultTo): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry(0, 0);
@@ -424,9 +422,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidCreateArgsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidCreateArgsProvider')]
 	public function testCreateCommentInvalidArguments(string|int $aType, string|int $aId, string|int $oType, string|int $oId): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -471,9 +467,7 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
-	/**
-	 * @dataProvider providerTestSave
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestSave')]
 	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
@@ -613,9 +607,7 @@ class ManagerTest extends TestCase {
 			];
 	}
 
-	/**
-	 * @dataProvider invalidActorArgsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidActorArgsProvider')]
 	public function testDeleteReferencesOfActorInvalidInput(string|int $type, string|int $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -680,9 +672,7 @@ class ManagerTest extends TestCase {
 			];
 	}
 
-	/**
-	 * @dataProvider invalidObjectArgsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidObjectArgsProvider')]
 	public function testDeleteCommentsAtObjectInvalidInput(string|int $type, string|int $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -1006,9 +996,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider providerTestReactionAddAndDelete
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionAddAndDelete')]
 	public function testReactionAddAndDelete(array $comments, array $reactionsExpected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -1093,9 +1081,7 @@ class ManagerTest extends TestCase {
 		return $comments;
 	}
 
-	/**
-	 * @dataProvider providerTestRetrieveAllReactions
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestRetrieveAllReactions')]
 	public function testRetrieveAllReactions(array $comments, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2357,9 +2343,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerTestRetrieveAllReactionsWithSpecificReaction
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestRetrieveAllReactionsWithSpecificReaction')]
 	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2412,9 +2396,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerTestGetReactionComment
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestGetReactionComment')]
 	public function testGetReactionComment(array $comments, array $expected, bool $notFound): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
@@ -2481,9 +2463,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerTestReactionMessageSize
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionMessageSize')]
 	public function testReactionMessageSize(string $reactionString, bool $valid): void {
 		$this->skipIfNotSupport4ByteUTF();
 		if (!$valid) {
@@ -2512,9 +2492,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerTestReactionsSummarizeOrdered
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestReactionsSummarizeOrdered')]
 	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();

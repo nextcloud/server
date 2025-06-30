@@ -452,7 +452,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
@@ -482,7 +482,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('getUID')

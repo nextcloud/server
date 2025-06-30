@@ -687,10 +687,10 @@ class LostControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTwoUsersWithSameEmailOneDisabled
 	 * @param bool $userEnabled1
 	 * @param bool $userEnabled2
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTwoUsersWithSameEmailOneDisabled')]
 	public function testTwoUsersWithSameEmailOneDisabled(bool $userEnabled1, bool $userEnabled2): void {
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getEMailAddress')

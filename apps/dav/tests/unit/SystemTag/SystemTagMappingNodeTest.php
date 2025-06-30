@@ -107,9 +107,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider tagNodeDeleteProviderPermissionException
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeDeleteProviderPermissionException')]
 	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -152,7 +150,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('unassignTags')
 			->with(123, 'files', 1)
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getMappingNode($tag, [123])->delete();
 	}

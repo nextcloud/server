@@ -58,10 +58,10 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider renderDataProvider
 	 * @param array $input
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('renderDataProvider')]
 	public function testRender(array $input, $expected): void {
 		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());

@@ -186,9 +186,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider mountPointNamesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mountPointNamesProvider')]
 	public function testAddOrUpdateStorageInvalidMountPoint($mountPoint): void {
 		$storageConfig = new StorageConfig(1);
 		$storageConfig->setMountPoint($mountPoint);
@@ -235,7 +233,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 	public function testAddOrUpdateStorageInvalidBackend(): void {
 		$this->service->expects($this->exactly(2))
 			->method('createStorage')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())
@@ -292,7 +290,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 			->willReturn($storageConfig);
 		$this->service->expects($this->once())
 			->method('updateStorage')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$response = $this->controller->update(
 			255,
@@ -320,7 +318,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 	public function testDeleteStorageNonExisting(): void {
 		$this->service->expects($this->once())
 			->method('removeStorage')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$response = $this->controller->destroy(255);
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
@@ -357,9 +355,7 @@ abstract class StoragesControllerTestCase extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider validateStorageProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
 	public function testValidateStorage(bool $backendValidate, bool $authMechValidate, bool $expectSuccess): void {
 		$backend = $this->getBackendMock();
 		$backend->method('validateStorage')

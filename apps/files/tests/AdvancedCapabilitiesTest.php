@@ -23,9 +23,7 @@ class AdvancedCapabilitiesTest extends TestCase {
 		$this->capabilities = new AdvancedCapabilities($this->service);
 	}
 
-	/**
-	 * @dataProvider dataGetCapabilities
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCapabilities')]
 	public function testGetCapabilities(bool $wcf): void {
 		$this->service
 			->expects(self::once())

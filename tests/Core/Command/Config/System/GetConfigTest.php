@@ -35,7 +35,7 @@ class GetConfigTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OC\SystemConfig $systemConfig */
+		/** @var SystemConfig $systemConfig */
 		$this->command = new GetConfig($systemConfig);
 	}
 
@@ -89,7 +89,6 @@ class GetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getData
 	 *
 	 * @param string[] $configNames
 	 * @param mixed $value
@@ -100,6 +99,7 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getData')]
 	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage): void {
 		if (is_array($configNames)) {
 			$configName = $configNames[0];

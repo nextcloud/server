@@ -85,9 +85,7 @@ class AccountMigratorTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataImportExportAccount
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataImportExportAccount')]
 	public function testImportExportAccount(string $userId, array $importData, string $avatarPath, array $importConfig): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 		$avatarExt = pathinfo($avatarPath, PATHINFO_EXTENSION);

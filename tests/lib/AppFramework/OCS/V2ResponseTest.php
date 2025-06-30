@@ -15,9 +15,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 
 class V2ResponseTest extends \Test\TestCase {
-	/**
-	 * @dataProvider providesStatusCodes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesStatusCodes')]
 	public function testStatusCodeMapper(int $expected, int $sc): void {
 		$response = new V2Response(new DataResponse([], $sc));
 		$this->assertEquals($expected, $response->getStatus());

@@ -19,13 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	protected $config;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
 	protected $appManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
@@ -37,7 +37,7 @@ class EncryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IEncryptionModule */
 	protected $encryptionModule;
 
 	/** @var EncryptAll */
@@ -78,9 +78,7 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'resetMaintenanceAndTrashbin');
 	}
 
-	/**
-	 * @dataProvider dataTestExecute
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
 	public function testExecute($answer, $askResult): void {
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 

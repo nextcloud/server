@@ -268,11 +268,11 @@ class AppConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providerGetAppKeys
 	 *
 	 * @param string $appId
 	 * @param array $expectedKeys
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetAppKeys')]
 	public function testGetKeys(string $appId, array $expectedKeys): void {
 		$config = $this->generateAppConfig();
 		$this->assertEqualsCanonicalizing($expectedKeys, $config->getKeys($appId));
@@ -284,13 +284,13 @@ class AppConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providerGetKeys
 	 *
 	 * @param string $appId
 	 * @param string $configKey
 	 * @param string $value
 	 * @param bool $lazy
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
 	public function testHasKey(string $appId, string $configKey, string $value, int $type, bool $lazy): void {
 		$config = $this->generateAppConfig();
 		$this->assertEquals(true, $config->hasKey($appId, $configKey, $lazy));
@@ -321,9 +321,7 @@ class AppConfigTest extends TestCase {
 		$this->assertSame(true, $config->hasKey('non-sensitive-app', 'lazy-key', null));
 	}
 
-	/**
-	 * @dataProvider providerGetKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
 	public function testIsSensitive(
 		string $appId, string $configKey, string $configValue, int $type, bool $lazy, bool $sensitive,
 	): void {
@@ -365,9 +363,7 @@ class AppConfigTest extends TestCase {
 		$config->isSensitive('non-sensitive-app', 'lazy-key', false);
 	}
 
-	/**
-	 * @dataProvider providerGetKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
 	public function testIsLazy(string $appId, string $configKey, string $configValue, int $type, bool $lazy,
 	): void {
 		$config = $this->generateAppConfig();
@@ -408,11 +404,11 @@ class AppConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providerGetAppKeys
 	 *
 	 * @param string $appId
 	 * @param array $keys
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetAppKeys')]
 	public function testGetAllValuesWithEmptyKey(string $appId, array $keys): void {
 		$config = $this->generateAppConfig();
 		$this->assertEqualsCanonicalizing($keys, array_keys($config->getAllValues($appId, '')));
@@ -558,23 +554,23 @@ class AppConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providerGetValueMixed
 	 *
 	 * @param string $key
 	 * @param string $value
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
 	public function testGetValueMixed(string $key, string $value): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame($value, $config->getValueMixed('typed', $key));
 	}
 
 	/**
-	 * @dataProvider providerGetValueMixed
 	 *
 	 * @param string $key
 	 * @param string $value
 	 * @param int $type
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
 	public function testGetValueType(string $key, string $value, int $type): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame($type, $config->getValueType('typed', $key));

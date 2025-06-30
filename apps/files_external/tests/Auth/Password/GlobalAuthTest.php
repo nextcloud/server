@@ -29,7 +29,7 @@ class GlobalAuthTest extends TestCase {
 	}
 
 	private function getStorageConfig($type, $config = []) {
-		/** @var \OCA\Files_External\Lib\StorageConfig&MockObject $storageConfig */
+		/** @var StorageConfig&MockObject $storageConfig */
 		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')

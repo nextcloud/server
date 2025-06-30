@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files\Mount\IMountManager;
@@ -26,9 +27,9 @@ class HelperStorageTest extends \Test\TestCase {
 
 	/** @var string */
 	private $user;
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $storageMock;
-	/** @var \OC\Files\Storage\Storage */
+	/** @var Storage */
 	private $storage;
 	private bool $savedQuotaIncludeExternalStorage;
 
@@ -71,7 +72,7 @@ class HelperStorageTest extends \Test\TestCase {
 	 * free space
 	 *
 	 * @param int $freeSpace free space value
-	 * @return \OC\Files\Storage\Storage
+	 * @return Storage
 	 */
 	private function getStorageMock($freeSpace = 12) {
 		$this->storageMock = $this->getMockBuilder(Temporary::class)

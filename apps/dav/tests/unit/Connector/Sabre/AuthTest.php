@@ -196,7 +196,7 @@ class AuthTest extends TestCase {
 			->expects($this->once())
 			->method('logClientIn')
 			->with('MyTestUser', 'MyTestPassword')
-			->will($this->throwException(new PasswordLoginForbiddenException()));
+			->willThrowException(new PasswordLoginForbiddenException());
 		$this->session
 			->expects($this->once())
 			->method('close');

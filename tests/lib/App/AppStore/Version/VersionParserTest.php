@@ -57,11 +57,11 @@ class VersionParserTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider versionProvider
 	 *
 	 * @param string $input
 	 * @param Version $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionProvider')]
 	public function testGetVersion($input,
 		Version $expected): void {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));

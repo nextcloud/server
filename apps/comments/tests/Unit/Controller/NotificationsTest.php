@@ -138,7 +138,7 @@ class NotificationsTest extends TestCase {
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->rootFolder->expects($this->never())
 			->method('getUserFolder');

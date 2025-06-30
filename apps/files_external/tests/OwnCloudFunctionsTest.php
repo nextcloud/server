@@ -87,9 +87,7 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider configUrlProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('configUrlProvider')]
 	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';

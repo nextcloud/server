@@ -97,9 +97,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateStylesheetSuccess
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
 	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->once())
@@ -155,9 +153,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateStylesheetError
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetError')]
 	public function testUpdateStylesheetError(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->never())
@@ -346,9 +342,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateImages
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImages')]
 	public function testUpdateLogoNormalLogoUpload(string $mimeType, bool $folderExists = true): void {
 		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -504,9 +498,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataPhpUploadErrors
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload(int $error, string $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -543,9 +535,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	/**
-	 * @dataProvider dataPhpUploadErrors
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -614,9 +604,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUndoDelete
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUndoDelete')]
 	public function testUndoDelete(string $value, string $filename): void {
 		$this->l10n
 			->expects($this->once())
@@ -716,9 +704,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetManifest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
 		$this->config
 			->expects($this->once())

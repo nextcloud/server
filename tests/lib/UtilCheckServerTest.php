@@ -8,6 +8,7 @@
 
 namespace Test;
 
+use OC\SystemConfig;
 use OCP\ISession;
 use OCP\ITempManager;
 use OCP\Server;
@@ -23,7 +24,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 	/**
 	 * @param array $systemOptions
-	 * @return \OC\SystemConfig | \PHPUnit\Framework\MockObject\MockObject
+	 * @return SystemConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;

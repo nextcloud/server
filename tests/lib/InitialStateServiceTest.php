@@ -49,9 +49,7 @@ class InitialStateServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider staticData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('staticData')]
 	public function testStaticData(mixed $value): void {
 		$this->service->provideInitialState('test', 'key', $value);
 		$data = $this->service->getInitialStates();
@@ -88,9 +86,7 @@ class InitialStateServiceTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider staticData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('staticData')]
 	public function testLazyData(mixed $value): void {
 		$this->service->provideLazyInitialState('test', 'key', function () use ($value) {
 			return $value;

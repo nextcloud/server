@@ -22,7 +22,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Server;
 
 class AllConfigTest extends \Test\TestCase {
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {
@@ -159,9 +159,9 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetUserValueUnexpectedValue
 	 * @param mixed $value
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserValueUnexpectedValue')]
 	public function testSetUserValueUnexpectedValue($value): void {
 		$this->expectException(\UnexpectedValueException::class);
 

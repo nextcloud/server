@@ -221,7 +221,7 @@ class ImageManagerTest extends TestCase {
 		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$image = $this->imageManager->getCachedImage('filename');
 	}
 
@@ -313,9 +313,7 @@ class ImageManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateImage
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImage')]
 	public function testUpdateImage(string $key, string $tmpFile, bool $folderExists, bool $shouldConvert): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);

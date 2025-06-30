@@ -21,7 +21,7 @@ use OCP\Comments\ICommentsManager;
  * @package Test
  */
 class ServerTest extends \Test\TestCase {
-	/** @var \OC\Server */
+	/** @var Server */
 	protected $server;
 
 
@@ -44,11 +44,11 @@ class ServerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestQuery
 	 *
 	 * @param string $serviceName
 	 * @param string $instanceOf
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestQuery')]
 	public function testQuery($serviceName, $instanceOf): void {
 		$this->assertInstanceOf($instanceOf, $this->server->query($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
 	}

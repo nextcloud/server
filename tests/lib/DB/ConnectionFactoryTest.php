@@ -28,10 +28,10 @@ class ConnectionFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider splitHostFromPortAndSocketData
 	 * @param string $host
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('splitHostFromPortAndSocketData')]
 	public function testSplitHostFromPortAndSocket($host, array $expected): void {
 		/** @var SystemConfig $config */
 		$config = $this->createMock(SystemConfig::class);

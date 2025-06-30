@@ -96,8 +96,8 @@ class WellKnownUrlsTest extends TestCase {
 
 	/**
 	 * Test responses
-	 * @dataProvider dataTestResponses
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestResponses')]
 	public function testResponses($responses, string $expectedSeverity): void {
 		$this->config
 			->expects($this->once())

@@ -55,10 +55,10 @@ class ErrorHandlerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider passwordProvider
 	 * @param string $username
 	 * @param string $password
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordProvider')]
 	public function testRemovePasswordFromError($username, $password): void {
 		$url = 'http://' . $username . ':' . $password . '@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';

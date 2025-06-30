@@ -35,9 +35,7 @@ class BackgroundModeTest extends TestCase {
 		$this->command->setDefinition($inputDefinition);
 	}
 
-	/**
-	 * @dataProvider dataModeCommand
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataModeCommand')]
 	public function testModeCommand(string $mode): void {
 		$this->appConfig->expects($this->once())
 			->method('setValueString')

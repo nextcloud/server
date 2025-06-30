@@ -150,9 +150,8 @@ class RepairInvalidSharesTest extends TestCase {
 
 	/**
 	 * Test adjusting file share permissions
-	 *
-	 * @dataProvider fileSharePermissionsProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileSharePermissionsProvider')]
 	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')

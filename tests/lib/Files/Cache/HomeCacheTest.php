@@ -58,7 +58,7 @@ class HomeCacheTest extends \Test\TestCase {
 	private $cache;
 
 	/**
-	 * @var \OC\User\User $user
+	 * @var User $user
 	 */
 	private $user;
 

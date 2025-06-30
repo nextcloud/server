@@ -53,7 +53,7 @@ class AdminTest extends TestCase {
 	public function testGetForm(): void {
 		$this->config
 			->method('getAppValue')
-			->will($this->returnCallback(function ($app, $key, $default) {
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($app === 'encryption' && $key === 'recoveryAdminEnabled' && $default === '0') {
 					return '1';
 				}
@@ -61,7 +61,7 @@ class AdminTest extends TestCase {
 					return '1';
 				}
 				return $default;
-			}));
+			});
 		$params = [
 			'recoveryEnabled' => '1',
 			'initStatus' => '0',
