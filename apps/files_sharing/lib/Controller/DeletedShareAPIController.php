@@ -24,11 +24,11 @@ use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
-use Psr\Container\ContainerInterface;
 
 /**
  * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
@@ -44,7 +44,6 @@ class DeletedShareAPIController extends OCSController {
 		private IGroupManager $groupManager,
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
-		private ContainerInterface $serverContainer,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -202,7 +201,7 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+		return Server::get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
 	}
 
 	/**
@@ -219,7 +218,7 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
+		return Server::get('\OCA\Deck\Sharing\ShareAPIHelper');
 	}
 
 	/**
@@ -236,6 +235,6 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
+		return Server::get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
 	}
 }
