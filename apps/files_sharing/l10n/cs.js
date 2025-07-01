@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Seznam neschválených sdílení.",
     "No pending shares" : "Žádná čekající sdílení",
     "Shares you have received but not approved will show up here" : "Sdílení, která jste obdrželi, ale neschválili, se zobrazí zde",
+    "Error deleting the share: {errorMessage}" : "Chyba při mazán sdílení: {errorMessage}",
     "Error deleting the share" : "Chyba při mazání sdílení",
     "Error updating the share: {errorMessage}" : "Chyba při aktualizaci sdílení: {errorMessage}",
     "Error updating the share" : "Chyba při aktualizaci sdílení",

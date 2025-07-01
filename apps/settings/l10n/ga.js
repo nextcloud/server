@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "Ceanntásca HTTP",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- Níl an ceanntásc HTTP `%1$s` socraithe go `%2$s`. Seans nach n-oibreoidh roinnt gnéithe i gceart, mar moltar an socrú seo a choigeartú dá réir.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- Níl an ceanntásc HTTP `%1$s` socraithe go `%2$s`. Is riosca slándála nó príobháideachta féideartha é seo, mar moltar an socrú seo a choigeartú dá réir.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- Níl `%2$s` sa cheanntásc HTTP `%1$s`. Is riosca slándála nó príobháideachta féideartha é seo, mar moltar an socrú seo a choigeartú dá réir.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- Níl an ceanntásc HTTP `%1$s` socraithe mar `%2$s`, `%3$s`, `%4$s`, `%5$s` nó `%6$s`. Is féidir leis seo faisnéis atreoraithe a sceitheadh. Féach ar an {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- Níl an ceanntásc HTTP `Strict-Transport-Security` socraithe go dtí `%d` soicind ar a laghad (luach reatha: `%d`). Ar mhaithe le slándáil fheabhsaithe, moltar beartas fada HSTS a úsáid.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- Tá an ceanntásc HTTP `Strict-Transport-Security` míchumtha: `%s`. Ar mhaithe le slándáil fheabhsaithe, moltar HSTS a chumasú.",
@@ -623,6 +622,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "Tá an teorainn chuimhne PHP faoi bhun an luach molta de %s.",
     "for WebAuthn passwordless login" : "le haghaidh logáil isteach gan phasfhocal WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "le haghaidh logáil isteach WebAuthn gan phasfhocal, agus stóráil SFTP",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- Níl `%2$s` sa cheanntásc HTTP `%1$s`. Is riosca slándála nó príobháideachta féideartha é seo, mar moltar an socrú seo a choigeartú dá réir.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Braitheadh ​​leagan PostgreSQL \"%s\". Moltar PostgreSQL >=12 agus <=16 don fheidhmíocht is fearr, don chobhsaíocht agus don fheidhmiúlacht leis an leagan seo de Nextcloud.",
     "Set default expiration date for shares" : "Socraigh dáta éaga réamhshocraithe le haghaidh scaireanna"
 },

@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "未承認の共有の一覧",
     "No pending shares" : "保留中の共有はありません",
     "Shares you have received but not approved will show up here" : "あなたが受け取ったが承認されていない共有は、ここに表示されます",
+    "Error deleting the share: {errorMessage}" : "共有の削除中にエラーが発生しました: {errorMessage}",
     "Error deleting the share" : "共有の削除中にエラー",
     "Error updating the share: {errorMessage}" : "共有の更新中にエラーが発生しました: {errorMessage}",
     "Error updating the share" : "共有の更新中にエラー",

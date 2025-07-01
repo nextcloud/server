@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "HTTP hlavičky",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- HTTP hlavička `%1$s` není nastavena na `%2$s`. To značí možné ohrožení bezpečnosti a soukromí a je doporučeno toto nastavení upravit.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP hlavička `%1$s` není nastavena na `%2$s`. To značí možné ohrožení bezpečnosti a soukromí a je doporučeno toto nastavení upravit.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP hlavička `%1$s` neobsahuje `%2$s`. To značí možné ohrožení bezpečnosti a soukromí a je doporučeno toto nastavení upravit.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- HTTP hlavička `%1$s` není nastavena na `%2$s`, `%3$s`, `%4$s`, `%5$s` nebo `%6$s`. Kvůli tomu může uniknout referer údaj. Podrobnosti viz {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- HTTP hlavička `Strict-Transport-Security` není nastavena na hodnotu alespoň `%d` sekund (stávající hodnota: `%d`). Pro zlepšení zabezpečení je doporučeno použít dlouhou zásadu HSTS.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- HTTP hlavička `Strict-Transport-Security` HTTP nemá správnou podobu: `%s`. Pro zlepšení zabezpečení je doporučeno zapnout HSTS.",
@@ -623,6 +622,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "Limit paměti pro PHP je nastaven na níže než doporučenou hodnotu %s.",
     "for WebAuthn passwordless login" : "pro WebAuthn přihlášení bez hesla",
     "for WebAuthn passwordless login, and SFTP storage" : "pro WebAuthn přihlášení bez hesla a SFTP úložiště",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP hlavička `%1$s` neobsahuje `%2$s`. To značí možné ohrožení bezpečnosti a soukromí a je doporučeno toto nastavení upravit.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Zjištěna verze PostgreSQL „%s“. Pro nejlepší výkon, stabilitu a funkčnost s touto verzí Nextcloud je doporučeno PostgreSQL >=12 a <=16.",
     "Set default expiration date for shares" : "Nastavit výchozí datum skončení platnosti pro sdílení"
 },

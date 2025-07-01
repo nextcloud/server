@@ -1,0 +1,26 @@
+{ "translations": {
+    "Out of office" : "Nje ya ofisi",
+    "User status" : "Hadhi ya mtumiaji",
+    "Emoji for your status message" : "Emoji kwa ujumbe wako wa hadhi",
+    "What is your status?" : "Hadhi yako ni nini?",
+    "Previously set" : "Imepangiliwa mwanzo",
+    "Reset status" : "Pangilia hali",
+    "Set status" : "Panglia hali",
+    "Online status" : "Hadhi ya mtandaoni",
+    "Status message" : "Ujumbe wa hadhi",
+    "Your status was set automatically" : "Hadhi yako ilipangiliwa moja kwa moja",
+    "Clear status message" : "Futa jumbe za wadhifa",
+    "Set status message" : "Pangilia hali ya ujumbe",
+    "Don't clear" : "Usifute",
+    "Today" : "Leo",
+    "This week" : "Wiki hii",
+    "Online" : "Mtandaoni",
+    "Away" : "Mbali",
+    "Do not disturb" : "Acha kusumbua",
+    "Invisible" : "Haionekani",
+    "Offline" : "Nje ya mtandao",
+    "30 minutes" : "Dakika 30",
+    "1 hour" : "Saa 1",
+    "4 hours" : "Masaa 4"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Liste des partages non approuvés.",
     "No pending shares" : "Aucun partage en attente",
     "Shares you have received but not approved will show up here" : "Les partages que vous avez reçus, mais qui n'ont pas été acceptés apparaîtront ici",
+    "Error deleting the share: {errorMessage}" : "Erreur lors de la suppression du partage : {errorMessage}",
     "Error deleting the share" : "Erreur lors de la suppression du partage",
     "Error updating the share: {errorMessage}" : "Erreur à la mise à jour du partage\\: {errorMessage} ",
     "Error updating the share" : "Erreur lors de la mise à jour du partage",

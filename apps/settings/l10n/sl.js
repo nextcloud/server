@@ -226,7 +226,6 @@ OC.L10N.register(
     "HTTP headers" : "Glave HTTP",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "– Glava HTTP »%1$s« ni nastavljena na pričakovano vrednost »%2$s«. Nekatere možnosti morda ne bodo delovale pravilno, zato je priporočljivo prilagoditi nastavitve.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– Glava HTTP »%1$s« ni nastavljena na pričakovano vrednost »%2$s«. To predstavlja potencialno varnostno ali zasebnostno tveganje, zato je priporočljivo prilagoditi nastavitve.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– Glava HTTP »%1$s« ne vključuje vrednosti »%2$s«. To predstavlja potencialno varnostno ali zasebnostno tveganje, zato je priporočljivo prilagoditi nastavitve.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "– Glava HTTP »%1$s« ni nastavljena na »%2$s«, »%3$s«, »%4$s«, »%5$s« ali »%6$s«. To la hko povzroči spuščanje sklicnih podatkov. Več o tem je zapisano na {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "– Glava HTTP za varen prenos podatkov »Strict-Transport-Security« ni nastavljena na vsaj »%d« sekund (trenutna vrednost je »%d«). Za večjo varnost je priporočljivo omogočiti pravila HSTS.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "– Glava HTTP za varen prenos podatkov »Strict-Transport-Security« je neustrezno oblikovana: »%s«. Za večjo varnost je priporočljivo omogočiti pravila HSTS.",
@@ -468,6 +467,7 @@ OC.L10N.register(
     "File locking" : "Zaklepanje datotek",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems." : "Zaklepanje datotek je onemogočeno, kar lahko privede do različnih težav. V izogib zapletom je priporočljivo omogočiti možnost »filelocking.enabled« v datoteki config.php.",
     "The PHP memory limit is below the recommended value of %s." : "Omejitev pomnilnika PHP je pod priporočeno mejo %s.",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– Glava HTTP »%1$s« ne vključuje vrednosti »%2$s«. To predstavlja potencialno varnostno ali zasebnostno tveganje, zato je priporočljivo prilagoditi nastavitve.",
     "Set default expiration date for shares" : "Nastavi privzeti datuma poteka za mesta souporabe"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

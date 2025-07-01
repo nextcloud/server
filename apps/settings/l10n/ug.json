@@ -269,7 +269,6 @@
     "HTTP headers" : "HTTP ماۋزۇلىرى",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- \"%1 $ s\" HTTP ماۋزۇسى%2 $ s قىلىپ تەڭشەلمىدى. بۇ ئىقتىدارنى مۇۋاپىق تەڭشەش تەۋسىيە قىلىنغانلىقتىن ، بەزى ئىقتىدارلار نورمال ئىشلىمەسلىكى مۇمكىن.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- \"%1 $ s\" HTTP ماۋزۇسى%2 $ s قىلىپ تەڭشەلمىدى. بۇ تەڭشەكنى ماس ھالدا تەڭشەش تەۋسىيە قىلىنغانلىقتىن ، بۇ يوشۇرۇن بىخەتەرلىك ياكى مەخپىيەتلىك خەۋىپى.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "-%1 $ s` HTTP ماۋزۇسىدا%2 $ s` يوق. بۇ تەڭشەكنى ماس ھالدا تەڭشەش تەۋسىيە قىلىنغانلىقتىن ، بۇ يوشۇرۇن بىخەتەرلىك ياكى مەخپىيەتلىك خەۋىپى.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- \"%1 $ s\" HTTP بەت بېشى \"%2 $ s\" ، \"%3 $ s\" ، \"%4 $ s\" ، \"%5 $ s\" ياكى \"%6 $ s\" قىلىپ بېكىتىلمىگەن. بۇ رېفېراندۇم ئۇچۇرلىرىنى ئاشكارىلىشى مۇمكىن. {w3c-recommendation}-recommendation}- تەۋسىيە} گە قاراڭ.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- «قاتتىق قاتناش-بىخەتەرلىك» HTTP ماۋزۇسى كەم دېگەندە% d` سېكۇنت قىلىپ بېكىتىلمىگەن (ھازىرقى قىممىتى:% d`). بىخەتەرلىكنى كۈچەيتىش ئۈچۈن ، ئۇزۇن HSTS سىياسىتىنى ئىشلىتىش تەۋسىيە قىلىنىدۇ.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- \"قاتتىق-قاتناش-بىخەتەرلىك\" HTTP ماۋزۇسى خاتا: \"% s\". كۈچەيتىلگەن بىخەتەرلىك ئۈچۈن ، HSTS نى قوزغىتىش تەۋسىيە قىلىنىدۇ.",
@@ -569,6 +568,7 @@
     "The PHP memory limit is below the recommended value of %s." : "PHP ئىچكى ساقلىغۇچ چەكلىمىسى تەۋسىيە قىلىنغان% s دىن تۆۋەن.",
     "for WebAuthn passwordless login" : "WebAuthn پارولسىز كىرىش ئۈچۈن",
     "for WebAuthn passwordless login, and SFTP storage" : "WebAuthn پارولسىز كىرىش ۋە SFTP ساقلاش ئۈچۈن",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "-%1 $ s` HTTP ماۋزۇسىدا%2 $ s` يوق. بۇ تەڭشەكنى ماس ھالدا تەڭشەش تەۋسىيە قىلىنغانلىقتىن ، بۇ يوشۇرۇن بىخەتەرلىك ياكى مەخپىيەتلىك خەۋىپى.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL نەشرى \"% s\" بايقالدى. PostgreSQL> = 12 ۋە <= 16 Nextcloud نىڭ بۇ نەشرى بىلەن ئەڭ ياخشى ئىقتىدار ، مۇقىملىق ۋە ئىقتىدار ئۈچۈن تەۋسىيە قىلىنىدۇ.",
     "Set default expiration date for shares" : "پاي چېكىنىڭ سۈكۈتتىكى مۇددىتىنى بەلگىلەڭ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
