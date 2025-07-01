@@ -7,7 +7,7 @@
 		class="files-navigation"
 		:aria-label="t('files', 'Files')">
 		<template #search>
-			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter file names …')" />
+			<FilesNavigationSearch />
 		</template>
 		<template #default>
 			<NcAppNavigationList class="files-navigation__list"
@@ -39,24 +39,24 @@
 </template>
 
 <script lang="ts">
-import { getNavigation, type View } from '@nextcloud/files'
+import type { View } from '@nextcloud/files'
 import type { ViewConfig } from '../types.ts'
 
-import { defineComponent } from 'vue'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { translate as t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
+import { getNavigation } from '@nextcloud/files'
+import { t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
-import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 import FilesNavigationItem from '../components/FilesNavigationItem.vue'
+import FilesNavigationSearch from '../components/FilesNavigationSearch.vue'
 
 import { useNavigation } from '../composables/useNavigation'
-import { useFilenameFilter } from '../composables/useFilenameFilter'
 import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.ts'
@@ -75,12 +75,12 @@ export default defineComponent({
 	components: {
 		IconCog,
 		FilesNavigationItem,
+		FilesNavigationSearch,
 
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcAppNavigationList,
-		NcAppNavigationSearch,
 		SettingsModal,
 	},
 
@@ -88,11 +88,9 @@ export default defineComponent({
 		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView, views } = useNavigation()
-		const { searchQuery } = useFilenameFilter()
 
 		return {
 			currentView,
-			searchQuery,
 			t,
 			views,
 
