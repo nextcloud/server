@@ -53,6 +53,9 @@ This file is generated from multiple sources. Included packages:
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
 	- license: Apache-2.0
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0

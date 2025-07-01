@@ -8,6 +8,7 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
@@ -130,6 +131,9 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 7.1.2
+	- license: MIT
+- debounce
+	- version: 2.2.0
 	- license: MIT
 - dompurify
 	- version: 3.2.6
