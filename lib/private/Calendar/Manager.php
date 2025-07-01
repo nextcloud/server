@@ -236,7 +236,7 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message could not be processed because user has no calendars');
 			return false;
 		}
-		
+
 		try {
 			/** @var VCalendar $vObject|null */
 			$calendarObject = Reader::read($calendarData);
@@ -259,17 +259,17 @@ class Manager implements IManager {
 		$eventObject = $calendarObject->VEVENT;
 
 		if (!isset($eventObject->UID)) {
-			$this->logger->warning('iMip message event dose not contains a UID');
+			$this->logger->warning('iMip message event does not contains a UID');
 			return false;
 		}
 
 		if (!isset($eventObject->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contains an organizer');
+			$this->logger->warning('iMip message event does not contains an organizer');
 			return false;
 		}
 
 		if (!isset($eventObject->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contains any attendees');
+			$this->logger->warning('iMip message event does not contains any attendees');
 			return false;
 		}
 
@@ -321,10 +321,15 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
+		$logContext = [
+			'principalUri' => $principalUri,
+			'sender' => $sender,
+			'recipient' => $recipient,
+		];
 
 		$calendars = $this->getCalendarsForPrincipal($principalUri);
 		if (empty($calendars)) {
-			$this->logger->warning('iMip message could not be processed because user has no calendars');
+			$this->logger->warning('iMip message could not be processed because user has no calendars', $logContext);
 			return false;
 		}
 
@@ -332,22 +337,23 @@ class Manager implements IManager {
 			/** @var VCalendar $vObject|null */
 			$vObject = Reader::read($calendarData);
 		} catch (ParseException $e) {
-			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			$logContext['exception'] = $e;
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', $logContext);
 			return false;
 		}
 
 		if ($vObject === null) {
-			$this->logger->warning('iMip message contains an invalid calendar object');
+			$this->logger->warning('iMip message contains an invalid calendar object', $logContext);
 			return false;
 		}
 
 		if (!isset($vObject->METHOD) || $vObject->METHOD->getValue() !== 'REPLY') {
-			$this->logger->warning('iMip message contains an incorrect or invalid method');
+			$this->logger->warning('iMip message contains an incorrect or invalid method', $logContext);
 			return false;
 		}
 
 		if (!isset($vObject->VEVENT)) {
-			$this->logger->warning('iMip message contains no event');
+			$this->logger->warning('iMip message contains no event', $logContext);
 			return false;
 		}
 
@@ -355,17 +361,20 @@ class Manager implements IManager {
 		$vEvent = $vObject->VEVENT;
 
 		if (!isset($vEvent->UID)) {
-			$this->logger->warning('iMip message event dose not contains a UID');
+			$this->logger->warning('iMip message event does not contains a UID', $logContext);
 			return false;
 		}
 
+		$vEventUid = $vEvent->UID->getValue();
+		$logContext['vEventUid'] = $vEventUid;
+
 		if (!isset($vEvent->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contains an organizer');
+			$this->logger->warning('iMip message event does not contains an organizer', $logContext);
 			return false;
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contains any attendees');
+			$this->logger->warning('iMip message event does not contains any attendees', $logContext);
 			return false;
 		}
 
@@ -373,7 +382,7 @@ class Manager implements IManager {
 		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
 
 		if (strcasecmp($recipient, $organizer) !== 0) {
-			$this->logger->warning('iMip message event could not be processed because recipient and ORGANIZER must be identical');
+			$this->logger->warning('iMip message event could not be processed because recipient and ORGANIZER must be identical', $logContext);
 			return false;
 		}
 
@@ -381,7 +390,7 @@ class Manager implements IManager {
 		/** @var DateTime $eventTime */
 		$eventTime = $vEvent->{'DTSTART'};
 		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
-			$this->logger->warning('iMip message event could not be processed because the event is in the past');
+			$this->logger->warning('iMip message event could not be processed because the event is in the past', $logContext);
 			return false;
 		}
 
@@ -393,7 +402,7 @@ class Manager implements IManager {
 		foreach ($calendars as $calendar) {
 			// We should not search in writable calendars
 			if ($calendar instanceof IHandleImipMessage) {
-				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEvent->{'UID'}->getValue()]);
+				$o = $calendar->search($sender, ['ATTENDEE'], ['uid' => $vEventUid]);
 				if (!empty($o)) {
 					$found = $calendar;
 					$name = $o[0]['uri'];
@@ -403,7 +412,7 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', $logContext);
 			return false;
 		}
 
@@ -461,17 +470,17 @@ class Manager implements IManager {
 		$vEvent = $vObject->{'VEVENT'};
 
 		if (!isset($vEvent->UID)) {
-			$this->logger->warning('iMip message event dose not contains a UID');
+			$this->logger->warning('iMip message event does not contains a UID');
 			return false;
 		}
 
 		if (!isset($vEvent->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contains an organizer');
+			$this->logger->warning('iMip message event does not contains an organizer');
 			return false;
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contains any attendees');
+			$this->logger->warning('iMip message event does not contains any attendees');
 			return false;
 		}
 

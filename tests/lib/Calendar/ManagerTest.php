@@ -509,7 +509,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains a UID');
+			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$principalUri = 'principals/user/attendee1';
 		$sender = 'organizer@testing.com';
@@ -545,7 +545,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains an organizer');
+			->with('iMip message event does not contains an organizer');
 		// construct parameters
 		$principalUri = 'principals/user/attendee1';
 		$sender = 'organizer@testing.com';
@@ -581,7 +581,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains any attendees');
+			->with('iMip message event does not contains any attendees');
 		// construct parameters
 		$principalUri = 'principals/user/attendee1';
 		$sender = 'organizer@testing.com';
@@ -918,7 +918,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains a UID');
+			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -954,7 +954,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains an organizer');
+			->with('iMip message event does not contains an organizer');
 		// construct parameters
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -990,7 +990,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains any attendees');
+			->with('iMip message event does not contains any attendees');
 		// construct parameters
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
@@ -1325,7 +1325,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains a UID');
+			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
@@ -1362,7 +1362,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains an organizer');
+			->with('iMip message event does not contains an organizer');
 		// construct parameters
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
@@ -1399,7 +1399,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains any attendees');
+			->with('iMip message event does not contains any attendees');
 		// construct parameters
 		$principalUri = 'principals/user/pierre';
 		$sender = 'pierre@general-store.com';
