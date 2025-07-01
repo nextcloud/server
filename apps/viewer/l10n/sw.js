@@ -11,6 +11,7 @@ OC.L10N.register(
     "Back" : "Rudi",
     "Loading …" : "Inapakia",
     "Reset" : "Pangilia upya",
+    "Warning" : "Onyo",
     "Confirm" : "Thibitisha",
     "Undo" : "Tendua",
     "Zoom in" : "Kuza ndani",
