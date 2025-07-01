@@ -1940,6 +1940,10 @@ class Manager implements IManager {
 		return $this->appConfig->getValueBool('core', 'shareapi_allow_custom_tokens', false);
 	}
 
+	public function allowViewWithoutDownload(): bool {
+		return $this->appConfig->getValueBool('core', 'shareapi_allow_view_without_download', true);
+	}
+
 	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool {
 		if ($this->allowEnumerationFullMatch()) {
 			return true;
