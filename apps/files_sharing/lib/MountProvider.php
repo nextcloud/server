@@ -53,7 +53,7 @@ class MountProvider implements IMountProvider {
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (\OCP\Share\IShare $share) use ($user) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
+			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID() && $share->getSharedBy() !== $user->getUID();
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
