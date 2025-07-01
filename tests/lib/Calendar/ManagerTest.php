@@ -1078,7 +1078,7 @@ class ManagerTest extends TestCase {
 		$calendarData->add('METHOD', 'REPLY');
 		// construct logger return
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $calendarData->VEVENT->UID->getValue());
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar');
 		// Act
 		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		// Assert
