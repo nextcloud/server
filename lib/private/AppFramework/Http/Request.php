@@ -64,6 +64,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected ?CsrfTokenManager $csrfTokenManager;
 
 	protected bool $contentDecoded = false;
+	private ?\JsonException $decodingException = null;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -389,7 +390,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
+			try {
+				$params = json_decode(file_get_contents($this->inputStream), true, flags:JSON_THROW_ON_ERROR);
+			} catch (\JsonException $e) {
+				$this->decodingException = $e;
+			}
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
 				if ($this->method === 'POST') {
@@ -411,6 +416,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items['parameters'] = array_merge($this->items['parameters'], $params);
 		}
 		$this->contentDecoded = true;
+	}
+
+	public function throwDecodingExceptionIfAny(): void {
+		if ($this->decodingException !== null) {
+			throw $this->decodingException;
+		}
 	}
 
 

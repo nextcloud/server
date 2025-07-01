@@ -50,11 +50,14 @@ try {
 	// side effects in existing apps
 	OC_App::loadApps();
 
+	$request = Server::get(IRequest::class);
+	$request->throwDecodingExceptionIfAny();
+
 	if (!Server::get(IUserSession::class)->isLoggedIn()) {
-		OC::handleLogin(Server::get(IRequest::class));
+		OC::handleLogin($request);
 	}
 
-	Server::get(Router::class)->match('/ocsapp' . Server::get(IRequest::class)->getRawPathInfo());
+	Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
 	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
 } catch (ResourceNotFoundException $e) {
