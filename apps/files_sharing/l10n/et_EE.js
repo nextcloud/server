@@ -368,6 +368,8 @@ OC.L10N.register(
     "List of unapproved shares." : "Vastuvõtmata jaosmeedia loend.",
     "No pending shares" : "Ootel jagamisi pole",
     "Shares you have received but not approved will show up here" : "Jaosmeedia, mille oled saanud, kuid pole nõustunud, saab olema nähtav siin",
+    "Error deleting the share: {errorMessage}" : "Viga jagamise kustutamisel: {errorMessage}",
+    "Error deleting the share" : "Viga jagamise kustutamisel",
     "Error updating the share: {errorMessage}" : "Viga jaosmeedia uuendamisel: {errorMessage}",
     "Error updating the share" : "Viga jaosmeedia uuendamisel",
     "File \"{path}\" has been unshared" : "„{path}“ faili jagamine on lõpetatud",

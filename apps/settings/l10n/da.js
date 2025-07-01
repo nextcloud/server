@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "HTTP headere",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- The ' %1$s' HTTP- header er ikke indstillet til ' %2$s'. Nogle funktioner virker måske ikke korrekt, da det anbefales at justere denne indstilling i overensstemmelse hermed.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- The ' %1$s' HTTP- header er ikke indstillet til ' %2$s'. Dette er en potentiel sikkerheds- eller fortrolighedsrisiko, da det anbefales at justere denne indstilling i overensstemmelse hermed.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP- headeren ' %1$s' indeholder ikke ' %2$s'. Dette er en potentiel sikkerheds- eller fortrolighedsrisiko, da det anbefales at justere denne indstilling i overensstemmelse hermed.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- `%1$s` HTTP header er ikke indstillet til `%2$s`, `%3$s`, `%4$s`, `%5$s` eller `%6$s`. Dette kan lække reference information. Se mere {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- The 'Strict-Transport-Security' HTTP- header er ikke indstillet til mindst '%d' sekunder (aktuel værdi: '%d'). For øget sikkerhed, anbefales det at bruge en lang HSTS politik.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- The 'Strict-Transport-Security' HTTP- header er misdannet: '%s'. For øget sikkerhed anbefales det at aktivere HSTS.",
@@ -616,6 +615,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "PHP hukommelsesgræsen er under den anbefalede værdi på %s.",
     "for WebAuthn passwordless login" : "til WebAuthn adgangskodeløst login",
     "for WebAuthn passwordless login, and SFTP storage" : "til WebAuthn adgangskodeløst login, og SFTP lagring",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP- headeren ' %1$s' indeholder ikke ' %2$s'. Dette er en potentiel sikkerheds- eller fortrolighedsrisiko, da det anbefales at justere denne indstilling i overensstemmelse hermed.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQL- version \"%s\" fundet. PostgreSQL > = 12 og < = 16 er foreslået for bedste ydeevne, stabilitet og funktionalitet med denne version af Nextcloud.",
     "Set default expiration date for shares" : "Indstil standardudløbsdato for delinger"
 },

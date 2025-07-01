@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "Cabeçalhos HTTP",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- O cabeçalho HTTP `%1$s` não está definido como `%2$s`. Alguns recursos podem não funcionar corretamente, portanto, é recomendado ajustar esta configuração de acordo.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- O cabeçalho HTTP `%1$s` não está definido como `%2$s`. Este é um possível risco à segurança ou à privacidade, portanto, é recomendável ajustar esta configuração de acordo.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- O cabeçalho HTTP `%1$s` não contém `%2$s`. Este é um possível risco à segurança ou à privacidade, portanto, é recomendável ajustar esta configuração de acordo.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- O cabeçalho HTTP `%1$s` não está definido como `%2$s`, `%3$s`, `%4$s`, `%5$s` ou `%6$s`. Isso pode vazar informações do referenciador. Consulte a {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- O cabeçalho HTTP `Strict-Transport-Security` não está definido para pelo menos `%d` segundos (valor atual: `%d`). Para aumentar a segurança, é recomendável usar uma política HSTS longa.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- O cabeçalho HTTP `Strict-Transport-Security` está malformado: `%s`. Para aumentar a segurança, é recomendável ativar o HSTS.",
@@ -623,6 +622,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "O limite de memória do PHP está abaixo do valor recomendado de %s.",
     "for WebAuthn passwordless login" : "para login sem senha via WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "para login sem senha via WebAuthn e armazenamento SFTP",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- O cabeçalho HTTP `%1$s` não contém `%2$s`. Este é um possível risco à segurança ou à privacidade, portanto, é recomendável ajustar esta configuração de acordo.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Versão do PostgreSQL \"%s\" detectada. PostgreSQL >=12 e <=16 é sugerido para melhor desempenho, estabilidade e funcionalidade com esta versão do Nextcloud.",
     "Set default expiration date for shares" : "Definir data de validade padrão para compartilhamentos"
 },

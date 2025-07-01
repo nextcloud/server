@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Siz",
     "List of files that have been deleted." : "Silinmiş dosyaların listesi",
     "No deleted files" : "Silinmiş bir dosya yok",
-    "Files and folders you have deleted will show up here" : "Sildiğiniz dosya ve klasörler burada görüntülenir"
+    "Files and folders you have deleted will show up here" : "Sildiğiniz dosya ve klasörler burada görüntülenir",
+    "All files have been permanently deleted" : "Tüm dosyalar kalıcı olarak silindi",
+    "Failed to empty deleted files" : "Silinmiş dosyalar bölümü boşaltılamadı"
 },
 "nplurals=2; plural=(n > 1);");

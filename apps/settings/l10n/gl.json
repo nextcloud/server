@@ -292,7 +292,6 @@
     "HTTP headers" : "Cabeceiras HTTP",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "– A cabeceira HTTP «%1$s» non está definida como «%2$s». É posíbel que algunhas funcións non traballen correctamente, polo que, en consecuencia, recoméndase este axuste.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– A cabeceira HTTP «%1$s» non está definida como «%2$s». Este é un risco potencial de seguridade ou privacidade, polo que, en consecuencia, recoméndase este axuste.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– A cabeceira HTTP «%1$s» non contén «%2$s». Este é un risco potencial de seguridade ou privacidade, polo que, en consecuencia, recoméndase este axuste.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "– A cabeceira HTTP «%1$s»non está definida como «%2$s», «%3$s», «%4$s», «%5$s» ou «%6$s». Isto pode filtrar información «referer». Consulte a {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "– A cabeceira HTTP «Strict-Transport-Security» non está definida como mínimo a «%d» segundos (valor actual: «%d»). Para mellorar a seguridade, recoméndase utilizar unha directiva HSTS longa.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "– A cabeceira HTTP «Strict-Transport-Security» ten un formato incorrecto: «%s». Para mellorar a seguridade, recoméndase activar HSTS.",
@@ -609,6 +608,7 @@
     "The PHP memory limit is below the recommended value of %s." : "O límite de memoria de PHP está por baixo do valor recomendado de %s.",
     "for WebAuthn passwordless login" : "para acceso sen contrasinal de WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "para acceso sen contrasinal de WebAuthn, e almacenamento SFTP",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "– A cabeceira HTTP «%1$s» non contén «%2$s». Este é un risco potencial de seguridade ou privacidade, polo que, en consecuencia, recoméndase este axuste.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Detectouse a versión «%s» de PostgreSQL. Suxírese PostgreSQL >=12 e <=16 para un mellor rendemento, estabilidade e funcionalidade con esta versión de Nextcloud.",
     "Set default expiration date for shares" : "Definir a data de caducidade predeterminada das comparticións"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

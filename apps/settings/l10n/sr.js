@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "HTTP заглавља",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- HTTP заглавље `%1$s` није подешено на `%2$s`. Неке функције можда неће радити исправно, па се препоручује да га поставите на одговарајућу вредност.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP заглавље `%1$s` није подешено на `%2$s`. Ово је потенцијални безбедносни ризик или може да угрози приватност, па се препоручује да га поставите на одговарајућу вредност.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP заглавље `%1$s` не садржи `%2$s`. Ово је потенцијални безбедносни ризик или може да угрози приватност, па се препоручује да га поставите на одговарајућу вредност.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- HTTP заглавље  `%1$s` није постављено на `%2$s`, `%3$s`, `%4$s`, `%5$s` или `%6$s`. Услед тога могу процурити информације у упућивачу. Погледајте {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- HTTP заглавље `Strict-Transport-Security` није постављено на барем `%d` секунди (тренутна вредност је: `%d`). Препорука за унапређену безбедност је да се користи дуготрајна HSTS полиса.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- HTTP заглавље `Strict-Transport-Security` није исправно постављено: `%s`. Препорука за унапређену безбедност је да укључите HSTS.",
@@ -623,6 +622,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "Ограничење PHP меморије је испод препоручене вредности од %s.",
     "for WebAuthn passwordless login" : "за WebAuthn пријаву без лозинке",
     "for WebAuthn passwordless login, and SFTP storage" : "за WebAuthn пријаву без лозинке и за SFTP складиште",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- HTTP заглавље `%1$s` не садржи `%2$s`. Ово је потенцијални безбедносни ризик или може да угрози приватност, па се препоручује да га поставите на одговарајућу вредност.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "Детектована је PostgreSQL верзија „%s”. За најбоље перформансе, стабилност и функционалност са овом Nextcloud верзијом, препоручује се PostgreSQL >=12 и <=16.",
     "Set default expiration date for shares" : "Постави подразумевано време истека дељења"
 },
