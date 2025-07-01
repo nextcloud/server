@@ -45,7 +45,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
 	protected string $inputStream;
-	protected $content;
+	private bool $isPutStreamContentAlreadySent = false;
 	protected array $items = [];
 	protected array $allowedKeys = [
 		'get',
@@ -356,13 +356,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->isPutStreamContent()) {
-			if ($this->content === false) {
+			if ($this->isPutStreamContentAlreadySent) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
 					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
-			$this->content = false;
+			$this->isPutStreamContentAlreadySent = true;
 			return fopen($this->inputStream, 'rb');
 		} else {
 			$this->decodeContent();
