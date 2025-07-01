@@ -11,7 +11,6 @@ import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
 
 import { useFilesStore } from '../store/files'
-import { useNavigation } from '../composables/useNavigation'
 import { usePathsStore } from '../store/paths'
 import logger from '../logger'
 
@@ -86,11 +85,15 @@ router.onError((error) => {
 // If navigating back from a folder to a parent folder,
 // we need to keep the current dir fileid so it's highlighted
 // and scrolled into view.
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
 	if (to.params?.parentIntercept) {
 		delete to.params.parentIntercept
-		next()
-		return
+		return next()
+	}
+
+	if (to.params.view !== from.params.view) {
+		// skip if different views
+		return next()
 	}
 
 	const fromDir = (from.query?.dir || '/') as string
@@ -98,17 +101,16 @@ router.beforeEach((to, from, next) => {
 
 	// We are going back to a parent directory
 	if (relative(fromDir, toDir) === '..') {
-		const { currentView } = useNavigation()
 		const { getNode } = useFilesStore()
 		const { getPath } = usePathsStore()
 
-		if (!currentView.value?.id) {
+		if (!from.params.view) {
 			logger.error('No current view id found, cannot navigate to parent directory', { fromDir, toDir })
 			return next()
 		}
 
 		// Get the previous parent's file id
-		const fromSource = getPath(currentView.value?.id, fromDir)
+		const fromSource = getPath(from.params.view, fromDir)
 		if (!fromSource) {
 			logger.error('No source found for the parent directory', { fromDir, toDir })
 			return next()
@@ -121,7 +123,7 @@ router.beforeEach((to, from, next) => {
 		}
 
 		logger.debug('Navigating back to parent directory', { fromDir, toDir, fileId })
-		next({
+		return next({
 			name: 'filelist',
 			query: to.query,
 			params: {
