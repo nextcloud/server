@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -147,11 +148,11 @@ class UserPlugin implements ISearchPlugin {
 
 
 			if (
-				$this->shareeEnumerationFullMatch &&
-				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
-				strtolower($userDisplayName) === $lowerSearch ||
-				($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch) ||
-				($this->shareeEnumerationFullMatchEmail && strtolower($userEmail ?? '') === $lowerSearch))
+				$this->shareeEnumerationFullMatch
+				&& $lowerSearch !== '' && (strtolower($uid) === $lowerSearch
+				|| strtolower($userDisplayName) === $lowerSearch
+				|| ($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch)
+				|| ($this->shareeEnumerationFullMatchEmail && strtolower($userEmail ?? '') === $lowerSearch))
 			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
@@ -169,8 +170,8 @@ class UserPlugin implements ISearchPlugin {
 				];
 			} else {
 				$addToWideResults = false;
-				if ($this->shareeEnumeration &&
-					!($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
+				if ($this->shareeEnumeration
+					&& !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
 					$addToWideResults = true;
 				}
 

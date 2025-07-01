@@ -54,7 +54,7 @@ class DeleteOrphanedFiles extends Command {
 
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
-		
+
 		return self::SUCCESS;
 	}
 
@@ -112,7 +112,7 @@ class DeleteOrphanedFiles extends Command {
 
 		return $deletedEntries;
 	}
-	
+
 	/**
 	 * @param array<int, int[]> $fileIdsByStorage
 	 * @return int

@@ -120,8 +120,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			if ($class->isInstantiable()) {
 				return $this->buildClass($class);
 			} else {
-				throw new QueryException($baseMsg .
-					' Class can not be instantiated');
+				throw new QueryException($baseMsg
+					. ' Class can not be instantiated');
 			}
 		} catch (ReflectionException $e) {
 			// Class does not exist

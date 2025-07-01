@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -190,9 +191,9 @@ class AppManager implements IAppManager {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					if (
-						$file[0] != '.' &&
-						is_dir($apps_dir['path'] . '/' . $file) &&
-						is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')
+						$file[0] != '.'
+						&& is_dir($apps_dir['path'] . '/' . $file)
+						&& is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')
 					) {
 						$apps[] = $file;
 					}
@@ -512,8 +513,8 @@ class AppManager implements IAppManager {
 
 		if (!empty($info['collaboration']['plugins'])) {
 			// deal with one or many plugin entries
-			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
-				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
+			$plugins = isset($info['collaboration']['plugins']['plugin']['@value'])
+				? [$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
 			$collaboratorSearch = null;
 			$autoCompleteManager = null;
 			foreach ($plugins as $plugin) {

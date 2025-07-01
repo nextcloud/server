@@ -87,10 +87,10 @@ class PhpOpcacheSetup implements ISetupCheck {
 			$memory_consumption = $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0;
 			if (
 				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($interned_strings_buffer < ($memory_consumption / 4)) &&
-				(
-					empty($status['interned_strings_usage']['free_memory']) ||
-					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
+				($interned_strings_buffer < ($memory_consumption / 4))
+				&& (
+					empty($status['interned_strings_usage']['free_memory'])
+					|| ($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)
 				)
 			) {
 				$recommendations[] = $this->l10n->t('The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply "opcache.interned_strings_buffer" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?: 'currently')]);

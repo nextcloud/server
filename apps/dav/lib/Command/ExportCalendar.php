@@ -79,7 +79,7 @@ class ExportCalendar extends Command {
 			if ($handle === false) {
 				throw new InvalidArgumentException("Location <$location> is not valid. Can not open location for write operation.");
 			}
-			
+
 			foreach ($this->exportService->export($calendar, $options) as $chunk) {
 				fwrite($handle, $chunk);
 			}

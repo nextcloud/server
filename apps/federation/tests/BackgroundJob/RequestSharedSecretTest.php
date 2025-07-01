@@ -145,12 +145,11 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => true,
@@ -231,12 +230,11 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => true,

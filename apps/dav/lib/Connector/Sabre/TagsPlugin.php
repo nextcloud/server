@@ -281,8 +281,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 
 	public function handlePreloadProperties(array $nodes, array $requestProperties): void {
 		if (
-			!in_array(self::FAVORITE_PROPERTYNAME, $requestProperties, true) &&
-			!in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)
+			!in_array(self::FAVORITE_PROPERTYNAME, $requestProperties, true)
+			&& !in_array(self::TAGS_PROPERTYNAME, $requestProperties, true)
 		) {
 			return;
 		}

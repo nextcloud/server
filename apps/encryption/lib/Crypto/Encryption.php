@@ -446,8 +446,8 @@ class Encryption implements IEncryptionModule {
 				// error message because in this case it means that the file was
 				// shared with the user at a point where the user didn't had a
 				// valid private/public key
-				$msg = 'Encryption module "' . $this->getDisplayName() .
-					'" is not able to read ' . $path;
+				$msg = 'Encryption module "' . $this->getDisplayName()
+					. '" is not able to read ' . $path;
 				$hint = $this->l->t('Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				$this->logger->warning($msg);
 				throw new DecryptionFailedException($msg, $hint);

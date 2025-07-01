@@ -844,11 +844,10 @@ class MigrationsTest extends \Test\TestCase {
 					'class' => 'OCP\\Migration\\Attributes\\CreateTable',
 					'table' => 'new_table',
 					'description' => 'Table is used to store things, but also to get more things',
-					'notes' =>
-						[
-							'this is a notice',
-							'and another one, if really needed'
-						],
+					'notes' => [
+						'this is a notice',
+						'and another one, if really needed'
+					],
 					'columns' => []
 				],
 				[

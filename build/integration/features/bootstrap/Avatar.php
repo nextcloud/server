@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -240,10 +241,10 @@ trait Avatar {
 	}
 
 	private function isSameColor(array $firstColor, array $secondColor, int $allowedDelta = 1) {
-		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
+		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
 			return true;
 		}
 
@@ -251,8 +252,8 @@ trait Avatar {
 	}
 
 	private function isSameColorComponent(int $firstColorComponent, int $secondColorComponent, int $allowedDelta) {
-		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta) &&
-			$firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
+		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta)
+			&& $firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
 			return true;
 		}
 

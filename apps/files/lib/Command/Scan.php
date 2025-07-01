@@ -286,8 +286,8 @@ class Scan extends Base {
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler(
-			fn (int $severity, string $message, string $file, int $line): bool =>
-				$this->exceptionErrorHandler($output, $severity, $message, $file, $line),
+			fn (int $severity, string $message, string $file, int $line): bool
+				=> $this->exceptionErrorHandler($output, $severity, $message, $file, $line),
 			E_ALL
 		);
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,11 +24,11 @@ class Downloads extends Base {
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			$subject = $this->l->t('Downloaded via public link');
-		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('Downloaded by {email}');
 		} else {
 			throw new \InvalidArgumentException();
@@ -53,8 +54,8 @@ class Downloads extends Base {
 	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
-		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
+		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
 			if (!isset($parsedParameters['remote-address-hash']['type'])) {
 				$subject = $this->l->t('{file} downloaded via public link');
 				$this->setSubjects($event, $subject, $parsedParameters);
@@ -63,8 +64,8 @@ class Downloads extends Base {
 				$this->setSubjects($event, $subject, $parsedParameters);
 				$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
 			}
-		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
-			$event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED
+			|| $event->getSubject() === self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED) {
 			$subject = $this->l->t('{email} downloaded {file}');
 			$this->setSubjects($event, $subject, $parsedParameters);
 		} else {

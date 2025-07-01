@@ -156,7 +156,7 @@ class ViewOnlyPluginTest extends TestCase {
 			->method('getAttribute')
 			->with('permissions', 'download')
 			->willReturn($attrEnabled);
-		
+
 		$share->expects($this->once())
 			->method('canSeeContent')
 			->willReturn($allowViewWithoutDownload);
