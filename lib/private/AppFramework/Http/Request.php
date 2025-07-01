@@ -390,10 +390,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
-			try {
-				$params = json_decode(file_get_contents($this->inputStream), true, flags:JSON_THROW_ON_ERROR);
-			} catch (\JsonException $e) {
-				$this->decodingException = $e;
+			$content = file_get_contents($this->inputStream);
+			if ($content !== '') {
+				try {
+					$params = json_decode($content, true, flags:JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->decodingException = $e;
+				}
 			}
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
