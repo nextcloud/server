@@ -219,6 +219,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Zobraziť klávesové skratky",
     "You" : "Vy",
     "Shared multiple times with different people" : "Zdieľané viackrát rôznymi ľuďmi",
+    "Unable to change the favorite state of the file" : "Nie je možné zmeniť stav „obľúbené“ súboru",
     "Error while loading the file data" : "Chyba pri načítaní údajov súboru",
     "Owner" : "Vlastník",
     "Remove from favorites" : "Odstrániť z obľúbených",

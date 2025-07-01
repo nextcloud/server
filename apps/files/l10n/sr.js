@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Прикажи те пречице",
     "You" : "Ви",
     "Shared multiple times with different people" : "Дељено више пута са разним људима",
+    "Unable to change the favorite state of the file" : "Није успела измена стања омиљено за фајл",
     "Error while loading the file data" : "Грешка при учитавању података фајла",
     "Owner" : "Власник",
     "Remove from favorites" : "Избаци из омиљених",

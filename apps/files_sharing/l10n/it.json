@@ -366,6 +366,7 @@
     "List of unapproved shares." : "Lista di condivisioni non approvate.",
     "No pending shares" : "Nessuna condivisione in corso",
     "Shares you have received but not approved will show up here" : "Le condivisioni che hai ricevuto, ma non approvato saranno mostrate qui",
+    "Error deleting the share" : "Errore durante l'eliminazione della condivisione",
     "Error updating the share: {errorMessage}" : "Errore durante l'aggiornamento della condivisione: {errorMessage}",
     "Error updating the share" : "Errore durante l'aggiornamento della condivisione",
     "File \"{path}\" has been unshared" : "La condivisione del file \"{path}\" è stata rimossa",

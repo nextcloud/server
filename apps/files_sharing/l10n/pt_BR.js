@@ -368,6 +368,8 @@ OC.L10N.register(
     "List of unapproved shares." : "Lista de compartilhamentos não aprovados.",
     "No pending shares" : "Não há compartilhamentos pendentes",
     "Shares you have received but not approved will show up here" : "Os compartilhamentos que você recebeu, mas não aprovou, aparecerão aqui",
+    "Error deleting the share: {errorMessage}" : "Erro ao excluir o compartilhamento: {errorMessage}",
+    "Error deleting the share" : "Erro ao excluir o compartilhamento",
     "Error updating the share: {errorMessage}" : "Erro ao atualizar o compartilhamento: {errorMessage}",
     "Error updating the share" : "Erro ao atualizar o compartilhamento",
     "File \"{path}\" has been unshared" : "O arquivo \"{path}\" foi descompartilhado",

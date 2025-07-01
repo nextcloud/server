@@ -294,7 +294,6 @@
     "HTTP headers" : "HTTP标头",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP 标头未设置为 `%2$s`。 某些功能可能无法正常工作，建议相应地调整此设置。",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP标头未设置为 `%2$s`。这可能是潜在的安全或隐私风险，建议调整此设置。",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP 标头不包含 `%2$s`。这是一个潜在的安全或隐私风险，建议相应地调整此设置。",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- `%1$s` HTTP 头未设置为 `%2$s`、`%3$s`、`%4$s`、`%5$s` 或 `%6$s`。这可能会泄露引用地址信息。请参阅相关文档以获取更多信息：{w3c-recommendation}。",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- Strict-Transport-Security` HTTP 头未设置为至少`%d` 秒（当前值：`%d`）。为了增强安全性，建议采用更长的 HSTS 策略。",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- Strict-Transport-Security HTTP 头格式不正确：%s。为增强安全性，建议启用 HSTS。",
@@ -621,6 +620,7 @@
     "The PHP memory limit is below the recommended value of %s." : "PHP 内存限制低于建议值 %s。",
     "for WebAuthn passwordless login" : "用于 WebAuthn 无密码登录",
     "for WebAuthn passwordless login, and SFTP storage" : "用于 WebAuthn 无密码登录和 SFTP 存储",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP 标头不包含 `%2$s`。这是一个潜在的安全或隐私风险，建议相应地调整此设置。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "检测到 PostgreSQL 版本\"%s\"。建议使用 PostgreSQL >=12 和 <=16，以获得此版本 Nextcloud 的最佳性能、稳定性和功能。",
     "Set default expiration date for shares" : "设置共享的默认截止日期"
 },"pluralForm" :"nplurals=1; plural=0;"

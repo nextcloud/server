@@ -227,6 +227,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Показать ярлыки",
     "You" : "Вы",
     "Shared multiple times with different people" : "Делиться несколько раз с разными людьми",
+    "Unable to change the favorite state of the file" : "Невозможно изменить избранное состояние файла",
     "Error while loading the file data" : "Не удалось загрузить данные файла",
     "Owner" : "Владелец",
     "Remove from favorites" : "Удалить из избранных",

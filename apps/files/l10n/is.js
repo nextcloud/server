@@ -206,6 +206,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Sýna þessa flýtilykla",
     "You" : "Þú",
     "Shared multiple times with different people" : "Deilt mörgum sinnum með mismunandi fólki",
+    "Unable to change the favorite state of the file" : "Get ekki breytt stöðu sem eftirlæti á skránni",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
     "Owner" : "Eigandi",
     "Remove from favorites" : "Fjarlægja úr eftirlætum",

@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Gyorsbillentyűk megjelenítése",
     "You" : "Ön",
     "Shared multiple times with different people" : "Többször megosztva különböző személyekkel",
+    "Unable to change the favorite state of the file" : "Nem lehet megváltoztatni a fájl kedvenc állapotát",
     "Error while loading the file data" : "Hiba történt a fájladatok betöltése közben",
     "Owner" : "Tulajdonos",
     "Remove from favorites" : "Eltávolítás a kedvencekből",

@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Vy",
     "List of files that have been deleted." : "Seznam souborů, které byly smazány",
     "No deleted files" : "Žádné smazané soubory",
-    "Files and folders you have deleted will show up here" : "Zde budou zobrazeny soubory a složky, které jste smazali"
+    "Files and folders you have deleted will show up here" : "Zde budou zobrazeny soubory a složky, které jste smazali",
+    "All files have been permanently deleted" : "Veškeré soubory byly nevratně smazány",
+    "Failed to empty deleted files" : "Nepodařilo se vyprázdnit smazané soubory"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

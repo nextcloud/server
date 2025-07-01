@@ -226,6 +226,7 @@
     "Show those shortcuts" : "これらのショートカットを表示する",
     "You" : "自分",
     "Shared multiple times with different people" : "異なる人と複数回共有",
+    "Unable to change the favorite state of the file" : "ファイルのお気に入りの状態を変更できません",
     "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
     "Owner" : "作成者",
     "Remove from favorites" : "お気に入りから削除",

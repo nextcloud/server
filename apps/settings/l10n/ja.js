@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "HTTP ヘッダー",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP ヘッダーが `%2$s` に設定されていません。この設定を調整することが推奨されているため、一部の機能が正しく動作しない可能性があります。",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP ヘッダーが `%2$s` に設定されていません。これはセキュリティやプライバシーのリスクとなる可能性があるため、この設定を調整することが推奨されています。",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP ヘッダーに `%2$s` が含まれていません。これはセキュリティやプライバシーのリスクとなる可能性があるため、この設定を調整することが推奨されています。",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- `%1$s` HTTP ヘッダーが `%2$s`, `%3$s`, `%4$s`, `%5$s` または `%6$s`. に設定されていません。これにより、リファラー情報が漏れる可能性があります。詳しくは {w3c-recommendation} を参照してください。",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- `Strict-Transport-Security` HTTPヘッダーが少なくとも `%d` 秒に設定されていません（現在の値：`%d`）。セキュリティを強化するために、長期間のHSTSポリシーを使用することを推奨します。",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- `Strict-Transport-Security` HTTPヘッダーが不正です: `%s`。セキュリティを強化するために、HSTSを有効にすることを推奨します。",
@@ -623,6 +622,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "PHPのメモリ制限が推奨値の%s以下です。",
     "for WebAuthn passwordless login" : "WebAuthn パスワードレスログイン用",
     "for WebAuthn passwordless login, and SFTP storage" : "WebAuthn パスワードレスログインと、SFTPストレージ用",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- `%1$s` HTTP ヘッダーに `%2$s` が含まれていません。これはセキュリティやプライバシーのリスクとなる可能性があるため、この設定を調整することが推奨されています。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "PostgreSQLのバージョン \"%s\"が検出されました。 このバージョンのNextcloudで最高のパフォーマンス、安定性、機能性を得るには、PostgreSQL >=12および<=16を推奨します。",
     "Set default expiration date for shares" : "共有のデフォルトの有効期限を設定する"
 },

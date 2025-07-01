@@ -218,6 +218,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Mostra aquestes dreceres",
     "You" : "Vós",
     "Shared multiple times with different people" : "S'ha compartit diverses vegades amb persones diferents",
+    "Unable to change the favorite state of the file" : "No es pot canviar l'estat preferit del fitxer",
     "Error while loading the file data" : "S'ha produït un error en carregar la informació del fitxer",
     "Owner" : "Propietat",
     "Remove from favorites" : "Suprimeix dels preferits",

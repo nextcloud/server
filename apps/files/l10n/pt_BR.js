@@ -228,6 +228,7 @@ OC.L10N.register(
     "Show those shortcuts" : "Mostrar esses atalhos",
     "You" : "Você",
     "Shared multiple times with different people" : "Compartilhado várias vezes com pessoas diferentes",
+    "Unable to change the favorite state of the file" : "Impossível mudar estado de favorito do arquivo",
     "Error while loading the file data" : "Erro ao carregar os dados do arquivo",
     "Owner" : "Proprietário",
     "Remove from favorites" : "Excluir dos favoritos",

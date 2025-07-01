@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Ihnen",
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
     "No deleted files" : "Keine gelöschten Dateien",
-    "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt"
+    "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt",
+    "All files have been permanently deleted" : "Alle Dateien wurden dauerhaft gelöscht",
+    "Failed to empty deleted files" : "Gelöschte Dateien konnten nicht geleert werden"
 },
 "nplurals=2; plural=(n != 1);");

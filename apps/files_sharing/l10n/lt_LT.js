@@ -237,6 +237,7 @@ OC.L10N.register(
     "No deleted shares" : "Ištrintų viešinių nėra",
     "Pending shares" : "Laukiantys viešiniai",
     "No pending shares" : "Nėra jokių laukiančių viešinių",
+    "Error deleting the share" : "Klaida ištrinant bendrinimą",
     "Error updating the share: {errorMessage}" : "Klaida atnaujinant viešinį: {errorMessage}",
     "Error updating the share" : "Klaida atnaujinant viešinį",
     "File \"{path}\" has been unshared" : "Failas „{path}“ nustotas bendrinti",

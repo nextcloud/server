@@ -296,7 +296,6 @@ OC.L10N.register(
     "HTTP headers" : "ترويسات الـ HTTP",
     "- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "- لم يتم تعيين ترويسة الـ HTTP ـ `%1$s` إلى `%2$s`. يمكن ألّا تعمل بعض الخصائص بالشكل الصحيح بسبب عدم ضبط هذا الإعداد كما يجب.",
     "- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- لم يتم تعيين ترويسة الـ HTTP ـ `%1$s` إلى `%2$s`.  يمكن أن يٌشكِّل هذا تهديداً محتملاً للأمن و الخصوصية بسبب عدم ضبط هذا الإعداد كما يجب.",
-    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- ترويسة الـ HTTP ـ `%1$s` لا تحتوي على `%2$s`.  يمكن أن يٌشكِّل هذا تهديداً محتملاً للأمن و الخصوصية بسبب عدم ضبط هذا الإعداد كما يجب.",
     "- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}." : "- ترويسة الـ HTTP ـ `%1$s` لم يتم ضبطها على `%2$s`, أو `%3$s`, أو `%4$s`, أو `%5$s`، أو `%6$s`. يمكن أن يؤدي هذا إلى تسريب معلومات المرجِع . للمزيد، أنظُر: {w3c-recommendation}.",
     "- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy." : "- ترويسة  HTTP للنقل الآمن `Strict-Transport-Security` لم يتم ضبطها على `%d` ثوانٍ على الأقل (القيمة الحالية: `%d`). لتعزيز الأمن، يُوصى باستعمال سياسة HSTS طويلة.",
     "- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS." : "- ترويسة HTTP للنقل الآمن `Strict-Transport-Security` ـ : `%s`. لتعزيز الأمن، يُنصح بتمكين HSTS.",
@@ -616,6 +615,7 @@ OC.L10N.register(
     "The PHP memory limit is below the recommended value of %s." : "حد ذاكرة PHP أقل من القيمة الموصى بها وهي %s.",
     "for WebAuthn passwordless login" : "للدخول بدون كلمة مرور passwordless login في WebAuthn",
     "for WebAuthn passwordless login, and SFTP storage" : "للدخول بدون كلمة مرور passwordless login في WebAuthn، و وحدات تخزين SFTP",
+    "- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "- ترويسة الـ HTTP ـ `%1$s` لا تحتوي على `%2$s`.  يمكن أن يٌشكِّل هذا تهديداً محتملاً للأمن و الخصوصية بسبب عدم ضبط هذا الإعداد كما يجب.",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "تمّ اكتشاف الإصدار \"%s\" من PostgreSQL. الإصدارات الموصى بها لأفضل أداء و للثبات و لاكتمال الوظائف مع هذا الإصدار من نكست كلاود هي من 12 إلى 16. ",
     "Set default expiration date for shares" : "تعيين تاريخ إنتهاء الصلاحية للمشاركات"
 },
