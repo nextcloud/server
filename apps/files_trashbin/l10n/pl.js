@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Ty",
     "List of files that have been deleted." : "Lista plików, które zostały usunięte.",
     "No deleted files" : "Brak usuniętych plików",
-    "Files and folders you have deleted will show up here" : "Tutaj pojawią się usunięte pliki i katalogi"
+    "Files and folders you have deleted will show up here" : "Tutaj pojawią się usunięte pliki i katalogi",
+    "All files have been permanently deleted" : "Wszystkie pliki zostały trwale usunięte",
+    "Failed to empty deleted files" : "Nie udało się opróżnić usuniętych plików"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
