@@ -10,15 +10,24 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\DependencyInjection;
 
-use OC;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
+use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
+use OC\AppFramework\Middleware\CompressionMiddleware;
 use OC\AppFramework\Middleware\FlowV2EphemeralSessionsMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
+use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
+use OC\AppFramework\Middleware\Security\BruteForceMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
+use OC\AppFramework\Middleware\Security\CSPMiddleware;
+use OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware;
+use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
+use OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware;
+use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\ScopedPsrLogger;
@@ -172,25 +181,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$dispatcher = new MiddlewareDispatcher();
 
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\CompressionMiddleware::class)
-			);
-
-			$dispatcher->registerMiddleware($c->get(OC\AppFramework\Middleware\NotModifiedMiddleware::class));
-
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
-			);
-
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(CORSMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(OCSMiddleware::class)
-			);
+			$dispatcher->registerMiddleware($c->get(CompressionMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(NotModifiedMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(ReloadExecutionMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(SameSiteCookieMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(CORSMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(OCSMiddleware::class));
 
 			$dispatcher->registerMiddleware($c->get(FlowV2EphemeralSessionsMiddleware::class));
 
@@ -211,28 +207,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\CSPMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(TwoFactorMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\Security\BruteForceMiddleware::class)
-			);
+			$dispatcher->registerMiddleware($c->get(CSPMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(FeaturePolicyMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(PasswordConfirmationMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(TwoFactorMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(BruteForceMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(RateLimitingMiddleware::class));
-			$dispatcher->registerMiddleware(
-				$c->get(OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware::class)
-			);
-			$dispatcher->registerMiddleware(
-				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
-			);
+			$dispatcher->registerMiddleware($c->get(PublicShareMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(AdditionalScriptsMiddleware::class));
 
 			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$registrationContext = $coordinator->getRegistrationContext();
@@ -249,9 +231,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$dispatcher->registerMiddleware($c->get($middleWare));
 			}
 
-			$dispatcher->registerMiddleware(
-				$c->get(SessionMiddleware::class)
-			);
+			$dispatcher->registerMiddleware($c->get(SessionMiddleware::class));
 			return $dispatcher;
 		});
 
@@ -369,7 +349,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return parent::query($name);
 		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
 			return parent::query($name);
-		} elseif (str_starts_with($name, 'OC\\AppFramework\\Services\\')) {
+		} elseif (
+			str_starts_with($name, 'OC\\AppFramework\\Services\\')
+			|| str_starts_with($name, 'OC\\AppFramework\\Middleware\\')
+		) {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name);
 		}
