@@ -238,7 +238,6 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -268,9 +267,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
-		$this->registerService(\OCP\IServerContainer::class, function (ContainerInterface $c) {
-			return $c;
-		});
+		$this->registerDeprecatedAlias(\OCP\IServerContainer::class, ContainerInterface::class);
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 
@@ -874,7 +871,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
-		$this->registerService(\OCP\IRequest::class, function (ContainerInterface $c) {
+		$this->registerService(Request::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
 				$urlParams = $this['urlParams'];
 			} else {
@@ -908,6 +905,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream
 			);
 		});
+		$this->registerAlias(\OCP\IRequest::class, Request::class);
 
 		$this->registerService(IRequestId::class, function (ContainerInterface $c): IRequestId {
 			return new RequestId(
@@ -1682,7 +1680,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0 Use get(\OCP\Files\AppData\IAppDataFactory::class)->get($app) instead
 	 */
 	public function getAppDataDir($app) {
-		/** @var \OC\Files\AppData\Factory $factory */
 		$factory = $this->get(\OC\Files\AppData\Factory::class);
 		return $factory->get($app);
 	}
@@ -1693,19 +1690,5 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCloudIdManager() {
 		return $this->get(ICloudIdManager::class);
-	}
-
-	private function registerDeprecatedAlias(string $alias, string $target) {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias) {
-			try {
-				/** @var LoggerInterface $logger */
-				$logger = $container->get(LoggerInterface::class);
-				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
-			} catch (ContainerExceptionInterface $e) {
-				// Could not get logger. Continue
-			}
-
-			return $container->get($target);
-		}, false);
 	}
 }
