@@ -18,6 +18,8 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
+	private string $name = 'CardDAV';
+
 	public function __construct(
 		protected IFactory $l10nFactory,
 	) {
@@ -34,7 +36,7 @@ class Notifier implements INotifier {
 	 * @inheritDoc
 	 */
 	public function getName(): string {
-		return 'DAV';
+		return $this->name;
 	}
 
 	/**
@@ -46,6 +48,8 @@ class Notifier implements INotifier {
 		}
 
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
+
+		$this->name = $l->t('Contacts');
 
 		return match ($notification->getSubject()) {
 			'SystemAddressBookDisabled' => $this->parseSystemAddressBookDisabled($notification, $l),
@@ -60,7 +64,8 @@ class Notifier implements INotifier {
 		$notification->setParsedSubject(
 			$l->t('System address book disabled')
 		)->setParsedMessage(
-			$l->t('The system address book has been automatically disabled. This means that the address book will no longer be available to users in the contacts app or dav clients')
+			$l->t('The system address book has been automatically disabled during upgrade. This means that the address book will no longer be available to users in the contacts app or other clients. The system address book was disabled because the amount of contacts in the address book exceeded the maximum recommended number of contacts. This limit is set to prevent performance issues. You can re-enable the system address book by forcing the "system_addressbook_exposed" parameter to true'),
+			['app' => $this->getName()]
 		);
 		return $notification;
 	}

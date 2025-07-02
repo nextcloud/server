@@ -25,7 +25,7 @@ class SystemAddressBookSizeTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->l10n->method('t')->willReturnCallback(fn ($text, ...$args) => vsprintf($text, $args));
+		$this->l10n->method('t')->willReturnCallback(fn ($text, $parameters = []) => vsprintf($text, $parameters));
 	}
 
 	public function testSystemAddressBookDisabled() {
