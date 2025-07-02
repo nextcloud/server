@@ -141,9 +141,9 @@ class CalendarImplTest extends \Test\TestCase {
 
 		$this->expectException(CalendarException::class);
 		$this->expectExceptionMessage('iMip message contains no valid method');
-		
+
 		// Act
-		$this->calendarImpl->handleIMip($vObject->serialize());
+		$this->calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 	public function testHandleImipNoEvent(): void {
@@ -151,12 +151,12 @@ class CalendarImplTest extends \Test\TestCase {
 		$vObject = $this->vCalendar1a;
 		$vObject->add('METHOD', 'REQUEST');
 		$vObject->remove('VEVENT');
-		
+
 		$this->expectException(CalendarException::class);
 		$this->expectExceptionMessage('iMip message contains no event');
-		
+
 		// Act
-		$this->calendarImpl->handleIMip($vObject->serialize());
+		$this->calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 	public function testHandleImipNoUid(): void {
@@ -164,12 +164,12 @@ class CalendarImplTest extends \Test\TestCase {
 		$vObject = $this->vCalendar1a;
 		$vObject->add('METHOD', 'REQUEST');
 		$vObject->VEVENT->remove('UID');
-		
+
 		$this->expectException(CalendarException::class);
 		$this->expectExceptionMessage('iMip message event dose not contain a UID');
-		
+
 		// Act
-		$this->calendarImpl->handleIMip($vObject->serialize());
+		$this->calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 	public function testHandleImipNoOrganizer(): void {
@@ -177,12 +177,12 @@ class CalendarImplTest extends \Test\TestCase {
 		$vObject = $this->vCalendar1a;
 		$vObject->add('METHOD', 'REQUEST');
 		$vObject->VEVENT->remove('ORGANIZER');
-		
+
 		$this->expectException(CalendarException::class);
 		$this->expectExceptionMessage('iMip message event dose not contain an organizer');
-		
+
 		// Act
-		$this->calendarImpl->handleIMip($vObject->serialize());
+		$this->calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 	public function testHandleImipNoAttendee(): void {
@@ -190,12 +190,12 @@ class CalendarImplTest extends \Test\TestCase {
 		$vObject = $this->vCalendar1a;
 		$vObject->add('METHOD', 'REQUEST');
 		$vObject->VEVENT->remove('ATTENDEE');
-		
+
 		$this->expectException(CalendarException::class);
 		$this->expectExceptionMessage('iMip message event dose not contain an attendee');
-		
+
 		// Act
-		$this->calendarImpl->handleIMip($vObject->serialize());
+		$this->calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 	public function testHandleImipRequest(): void {
@@ -241,7 +241,6 @@ class CalendarImplTest extends \Test\TestCase {
 			]);
 		$server->expects(self::once())
 			->method('emit');
-		
 		$invitationResponseServer = $this->createMock(InvitationResponseServer::class, ['getServer']);
 		$invitationResponseServer->server = $server;
 		$invitationResponseServer->expects($this->any())
@@ -254,8 +253,8 @@ class CalendarImplTest extends \Test\TestCase {
 		$calendarImpl->expects($this->once())
 			->method('getInvitationResponseServer')
 			->willReturn($invitationResponseServer);
-			
-		$calendarImpl->handleIMip($vObject->serialize());
+
+		$calendarImpl->handleIMipMessage('fakeUser', $vObject->serialize());
 	}
 
 }
