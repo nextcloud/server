@@ -450,6 +450,7 @@ Feature: provisioning
 		Then groups returned are
 			| España |
 			| admin |
+			| hidden_group |
 			| new-group |
 
 	Scenario: create a subadmin
