@@ -284,7 +284,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		$iTip->recipient = $recipient;
 		$iTip->component = 'VEVENT';
 		$iTip->uid = $vObject->VEVENT->UID->getValue();
-		$iTip->sequence = (int)$vObject->VEVENT->SEQUENCE->getValue();
+		$iTip->sequence = (int)$vObject->VEVENT->SEQUENCE?->getValue() ?? 1;
 		$iTip->message = $vObject;
 
 		$server->server->emit('schedule', [$iTip]);
