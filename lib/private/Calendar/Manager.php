@@ -16,11 +16,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarEventBuilder;
-use OCP\Calendar\ICalendarHandleImip;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\ICreateFromString;
+use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -244,39 +244,22 @@ class Manager implements IManager {
 		}
 
 		if (!isset($vObject->VEVENT)) {
-			$this->logger->warning('iMip message contains no event');
+			$this->logger->warning('iMip message does not contain any event(s)');
 			return false;
 		}
 
-		/** @var VEvent|null $vEvent */
-		$eventObject = $calendarObject->VEVENT;
-
-		if (!isset($eventObject->UID)) {
+		if (!isset($vObject->VEVENT->UID)) {
 			$this->logger->warning('iMip message event dose not contains a UID');
 			return false;
 		}
 
-		if (!isset($eventObject->ORGANIZER)) {
+		if (!isset($vObject->VEVENT->ORGANIZER)) {
 			$this->logger->warning('iMip message event dose not contains an organizer');
 			return false;
 		}
 
-		if (!isset($eventObject->ATTENDEE)) {
+		if (!isset($vObject->VEVENT->ATTENDEE)) {
 			$this->logger->warning('iMip message event dose not contains any attendees');
-			return false;
-		}
-
-		foreach ($eventObject->ATTENDEE as $entry) {
-			$address = trim(str_replace('mailto:', '', $entry->getValue()));
-			if ($address === $recipient) {
-				$attendee = $address;
-				break;
-			}
-		}
-		if (!isset($attendee)) {
-			$this->logger->warning('iMip message event does not contain a attendee that matches the recipient');
-		if (!isset($vObject->VEVENT->UID)) {
-			$this->logger->warning('iMip message event dose not contain a UID');
 			return false;
 		}
 
@@ -289,8 +272,8 @@ class Manager implements IManager {
 			}
 			if (!empty($calendar->search('', [], ['uid' => $vObject->VEVENT->UID->getValue()]))) {
 				try {
-					if ($calendar instanceof ICalendarHandleImip) {
-						$calendar->handleIMip($vObject->serialize());
+					if ($calendar instanceof IHandleImipMessage) {
+						$calendar->handleIMipMessage($userId, $vObject->serialize());
 					}
 					return true;
 				} catch (CalendarException $e) {

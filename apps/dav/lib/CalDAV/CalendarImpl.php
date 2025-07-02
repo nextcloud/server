@@ -14,7 +14,6 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
-use OCP\Calendar\ICalendarHandleImip;
 use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
@@ -32,7 +31,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsEnabled, ICalendarIsWritable, ICalendarIsShared, ICalendarHandleImip, ICalendarExport {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsEnabled, ICalendarIsWritable, ICalendarIsShared, ICalendarExport {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */
@@ -209,25 +208,12 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 
 	/**
 	 * @throws CalendarException
-	 *
-	 * @deprecated 32.0.0 Use handleIMip() instead
 	 */
 	public function handleIMipMessage(string $name, string $calendarData): void {
-		$this->handleIMip($calendarData);
-	}
-
-	/**
-	 * Processes an iMip message
-	 *
-	 * @since 32.0.0
-	 *
-	 * @throws CalendarException
-	 */
-	public function handleIMip(string $message): void {
 
 		try {
 			/** @var VCalendar $vObject|null */
-			$vObject = Reader::read($message);
+			$vObject = Reader::read($calendarData);
 		} catch (ParseException $e) {
 			throw new CalendarException('iMip message could not be processed because an error occurred while parsing the iMip message', 0, $e);
 		}

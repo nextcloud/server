@@ -17,7 +17,6 @@ use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarExport;
-use OCP\Calendar\ICalendarHandleImip;
 use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
@@ -37,7 +36,7 @@ use Test\TestCase;
 /*
  * This allows us to create Mock object supporting both interfaces
  */
-interface ITestCalendar extends ICreateFromString, IHandleImipMessage, ICalendarIsEnabled, ICalendarIsWritable, ICalendarIsShared, ICalendarHandleImip, ICalendarExport {
+interface ITestCalendar extends ICreateFromString, IHandleImipMessage, ICalendarIsEnabled, ICalendarIsWritable, ICalendarIsShared, ICalendarExport {
 
 }
 
@@ -369,8 +368,8 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message contains no event');
+			   $this->logger->expects(self::once())->method('warning')
+					   ->with('iMip message does not contain any event(s)');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -403,8 +402,8 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contain a UID');
+			   $this->logger->expects(self::once())->method('warning')
+					   ->with('iMip message event dose not contains a UID');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -446,8 +445,8 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message could not be processed because the no corresponding event was found in any calendar');
+			   $this->logger->expects(self::once())->method('warning')
+					   ->with('iMip message could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -493,7 +492,7 @@ class ManagerTest extends TestCase {
 		$calendar->add('METHOD', 'REQUEST');
 		// construct user calendar returns
 		$userCalendar->expects(self::once())
-			->method('handleIMip');
+			->method('handleIMipMessage');
 		// test method
 		$result = $manager->handleIMip($userId, $calendar->serialize());
 	}
