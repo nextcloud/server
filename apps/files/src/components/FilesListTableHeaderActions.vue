@@ -6,6 +6,7 @@
 	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
+			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="inlineActions"
@@ -79,10 +80,15 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+
+		const boundariesElement = document.getElementById('app-content-vue')
+
 		return {
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
+
+			boundariesElement,
 		}
 	},
 
