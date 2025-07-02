@@ -6,6 +6,11 @@
 	<div class="ai-settings">
 		<NcSettingsSection :name="t('settings', 'Unified task processing')"
 			:description="t('settings', 'AI tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
+			<NcCheckboxRadioSwitch v-model="settings['ai.taskprocessing_guests']"
+				type="switch"
+				@update:modelValue="saveChanges">
+				{{ t('settings', 'Allow AI usage for guest users') }}
+			</NcCheckboxRadioSwitch>
 			<template v-for="type in taskProcessingTaskTypes">
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ type.name }}</h3>
