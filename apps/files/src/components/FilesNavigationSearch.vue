@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
+import { mdiCog, mdiFilter, mdiMagnify, mdiSearchWeb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -96,11 +96,11 @@ function onUpdateSearch(value: string) {
 		<template #actions>
 			<NcActions :aria-label="t('files', 'Search scope options')" :disabled="isSearchView">
 				<template #icon>
-					<NcIconSvgWrapper :path="searchStore.scope === 'globally' ? mdiSearchWeb : mdiMagnify" />
+					<NcIconSvgWrapper :path="mdiCog" />
 				</template>
 				<NcActionButton close-after-click @click="searchStore.scope = 'filter'">
 					<template #icon>
-						<NcIconSvgWrapper :path="mdiMagnify" />
+						<NcIconSvgWrapper :path="mdiFilter" />
 					</template>
 					{{ t('files', 'Filter in current view') }}
 				</NcActionButton>
