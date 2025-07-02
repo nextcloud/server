@@ -199,6 +199,7 @@
     "Old server-side-encryption" : "Régi kiszolgálóoldali titkosítás",
     "Disabled" : "Letiltva",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "A régi kiszolgálóoldali titkosítási formátum engedélyezett. Javasoljuk ennek letiltását.",
+    "Logging level" : "Naplózási szint",
     "Maintenance window start" : "Karbantartási ablak indítása",
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "A kiszolgálón nincs beállítva a karbantartási időszak kezdési ideje. Ez azt jelenti, hogy az erőforrás-igényes napi háttérfeladatok a fő használati idő alatt is végrehajtásra kerülnek. Javasoljuk, hogy alacsony igénybevételre állítsa be, így a felhasználókat kevésbé érinti az ezekből az erőforrás-igényes feladatokból származó terhelés.",
     "Maintenance window to execute heavy background jobs is between {start}:00 UTC and {end}:00 UTC" : "A erőforrás-igényes háttérfeladatok végrehajtásának karbantartási időszaka {start}:00 UTC és {end}:00 UTC között van",

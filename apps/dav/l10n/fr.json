@@ -248,6 +248,7 @@
     "Completed on %s" : "Terminé le %s",
     "Due on %s by %s" : "Echéance le %s pour %s",
     "Due on %s" : "Echéance le %s",
+    "Example event - open me!" : "Exemple d'événement - ouvrez-moi !",
     "System Address Book" : "Carnet d'adresses du système",
     "The system address book contains contact information for all users in your instance." : "Le carnet d'adresses du système contient les informations de contact de tous les utilisateurs de votre instance.",
     "Enable System Address Book" : "Activer le carnet d'adresses du système",
