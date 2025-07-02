@@ -842,6 +842,7 @@ return array(
     'OCP\\TaskProcessing\\ShapeDescriptor' => $baseDir . '/lib/public/TaskProcessing/ShapeDescriptor.php',
     'OCP\\TaskProcessing\\ShapeEnumValue' => $baseDir . '/lib/public/TaskProcessing/ShapeEnumValue.php',
     'OCP\\TaskProcessing\\Task' => $baseDir . '/lib/public/TaskProcessing/Task.php',
+    'OCP\\TaskProcessing\\TaskTypes\\AudioToAudioChat' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToAudioChat.php',
     'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextAgentInteraction' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextAgentInteraction.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
