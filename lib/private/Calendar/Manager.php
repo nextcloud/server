@@ -284,7 +284,7 @@ class Manager implements IManager {
 		}
 
 		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar');
-		
+
 		return false;
 	}
 
