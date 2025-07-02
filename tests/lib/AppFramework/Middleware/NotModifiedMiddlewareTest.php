@@ -54,9 +54,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataModified
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataModified')]
 	public function testMiddleware(?string $etag, string $etagHeader, ?\DateTime $lastModified, string $lastModifiedHeader, bool $notModifiedSet): void {
 		$this->request->method('getHeader')
 			->willReturnCallback(function (string $name) use ($etagHeader, $lastModifiedHeader) {

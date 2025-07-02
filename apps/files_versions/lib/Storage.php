@@ -9,6 +9,7 @@
 namespace OCA\Files_Versions;
 
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -419,8 +420,8 @@ class Storage {
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids
-			if ($storage1->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
-				|| $storage2->instanceOfStorage(\OC\Files\ObjectStore\ObjectStoreStorage::class)
+			if ($storage1->instanceOfStorage(ObjectStoreStorage::class)
+				|| $storage2->instanceOfStorage(ObjectStoreStorage::class)
 			) {
 				$source = $storage1->fopen($internalPath1, 'r');
 				$result = $source !== false;

@@ -130,10 +130,9 @@ class BruteforceAllowListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsBypassListed
-	 *
 	 * @param string[] $allowList
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsBypassListed')]
 	public function testIsBypassListed(
 		string $ip,
 		array $allowList,

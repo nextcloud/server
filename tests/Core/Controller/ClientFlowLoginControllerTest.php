@@ -603,11 +603,11 @@ class ClientFlowLoginControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGeneratePasswordWithHttpsProxy
 	 * @param array $headers
 	 * @param string $protocol
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGeneratePasswordWithHttpsProxy')]
 	public function testGeneratePasswordWithHttpsProxy(array $headers, $protocol, $expected): void {
 		$this->session
 			->expects($this->once())

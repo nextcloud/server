@@ -56,9 +56,7 @@ class EnableTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataEnable
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnable')]
 	public function testEnable(string $oldStatus, ?string $defaultModule, array $availableModules, bool $isUpdating, string $expectedString, string $expectedDefaultModuleString): void {
 		if ($isUpdating) {
 			$this->config->expects($this->once())

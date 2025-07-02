@@ -111,9 +111,7 @@ class RepairTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataEmptyTest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEmptyTest')]
 	public function testEmptyExecute($directoryNames, $expectedOutput): void {
 		$previewFolder = $this->getMockBuilder(Folder::class)
 			->getMock();

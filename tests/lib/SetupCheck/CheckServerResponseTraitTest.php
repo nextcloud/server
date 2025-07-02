@@ -48,9 +48,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataNormalizeUrl
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNormalizeUrl')]
 	public function testNormalizeUrl(string $url, bool $isRootRequest, string $expected): void {
 		$this->assertEquals($expected, $this->trait->normalizeUrl($url, $isRootRequest));
 	}
@@ -75,9 +73,7 @@ class CheckServerResponseTraitTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetTestUrls
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetTestUrls')]
 	public function testGetTestUrls(
 		string $url,
 		bool $isRootRequest,

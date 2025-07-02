@@ -8,6 +8,7 @@
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
+use OC\User\User;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
@@ -27,7 +28,7 @@ use Test\Traits\UserTrait;
 class UserStoragesServiceTest extends StoragesServiceTestCase {
 	use UserTrait;
 
-	protected \OC\User\User $user;
+	protected User $user;
 
 	protected string $userId;
 	protected StoragesService $globalStoragesService;
@@ -127,9 +128,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEmpty(self::$hookCalls);
 	}
 
-	/**
-	 * @dataProvider deleteStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 

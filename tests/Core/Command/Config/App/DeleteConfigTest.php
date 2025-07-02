@@ -70,9 +70,7 @@ class DeleteConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataDelete
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDelete')]
 	public function testDelete(string $configName, bool $configExists, bool $checkIfExists, int $expectedReturn, string $expectedMessage): void {
 		$this->appConfig->expects(($checkIfExists) ? $this->once() : $this->never())
 			->method('getKeys')

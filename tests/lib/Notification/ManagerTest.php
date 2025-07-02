@@ -256,11 +256,11 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsFairUseOfFreePushService
 	 * @param bool $hasValidSubscription
 	 * @param int $userCount
 	 * @param bool $isFair
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsFairUseOfFreePushService')]
 	public function testIsFairUseOfFreePushService(bool $hasValidSubscription, int $userCount, bool $isFair): void {
 		$this->subscriptionRegistry->method('delegateHasValidSubscription')
 			->willReturn($hasValidSubscription);

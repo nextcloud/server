@@ -13,7 +13,9 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 
@@ -21,22 +23,22 @@ use OCP\Server;
  * @group DB
  */
 class SubAdminTest extends \Test\TestCase {
-	/** @var \OCP\IUserManager */
+	/** @var IUserManager */
 	private $userManager;
 
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $dbConn;
 
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/** @var \OCP\IUser[] */
+	/** @var IUser[] */
 	private $users;
 
-	/** @var \OCP\IGroup[] */
+	/** @var IGroup[] */
 	private $groups;
 
 	protected function setUp(): void {

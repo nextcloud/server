@@ -49,9 +49,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		return [[true], [false]];
 	}
 
-	/**
-	 * @dataProvider adminFlagProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('adminFlagProvider')]
 	public function testGetters(bool $isAdmin): void {
 		$tag = new SystemTag('1', 'Test', true, true);
 		$node = $this->getTagNode($isAdmin, $tag);
@@ -89,9 +87,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider tagNodeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeProvider')]
 	public function testUpdateTag(bool $isAdmin, ISystemTag $originalTag, array $changedArgs): void {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -149,9 +145,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider tagNodeProviderPermissionException
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeProviderPermissionException')]
 	public function testUpdateTagPermissionException(ISystemTag $originalTag, array $changedArgs, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -192,7 +186,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
-			->will($this->throwException(new TagAlreadyExistsException()));
+			->willThrowException(new TagAlreadyExistsException());
 		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
@@ -212,13 +206,11 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
 
-	/**
-	 * @dataProvider adminFlagProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('adminFlagProvider')]
 	public function testDeleteTag(bool $isAdmin): void {
 		$tag = new SystemTag('1', 'tag1', true, true);
 		$this->tagManager->expects($isAdmin ? $this->once() : $this->never())
@@ -249,9 +241,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider tagNodeDeleteProviderPermissionException
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tagNodeDeleteProviderPermissionException')]
 	public function testDeleteTagPermissionException(ISystemTag $tag, string $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
@@ -276,7 +266,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('deleteTags')
 			->with('1')
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 		$this->getTagNode(true, $tag)->delete();
 	}
 }

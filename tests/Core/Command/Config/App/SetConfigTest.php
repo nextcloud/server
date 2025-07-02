@@ -60,9 +60,7 @@ class SetConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSet
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSet')]
 	public function testSet(string $configName, mixed $newValue, bool $configExists, bool $updateOnly, bool $updated, string $expectedMessage): void {
 		$this->appConfig->method('hasKey')
 			->with('app-name', $configName)

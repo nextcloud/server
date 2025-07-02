@@ -844,9 +844,7 @@ class ShareByMailProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateSendPassword
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateSendPassword')]
 	public function testUpdateSendPassword(?string $plainTextPassword, string $originalPassword, string $newPassword, bool $originalSendPasswordByTalk, bool $newSendPasswordByTalk, bool $sendMail): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');

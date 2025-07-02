@@ -271,9 +271,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	}
 
-	/**
-	 * @dataProvider propFindPrincipalScheduleDefaultCalendarProviderUrlProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propFindPrincipalScheduleDefaultCalendarProviderUrlProvider')]
 	public function testPropFindPrincipalScheduleDefaultCalendarUrl(
 		string $user,
 		array $nodes,
@@ -335,9 +333,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($returnedProps, $setProps);
 	}
 
-	/**
-	 * @dataProvider propPatchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propPatchProvider')]
 	public function testPropPatch(string $path, array $existing, array $props, array $result): void {
 		$this->server->method('calculateUri')
 			->willReturnCallback(function ($uri) {
@@ -418,9 +414,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals([], $storedProps);
 	}
 
-	/**
-	 * @dataProvider deleteProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteProvider')]
 	public function testDelete(string $path): void {
 		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
 		$this->backend->delete($path);
@@ -434,9 +428,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider moveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveProvider')]
 	public function testMove(string $source, string $target): void {
 		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
 		$this->backend->move($source, $target);

@@ -43,11 +43,11 @@ class MapperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetBucket
 	 * @param string $username
 	 * @param int $numBuckets
 	 * @param string $expectedBucket
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetBucket')]
 	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket): void {
 		$this->user->expects($this->once())
 			->method('getUID')

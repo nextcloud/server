@@ -9,10 +9,11 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
+use OCP\Files\ObjectStore\IObjectStore;
 
 class LocalTest extends ObjectStoreTestCase {
 	/**
-	 * @return \OCP\Files\ObjectStore\IObjectStore
+	 * @return IObjectStore
 	 */
 	protected function getInstance() {
 		$storage = new Temporary();

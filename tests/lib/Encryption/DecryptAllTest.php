@@ -45,7 +45,7 @@ class DecryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $outputInterface;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|UserInterface */
 	protected $userInterface;
 
 	/** @var DecryptAll */
@@ -94,11 +94,11 @@ class DecryptAllTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDecryptAll
 	 * @param bool $prepareResult
 	 * @param string $user
 	 * @param bool $userExistsChecked
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDecryptAll')]
 	public function testDecryptAll($prepareResult, $user, $userExistsChecked): void {
 		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
@@ -154,9 +154,9 @@ class DecryptAllTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTrueFalse
 	 * @param bool $success
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTrueFalse')]
 	public function testPrepareEncryptionModules($success): void {
 		$user = 'user1';
 
@@ -186,9 +186,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestDecryptAllUsersFiles
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDecryptAllUsersFiles')]
 	public function testDecryptAllUsersFiles($user): void {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
@@ -318,9 +316,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTrueFalse')]
 	public function testDecryptFile($isEncrypted): void {
 		$path = 'test.txt';
 

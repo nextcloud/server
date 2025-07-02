@@ -32,9 +32,7 @@ class HostnameClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localHostnamesData')]
 	public function testLocalHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 
@@ -51,9 +49,7 @@ class HostnameClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider publicHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('publicHostnamesData')]
 	public function testPublicHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 

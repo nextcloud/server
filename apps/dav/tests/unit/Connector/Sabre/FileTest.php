@@ -150,9 +150,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider fopenFailuresProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fopenFailuresProvider')]
 	public function testSimplePutFails(?\Throwable $thrownException, string $expectedException, bool $checkPreviousClass = true): void {
 		// setup
 		$storage = $this->getMockBuilder(Local::class)
@@ -175,7 +173,7 @@ class FileTest extends TestCase {
 		if ($thrownException !== null) {
 			$storage->expects($this->once())
 				->method('writeStream')
-				->will($this->throwException($thrownException));
+				->willThrowException($thrownException);
 		} else {
 			$storage->expects($this->once())
 				->method('writeStream')
@@ -316,8 +314,8 @@ class FileTest extends TestCase {
 
 	/**
 	 * Test putting a file with string Mtime
-	 * @dataProvider legalMtimeProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('legalMtimeProvider')]
 	public function testPutSingleFileLegalMtime(mixed $requestMtime, ?int $resultMtime): void {
 		$request = new Request([
 			'server' => [

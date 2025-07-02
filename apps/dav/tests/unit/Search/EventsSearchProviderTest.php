@@ -418,9 +418,7 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-to-route', $actual);
 	}
 
-	/**
-	 * @dataProvider generateSublineDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
 	public function testGenerateSubline(string $ics, string $expectedSubline): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$eventComponent = $vCalendar->VEVENT;

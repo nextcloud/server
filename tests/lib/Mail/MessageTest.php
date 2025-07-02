@@ -72,11 +72,11 @@ class MessageTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider mailAddressProvider
 	 *
 	 * @param string $unconverted
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mailAddressProvider')]
 	public function testConvertAddresses($unconverted, $expected): void {
 		$this->assertEquals($expected, self::invokePrivate($this->message, 'convertAddresses', [$unconverted]));
 	}

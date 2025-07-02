@@ -103,9 +103,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetKeys')]
 	public function testGetKeys(string $app, ?array $keys, ?\Throwable $throws, int $status): void {
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
@@ -144,9 +142,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetValue
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetValue')]
 	public function testGetValue(string $app, string $key, string $default, ?string $return, ?\Throwable $throws, int $status): void {
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
@@ -190,9 +186,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSetValue
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetValue')]
 	public function testSetValue(string $app, string $key, string $value, ?\Throwable $appThrows, ?\Throwable $keyThrows, int $status, int|\Throwable $type = IAppConfig::VALUE_MIXED): void {
 		$adminUser = $this->createMock(IUser::class);
 		$adminUser->expects($this->once())
@@ -290,9 +284,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataDeleteValue
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteValue')]
 	public function testDeleteValue(string $app, string $key, ?\Throwable $appThrows, ?\Throwable $keyThrows, int $status): void {
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
@@ -356,9 +348,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataVerifyAppIdThrows
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVerifyAppIdThrows')]
 	public function testVerifyAppIdThrows(string $app): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -375,9 +365,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataVerifyConfigKey
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVerifyConfigKey')]
 	public function testVerifyConfigKey(string $app, string $key, string $value): void {
 		$api = $this->getInstance();
 		$this->invokePrivate($api, 'verifyConfigKey', [$app, $key, $value]);
@@ -398,9 +386,7 @@ class AppConfigControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataVerifyConfigKeyThrows
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVerifyConfigKeyThrows')]
 	public function testVerifyConfigKeyThrows(string $app, string $key, string $value): void {
 		$this->expectException(\InvalidArgumentException::class);
 

@@ -30,9 +30,7 @@ class SearchTest extends TestCase {
 		$this->search = new Search($this->container);
 	}
 
-	/**
-	 * @dataProvider dataSearchSharees
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
 	public function testSearch(
 		string $searchTerm,
 		array $shareTypes,

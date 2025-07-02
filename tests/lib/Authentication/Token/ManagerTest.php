@@ -157,9 +157,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
 	public function testUpdateToken(IToken|string $token): void {
 		if (is_string($token)) {
 			$token = $this->createMock($token);
@@ -172,9 +170,7 @@ class ManagerTest extends TestCase {
 		$this->manager->updateToken($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
 	public function testUpdateTokenActivity(IToken|string $token): void {
 		if (is_string($token)) {
 			$token = $this->createMock($token);
@@ -187,9 +183,7 @@ class ManagerTest extends TestCase {
 		$this->manager->updateTokenActivity($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
 	public function testGetPassword(IToken|string $token): void {
 		if (is_string($token)) {
 			$token = $this->createMock($token);
@@ -204,9 +198,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame('password', $result);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
 	public function testSetPassword(IToken|string $token): void {
 		if (is_string($token)) {
 			$token = $this->createMock($token);

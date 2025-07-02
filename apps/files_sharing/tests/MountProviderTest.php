@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Memcache\NullCache;
 use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
+use OCA\Files_Sharing\SharedMount;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
@@ -61,8 +62,8 @@ class MountProviderTest extends \Test\TestCase {
 
 		$shareAttributes = $this->createMock(IShareAttributes::class);
 		$shareAttributes->method('toArray')->willReturn($attrs);
-		$shareAttributes->method('getAttribute')->will(
-			$this->returnCallback(function ($scope, $key) use ($attrs) {
+		$shareAttributes->method('getAttribute')->willReturnCallback(
+			function ($scope, $key) use ($attrs) {
 				$result = null;
 				foreach ($attrs as $attr) {
 					if ($attr['key'] === $key && $attr['scope'] === $scope) {
@@ -70,7 +71,7 @@ class MountProviderTest extends \Test\TestCase {
 					}
 				}
 				return $result;
-			})
+			}
 		);
 		return $shareAttributes;
 	}
@@ -82,7 +83,7 @@ class MountProviderTest extends \Test\TestCase {
 			->willReturn($permissions);
 		$share->expects($this->any())
 			->method('getAttributes')
-			->will($this->returnValue($this->makeMockShareAttributes($attributes)));
+			->willReturn($this->makeMockShareAttributes($attributes));
 		$share->expects($this->any())
 			->method('getShareOwner')
 			->willReturn($owner);
@@ -164,7 +165,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
-		/** @var OCA\Files_Sharing\SharedMount[] $mounts */
+		/** @var SharedMount[] $mounts */
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -332,12 +333,12 @@ class MountProviderTest extends \Test\TestCase {
 	 * Happens when sharing the same entry to a user through multiple ways,
 	 * like several groups and also direct shares at the same time.
 	 *
-	 * @dataProvider mergeSharesDataProvider
 	 *
 	 * @param array $userShares array of user share specs
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mergeSharesDataProvider')]
 	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
@@ -378,7 +379,7 @@ class MountProviderTest extends \Test\TestCase {
 		if ($moveFails) {
 			$this->shareManager->expects($this->any())
 				->method('moveShare')
-				->will($this->throwException(new \InvalidArgumentException()));
+				->willThrowException(new \InvalidArgumentException());
 		}
 
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
@@ -390,7 +391,7 @@ class MountProviderTest extends \Test\TestCase {
 			$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
 
 			// supershare
-			/** @var OCA\Files_Sharing\SharedMount $mount */
+			/** @var SharedMount $mount */
 			$share = $mount->getShare();
 
 			$this->assertEquals($expectedShare[0], $share->getId());

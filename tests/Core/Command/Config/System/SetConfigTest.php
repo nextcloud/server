@@ -36,7 +36,7 @@ class SetConfigTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OC\SystemConfig $systemConfig */
+		/** @var SystemConfig $systemConfig */
 		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
 
@@ -50,13 +50,13 @@ class SetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTest
 	 *
 	 * @param array $configNames
 	 * @param string $newValue
 	 * @param mixed $existingData
 	 * @param mixed $expectedValue
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
 	public function testSet($configNames, $newValue, $existingData, $expectedValue): void {
 		$this->systemConfig->expects($this->once())
 			->method('setValue')
@@ -87,9 +87,7 @@ class SetConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider setUpdateOnlyProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('setUpdateOnlyProvider')]
 	public function testSetUpdateOnly($configNames, $existingData): void {
 		$this->expectException(\UnexpectedValueException::class);
 

@@ -571,7 +571,7 @@ class SharedStorageTest extends TestCase {
 		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
 		$share->method('getNodeId')->willReturn(1);
 		$ownerView = $this->createMock(View::class);
-		$ownerView->method('getPath')->will($this->throwException(new NotFoundException()));
+		$ownerView->method('getPath')->willThrowException(new NotFoundException());
 		$storage = new SharedStorage([
 			'ownerView' => $ownerView,
 			'superShare' => $share,

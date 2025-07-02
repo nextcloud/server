@@ -129,10 +129,10 @@ class SetupTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider findWebRootProvider
 	 * @param $url
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]
 	public function testFindWebRootCli($url, $expected): void {
 		$cliState = \OC::$CLI;
 

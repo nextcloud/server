@@ -25,9 +25,9 @@ class CommentersSorterTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
 	public function testSort($data): void {
 		$commentMocks = [];
 		foreach ($data['actors'] as $actorType => $actors) {

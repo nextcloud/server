@@ -260,9 +260,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataNotJsonData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNotJsonData')]
 	public function testNotJsonPost(string $testData): void {
 		global $data;
 		$data = $testData;
@@ -709,9 +707,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetRemoteAddress
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetRemoteAddress')]
 	public function testGetRemoteAddress(array $headers, array $trustedProxies, array $forwardedForHeaders, string $expected): void {
 		$this->config
 			->method('getSystemValue')
@@ -760,11 +756,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataHttpProtocol
 	 *
 	 * @param mixed $input
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataHttpProtocol')]
 	public function testGetHttpProtocol($input, $expected): void {
 		$request = new Request(
 			[
@@ -950,11 +946,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataUserAgent
 	 * @param string $testAgent
 	 * @param array $userAgent
 	 * @param bool $matches
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUserAgent')]
 	public function testUserAgent($testAgent, $userAgent, $matches): void {
 		$request = new Request(
 			[
@@ -972,11 +968,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataUserAgent
 	 * @param string $testAgent
 	 * @param array $userAgent
 	 * @param bool $matches
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUserAgent')]
 	public function testUndefinedUserAgent($testAgent, $userAgent, $matches): void {
 		$request = new Request(
 			[],
@@ -1154,11 +1150,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataMatchClientVersion
 	 * @param string $testAgent
 	 * @param string $userAgent
 	 * @param string $version
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatchClientVersion')]
 	public function testMatchClientVersion(string $testAgent, string $userAgent, string $version): void {
 		preg_match($userAgent, $testAgent, $matches);
 
@@ -1373,9 +1369,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetServerHostTrustedDomain
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetServerHostTrustedDomain')]
 	public function testGetServerHostTrustedDomain(string $expected, $trustedDomain): void {
 		$this->config
 			->method('getSystemValue')
@@ -1485,11 +1479,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGenericPathInfo
 	 * @param string $requestUri
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenericPathInfo')]
 	public function testGetPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
@@ -1508,11 +1502,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGenericPathInfo
 	 * @param string $requestUri
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenericPathInfo')]
 	public function testGetRawPathInfoWithoutSetEnvGeneric($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
@@ -1531,11 +1525,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataRawPathInfo
 	 * @param string $requestUri
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRawPathInfo')]
 	public function testGetRawPathInfoWithoutSetEnv($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
@@ -1554,11 +1548,11 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataPathInfo
 	 * @param string $requestUri
 	 * @param string $scriptName
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPathInfo')]
 	public function testGetPathInfoWithoutSetEnv($requestUri, $scriptName, $expected): void {
 		$request = new Request(
 			[
@@ -1629,9 +1623,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetRequestUriWithOverwrite
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetRequestUriWithOverwrite')]
 	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $remoteAddr = ''): void {
 		$this->config
 			->expects($this->exactly(2))
@@ -2184,9 +2176,7 @@ class RequestTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataInvalidToken
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidToken')]
 	public function testPassesCSRFCheckWithInvalidToken(string $invalidToken): void {
 		/** @var Request $request */
 		$request = $this->getMockBuilder(Request::class)

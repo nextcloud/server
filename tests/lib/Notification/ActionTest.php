@@ -30,9 +30,9 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLabel
 	 * @param string $label
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLabel')]
 	public function testSetLabel($label): void {
 		$this->assertSame('', $this->action->getLabel());
 		$this->assertSame($this->action, $this->action->setLabel($label));
@@ -47,10 +47,10 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLabelInvalid
 	 * @param mixed $label
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLabelInvalid')]
 	public function testSetLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -66,9 +66,9 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedLabel
 	 * @param string $label
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedLabel')]
 	public function testSetParsedLabel($label): void {
 		$this->assertSame('', $this->action->getParsedLabel());
 		$this->assertSame($this->action, $this->action->setParsedLabel($label));
@@ -82,10 +82,10 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedLabelInvalid
 	 * @param mixed $label
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedLabelInvalid')]
 	public function testSetParsedLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -102,10 +102,10 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLink
 	 * @param string $link
 	 * @param string $type
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLink')]
 	public function testSetLink($link, $type): void {
 		$this->assertSame('', $this->action->getLink());
 		$this->assertSame($this->action, $this->action->setLink($link, $type));
@@ -125,11 +125,11 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLinkInvalid
 	 * @param mixed $link
 	 * @param mixed $type
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLinkInvalid')]
 	public function testSetLinkInvalid($link, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -144,9 +144,9 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetPrimary
 	 * @param bool $primary
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetPrimary')]
 	public function testSetPrimary($primary): void {
 		$this->assertSame(false, $this->action->isPrimary());
 		$this->assertSame($this->action, $this->action->setPrimary($primary));

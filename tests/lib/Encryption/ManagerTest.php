@@ -266,7 +266,7 @@ class ManagerTest extends TestCase {
 		$encryptionModule->expects($this->any())
 			->method('getDisplayName')
 			->willReturn('TestDummyModule' . $id);
-		/** @var \OCP\Encryption\IEncryptionModule $encryptionModule */
+		/** @var IEncryptionModule $encryptionModule */
 		$manager->registerEncryptionModule('ID' . $id, 'TestDummyModule' . $id, function () use ($encryptionModule) {
 			return $encryptionModule;
 		});

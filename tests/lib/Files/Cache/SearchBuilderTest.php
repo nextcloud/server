@@ -178,11 +178,11 @@ class SearchBuilderTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider comparisonProvider
 	 *
 	 * @param ISearchOperator $operator
 	 * @param array $fileIds
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('comparisonProvider')]
 	public function testComparison(ISearchOperator $operator, array $fileIds): void {
 		$fileId = [];
 		$fileId[] = $this->addCacheEntry([

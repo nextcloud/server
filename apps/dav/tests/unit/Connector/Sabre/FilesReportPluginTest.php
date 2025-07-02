@@ -846,9 +846,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider filesBaseUriProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('filesBaseUriProvider')]
 	public function testFilesBaseUri(string $uri, string $reportPath, string $expectedUri): void {
 		$this->assertEquals($expectedUri, self::invokePrivate($this->plugin, 'getFilesBaseUri', [$uri, $reportPath]));
 	}

@@ -71,9 +71,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCallTriggerCalendarActivity
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCallTriggerCalendarActivity')]
 	public function testCallTriggerCalendarActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerCalendarActivity']);
 		$backend->expects($this->once())
@@ -168,9 +166,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTriggerCalendarActivity
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTriggerCalendarActivity')]
 	public function testTriggerCalendarActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
@@ -299,9 +295,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUsersForShares
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersForShares')]
 	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 

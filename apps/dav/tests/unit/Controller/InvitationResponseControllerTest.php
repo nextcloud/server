@@ -53,9 +53,7 @@ class InvitationResponseControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAccept(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -117,9 +115,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAcceptSequence(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -181,9 +177,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAcceptRecurrenceId(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -273,9 +267,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testDecline(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -344,9 +336,7 @@ EOF;
 		$this->assertEquals(['token' => 'TOKEN123'], $response->getParams());
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testProcessMoreOptionsResult(bool $isExternalAttendee): void {
 		$this->request->expects($this->once())
 			->method('getParam')

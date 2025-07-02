@@ -91,9 +91,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	/**
-	 * @dataProvider dataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
@@ -126,9 +124,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-	/**
-	 * @dataProvider dataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAttribute($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 

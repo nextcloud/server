@@ -19,7 +19,7 @@ use OCP\Files\Cache\IScanner;
  */
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	/**
-	 * @var \OC\Files\Storage\Temporary
+	 * @var Temporary
 	 */
 	private $sourceStorage;
 

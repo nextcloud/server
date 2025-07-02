@@ -173,7 +173,7 @@ class ExampleContactServiceTest extends TestCase {
 		return [[true], [false]];
 	}
 
-	/** @dataProvider provideDefaultContactEnableData */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideDefaultContactEnableData')]
 	public function testIsDefaultContactEnabled(bool $enabled): void {
 		$this->appConfig->expects(self::once())
 			->method('getAppValueBool')
@@ -183,7 +183,7 @@ class ExampleContactServiceTest extends TestCase {
 		$this->assertEquals($enabled, $this->service->isDefaultContactEnabled());
 	}
 
-	/** @dataProvider provideDefaultContactEnableData */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideDefaultContactEnableData')]
 	public function testSetDefaultContactEnabled(bool $enabled): void {
 		$this->appConfig->expects(self::once())
 			->method('setAppValueBool')

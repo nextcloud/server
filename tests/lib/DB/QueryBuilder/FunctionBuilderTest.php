@@ -21,7 +21,7 @@ use Test\TestCase;
  * @package Test\DB\QueryBuilder
  */
 class FunctionBuilderTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 
 	protected function setUp(): void {
@@ -30,9 +30,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 	}
 
-	/**
-	 * @dataProvider providerTestConcatString
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestConcatString')]
 	public function testConcatString($closure): void {
 		$query = $this->connection->getQueryBuilder();
 		[$real, $arguments, $return] = $closure($query);
@@ -335,9 +333,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider octetLengthProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('octetLengthProvider')]
 	public function testOctetLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -360,9 +356,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider charLengthProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('charLengthProvider')]
 	public function testCharLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 

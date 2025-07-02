@@ -38,10 +38,10 @@ class SearchResultTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAddResultSet
 	 * @param array $toAdd
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAddResultSet')]
 	public function testAddResultSet(array $toAdd, array $expected): void {
 		$result = new SearchResult();
 
@@ -67,12 +67,12 @@ class SearchResultTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataHasResult
 	 * @param array $toAdd
 	 * @param string $type
 	 * @param string $id
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataHasResult')]
 	public function testHasResult(array $toAdd, $type, $id, $expected): void {
 		$result = new SearchResult();
 

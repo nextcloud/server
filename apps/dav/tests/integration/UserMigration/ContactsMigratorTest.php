@@ -44,7 +44,7 @@ class ContactsMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function dataAssets(): array {
+	public static function dataAssets(): array {
 		return array_map(
 			function (string $filename) {
 				$vCardSplitter = new VCardSplitter(
@@ -91,11 +91,11 @@ class ContactsMigratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAssets
 	 *
 	 * @param array{displayName: string, description?: string} $importMetadata
 	 * @param VCard[] $importCards
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialAddressBookUri, array $importMetadata, array $importCards): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 

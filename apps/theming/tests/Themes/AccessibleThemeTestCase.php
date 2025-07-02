@@ -147,9 +147,7 @@ class AccessibleThemeTestCase extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataAccessibilityPairs
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAccessibilityPairs')]
 	public function testAccessibilityOfVariables(array $mainColors, array $backgroundColors, float $minContrast): void {
 		if (!isset($this->theme)) {
 			$this->markTestSkipped('You need to setup $this->theme in your setUp function');

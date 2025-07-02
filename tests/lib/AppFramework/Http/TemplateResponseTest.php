@@ -13,7 +13,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 
 class TemplateResponseTest extends \Test\TestCase {
 	/**
-	 * @var \OCP\AppFramework\Http\TemplateResponse
+	 * @var TemplateResponse
 	 */
 	private $tpl;
 

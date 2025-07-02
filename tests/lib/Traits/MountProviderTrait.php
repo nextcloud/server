@@ -10,6 +10,7 @@ namespace Test\Traits;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
+use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\IUser;
 use OCP\Server;
@@ -19,7 +20,7 @@ use OCP\Server;
  */
 trait MountProviderTrait {
 	/**
-	 * @var \OCP\Files\Config\IMountProvider
+	 * @var IMountProvider
 	 */
 	protected $mountProvider;
 

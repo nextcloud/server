@@ -70,9 +70,7 @@ class AccountPropertyTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider scopesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('scopesProvider')]
 	public function testSetScopeMapping(string $storedScope, ?string $returnedScope): void {
 		if ($returnedScope === null) {
 			$this->expectException(\InvalidArgumentException::class);

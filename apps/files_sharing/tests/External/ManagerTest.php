@@ -108,10 +108,10 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
 		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1, $group2]);
 		$this->groupManager->expects($this->any())->method(('get'))
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['group1', $group1],
 				['group2', $group2],
-			]));
+			]);
 	}
 
 	protected function tearDown(): void {

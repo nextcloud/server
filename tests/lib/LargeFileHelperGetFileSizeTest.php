@@ -39,9 +39,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
 	public function XtestGetFileSizeViaCurl($filename, $fileSize) {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
@@ -59,9 +57,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
 	public function testGetFileSizeViaExec($filename, $fileSize): void {
 		if (escapeshellarg('strängé') !== '\'strängé\'') {
 			$this->markTestSkipped('Your escapeshell args removes accents');
@@ -77,9 +73,7 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
 	public function testGetFileSizeNative($filename, $fileSize): void {
 		$this->assertSame(
 			$fileSize,

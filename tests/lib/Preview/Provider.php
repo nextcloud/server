@@ -15,6 +15,7 @@ use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Preview\TXT;
 use OCP\Files\IRootFolder;
+use OCP\IImage;
 use OCP\IUserManager;
 use OCP\Server;
 
@@ -71,12 +72,12 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Launches all the tests we have
 	 *
-	 * @dataProvider dimensionsDataProvider
 	 * @requires extension imagick
 	 *
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
 	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);
 		$this->maxWidth = $this->width - $widthAdjustment;
@@ -120,7 +121,7 @@ abstract class Provider extends \Test\TestCase {
 	 *
 	 * @param \OC\Preview\Provider $provider
 	 *
-	 * @return bool|\OCP\IImage
+	 * @return bool|IImage
 	 */
 	private function getPreview($provider) {
 		$file = new File(Server::get(IRootFolder::class), $this->rootView, $this->imgPath);
@@ -139,7 +140,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Checks if the preview ratio matches the original ratio
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 * @param int $ratio
 	 */
 	private function doesRatioMatch($preview, $ratio) {
@@ -150,7 +151,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Tests if a max size preview of smaller dimensions can be created
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 */
 	private function doesPreviewFit($preview) {
 		$maxDimRatio = round($this->maxWidth / $this->maxHeight, 2);

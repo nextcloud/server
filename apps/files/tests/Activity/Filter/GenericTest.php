@@ -27,35 +27,27 @@ class GenericTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testImplementsInterface(string $filterClass): void {
 		$filter = Server::get($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testGetIdentifier(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getIdentifier());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testGetName(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsString($filter->getName());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testGetPriority(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
@@ -65,9 +57,7 @@ class GenericTest extends TestCase {
 		$this->assertLessThanOrEqual(100, $priority);
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testGetIcon(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
@@ -75,18 +65,14 @@ class GenericTest extends TestCase {
 		$this->assertStringStartsWith('http', $filter->getIcon());
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testFilterTypes(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
 	}
 
-	/**
-	 * @dataProvider dataFilters
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilters')]
 	public function testAllowedApps(string $filterClass): void {
 		/** @var IFilter $filter */
 		$filter = Server::get($filterClass);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\Core\Listener\FeedBackHandler;
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
@@ -76,7 +77,7 @@ if (Util::needUpgrade()) {
 			$eventSource->send('success', $l->t('[%d / %d]: %s', [$event->getCurrentStep(), $event->getMaxStep(), $event->getSql()]));
 		}
 	);
-	$feedBack = new \OC\Core\Listener\FeedBackHandler($eventSource, $l);
+	$feedBack = new FeedBackHandler($eventSource, $l);
 	$dispatcher->addListener(RepairStartEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairAdvanceEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairFinishEvent::class, [$feedBack, 'handleRepairFeedback']);

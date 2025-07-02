@@ -249,7 +249,7 @@ class EncryptAllTest extends TestCase {
 		$encryptAllCalls = [];
 		$encryptAll->expects($this->exactly(2))
 			->method('encryptUsersFiles')
-			->willReturnCallback(function ($uid) use (&$encryptAllCalls) {
+			->willReturnCallback(function ($uid) use (&$encryptAllCalls): void {
 				$encryptAllCalls[] = $uid;
 			});
 
@@ -317,7 +317,7 @@ class EncryptAllTest extends TestCase {
 		$encryptAllCalls = [];
 		$encryptAll->expects($this->exactly(2))
 			->method('encryptFile')
-			->willReturnCallback(function (string $path) use (&$encryptAllCalls) {
+			->willReturnCallback(function (string $path) use (&$encryptAllCalls): void {
 				$encryptAllCalls[] = $path;
 			});
 
@@ -346,9 +346,9 @@ class EncryptAllTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestEncryptFile
 	 * @param $isEncrypted
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEncryptFile')]
 	public function testEncryptFile($isEncrypted): void {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')

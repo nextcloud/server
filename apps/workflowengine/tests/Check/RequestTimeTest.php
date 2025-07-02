@@ -63,9 +63,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
 	public function testExecuteCheckIn(string $value, int $timestamp, bool $expected): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
@@ -76,9 +74,7 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('in', $value));
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
 	public function testExecuteCheckNotIn(string $value, int $timestamp, bool $expected): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
@@ -97,9 +93,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheck')]
 	public function testValidateCheck(string $operator, string $value): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
@@ -118,9 +112,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheckInvalid')]
 	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 

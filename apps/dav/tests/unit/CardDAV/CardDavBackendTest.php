@@ -249,7 +249,7 @@ class CardDavBackendTest extends TestCase {
 		];
 		$backend->expects($this->exactly(count($calls)))
 			->method('updateProperties')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -437,7 +437,7 @@ class CardDavBackendTest extends TestCase {
 		];
 		$this->backend->expects($this->exactly(count($calls)))
 			->method('addChange')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -645,9 +645,7 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']);
 	}
 
-	/**
-	 * @dataProvider dataTestSearch
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSearch')]
 	public function testSearch(string $pattern, array $properties, array $options, array $expected): void {
 		/** @var VCard $vCards */
 		$vCards = [];

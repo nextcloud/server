@@ -189,8 +189,8 @@ class ShareTest extends TestCase {
 
 	/**
 	 * shared files should never have delete permissions
-	 * @dataProvider dataProviderTestFileSharePermissions
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderTestFileSharePermissions')]
 	public function testFileSharePermissions($permission, $expectedvalid): void {
 		$pass = true;
 		try {
@@ -208,7 +208,7 @@ class ShareTest extends TestCase {
 		$this->assertEquals($expectedvalid, $pass);
 	}
 
-	public function dataProviderTestFileSharePermissions() {
+	public static function dataProviderTestFileSharePermissions() {
 		$permission1 = Constants::PERMISSION_ALL;
 		$permission3 = Constants::PERMISSION_READ;
 		$permission4 = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE;

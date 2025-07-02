@@ -68,9 +68,7 @@ class RegistrationContextTest extends TestCase {
 		$this->context->delegateEventListenerRegistrations($dispatcher);
 	}
 
-	/**
-	 * @dataProvider dataProvider_TrueFalse
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider_TrueFalse')]
 	public function testRegisterService(bool $shared): void {
 		$app = $this->createMock(App::class);
 		$service = 'abc';

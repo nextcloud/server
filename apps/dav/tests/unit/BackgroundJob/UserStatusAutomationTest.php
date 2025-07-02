@@ -88,9 +88,7 @@ class UserStatusAutomationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
 	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'user'

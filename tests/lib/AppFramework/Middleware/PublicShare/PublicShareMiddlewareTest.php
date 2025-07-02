@@ -67,9 +67,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataShareApi
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataShareApi')]
 	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 

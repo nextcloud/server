@@ -1281,7 +1281,7 @@ class ApiTest extends TestCase {
 		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
 
-	public function datesProvider() {
+	public static function datesProvider() {
 		$date = new \DateTime();
 		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
@@ -1297,9 +1297,9 @@ class ApiTest extends TestCase {
 	/**
 	 * Make sure only ISO 8601 dates are accepted
 	 *
-	 * @dataProvider datesProvider
 	 * @group RoutingWeirdness
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('datesProvider')]
 	public function testPublicLinkExpireDate($date, $valid): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 

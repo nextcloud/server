@@ -93,9 +93,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider permissionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('permissionsProvider')]
 	public function testAssignTagNoPermission(bool $userVisible, bool $userAssignable, string $expectedException): void {
 		$tag = new SystemTag('1', 'Test', $userVisible, $userAssignable);
 		$this->tagManager->expects($this->once())
@@ -131,7 +129,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['555'])
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getNode()->createFile('555');
 	}
@@ -208,7 +206,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', 'badid')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->getChild('badid');
 	}
@@ -220,7 +218,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '777')
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getNode()->getChild('777');
 	}
@@ -312,7 +310,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
@@ -324,7 +322,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->childExists('555');
 	}

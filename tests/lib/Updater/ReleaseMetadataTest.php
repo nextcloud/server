@@ -41,11 +41,11 @@ class ReleaseMetadataTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider getMetadataUrlProvider
 	 *
 	 * @param string $version
 	 * @param string $url
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getMetadataUrlProvider')]
 	public function testGetMetadata(string $version, string $url): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);

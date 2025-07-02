@@ -107,7 +107,7 @@ class PushProviderTest extends AbstractNotificationProviderTestCase {
 		];
 		$this->manager->expects($this->exactly(3))
 			->method('notify')
-			->willReturnCallback(function ($notification) use (&$calls) {
+			->willReturnCallback(function ($notification) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, $notification);
 			});

@@ -135,7 +135,7 @@ class S3Test extends ObjectStoreTestCase {
 		];
 	}
 
-	/** @dataProvider dataFileSizes */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizes($size): void {
 		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
 			$this->markTestSkipped('Test is unreliable and skipped on 8.3');

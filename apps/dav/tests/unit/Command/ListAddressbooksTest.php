@@ -78,9 +78,7 @@ class ListAddressbooksTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecute
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecute')]
 	public function testWithCorrectUser(bool $readOnly, string $output): void {
 		$this->userManager->expects($this->once())
 			->method('userExists')

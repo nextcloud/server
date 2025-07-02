@@ -25,8 +25,10 @@ use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -71,7 +73,7 @@ class FolderTest extends NodeTestCase {
 	public function testGetDirectoryContent(): void {
 		$manager = $this->createMock(Manager::class);
 		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+		 * @var View|\PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
@@ -694,9 +696,7 @@ class FolderTest extends NodeTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider uniqueNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('uniqueNameProvider')]
 	public function testGetUniqueName($name, $existingFiles, $expected): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
@@ -730,7 +730,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -799,7 +799,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -866,7 +866,7 @@ class FolderTest extends NodeTestCase {
 			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -935,14 +935,14 @@ class FolderTest extends NodeTestCase {
 	}
 
 	/**
-	 * @dataProvider offsetLimitProvider
 	 * @param int $offset
 	 * @param int $limit
 	 * @param string[] $expectedPaths
 	 * @param ISearchOrder[] $ordering
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('offsetLimitProvider')]
 	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering): void {
 		if (!$ordering) {
 			$ordering = [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'fileid')];

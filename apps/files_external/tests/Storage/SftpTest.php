@@ -46,9 +46,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider configProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
 	public function testStorageId($config, $expectedStorageId): void {
 		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());

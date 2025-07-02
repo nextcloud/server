@@ -102,9 +102,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider intervalDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('intervalDataProvider')]
 	public function testUpdateInterval(int $userCount, int $pagingSize1, int $pagingSize2): void {
 		$this->config->expects($this->once())
 			->method('setAppValue')
@@ -145,9 +143,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider moreResultsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moreResultsProvider')]
 	public function testMoreResults($pagingSize, $results, $expected): void {
 		$connection = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([
@@ -204,9 +200,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider cycleDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cycleDataProvider')]
 	public function testDetermineNextCycle(?array $cycleData, array $prefixes, ?array $expectedCycle): void {
 		$this->helper->expects($this->any())
 			->method('getServerConfigurationPrefixes')
@@ -220,7 +214,7 @@ class SyncTest extends TestCase {
 			];
 			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->willReturnCallback(function () use (&$calls) {
+				->willReturnCallback(function () use (&$calls): void {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, func_get_args());
 				});
@@ -284,9 +278,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRun(array $runData): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -322,7 +314,7 @@ class SyncTest extends TestCase {
 		];
 		$this->config->expects($this->exactly(3))
 			->method('setAppValue')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

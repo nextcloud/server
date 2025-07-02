@@ -47,9 +47,7 @@ class OfflineUserTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider shareOwnerProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('shareOwnerProvider')]
 	public function testHasActiveShares(array $existingShareTypes, bool $expected): void {
 		$shareMock = $this->createMock(IShare::class);
 

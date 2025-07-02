@@ -169,14 +169,14 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$output
 			->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function (string $text) use (&$outputCalls) {
+			->willReturnCallback(function (string $text) use (&$outputCalls): void {
 				$outputCalls[] = $text;
 			});
 
 		$this->cloudIdManager
 			->expects($this->any())
 			->method('getCloudId')
-			->will($this->returnCallback(function (string $user, string $remote) {
+			->willReturnCallback(function (string $user, string $remote) {
 				$cloudIdMock = $this->createMock(ICloudId::class);
 
 				// The remotes are already sanitized in the original data, so
@@ -187,7 +187,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 					->willReturn($remote);
 
 				return $cloudIdMock;
-			}));
+			});
 
 		$this->command->execute($input, $output);
 

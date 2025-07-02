@@ -13,7 +13,7 @@ use OCP\Cache\CappedMemoryCache;
 use Test\TestCase;
 
 class InfoParserTest extends TestCase {
-	/** @var OCP\Cache\CappedMemoryCache */
+	/** @var CappedMemoryCache */
 	private static $cache;
 
 	public static function setUpBeforeClass(): void {
@@ -32,16 +32,12 @@ class InfoParserTest extends TestCase {
 		$this->assertEquals($expectedData, $data);
 	}
 
-	/**
-	 * @dataProvider providesInfoXml
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesInfoXml')]
 	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile);
 	}
 
-	/**
-	 * @dataProvider providesInfoXml
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesInfoXml')]
 	public function testParsingValidXmlWithCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}

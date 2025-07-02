@@ -30,13 +30,13 @@ class JobListTest extends TestCase {
 	/** @var \OC\BackgroundJob\JobList */
 	protected $instance;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	protected $connection;
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
 	private bool $ran = false;
 
@@ -90,9 +90,9 @@ class JobListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider argumentProvider
 	 * @param $argument
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
 	public function testAddRemove($argument): void {
 		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
@@ -112,9 +112,9 @@ class JobListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider argumentProvider
 	 * @param $argument
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
 	public function testRemoveDifferentArgument($argument): void {
 		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
@@ -133,9 +133,9 @@ class JobListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider argumentProvider
 	 * @param $argument
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
 	public function testHas($argument): void {
 		$job = new TestJob();
 		$this->assertFalse($this->instance->has($job, $argument));
@@ -149,9 +149,9 @@ class JobListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider argumentProvider
 	 * @param $argument
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
 	public function testHasDifferentArgument($argument): void {
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
@@ -241,9 +241,9 @@ class JobListTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider argumentProvider
 	 * @param $argument
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
 	public function testGetById($argument): void {
 		$job = new TestJob();
 		$this->instance->add($job, $argument);

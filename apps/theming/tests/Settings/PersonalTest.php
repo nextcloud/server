@@ -87,10 +87,9 @@ class PersonalTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetForm
-	 *
 	 * @param string[] $enabledThemes
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetForm')]
 	public function testGetForm(string $enforcedTheme, array $themesState): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')

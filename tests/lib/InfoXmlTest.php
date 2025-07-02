@@ -50,10 +50,9 @@ class InfoXmlTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataApps
-	 *
 	 * @param string $app
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataApps')]
 	public function testClasses($app): void {
 		$appInfo = $this->appManager->getAppInfo($app);
 		$appPath = $this->appManager->getAppPath($app);

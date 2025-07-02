@@ -381,7 +381,6 @@ class GeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSize
 	 *
 	 * @param int $maxX
 	 * @param int $maxY
@@ -392,6 +391,7 @@ class GeneratorTest extends \Test\TestCase {
 	 * @param int $expectedX
 	 * @param int $expectedY
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSize')]
 	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')

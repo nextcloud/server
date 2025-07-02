@@ -12,9 +12,7 @@ use OC\NaturalSort;
 use OC\NaturalSort_DefaultCollator;
 
 class NaturalSortTest extends \Test\TestCase {
-	/**
-	 * @dataProvider naturalSortDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('naturalSortDataProvider')]
 	public function testNaturalSortCompare($array, $sorted): void {
 		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
@@ -25,9 +23,7 @@ class NaturalSortTest extends \Test\TestCase {
 		$this->assertEquals($sorted, $array);
 	}
 
-	/**
-	 * @dataProvider defaultCollatorDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('defaultCollatorDataProvider')]
 	public function testDefaultCollatorCompare($array, $sorted): void {
 		$comparator = new NaturalSort(new NaturalSort_DefaultCollator());
 		usort($array, [$comparator, 'compare']);

@@ -132,9 +132,7 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataNoOutput
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoOutput')]
 	public function testNoOutput(string $statusCode): void {
 		$return = [$statusCode, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())

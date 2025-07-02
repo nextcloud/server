@@ -72,9 +72,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider changeRotateSizeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeRotateSizeProvider')]
 	public function testChangeRotateSize($optionValue, $configValue): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')

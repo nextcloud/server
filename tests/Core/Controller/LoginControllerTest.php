@@ -351,9 +351,7 @@ class LoginControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider passwordResetDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordResetDataProvider')]
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
 		$expectedResult): void {
 		$this->userSession

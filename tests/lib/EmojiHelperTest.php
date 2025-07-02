@@ -27,9 +27,8 @@ class EmojiHelperTest extends TestCase {
 	/**
 	 * @param bool $supports4ByteText
 	 * @param bool $expected
-	 *
-	 * @dataProvider doesPlatformSupportEmojiDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('doesPlatformSupportEmojiDataProvider')]
 	public function testDoesPlatformSupportEmoji(bool $supports4ByteText, bool $expected): void {
 		$this->db->expects($this->once())
 			->method('supports4ByteText')
@@ -48,9 +47,8 @@ class EmojiHelperTest extends TestCase {
 	/**
 	 * @param string $emoji
 	 * @param bool $expected
-	 *
-	 * @dataProvider isValidSingleEmojiDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isValidSingleEmojiDataProvider')]
 	public function testIsValidSingleEmoji(string $emoji, bool $expected): void {
 		$actual = $this->helper->isValidSingleEmoji($emoji);
 

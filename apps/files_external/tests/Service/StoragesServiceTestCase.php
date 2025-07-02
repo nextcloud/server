@@ -250,9 +250,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider deleteStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
 	public function testDeleteStorage(array $backendOptions, string $rustyStorageId): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');

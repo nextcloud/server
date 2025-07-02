@@ -13,6 +13,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\UserInterface;
 
 class DummyUser extends User {
 	public function __construct(
@@ -31,7 +32,7 @@ class DummyUser extends User {
  */
 trait UserTrait {
 	/**
-	 * @var \Test\Util\User\Dummy|\OCP\UserInterface
+	 * @var \Test\Util\User\Dummy|UserInterface
 	 */
 	protected $userBackend;
 

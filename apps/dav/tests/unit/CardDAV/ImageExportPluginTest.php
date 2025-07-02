@@ -45,9 +45,7 @@ class ImageExportPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @dataProvider providesQueryParams
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesQueryParams')]
 	public function testQueryParams(array $param): void {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
@@ -88,9 +86,7 @@ class ImageExportPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestCard
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCard')]
 	public function testCard(?int $size, bool $photo): void {
 		$query = ['photo' => null];
 		if ($size !== null) {
@@ -142,7 +138,7 @@ class ImageExportPluginTest extends TestCase {
 			];
 			$this->response->expects($this->exactly(count($setHeaderCalls)))
 				->method('setHeader')
-				->willReturnCallback(function () use (&$setHeaderCalls) {
+				->willReturnCallback(function () use (&$setHeaderCalls): void {
 					$expected = array_shift($setHeaderCalls);
 					$this->assertEquals($expected, func_get_args());
 				});
@@ -160,7 +156,7 @@ class ImageExportPluginTest extends TestCase {
 			];
 			$this->response->expects($this->exactly(count($setHeaderCalls)))
 				->method('setHeader')
-				->willReturnCallback(function () use (&$setHeaderCalls) {
+				->willReturnCallback(function () use (&$setHeaderCalls): void {
 					$expected = array_shift($setHeaderCalls);
 					$this->assertEquals($expected, func_get_args());
 				});

@@ -64,7 +64,7 @@ abstract class AsyncBusTestCase extends TestCase {
 	public static $lastCommand;
 
 	/**
-	 * @var \OCP\Command\IBus
+	 * @var IBus
 	 */
 	private $bus;
 

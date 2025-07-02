@@ -45,10 +45,10 @@ class ListenerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider eventProvider
 	 * @param string $eventType
 	 * @param string $notificationMethod
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('eventProvider')]
 	public function testEvaluate($eventType, $notificationMethod): void {
 		/** @var IComment|MockObject $comment */
 		$comment = $this->createMock(IComment::class);
@@ -110,9 +110,7 @@ class ListenerTest extends TestCase {
 		$this->listener->evaluate($event);
 	}
 
-	/**
-	 * @dataProvider eventProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('eventProvider')]
 	public function testEvaluateNoMentions(string $eventType): void {
 		/** @var IComment|MockObject $comment */
 		$comment = $this->createMock(IComment::class);

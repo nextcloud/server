@@ -142,9 +142,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getPropertiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getPropertiesDataProvider')]
 	public function testGetProperties(ISystemTag $systemTag, array $groups, array $requestedProperties, array $expectedProperties): void {
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -341,9 +339,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			[true, true, 'group1|group2'],
 		];
 	}
-	/**
-	 * @dataProvider createTagInsufficientPermissionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('createTagInsufficientPermissionsProvider')]
 	public function testCreateNotAssignableTagAsRegularUser(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Not sufficient permissions');
@@ -452,9 +448,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider createTagProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('createTagProvider')]
 	public function testCreateTagInByIdCollection(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->user->expects($this->once())
 			->method('getUID')
@@ -601,7 +595,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
-			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
+			->willThrowException(new \Sabre\DAV\Exception\NotFound());
 
 		$this->tagManager->expects($this->never())
 			->method('createTag');
@@ -619,9 +613,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	/**
-	 * @dataProvider nodeClassProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('nodeClassProvider')]
 	public function testCreateTagConflict(string $nodeClass): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
@@ -644,7 +636,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('createTag')
 			->with('Test', true, false)
-			->will($this->throwException(new TagAlreadyExistsException('Tag already exists')));
+			->willThrowException(new TagAlreadyExistsException('Tag already exists'));
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
