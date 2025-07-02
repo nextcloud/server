@@ -22,7 +22,7 @@
 				class="comments__empty"
 				:name="t('comments', 'No comments yet, start the conversation!')">
 				<template #icon>
-					<MessageReplyTextIcon />
+					<IconMessageReplyTextOutline />
 				</template>
 			</NcEmptyContent>
 			<ul v-else>
@@ -51,12 +51,12 @@
 			<template v-else-if="error">
 				<NcEmptyContent class="comments__error" :name="error">
 					<template #icon>
-						<AlertCircleOutlineIcon />
+						<IconAlertCircleOutline />
 					</template>
 				</NcEmptyContent>
 				<NcButton class="comments__retry" @click="getComments">
 					<template #icon>
-						<RefreshIcon />
+						<IconRefresh />
 					</template>
 					{{ t('comments', 'Retry') }}
 				</NcButton>
@@ -72,9 +72,9 @@ import { vElementVisibility as elementVisibility } from '@vueuse/components'
 
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
-import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
-import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
+import IconRefresh from 'vue-material-design-icons/Refresh.vue'
+import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
+import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
 import CommentView from '../mixins/CommentView'
@@ -89,9 +89,9 @@ export default {
 		Comment,
 		NcEmptyContent,
 		NcButton,
-		RefreshIcon,
-		MessageReplyTextIcon,
-		AlertCircleOutlineIcon,
+		IconRefresh,
+		IconMessageReplyTextOutline,
+		IconAlertCircleOutline,
 	},
 
 	directives: {
