@@ -159,6 +159,7 @@ OC.L10N.register(
     "All files" : "ไฟล์ทั้งหมด",
     "Personal files" : "ไฟล์ส่วนตัว",
     "Recent" : "ล่าสุด",
+    "Search" : "ค้นหา",
     "No entries found in this folder" : "ไม่พบรายการในโฟลเดอร์นี้",
     "Select all" : "เลือกทั้งหมด",
     "Upload too large" : "ไฟล์ที่อัปโหลดมีขนาดใหญ่เกินไป",
