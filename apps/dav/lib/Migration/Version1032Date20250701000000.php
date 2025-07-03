@@ -11,7 +11,7 @@ namespace OCA\DAV\Migration;
 
 use Closure;
 use OCA\DAV\AppInfo\Application;
-use OCP\IAppConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
@@ -32,16 +32,16 @@ class Version1032Date20250701000000 extends SimpleMigrationStep {
 
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		// If the system address book is not exposed there is nothing to do
-		if ($this->appConfig->getValueBool(Application::APP_ID, 'system_addressbook_exposed', true) === false) {
+		if ($this->appConfig->getAppValueBool('system_addressbook_exposed', true) === false) {
 			return;
 		}
 		// We use count seen because getting a user count from the backend can be very slow
-		$limit = $this->appConfig->getValueInt(Application::APP_ID, 'system_addressbook_limit', 5000);
+		$limit = $this->appConfig->getAppValueBool('system_addressbook_limit', 5000);
 		if ($this->userManager->countSeenUsers() <= $limit) {
 			return;
 		}
-		$this->appConfig->setValueBool(Application::APP_ID, 'system_addressbook_exposed', false);
-		$this->logger->warning('System address book disabled because user limit reached', ['app' => application::APP_ID]);
+		$this->appConfig->setAppValueBool('system_addressbook_exposed', false);
+		$this->logger->warning('System address book disabled because user limit reached');
 		// Notify all admin users about the system address book being disabled
 		foreach ($this->groupManager->get('admin')->getUsers() as $user) {
 			$notification = $this->notificationManager->createNotification();
