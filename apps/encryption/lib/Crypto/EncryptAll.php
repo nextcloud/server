@@ -249,7 +249,14 @@ class EncryptAll {
 		$target = $path . '.encrypted.' . time();
 
 		try {
-			$this->rootView->copy($source, $target);
+			$copySuccess = $this->rootView->copy($source, $target);
+			if ($copySuccess === false) {
+				/* Copy failed, abort */
+				if ($this->rootView->file_exists($target)) {
+					$this->rootView->unlink($target);
+				}
+				throw new \Exception('Copy failed for ' . $source);
+			}
 			$this->rootView->rename($target, $source);
 		} catch (DecryptionFailedException $e) {
 			if ($this->rootView->file_exists($target)) {
