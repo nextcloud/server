@@ -16,14 +16,14 @@ use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
- * This is the task processing task type to ask a question about an image
+ * This is the task processing task type to ask a question about the images
  * @since 32.0.0
  */
-class AnalyzeImage implements ITaskType {
+class AnalyzeImages implements ITaskType {
 	/**
 	 * @since 32.0.0
 	 */
-	public const ID = 'core:analyze-image';
+	public const ID = 'core:analyze-images';
 
 	private IL10N $l;
 
@@ -42,7 +42,7 @@ class AnalyzeImage implements ITaskType {
 	 * @since 32.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('Analyze image');
+		return $this->l->t('Analyze images');
 	}
 
 	/**
@@ -50,7 +50,7 @@ class AnalyzeImage implements ITaskType {
 	 * @since 32.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Ask a question about an image.');
+		return $this->l->t('Ask a question about the given images.');
 	}
 
 	/**
@@ -67,14 +67,14 @@ class AnalyzeImage implements ITaskType {
 	 */
 	public function getInputShape(): array {
 		return [
-			'image' => new ShapeDescriptor(
-				$this->l->t('Image'),
-				$this->l->t('Image to ask a question about'),
-				EShapeType::Image,
+			'images' => new ShapeDescriptor(
+				$this->l->t('Images'),
+				$this->l->t('Images to ask a question about'),
+				EShapeType::ListOfImages,
 			),
 			'input' => new ShapeDescriptor(
 				$this->l->t('Question'),
-				$this->l->t('What to ask about the image.'),
+				$this->l->t('What to ask about the images.'),
 				EShapeType::Text,
 			),
 		];
