@@ -125,6 +125,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
 
+
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
 		$this->initialState->provideInitialState('ai-text-processing-providers', $textProcessingProviders);
@@ -140,6 +141,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
 			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
+			'ai.taskprocessing_guests' => false,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
