@@ -42,9 +42,9 @@ class SystemAddressBookSize implements ISetupCheck {
 		$limit = $this->appConfig->getValueInt(Application::APP_ID, 'system_addressbook_limit', 5000);
 
 		if ($count > $limit) {
-			return SetupResult::warning($this->l10n->t('The system address book is enabled, but exceeded the maximum recommended number of contacts %s', (string)$limit));
+			return SetupResult::warning($this->l10n->t('The system address book is enabled, but exceeded the maximum recommended number of contacts %d', $limit));
 		} else {
-			return SetupResult::success($this->l10n->t('The system address book is enabled and contains less the maximum recommended number of contacts', (string)$limit));
+			return SetupResult::success($this->l10n->t('The system address book is enabled and contains less then the maximum recommended number of contacts %d', $limit));
 		}
 	}
 }
