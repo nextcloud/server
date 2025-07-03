@@ -141,16 +141,29 @@ interface IManager {
 	public function newQuery(string $principalUri) : ICalendarQuery;
 
 	/**
+	 * Handles a iMip message
+	 * 
+	 * @since 32.0.0
+	 * 
+	 * @throws \OCP\DB\Exception
+	 */
+	public function handleIMip(string $userId, string $message): bool;
+
+	/**
 	 * Handle a iMip REQUEST message
-	 *
+	 * 
 	 * @since 31.0.0
+	 * 
+	 * @deprecated 32.0.0 Use handleIMip() instead
 	 */
 	public function handleIMipRequest(string $principalUri, string $sender, string $recipient, string $calendarData): bool;
 
 	/**
 	 * Handle a iMip REPLY message
-	 *
+	 * 
 	 * @since 25.0.0
+	 * 
+	 * @deprecated 32.0.0 Use handleIMip() instead
 	 */
 	public function handleIMipReply(string $principalUri, string $sender, string $recipient, string $calendarData): bool;
 
@@ -158,6 +171,8 @@ interface IManager {
 	 * Handle a iMip CANCEL message
 	 *
 	 * @since 25.0.0
+	 * 
+	 * @deprecated 32.0.0 Use handleIMip() instead
 	 */
 	public function handleIMipCancel(string $principalUri, string $sender, ?string $replyTo, string $recipient, string $calendarData): bool;
 

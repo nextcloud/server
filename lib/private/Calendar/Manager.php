@@ -220,6 +220,7 @@ class Manager implements IManager {
 
 	/**
 	 * @since 32.0.0
+	 * 
 	 * @throws \OCP\DB\Exception
 	 */
 	public function handleIMip(
@@ -247,18 +248,20 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message does not contain any event(s)');
 			return false;
 		}
+		/** @var VEvent $vEvent */
+		$vEvent = $vObject->VEVENT;
 
-		if (!isset($vObject->VEVENT->UID)) {
+		if (!isset($vEvent->UID)) {
 			$this->logger->warning('iMip message event dose not contains a UID');
 			return false;
 		}
 
-		if (!isset($vObject->VEVENT->ORGANIZER)) {
+		if (!isset($vEvent->ORGANIZER)) {
 			$this->logger->warning('iMip message event dose not contains an organizer');
 			return false;
 		}
 
-		if (!isset($vObject->VEVENT->ATTENDEE)) {
+		if (!isset($vEvent->ATTENDEE)) {
 			$this->logger->warning('iMip message event dose not contains any attendees');
 			return false;
 		}
@@ -270,7 +273,7 @@ class Manager implements IManager {
 			if ($calendar->isDeleted() || !$calendar->isWritable()) {
 				continue;
 			}
-			if (!empty($calendar->search('', [], ['uid' => $vObject->VEVENT->UID->getValue()]))) {
+			if (!empty($calendar->search('', [], ['uid' => $vEvent->UID->getValue()]))) {
 				try {
 					if ($calendar instanceof IHandleImipMessage) {
 						$calendar->handleIMipMessage($userId, $vObject->serialize());
