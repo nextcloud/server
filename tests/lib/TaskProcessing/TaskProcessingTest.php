@@ -27,6 +27,7 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
@@ -608,6 +609,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),
+			$userManager,
+			\OC::$server->get(IUserSession::class),
 			\OC::$server->get(ICacheFactory::class),
 		);
 	}
@@ -1258,6 +1261,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),
+			\OC::$server->get(IUserManager::class),
+			\OC::$server->get(IUserSession::class),
 			\OC::$server->get(ICacheFactory::class),
 		);
 	}
