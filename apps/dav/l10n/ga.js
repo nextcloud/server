@@ -250,6 +250,8 @@ OC.L10N.register(
     "Completed on %s" : "Críochnaithe ar %s",
     "Due on %s by %s" : "Dlite ar %s faoi %s",
     "Due on %s" : "Dlite ar %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Fáilte go Féilire Nextcloud!\n\nSeo sampla imeachta - déan iniúchadh ar sholúbthacht na pleanála le Féilire Nextcloud trí aon eagarthóireacht is mian leat a dhéanamh!\n\nLe Féilire Nextcloud, is féidir leat:\n- Imeachtaí a chruthú, a chur in eagar agus a bhainistiú gan stró.\n- Ilfhéilirí a chruthú agus iad a roinnt le comhghleacaithe foirne, cairde nó teaghlach.\n- Infhaighteacht a sheiceáil agus do chuid amanna gnóthacha a thaispeáint do dhaoine eile.\n- Comhtháthú gan uaim le haipeanna agus gléasanna trí CalDAV.\n- Do thaithí a shaincheapadh: imeachtaí athfhillteacha a sceidealú, fógraí agus socruithe eile a choigeartú.",
+    "Example event - open me!" : "Imeacht shamplach - oscail mé!",
     "System Address Book" : "Leabhar Seoltaí Córais",
     "The system address book contains contact information for all users in your instance." : "Tá faisnéis teagmhála i leabhar seoltaí an chórais do gach úsáideoir i do chás.",
     "Enable System Address Book" : "Cumasaigh Leabhar Seoltaí an Chórais",

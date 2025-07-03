@@ -368,6 +368,8 @@ OC.L10N.register(
     "List of unapproved shares." : "List of unapproved shares.",
     "No pending shares" : "No pending shares",
     "Shares you have received but not approved will show up here" : "Shares you have received but not approved will show up here",
+    "Error deleting the share: {errorMessage}" : "Error deleting the share: {errorMessage}",
+    "Error deleting the share" : "Error deleting the share",
     "Error updating the share: {errorMessage}" : "Error updating the share: {errorMessage}",
     "Error updating the share" : "Error updating the share",
     "File \"{path}\" has been unshared" : "File \"{path}\" has been unshared",
