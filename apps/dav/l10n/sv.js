@@ -250,6 +250,7 @@ OC.L10N.register(
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
     "Due on %s" : "Slutar den %s",
+    "Example event - open me!" : "Exempelhändelse – öppna mig!",
     "System Address Book" : "Systemadressbok",
     "The system address book contains contact information for all users in your instance." : "Systemadressboken innehåller kontaktinformation för alla användare i din instans.",
     "Enable System Address Book" : "Aktivera systemadressboken",

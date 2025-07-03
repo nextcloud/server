@@ -263,7 +263,7 @@ OC.L10N.register(
     "Share with {userName}" : "{userName} ile paylaş",
     "Share with email {email}" : "{email} e-posta adresi ile paylaş",
     "Share with group" : "Grupla paylaş",
-    "Share in conversation" : "Yazışmada paylaş",
+    "Share in conversation" : "Görüşmede paylaş",
     "Share with {user} on remote server {server}" : "{server} uzak sunucusundaki {user} ile paylaş",
     "Share with remote group" : "Uzaktaki grupla paylaş",
     "Share with guest" : "Konukla paylaş",
