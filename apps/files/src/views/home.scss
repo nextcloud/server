@@ -1,0 +1,30 @@
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+// Align everything in the middle
+.files-list__header-home-search-wrapper,
+.files-content[class*=files-content__home] .files-list__filters {
+	display: flex !important;
+	max-width: var(--breakpoint-mobile) !important;
+	height: auto !important;
+	margin: 0 auto !important;
+	padding-inline: calc(var(--clickable-area-small, 24px) / 2) !important;
+}
+
+.files-list__header-home-search-wrapper {
+	// global default is 34px, but we want to have a bigger clickable area
+	--default-clickable-area: var(---clickable-area-large, 48px);
+	justify-content: center;
+}
+
+// Align the filters with the search input for the Home view
+.files-content[class*=files-content__home] .files-list__filters {
+	padding-block: calc(var(--default-grid-baseline, 4px) * 2) !important;
+}
+
+// Wider recommendations reason label column
+.files-list__row-home-recommendation-reason {
+	width: calc(var(--row-height) * 2.5) !important;
+}

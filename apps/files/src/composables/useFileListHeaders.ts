@@ -15,5 +15,7 @@ export function useFileListHeaders(): ComputedRef<Header[]> {
 	const headers = ref(getFileListHeaders())
 	const sorted = computed(() => [...headers.value].sort((a, b) => a.order - b.order) as Header[])
 
+	console.debug('useFileListHeaders', { headers: sorted.value })
+
 	return sorted
 }

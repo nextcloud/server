@@ -10,10 +10,7 @@ import { View, getNavigation } from '@nextcloud/files'
 
 export const VIEW_ID = 'files'
 
-/**
- * Register the files view to the navigation
- */
-export function registerFilesView() {
+export const registerFilesView = () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: VIEW_ID,

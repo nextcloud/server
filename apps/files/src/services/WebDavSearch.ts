@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 import type { ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -17,6 +17,8 @@ export interface SearchNodesOptions {
 	signal?: AbortSignal
 }
 
+export const MIN_SEARCH_LENGTH = 3
+
 /**
  * Search for nodes matching the given query.
  *
@@ -25,16 +27,18 @@ export interface SearchNodesOptions {
  * @param options.dir - The base directory to scope the search to
  * @param options.signal - Abort signal for the request
  */
-export async function searchNodes(query: string, { dir, signal }: SearchNodesOptions): Promise<INode[]> {
+export async function searchNodes(query: string, { dir, signal }: SearchNodesOptions): Promise<Node[]> {
 	const user = getCurrentUser()
 	if (!user) {
 		// the search plugin only works for user roots
+		logger.debug('No user found for search', { query, dir })
 		return []
 	}
 
 	query = query.trim()
-	if (query.length < 3) {
+	if (query.length < MIN_SEARCH_LENGTH) {
 		// the search plugin only works with queries of at least 3 characters
+		logger.debug('Search query too short', { query })
 		return []
 	}
 
@@ -75,6 +79,7 @@ export async function searchNodes(query: string, { dir, signal }: SearchNodesOpt
 
 	// check if the request was aborted
 	if (signal?.aborted) {
+		logger.debug('Search request aborted', { query, dir })
 		return []
 	}
 
