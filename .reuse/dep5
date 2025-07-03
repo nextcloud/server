@@ -107,7 +107,7 @@ Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
 Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png core/img/apps/spreed.svg
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp tests/data/broken-video.webm apps/testing/img/logo.png core/img/apps/spreed.svg
 Copyright: 2016-2024 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
