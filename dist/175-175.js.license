@@ -1,13 +1,16 @@
 SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -16,10 +19,10 @@ SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Alkemics
@@ -48,7 +51,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.11.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -74,6 +77,12 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- buffer
+	- version: 5.7.1
+	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
@@ -89,6 +98,12 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - inherits
 	- version: 2.0.3
 	- license: ISC
@@ -103,6 +118,12 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - process
 	- version: 0.11.10
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
 	- license: MIT
 - style-loader
 	- version: 4.0.0
