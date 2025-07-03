@@ -261,6 +261,12 @@ class IMipPlugin extends SabreIMipPlugin {
 					$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $sender);
 				}
 			}
+
+			// The display name in Nextcloud can use UTF-8.
+			// As the default charset for text/* is us-ascii, it's important to explicitly define it.
+			// See https://www.rfc-editor.org/rfc/rfc6047.html#section-2.4.
+			$contentType = 'text/calendar; name=event.ics; method=' . $iTipMessage->method . '; charset=UTF-8';
+
 			// evaluate if a mail service was found and has sending capabilities
 			if ($mailService !== null && $mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
@@ -277,7 +283,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				$message->setAttachments((new Attachment(
 					$itip_msg,
 					null,
-					'text/calendar; name=event.ics; method=' . $iTipMessage->method,
+					$contentType,
 					true
 				)));
 				// send message
@@ -296,7 +302,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				$message->attachInline(
 					$itip_msg,
 					'event.ics',
-					'text/calendar; method=' . $iTipMessage->method
+					$contentType,
 				);
 				$failed = $this->mailer->send($message);
 			}
