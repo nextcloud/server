@@ -814,7 +814,7 @@ class Manager implements IManager {
 
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array {
 		// userId will be obtained from the session if left to null
-		if (!$this->checkGuestAccess($userId)) { 
+		if (!$this->checkGuestAccess($userId)) {
 			return [];
 		}
 		if ($this->availableTaskTypes === null) {
@@ -881,11 +881,10 @@ class Manager implements IManager {
 		}
 		if ($userId === null) {
 			$user = $this->userSession->getUser();
-
 		} else {
 			$user = $this->userManager->get($userId);
 		}
-		
+
 		$guestsAllowed = $this->config->getAppValue('core', 'ai.taskprocessing_guests', 'false');
 		if ($guestsAllowed == 'true' || !class_exists(\OCA\Guests\UserBackend::class) || !($user->getBackend() instanceof \OCA\Guests\UserBackend)) {
 			return true;
