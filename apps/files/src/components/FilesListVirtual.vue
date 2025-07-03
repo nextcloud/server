@@ -48,6 +48,11 @@
 				:nodes="nodes" />
 		</template>
 
+		<!-- Body replacement if no files are available -->
+		<template #empty>
+			<slot name="empty" />
+		</template>
+
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
@@ -474,6 +479,8 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -568,6 +575,16 @@ export default defineComponent({
 			position: sticky;
 			z-index: 10;
 			top: var(--fixed-block-start-position);
+		}
+
+		// Empty content
+		.files-list__empty {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
 		}
 
 		tr {

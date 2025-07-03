@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
 
 import { t } from '@nextcloud/l10n'
 import { FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { VIEW_ID as HOME_VIEW_ID } from '../views/home'
+import { VIEW_ID as RECENT_VIEW_ID } from '../views/recent'
 import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search'
 
 export const action = new FileAction({
@@ -14,9 +16,8 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled: (nodes, view: View) => [
-		'home',
-		'recent',
+	enabled: (nodes: Node[], view: View) => [
+		RECENT_VIEW_ID,
 		SEARCH_VIEW_ID,
 	].includes(view.id),
 
