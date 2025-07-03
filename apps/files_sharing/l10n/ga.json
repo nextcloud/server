@@ -366,6 +366,8 @@
     "List of unapproved shares." : "Liosta scaireanna neamhcheadaithe.",
     "No pending shares" : "Gan scaireanna ar feitheamh",
     "Shares you have received but not approved will show up here" : "Taispeánfar scaireanna atá faighte agat ach nár faomhadh anseo",
+    "Error deleting the share: {errorMessage}" : "Earráid ag scriosadh an chomhroinnte: {errorMessage}",
+    "Error deleting the share" : "Earráid ag scriosadh an chomhroinnte",
     "Error updating the share: {errorMessage}" : "Earráid agus an sciar á nuashonrú: {errorMessage}",
     "Error updating the share" : "Earráid agus an sciar á nuashonrú",
     "File \"{path}\" has been unshared" : "Comhad \"{path}\" díroinnte",
