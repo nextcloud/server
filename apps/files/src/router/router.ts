@@ -10,9 +10,10 @@ import queryString from 'query-string'
 import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import Vue from 'vue'
 
-import { useFilesStore } from '../store/files'
-import { usePathsStore } from '../store/paths'
-import logger from '../logger'
+import { useFilesStore } from '../store/files.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { defaultView } from '../utils/filesViews.ts'
+import logger from '../logger.ts'
 
 Vue.use(Router)
 
@@ -57,7 +58,7 @@ const router = new Router({
 		{
 			path: '/',
 			// Pretending we're using the default view
-			redirect: { name: 'filelist', params: { view: 'files' } },
+			redirect: { name: 'filelist', params: { view: defaultView() } },
 		},
 		{
 			path: '/:view/:fileid(\\d+)?',

@@ -25,7 +25,7 @@ import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
 import { registerFavoritesView } from './views/favorites.ts'
 import registerRecentView from './views/recent'
-import registerPersonalFilesView from './views/personal-files'
+import { registerPersonalFilesView } from './views/personal-files'
 import { registerFilesView } from './views/files'
 import { registerFolderTreeView } from './views/folderTree.ts'
 import { registerSearchView } from './views/search.ts'
