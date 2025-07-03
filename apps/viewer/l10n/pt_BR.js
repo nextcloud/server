@@ -92,7 +92,7 @@ OC.L10N.register(
     "Height in pixels" : "Altura em pixels",
     "Toggle ratio lock" : "Alternar a trava de proporção",
     "Reset to original image size" : "Voltar ao tamanho original",
-    "Rotate" : "Girar",
+    "Rotate" : "Rotacionar",
     "Text" : "Texto",
     "Text spacing" : "Espaçamento de texto",
     "Text alignment" : "Alinhamento de texto",

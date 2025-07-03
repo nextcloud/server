@@ -22,7 +22,7 @@ OC.L10N.register(
     "Edit" : "Düzenle",
     "Exit full screen" : "Tam ekrandan çık",
     "Full screen" : "Tam ekran",
-    "Open sidebar" : "Yan çubuğu aç",
+    "Open sidebar" : "Kenar çubuğunu aç",
     "Download" : "İndir",
     "Delete" : "Sil",
     "View" : "Görüntüle",
