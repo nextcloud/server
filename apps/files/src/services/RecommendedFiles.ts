@@ -20,6 +20,7 @@ const isRecommendationEnabled = getCapabilities()?.recommendations?.enabled === 
 if (isRecommendationEnabled) {
 	registerDavProperty('nc:recommendation-reason', { nc: 'http://nextcloud.org/ns' })
 	registerDavProperty('nc:recommendation-reason-label', { nc: 'http://nextcloud.org/ns' })
+	registerDavProperty('nc:recommendation-original-location', { nc: 'http://nextcloud.org/ns' })
 }
 
 export const getContents = (): CancelablePromise<ContentsWithRoot> => {
@@ -54,7 +55,9 @@ export const getContents = (): CancelablePromise<ContentsWithRoot> => {
 				}),
 				contents: contents.map((result) => {
 					try {
-						return resultToNode(result, root)
+						// Force the sources to be in the user's root context
+						result.filename = `/files/${getCurrentUser()?.uid}` + result?.props?.['recommendation-original-location']
+						return resultToNode(result, `/files/${getCurrentUser()?.uid}`)
 					} catch (error) {
 						logger.error(`Invalid node detected '${result.basename}'`, { error })
 						return null

@@ -20,7 +20,14 @@
 			<slot name="header-overlay" />
 		</div>
 
-		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
+		<div v-if="dataSources.length === 0"
+			class="files-list__empty">
+			<slot name="empty" />
+		</div>
+
+		<table v-else
+			class="files-list__table"
+			:class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
 				{{ caption }}
@@ -62,6 +69,7 @@ import debounce from 'debounce'
 
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import logger from '../logger.ts'
+import { data } from 'jquery'
 
 interface RecycledPoolItem {
 	key: string,

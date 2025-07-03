@@ -53,7 +53,7 @@ onBeforeNavigation((to, from, next) => {
  * Are we currently on the search view.
  * Needed to disable the action menu (we cannot change the search mode there)
  */
-const isSearchView = computed(() => currentView.value.id === VIEW_ID)
+const isSearchView = computed(() => currentView.value?.id === VIEW_ID)
 
 /**
  * Local search is only possible on real DAV resources within the files root
@@ -63,7 +63,7 @@ const canSearchLocally = computed(() => {
 		return true
 	}
 
-	const folder = filesStore.getDirectoryByPath(currentView.value.id, directory.value)
+	const folder = filesStore.getDirectoryByPath(currentView.value?.id, directory.value)
 	return folder?.isDavResource && folder?.root?.startsWith('/files/')
 })
 
@@ -84,7 +84,7 @@ const searchLabel = computed(() => {
  * @param value - The new value
  */
 function onUpdateSearch(value: string) {
-	if (searchStore.scope === 'locally' && currentView.value.id !== VIEW_ID) {
+	if (searchStore.scope === 'locally' && currentView.value?.id !== VIEW_ID) {
 		searchStore.base = filesStore.getDirectoryByPath(currentView.value.id, directory.value)
 	}
 	searchStore.query = value

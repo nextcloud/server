@@ -17,7 +17,7 @@ import { getPinia } from '../store/index.ts'
 /**
  * Get the contents for a search view
  */
-export function getContents(): CancelablePromise<ContentsWithRoot> {
+export function getContents(query = ''): CancelablePromise<ContentsWithRoot> {
 	const controller = new AbortController()
 
 	const searchStore = useSearchStore(getPinia())
@@ -26,7 +26,7 @@ export function getContents(): CancelablePromise<ContentsWithRoot> {
 	return new CancelablePromise<ContentsWithRoot>(async (resolve, reject, cancel) => {
 		cancel(() => controller.abort())
 		try {
-			const contents = await searchNodes(searchStore.query, { dir, signal: controller.signal })
+			const contents = await searchNodes(query || searchStore.query, { dir, signal: controller.signal })
 			resolve({
 				contents,
 				folder: new Folder({
@@ -37,6 +37,12 @@ export function getContents(): CancelablePromise<ContentsWithRoot> {
 				}),
 			})
 		} catch (error) {
+			// Be silent if the request was canceled
+			if (error?.name === 'AbortError') {
+				logger.debug('Search request was canceled', { query, dir })
+				reject(error)
+				return
+			}
 			logger.error('Failed to fetch search results', { error })
 			reject(error)
 		}

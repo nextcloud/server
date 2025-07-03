@@ -5,15 +5,18 @@
 
 <template>
 	<div class="files-list__header-home-search-wrapper">
-		<NcTextField v-model="searchText"
+		<NcTextField ref="searchInput"
+			:value="searchText"
 			class="files-list__header-home-search-input"
 			:label="t('files', 'Search files and folders')"
+			minlength="3"
 			:pill="true"
 			trailing-button-icon="close"
 			:trailing-button-label="t('files', 'Clear search')"
 			:show-trailing-button="searchText.trim() !== ''"
 			type="search"
-			@trailing-button-click="searchText = ''">
+			@trailing-button-click="emit('update:searchText', '')"
+			@update:model-value="onSearch">
 			<template #icon>
 				<Magnify :size="20" />
 			</template>
@@ -21,57 +24,52 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import type { View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import { defineProps, withDefaults, defineEmits, ref, onMounted } from 'vue'
+import { subscribe } from '@nextcloud/event-bus'
 
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 
-export default defineComponent({
-	name: 'FilesHeaderHomeSearch',
+import { VIEW_ID } from './search'
+import logger from '../logger'
 
-	components: {
-		NcTextField,
-		Magnify,
-	},
+interface Props {
+	searchText?: string
+}
 
-	setup() {
-		return {
-			t,
-		}
-	},
+withDefaults(defineProps<Props>(), {
+	searchText: '',
+})
 
-	data() {
-		return {
-			searchText: '',
-		}
-	},
+const emit = defineEmits<{
+	(e: 'update:searchText', query: string): void
+}>()
 
-	methods: {
-	},
+const searchInput = ref(null) as NcTextField
+const onSearch = (text: string) => {
+	const input = searchInput?.value?.$refs?.inputField?.$refs?.input as HTMLInputElement
+	input?.reportValidity?.()
+
+	// Emit the search text to the parent component
+	emit('update:searchText', text)
+}
+
+onMounted(() => {
+	const input = searchInput?.value?.$refs?.inputField?.$refs?.input as HTMLInputElement
+	input?.focus?.()
+})
+
+// Subscribing here to ensure we have mounted already and all views are registered
+subscribe('files:navigation:changed', (view: View) => {
+	if (view.id !== VIEW_ID) {
+		return
+	}
+
+	// Reset search text when navigating away
+	logger.info('Resetting search on navigation away from home view')
+	emit('update:searchText', '')
 })
 </script>
-
-<style lang="scss">
-// Align everything in the middle
-.files-list__header-home-search-wrapper,
-.files-content__home .files-list__filters {
-	display: flex !important;
-	max-width: var(--breakpoint-mobile) !important;
-	height: auto !important;
-	margin: 0 auto !important;
-	padding-inline: calc(var(--clickable-area-small, 24px) / 2) !important;
-}
-
-.files-list__header-home-search-wrapper {
-	// global default is 34px, but we want to have a bigger clickable area
-	--default-clickable-area: var(---clickable-area-large, 48px);
-	justify-content: center;
-}
-
-// Align the filters with the search input for the Home view
-.files-content__home .files-list__filters {
-	padding-block: calc(var(--default-grid-baseline, 4px) * 2) !important;
-}
-</style>

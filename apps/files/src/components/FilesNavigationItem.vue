@@ -104,7 +104,7 @@ export default defineComponent({
 
 	methods: {
 		filterVisible(views: View[]) {
-			return views.filter(({ _view, id }) => id === this.currentView?.id || _view.hidden !== true)
+			return views.filter(({ hidden, id }) => id === this.currentView?.id || hidden !== true)
 		},
 
 		hasChildViews(view: View): boolean {

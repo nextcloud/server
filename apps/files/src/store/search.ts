@@ -29,7 +29,7 @@ export const useSearchStore = defineStore('search', () => {
 	 * Scope of the search.
 	 * Scopes:
 	 * - filter: only filter current file list
-	 * - locally: search from current location recursivly
+	 * - locally: search from current location recursively
 	 * - globally: search everywhere
 	 */
 	const scope = ref<SearchScope>('filter')

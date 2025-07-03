@@ -8,10 +8,12 @@ import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
 import { getContents } from '../services/Recent'
 
+export const VIEW_ID = 'recent'
+
 export const registerRecentView = () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
-		id: 'recent',
+		id: VIEW_ID,
 		name: t('files', 'Recent'),
 		caption: t('files', 'List of recently modified files and folders.'),
 

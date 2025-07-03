@@ -96,7 +96,7 @@ export const useFilesStore = function(...args) {
 			updateNodes(nodes: Node[]) {
 				// Update the store all at once
 				const files = nodes.reduce((acc, node) => {
-					if (!node.fileid) {
+					if (typeof node.fileid !== 'number') {
 						logger.error('Trying to update/set a node without fileid', { node })
 						return acc
 					}
@@ -129,7 +129,7 @@ export const useFilesStore = function(...args) {
 			},
 
 			onMovedNode({ node, oldSource }: { node: Node, oldSource: string }) {
-				if (!node.fileid) {
+				if (typeof node.fileid !== 'number') {
 					logger.error('Trying to update/set a node without fileid', { node })
 					return
 				}
@@ -140,7 +140,7 @@ export const useFilesStore = function(...args) {
 			},
 
 			async onUpdatedNode(node: Node) {
-				if (!node.fileid) {
+				if (typeof node.fileid !== 'number') {
 					logger.error('Trying to update/set a node without fileid', { node })
 					return
 				}
@@ -154,7 +154,7 @@ export const useFilesStore = function(...args) {
 				}
 
 				// If we have only one node with the file ID, we can update it directly
-				if (node.source === nodes[0].source) {
+				if (node?.source === nodes[0]?.source) {
 					this.updateNodes([node])
 					return
 				}

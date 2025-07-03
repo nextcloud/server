@@ -76,67 +76,10 @@
 		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :current-folder="currentFolder" />
 
 		<!-- Initial loading -->
-		<NcLoadingIcon v-if="loading && !isRefreshing"
+		<NcLoadingIcon v-if="!currentView || !currentFolder"
 			class="files-list__loading-icon"
 			:size="38"
 			:name="t('files', 'Loading current folder')" />
-
-		<!-- Empty content placeholder -->
-		<template v-else-if="!loading && isEmptyDir && currentFolder && currentView">
-			<div class="files-list__before">
-				<!-- Headers -->
-				<FilesListHeader v-for="header in headers"
-					:key="header.id"
-					:current-folder="currentFolder"
-					:current-view="currentView"
-					:header="header" />
-			</div>
-
-			<!-- Empty due to error -->
-			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
-				<template #action>
-					<NcButton type="secondary" @click="fetchContent">
-						<template #icon>
-							<IconReload :size="20" />
-						</template>
-						{{ t('files', 'Retry') }}
-					</NcButton>
-				</template>
-				<template #icon>
-					<IconAlertCircleOutline />
-				</template>
-			</NcEmptyContent>
-
-			<!-- Custom empty view -->
-			<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
-				<div ref="customEmptyView" />
-			</div>
-
-			<!-- Default empty directory view -->
-			<NcEmptyContent v-else
-				:name="currentView?.emptyTitle || t('files', 'No files in here')"
-				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
-				data-cy-files-content-empty>
-				<template v-if="directory !== '/'" #action>
-					<!-- Uploader -->
-					<UploadPicker v-if="canUpload && !isQuotaExceeded"
-						allow-folders
-						class="files-list__header-upload-button"
-						:content="getContent"
-						:destination="currentFolder"
-						:forbidden-characters="forbiddenCharacters"
-						multiple
-						@failed="onUploadFail"
-						@uploaded="onUpload" />
-					<NcButton v-else :to="toPreviousDir" type="primary">
-						{{ t('files', 'Go back') }}
-					</NcButton>
-				</template>
-				<template #icon>
-					<NcIconSvgWrapper :svg="currentView.icon" />
-				</template>
-			</NcEmptyContent>
-		</template>
 
 		<!-- File list -->
 		<FilesListVirtual v-else
@@ -144,7 +87,60 @@
 			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
-			:summary="summary" />
+			:summary="summary">
+			<template #empty>
+				<!-- Initial loading -->
+				<NcLoadingIcon v-if="loading && !isRefreshing"
+					class="files-list__loading-icon"
+					:size="38"
+					:name="t('files', 'Loading current folder')" />
+
+				<!-- Empty due to error -->
+				<NcEmptyContent v-else-if="error" :name="error" data-cy-files-content-error>
+					<template #action>
+						<NcButton type="secondary" @click="fetchContent">
+							<template #icon>
+								<IconReload :size="20" />
+							</template>
+							{{ t('files', 'Retry') }}
+						</NcButton>
+					</template>
+					<template #icon>
+						<IconAlertCircleOutline />
+					</template>
+				</NcEmptyContent>
+
+				<!-- Custom empty view -->
+				<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
+					<div ref="customEmptyView" />
+				</div>
+
+				<!-- Default empty directory view -->
+				<NcEmptyContent v-else
+					:name="currentView?.emptyTitle || t('files', 'No files in here')"
+					:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
+					data-cy-files-content-empty>
+					<template v-if="directory !== '/'" #action>
+						<!-- Uploader -->
+						<UploadPicker v-if="canUpload && !isQuotaExceeded"
+							allow-folders
+							class="files-list__header-upload-button"
+							:content="getContent"
+							:destination="currentFolder"
+							:forbidden-characters="forbiddenCharacters"
+							multiple
+							@failed="onUploadFail"
+							@uploaded="onUpload" />
+						<NcButton v-else :to="toPreviousDir" type="primary">
+							{{ t('files', 'Go back') }}
+						</NcButton>
+					</template>
+					<template #icon>
+						<NcIconSvgWrapper :svg="currentView?.icon" />
+					</template>
+				</NcEmptyContent>
+			</template>
+		</FilesListVirtual>
 	</NcAppContent>
 </template>
 
@@ -343,7 +339,7 @@ export default defineComponent({
 		/**
 		 * The current directory contents.
 		 */
-		dirContentsSorted() {
+		dirContentsSorted(): Node[] {
 			if (!this.currentView) {
 				return []
 			}
@@ -579,8 +575,19 @@ export default defineComponent({
 
 			if (!currentView) {
 				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+
+				// If we still haven't a valid view, let's wait for the page to load
+				// then try again. Else redirect to the home view
+				window.addEventListener('DOMContentLoaded', () => {
+					if (!this.currentView) {
+						logger.warn('No current view after DOMContentLoaded, redirecting to home view')
+						window.OCP.Files.Router.goToRoute(null, { view: 'home' })
+					}
+				}, { once: true })
 				return
 			}
+
+			logger.debug('Fetching contents for directory', { dir, currentView })
 
 			// If we have a cancellable promise ongoing, cancel it
 			if (this.promise && 'cancel' in this.promise) {
