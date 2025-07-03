@@ -23,6 +23,7 @@ use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
 use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use Psr\Log\LoggerInterface;
@@ -685,12 +686,16 @@ class Encryption extends Wrapper {
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
-				[, $result] = Files::streamCopy($source, $target, true);
+				if ($source === false || $target === false) {
+					$result = false;
+				} else {
+					[, $result] = Files::streamCopy($source, $target, true);
+				}
 			} finally {
-				if (is_resource($source)) {
+				if (isset($source) && $source !== false) {
 					fclose($source);
 				}
-				if (is_resource($target)) {
+				if (isset($target) && $target !== false) {
 					fclose($target);
 				}
 			}
@@ -740,6 +745,9 @@ class Encryption extends Wrapper {
 
 	public function hash(string $type, string $path, bool $raw = false): string|false {
 		$fh = $this->fopen($path, 'rb');
+		if ($fh === false) {
+			return false;
+		}
 		$ctx = hash_init($type);
 		hash_update_stream($ctx, $fh);
 		fclose($fh);
@@ -764,6 +772,9 @@ class Encryption extends Wrapper {
 		$firstBlock = '';
 		if ($this->storage->is_file($path)) {
 			$handle = $this->storage->fopen($path, 'r');
+			if ($handle === false) {
+				return '';
+			}
 			$firstBlock = fread($handle, $this->util->getHeaderSize());
 			fclose($handle);
 		}
@@ -894,6 +905,9 @@ class Encryption extends Wrapper {
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
+		if ($target === false) {
+			throw new GenericFileException("Failed to open $path for writing");
+		}
 		[$count, $result] = Files::streamCopy($stream, $target, true);
 		fclose($stream);
 		fclose($target);
