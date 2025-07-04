@@ -154,7 +154,7 @@ export const useFilesStore = function(...args) {
 				}
 
 				// If we have only one node with the file ID, we can update it directly
-				if (node.source === nodes[0].source) {
+				if (nodes.length === 1 && node.source === nodes[0].source) {
 					this.updateNodes([node])
 					return
 				}
