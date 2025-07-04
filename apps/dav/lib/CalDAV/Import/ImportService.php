@@ -7,9 +7,13 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\Import;
 
+use Exception;
 use Generator;
+use InvalidArgumentException;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\ICalendarImport;
+use Sabre\DAV\UUIDUtil;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
@@ -43,17 +47,132 @@ class ImportService {
 
 		switch ($options->getFormat()) {
 			case 'ical':
-				return $calendar->import($options, $this->importText(...));
+				return $this->importProcess($calendar, $options, $this->importText(...));
 				break;
 			case 'jcal':
-				return $calendar->import($options, $this->importJson(...));
+				return $this->importProcess($calendar, $options, $this->importJson(...));
 				break;
 			case 'xcal':
-				return $calendar->import($options, $this->importXml(...));
+				return $this->importProcess($calendar, $options, $this->importXml(...));
 				break;
 			default:
 				throw new \InvalidArgumentException('Invalid import format');
 		}
+	}
+
+	private function importProcess(CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): array {
+		$calendarId = $calendar->getKey();
+		$outcome = [];
+		foreach ($generator($options) as $vObject) {
+			$components = $vObject->getBaseComponents();
+			// determine if the object has no base component types
+			if (count($components) === 0) {
+				$errorMessage = 'One or more objects discovered with no base component types';
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+				}
+				$outcome['nbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				continue;
+			}
+			// determine if the object has more than one base component type
+			// object can have multiple base components with the same uid
+			// but we need to make sure they are of the same type
+			if (count($components) > 1) {
+				$type = $components[0]->name;
+				foreach ($components as $entry) {
+					if ($type !== $entry->name) {
+						$errorMessage = 'One or more objects discovered with multiple base component types';
+						if ($options->getErrors() === $options::ERROR_FAIL) {
+							throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+						}
+						$outcome['mbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+						continue 2;
+					}
+				}
+			}
+			// determine if the object has a uid
+			if (!isset($components[0]->UID)) {
+				$errorMessage = 'One or more objects discovered without a UID';
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
+				}
+				$outcome['noid'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				continue;
+			}
+			$uid = (string)$components[0]->UID->getValue();
+			// validate object
+			if ($options->getValidate() !== $options::VALIDATE_NONE) {
+				$issues = $calendar->validateComponent($vObject, true, 3);
+				if ($options->getValidate() === $options::VALIDATE_SKIP && $issues !== []) {
+					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
+					continue;
+				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
+					throw new InvalidArgumentException('Error importing calendar data: UID <' . $uid . '> - ' . $issues[0]);
+				}
+			}
+			// create or update object in the data store
+			//$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
+			$objects = $calendar->search(
+				'',
+				[],
+				['uid' => $uid],
+				1
+			);
+			if (count($objects) > 0) {
+				$objectId = $objects[0]['uri'];
+			} else {
+				$objectId = null;
+			}
+			$objectData = $vObject->serialize();
+			try {
+				if ($objectId === null) {
+					$objectId = UUIDUtil::getUUID() . '.ics';
+					//$this->backend->createCalendarObject(
+					//	$calendarId,
+					//	$objectId,
+					//	$objectData
+					//);
+
+					// This is not the best option as it spins up the full dav server and generates iTip/iMip messages
+					//$calendar->createFromString($objectId, $vObject->serialize());
+
+					// Create the calendar object in the calendar
+					$calendar->createCalendarObject(
+						$objectId,
+						$objectData
+					);
+
+					$outcome[$uid] = ['outcome' => 'created'];
+				} elseif ($objectId !== null) {
+					//[$cid, $oid] = explode('/', $objectId);
+					if ($options->getSupersede()) {
+						//$this->backend->updateCalendarObject(
+						//	$calendarId,
+						//	$oid,
+						//	$objectData
+						//);
+
+						// Update the calendar object in the calendar
+						$calendar->updateCalendarObject(
+							$objectId,
+							$objectData
+						);
+
+						$outcome[$uid] = ['outcome' => 'updated'];
+					} else {
+						$outcome[$uid] = ['outcome' => 'exists'];
+					}
+				}
+			} catch (Exception $e) {
+				$errorMessage = $e->getMessage();
+				if ($options->getErrors() === $options::ERROR_FAIL) {
+					throw new Exception('Error importing calendar data: UID <' . $uid . '> - ' . $errorMessage, 0, $e);
+				}
+				$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+			}
+		}
+
+		return $outcome;
 	}
 
 	/**

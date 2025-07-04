@@ -206,6 +206,22 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		}
 	}
 
+	public function createCalendarObject(string $name, string $calendarData): string {
+		return $this->backend->createCalendarObject(
+			$this->calendarInfo['id'],
+			$name,
+			$calendarData
+		);
+	}
+
+	public function updateCalendarObject(string $name, string $calendarData): string {
+		return $this->backend->updateCalendarObject(
+			$this->calendarInfo['id'],
+			$name,
+			$calendarData
+		);
+	}
+
 	/**
 	 * @throws CalendarException
 	 */
@@ -269,103 +285,6 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	}
 
 	/**
-	 * Import objects
-	 *
-	 * @since 32.0.0
-	 *
-	 * @param CalendarImportOptions $options
-	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
-	 *
-	 * @return array<string,array<string,string|array<string>>>
-	 */
-	public function import(CalendarImportOptions $options, callable $generator): array {
-		$calendarId = $this->getKey();
-		$outcome = [];
-		foreach ($generator($options) as $vObject) {
-			$components = $vObject->getBaseComponents();
-			// determine if the object has no base component types
-			if (count($components) === 0) {
-				$errorMessage = 'One or more objects discovered with no base component types';
-				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
-				}
-				$outcome['nbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
-				continue;
-			}
-			// determine if the object has more than one base component type
-			// object can have multiple base components with the same uid
-			// but we need to make sure they are of the same type
-			if (count($components) > 1) {
-				$type = $components[0]->name;
-				foreach ($components as $entry) {
-					if ($type !== $entry->name) {
-						$errorMessage = 'One or more objects discovered with multiple base component types';
-						if ($options->getErrors() === $options::ERROR_FAIL) {
-							throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
-						}
-						$outcome['mbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
-						continue 2;
-					}
-				}
-			}
-			// determine if the object has a uid
-			if (!isset($components[0]->UID)) {
-				$errorMessage = 'One or more objects discovered without a UID';
-				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
-				}
-				$outcome['noid'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
-				continue;
-			}
-			$uid = $components[0]->UID->getValue();
-			// validate object
-			if ($options->getValidate() !== $options::VALIDATE_NONE) {
-				$issues = $this->validateComponent($vObject, true, 3);
-				if ($options->getValidate() === $options::VALIDATE_SKIP && $issues !== []) {
-					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
-					continue;
-				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
-					throw new InvalidArgumentException('Error importing calendar data: UID <' . $uid . '> - ' . $issues[0]);
-				}
-			}
-			// create or update object in the data store
-			$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
-			$objectData = $vObject->serialize();
-			try {
-				if ($objectId === null) {
-					$objectId = UUIDUtil::getUUID();
-					$this->backend->createCalendarObject(
-						$calendarId,
-						$objectId,
-						$objectData
-					);
-					$outcome[$uid] = ['outcome' => 'created'];
-				} elseif ($objectId !== null) {
-					[$cid, $oid] = explode('/', $objectId);
-					if ($options->getSupersede()) {
-						$this->backend->updateCalendarObject(
-							$calendarId,
-							$oid,
-							$objectData
-						);
-						$outcome[$uid] = ['outcome' => 'updated'];
-					} else {
-						$outcome[$uid] = ['outcome' => 'exists'];
-					}
-				}
-			} catch (Exception $e) {
-				$errorMessage = $e->getMessage();
-				if ($options->getErrors() === $options::ERROR_FAIL) {
-					throw new Exception('Error importing calendar data: UID <' . $uid . '> - ' . $errorMessage, 0, $e);
-				}
-				$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
-			}
-		}
-
-		return $outcome;
-	}
-
-	/**
 	 * Validate a component
 	 *
 	 * @param VCalendar $vObject
@@ -373,7 +292,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 * @param int $level minimum level of issues to return
 	 * @return list<mixed>
 	 */
-	private function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
+	public function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
 		// validate component(S)
 		$issues = $vObject->validate(Node::PROFILE_CALDAV);
 		// attempt to repair
