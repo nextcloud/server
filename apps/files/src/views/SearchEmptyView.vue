@@ -7,7 +7,6 @@
 import { mdiMagnifyClose } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import debounce from 'debounce'
-import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -32,9 +31,6 @@ const debouncedUpdate = debounce((value: string) => {
 					:model-value="searchStore.query"
 					type="search"
 					@update:model-value="debouncedUpdate" />
-				<NcButton v-if="searchStore.scope === 'locally'" @click="searchStore.scope = 'globally'">
-					{{ t('files', 'Search globally') }}
-				</NcButton>
 			</div>
 		</template>
 	</NcEmptyContent>

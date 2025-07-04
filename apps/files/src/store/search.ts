@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INode, View } from '@nextcloud/files'
-import type RouterService from '../services/RouterService'
-import type { SearchScope } from '../types'
+import type { View } from '@nextcloud/files'
+import type RouterService from '../services/RouterService.ts'
+import type { SearchScope } from '../types.ts'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
+import debounce from 'debounce'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
-import { VIEW_ID } from '../views/search'
-import logger from '../logger'
-import debounce from 'debounce'
+import { VIEW_ID } from '../views/search.ts'
+import logger from '../logger.ts'
 
 export const useSearchStore = defineStore('search', () => {
 	/**
@@ -21,27 +21,15 @@ export const useSearchStore = defineStore('search', () => {
 	const query = ref('')
 
 	/**
-	 * Where to start the search
-	 */
-	const base = ref<INode>()
-
-	/**
 	 * Scope of the search.
 	 * Scopes:
 	 * - filter: only filter current file list
-	 * - locally: search from current location recursivly
 	 * - globally: search everywhere
 	 */
 	const scope = ref<SearchScope>('filter')
 
 	// reset the base if query is cleared
-	watch(scope, () => {
-		if (scope.value !== 'locally') {
-			base.value = undefined
-		}
-
-		updateSearch()
-	})
+	watch(scope, updateSearch)
 
 	watch(query, (old, current) => {
 		// skip if only whitespaces changed
@@ -59,13 +47,12 @@ export const useSearchStore = defineStore('search', () => {
 	 * Debounced update of the current route
 	 * @private
 	 */
-	const updateRouter = debounce((isSearch: boolean, fileid?: number) => {
+	const updateRouter = debounce((isSearch: boolean) => {
 		const router = window.OCP.Files.Router as RouterService
 		router.goToRoute(
 			undefined,
 			{
 				view: VIEW_ID,
-				...(fileid === undefined ? {} : { fileid: String(fileid) }),
 			},
 			{
 				query: query.value,
@@ -106,12 +93,10 @@ export const useSearchStore = defineStore('search', () => {
 			return
 		}
 
-		// we only use the directory if we search locally
-		const fileid = scope.value === 'locally' ? base.value?.fileid : undefined
 		const isSearch = router.params.view === VIEW_ID
 
-		logger.debug('Update route for updated search query', { query: query.value, fileid, isSearch })
-		updateRouter(isSearch, fileid)
+		logger.debug('Update route for updated search query', { query: query.value, isSearch })
+		updateRouter(isSearch)
 	}
 
 	/**
@@ -162,7 +147,6 @@ export const useSearchStore = defineStore('search', () => {
 	}
 
 	return {
-		base,
 		query,
 		scope,
 	}
