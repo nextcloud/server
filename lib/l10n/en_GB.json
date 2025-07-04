@@ -142,7 +142,7 @@
     "About" : "About",
     "Display name" : "Display name",
     "Headline" : "Headline",
-    "Organisation" : "Organisation",
+    "Organization" : "Organization",
     "Role" : "Role",
     "Pronouns" : "Pronouns",
     "Unknown account" : "Unknown account",
@@ -448,6 +448,7 @@
     "Generate headline" : "Generate headline",
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
+    "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "File is currently busy, please try again later",
     "Cannot download file" : "Cannot download file",
     "Login is too long" : "Login is too long"

@@ -142,7 +142,7 @@
     "About" : "關於",
     "Display name" : "顯示名稱",
     "Headline" : "標題",
-    "Organisation" : "機構",
+    "Organization" : "生產力",
     "Role" : "角色",
     "Pronouns" : "代名詞",
     "Unknown account" : "帳戶不詳",
@@ -448,6 +448,7 @@
     "Generate headline" : "産生標題",
     "Summarizes text by reducing its length without losing key information." : "通過減少文字長度來總結而不丟失關鍵資訊。",
     "Extracts topics from a text and outputs them separated by commas." : "從文字中提取主題並輸出，並用逗號分隔。",
+    "Organisation" : "機構",
     "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
     "Cannot download file" : "無法下載檔案",
     "Login is too long" : "帳號太長了"

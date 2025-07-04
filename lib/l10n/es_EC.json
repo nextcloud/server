@@ -107,7 +107,7 @@
     "About" : "Acerca de",
     "Display name" : "Nombre para mostrar",
     "Headline" : "Título",
-    "Organisation" : "Organización",
+    "Organization" : "Organización",
     "Role" : "Rol",
     "Additional settings" : "Configuraciones adicionales",
     "Enter the database name for %s" : "Introduce el nombre de la base de datos para %s",
@@ -231,6 +231,7 @@
     "Translate" : "Traducir",
     "Target language" : "Lenguaje de destino",
     "Result" : "Resultado",
+    "Organisation" : "Organización",
     "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
     "Cannot download file" : "No se puede descargar el archivo"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

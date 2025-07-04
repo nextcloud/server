@@ -106,7 +106,7 @@
     "About" : "Относно",
     "Display name" : "Име за визуализация",
     "Headline" : "Заглавие",
-    "Organisation" : "Организация",
+    "Organization" : "Организиране",
     "Role" : "Роля",
     "Pronouns" : "Обръщение",
     "Additional settings" : "Допълнителни настройки",
@@ -231,6 +231,7 @@
     "Translate" : "Превод",
     "Target language" : "Целеви език",
     "Result" : "Резултат",
+    "Organisation" : "Организация",
     "File is currently busy, please try again later" : "Файлът в момента е зает, моля, опитайте отново по-късно",
     "Cannot download file" : "Файлът не можа да бъде изтеглен"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

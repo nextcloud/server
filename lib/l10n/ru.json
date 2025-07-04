@@ -142,7 +142,7 @@
     "About" : "О себе",
     "Display name" : "Отображаемое имя",
     "Headline" : "Заголовок",
-    "Organisation" : "Организация",
+    "Organization" : "Организация",
     "Role" : "Роль",
     "Pronouns" : "Местоимения",
     "Unknown account" : "Неизвестный аккаунт",
@@ -448,6 +448,7 @@
     "Generate headline" : "Сгенерировать заголовок",
     "Summarizes text by reducing its length without losing key information." : "Обобщает текст, сокращая его длину без потери ключевой информации.",
     "Extracts topics from a text and outputs them separated by commas." : "Извлекает темы из текста и выводит их через запятую.",
+    "Organisation" : "Организация",
     "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
     "Cannot download file" : "Не удалось скачать файл",
     "Login is too long" : "Имя пользователя слишком длинное"

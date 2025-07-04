@@ -142,7 +142,7 @@
     "About" : "Hakkında",
     "Display name" : "Görüntülenecek ad",
     "Headline" : "Başlık",
-    "Organisation" : "Kuruluş",
+    "Organization" : "Kuruluş",
     "Role" : "Pozisyon",
     "Pronouns" : "Hitaplar",
     "Unknown account" : "Hesap bilinmiyor",
@@ -448,6 +448,7 @@
     "Generate headline" : "Başlık oluşturulsun",
     "Summarizes text by reducing its length without losing key information." : "Temel içeriği kaybetmeden uzunluğunu kısaltarak metni özetler.",
     "Extracts topics from a text and outputs them separated by commas." : "Bir metindeki konuları ayıklar ve bunları virgül ile ayırarak sıralar.",
+    "Organisation" : "Kuruluş",
     "File is currently busy, please try again later" : "Dosya şu anda meşgul. Lütfen bir süre sonra yeniden deneyin",
     "Cannot download file" : "Dosya indirilemedi",
     "Login is too long" : "Kullanıcı adı çok uzun"

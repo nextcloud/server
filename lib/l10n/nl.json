@@ -106,7 +106,7 @@
     "About" : "Over",
     "Display name" : "Weergave naam",
     "Headline" : "Hoofdlijn",
-    "Organisation" : "Organisatie",
+    "Organization" : "Organisatie",
     "Role" : "Rol",
     "Additional settings" : "Aanvullende instellingen",
     "You need to enter details of an existing account." : "Geef de details van een bestaand account op.",
@@ -229,6 +229,7 @@
     "Summary" : "Samenvatting",
     "Translate" : "Vertaal",
     "Result" : "Resultaat",
+    "Organisation" : "Organisatie",
     "File is currently busy, please try again later" : "Bestandsverwerking bezig, probeer het later opnieuw"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

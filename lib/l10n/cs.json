@@ -142,7 +142,7 @@
     "About" : "O uživateli",
     "Display name" : "Zobrazované jméno",
     "Headline" : "Nadpis",
-    "Organisation" : "Organizace",
+    "Organization" : "Organizování",
     "Role" : "Role",
     "Pronouns" : "Zájmena",
     "Unknown account" : "Neznámý účet",
@@ -448,6 +448,7 @@
     "Generate headline" : "Vytvořit nadpis",
     "Summarizes text by reducing its length without losing key information." : "Vytvoří stručný souhrn textu tím, že zkrátí jeho délku aniž by byly ztraceny klíčové informace",
     "Extracts topics from a text and outputs them separated by commas." : "Vyzíská témata z textu a vypíše je oddělované čárkami.",
+    "Organisation" : "Organizace",
     "File is currently busy, please try again later" : "Soubor je nyní používán, zkuste to později",
     "Cannot download file" : "Soubor se nedaří stáhnout",
     "Login is too long" : "Přihlašovací jméno je příliš dlouhé"

@@ -51,7 +51,6 @@
     "Profile picture" : "Foto de perfil",
     "About" : "Acerca de",
     "Headline" : "Títular",
-    "Organisation" : "Organización",
     "Role" : "Rol",
     "Pronouns" : "Pronombres",
     "Additional settings" : "Configuraciones adicionales",
@@ -145,6 +144,7 @@
     "Summary" : "Resumen",
     "Translate" : "Traducir",
     "Result" : "Resultado",
+    "Organisation" : "Organización",
     "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, favor de intentarlo más tarde. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

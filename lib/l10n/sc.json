@@ -91,7 +91,7 @@
     "About" : "In contu de",
     "Display name" : "Ammustra nùmene",
     "Headline" : "Tìtulos",
-    "Organisation" : "Organizatzione",
+    "Organization" : "Organizatzione",
     "Role" : "Faina",
     "Additional settings" : "Cunfiguratziones in agiunta",
     "You need to enter details of an existing account." : "Nche depes insertare is detàllios de unu contu chi b'est giai.",
@@ -199,6 +199,7 @@
     "Translate" : "Borta",
     "Result" : "Resurtadu",
     "Generate headline" : "Gènera unu tìtulu",
+    "Organisation" : "Organizatzione",
     "File is currently busy, please try again later" : "Pro immoe s'archìviu est impreadu, torra a proare a coa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -129,7 +129,7 @@
     "About" : "Um hugbúnaðinn",
     "Display name" : "Birtingarnafn",
     "Headline" : "Fyrirsögn",
-    "Organisation" : "Stofnun/Félag/Fyrirtæki",
+    "Organization" : "Stofnun/Samtök/Félag",
     "Role" : "Role",
     "Pronouns" : "Fornöfn",
     "Unknown account" : "Óþekktur aðgangur",
@@ -304,6 +304,7 @@
     "Generate headline" : "Útbúa fyrirsögn",
     "Summarizes text by reducing its length without losing key information." : "Tekur saman aðalatriði texta með því að stytta hann án þess að tapa mikilvægustu upplýsingum.",
     "Extracts topics from a text and outputs them separated by commas." : "Greinir efnisflokka úr texta og aðskilur þá með kommum.",
+    "Organisation" : "Stofnun/Félag/Fyrirtæki",
     "File is currently busy, please try again later" : "Skráin er upptekin í augnablikinu, reyndu aftur síðar",
     "Cannot download file" : "Get ekki sótt skrá"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
