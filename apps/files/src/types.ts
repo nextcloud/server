@@ -50,16 +50,18 @@ export interface PathOptions {
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean|undefined
+	[key: string]: boolean | string | undefined
 
+	crop_image_previews: boolean
+	default_view: 'files' | 'personal'
+	grid_view: boolean
 	show_dialog_file_extension: boolean,
 	show_hidden: boolean
-	crop_image_previews: boolean
+	show_mime_column: boolean
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
-	grid_view: boolean
-	show_mime_column: boolean
 }
+
 export interface UserConfigStore {
 	userConfig: UserConfig
 }
