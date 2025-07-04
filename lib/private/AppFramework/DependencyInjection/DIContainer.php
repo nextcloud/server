@@ -8,6 +8,7 @@
 namespace OC\AppFramework\DependencyInjection;
 
 use OC;
+use OC\AppFramework\App;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
@@ -58,6 +59,7 @@ use Psr\Log\LoggerInterface;
  */
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private string $appName;
+	private string $nameSpace;
 
 	/**
 	 * @var array
@@ -74,8 +76,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param ServerContainer|null $server
 	 */
 	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
-		parent::__construct();
 		$this->appName = $appName;
+		$this->nameSpace = App::buildAppNamespace($this->appName);
 		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
@@ -399,21 +401,30 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return false;
 	}
 
+	public function offsetSet($offset, $value): void {
+		if ($offset === 'AppName' || $offset === 'appName') {
+			$this->appName = $value;
+		}
+		$this->items[$offset] = $value;
+	}
+
 	public function query(string $name, bool $autoload = true) {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
+		$name = $this->sanitizeName($name);
+		$name = $this->resolveAlias($name);
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !$this->has($name)) {
-			return $this->getServer()->query($name, $autoload);
+			return $this->server->queryNoApps($name, $autoload);
 		}
 
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
 			try {
-				return $this->getServer()->query($name, $autoload);
+				return $this->server->query($name, $autoload);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
@@ -428,20 +439,22 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function queryNoFallback($name) {
-		$name = $this->sanitizeName($name);
-
+	public function queryNoFallback(string $name) {
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
 			return parent::query($name);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
-		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
+		} elseif (str_starts_with($name, $this->nameSpace)) {
 			return parent::query($name);
 		}
 
 		throw new QueryException('Could not resolve ' . $name . '!'
 			. ' Class can not be instantiated', 1);
+	}
+
+	protected function resolveAlias(string $name): string {
+		return parent::resolveAlias($this->server->resolveAlias($name));
 	}
 }
