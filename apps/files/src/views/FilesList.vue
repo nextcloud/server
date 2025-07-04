@@ -155,7 +155,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { join, dirname, normalize } from 'path'
+import { join, dirname, normalize, relative } from 'path'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
@@ -356,12 +356,28 @@ export default defineComponent({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			return sortNodes(this.dirContentsFiltered, {
+			const nodes = sortNodes(this.dirContentsFiltered, {
 				sortFavoritesFirst: this.userConfig.sort_favorites_first,
 				sortFoldersFirst: this.userConfig.sort_folders_first,
 				sortingMode: this.sortingMode,
 				sortingOrder: this.isAscSorting ? 'asc' : 'desc',
 			})
+
+			// TODO upstream this
+			if (this.currentView.id === 'files') {
+				nodes.sort((a, b) => {
+					const aa = relative(a.source, this.currentFolder!.source) === '..'
+					const bb = relative(b.source, this.currentFolder!.source) === '..'
+					if (aa && bb) {
+						return 0
+					} else if (aa) {
+						return -1
+					}
+					return 1
+				})
+			}
+
+			return nodes
 		},
 
 		/**
