@@ -20,7 +20,16 @@
 			<slot name="header-overlay" />
 		</div>
 
-		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
+		<div v-if="dataSources.length === 0"
+			class="files-list__empty">
+			<slot name="empty" />
+		</div>
+
+		<table v-show="dataSources.length > 0"
+			:aria-hidden="dataSources.length === 0"
+			:inert="dataSources.length === 0"
+			class="files-list__table"
+			:class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
 				{{ caption }}

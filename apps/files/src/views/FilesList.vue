@@ -73,87 +73,92 @@
 		<!-- Drag and drop notice -->
 		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :current-folder="currentFolder" />
 
-		<!-- Initial loading -->
-		<NcLoadingIcon v-if="loading && !isRefreshing"
+		<!--
+			Initial current view loading0. This should never happen,
+			views are supposed to be registered far earlier in the lifecycle.
+			In case the URL is bad or a view is missing, we show a loading icon.
+		-->
+		<NcLoadingIcon v-if="!currentView"
 			class="files-list__loading-icon"
 			:size="38"
 			:name="t('files', 'Loading current folder')" />
 
-		<!-- Empty content placeholder -->
-		<template v-else-if="!loading && isEmptyDir && currentFolder && currentView">
-			<div class="files-list__before">
-				<!-- Headers -->
-				<FilesListHeader v-for="header in headers"
-					:key="header.id"
-					:current-folder="currentFolder"
-					:current-view="currentView"
-					:header="header" />
-			</div>
-			<!-- Empty due to error -->
-			<NcEmptyContent v-if="error" :name="error" data-cy-files-content-error>
-				<template #action>
-					<NcButton type="secondary" @click="fetchContent">
-						<template #icon>
-							<IconReload :size="20" />
-						</template>
-						{{ t('files', 'Retry') }}
-					</NcButton>
-				</template>
-				<template #icon>
-					<IconAlertCircleOutline />
-				</template>
-			</NcEmptyContent>
-			<!-- Custom empty view -->
-			<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
-				<div ref="customEmptyView" />
-			</div>
-			<!-- Default empty directory view -->
-			<NcEmptyContent v-else
-				:name="currentView?.emptyTitle || t('files', 'No files in here')"
-				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
-				data-cy-files-content-empty>
-				<template v-if="directory !== '/'" #action>
-					<!-- Uploader -->
-					<UploadPicker v-if="canUpload && !isQuotaExceeded"
-						allow-folders
-						class="files-list__header-upload-button"
-						:content="getContent"
-						:destination="currentFolder"
-						:forbidden-characters="forbiddenCharacters"
-						multiple
-						@failed="onUploadFail"
-						@uploaded="onUpload" />
-					<NcButton v-else :to="toPreviousDir" type="primary">
-						{{ t('files', 'Go back') }}
-					</NcButton>
-				</template>
-				<template #icon>
-					<NcIconSvgWrapper :svg="currentView.icon" />
-				</template>
-			</NcEmptyContent>
-		</template>
-
-		<!-- File list -->
+		<!-- File list - always mounted -->
 		<FilesListVirtual v-else
 			ref="filesListVirtual"
 			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
-			:summary="summary" />
+			:summary="summary">
+			<template #empty>
+				<!-- Initial loading -->
+				<NcLoadingIcon v-if="loading && !isRefreshing"
+					class="files-list__loading-icon"
+					:size="38"
+					:name="t('files', 'Loading current folder')" />
+
+				<!-- Empty due to error -->
+				<NcEmptyContent v-else-if="error" :name="error" data-cy-files-content-error>
+					<template #action>
+						<NcButton type="secondary" @click="fetchContent">
+							<template #icon>
+								<IconReload :size="20" />
+							</template>
+							{{ t('files', 'Retry') }}
+						</NcButton>
+					</template>
+					<template #icon>
+						<IconAlertCircleOutline />
+					</template>
+				</NcEmptyContent>
+
+				<!-- Custom empty view -->
+				<div v-else-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
+					<div ref="customEmptyView" />
+				</div>
+
+				<!-- Default empty directory view -->
+				<NcEmptyContent v-else
+					:name="currentView?.emptyTitle || t('files', 'No files in here')"
+					:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
+					data-cy-files-content-empty>
+					<template v-if="directory !== '/'" #action>
+						<!-- Uploader -->
+						<UploadPicker v-if="canUpload && !isQuotaExceeded"
+							allow-folders
+							class="files-list__header-upload-button"
+							:content="getContent"
+							:destination="currentFolder"
+							:forbidden-characters="forbiddenCharacters"
+							multiple
+							@failed="onUploadFail"
+							@uploaded="onUpload" />
+						<NcButton v-else :to="toPreviousDir" type="primary">
+							{{ t('files', 'Go back') }}
+						</NcButton>
+					</template>
+					<template #icon>
+						<NcIconSvgWrapper :svg="currentView?.icon" />
+					</template>
+				</NcEmptyContent>
+			</template>
+		</FilesListVirtual>
 	</NcAppContent>
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, FileListAction, Folder, INode } from '@nextcloud/files'
+import type { ContentsWithRoot, FileListAction, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
+import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
+import { Folder, Node, Permission, sortNodes, getFileListActions } from '@nextcloud/files'
+import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
 import { join, dirname, normalize, relative } from 'path'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
@@ -181,7 +186,6 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
-import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -195,7 +199,6 @@ import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import FilesListHeader from '../components/FilesListHeader.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
@@ -208,7 +211,6 @@ export default defineComponent({
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
-		FilesListHeader,
 		FilesListVirtual,
 		LinkIcon,
 		ListViewIcon,
@@ -259,7 +261,6 @@ export default defineComponent({
 			directory,
 			fileId,
 			fileListWidth,
-			headers: useFileListHeaders(),
 			t,
 
 			activeStore,
@@ -325,12 +326,23 @@ export default defineComponent({
 		/**
 		 * The current folder.
 		 */
-		currentFolder(): Folder | undefined {
-			if (!this.currentView) {
-				return
+		currentFolder(): Folder {
+			// Temporary fake folder to use until we have the first valid folder
+			// fetched and cached. This allow us to mount the FilesListVirtual
+			// at all time and avoid unmount/mount and undesired rendering issues.
+			const dummyFolder = new Folder({
+				id: 0,
+				source: getRemoteURL() + getRootPath(),
+				root: getRootPath(),
+				owner: getCurrentUser()?.uid || null,
+				permissions: Permission.NONE,
+			})
+
+			if (!this.currentView?.id) {
+				return dummyFolder
 			}
 
-			return this.filesStore.getDirectoryByPath(this.currentView.id, this.directory)
+			return this.filesStore.getDirectoryByPath(this.currentView.id, this.directory) || dummyFolder
 		},
 
 		dirContents(): Node[] {
@@ -342,7 +354,7 @@ export default defineComponent({
 		/**
 		 * The current directory contents.
 		 */
-		dirContentsSorted() {
+		dirContentsSorted(): INode[] {
 			if (!this.currentView) {
 				return []
 			}
@@ -598,8 +610,19 @@ export default defineComponent({
 
 			if (!currentView) {
 				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+
+				// If we still haven't a valid view, let's wait for the page to load
+				// then try again. Else redirect to the default view
+				window.addEventListener('DOMContentLoaded', () => {
+					if (!this.currentView) {
+						logger.warn('No current view after DOMContentLoaded, redirecting to the default view')
+						window.OCP.Files.Router.goToRoute(null, { view: 'files' })
+					}
+				}, { once: true })
 				return
 			}
+
+			logger.debug('Fetching contents for directory', { dir, currentView })
 
 			// If we have a cancellable promise ongoing, cancel it
 			if (this.promise && 'cancel' in this.promise) {
