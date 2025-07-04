@@ -122,7 +122,7 @@
     "About" : "Om",
     "Display name" : "Visningsnavn",
     "Headline" : "Overskrift",
-    "Organisation" : "Organisasion",
+    "Organization" : "Organisering",
     "Role" : "Rolle",
     "Pronouns" : "Pronomen",
     "Unknown account" : "Ukjent konto",
@@ -366,6 +366,7 @@
     "Generate headline" : "Generer overskrift",
     "Summarizes text by reducing its length without losing key information." : "Oppsummerer tekst ved å redusere lengden uten å miste nøkkelinformasjon.",
     "Extracts topics from a text and outputs them separated by commas." : "Trekker ut emner fra en tekst og sender dem ut atskilt med komma.",
+    "Organisation" : "Organisasion",
     "File is currently busy, please try again later" : "Filen er opptatt for øyeblikket, prøv igjen senere",
     "Cannot download file" : "Kan ikke laste ned fil"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

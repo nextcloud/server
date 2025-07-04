@@ -129,7 +129,7 @@
     "About" : "Honi buruz",
     "Display name" : "Erakusteko izena",
     "Headline" : "Izenburua",
-    "Organisation" : "Erakundea",
+    "Organization" : "Antolakuntza",
     "Role" : "Zeregina",
     "Pronouns" : "Izenordainak",
     "Unknown account" : "Kontu ezezaguna",
@@ -426,6 +426,7 @@
     "Generate headline" : "Sortu izenburua",
     "Summarizes text by reducing its length without losing key information." : "Testua laburtzen du bere luzera murrizten informazio baliotsua galdu gabe.",
     "Extracts topics from a text and outputs them separated by commas." : "Gaiak ateratzen ditu testu batetik eta komaz banatuta erakusten ditu.",
+    "Organisation" : "Erakundea",
     "File is currently busy, please try again later" : "Fitxategia lanpetuta dago, saiatu berriro geroago",
     "Cannot download file" : "Ezin da fitxategia deskargatu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

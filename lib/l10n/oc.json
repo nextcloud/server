@@ -40,7 +40,6 @@
     "Profile picture" : "Imatge de perfil",
     "About" : "A prepaus",
     "Headline" : "Títol",
-    "Organisation" : "Organizacion",
     "Role" : "Ròtle",
     "Additional settings" : "Paramètres addicionals",
     "Set an admin password." : "Definir un senhal admin.",
@@ -69,6 +68,7 @@
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
-    "Translate" : "Tradurre"
+    "Translate" : "Tradurre",
+    "Organisation" : "Organizacion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -142,7 +142,7 @@
     "About" : "Sobre",
     "Display name" : "Nome de exibição",
     "Headline" : "Título",
-    "Organisation" : "Organização",
+    "Organization" : "Organização",
     "Role" : "Função",
     "Pronouns" : "Pronomes",
     "Unknown account" : "Conta desconhecida",
@@ -448,6 +448,7 @@
     "Generate headline" : "Gerar título",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reduzindo seu comprimento sem perder informações importantes.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrai temas de um texto e os exibe separados por vírgulas.",
+    "Organisation" : "Organização",
     "File is currently busy, please try again later" : "O arquivo está ocupado, tente novamente mais tarde",
     "Cannot download file" : "Não é possível baixar o arquivo",
     "Login is too long" : "Login é muito longo"

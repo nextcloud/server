@@ -142,7 +142,7 @@
     "About" : "Acerca de",
     "Display name" : "Nombre para mostrar",
     "Headline" : "Titular",
-    "Organisation" : "Organización",
+    "Organization" : "Organización",
     "Role" : "Puesto",
     "Pronouns" : "Pronombres",
     "Unknown account" : "Cuenta desconocida",
@@ -447,6 +447,7 @@
     "Generate headline" : "Generar titular",
     "Summarizes text by reducing its length without losing key information." : "Resume el texto reduciendo su longitud sin perder información clave.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrae los tópicos de un texto y genera una salida separada por comas. ",
+    "Organisation" : "Organización",
     "File is currently busy, please try again later" : "El archivo se encuentra actualmente ocupado, por favor inténtelo de nuevo más tarde",
     "Cannot download file" : "No se puede descargar el archivo",
     "Login is too long" : "El nombre de inicio de sesión es demasiado largo"

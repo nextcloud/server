@@ -107,7 +107,6 @@
     "About" : "За",
     "Display name" : "Име и презиме",
     "Headline" : "Наслов",
-    "Organisation" : "Организација",
     "Role" : "Улога",
     "Additional settings" : "Дополнителни параметри",
     "Enter the database name for %s" : "Внесете го името на базата за %s",
@@ -230,6 +229,7 @@
     "Summary" : "Резиме",
     "Translate" : "Преведи",
     "Generate headline" : "Генерирај заглавие",
+    "Organisation" : "Организација",
     "File is currently busy, please try again later" : "Датотеката моментално е зафатена, обидете се повторно",
     "Cannot download file" : "Не може да се преземе датотеката"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
