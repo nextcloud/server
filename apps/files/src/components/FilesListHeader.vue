@@ -12,6 +12,8 @@
 import type { Folder, Header, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
+import logger from '../logger.ts'
+
 /**
  * This component is used to render custom
  * elements provided by an API. Vue doesn't allow
@@ -51,8 +53,12 @@ export default {
 		},
 	},
 	mounted() {
-		console.debug('Mounted', this.header.id)
+		logger.debug(`Mounted ${this.header.id} FilesListHeader`, { header: this.header })
 		this.header.render(this.$refs.mount as HTMLElement, this.currentFolder, this.currentView)
+	},
+
+	destroyed() {
+		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
 	},
 }
 </script>
