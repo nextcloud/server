@@ -37,8 +37,8 @@ describe('HotKeysService testing', () => {
 		})
 
 		// Setting the view first as it reset the active node
-		activeStore.onChangedView(view)
-		activeStore.setActiveNode(file)
+		activeStore.activeView = view
+		activeStore.activeNode = file
 	})
 
 	it('Pressing t should open the tag management dialog', () => {

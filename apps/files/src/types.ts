@@ -107,10 +107,10 @@ export interface DragAndDropStore {
 
 // Active node store
 export interface ActiveStore {
-	_initialized: boolean
+	activeAction: FileAction|null
+	activeFolder: Folder|null
 	activeNode: Node|null
 	activeView: View|null
-	activeAction: FileAction|null
 }
 
 /**
