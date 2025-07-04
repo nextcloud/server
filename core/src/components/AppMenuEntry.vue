@@ -85,6 +85,7 @@ watch(() => props.app.name, calculateSize)
 		text-overflow: ellipsis;
 		overflow: hidden;
 		letter-spacing: -0.5px;
+		margin-left: 8px; 
 	}
 	body[dir=rtl] &__label {
 		transform: translateX(50%) !important;
@@ -92,6 +93,7 @@ watch(() => props.app.name, calculateSize)
 
 	&__icon {
 		font-size: var(--app-menu-entry-font-size);
+		margin-right: 8px;
 	}
 
 	&--active {
