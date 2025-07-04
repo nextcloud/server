@@ -184,19 +184,20 @@ import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import { getSummaryFor } from '../utils/fileUtils.ts'
-import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useFilesStore } from '../store/files.ts'
-import { useFiltersStore } from '../store/filters.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
-import { usePathsStore } from '../store/paths.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActiveStore } from '../store/active.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useFiltersStore } from '../store/filters.ts'
+import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
+import { humanizeWebDAVError } from '../utils/davUtils.ts'
+import { getSummaryFor } from '../utils/fileUtils.ts'
+import { defaultView } from '../utils/filesViews.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
@@ -609,14 +610,14 @@ export default defineComponent({
 			const currentView = this.currentView
 
 			if (!currentView) {
-				logger.debug('The current view doesn\'t exists or is not ready.', { currentView })
+				logger.debug('The current view does not exists or is not ready.', { currentView })
 
 				// If we still haven't a valid view, let's wait for the page to load
 				// then try again. Else redirect to the default view
 				window.addEventListener('DOMContentLoaded', () => {
 					if (!this.currentView) {
 						logger.warn('No current view after DOMContentLoaded, redirecting to the default view')
-						window.OCP.Files.Router.goToRoute(null, { view: 'files' })
+						window.OCP.Files.Router.goToRoute(null, { view: defaultView() })
 					}
 				}, { once: true })
 				return
