@@ -21,12 +21,11 @@ export function getContents(): CancelablePromise<ContentsWithRoot> {
 	const controller = new AbortController()
 
 	const searchStore = useSearchStore(getPinia())
-	const dir = searchStore.base?.path
 
 	return new CancelablePromise<ContentsWithRoot>(async (resolve, reject, cancel) => {
 		cancel(() => controller.abort())
 		try {
-			const contents = await searchNodes(searchStore.query, { dir, signal: controller.signal })
+			const contents = await searchNodes(searchStore.query, { signal: controller.signal })
 			resolve({
 				contents,
 				folder: new Folder({
