@@ -37,7 +37,7 @@ use Sabre\VObject\UUIDUtil;
 
 use function Sabre\Uri\split as uriSplit;
 
-class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarImport, ICalendarExport, ICalendarIsEnabled {
+class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled {
 	public function __construct(
 		private Calendar $calendar,
 		/** @var array<string, mixed> */

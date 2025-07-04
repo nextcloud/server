@@ -12,7 +12,6 @@ use Generator;
 use InvalidArgumentException;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\CalendarImportOptions;
-use OCP\Calendar\ICalendarImport;
 use Sabre\DAV\UUIDUtil;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
@@ -38,7 +37,7 @@ class ImportService {
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function import($source, ICalendarImport $calendar, CalendarImportOptions $options): array {
+	public function import($source, CalendarImpl $calendar, CalendarImportOptions $options): array {
 		if (!is_resource($source)) {
 			throw new \InvalidArgumentException('Invalid import source must be a file resource');
 		}
