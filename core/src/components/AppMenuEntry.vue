@@ -85,6 +85,7 @@ watch(() => props.app.name, calculateSize)
 		text-overflow: ellipsis;
 		overflow: hidden;
 		letter-spacing: -0.5px;
+		gap: 8px 
 	}
 	body[dir=rtl] &__label {
 		transform: translateX(50%) !important;
