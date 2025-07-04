@@ -48,6 +48,11 @@
 				:nodes="nodes" />
 		</template>
 
+		<!-- Body replacement if no files are available -->
+		<template #empty>
+			<slot name="empty" />
+		</template>
+
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
@@ -152,7 +157,6 @@ export default defineComponent({
 			FileEntry,
 			FileEntryGrid,
 			scrollToIndex: 0,
-			openFileId: null as number|null,
 		}
 	},
 
@@ -217,39 +221,37 @@ export default defineComponent({
 		isNoneSelected() {
 			return this.selectedNodes.length === 0
 		},
+
+		isEmpty() {
+			return this.nodes.length === 0
+		},
 	},
 
 	watch: {
-		fileId: {
-			handler(fileId) {
-				this.scrollToFile(fileId, false)
-			},
-			immediate: true,
-		},
+		// If nodes gets populated and we have a fileId,
+		// an openFile or openDetails, we fire the appropriate actions.
+		isEmpty(isEmpty: boolean) {
+			if (isEmpty || !this.fileId) {
+				return
+			}
 
-		openFile: {
-			handler(openFile) {
-				if (!openFile || !this.fileId) {
-					return
-				}
+			logger.debug('FilesListVirtual: nodes populated, checking for requested fileId, openFile or openDetails again', {
+				fileId: this.fileId,
+				openFile: this.openFile,
+				openDetails: this.openDetails,
+			})
 
+			if (this.openFile) {
 				this.handleOpenFile(this.fileId)
-			},
-			immediate: true,
-		},
+			}
 
-		openDetails: {
-			handler(openDetails) {
-				// wait for scrolling and updating the actions to settle
-				this.$nextTick(() => {
-					if (!openDetails || !this.fileId) {
-						return
-					}
+			if (this.openDetails) {
+				this.openSidebarForFile(this.fileId)
+			}
 
-					this.openSidebarForFile(this.fileId)
-				})
-			},
-			immediate: true,
+			if (this.fileId) {
+				this.scrollToFile(this.fileId, false)
+			}
 		},
 	},
 
@@ -288,7 +290,7 @@ export default defineComponent({
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 				return
 			}
-			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
+			logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
@@ -474,6 +476,8 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -568,6 +572,16 @@ export default defineComponent({
 			position: sticky;
 			z-index: 10;
 			top: var(--fixed-block-start-position);
+		}
+
+		// Empty content
+		.files-list__empty {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
 		}
 
 		tr {
