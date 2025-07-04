@@ -281,7 +281,7 @@ export default defineComponent({
 			}
 
 			// Make sure we set the node as active
-			this.activeStore.setActiveNode(this.source)
+			this.activeStore.activeNode = this.source
 
 			// Execute the action
 			await executeAction(action)

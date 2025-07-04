@@ -188,6 +188,7 @@ import { useFiltersStore } from '../store/filters.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
+import { useActiveStore } from '../store/active.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -240,6 +241,8 @@ export default defineComponent({
 		const { currentView } = useNavigation()
 		const { directory, fileId } = useRouteParameters()
 		const fileListWidth = useFileListWidth()
+
+		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
 		const pathsStore = usePathsStore()
@@ -259,6 +262,7 @@ export default defineComponent({
 			headers: useFileListHeaders(),
 			t,
 
+			activeStore,
 			filesStore,
 			filtersStore,
 			pathsStore,
@@ -322,7 +326,7 @@ export default defineComponent({
 		 * The current folder.
 		 */
 		currentFolder(): Folder | undefined {
-			if (!this.currentView?.id) {
+			if (!this.currentView) {
 				return
 			}
 
@@ -490,6 +494,10 @@ export default defineComponent({
 					this.currentView!.emptyView!(el)
 				})
 			}
+		},
+
+		currentFolder() {
+			this.activeStore.activeFolder = this.currentFolder
 		},
 
 		currentView(newView, oldView) {
