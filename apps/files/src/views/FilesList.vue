@@ -9,19 +9,19 @@
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
+
 					<NcButton v-if="canShare && fileListWidth >= 512"
 						:aria-label="shareButtonLabel"
 						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
-						:title="shareButtonLabel"
-						class="files-list__header-share-button"
+						class="files-list__header-share-button shared-label"
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === ShareType.Link" />
 							<AccountPlusIcon v-else :size="20" />
 						</template>
+						<span class="shared-text">{{ shareButtonLabel }}</span>
 					</NcButton>
-
 					<!-- Uploader -->
 					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
@@ -858,4 +858,17 @@ export default defineComponent({
 		margin: auto;
 	}
 }
+
+
+.shared-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+
+	.shared-text {
+		font-weight: 500;
+		font-size: 0.95rem;
+	}
+}
+
 </style>
