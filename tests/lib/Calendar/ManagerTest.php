@@ -497,16 +497,144 @@ class ManagerTest extends TestCase {
 		$result = $manager->handleIMip($userId, $calendar->serialize());
 	}
 
+	public function testhandleIMipRequestWithInvalidPrincipal() {
+		$invalidPrincipal = 'invalid-principal-uri';
+		$sender = 'sender@example.com';
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar1a->serialize();
+
+		$this->logger->expects(self::once())
+			->method('error')
+			->with('Invalid principal URI provided for iMip request');
+
+		$result = $this->manager->handleIMipRequest($invalidPrincipal, $sender, $recipient, $calendarData);
+		$this->assertFalse($result);
+	}
+
+	public function testhandleIMipRequest() {
+		$principalUri = 'principals/users/attendee1';
+		$sender = 'sender@example.com';
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar1a->serialize();
+
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['handleIMip'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('handleIMip')
+			->with('attendee1', $calendarData)
+			->willReturn(true);
+
+		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendarData);
+		$this->assertTrue($result);
+	}
+
+	public function testhandleIMipReplyWithInvalidPrincipal() {
+		$invalidPrincipal = 'invalid-principal-uri';
+		$sender = 'sender@example.com';
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar2a->serialize();
+
+		$this->logger->expects(self::once())
+			->method('error')
+			->with('Invalid principal URI provided for iMip reply');
+
+		$result = $this->manager->handleIMipReply($invalidPrincipal, $sender, $recipient, $calendarData);
+		$this->assertFalse($result);
+	}
+
+	public function testhandleIMipReply() {
+		$principalUri = 'principals/users/attendee2';
+		$sender = 'sender@example.com';
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar2a->serialize();
+
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['handleIMip'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('handleIMip')
+			->with('attendee2', $calendarData)
+			->willReturn(true);
+
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData);
+		$this->assertTrue($result);
+	}
+
+	public function testhandleIMipCancelWithInvalidPrincipal() {
+		$invalidPrincipal = 'invalid-principal-uri';
+		$sender = 'sender@example.com';
+		$replyTo = null;
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar3a->serialize();
+
+		$this->logger->expects(self::once())
+			->method('error')
+			->with('Invalid principal URI provided for iMip cancel');
+
+		$result = $this->manager->handleIMipCancel($invalidPrincipal, $sender, $replyTo, $recipient, $calendarData);
+		$this->assertFalse($result);
+	}
+
+	public function testhandleIMipCancel() {
+		$principalUri = 'principals/users/attendee3';
+		$sender = 'sender@example.com';
+		$replyTo = null;
+		$recipient = 'recipient@example.com';
+		$calendarData = $this->vCalendar3a->serialize();
+
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['handleIMip'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('handleIMip')
+			->with('attendee3', $calendarData)
+			->willReturn(true);
+
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData);
+		$this->assertTrue($result);
+	}
+
 	private function getFreeBusyResponse(): string {
 		return <<<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <cal:schedule-response xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:cal="urn:ietf:params:xml:ns:caldav" xmlns:cs="http://calendarserver.org/ns/" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
   <cal:response>
-    <cal:recipient>
-      <d:href>mailto:admin@imap.localhost</d:href>
-    </cal:recipient>
-    <cal:request-status>2.0;Success</cal:request-status>
-    <cal:calendar-data>BEGIN:VCALENDAR
+	<cal:recipient>
+	  <d:href>mailto:admin@imap.localhost</d:href>
+	</cal:recipient>
+	<cal:request-status>2.0;Success</cal:request-status>
+	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 4.5.6//EN
 CALSCALE:GREGORIAN
@@ -525,11 +653,11 @@ END:VCALENDAR
 </cal:calendar-data>
   </cal:response>
   <cal:response>
-    <cal:recipient>
-      <d:href>mailto:empty@imap.localhost</d:href>
-    </cal:recipient>
-    <cal:request-status>2.0;Success</cal:request-status>
-    <cal:calendar-data>BEGIN:VCALENDAR
+	<cal:recipient>
+	  <d:href>mailto:empty@imap.localhost</d:href>
+	</cal:recipient>
+	<cal:request-status>2.0;Success</cal:request-status>
+	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 4.5.6//EN
 CALSCALE:GREGORIAN
@@ -546,11 +674,11 @@ END:VCALENDAR
 </cal:calendar-data>
   </cal:response>
   <cal:response>
-    <cal:recipient>
-      <d:href>mailto:user@imap.localhost</d:href>
-    </cal:recipient>
-    <cal:request-status>2.0;Success</cal:request-status>
-    <cal:calendar-data>BEGIN:VCALENDAR
+	<cal:recipient>
+	  <d:href>mailto:user@imap.localhost</d:href>
+	</cal:recipient>
+	<cal:request-status>2.0;Success</cal:request-status>
+	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 4.5.6//EN
 CALSCALE:GREGORIAN
@@ -569,10 +697,10 @@ END:VCALENDAR
 </cal:calendar-data>
   </cal:response>
   <cal:response>
-    <cal:recipient>
-      <d:href>mailto:nouser@domain.tld</d:href>
-    </cal:recipient>
-    <cal:request-status>3.7;Could not find principal</cal:request-status>
+	<cal:recipient>
+	  <d:href>mailto:nouser@domain.tld</d:href>
+	</cal:recipient>
+	<cal:request-status>3.7;Could not find principal</cal:request-status>
   </cal:response>
 </cal:schedule-response>
 EOF;

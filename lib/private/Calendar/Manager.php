@@ -220,7 +220,7 @@ class Manager implements IManager {
 
 	/**
 	 * @since 32.0.0
-	 * 
+	 *
 	 * @throws \OCP\DB\Exception
 	 */
 	public function handleIMip(
@@ -294,8 +294,6 @@ class Manager implements IManager {
 	/**
 	 * @since 31.0.0
 	 *
-	 * @deprecated 32.0.0 Use handleIMip() instead
-	 *
 	 * @throws \OCP\DB\Exception
 	 */
 	public function handleIMipRequest(
@@ -304,12 +302,16 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
+		if (empty($principalUri) || !str_starts_with($principalUri, 'principals/users/')) {
+			$this->logger->error('Invalid principal URI provided for iMip request');
+			return false;
+		}
 		$userId = substr($principalUri, 17);
 		return $this->handleIMip($userId, $calendarData);
 	}
 
 	/**
-	 * @deprecated 32.0.0 Use handleIMip() instead
+	 * @since 25.0.0
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
@@ -319,14 +321,16 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
+		if (empty($principalUri) || !str_starts_with($principalUri, 'principals/users/')) {
+			$this->logger->error('Invalid principal URI provided for iMip reply');
+			return false;
+		}
 		$userId = substr($principalUri, 17);
 		return $this->handleIMip($userId, $calendarData);
 	}
 
 	/**
 	 * @since 25.0.0
-	 *
-	 * @deprecated 32.0.0 Use handleIMip() instead
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
@@ -337,6 +341,10 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
+		if (empty($principalUri) || !str_starts_with($principalUri, 'principals/users/')) {
+			$this->logger->error('Invalid principal URI provided for iMip cancel');
+			return false;
+		}
 		$userId = substr($principalUri, 17);
 		return $this->handleIMip($userId, $calendarData);
 	}
