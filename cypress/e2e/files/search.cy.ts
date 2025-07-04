@@ -75,6 +75,53 @@ describe('files: search', () => {
 		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 2)
 	})
 
+	it('See "search everywhere" button', () => {
+		// Not visible initially
+		cy.get('[data-cy-files-filters]')
+			.findByRole('button', { name: /Search everywhere/i })
+			.should('not.to.exist')
+
+		// add a filter
+		navigation.searchInput().type('file')
+
+		// see its visible
+		cy.get('[data-cy-files-filters]')
+			.findByRole('button', { name: /Search everywhere/i })
+			.should('be.visible')
+
+		// clear the filter
+		navigation.searchClearButton().click()
+
+		// see its not visible again
+		cy.get('[data-cy-files-filters]')
+			.findByRole('button', { name: /Search everywhere/i })
+			.should('not.to.exist')
+	})
+
+	it('can make local search a global search', () => {
+		navigateToFolder('some folder')
+		getRowForFile('a file.txt').should('be.visible')
+
+		navigation.searchInput().type('file')
+
+		// see local results
+		getRowForFile('a file.txt').should('be.visible')
+		getRowForFile('a second file.txt').should('be.visible')
+		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 2)
+
+		// toggle global search
+		cy.get('[data-cy-files-filters]')
+			.findByRole('button', { name: /Search everywhere/i })
+			.should('be.visible')
+			.click()
+
+		// see global results
+		getRowForFile('file.txt').should('be.visible')
+		getRowForFile('a file.txt').should('be.visible')
+		getRowForFile('a second file.txt').should('be.visible')
+		getRowForFile('another file.txt').should('be.visible')
+	})
+
 	it('shows empty content when there are no results', () => {
 		navigateToFolder('some folder')
 		getRowForFile('a file.txt').should('be.visible')
