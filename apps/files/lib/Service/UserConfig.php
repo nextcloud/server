@@ -20,6 +20,24 @@ class UserConfig {
 			'allowed' => [true, false],
 		],
 		[
+			// The view to start the files app in
+			'key' => 'default_view',
+			'default' => 'files',
+			'allowed' => ['files', 'personal'],
+		],
+		[
+			// Whether to show the folder tree
+			'key' => 'folder_tree',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to show the files list in grid view or not
+			'key' => 'grid_view',
+			'default' => false,
+			'allowed' => [true, false],
+		],
+		[
 			// Whether to show the "confirm file extension change" warning
 			'key' => 'show_dialog_file_extension',
 			'default' => true,
@@ -28,6 +46,12 @@ class UserConfig {
 		[
 			// Whether to show the hidden files or not in the files list
 			'key' => 'show_hidden',
+			'default' => false,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to show the mime column or not
+			'key' => 'show_mime_column',
 			'default' => false,
 			'allowed' => [true, false],
 		],
@@ -43,24 +67,6 @@ class UserConfig {
 			'default' => true,
 			'allowed' => [true, false],
 		],
-		[
-			// Whether to show the files list in grid view or not
-			'key' => 'grid_view',
-			'default' => false,
-			'allowed' => [true, false],
-		],
-		[
-			// Whether to show the folder tree
-			'key' => 'folder_tree',
-			'default' => true,
-			'allowed' => [true, false],
-		],
-		[
-			// Whether to show the mime column or not
-			'key' => 'show_mime_column',
-			'default' => false,
-			'allowed' => [true, false],
-		]
 	];
 	protected ?IUser $user = null;
 
