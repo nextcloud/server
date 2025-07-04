@@ -30,6 +30,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VFreeBusy;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Property\VCard\DateTime;
