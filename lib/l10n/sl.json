@@ -106,7 +106,7 @@
     "About" : "O programu",
     "Display name" : "Prikazno ime",
     "Headline" : "Naslov",
-    "Organisation" : "Ustanova",
+    "Organization" : "Organizacija",
     "Role" : "Vloga",
     "Additional settings" : "Dodatne nastavitve",
     "Enter the database name for %s" : "Vpis imena podatkovne zbirke za %s.",
@@ -228,6 +228,7 @@
     "Translate" : "Prevedi",
     "Target language" : "Ciljni jezik",
     "Result" : "Rezultat",
+    "Organisation" : "Ustanova",
     "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
     "Cannot download file" : "Datoteke ni mogoče prejeti"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

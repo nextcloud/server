@@ -97,7 +97,6 @@
     "About" : "Tietoja",
     "Display name" : "Näyttönimi",
     "Headline" : "Otsikko",
-    "Organisation" : "Organisaatio",
     "Role" : "Rooli",
     "Unknown account" : "Tuntematon tili",
     "Additional settings" : "Lisäasetukset",
@@ -217,6 +216,7 @@
     "Translate" : "Käännä",
     "Target language" : "Kohdekieli",
     "Result" : "Tulos",
+    "Organisation" : "Organisaatio",
     "File is currently busy, please try again later" : "Tiedosto on parhaillaan käytössä, yritä myöhemmin uudelleen",
     "Cannot download file" : "Tiedostoa ei voi ladata"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

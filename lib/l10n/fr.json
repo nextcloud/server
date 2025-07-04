@@ -142,7 +142,7 @@
     "About" : "À propos",
     "Display name" : "Nom d'affichage",
     "Headline" : "Titre",
-    "Organisation" : "Organisme",
+    "Organization" : "Organisation",
     "Role" : "Fonction",
     "Pronouns" : "Pronoms",
     "Unknown account" : "Compte inconnu",
@@ -448,6 +448,7 @@
     "Generate headline" : "Générer un titre",
     "Summarizes text by reducing its length without losing key information." : "Résume un texte en réduisant sa longueur sans perdre d’informations essentielles.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrait les thèmes d'un texte et les restitue séparés par des virgules.",
+    "Organisation" : "Organisme",
     "File is currently busy, please try again later" : "Le fichier est actuellement utilisé, veuillez réessayer plus tard",
     "Cannot download file" : "Impossible de télécharger le fichier",
     "Login is too long" : "L'authentification est trop longue"

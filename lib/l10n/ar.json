@@ -141,7 +141,7 @@
     "About" : "عن",
     "Display name" : "اسم العرض",
     "Headline" : "عنوان ",
-    "Organisation" : "مؤسسة",
+    "Organization" : "المنظمة",
     "Role" : "الوظيفة",
     "Pronouns" : "الضمائر",
     "Unknown account" : "حساب غير معروف",
@@ -440,6 +440,7 @@
     "Generate headline" : "توليد العنوان",
     "Summarizes text by reducing its length without losing key information." : "يُلَخِّص النص بتقليل طوله دون فقدان المعنى.",
     "Extracts topics from a text and outputs them separated by commas." : "يستخلص المواضيع من النص و إخراجها مفصولة بفواصل.",
+    "Organisation" : "مؤسسة",
     "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
     "Cannot download file" : "لا يمكن تنزيل الملف"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"

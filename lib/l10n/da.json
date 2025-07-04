@@ -140,7 +140,7 @@
     "About" : "Om",
     "Display name" : "Vist navn",
     "Headline" : "Overskrift",
-    "Organisation" : "Organisation",
+    "Organization" : "Organisation",
     "Role" : "Rolle",
     "Pronouns" : "Pronominer",
     "Unknown account" : "Ukendt konto",
@@ -440,6 +440,7 @@
     "Generate headline" : "Generer overskrift",
     "Summarizes text by reducing its length without losing key information." : "Opsummerer tekst ved at reducere dens længde uden at miste nøgleinformation.",
     "Extracts topics from a text and outputs them separated by commas." : "Uddrager emner fra en tekst og skriver dem adskilt af kommaer.",
+    "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "Filen er i øjeblikket optaget - forsøg igen senere",
     "Cannot download file" : "Kan ikke downloade filen",
     "Login is too long" : "Login er for lang"

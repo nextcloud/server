@@ -142,7 +142,7 @@
     "About" : "Über",
     "Display name" : "Anzeigename",
     "Headline" : "Überschrift",
-    "Organisation" : "Organisation",
+    "Organization" : "Organisation",
     "Role" : "Funktion",
     "Pronouns" : "Pronomen",
     "Unknown account" : "Unbekanntes Konto",
@@ -448,6 +448,7 @@
     "Generate headline" : "Kopfzeile erzeugen",
     "Summarizes text by reducing its length without losing key information." : "Fasst Text zusammen, indem die Länge reduziert wird, ohne dass wichtige Informationen verloren gehen.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrahiert Themen aus einem Text und gibt sie durch Kommas getrennt aus.",
+    "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte später erneut versuchen.",
     "Cannot download file" : "Datei kann nicht heruntergeladen werden",
     "Login is too long" : "Der Kontenname ist zu lang"

@@ -142,7 +142,7 @@
     "About" : "詳細",
     "Display name" : "表示名",
     "Headline" : "見出し",
-    "Organisation" : "組織",
+    "Organization" : "共同作業",
     "Role" : "ロール",
     "Pronouns" : "代名詞",
     "Unknown account" : "不明なアカウント",
@@ -448,6 +448,7 @@
     "Generate headline" : "見出しの生成",
     "Summarizes text by reducing its length without losing key information." : "重要な情報を失わずにテキストの長さを要約して短縮する。",
     "Extracts topics from a text and outputs them separated by commas." : "テキストからトピックを抽出し、カンマ区切りで出力します。",
+    "Organisation" : "組織",
     "File is currently busy, please try again later" : "現在ファイルはビジーです。後でもう一度試してください。",
     "Cannot download file" : "ファイルをダウンロードできません",
     "Login is too long" : "ログインが長すぎます"

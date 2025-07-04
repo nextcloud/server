@@ -115,7 +115,7 @@
     "About" : "Informazioni",
     "Display name" : "Nome visualizzato",
     "Headline" : "Titolo",
-    "Organisation" : "Organizzazione",
+    "Organization" : "Organizzazione",
     "Role" : "Ruolo",
     "Pronouns" : "Pronomi",
     "Unknown account" : "Account sconosciuto",
@@ -265,6 +265,7 @@
     "Generate headline" : "Genera titolo",
     "Summarizes text by reducing its length without losing key information." : "Riassume il testo riducendone la lunghezza senza perdere le informazioni chiave.",
     "Extracts topics from a text and outputs them separated by commas." : "Estrae gli argomenti da un testo e li elenca separati da virgole.",
+    "Organisation" : "Organizzazione",
     "File is currently busy, please try again later" : "Il file è attualmente occupato, riprova più tardi",
     "Cannot download file" : "Impossibile scaricare il file"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
