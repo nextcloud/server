@@ -83,7 +83,6 @@ export const useSearchStore = defineStore('search', () => {
 	function updateSearch() {
 		// emit the search event to update the filter
 		emit('files:search:updated', { query: query.value, scope: scope.value })
-
 		const router = window.OCP.Files.Router as RouterService
 
 		// if we are on the search view and the query was unset or scope was set to 'filter' we need to move back to the files view

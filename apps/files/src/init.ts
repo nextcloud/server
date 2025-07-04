@@ -36,6 +36,7 @@ import { initLivePhotos } from './services/LivePhotos'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { registerConvertActions } from './actions/convertAction.ts'
 import { registerFilenameFilter } from './filters/FilenameFilter.ts'
+import { registerFilterToSearchToggle } from './filters/SearchFilter.ts'
 
 // Register file actions
 registerConvertActions()
@@ -70,6 +71,7 @@ registerHiddenFilesFilter()
 registerTypeFilter()
 registerModifiedFilter()
 registerFilenameFilter()
+registerFilterToSearchToggle()
 
 // Register preview service worker
 registerPreviewServiceWorker()
