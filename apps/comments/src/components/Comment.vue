@@ -26,7 +26,7 @@
 						<NcActionButton close-after-click
 							@click="onEdit">
 							<template #icon>
-								<IconEdit :size="20" />
+								<IconPencilOutline :size="20" />
 							</template>
 							{{ t('comments', 'Edit comment') }}
 						</NcActionButton>
@@ -34,7 +34,7 @@
 						<NcActionButton close-after-click
 							@click="onDeleteWithUndo">
 							<template #icon>
-								<IconDelete :size="20" />
+								<IconTrashCanOutline :size="20" />
 							</template>
 							{{ t('comments', 'Delete comment') }}
 						</NcActionButton>
@@ -115,8 +115,8 @@ import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
-import IconDelete from 'vue-material-design-icons/Delete.vue'
-import IconEdit from 'vue-material-design-icons/Pencil.vue'
+import IconTrashCanOutline from 'vue-material-design-icons/TrashCanOutline.vue'
+import IconPencilOutline from 'vue-material-design-icons/PencilOutline.vue'
 
 import CommentMixin from '../mixins/CommentMixin.js'
 import { mapStores } from 'pinia'
@@ -132,8 +132,8 @@ export default {
 	components: {
 		IconArrowRight,
 		IconClose,
-		IconDelete,
-		IconEdit,
+		IconTrashCanOutline,
+		IconPencilOutline,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
