@@ -207,6 +207,7 @@
     "Share does not have a full ID" : "Jaosmeedial on täismahuline tunnus puudu",
     "Cannot change share type" : "Sa ei saa muuta jaosmeedia tüüpi",
     "Can only update recipient on user shares" : "Kasutaja jaosmeedia saajat ei õnnestu uuendada",
+    "Cannot change target of link share" : "Lingiga jagamise objekti muutmine ei õnnestu",
     "Invalid share recipient" : "Vigane jaosmeedia vastuvõtja",
     "Group \"%s\" does not exist" : "„%s“ gruppi pole olemas",
     "The requested share does not exist anymore" : "Soovitud jagamist enam ei eksisteeri",

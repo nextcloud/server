@@ -214,6 +214,7 @@
     "Profile information" : "Kasutajaprofiili teave",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profiilipilt, täisnimi, e-posti aadress, telefoninumber, aadress, veebisait, Twitteri konto, organisatsioon, roll, alapealkiri, elulugu ja asjaolu, kas sinu profiil on kasutusel.",
     "Nextcloud settings" : "Nextcloudi seadistused",
+    "Allow AI usage for guest users" : "Luba külaliskasutajatel kasutada tehiasru",
     "Task:" : "Ülesanded:",
     "Enable" : "Lülita sisse",
     "Machine translation" : "Masintõlge",

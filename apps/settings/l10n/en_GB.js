@@ -343,6 +343,7 @@ OC.L10N.register(
     "Nextcloud settings" : "Nextcloud settings",
     "Unified task processing" : "Unified task processing",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI tasks can be implemented by different apps. Here you can set which app should be used for which task.",
+    "Allow AI usage for guest users" : "Allow AI usage for guest users",
     "Task:" : "Task:",
     "Enable" : "Enable",
     "None of your currently installed apps provide Task processing functionality" : "None of your currently installed apps provide Task processing functionality",
