@@ -242,6 +242,7 @@ OC.L10N.register(
     "Collaborative tags" : "Etichetas collaborativas",
     "No tags found" : "Peruna eticheta agatada",
     "Personal" : "Personale",
+    "Accounts" : "Accounts",
     "Admin" : "Amministratzione",
     "Help" : "Agiudu",
     "Access forbidden" : "Atzessu proibidu",

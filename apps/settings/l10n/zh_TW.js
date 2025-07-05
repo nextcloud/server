@@ -343,6 +343,7 @@ OC.L10N.register(
     "Nextcloud settings" : "Nextcloud 設定",
     "Unified task processing" : "統一任務處理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "人工智慧任務可以透過不同的應用程式實作。您可以在此處設定要使用哪個應用程式。",
+    "Allow AI usage for guest users" : "允許訪客使用者使用 AI",
     "Task:" : "任務：",
     "Enable" : "啟用",
     "None of your currently installed apps provide Task processing functionality" : "您目前安裝的應用程式均不提供任務處理功能",
