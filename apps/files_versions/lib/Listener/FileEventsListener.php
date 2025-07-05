@@ -152,8 +152,10 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				$revision = $this->versionManager->getRevision($previousNode);
+
 				// We update the timestamp of the version entity associated with the previousNode.
-				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
@@ -252,9 +254,11 @@ class FileEventsListener implements IEventListener {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
 				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$revision = $this->versionManager->getRevision($writeHookInfo['previousNode']);
+
 					$this->versionManager->updateVersionEntity(
 						$node,
-						$writeHookInfo['previousNode']->getMtime(),
+						$revision,
 						[
 							'timestamp' => $node->getMTime(),
 							'size' => $node->getSize(),
