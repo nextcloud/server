@@ -354,6 +354,7 @@ return array(
     'OCA\\DAV\\Paginate\\LimitedCopyIterator' => $baseDir . '/../lib/Paginate/LimitedCopyIterator.php',
     'OCA\\DAV\\Paginate\\PaginateCache' => $baseDir . '/../lib/Paginate/PaginateCache.php',
     'OCA\\DAV\\Paginate\\PaginatePlugin' => $baseDir . '/../lib/Paginate/PaginatePlugin.php',
+    'OCA\\DAV\\Paginate\\TransformResourceTypeIterator' => $baseDir . '/../lib/Paginate/TransformResourceTypeIterator.php',
     'OCA\\DAV\\Profiler\\ProfilerPlugin' => $baseDir . '/../lib/Profiler/ProfilerPlugin.php',
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',

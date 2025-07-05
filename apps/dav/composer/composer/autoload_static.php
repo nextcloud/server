@@ -369,6 +369,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Paginate\\LimitedCopyIterator' => __DIR__ . '/..' . '/../lib/Paginate/LimitedCopyIterator.php',
         'OCA\\DAV\\Paginate\\PaginateCache' => __DIR__ . '/..' . '/../lib/Paginate/PaginateCache.php',
         'OCA\\DAV\\Paginate\\PaginatePlugin' => __DIR__ . '/..' . '/../lib/Paginate/PaginatePlugin.php',
+        'OCA\\DAV\\Paginate\\TransformResourceTypeIterator' => __DIR__ . '/..' . '/../lib/Paginate/TransformResourceTypeIterator.php',
         'OCA\\DAV\\Profiler\\ProfilerPlugin' => __DIR__ . '/..' . '/../lib/Profiler/ProfilerPlugin.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
