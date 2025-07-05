@@ -252,9 +252,11 @@ class FileEventsListener implements IEventListener {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
 				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$revision = $this->versionManager->getRevision($writeHookInfo['previousNode']);
+
 					$this->versionManager->updateVersionEntity(
 						$node,
-						$writeHookInfo['previousNode']->getMtime(),
+						$revision,
 						[
 							'timestamp' => $node->getMTime(),
 							'size' => $node->getSize(),
