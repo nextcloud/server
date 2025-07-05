@@ -448,6 +448,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Events\\FileCacheUpdated' => __DIR__ . '/../../..' . '/lib/public/Files/Events/FileCacheUpdated.php',
         'OCP\\Files\\Events\\FileScannedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/FileScannedEvent.php',
         'OCP\\Files\\Events\\FolderScannedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/FolderScannedEvent.php',
+        'OCP\\Files\\Events\\InternalLinkRequestEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/InternalLinkRequestEvent.php',
         'OCP\\Files\\Events\\InvalidateMountCacheEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/InvalidateMountCacheEvent.php',
         'OCP\\Files\\Events\\NodeAddedToCache' => __DIR__ . '/../../..' . '/lib/public/Files/Events/NodeAddedToCache.php',
         'OCP\\Files\\Events\\NodeAddedToFavorite' => __DIR__ . '/../../..' . '/lib/public/Files/Events/NodeAddedToFavorite.php',
