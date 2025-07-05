@@ -187,6 +187,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		showDaemonSelectionModal: {
+			type: Function,
+			required: true,
+		},
 	},
 	setup(props) {
 		// for AppManagement mixin
@@ -277,8 +281,15 @@ export default {
 					this.configuredDeployOptions = null
 				})
 		},
-		submitDeployOptions() {
-			this.enable(this.app.id, this.deployOptions)
+		async submitDeployOptions() {
+			await this.appApiStore.fetchDockerDaemons()
+			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
+				this.enable(this.app.id, this.appApiStore.dockerDaemons[0], this.deployOptions)
+			} else if (this.app.needsDownload) {
+				this.showDaemonSelectionModal(this.deployOptions)
+			} else {
+				this.enable(this.app.id, this.app.daemon, this.deployOptions)
+			}
 			this.$emit('update:show', false)
 		},
 	},

@@ -25,6 +25,7 @@ interface AppApiState {
 	statusUpdater: number | null | undefined
 	daemonAccessible: boolean
 	defaultDaemon: IDeployDaemon | null
+	dockerDaemons: IDeployDaemon[]
 }
 
 export const useAppApiStore = defineStore('app-api-apps', {
@@ -36,6 +37,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 		statusUpdater: null,
 		daemonAccessible: loadState('settings', 'defaultDaemonConfigAccessible', false),
 		defaultDaemon: loadState('settings', 'defaultDaemonConfig', null),
+		dockerDaemons: [],
 	}),
 
 	getters: {
@@ -76,12 +78,12 @@ export const useAppApiStore = defineStore('app-api-apps', {
 			})
 		},
 
-		enableApp(appId: string, deployOptions: IDeployOptions[] = []) {
+		enableApp(appId: string, daemon: IDeployDaemon, deployOptions: IDeployOptions[] = []) {
 			this.setLoading(appId, true)
 			this.setLoading('install', true)
 			return confirmPassword().then(() => {
 
-				return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}`), { deployOptions })
+				return axios.post(generateUrl(`/apps/app_api/apps/enable/${appId}/${daemon.name}`), { deployOptions })
 					.then((response) => {
 						this.setLoading(appId, false)
 						this.setLoading('install', false)
@@ -91,7 +93,7 @@ export const useAppApiStore = defineStore('app-api-apps', {
 							if (!app.installed) {
 								app.installed = true
 								app.needsDownload = false
-								app.daemon = this.defaultDaemon
+								app.daemon = daemon
 								app.status = {
 									type: 'install',
 									action: 'deploy',
@@ -290,6 +292,15 @@ export const useAppApiStore = defineStore('app-api-apps', {
 					this.appsApiFailure({ appId, error })
 					this.apps = this.apps.filter((app) => app.id !== appId)
 					this.updateAppsStatus()
+				})
+		},
+
+		async fetchDockerDaemons() {
+			return axios.get(generateUrl('/apps/app_api/daemons'))
+				.then((res) => {
+					this.defaultDaemon = res.data.daemons.find((daemon: IDeployDaemon) => daemon.name === res.data.default_daemon_config)
+					this.dockerDaemons = res.data.daemons.filter((daemon: IDeployDaemon) => daemon.accepts_deploy_id === 'docker-install')
+					return res
 				})
 		},
 
