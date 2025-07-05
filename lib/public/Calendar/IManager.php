@@ -143,11 +143,13 @@ interface IManager {
 	/**
 	 * Handles a iMip message
 	 *
-	 * @since 32.0.0
+	 * @param array{absent?: "create"} $options
 	 *
 	 * @throws \OCP\DB\Exception
+	 *
+	 * @since 32.0.0
 	 */
-	public function handleIMip(string $userId, string $message): bool;
+	public function handleIMip(string $userId, string $message, array $options = []): bool;
 
 	/**
 	 * Handle a iMip REQUEST message
