@@ -17,6 +17,7 @@ return array(
     'OCA\\Files_Versions\\Db\\VersionEntity' => $baseDir . '/../lib/Db/VersionEntity.php',
     'OCA\\Files_Versions\\Db\\VersionsMapper' => $baseDir . '/../lib/Db/VersionsMapper.php',
     'OCA\\Files_Versions\\Events\\CreateVersionEvent' => $baseDir . '/../lib/Events/CreateVersionEvent.php',
+    'OCA\\Files_Versions\\Events\\VersionCreatedEvent' => $baseDir . '/../lib/Events/VersionCreatedEvent.php',
     'OCA\\Files_Versions\\Events\\VersionRestoredEvent' => $baseDir . '/../lib/Events/VersionRestoredEvent.php',
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Listener\\FileEventsListener' => $baseDir . '/../lib/Listener/FileEventsListener.php',
