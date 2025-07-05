@@ -83,8 +83,7 @@ interface IVersionBackend {
 	/**
 	 * Get the revision for a node
 	 *
-	 * @param \OC\Files\Node\Node $node
-	 * @return int
+	 * @since 32.0.0
 	 */
 	public function getRevision(Node $node): int;
 }
