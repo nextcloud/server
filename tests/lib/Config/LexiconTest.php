@@ -203,4 +203,24 @@ class LexiconTest extends TestCase {
 		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
 		$this->assertSame(false, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
 	}
+
+	public function testAppConfigOnSetEdit() {
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key5', 42);
+		$this->assertSame(52, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key5'));
+	}
+
+	public function testAppConfigOnSetIgnore() {
+		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key5', 142);
+		$this->assertSame(12, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key5'));
+	}
+
+	public function testUserConfigOnSetEdit() {
+		$this->userConfig->setValueInt('user1', TestConfigLexicon_I::APPID, 'key5', 42);
+		$this->assertSame(32, $this->userConfig->getValueInt('user1', TestConfigLexicon_I::APPID, 'key5'));
+	}
+
+	public function testUserConfigOnSetIgnore() {
+		$this->userConfig->setValueInt('user1', TestConfigLexicon_I::APPID, 'key5', 142);
+		$this->assertSame(12, $this->userConfig->getValueInt('user1', TestConfigLexicon_I::APPID, 'key5'));
+	}
 }
