@@ -152,8 +152,10 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				$revision = $this->versionManager->getRevision($previousNode);
+
 				// We update the timestamp of the version entity associated with the previousNode.
-				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
