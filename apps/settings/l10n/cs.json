@@ -341,6 +341,7 @@
     "Nextcloud settings" : "Nastavení Nextcloud",
     "Unified task processing" : "Sjednocené zpracovávání úkolů",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Úlohy AI je možné implementovat různými aplikacemi. Zde je možné nastavit, která z nich má být používána který typ úlohy.",
+    "Allow AI usage for guest users" : "Umožnit uživatelům-hostům využívat AI",
     "Task:" : "Úloha:",
     "Enable" : "Zapnout",
     "None of your currently installed apps provide Task processing functionality" : "Žádná z v tuto chvíli nainstalovaných aplikací neposkytuje funkci zpracovávání úkolů",

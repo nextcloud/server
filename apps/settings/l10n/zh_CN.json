@@ -341,6 +341,7 @@
     "Nextcloud settings" : "Nextcloud 设置",
     "Unified task processing" : "统一任务处理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI 任务可以由不同的应用程序执行。在这里您可以设置哪个应用程序应该用于哪个任务。",
+    "Allow AI usage for guest users" : "允许访客用户使用 AI",
     "Task:" : "任务：",
     "Enable" : "启用",
     "None of your currently installed apps provide Task processing functionality" : "您当前安装的应用程序均不提供任务处理功能",

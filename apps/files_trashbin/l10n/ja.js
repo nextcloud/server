@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "自分",
     "List of files that have been deleted." : "削除されたファイルのリスト",
     "No deleted files" : "削除されたファイルはありません",
-    "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます"
+    "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます",
+    "All files have been permanently deleted" : "すべてのファイルが完全に削除されました",
+    "Failed to empty deleted files" : "削除されたファイルを空にできませんでした"
 },
 "nplurals=1; plural=0;");
