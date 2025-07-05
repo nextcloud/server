@@ -76,6 +76,7 @@ const icons = {
 	'menu': path.join(__dirname, '../img', 'actions', 'menu.svg'),
 	'more': path.join(__dirname, '../img', 'actions', 'more.svg'),
 	'music': path.join(__dirname, '../img', 'places', 'music.svg'),
+	'organization': path.join(__dirname, '../img', 'actions', 'organization.svg'),
 	'password': path.join(__dirname, '../img', 'actions', 'password.svg'),
 	'pause': path.join(__dirname, '../img', 'actions', 'pause.svg'),
 	'phone': path.join(__dirname, '../img', 'clients', 'phone.svg'),
