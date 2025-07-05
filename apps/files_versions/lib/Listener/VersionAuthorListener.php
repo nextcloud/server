@@ -48,8 +48,9 @@ class VersionAuthorListener implements IEventListener {
 		}
 		// check if our version manager supports setting the metadata
 		if ($this->versionManager instanceof IMetadataVersionBackend) {
+			$revision = $this->versionManager->getRevision($node);
 			$author = $user->getUID();
-			$this->versionManager->setMetadataValue($node, $node->getMTime(), Plugin::AUTHOR, $author);
+			$this->versionManager->setMetadataValue($node, $revision, Plugin::AUTHOR, $author);
 		}
 	}
 }
