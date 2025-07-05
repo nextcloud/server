@@ -8,6 +8,7 @@ OC.L10N.register(
     "Cancel" : "Membatalkan",
     "Image saved" : "Gambar disimpan",
     "Error saving image" : "Kesalahan saat menyimpan citra",
+    "LIVE" : "LANGSUNG",
     "Your browser does not support videos." : "Peramban Anda tidak mendukung video.",
     "This file no longer exists" : "Berkas ini tidak ada lagi",
     "There is no plugin available to display this file type" : "Tidak tersedia plugin untuk menampilkan tipe berkas ini",

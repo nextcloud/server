@@ -17,9 +17,12 @@ OC.L10N.register(
     "Zoom in" : "Kuza ndani",
     "Zoom out" : "Kuza nje",
     "Custom" : "Mteja",
+    "Value" : "Thamani",
     "Image" : "Picha",
     "Text" : "Maandishi",
     "Size" : "Ukubwa",
+    "Position" : "Nafasi",
+    "Extension" : "Extension",
     "Menu" : "Mwongozo"
 },
 "nplurals=2; plural=(n != 1);");
