@@ -110,6 +110,10 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		return $backend->getVersionFile($user, $sourceFile, $revision);
 	}
 
+	public function getRevision(Node $node): int {
+		return $node->getMTime();
+	}
+
 	public function useBackendForStorage(IStorage $storage): bool {
 		return false;
 	}
