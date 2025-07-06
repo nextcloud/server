@@ -81,7 +81,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/calendar-availability-vue
-	- version: 2.2.6
+	- version: 2.2.7
 	- license: MIT
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -396,7 +396,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - uuid
-	- version: 11.0.4
+	- version: 11.1.0
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
