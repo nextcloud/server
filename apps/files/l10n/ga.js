@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Cuardaigh comhaid",
     "Clipboard is not available" : "Níl fáil ar an ngearrthaisce",
     "WebDAV URL copied to clipboard" : "URL WebDAV cóipeáilte chuig an ngearrthaisce",
+    "Default view" : "Amharc réamhshocraithe",
     "All files" : "Gach comhad",
     "Personal files" : "Comhaid phearsanta",
     "Sort favorites first" : "Sórtáil na cinn is ansa leat ar dtús",

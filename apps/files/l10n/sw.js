@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Tafuta faili",
     "Clipboard is not available" : "Ubao wa kunakili haupatikani",
     "WebDAV URL copied to clipboard" : "WavutiDAV URL umenakiliwa kwenye ubao wa kunakili",
+    "Default view" : "Mwonekano chaguomsingi",
     "All files" : "Faili zote",
     "Personal files" : "Faili binafsi",
     "Sort favorites first" : "Chagua za upendeleo kwanza",

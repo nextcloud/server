@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Pesquisar arquivos",
     "Clipboard is not available" : "A área de transferência não está disponível",
     "WebDAV URL copied to clipboard" : "URL de WebDAV copiado para a área de transferência",
+    "Default view" : "Visualização padrão",
     "All files" : "Todos os arquivos",
     "Personal files" : "Arquivos pessoais",
     "Sort favorites first" : "Ordenar favoritos primeiro",

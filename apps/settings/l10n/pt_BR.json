@@ -341,6 +341,7 @@
     "Nextcloud settings" : "Configurações Nextcloud",
     "Unified task processing" : "Processamento unificado de tarefas",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "As tarefas de IA podem ser implementadas por aplicativos diferentes. Aqui você pode definir qual aplicativo deve ser usado para qual tarefa.",
+    "Allow AI usage for guest users" : "Permitir o uso de IA para usuários convidados",
     "Task:" : "Tarefa:",
     "Enable" : "Ativar",
     "None of your currently installed apps provide Task processing functionality" : "Nenhum dos seus aplicativos instalados atualmente oferece funcionalidade de processamento de Tarefas",
