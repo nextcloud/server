@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Otsi faile",
     "Clipboard is not available" : "Lõikelaud ei ole saadaval",
     "WebDAV URL copied to clipboard" : "WebDAV-i võrguaadress on kopeeritud lõikelauale",
+    "Default view" : "Vaikimisi vaade",
     "All files" : "Kõik failid",
     "Personal files" : "Isiklikud failid",
     "Sort favorites first" : "Järjesta lemmikud esimesena",

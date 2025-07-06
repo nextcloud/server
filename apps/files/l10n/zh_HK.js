@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "搜尋檔案",
     "Clipboard is not available" : "剪貼板不可用",
     "WebDAV URL copied to clipboard" : "WebDAV 連結已複製到剪貼板",
+    "Default view" : "默認檢視",
     "All files" : "所有檔案",
     "Personal files" : "個人檔案",
     "Sort favorites first" : "先排序最愛",

@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Hledat soubory",
     "Clipboard is not available" : "Schránka není k dispozici",
     "WebDAV URL copied to clipboard" : "WebDAV URL zkopírována do schránky",
+    "Default view" : "Výchozí pohled",
     "All files" : "Všechny soubory",
     "Personal files" : "Osobní soubory",
     "Sort favorites first" : "Seřadit od oblíbených",

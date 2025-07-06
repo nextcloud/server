@@ -658,6 +658,7 @@ OC.L10N.register(
     "Unable to update visibility of {displayId}" : "Sichtbarkeit von {displayId} kann nicht aktualisiert werden",
     "she/her" : "sie/ihr",
     "he/him" : "er/sein",
+    "they/them" : "sie/ihnen",
     "Your pronouns. E.g. {pronounsExample}" : "Ihre Pronomen. Z. B. {pronounsExample}",
     "Your role" : "Ihre Funktion",
     "Your X (formerly Twitter) handle" : "Ihr X (früher Twitter)-Handle",
