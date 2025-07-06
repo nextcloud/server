@@ -77,6 +77,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
 use OC\Log\LogFactory;
 use OC\Log\PsrLoggerAdapter;
+use OC\Mail\EmailValidator;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
@@ -195,6 +196,7 @@ use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
@@ -916,6 +918,9 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
+		/** @since 32.0.0 */
+		$this->registerAlias(IEmailValidator::class, EmailValidator::class);
+
 		$this->registerService(IMailer::class, function (Server $c) {
 			return new Mailer(
 				$c->get(\OCP\IConfig::class),
@@ -924,7 +929,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IURLGenerator::class),
 				$c->getL10N('lib'),
 				$c->get(IEventDispatcher::class),
-				$c->get(IFactory::class)
+				$c->get(IFactory::class),
+				$c->get(IEmailValidator::class),
 			);
 		});
 
