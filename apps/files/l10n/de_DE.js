@@ -197,6 +197,7 @@ OC.L10N.register(
     "Search for files" : "Nach Dateien suchen",
     "Clipboard is not available" : "Zwischenablage ist nicht verfügbar",
     "WebDAV URL copied to clipboard" : "WebDAV-URL in die Zwischenablage kopiert",
+    "Default view" : "Standardansicht",
     "All files" : "Alle Dateien",
     "Personal files" : "Persönliche Dateien",
     "Sort favorites first" : "Favoriten zuerst sortieren",
