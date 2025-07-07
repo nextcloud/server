@@ -158,12 +158,23 @@ class FileAccess implements IFileAccess {
 		$files->closeCursor();
 	}
 
-	public function getDistinctMounts(array $mountProviders = [], bool $rewriteHomeDirectories = true): \Generator {
+	public function getDistinctMounts(array $mountProviders = [], bool $onlyUserFilesMounts = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
 			->from('mounts');
+		if ($onlyUserFilesMounts) {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->like('mount_point', $qb->createNamedParameter('/%/files/%')),
+					$qb->expr()->in('mount_provider_class', $qb->createNamedParameter([
+						\OC\Files\Mount\LocalHomeMountProvider::class,
+						\OC\Files\Mount\ObjectHomeMountProvider::class,
+					], IQueryBuilder::PARAM_STR_ARRAY))
+				)
+			);
+		}
 		if (count($mountProviders) > 0) {
-			$qb->where($qb->expr()->in('mount_provider_class', $qb->createPositionalParameter($mountProviders, IQueryBuilder::PARAM_STR_ARRAY)));
+			$qb->andWhere($qb->expr()->in('mount_provider_class', $qb->createNamedParameter($mountProviders, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 		$qb->orderBy('root_id', 'ASC');
 		$result = $qb->executeQuery();
@@ -177,7 +188,7 @@ class FileAccess implements IFileAccess {
 			$overrideRoot = $rootId;
 			// LocalHomeMountProvider is the default provider for user home directories
 			// ObjectHomeMountProvider is the home directory provider for when S3 primary storage is used
-			if ($rewriteHomeDirectories && in_array($row['mount_provider_class'], [
+			if ($onlyUserFilesMounts && in_array($row['mount_provider_class'], [
 				\OC\Files\Mount\LocalHomeMountProvider::class,
 				\OC\Files\Mount\ObjectHomeMountProvider::class,
 			], true)) {

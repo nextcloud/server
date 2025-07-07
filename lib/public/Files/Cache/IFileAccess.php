@@ -104,11 +104,11 @@ interface IFileAccess {
 	 * Optionally rewrites home directory root paths to avoid cache and trashbin.
 	 *
 	 * @param list<string> $mountProviders An array of mount provider class names to filter. If empty, all providers will be included.
-	 * @param bool $rewriteHomeDirectories Whether to rewrite the root path IDs for home directories to only include user files.
+	 * @param bool $onlyUserFilesMounts Whether to rewrite the root IDs for home directories to only include user files and to only consider mounts with mount points in the user files.
 	 * @return \Generator<array{storage_id: int, root_id: int, overridden_root: int}> A generator yielding mount configurations as an array containing 'storage_id', 'root_id', and 'override_root'.
 	 * @throws \OCP\DB\Exception
 	 *
 	 * @since 32.0.0
 	 */
-	public function getDistinctMounts(array $mountProviders = [], bool $rewriteHomeDirectories = true): \Generator;
+	public function getDistinctMounts(array $mountProviders = [], bool $onlyUserFilesMounts = true): \Generator;
 }

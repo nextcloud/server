@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -71,15 +72,25 @@ class FileAccessTest extends TestCase {
 				'user_id' => $queryBuilder->createNamedParameter('test'),
 			])
 			->executeStatement();
+
+		$queryBuilder->insert('mounts')
+			->values([
+				'storage_id' => $queryBuilder->createNamedParameter(4, IQueryBuilder::PARAM_INT),
+				'root_id' => $queryBuilder->createNamedParameter(31, IQueryBuilder::PARAM_INT),
+				'mount_provider_class' => $queryBuilder->createNamedParameter('TestProviderClass2'),
+				'mount_point' => $queryBuilder->createNamedParameter('/foobar'),
+				'user_id' => $queryBuilder->createNamedParameter('test'),
+			])
+			->executeStatement();
 	}
 
 	/**
 	 * Test that getDistinctMounts returns all mounts without filters
 	 */
 	public function testGetDistinctMountsWithoutFilters(): void {
-		$result = iterator_to_array($this->fileAccess->getDistinctMounts());
+		$result = iterator_to_array($this->fileAccess->getDistinctMounts([], false));
 
-		$this->assertCount(2, $result);
+		$this->assertCount(3, $result);
 
 		$this->assertEquals([
 			'storage_id' => 1,
@@ -92,13 +103,19 @@ class FileAccessTest extends TestCase {
 			'root_id' => 30,
 			'overridden_root' => 30,
 		], $result[1]);
+
+		$this->assertEquals([
+			'storage_id' => 4,
+			'root_id' => 31,
+			'overridden_root' => 31,
+		], $result[2]);
 	}
 
 	/**
 	 * Test that getDistinctMounts applies filtering by mount providers
 	 */
 	public function testGetDistinctMountsWithMountProviderFilter(): void {
-		$result = iterator_to_array($this->fileAccess->getDistinctMounts(['TestProviderClass1']));
+		$result = iterator_to_array($this->fileAccess->getDistinctMounts(['TestProviderClass1'], false));
 
 		$this->assertCount(2, $result);
 
@@ -131,6 +148,18 @@ class FileAccessTest extends TestCase {
 			])
 			->executeStatement();
 
+		// Add a mount that is mounted in the home directory
+		$queryBuilder = $this->dbConnection->getQueryBuilder();
+		$queryBuilder->insert('mounts')
+			->values([
+				'storage_id' => $queryBuilder->createNamedParameter(5, IQueryBuilder::PARAM_INT),
+				'root_id' => $queryBuilder->createNamedParameter(41, IQueryBuilder::PARAM_INT),
+				'mount_provider_class' => $queryBuilder->createNamedParameter('TestMountProvider3'),
+				'mount_point' => $queryBuilder->createNamedParameter('/test/files/foobar'),
+				'user_id' => $queryBuilder->createNamedParameter('test'),
+			])
+			->executeStatement();
+
 		// Simulate adding a "files" directory to the filecache table
 		$queryBuilder = $this->dbConnection->getQueryBuilder()->runAcrossAllShards();
 		$queryBuilder->delete('filecache')->executeStatement();
@@ -148,11 +177,19 @@ class FileAccessTest extends TestCase {
 
 		$result = iterator_to_array($this->fileAccess->getDistinctMounts());
 
+		$this->assertCount(2, $result);
+
 		$this->assertEquals([
 			'storage_id' => 4,
 			'root_id' => 40,
 			'overridden_root' => 99,
-		], end($result));
+		], $result[0]);
+
+		$this->assertEquals([
+			'storage_id' => 5,
+			'root_id' => 41,
+			'overridden_root' => 41,
+		], $result[1]);
 	}
 
 	private function setUpTestDatabaseForGetByAncestorInStorage(): void {
