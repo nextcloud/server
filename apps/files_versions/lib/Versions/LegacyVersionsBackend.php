@@ -212,6 +212,10 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return $file;
 	}
 
+	public function getRevision(Node $node): int {
+		return $node->getMTime();
+	}
+
 	public function deleteVersion(IVersion $version): void {
 		if (!$this->currentUserHasPermissions($version->getSourceFile(), Constants::PERMISSION_DELETE)) {
 			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
