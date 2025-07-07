@@ -315,7 +315,7 @@ export default defineComponent({
 			delete query.openfile
 			delete query.opendetails
 
-			this.activeStore.clearActiveNode()
+			this.activeStore.activeNode = undefined
 			window.OCP.Files.Router.goToRoute(
 				null,
 				{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
@@ -449,7 +449,7 @@ export default defineComponent({
 			delete query.openfile
 			delete query.opendetails
 
-			this.activeStore.setActiveNode(node)
+			this.activeStore.activeNode = node
 
 			// Silent update of the URL
 			window.OCP.Files.Router.goToRoute(

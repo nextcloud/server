@@ -57,8 +57,8 @@ describe('HotKeysService testing', () => {
 		})
 
 		// Setting the view first as it reset the active node
-		activeStore.onChangedView(view)
-		activeStore.setActiveNode(file)
+		activeStore.activeView = view
+		activeStore.activeNode = file
 
 		window.OCA = { Files: { Sidebar: { open: () => {}, setActiveTab: () => {} } } }
 		// We only mock what needed, we do not need Files.Router.goTo or Files.Navigation

@@ -17,11 +17,13 @@ describe('files: search', () => {
 		cy.createRandomUser().then(($user) => {
 			user = $user
 			cy.mkdir(user, '/some folder')
+			cy.mkdir(user, '/some folder/nested folder')
 			cy.mkdir(user, '/other folder')
 			cy.mkdir(user, '/12345')
 			cy.uploadContent(user, new Blob(['content']), 'text/plain', '/file.txt')
 			cy.uploadContent(user, new Blob(['content']), 'text/plain', '/some folder/a file.txt')
 			cy.uploadContent(user, new Blob(['content']), 'text/plain', '/some folder/a second file.txt')
+			cy.uploadContent(user, new Blob(['content']), 'text/plain', '/some folder/nested folder/deep file.txt')
 			cy.uploadContent(user, new Blob(['content']), 'text/plain', '/other folder/another file.txt')
 			cy.login(user)
 		})
@@ -58,21 +60,16 @@ describe('files: search', () => {
 		getRowForFile('another file.txt').should('be.visible')
 	})
 
-	it('can search locally', () => {
+	it('filter does also search locally', () => {
 		navigateToFolder('some folder')
 		getRowForFile('a file.txt').should('be.visible')
 
-		navigation.searchScopeTrigger().click()
-		navigation.searchScopeMenu()
-			.should('be.visible')
-			.findByRole('menuitem', { name: /search from this location/i })
-			.should('be.visible')
-			.click()
 		navigation.searchInput().type('file')
 
 		getRowForFile('a file.txt').should('be.visible')
 		getRowForFile('a second file.txt').should('be.visible')
-		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 2)
+		getRowForFile('deep file.txt').should('be.visible')
+		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 3)
 	})
 
 	it('See "search everywhere" button', () => {
@@ -107,7 +104,8 @@ describe('files: search', () => {
 		// see local results
 		getRowForFile('a file.txt').should('be.visible')
 		getRowForFile('a second file.txt').should('be.visible')
-		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 2)
+		getRowForFile('deep file.txt').should('be.visible')
+		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 3)
 
 		// toggle global search
 		cy.get('[data-cy-files-filters]')
@@ -118,6 +116,7 @@ describe('files: search', () => {
 		// see global results
 		getRowForFile('file.txt').should('be.visible')
 		getRowForFile('a file.txt').should('be.visible')
+		getRowForFile('deep file.txt').should('be.visible')
 		getRowForFile('a second file.txt').should('be.visible')
 		getRowForFile('another file.txt').should('be.visible')
 	})
@@ -129,47 +128,20 @@ describe('files: search', () => {
 		navigation.searchScopeTrigger().click()
 		navigation.searchScopeMenu()
 			.should('be.visible')
-			.findByRole('menuitem', { name: /search from this location/i })
+			.findByRole('menuitem', { name: /search globally/i })
 			.should('be.visible')
 			.click()
-		navigation.searchInput().type('folder')
+		navigation.searchInput().type('xyz')
 
 		// see the empty content message
-		cy.contains('[role="note"]', /No search results for .folder./)
+		cy.contains('[role="note"]', /No search results for .xyz./)
 			.should('be.visible')
 			.within(() => {
 				// see within there is a search box with the same value
 				cy.findByRole('searchbox', { name: /search for files/i })
 					.should('be.visible')
-					.and('have.value', 'folder')
-				// and we can switch from local to global search
-				cy.findByRole('button', { name: 'Search globally' })
-					.should('be.visible')
+					.and('have.value', 'xyz')
 			})
-	})
-
-	it('can turn local search into global search', () => {
-		navigateToFolder('some folder')
-		getRowForFile('a file.txt').should('be.visible')
-
-		navigation.searchScopeTrigger().click()
-		navigation.searchScopeMenu()
-			.should('be.visible')
-			.findByRole('menuitem', { name: /search from this location/i })
-			.should('be.visible')
-			.click()
-		navigation.searchInput().type('folder')
-
-		// see the empty content message and turn into global search
-		cy.contains('[role="note"]', /No search results for .folder./)
-			.should('be.visible')
-			.findByRole('button', { name: 'Search globally' })
-			.should('be.visible')
-			.click()
-
-		getRowForFile('some folder').should('be.visible')
-		getRowForFile('other folder').should('be.visible')
-		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 2)
 	})
 
 	it('can alter search', () => {

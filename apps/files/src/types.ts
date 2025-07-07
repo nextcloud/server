@@ -107,16 +107,16 @@ export interface DragAndDropStore {
 
 // Active node store
 export interface ActiveStore {
-	_initialized: boolean
+	activeAction: FileAction|null
+	activeFolder: Folder|null
 	activeNode: Node|null
 	activeView: View|null
-	activeAction: FileAction|null
 }
 
 /**
  * Search scope for the in-files-search
  */
-export type SearchScope = 'filter'|'locally'|'globally'
+export type SearchScope = 'filter'|'globally'
 
 export interface TemplateFile {
 	app: string
