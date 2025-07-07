@@ -752,8 +752,8 @@ class AccountManager implements IAccountManager {
 						foreach ($decoded['links'] as $link) {
 							// have application/activity+json or application/ld+json
 							if (isset($link['type']) && (
-								$link['type'] === 'application/activity+json' ||
-								$link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+								$link['type'] === 'application/activity+json'
+								|| $link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
 							)) {
 								$found = true;
 								break;
