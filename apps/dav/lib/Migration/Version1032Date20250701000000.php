@@ -36,7 +36,7 @@ class Version1032Date20250701000000 extends SimpleMigrationStep {
 			return;
 		}
 		// We use count seen because getting a user count from the backend can be very slow
-		$limit = $this->appConfig->getAppValueBool('system_addressbook_limit', 5000);
+		$limit = $this->appConfig->getAppValueInt('system_addressbook_limit', 5000);
 		if ($this->userManager->countSeenUsers() <= $limit) {
 			return;
 		}
