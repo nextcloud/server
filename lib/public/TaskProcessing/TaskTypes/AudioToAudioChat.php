@@ -16,7 +16,7 @@ use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
- * This is the task processing task type for text chat
+ * This is the task processing task type for audio chat
  * @since 32.0.0
  */
 class AudioToAudioChat implements ITaskType {
@@ -75,12 +75,12 @@ class AudioToAudioChat implements ITaskType {
 			),
 			'input' => new ShapeDescriptor(
 				$this->l->t('Chat voice message'),
-				$this->l->t('Describe a task that you want the assistant to do or ask a question'),
+				$this->l->t('Describe a task that you want the assistant to do or ask a question.'),
 				EShapeType::Audio
 			),
 			'history' => new ShapeDescriptor(
 				$this->l->t('Chat history'),
-				$this->l->t('The history of chat messages before the current message, starting with a message by the user'),
+				$this->l->t('The history of chat messages before the current message, starting with a message by the user.'),
 				EShapeType::ListOfTexts
 			)
 		];
