@@ -23,7 +23,7 @@ export const action = new FileAction({
 			return false
 		}
 		// Only enable if all nodes have the delete permission
-		return nodes.every((node) => Boolean(node.permissions & Permission.DELETE))
+		return nodes.every((node) => Boolean(node.permissions & Permission.DELETE) && Boolean(node.permissions & Permission.UPDATE))
 	},
 
 	async exec(node: Node) {
