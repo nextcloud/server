@@ -293,6 +293,12 @@ export function enableGridMode() {
 export function calculateViewportHeight(rows: number): Cypress.Chainable<number> {
 	cy.visit('/apps/files')
 
+	cy.get('[data-cy-files-list]')
+		.should('be.visible')
+
+	cy.get('[data-cy-files-list-tbody] tr', { timeout: 5000 })
+		.and('be.visible')
+
 	return cy.get('[data-cy-files-list]')
 		.should('be.visible')
 		.then((filesList) => {
