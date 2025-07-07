@@ -17,7 +17,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
 
 class MailPlugin implements ISearchPlugin {
@@ -40,7 +40,7 @@ class MailPlugin implements ISearchPlugin {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IUserSession $userSession,
-		private IMailer $mailer,
+		private IEmailValidator $emailValidator,
 		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
 	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
@@ -236,7 +236,7 @@ class MailPlugin implements ISearchPlugin {
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
-		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
+		if (!$searchResult->hasExactIdMatch($emailType) && $this->emailValidator->isValid($search)) {
 			$result['exact'][] = [
 				'label' => $search,
 				'uuid' => $search,
