@@ -20,7 +20,18 @@
 			<slot name="header-overlay" />
 		</div>
 
-		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
+		<div v-if="dataSources.length === 0"
+			class="files-list__empty">
+			<slot name="empty" />
+		</div>
+
+		<table :aria-hidden="dataSources.length === 0"
+			:inert="dataSources.length === 0"
+			class="files-list__table"
+			:class="{
+				'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'],
+				'files-list__table--hidden': dataSources.length === 0,
+			}">
 			<!-- Accessibility table caption for screen readers -->
 			<caption v-if="caption" class="hidden-visually">
 				{{ caption }}
@@ -309,7 +320,7 @@ export default defineComponent({
 
 	methods: {
 		scrollTo(index: number) {
-			if (!this.$el) {
+			if (!this.$el || this.index === index) {
 				return
 			}
 

@@ -48,6 +48,11 @@
 				:nodes="nodes" />
 		</template>
 
+		<!-- Body replacement if no files are available -->
+		<template #empty>
+			<slot name="empty" />
+		</template>
+
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter :current-view="currentView"
@@ -65,7 +70,6 @@
 import type { UserConfig } from '../types'
 import type { Node as NcNode } from '@nextcloud/files'
 import type { ComponentPublicInstance, PropType } from 'vue'
-import type { Location } from 'vue-router'
 
 import { Folder, Permission, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
@@ -81,6 +85,7 @@ import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import logger from '../logger.ts'
 
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
@@ -90,7 +95,6 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import VirtualList from './VirtualList.vue'
-import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -152,7 +156,6 @@ export default defineComponent({
 			FileEntry,
 			FileEntryGrid,
 			scrollToIndex: 0,
-			openFileId: null as number|null,
 		}
 	},
 
@@ -217,39 +220,26 @@ export default defineComponent({
 		isNoneSelected() {
 			return this.selectedNodes.length === 0
 		},
+
+		isEmpty() {
+			return this.nodes.length === 0
+		},
 	},
 
 	watch: {
-		fileId: {
-			handler(fileId) {
-				this.scrollToFile(fileId, false)
-			},
-			immediate: true,
+		// If nodes gets populated and we have a fileId,
+		// an openFile or openDetails, we fire the appropriate actions.
+		isEmpty() {
+			this.handleOpenQueries()
 		},
-
-		openFile: {
-			handler(openFile) {
-				if (!openFile || !this.fileId) {
-					return
-				}
-
-				this.handleOpenFile(this.fileId)
-			},
-			immediate: true,
+		fileId() {
+			this.handleOpenQueries()
 		},
-
-		openDetails: {
-			handler(openDetails) {
-				// wait for scrolling and updating the actions to settle
-				this.$nextTick(() => {
-					if (!openDetails || !this.fileId) {
-						return
-					}
-
-					this.openSidebarForFile(this.fileId)
-				})
-			},
-			immediate: true,
+		openFile() {
+			this.handleOpenQueries()
+		},
+		openDetails() {
+			this.handleOpenQueries()
 		},
 	},
 
@@ -279,6 +269,33 @@ export default defineComponent({
 	},
 
 	methods: {
+		handleOpenQueries() {
+			// If the list is empty, or we don't have a fileId,
+			// there's nothing to be done.
+			if (this.isEmpty || !this.fileId) {
+				return
+			}
+
+			logger.debug('FilesListVirtual: checking for requested fileId, openFile or openDetails', {
+				nodes: this.nodes,
+				fileId: this.fileId,
+				openFile: this.openFile,
+				openDetails: this.openDetails,
+			})
+
+			if (this.openFile) {
+				this.handleOpenFile(this.fileId)
+			}
+
+			if (this.openDetails) {
+				this.openSidebarForFile(this.fileId)
+			}
+
+			if (this.fileId) {
+				this.scrollToFile(this.fileId, false)
+			}
+		},
+
 		openSidebarForFile(fileId) {
 			// Open the sidebar for the given URL fileid
 			// iif we just loaded the app.
@@ -288,7 +305,7 @@ export default defineComponent({
 				sidebarAction.exec(node, this.currentView, this.currentFolder.path)
 				return
 			}
-			logger.error(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
+			logger.warn(`Failed to open sidebar on file ${fileId}, file isn't cached yet !`, { fileId, node })
 		},
 
 		scrollToFile(fileId: number|null, warn = true) {
@@ -304,6 +321,7 @@ export default defineComponent({
 				}
 
 				this.scrollToIndex = Math.max(0, index)
+				logger.debug('Scrolling to file ' + fileId, { fileId, index })
 			}
 		},
 
@@ -368,15 +386,13 @@ export default defineComponent({
 			}
 			// The file is either a folder or has no default action other than downloading
 			// in this case we need to open the details instead and remove the route from the history
-			const query = this.$route.query
-			delete query.openfile
-			query.opendetails = ''
-
 			logger.debug('Ignore `openfile` query and replacing with `opendetails` for ' + node.path, { node })
-			await this.$router.replace({
-				...(this.$route as Location),
-				query,
-			})
+			window.OCP.Files.Router.goToRoute(
+				null,
+				this.$route.params,
+				{ ...this.$route.query, openfile: undefined, opendetails: '' },
+				true, // silent update of the URL
+			)
 		},
 
 		onDragOver(event: DragEvent) {
@@ -474,6 +490,8 @@ export default defineComponent({
 	--icon-preview-size: 32px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -520,6 +538,13 @@ export default defineComponent({
 			&.files-list__table--with-thead-overlay {
 				// Hide the table header below the overlay
 				margin-block-start: calc(-1 * var(--row-height));
+			}
+
+			// Visually hide the table when there are no files
+			&--hidden {
+				visibility: hidden;
+				z-index: -1;
+				opacity: 0;
 			}
 		}
 
@@ -568,6 +593,16 @@ export default defineComponent({
 			position: sticky;
 			z-index: 10;
 			top: var(--fixed-block-start-position);
+		}
+
+		// Empty content
+		.files-list__empty {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
 		}
 
 		tr {
