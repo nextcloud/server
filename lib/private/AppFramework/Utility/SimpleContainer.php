@@ -11,7 +11,6 @@ use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
-use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
@@ -21,16 +20,12 @@ use ReflectionParameter;
 use function class_exists;
 
 /**
- * SimpleContainer is a simple implementation of a container on basis of Pimple
+ * SimpleContainer is a simple implementation of a container
  */
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	public static bool $useLazyObjects = false;
-
-	private Container $container;
-
-	public function __construct() {
-		$this->container = new Container();
-	}
+	protected array $items = [];
+	protected array $aliases = [];
 
 	/**
 	 * @template T
@@ -46,12 +41,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->container[$id]) || class_exists($id);
+		return array_key_exists($id, $this->items) || array_key_exists($id, $this->aliases) || class_exists($id);
 	}
 
 	/**
-	 * @param ReflectionClass $class the class to instantiate
-	 * @return object the created class
+	 * @template T of object
+	 * @param ReflectionClass<T> $class the class to instantiate
+	 * @return T the created class
 	 * @suppress PhanUndeclaredClassInstanceof
 	 */
 	private function buildClass(ReflectionClass $class): object {
@@ -79,7 +75,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			$resolveName = $parameter->getName();
 
 			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+			if (($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 				$resolveName = $parameterType->getName();
 			}
 
@@ -93,7 +89,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					return $parameter->getDefaultValue();
 				}
 
-				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
+				if (($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
 					try {
 						return $this->query($resolveName);
@@ -131,19 +127,25 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
-		if (isset($this->container[$name])) {
-			return $this->container[$name];
+		$name = $this->resolveAlias($name);
+
+		if (array_key_exists($name, $this->items)) {
+			$item = $this->items[$name];
+			if ($item instanceof ServiceFactory) {
+				return $item->get();
+			} elseif (is_callable($item)) {
+				$this->items[$name] = $item($this);
+			}
+			return $this->items[$name];
 		}
 
 		if ($autoload) {
 			$object = $this->resolve($name);
-			$this->registerService($name, function () use ($object) {
-				return $object;
-			});
+			$this->items[$name] = $object;
 			return $object;
 		}
 
-		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
+		throw new QueryNotFoundException('Could not resolve ' . $name . '!' . get_class($this));
 	}
 
 	/**
@@ -151,7 +153,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param mixed $value
 	 */
 	public function registerParameter($name, $value) {
-		$this[$name] = $value;
+		$this->items[$name] = $value;
+		unset($this->aliases[$name]);
 	}
 
 	/**
@@ -164,17 +167,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param bool $shared
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
-		$wrapped = function () use ($closure) {
-			return $closure($this);
-		};
 		$name = $this->sanitizeName($name);
-		if (isset($this->container[$name])) {
-			unset($this->container[$name]);
-		}
+		unset($this->aliases[$name]);
 		if ($shared) {
-			$this->container[$name] = $wrapped;
+			$this->items[$name] = $closure;
 		} else {
-			$this->container[$name] = $this->container->factory($wrapped);
+			$this->items[$name] = new ServiceFactory($this, $closure);
 		}
 	}
 
@@ -186,9 +184,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias($alias, $target) {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
-			return $container->get($target);
-		}, false);
+		$alias = $this->sanitizeName($alias);
+		$target = $this->sanitizeName($target);
+		if ($alias === $target) {
+			throw new QueryNotFoundException('Can\'t alias to self');
+		}
+		unset($this->items[$alias]);
+		$this->aliases[$alias] = $target;
 	}
 
 	/**
@@ -196,17 +198,14 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @return string
 	 */
 	protected function sanitizeName($name) {
-		if (isset($name[0]) && $name[0] === '\\') {
-			return ltrim($name, '\\');
-		}
-		return $name;
+		return ltrim($name, '\\');
 	}
 
 	/**
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
 	public function offsetExists($id): bool {
-		return $this->container->offsetExists($id);
+		return array_key_exists($id, $this->items) || array_key_exists($id, $this->aliases);
 	}
 
 	/**
@@ -215,20 +214,43 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($id) {
-		return $this->container->offsetGet($id);
+		return $this->query($id);
 	}
 
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
 	public function offsetSet($offset, $value): void {
-		$this->container->offsetSet($offset, $value);
+		$this->items[$offset] = $value;
 	}
 
 	/**
 	 * @deprecated 20.0.0
 	 */
 	public function offsetUnset($offset): void {
-		$this->container->offsetUnset($offset);
+		unset($this->items[$offset]);
+		unset($this->aliases[$offset]);
+	}
+
+	/**
+	 * Check if we already have a resolved instance of $name
+	 */
+	public function isResolved($name): bool {
+		if (!array_key_exists($name, $this->items)) {
+			return false;
+		}
+		$item = $this->items[$name];
+		if ($item instanceof ServiceFactory) {
+			return false;
+		} else {
+			return !is_callable($item);
+		}
+	}
+
+	protected function resolveAlias(string $name): string {
+		while (array_key_exists($name, $this->aliases)) {
+			$name = $this->aliases[$name];
+		}
+		return $name;
 	}
 }

@@ -89,7 +89,7 @@ class App {
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
-	 * @param DIContainer $container an instance of a pimple container.
+	 * @param DIContainer $container an instance of a container.
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
@@ -231,7 +231,7 @@ class App {
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
 	 * @param array $urlParams an array with variables extracted from the routes
-	 * @param DIContainer $container an instance of a pimple container.
+	 * @param DIContainer $container an instance of container.
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
 		DIContainer $container) {

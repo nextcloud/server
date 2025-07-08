@@ -1088,6 +1088,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Services\\InitialState' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Services/InitialState.php',
         'OC\\AppFramework\\Utility\\ControllerMethodReflector' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/ControllerMethodReflector.php',
         'OC\\AppFramework\\Utility\\QueryNotFoundException' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/QueryNotFoundException.php',
+        'OC\\AppFramework\\Utility\\ServiceFactory' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/ServiceFactory.php',
         'OC\\AppFramework\\Utility\\SimpleContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/SimpleContainer.php',
         'OC\\AppFramework\\Utility\\TimeFactory' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Utility/TimeFactory.php',
         'OC\\AppScriptDependency' => __DIR__ . '/../../..' . '/lib/private/AppScriptDependency.php',
