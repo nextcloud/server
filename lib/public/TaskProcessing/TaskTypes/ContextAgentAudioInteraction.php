@@ -16,14 +16,11 @@ use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
- * This is the task processing task type for audio chat
+ * This is the task processing task type for Context Agent interaction
  * @since 32.0.0
  */
-class AudioToAudioChat implements ITaskType {
-	/**
-	 * @since 32.0.0
-	 */
-	public const ID = 'core:audio2audio:chat';
+class ContextAgentAudioInteraction implements ITaskType {
+	public const ID = 'core:contextagent:audio-interaction';
 
 	private IL10N $l;
 
@@ -37,13 +34,12 @@ class AudioToAudioChat implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('Audio chat');
+		return 'ContextAgent audio'; // We do not translate this
 	}
 
 	/**
@@ -51,7 +47,7 @@ class AudioToAudioChat implements ITaskType {
 	 * @since 32.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Voice chat with the assistant');
+		return $this->l->t('Chat by voice with an agent');
 	}
 
 	/**
@@ -68,21 +64,21 @@ class AudioToAudioChat implements ITaskType {
 	 */
 	public function getInputShape(): array {
 		return [
-			'system_prompt' => new ShapeDescriptor(
-				$this->l->t('System prompt'),
-				$this->l->t('Define rules and assumptions that the assistant should follow during the conversation.'),
-				EShapeType::Text
-			),
 			'input' => new ShapeDescriptor(
 				$this->l->t('Chat voice message'),
-				$this->l->t('Describe a task that you want the assistant to do or ask a question.'),
+				$this->l->t('Describe a task that you want the agent to do or ask a question.'),
 				EShapeType::Audio
 			),
-			'history' => new ShapeDescriptor(
-				$this->l->t('Chat history'),
-				$this->l->t('The history of chat messages before the current message, starting with a message by the user.'),
-				EShapeType::ListOfTexts
-			)
+			'confirmation' => new ShapeDescriptor(
+				$this->l->t('Confirmation'),
+				$this->l->t('Whether to confirm previously requested actions: 0 for denial and 1 for confirmation.'),
+				EShapeType::Number
+			),
+			'conversation_token' => new ShapeDescriptor(
+				$this->l->t('Conversation token'),
+				$this->l->t('A token representing the conversation.'),
+				EShapeType::Text
+			),
 		];
 	}
 
@@ -106,6 +102,16 @@ class AudioToAudioChat implements ITaskType {
 				$this->l->t('Output transcript'),
 				$this->l->t('Transcription of the audio output'),
 				EShapeType::Text,
+			),
+			'conversation_token' => new ShapeDescriptor(
+				$this->l->t('The new conversation token'),
+				$this->l->t('Send this along with the next interaction.'),
+				EShapeType::Text
+			),
+			'actions' => new ShapeDescriptor(
+				$this->l->t('Requested actions by the agent'),
+				$this->l->t('Actions that the agent would like to carry out in JSON format.'),
+				EShapeType::Text
 			),
 		];
 	}
