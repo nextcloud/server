@@ -123,8 +123,6 @@
     "Column headers with buttons are sortable." : "Column headers with buttons are sortable.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل عملکرد به طور کامل ارائه نشده است. در حین حرکت در لیست، فایل ها ارائه می شوند.",
     "File not found" : "فایل یافت نشد",
-    "Filter file names …" : "Filter file names …",
-    "Filter in current view" : "فیلتر در نمای فعلی.",
     "Search globally" : "در سطح جهان جستجو کنید",
     "{usedQuotaByte} used" : "{usedQuotaByte} استفاده شده است",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
@@ -456,6 +454,7 @@
     "New text file.txt" : "پروندهٔ متنی جدید با پسوند txt",
     "%1$s (renamed)" : "%1$s (renamed)",
     "renamed file" : "renamed file",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.",
+    "Filter file names …" : "Filter file names …"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

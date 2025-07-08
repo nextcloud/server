@@ -116,8 +116,6 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzať zoznamom.",
     "File not found" : "Súbor nenájdený",
     "_{count} selected_::_{count} selected_" : ["{count} vybraný","{count} vybrané","{count} vybraných","{count} vybraných"],
-    "Filter file names …" : "Filtrovať názvy súborov ...",
-    "Filter in current view" : "Filter v aktuálnom zobrazení",
     "Search globally" : "Hľadať globálne",
     "{usedQuotaByte} used" : "{usedQuotaByte} použitých",
     "{used} of {quota} used" : "použitých {used} z {quota}",
@@ -447,6 +445,7 @@
     "{fileCount} files and {folderCount} folders" : "{fileCount} súborov a {folderCount} priečinkov",
     "Personal Files" : "Osobné Súbory",
     "Text file" : "Textový súbor",
-    "New text file.txt" : "Nový text file.txt"
+    "New text file.txt" : "Nový text file.txt",
+    "Filter file names …" : "Filtrovať názvy súborov ..."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -115,7 +115,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Dálkfyrirsagnir með hnöppum eru raðanlegar",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "File not found" : "Skrá finnst ekki",
-    "Filter in current view" : "Sía í núverandi sýn",
     "Search globally" : "Leita allstaðar",
     "{usedQuotaByte} used" : "{usedQuotaByte} notað",
     "{used} of {quota} used" : "{used} af {quota} notað",

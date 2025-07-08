@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} selezionato","{count} selezionati","{count} selezionati"],
     "Search globally by filename …" : "Cerca globalmente per nome file…",
     "Search here by filename …" : "Cerca qui per nome file…",
-    "Filter file names …" : "Filtra i nomi dei file …",
     "Search scope options" : "Opzioni nell'ambito di ricerca",
-    "Filter in current view" : "Filtro nella vista corrente",
-    "Search from this location" : "Cerca da questa posizione",
     "Search globally" : "Cerca globalmente",
     "{usedQuotaByte} used" : "{usedQuotaByte} usato",
     "{used} of {quota} used" : "{used} di {quota} utilizzati",
@@ -468,6 +465,7 @@
     "New text file.txt" : "Nuovo file di testo.txt",
     "%1$s (renamed)" : "%1$s (rinominato)",
     "renamed file" : "file rinominato",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Dopo aver abilitato i nomi file compatibili con Windows, i file esistenti non potranno più essere modificati, ma potranno essere rinominati con nuovi nomi validi dal rispettivo proprietario."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Dopo aver abilitato i nomi file compatibili con Windows, i file esistenti non potranno più essere modificati, ma potranno essere rinominati con nuovi nomi validi dal rispettivo proprietario.",
+    "Filter file names …" : "Filtra i nomi dei file …"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

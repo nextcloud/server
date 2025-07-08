@@ -128,10 +128,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["{count}選択済み"],
     "Search globally by filename …" : "ファイル名でグローバルに検索 …",
     "Search here by filename …" : "ファイル名でここを検索 …",
-    "Filter file names …" : "ファイルネームフィルター…",
     "Search scope options" : "検索範囲オプション",
-    "Filter in current view" : "現在のビューでフィルタ",
-    "Search from this location" : "この場所から検索",
     "Search globally" : "グローバルに検索",
     "{usedQuotaByte} used" : "{usedQuotaByte} 使用されています",
     "{used} of {quota} used" : "{used} / {quota} 使用中",
@@ -469,6 +466,7 @@ OC.L10N.register(
     "New text file.txt" : "新規のテキストファイル作成",
     "%1$s (renamed)" : "%1$s (リネーム済み)",
     "renamed file" : "リネーム済みファイル",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Windows 互換のファイル名を有効にすると、既存のファイルは変更できなくなりますが、所有者が有効な新しいファイル名に変更できるようになります。"
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Windows 互換のファイル名を有効にすると、既存のファイルは変更できなくなりますが、所有者が有効な新しいファイル名に変更できるようになります。",
+    "Filter file names …" : "ファイルネームフィルター…"
 },
 "nplurals=1; plural=0;");

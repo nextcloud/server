@@ -124,8 +124,6 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg.",
     "File not found" : "A fájl nem található",
     "_{count} selected_::_{count} selected_" : ["{count} kijelölve","{count} kijelölve"],
-    "Filter file names …" : "Fájlnevek szűrése…",
-    "Filter in current view" : "Jelenlegi nézet szűrése",
     "Search globally" : "Globális keresés",
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{used} of {quota} used" : "{used} / {quota} felhasználva",
@@ -460,6 +458,7 @@
     "New text file.txt" : "Új szövegfájl.txt",
     "%1$s (renamed)" : "%1$s (átnevezve)",
     "renamed file" : "átnevezett fájl",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "A Windows-kompatibilis fájlnevek engedélyezése után a meglévő fájlok már nem módosíthatóak, de a tulajdonosaik átnevezhetik őket érvényes új nevekre."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "A Windows-kompatibilis fájlnevek engedélyezése után a meglévő fájlok már nem módosíthatóak, de a tulajdonosaik átnevezhetik őket érvényes új nevekre.",
+    "Filter file names …" : "Fájlnevek szűrése…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -106,7 +106,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Tiêu đề cột có thể sắp xếp được.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Danh sách này không được hiển thị đầy đủ để tăng hiệu năng. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "File not found" : "Không tìm thấy tập tin",
-    "Filter in current view" : "Lọc kết quả tìm kiếm hiện tại",
     "Search globally" : "Tìm kiếm trên toàn cầu",
     "{usedQuotaByte} used" : "{usedQuotaByte} đã được sử dụng",
     "{used} of {quota} used" : "{used} trong {quota} đã được sử dụng",

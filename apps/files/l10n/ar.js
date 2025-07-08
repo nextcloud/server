@@ -122,8 +122,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "لم يتم عرض هذه القائمة بالكامل لأسباب تتعلق بالأداء. سيتم عرض الملفات تباعاً أثناء التنقل عبر القائمة.",
     "File not found" : "تعذر العثور على الملف",
     "_{count} selected_::_{count} selected_" : ["{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده","{count} تمّ تحديده"],
-    "Filter file names …" : "تصفية بأسماء الملفات...",
-    "Filter in current view" : "تصفية في المنظور الحالي",
     "Search globally" : "بحث عام",
     "{usedQuotaByte} used" : "{usedQuotaByte} مستخدمة",
     "{used} of {quota} used" : "{used} من {quota} مستخدم",
@@ -456,6 +454,7 @@ OC.L10N.register(
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
     "renamed file" : "ملف معاد تسميته",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "بعد تمكين أسماء الملفات المتوافقة مع نظام التشغيل Windows، لا يمكن تعديل الملفات الموجودة بعد الآن ولكن يمكن إعادة تسميتها إلى أسماء جديدة صالحة بواسطة مالكها."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "بعد تمكين أسماء الملفات المتوافقة مع نظام التشغيل Windows، لا يمكن تعديل الملفات الموجودة بعد الآن ولكن يمكن إعادة تسميتها إلى أسماء جديدة صالحة بواسطة مالكها.",
+    "Filter file names …" : "تصفية بأسماء الملفات..."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

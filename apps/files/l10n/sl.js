@@ -119,8 +119,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Naslove stolpcev z gumbi je mogoče sortirati.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali med brskanjem.",
     "File not found" : "Datoteke ni mogoče najti",
-    "Filter file names …" : "Filtriraj imena datotek...",
-    "Filter in current view" : "Filtrirajte trenutni pogled",
     "Search globally" : "Splošno iskanje",
     "{usedQuotaByte} used" : "Zasedeno {usedQuotaByte}",
     "{used} of {quota} used" : "V uporabi je {used} od {quota}",
@@ -448,6 +446,7 @@ OC.L10N.register(
     "{fileCount} files and {folderCount} folders" : "{fileCount} datotek in {folderCount} map",
     "Personal Files" : "Osebne datoteke",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "nova_datoteka.txt"
+    "New text file.txt" : "nova_datoteka.txt",
+    "Filter file names …" : "Filtriraj imena datotek..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

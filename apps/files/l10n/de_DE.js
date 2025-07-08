@@ -128,10 +128,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["{count} ausgewählt","{count} ausgewählt"],
     "Search globally by filename …" : "Global nach Dateinamen suchen …",
     "Search here by filename …" : "Hier nach Dateinamen suchen  …",
-    "Filter file names …" : "Dateinamen filtern …",
     "Search scope options" : "Suchbereichsoptionen",
-    "Filter in current view" : "Filter in aktueller Ansicht",
-    "Search from this location" : "Von diesem Ort aus suchen",
     "Search globally" : "Global suchen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{used} of {quota} used" : "{used} von {quota} verwendet",
@@ -470,6 +467,7 @@ OC.L10N.register(
     "New text file.txt" : "Neue Textdatei file.txt",
     "%1$s (renamed)" : "%1$s (umbenannt)",
     "renamed file" : "Umbenannte Datei",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Nach Aktivierung der Windows-kompatiblen Dateinamen können vorhandene Dateien nicht mehr geändert, aber von ihrem Besitzer in gültige neue Namen umbenannt werden."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Nach Aktivierung der Windows-kompatiblen Dateinamen können vorhandene Dateien nicht mehr geändert, aber von ihrem Besitzer in gültige neue Namen umbenannt werden.",
+    "Filter file names …" : "Dateinamen filtern …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -107,7 +107,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Por motivos de desempenho, esta lista não é totalmente processada. Os ficheiros serão processados à medida que navega na lista.",
     "File not found" : "Ficheiro não encontrado",
     "_{count} selected_::_{count} selected_" : ["{count} selecionado","{count} selecionado","{count} selecionado"],
-    "Filter in current view" : "Filtrar na vista atual",
     "Search globally" : "Procura global",
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{used} of {quota} used" : "utilizado {used} de {quota}",

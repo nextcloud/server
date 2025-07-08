@@ -90,7 +90,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Les testeres de les columnes con botones puen ordenase.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta llista nun ta completa por motivos de rindimientu. Los ficheros van apaecer a midida que navegues pela llista.",
     "File not found" : "Nun s'atopó'l ficheru",
-    "Filter in current view" : "Peñerar na vista actual",
     "Search globally" : "Buscar globalmente",
     "{usedQuotaByte} used" : "{usedQuotaByte} n'usu",
     "{used} of {quota} used" : "{used} de {quota} n'usu",
