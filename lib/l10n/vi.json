@@ -47,7 +47,6 @@
     "Profile picture" : "Ảnh đại diện",
     "About" : "Giới thiệu",
     "Headline" : "Tiêu đề",
-    "Organisation" : "Tổ chức",
     "Role" : "Vai trò",
     "Additional settings" : "Cài đặt bổ sung",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Hãy xóa thiết lập open_basedir tại tập tin cấu hình php.ini hoặc chuyển sang dùng PHP 64-bit.",
@@ -101,6 +100,7 @@
     "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
     "Text" : "Văn bản",
     "Summary" : "Tóm tắt",
-    "Translate" : "Dịch"
+    "Translate" : "Dịch",
+    "Organisation" : "Tổ chức"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

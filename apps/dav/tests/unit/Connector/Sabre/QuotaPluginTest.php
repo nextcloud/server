@@ -25,9 +25,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @dataProvider lengthProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('lengthProvider')]
 	public function testLength(?int $expected, array $headers): void {
 		$this->init(0);
 
@@ -36,9 +34,7 @@ class QuotaPluginTest extends TestCase {
 		$this->assertEquals($expected, $length);
 	}
 
-	/**
-	 * @dataProvider quotaOkayProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('quotaOkayProvider')]
 	public function testCheckQuota(int $quota, array $headers): void {
 		$this->init($quota);
 
@@ -47,9 +43,7 @@ class QuotaPluginTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @dataProvider quotaExceededProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('quotaExceededProvider')]
 	public function testCheckExceededQuota(int $quota, array $headers): void {
 		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
 
@@ -59,9 +53,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->checkQuota('');
 	}
 
-	/**
-	 * @dataProvider quotaOkayProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('quotaOkayProvider')]
 	public function testCheckQuotaOnPath(int $quota, array $headers): void {
 		$this->init($quota, 'sub/test.txt');
 

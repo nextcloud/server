@@ -16,7 +16,7 @@ use Generator;
  * @since 32.0.0
  */
 interface ICalendarExport {
-	
+
 	/**
 	 * Export objects
 	 *

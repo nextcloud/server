@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,6 +30,7 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -612,6 +614,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			Server::get(IClientService::class),
 			Server::get(IAppManager::class),
+			$userManager,
+			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 		);
 	}
@@ -1262,6 +1266,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			Server::get(IClientService::class),
 			Server::get(IAppManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 		);
 	}

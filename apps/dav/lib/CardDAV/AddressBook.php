@@ -38,8 +38,8 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		parent::__construct($carddavBackend, $addressBookInfo);
 
 
-		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME &&
-			$this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
+		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME
+			&& $this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
 			$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Contacts');
 		}
 	}

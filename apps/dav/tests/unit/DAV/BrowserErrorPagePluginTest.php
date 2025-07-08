@@ -15,9 +15,7 @@ use Sabre\HTTP\Response;
 
 class BrowserErrorPagePluginTest extends \Test\TestCase {
 
-	/**
-	 * @dataProvider providesExceptions
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesExceptions')]
 	public function test(int $expectedCode, \Throwable $exception): void {
 		/** @var BrowserErrorPagePlugin&MockObject $plugin */
 		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->onlyMethods(['sendResponse', 'generateBody'])->getMock();

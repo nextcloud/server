@@ -88,11 +88,11 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getUserFromTokenThrowInvalidTokenData
 	 *
 	 * @param string $token
 	 * @param array $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUserFromTokenThrowInvalidTokenData')]
 	public function testGetUserFromTokenThrowInvalidToken($token, $users): void {
 		$this->expectException(\UnexpectedValueException::class);
 
@@ -109,12 +109,12 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getUserFromTokenData
 	 *
 	 * @param string $userLoggedIn
 	 * @param string $token
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUserFromTokenData')]
 	public function testGetUserFromToken($userLoggedIn, $token, $expected): void {
 		if ($userLoggedIn !== null) {
 			$this->mockUserSession($userLoggedIn);
@@ -200,10 +200,10 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataPublish
 	 * @param string|null $author
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPublish')]
 	public function testPublish($author, $expected): void {
 		if ($author !== null) {
 			$authorObject = $this->getMockBuilder(IUser::class)

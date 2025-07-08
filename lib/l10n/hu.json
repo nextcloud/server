@@ -111,7 +111,7 @@
     "About" : "Névjegy",
     "Display name" : "Megjelenítendő név",
     "Headline" : "Címsor",
-    "Organisation" : "Szervezet",
+    "Organization" : "Szervezet",
     "Role" : "Szerepkör",
     "Additional settings" : "További beállítások",
     "Enter the database name for %s" : "Adja meg a %s adatbázisának nevét",
@@ -245,6 +245,7 @@
     "Generate headline" : "Címsor előállítása",
     "Summarizes text by reducing its length without losing key information." : "Összesíti a szöveget a hosszúság csökkentésével anélkül, hogy a kulcsinformációk elvesznének.",
     "Extracts topics from a text and outputs them separated by commas." : "Kinyeri a témákat a szövegből, és vesszőkkel elválasztva megjeleníti.",
+    "Organisation" : "Szervezet",
     "File is currently busy, please try again later" : "A fájl jelenleg foglalt, próbálja újra később",
     "Cannot download file" : "A fájl nem tölthető le"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

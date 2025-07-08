@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -146,10 +147,10 @@ class InstallerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider updateArrayProvider
 	 * @param array $appArray
 	 * @param string|bool $updateAvailable
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('updateArrayProvider')]
 	public function testIsUpdateAvailable(array $appArray, $updateAvailable): void {
 		$this->appFetcher
 			->expects($this->once())

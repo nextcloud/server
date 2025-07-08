@@ -124,18 +124,14 @@ class HasherTest extends \Test\TestCase {
 		$this->assertNotNull($hash);
 	}
 
-	/**
-	 * @dataProvider versionHashProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionHashProvider')]
 	public function testSplitHash($hash, $expected): void {
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$hash]);
 		$this->assertSame($expected, $relativePath);
 	}
 
 
-	/**
-	 * @dataProvider hashProviders70_71
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders70_71')]
 	public function testVerify($password, $hash, $expected): void {
 		$this->config
 			->expects($this->any())
@@ -151,9 +147,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	/**
-	 * @dataProvider hashProviders72
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders72')]
 	public function testVerifyArgon2i($password, $hash, $expected): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
@@ -163,9 +157,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	/**
-	 * @dataProvider hashProviders73
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders73')]
 	public function testVerifyArgon2id(string $password, string $hash, bool $expected): void {
 		if (!\defined('PASSWORD_ARGON2ID')) {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');

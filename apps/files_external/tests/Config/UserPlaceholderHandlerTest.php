@@ -53,17 +53,13 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
 	public function testHandle(string|array $option, string|array $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
 	public function testHandleNoUser(string|array $option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')

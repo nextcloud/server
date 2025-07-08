@@ -65,9 +65,7 @@ class SettingsControllerTest extends TestCase {
 		$this->assertArrayHasKey('id', $data);
 	}
 
-	/**
-	 * @dataProvider checkServerFails
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('checkServerFails')]
 	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
 		$this->trustedServers
 			->expects($this->any())
@@ -115,9 +113,7 @@ class SettingsControllerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider checkServerFails
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('checkServerFails')]
 	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
 		$this->trustedServers
 			->expects($this->any())

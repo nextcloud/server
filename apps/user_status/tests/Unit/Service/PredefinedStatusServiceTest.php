@@ -93,9 +93,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		], $actual);
 	}
 
-	/**
-	 * @dataProvider getIconForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getIconForIdDataProvider')]
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
 		$actual = $this->service->getIconForId($id);
 		$this->assertEquals($expectedIcon, $actual);
@@ -113,9 +111,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getTranslatedStatusForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getTranslatedStatusForIdDataProvider')]
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
 		$this->l10n->method('t')
 			->willReturnArgument(0);
@@ -136,9 +132,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isValidIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isValidIdDataProvider')]
 	public function testIsValidId(string $id, bool $expected): void {
 		$actual = $this->service->isValidId($id);
 		$this->assertEquals($expected, $actual);

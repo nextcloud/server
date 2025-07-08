@@ -114,7 +114,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('GX9HSGQrGE')
-			->will($this->throwException(new ShareNotFound()));
+			->willThrowException(new ShareNotFound());
 
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		self::invokePrivate($this->auth, 'checkToken');

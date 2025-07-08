@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,6 +19,7 @@ use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
+use OC\Files\View;
 use OC\Template\Base;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -492,7 +494,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Check if the given path is locked with a given type
 	 *
-	 * @param \OC\Files\View $view view
+	 * @param View $view view
 	 * @param string $path path to check
 	 * @param int $type lock type
 	 * @param bool $onMountPoint true to check the mount point instead of the

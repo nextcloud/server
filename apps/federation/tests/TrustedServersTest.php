@@ -170,9 +170,7 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestIsNextcloudServer
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsNextcloudServer')]
 	public function testIsNextcloudServer(int $statusCode, bool $isValidNextcloudVersion, bool $expected): void {
 		$server = 'server1';
 
@@ -239,9 +237,7 @@ class TrustedServersTest extends TestCase {
 		$this->assertFalse($this->trustedServers->isNextcloudServer($server));
 	}
 
-	/**
-	 * @dataProvider dataTestCheckNextcloudVersion
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCheckNextcloudVersion')]
 	public function testCheckNextcloudVersion(string $status): void {
 		$this->assertTrue(self::invokePrivate($this->trustedServers, 'checkNextcloudVersion', [$status]));
 	}
@@ -253,9 +249,7 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestCheckNextcloudVersionTooLow
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCheckNextcloudVersionTooLow')]
 	public function testCheckNextcloudVersionTooLow(string $status): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Remote server version is too low. 9.0 is required.');
@@ -269,9 +263,7 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestUpdateProtocol
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdateProtocol')]
 	public function testUpdateProtocol(string $url, string $expected): void {
 		$this->assertSame($expected,
 			self::invokePrivate($this->trustedServers, 'updateProtocol', [$url])

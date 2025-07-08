@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -35,11 +36,11 @@ class DiscoveryServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsSafeUrl
 	 *
 	 * @param string $url
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsSafeUrl')]
 	public function testIsSafeUrl($url, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'isSafeUrl', [$url]);
 		$this->assertSame($expected, $result);
@@ -58,12 +59,12 @@ class DiscoveryServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetEndpoints
 	 *
 	 * @param array $decodedServices
 	 * @param string $service
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetEndpoints')]
 	public function testGetEndpoints($decodedServices, $service, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'getEndpoints', [$decodedServices, $service]);
 		$this->assertSame($expected, $result);

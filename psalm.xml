@@ -109,6 +109,7 @@
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
+				<referencedClass name="OCA\Guests\UserBackend"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>

@@ -17,7 +17,7 @@ namespace OCP\Mail\Provider;
  *
  */
 interface IMessage {
-	
+
 	/**
 	 * arbitrary unique text string identifying this message
 	 *
@@ -117,7 +117,7 @@ interface IMessage {
 	 * @return self return this object for command chaining
 	 */
 	public function setBcc(IAddress ...$value): self;
-	
+
 	/**
 	 * gets the blind copy to recipient(s) of this message
 	 *

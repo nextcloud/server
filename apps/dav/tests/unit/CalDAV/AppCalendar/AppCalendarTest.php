@@ -61,7 +61,7 @@ class AppCalendarTest extends TestCase {
 		];
 		$this->writeableCalendar->expects($this->exactly(3))
 			->method('createFromString')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

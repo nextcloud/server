@@ -86,9 +86,7 @@ class UUIDFixInsertTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider recordProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('recordProvider')]
 	public function testRun(array $userBatches, array $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -116,9 +114,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->job->run($out);
 	}
 
-	/**
-	 * @dataProvider recordProviderTooLongAndNone
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('recordProviderTooLongAndNone')]
 	public function testRunWithManyAndNone(array $userBatches, array $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')

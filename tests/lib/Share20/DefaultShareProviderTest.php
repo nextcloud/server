@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -984,9 +985,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider storageAndFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithUser($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
@@ -1035,9 +1034,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
-	/**
-	 * @dataProvider storageAndFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithGroup($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
@@ -1109,9 +1106,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 	}
 
-	/**
-	 * @dataProvider storageAndFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithGroupUserModified($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
@@ -1201,9 +1196,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('userTarget', $share->getTarget());
 	}
 
-	/**
-	 * @dataProvider storageAndFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithUserWithNode($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
@@ -1243,9 +1236,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
-	/**
-	 * @dataProvider storageAndFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithGroupWithNode($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
@@ -1295,9 +1286,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider shareTypesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('shareTypesProvider')]
 	public function testGetSharedWithWithDeletedFile($shareType, $trashed): void {
 		if ($trashed) {
 			// exists in database but is in trash
@@ -2301,7 +2290,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteUser
 	 *
 	 * @param int $type The shareType (user/group/link)
 	 * @param string $owner The owner of the share (uid)
@@ -2310,6 +2298,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @param string $deletedUser The user that is deleted
 	 * @param bool $rowDeleted Is the row deleted in this setup
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteUser')]
 	public function testDeleteUser($type, $owner, $initiator, $recipient, $deletedUser, $rowDeleted): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -2349,7 +2338,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteUserGroup
 	 *
 	 * @param string $owner The owner of the share (uid)
 	 * @param string $initiator The initiator of the share (uid)
@@ -2358,6 +2346,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @param bool $groupShareDeleted
 	 * @param bool $userGroupShareDeleted
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteUserGroup')]
 	public function testDeleteUserGroup($owner, $initiator, $recipient, $deletedUser, $groupShareDeleted, $userGroupShareDeleted): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -2455,12 +2444,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGroupDeleted
 	 *
 	 * @param $shares
 	 * @param $groupToDelete
 	 * @param $shouldBeDeleted
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGroupDeleted')]
 	public function testGroupDeleted($shares, $groupToDelete, $shouldBeDeleted): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -2515,12 +2504,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * And a user specific group share with 'user1'.
 	 * User $user is deleted from group $gid.
 	 *
-	 * @dataProvider dataUserDeletedFromGroup
 	 *
 	 * @param string $group
 	 * @param string $user
 	 * @param bool $toDelete
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUserDeletedFromGroup')]
 	public function testUserDeletedFromGroup($group, $user, $toDelete): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')

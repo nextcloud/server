@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -42,12 +43,12 @@ trait EncryptionTrait {
 	private $setupManager;
 
 	/**
-	 * @var \OCP\IConfig
+	 * @var IConfig
 	 */
 	private $config;
 
 	/**
-	 * @var \OCA\Encryption\AppInfo\Application
+	 * @var Application
 	 */
 	private $encryptionApp;
 

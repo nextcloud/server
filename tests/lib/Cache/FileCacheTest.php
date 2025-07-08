@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ namespace Test\Cache;
 use OC\Cache\File;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\LockNotAcquiredException;
@@ -38,11 +40,11 @@ class FileCacheTest extends TestCache {
 	 * */
 	private $datadir;
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 * */
 	private $storage;
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 * */
 	private $rootView;
 
@@ -140,9 +142,7 @@ class FileCacheTest extends TestCache {
 		];
 	}
 
-	/**
-	 * @dataProvider lockExceptionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('lockExceptionProvider')]
 	public function testGarbageCollectIgnoreLockedKeys($testException): void {
 		$mockStorage = $this->setupMockStorage();
 

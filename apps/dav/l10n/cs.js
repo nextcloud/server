@@ -250,6 +250,7 @@ OC.L10N.register(
     "Completed on %s" : "Dokončeno %s",
     "Due on %s by %s" : "Termín do %s od %s",
     "Due on %s" : "Termín do %s",
+    "Example event - open me!" : "Událost pro ukázku – otevřete ji!",
     "System Address Book" : "Systémový adresář kontaktů",
     "The system address book contains contact information for all users in your instance." : "Systémový adresář kontaktů obsahuje informace pro všechny uživatele ve vámi využívané instanci.",
     "Enable System Address Book" : "Zapnout systémový adresář kontaktů",

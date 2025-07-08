@@ -71,12 +71,12 @@ class ManagerTest extends TestCase {
 	 */
 	private function getTestBackend($implementedActions = null) {
 		if ($implementedActions === null) {
-			$implementedActions =
-				GroupInterface::ADD_TO_GROUP |
-				GroupInterface::REMOVE_FROM_GOUP |
-				GroupInterface::COUNT_USERS |
-				GroupInterface::CREATE_GROUP |
-				GroupInterface::DELETE_GROUP;
+			$implementedActions
+				= GroupInterface::ADD_TO_GROUP
+				| GroupInterface::REMOVE_FROM_GOUP
+				| GroupInterface::COUNT_USERS
+				| GroupInterface::CREATE_GROUP
+				| GroupInterface::DELETE_GROUP;
 		}
 		// need to declare it this way due to optional methods
 		// thanks to the implementsActions logic
@@ -213,12 +213,12 @@ class ManagerTest extends TestCase {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
-			GroupInterface::ADD_TO_GROUP |
-			GroupInterface::REMOVE_FROM_GOUP |
-			GroupInterface::COUNT_USERS |
-			GroupInterface::CREATE_GROUP |
-			GroupInterface::DELETE_GROUP |
-			GroupInterface::GROUP_DETAILS
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
 		);
 		$backend->expects($this->any())
 			->method('groupExists')
@@ -242,12 +242,12 @@ class ManagerTest extends TestCase {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
-			GroupInterface::ADD_TO_GROUP |
-			GroupInterface::REMOVE_FROM_GOUP |
-			GroupInterface::COUNT_USERS |
-			GroupInterface::CREATE_GROUP |
-			GroupInterface::DELETE_GROUP |
-			GroupInterface::GROUP_DETAILS
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
 		);
 		$groupName = str_repeat('x', 256);
 		$backend->expects($this->any())
@@ -452,7 +452,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
@@ -482,7 +482,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
@@ -955,12 +955,12 @@ class ManagerTest extends TestCase {
 		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend(
-			GroupInterface::ADD_TO_GROUP |
-			GroupInterface::REMOVE_FROM_GOUP |
-			GroupInterface::COUNT_USERS |
-			GroupInterface::CREATE_GROUP |
-			GroupInterface::DELETE_GROUP |
-			GroupInterface::GROUP_DETAILS
+			GroupInterface::ADD_TO_GROUP
+			| GroupInterface::REMOVE_FROM_GOUP
+			| GroupInterface::COUNT_USERS
+			| GroupInterface::CREATE_GROUP
+			| GroupInterface::DELETE_GROUP
+			| GroupInterface::GROUP_DETAILS
 		);
 		$backend->expects($this->any())
 			->method('getGroupDetails')

@@ -67,9 +67,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGenerateObjectParameter
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenerateObjectParameter')]
 	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
 		$affectedUser = 'otheruser';
 		if ($link) {
@@ -150,9 +148,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider generateObjectParameterLinkEncodingDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('generateObjectParameterLinkEncodingDataProvider')]
 	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
 		$generatedLink = [
 			'objectId' => $objectId,
@@ -185,9 +181,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGenerateObjectParameterThrows
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenerateObjectParameterThrows')]
 	public function testGenerateObjectParameterThrows(string|array $eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 

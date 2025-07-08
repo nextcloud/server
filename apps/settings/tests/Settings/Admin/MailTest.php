@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -37,7 +38,7 @@ class MailTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataGetForm */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForm')]
 	public function testGetForm(bool $sendmail) {
 		$finder = $this->createMock(IBinaryFinder::class);
 		$finder->expects(self::once())

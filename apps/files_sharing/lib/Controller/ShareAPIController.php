@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
+use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
@@ -596,7 +598,7 @@ class ShareAPIController extends OCSController {
 		// combine all permissions to determine if the user can share this file
 		$nodes = $userFolder->getById($node->getId());
 		foreach ($nodes as $nodeById) {
-			/** @var \OC\Files\FileInfo $fileInfo */
+			/** @var FileInfo $fileInfo */
 			$fileInfo = $node->getFileInfo();
 			$fileInfo['permissions'] |= $nodeById->getPermissions();
 		}
@@ -1258,17 +1260,17 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (
-			$permissions === null &&
-			$password === null &&
-			$sendPasswordByTalk === null &&
-			$publicUpload === null &&
-			$expireDate === null &&
-			$note === null &&
-			$label === null &&
-			$hideDownload === null &&
-			$attributes === null &&
-			$sendMail === null &&
-			$token === null
+			$permissions === null
+			&& $password === null
+			&& $sendPasswordByTalk === null
+			&& $publicUpload === null
+			&& $expireDate === null
+			&& $note === null
+			&& $label === null
+			&& $hideDownload === null
+			&& $attributes === null
+			&& $sendMail === null
+			&& $token === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1563,8 +1565,8 @@ class ShareAPIController extends OCSController {
 
 		// The owner of the file and the creator of the share
 		// can always edit the share
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			return true;
 		}
@@ -1596,16 +1598,16 @@ class ShareAPIController extends OCSController {
 
 		// if the user is the recipient, i can unshare
 		// the share with self
-		if ($share->getShareType() === IShare::TYPE_USER &&
-			$share->getSharedWith() === $this->userId
+		if ($share->getShareType() === IShare::TYPE_USER
+			&& $share->getSharedWith() === $this->userId
 		) {
 			return true;
 		}
 
 		// The owner of the file and the creator of the share
 		// can always delete the share
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			return true;
 		}
@@ -1632,16 +1634,16 @@ class ShareAPIController extends OCSController {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function canDeleteShareFromSelf(IShare $share): bool {
-		if ($share->getShareType() !== IShare::TYPE_GROUP &&
-			$share->getShareType() !== IShare::TYPE_ROOM &&
-			$share->getShareType() !== IShare::TYPE_DECK &&
-			$share->getShareType() !== IShare::TYPE_SCIENCEMESH
+		if ($share->getShareType() !== IShare::TYPE_GROUP
+			&& $share->getShareType() !== IShare::TYPE_ROOM
+			&& $share->getShareType() !== IShare::TYPE_DECK
+			&& $share->getShareType() !== IShare::TYPE_SCIENCEMESH
 		) {
 			return false;
 		}
 
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			// Delete the whole share, not just for self
 			return false;
@@ -1820,7 +1822,7 @@ class ShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a ContainerExceptionInterface is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws ContainerExceptionInterface
 	 */
 	private function getDeckShareHelper() {
@@ -1837,7 +1839,7 @@ class ShareAPIController extends OCSController {
 	 * If the sciencemesh application is not enabled or the helper is not available
 	 * a ContainerExceptionInterface is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws ContainerExceptionInterface
 	 */
 	private function getSciencemeshShareHelper() {
@@ -1874,8 +1876,8 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			$providerShares =
-				$this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
+			$providerShares
+				= $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
 			$shares = array_merge($shares, $providerShares);
 		}
 

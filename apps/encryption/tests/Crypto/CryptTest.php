@@ -80,9 +80,8 @@ class CryptTest extends TestCase {
 
 	/**
 	 * test generateHeader with valid key formats
-	 *
-	 * @dataProvider dataTestGenerateHeader
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGenerateHeader')]
 	public function testGenerateHeader($keyFormat, $expected): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -130,10 +129,10 @@ class CryptTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataProviderGetCipher
 	 * @param string $configValue
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderGetCipher')]
 	public function testGetCipher($configValue, $expected): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -173,9 +172,7 @@ class CryptTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestSplitMetaData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitMetaData')]
 	public function testSplitMetaData($data, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
@@ -200,9 +197,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestHasSignature
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHasSignature')]
 	public function testHasSignature($data, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
@@ -219,9 +214,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestHasSignatureFail
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHasSignatureFail')]
 	public function testHasSignatureFail($cipher): void {
 		$this->expectException(GenericEncryptionException::class);
 
@@ -249,10 +242,10 @@ class CryptTest extends TestCase {
 	/**
 	 * test removePadding()
 	 *
-	 * @dataProvider dataProviderRemovePadding
 	 * @param $data
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderRemovePadding')]
 	public function testRemovePadding($data, $expected): void {
 		$result = self::invokePrivate($this->crypt, 'removePadding', [$data]);
 		$this->assertSame($expected, $result);
@@ -327,9 +320,8 @@ class CryptTest extends TestCase {
 
 	/**
 	 * test return values of valid ciphers
-	 *
-	 * @dataProvider dataTestGetKeySize
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetKeySize')]
 	public function testGetKeySize($cipher, $expected): void {
 		$result = $this->invokePrivate($this->crypt, 'getKeySize', [$cipher]);
 		$this->assertSame($expected, $result);
@@ -354,9 +346,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestDecryptPrivateKey
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDecryptPrivateKey')]
 	public function testDecryptPrivateKey($header, $privateKey, $expectedCipher, $isValidKey, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([

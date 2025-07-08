@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -117,9 +118,9 @@ class LookupPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider searchDataProvider
 	 * @param array $searchParams
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testSearch(array $searchParams): void {
 		$type = new SearchResultType('lookup');
 
@@ -175,11 +176,11 @@ class LookupPluginTest extends TestCase {
 
 
 	/**
-	 * @dataProvider dataSearchEnableDisableLookupServer
 	 * @param array $searchParams
 	 * @param bool $GSEnabled
 	 * @param bool $LookupEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnableDisableLookupServer')]
 	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled): void {
 		$type = new SearchResultType('lookup');
 

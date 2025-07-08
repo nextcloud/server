@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -207,9 +208,7 @@ class BackendServiceTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidConfigPlaceholderProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidConfigPlaceholderProvider')]
 	public function testRegisterConfigHandlerInvalid(array $placeholders): void {
 		$this->expectException(\RuntimeException::class);
 

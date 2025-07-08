@@ -550,8 +550,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		if (
-			!$sourceStorage->instanceOfStorage(Encryption::class) &&
-			$this->isSameStorage($sourceStorage)
+			!$sourceStorage->instanceOfStorage(Encryption::class)
+			&& $this->isSameStorage($sourceStorage)
 		) {
 			// resolve any jailed paths
 			while ($sourceStorage->instanceOfStorage(Jail::class)) {

@@ -368,6 +368,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Lista över ej godkända delningar.",
     "No pending shares" : "Inga väntande delningar",
     "Shares you have received but not approved will show up here" : "Delningar du har mottagit men inte bekräftat kommer att visas här",
+    "Error deleting the share: {errorMessage}" : "Fel vid radering av delning: {errorMessage}",
     "Error deleting the share" : "Kunde inte radera delningen",
     "Error updating the share: {errorMessage}" : "Kunde inte uppdatera delningen: {errorMessage}",
     "Error updating the share" : "Kunde inte uppdatera delning",

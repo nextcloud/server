@@ -780,9 +780,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider extStorageHomeDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('extStorageHomeDataProvider')]
 	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true): void {
 		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
@@ -936,9 +934,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider emptyHomeFolderAttributeValueProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('emptyHomeFolderAttributeValueProvider')]
 	public function testGetHomePathNotConfigured(string $attributeValue): void {
 		$this->connection->expects($this->any())
 			->method('__get')
@@ -1012,9 +1008,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider displayNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('displayNameProvider')]
 	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $expectTriggerChange): void {
 		$this->config->expects($this->once())
 			->method('setUserValue');

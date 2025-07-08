@@ -27,9 +27,7 @@ class AvatarHomeTest extends TestCase {
 		$this->home = new AvatarHome(['uri' => 'principals/users/admin'], $this->avatarManager);
 	}
 
-	/**
-	 * @dataProvider providesForbiddenMethods
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesForbiddenMethods')]
 	public function testForbiddenMethods($method): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -60,9 +58,7 @@ class AvatarHomeTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesTestGetChild
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesTestGetChild')]
 	public function testGetChild(?string $expectedException, bool $hasAvatar, string $path): void {
 		if ($expectedException !== null) {
 			$this->expectException($expectedException);
@@ -87,9 +83,7 @@ class AvatarHomeTest extends TestCase {
 		self::assertEquals(1, count($avatarNodes));
 	}
 
-	/**
-	 * @dataProvider providesTestGetChild
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesTestGetChild')]
 	public function testChildExists(?string $expectedException, bool $hasAvatar, string $path): void {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->method('exists')->willReturn($hasAvatar);

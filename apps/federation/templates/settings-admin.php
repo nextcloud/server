@@ -37,8 +37,8 @@ $documentationLabel = $l->t('External documentation for Federated Cloud Sharing'
 					<span class="status success"></span>
 				<?php
 				} elseif (
-					(int)$trustedServer['status'] === TrustedServers::STATUS_PENDING ||
-					(int)$trustedServer['status'] === TrustedServers::STATUS_ACCESS_REVOKED
+					(int)$trustedServer['status'] === TrustedServers::STATUS_PENDING
+					|| (int)$trustedServer['status'] === TrustedServers::STATUS_ACCESS_REVOKED
 				) { ?>
 					<span class="status indeterminate"></span>
 				<?php } else {?>

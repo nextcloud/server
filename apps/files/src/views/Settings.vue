@@ -9,6 +9,27 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
+			<fieldset class="files-settings__default-view"
+				data-cy-files-settings-setting="default_view">
+				<legend>
+					{{ t('files', 'Default view') }}
+				</legend>
+				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+					name="default_view"
+					type="radio"
+					value="files"
+					@update:model-value="setConfig('default_view', $event)">
+					{{ t('files', 'All files') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+					name="default_view"
+					type="radio"
+					value="personal"
+					@update:model-value="setConfig('default_view', $event)">
+					{{ t('files', 'Personal files') }}
+				</NcCheckboxRadioSwitch>
+			</fieldset>
+
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
 				:checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
@@ -380,6 +401,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.files-settings {
+	&__default-view {
+		margin-bottom: 0.5rem;
+	}
+}
+
 .setting-link:hover {
 	text-decoration: underline;
 }

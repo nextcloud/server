@@ -115,11 +115,11 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsMasterKeyEnabled
 	 *
 	 * @param string $value
 	 * @param bool $expect
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsMasterKeyEnabled')]
 	public function testIsMasterKeyEnabled($value, $expect): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'useMasterKey', '1')->willReturn($value);
@@ -136,10 +136,10 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestShouldEncryptHomeStorage
 	 * @param string $returnValue return value from getAppValue()
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncryptHomeStorage')]
 	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'encryptHomeStorage', '1')
@@ -157,10 +157,10 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEncryptHomeStorage
 	 * @param $value
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEncryptHomeStorage')]
 	public function testSetEncryptHomeStorage($value, $expected): void {
 		$this->configMock->expects($this->once())->method('setAppValue')
 			->with('encryption', 'encryptHomeStorage', $expected);

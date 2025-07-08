@@ -117,9 +117,7 @@ class AddressBookTest extends TestCase {
 		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
 	}
 
-	/**
-	 * @dataProvider providesReadOnlyInfo
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesReadOnlyInfo')]
 	public function testAcl(bool $expectsWrite, ?bool $readOnlyValue, bool $hasOwnerSet): void {
 		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->createMock(CardDavBackend::class);

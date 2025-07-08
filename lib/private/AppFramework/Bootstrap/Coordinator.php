@@ -178,7 +178,7 @@ class Coordinator {
 	public function isBootable(string $appId) {
 		$appNameSpace = App::buildAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-		return class_exists($applicationClassName) &&
-			in_array(IBootstrap::class, class_implements($applicationClassName), true);
+		return class_exists($applicationClassName)
+			&& in_array(IBootstrap::class, class_implements($applicationClassName), true);
 	}
 }

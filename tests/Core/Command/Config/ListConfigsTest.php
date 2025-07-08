@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -261,7 +262,6 @@ class ListConfigsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider listData
 	 *
 	 * @param string $app
 	 * @param array $systemConfigs
@@ -270,6 +270,7 @@ class ListConfigsTest extends TestCase {
 	 * @param bool $private
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('listData')]
 	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected): void {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')

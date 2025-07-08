@@ -115,11 +115,11 @@ class SessionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsReady
 	 *
 	 * @param int $status
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsReady')]
 	public function testIsReady($status, $expected): void {
 		/** @var Session&MockObject $instance */
 		$instance = $this->getMockBuilder(Session::class)

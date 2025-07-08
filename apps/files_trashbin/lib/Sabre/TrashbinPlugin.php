@@ -164,9 +164,9 @@ class TrashbinPlugin extends ServerPlugin {
 		}
 		$restoreFolder = dirname($fileInfo->getOriginalLocation());
 		$freeSpace = $this->view->free_space($restoreFolder);
-		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED ||
-			$freeSpace === FileInfo::SPACE_UNKNOWN ||
-			$freeSpace === FileInfo::SPACE_UNLIMITED) {
+		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED
+			|| $freeSpace === FileInfo::SPACE_UNKNOWN
+			|| $freeSpace === FileInfo::SPACE_UNLIMITED) {
 			return true;
 		}
 		$filesize = $fileInfo->getSize();

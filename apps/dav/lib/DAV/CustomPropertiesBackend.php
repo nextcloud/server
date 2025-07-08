@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -92,6 +93,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://nextcloud.org/ns}lock-time',
 		'{http://nextcloud.org/ns}lock-timeout',
 		'{http://nextcloud.org/ns}lock-token',
+		// photos
+		'{http://nextcloud.org/ns}realpath',
+		'{http://nextcloud.org/ns}nbItems',
+		'{http://nextcloud.org/ns}face-detections',
+		'{http://nextcloud.org/ns}face-preview-image',
 	];
 
 	/**
@@ -277,8 +283,8 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	public function move($source, $destination) {
 		$statement = $this->connection->prepare(
-			'UPDATE `*PREFIX*properties` SET `propertypath` = ?' .
-			' WHERE `userid` = ? AND `propertypath` = ?'
+			'UPDATE `*PREFIX*properties` SET `propertypath` = ?'
+			. ' WHERE `userid` = ? AND `propertypath` = ?'
 		);
 		$statement->execute([$this->formatPath($destination), $this->user->getUID(), $this->formatPath($source)]);
 		$statement->closeCursor();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -42,11 +43,11 @@ class MapperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetBucket
 	 * @param string $username
 	 * @param int $numBuckets
 	 * @param string $expectedBucket
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetBucket')]
 	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket): void {
 		$this->user->expects($this->once())
 			->method('getUID')

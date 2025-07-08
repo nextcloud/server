@@ -95,13 +95,13 @@ class IconControllerTest extends TestCase {
 		$this->imageManager->expects($this->once())
 			->method('getImage', false)
 			->with('favicon')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->iconBuilder->expects($this->once())
 			->method('getFavicon')
 			->with('core')
@@ -119,7 +119,7 @@ class IconControllerTest extends TestCase {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon', false)
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);
@@ -144,7 +144,7 @@ class IconControllerTest extends TestCase {
 
 		$this->imageManager->expects($this->once())
 			->method('getImage')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(true);
@@ -155,7 +155,7 @@ class IconControllerTest extends TestCase {
 		$file = $this->iconFileMock('filename', 'filecontent');
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->once())
 			->method('setCachedImage')
 			->willReturn($file);
@@ -169,7 +169,7 @@ class IconControllerTest extends TestCase {
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->with('favicon')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
 			->method('shouldReplaceIcons')
 			->willReturn(false);

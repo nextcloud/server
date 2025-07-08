@@ -134,9 +134,7 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus2);
 	}
 
-	/**
-	 * @dataProvider clearStatusesOlderThanDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('clearStatusesOlderThanDataProvider')]
 	public function testClearStatusesOlderThan(string $status, bool $isUserDefined, int $timestamp, bool $expectsClean): void {
 		$oldStatus = UserStatus::fromParams([
 			'userId' => 'john.doe',
@@ -233,9 +231,7 @@ class UserStatusMapperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateBackupStatus
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateBackupStatus')]
 	public function testCreateBackupStatus(bool $hasStatus, bool $hasBackup, bool $backupCreated): void {
 		if ($hasStatus) {
 			$userStatus1 = new UserStatus();

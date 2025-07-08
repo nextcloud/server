@@ -103,9 +103,7 @@ class AddressBookImplTest extends TestCase {
 		$this->assertSame(2, count($result));
 	}
 
-	/**
-	 * @dataProvider dataTestCreate
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreate')]
 	public function testCreate(array $properties): void {
 		$uid = 'uid';
 
@@ -230,9 +228,7 @@ class AddressBookImplTest extends TestCase {
 		$addressBookImpl->createOrUpdate($properties);
 	}
 
-	/**
-	 * @dataProvider dataTestGetPermissions
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetPermissions')]
 	public function testGetPermissions(array $permissions, int $expected): void {
 		$this->addressBook->expects($this->once())->method('getACL')
 			->willReturn($permissions);

@@ -10,7 +10,8 @@ import NavigationView from './Navigation.vue'
 import { useViewConfigStore } from '../store/viewConfig'
 import { Folder, View, getNavigation } from '@nextcloud/files'
 
-import router from '../router/router'
+import router from '../router/router.ts'
+import RouterService from '../services/RouterService'
 
 const resetNavigation = () => {
 	const nav = getNavigation()
@@ -27,9 +28,18 @@ const createView = (id: string, name: string, parent?: string) => new View({
 	parent,
 })
 
+function mockWindow() {
+	window.OCP ??= {}
+	window.OCP.Files ??= {}
+	window.OCP.Files.Router = new RouterService(router)
+}
+
 describe('Navigation renders', () => {
-	before(() => {
+	before(async () => {
 		delete window._nc_navigation
+		mockWindow()
+		getNavigation().register(createView('files', 'Files'))
+		await router.replace({ name: 'filelist', params: { view: 'files' } })
 
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1000 * 1000 * 1000,
@@ -41,6 +51,7 @@ describe('Navigation renders', () => {
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -60,6 +71,7 @@ describe('Navigation API', () => {
 	before(async () => {
 		delete window._nc_navigation
 		Navigation = getNavigation()
+		mockWindow()
 
 		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
@@ -152,14 +164,18 @@ describe('Navigation API', () => {
 })
 
 describe('Quota rendering', () => {
-	before(() => {
+	before(async () => {
 		delete window._nc_navigation
+		mockWindow()
+		getNavigation().register(createView('files', 'Files'))
+		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
 
 	afterEach(() => cy.unmockInitialState())
 
 	it('Unknown quota', () => {
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -174,9 +190,11 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: -1,
+			total: 50 * 1024 * 1024 * 1024,
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -193,10 +211,12 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: 5 * 1024 * 1024 * 1024,
+			total: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -215,10 +235,12 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 5 * 1024 * 1024 * 1024,
 			quota: 1024 * 1024 * 1024,
+			total: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,

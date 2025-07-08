@@ -296,8 +296,8 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
-		return $msg .
-			': query "' . $sql->getSQL() . '"; ';
+		return $msg
+			. ': query "' . $sql->getSQL() . '"; ';
 	}
 
 

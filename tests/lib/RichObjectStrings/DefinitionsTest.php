@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -30,10 +31,10 @@ class DefinitionsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetDefinition
 	 * @param string $type
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDefinition')]
 	public function testGetDefinition($type, array $expected): void {
 		$definitions = new Definitions();
 		$definition = $definitions->getDefinition($type);

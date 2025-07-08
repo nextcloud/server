@@ -202,6 +202,7 @@ OC.L10N.register(
     "Collaborative tags" : "Tag kolaboratif",
     "No tags found" : "Tag tidak ditemukan",
     "Personal" : "Pribadi",
+    "Accounts" : "Accounts",
     "Admin" : "Admin",
     "Help" : "Bantuan",
     "Access forbidden" : "Akses ditolak",

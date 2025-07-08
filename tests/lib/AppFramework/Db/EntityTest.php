@@ -225,9 +225,7 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @dataProvider dataSetterCasts
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetterCasts')]
 	public function testSetterCasts(string $field, mixed $in, mixed $out): void {
 		$entity = new TestEntity();
 		$entity->{'set' . $field}($in);

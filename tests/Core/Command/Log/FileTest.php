@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -71,9 +72,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider changeRotateSizeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeRotateSizeProvider')]
 	public function testChangeRotateSize($optionValue, $configValue): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')

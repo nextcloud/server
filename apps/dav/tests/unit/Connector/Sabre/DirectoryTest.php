@@ -373,26 +373,20 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
 	}
 
-	/**
-	 * @dataProvider moveFailedProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedProvider')]
 	public function testMoveFailed(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
-	/**
-	 * @dataProvider moveSuccessProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveSuccessProvider')]
 	public function testMoveSuccess(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->addToAssertionCount(1);
 	}
 
-	/**
-	 * @dataProvider moveFailedInvalidCharsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveFailedInvalidCharsProvider')]
 	public function testMoveFailedInvalidChars(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(InvalidPath::class);
 

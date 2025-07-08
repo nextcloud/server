@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -270,8 +271,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => $name,
 						'url' => $this->imageManager->getImageUrl($key),
 						'message' => $this->l10n->t('Saved'),
@@ -294,8 +295,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => $value,
 						'message' => $this->l10n->t('Saved'),
 					],
@@ -317,8 +318,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $this->l10n->t('Saved'),
 					],
 				'status' => 'success'
@@ -462,8 +463,8 @@ class ThemingController extends Controller {
 			'theme_color' => $this->themingDefaults->getColorPrimary(),
 			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'description' => $description,
-			'icons' =>
-				[
+			'icons'
+				=> [
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
 							['app' => $app]) . '?v=' . $cacheBusterValue,

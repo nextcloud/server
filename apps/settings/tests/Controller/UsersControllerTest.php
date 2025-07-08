@@ -235,9 +235,7 @@ class UsersControllerTest extends \Test\TestCase {
 		return $account;
 	}
 
-	/**
-	 * @dataProvider dataTestSetUserSettings
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettings')]
 	public function testSetUserSettings(string $email, bool $validEmail, int $expectedStatus): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -497,9 +495,7 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestSetUserSettingsSubset
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettingsSubset')]
 	public function testSetUserSettingsSubset(string $property, string $propertyValue): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -641,9 +637,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestSaveUserSettings
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettings')]
 	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, ?string $oldDisplayName): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -758,9 +752,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestSaveUserSettingsException
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettingsException')]
 	public function testSaveUserSettingsException(
 		array $data,
 		string $oldEmailAddress,
@@ -843,9 +835,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestGetVerificationCode
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetVerificationCode')]
 	public function testGetVerificationCode(string $account, string $type, array $dataBefore, array $expectedData, bool $onlyVerificationCode): void {
 		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
 		$signature = 'theSignature';
@@ -940,9 +930,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 	}
 
-	/**
-	 * @dataProvider dataTestCanAdminChangeUserPasswords
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCanAdminChangeUserPasswords')]
 	public function testCanAdminChangeUserPasswords(
 		bool $encryptionEnabled,
 		bool $encryptionModuleLoaded,

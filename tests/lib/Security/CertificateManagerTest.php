@@ -114,9 +114,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dangerousFileProvider
 	 * @param string $filename
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dangerousFileProvider')]
 	public function testAddDangerousFile($filename): void {
 		$this->expectException(InvalidPathException::class);
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
@@ -136,13 +136,13 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestNeedRebundling
 	 *
 	 * @param int $CaBundleMtime
 	 * @param int $targetBundleMtime
 	 * @param int $targetBundleExists
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestNeedRebundling')]
 	public function testNeedRebundling($CaBundleMtime,
 		$targetBundleMtime,
 		$targetBundleExists,

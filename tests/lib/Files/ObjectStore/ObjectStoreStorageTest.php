@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -72,9 +73,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->markTestSkipped('Detecting external changes is not supported on object storages');
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMove($source, $target): void {
 		$this->initSourceAndTarget($source);
 		$sourceId = $this->instance->getCache()->getId(ltrim($source, '/'));

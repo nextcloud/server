@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +8,10 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem as Filesystem;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\Mount\IMountManager;
@@ -23,17 +27,17 @@ use OCP\Server;
  */
 class UpdaterLegacyTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var Storage $storage
 	 */
 	private $storage;
 
 	/**
-	 * @var \OC\Files\Cache\Scanner $scanner
+	 * @var Scanner $scanner
 	 */
 	private $scanner;
 
 	/**
-	 * @var \OC\Files\Cache\Cache $cache
+	 * @var Cache $cache
 	 */
 	private $cache;
 

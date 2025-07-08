@@ -48,9 +48,7 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataColorContrast
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataColorContrast')]
 	public function testColorContrast(string $color1, string $color2, int|float $contrast): void {
 		$this->assertEqualsWithDelta($contrast, $this->util->colorContrast($color1, $color2), .001);
 	}
@@ -63,9 +61,7 @@ class UtilTest extends TestCase {
 			['#ffff00', true],
 		];
 	}
-	/**
-	 * @dataProvider dataInvertTextColor
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvertTextColor')]
 	public function testInvertTextColor(string $color, bool $expected): void {
 		$invert = $this->util->invertTextColor($color);
 		$this->assertEquals($expected, $invert);
@@ -143,9 +139,7 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $button);
 	}
 
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppIcon')]
 	public function testGetAppIcon(string $app, string $expected): void {
 		$this->appData->expects($this->any())
 			->method('getFolder')
@@ -178,9 +172,7 @@ class UtilTest extends TestCase {
 		$this->assertEquals($file, $icon);
 	}
 
-	/**
-	 * @dataProvider dataGetAppImage
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppImage')]
 	public function testGetAppImage(string $app, string $image, string|bool $expected): void {
 		$this->assertEquals($expected, $this->util->getAppImage($app, $image));
 	}
@@ -226,9 +218,7 @@ class UtilTest extends TestCase {
 			['backgroundColor', false],
 		];
 	}
-	/**
-	 * @dataProvider dataIsBackgroundThemed
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsBackgroundThemed')]
 	public function testIsBackgroundThemed(string $backgroundMime, bool $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')

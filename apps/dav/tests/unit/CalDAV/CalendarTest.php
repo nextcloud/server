@@ -144,9 +144,7 @@ class CalendarTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataPropPatch
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPropPatch')]
 	public function testPropPatch(string $ownerPrincipal, string $principalUri, array $mutations, bool $shared): void {
 		/** @var CalDavBackend&MockObject $backend */
 		$backend = $this->createMock(CalDavBackend::class);
@@ -168,9 +166,7 @@ class CalendarTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	/**
-	 * @dataProvider providesReadOnlyInfo
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesReadOnlyInfo')]
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default'): void {
 		/** @var CalDavBackend&MockObject $backend */
 		$backend = $this->createMock(CalDavBackend::class);
@@ -270,9 +266,7 @@ class CalendarTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesConfidentialClassificationData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesConfidentialClassificationData')]
 	public function testPrivateClassification(int $expectedChildren, bool $isShared): void {
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
@@ -310,9 +304,7 @@ class CalendarTest extends TestCase {
 		$this->assertEquals(!$isShared, $c->childExists('event-2'));
 	}
 
-	/**
-	 * @dataProvider providesConfidentialClassificationData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesConfidentialClassificationData')]
 	public function testConfidentialClassification(int $expectedChildren, bool $isShared): void {
 		$start = '20160609';
 		$end = '20160610';

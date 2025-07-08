@@ -117,9 +117,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestCreate
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreate')]
 	public function testCreate(?\DateTime $expirationDate, ?string $expectedDataDate): void {
 		$share = $this->shareManager->newShare();
 
@@ -419,9 +417,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider dataTestUpdate
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdate')]
 	public function testUpdate(string $owner, string $sharedBy, ?\DateTime $expirationDate): void {
 		$this->provider = $this->getMockBuilder(FederatedShareProvider::class)
 			->setConstructorArgs(
@@ -705,7 +701,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteUser
 	 *
 	 * @param string $owner The owner of the share (uid)
 	 * @param string $initiator The initiator of the share (uid)
@@ -713,6 +708,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	 * @param string $deletedUser The user that is deleted
 	 * @param bool $rowDeleted Is the row deleted in this setup
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteUser')]
 	public function testDeleteUser(string $owner, string $initiator, string $recipient, string $deletedUser, bool $rowDeleted): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
@@ -742,9 +738,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertCount($rowDeleted ? 0 : 1, $data);
 	}
 
-	/**
-	 * @dataProvider dataTestIsOutgoingServer2serverShareEnabled
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsOutgoingServer2serverShareEnabled')]
 	public function testIsOutgoingServer2serverShareEnabled(bool $internalOnly, string $isEnabled, bool $expected): void {
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($internalOnly);
@@ -766,9 +760,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestIsIncomingServer2serverShareEnabled
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsIncomingServer2serverShareEnabled')]
 	public function testIsIncomingServer2serverShareEnabled(bool $onlyInternal, string $isEnabled, bool $expected): void {
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($onlyInternal);
@@ -790,9 +782,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestIsLookupServerQueriesEnabled
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsLookupServerQueriesEnabled')]
 	public function testIsLookupServerQueriesEnabled(bool $gsEnabled, string $isEnabled, bool $expected): void {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);
@@ -818,9 +808,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestIsLookupServerUploadEnabled
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsLookupServerUploadEnabled')]
 	public function testIsLookupServerUploadEnabled(bool $gsEnabled, string $isEnabled, bool $expected): void {
 		$this->gsConfig->expects($this->once())->method('isGlobalScaleEnabled')
 			->willReturn($gsEnabled);

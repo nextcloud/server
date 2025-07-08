@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -40,12 +41,9 @@ class Manager {
 	/** @var string|null */
 	private $uid;
 
-	/** @var \OC\Files\Mount\Manager */
-	private $mountManager;
-
 	public function __construct(
 		private IDBConnection $connection,
-		\OC\Files\Mount\Manager $mountManager,
+		private \OC\Files\Mount\Manager $mountManager,
 		private IStorageFactory $storageLoader,
 		private IClientService $clientService,
 		private IManager $notificationManager,
@@ -59,7 +57,6 @@ class Manager {
 		private LoggerInterface $logger,
 	) {
 		$user = $userSession->getUser();
-		$this->mountManager = $mountManager;
 		$this->uid = $user ? $user->getUID() : null;
 	}
 

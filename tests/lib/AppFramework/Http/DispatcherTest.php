@@ -32,7 +32,7 @@ use Psr\Log\LoggerInterface;
 class TestController extends Controller {
 	/**
 	 * @param string $appName
-	 * @param \OCP\IRequest $request
+	 * @param IRequest $request
 	 */
 	public function __construct($appName, $request) {
 		parent::__construct($appName, $request);
@@ -547,9 +547,7 @@ class DispatcherTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider rangeDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('rangeDataProvider')]
 	public function testEnsureParameterValueSatisfiesRange(int $min, int $max, int $input, bool $throw): void {
 		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->reflector->expects($this->any())

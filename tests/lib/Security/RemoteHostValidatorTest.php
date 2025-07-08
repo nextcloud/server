@@ -51,9 +51,7 @@ class RemoteHostValidatorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValid
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValid')]
 	public function testValid(string $host, bool $expected): void {
 		$this->hostnameClassifier
 			->method('isLocalHostname')

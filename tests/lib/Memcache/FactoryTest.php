@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -105,9 +106,7 @@ class FactoryTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider cacheAvailabilityProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cacheAvailabilityProvider')]
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
 		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
@@ -118,9 +117,7 @@ class FactoryTest extends \Test\TestCase {
 		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
 	}
 
-	/**
-	 * @dataProvider cacheUnavailableProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cacheUnavailableProvider')]
 	public function testCacheNotAvailableException($localCache, $distributedCache): void {
 		$this->expectException(HintException::class);
 

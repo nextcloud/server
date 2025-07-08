@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace Test\Hooks;
 
 use OC\Hooks\BasicEmitter;
+use OC\Hooks\Emitter;
 
 /**
  * Class DummyEmitter
@@ -34,7 +36,7 @@ class EmittedException extends \Exception {
 
 class BasicEmitterTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Hooks\Emitter $emitter
+	 * @var Emitter $emitter
 	 */
 	protected $emitter;
 

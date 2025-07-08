@@ -63,11 +63,11 @@ class AppTest extends \Test\TestCase {
 		$infoXmlPath = $this->appPath . '/appinfo/info.xml';
 		mkdir($this->appPath . '/appinfo', 0777, true);
 
-		$xml = '<?xml version="1.0" encoding="UTF-8"?>' .
-		'<info>' .
-			'<id>namespacetestapp</id>' .
-			'<namespace>NameSpaceTestApp</namespace>' .
-		'</info>';
+		$xml = '<?xml version="1.0" encoding="UTF-8"?>'
+		. '<info>'
+			. '<id>namespacetestapp</id>'
+			. '<namespace>NameSpaceTestApp</namespace>'
+		. '</info>';
 		file_put_contents($infoXmlPath, $xml);
 	}
 
@@ -132,9 +132,7 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataNoOutput
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoOutput')]
 	public function testNoOutput(string $statusCode): void {
 		$return = [$statusCode, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())

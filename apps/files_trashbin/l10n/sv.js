@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Du",
     "List of files that have been deleted." : "Lista över filer som har tagits bort.",
     "No deleted files" : "Inga borttagna filer",
-    "Files and folders you have deleted will show up here" : "Filer och mappar som du har tagit bort kommer att visas här"
+    "Files and folders you have deleted will show up here" : "Filer och mappar som du har tagit bort kommer att visas här",
+    "All files have been permanently deleted" : "Alla filer har raderats permanent",
+    "Failed to empty deleted files" : "Kunde inte tömma raderade filer"
 },
 "nplurals=2; plural=(n != 1);");

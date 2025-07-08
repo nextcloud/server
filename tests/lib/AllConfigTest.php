@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,7 +22,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Server;
 
 class AllConfigTest extends \Test\TestCase {
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {
@@ -44,8 +45,8 @@ class AllConfigTest extends \Test\TestCase {
 
 		// preparation - add something to the database
 		$this->connection->executeUpdate(
-			'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-			'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+			'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+			. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 			['userDelete', 'appDelete', 'keyDelete', 'valueDelete']
 		);
 
@@ -158,9 +159,9 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetUserValueUnexpectedValue
 	 * @param mixed $value
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserValueUnexpectedValue')]
 	public function testSetUserValueUnexpectedValue($value): void {
 		$this->expectException(\UnexpectedValueException::class);
 
@@ -254,8 +255,8 @@ class AllConfigTest extends \Test\TestCase {
 		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
 			->method('executeQuery')
-			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` ' .
-					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '
+					. 'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(['userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged']))
 			->willReturn($resultMock);
 		$connectionMock->expects($this->never())
@@ -319,8 +320,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -345,8 +346,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -383,8 +384,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -424,8 +425,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -458,8 +459,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -504,8 +505,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}

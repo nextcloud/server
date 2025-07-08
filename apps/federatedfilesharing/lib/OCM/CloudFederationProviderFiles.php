@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -702,8 +703,8 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	 */
 	protected function verifyShare(IShare $share, $token) {
 		if (
-			$share->getShareType() === IShare::TYPE_REMOTE &&
-			$share->getToken() === $token
+			$share->getShareType() === IShare::TYPE_REMOTE
+			&& $share->getToken() === $token
 		) {
 			return true;
 		}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -67,9 +68,7 @@ class PublicShareControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataIsAuthenticated
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsAuthenticated')]
 	public function testIsAuthenticatedNotPasswordProtected(bool $protected, string $token1, string $token2, string $hash1, string $hash2, bool $expected): void {
 		$controller = new TestController('app', $this->request, $this->session, $hash2, $protected);
 

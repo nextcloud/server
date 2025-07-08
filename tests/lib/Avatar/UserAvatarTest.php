@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -26,10 +27,10 @@ class UserAvatarTest extends \Test\TestCase {
 	/** @var \OC\Avatar\UserAvatar */
 	private $avatar;
 
-	/** @var \OC\User\User | \PHPUnit\Framework\MockObject\MockObject $user */
+	/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 	private $user;
 
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -246,9 +247,7 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @dataProvider avatarTextData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('avatarTextData')]
 	public function testGetAvatarText($displayName, $expectedAvatarText): void {
 		$user = $this->getUserWithDisplayName($displayName);
 		$avatar = $this->getUserAvatar($user);
@@ -286,7 +285,7 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	private function getUserAvatar($user) {
-		/** @var \OCP\IL10N | \PHPUnit\Framework\MockObject\MockObject $l */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 

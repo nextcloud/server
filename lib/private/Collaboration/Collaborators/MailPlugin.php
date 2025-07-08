@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -228,8 +229,8 @@ class MailPlugin implements ISearchPlugin {
 
 		$reachedEnd = true;
 		if ($this->shareeEnumeration) {
-			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
-				(count($userResults['wide']) < $offset + $limit);
+			$reachedEnd = (count($result['wide']) < $offset + $limit)
+				&& (count($userResults['wide']) < $offset + $limit);
 
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);

@@ -33,9 +33,7 @@ class LDAPTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider errorProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('errorProvider')]
 	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough): void {
 		$wasErrorHandlerCalled = false;
 		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled): void {

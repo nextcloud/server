@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,13 +10,14 @@ namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
 use OC\Session\Memory;
+use OCP\ISession;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
 	protected $crypto;
 
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	protected $wrappedSession;
 
 	protected function setUp(): void {

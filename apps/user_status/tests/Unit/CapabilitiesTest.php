@@ -24,9 +24,7 @@ class CapabilitiesTest extends TestCase {
 		$this->capabilities = new Capabilities($this->emojiHelper);
 	}
 
-	/**
-	 * @dataProvider getCapabilitiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getCapabilitiesDataProvider')]
 	public function testGetCapabilities(bool $supportsEmojis): void {
 		$this->emojiHelper->expects($this->once())
 			->method('doesPlatformSupportEmoji')

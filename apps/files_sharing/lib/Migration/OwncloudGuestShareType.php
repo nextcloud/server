@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,7 +52,7 @@ class OwncloudGuestShareType implements IRepairStep {
 
 	protected function shouldRun() {
 		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
-		return $appVersion === '0.10.0' ||
-			$this->config->getAppValue('core', 'vendor', '') === 'owncloud';
+		return $appVersion === '0.10.0'
+			|| $this->config->getAppValue('core', 'vendor', '') === 'owncloud';
 	}
 }

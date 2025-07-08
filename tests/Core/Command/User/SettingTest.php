@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -163,7 +164,6 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataCheckInput
 	 *
 	 * @param array $arguments
 	 * @param array $options
@@ -171,6 +171,7 @@ class SettingTest extends TestCase {
 	 * @param mixed $user
 	 * @param string $expectedException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckInput')]
 	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException): void {
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
@@ -232,13 +233,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteDelete
 	 *
 	 * @param string|null $value
 	 * @param bool $errorIfNotExists
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteDelete')]
 	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
@@ -296,13 +297,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteSet
 	 *
 	 * @param string|null $value
 	 * @param bool $updateOnly
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteSet')]
 	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
@@ -363,13 +364,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteGet
 	 *
 	 * @param string|null $value
 	 * @param string|null $defaultValue
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteGet')]
 	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',

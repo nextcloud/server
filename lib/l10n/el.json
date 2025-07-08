@@ -103,7 +103,7 @@
     "Profile picture" : "Εικόνα προφίλ",
     "About" : "Σχετικά με",
     "Headline" : "Τίτλος",
-    "Organisation" : "Οργανισμός",
+    "Organization" : "Οργανισμός",
     "Role" : "Ρόλος/Θέση",
     "Pronouns" : "Αντωνυμίες",
     "Additional settings" : "Επιπρόσθετες ρυθμίσεις",
@@ -231,6 +231,7 @@
     "Summary" : "Σύνοψη",
     "Translate" : "Μετάφραση",
     "Result" : "Αποτέλεσμα",
+    "Organisation" : "Οργανισμός",
     "File is currently busy, please try again later" : "Το αρχείο χρησιμοποιείται αυτή τη στιγμή, παρακαλούμε προσπαθήστε αργότερα",
     "Cannot download file" : "Δεν είναι δυνατή η λήψη του αρχείου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

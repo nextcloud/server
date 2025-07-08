@@ -69,9 +69,7 @@ class CleanUpTest extends TestCase {
 		$this->assertCount(10, $result);
 	}
 
-	/**
-	 * @dataProvider dataTestRemoveDeletedFiles
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRemoveDeletedFiles')]
 	public function testRemoveDeletedFiles(bool $nodeExists): void {
 		$this->initTable();
 		$this->rootFolder
@@ -129,7 +127,7 @@ class CleanUpTest extends TestCase {
 	 */
 	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
-		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
+		$instance = $this->getMockBuilder(CleanUp::class)
 			->onlyMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
@@ -159,7 +157,7 @@ class CleanUpTest extends TestCase {
 	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
-		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
+		$instance = $this->getMockBuilder(CleanUp::class)
 			->onlyMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();

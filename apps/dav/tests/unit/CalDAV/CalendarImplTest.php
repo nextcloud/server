@@ -198,8 +198,8 @@ EOF;
 		/** @var \Sabre\DAVACL\Plugin|MockObject $schedulingPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
-		$server =
-			$this->createMock(Server::class);
+		$server
+			= $this->createMock(Server::class);
 		$server->expects($this->any())
 			->method('getPlugin')
 			->willReturnMap([

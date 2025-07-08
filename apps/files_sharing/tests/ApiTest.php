@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -240,11 +241,11 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| Constants::PERMISSION_SHARE,
 			$data['permissions']
 		);
 		$this->assertEmpty($data['expiration']);
@@ -1021,11 +1022,11 @@ class ApiTest extends TestCase {
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| Constants::PERMISSION_SHARE,
 			$share1->getPermissions()
 		);
 
@@ -1280,7 +1281,7 @@ class ApiTest extends TestCase {
 		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
 
-	public function datesProvider() {
+	public static function datesProvider() {
 		$date = new \DateTime();
 		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
@@ -1296,9 +1297,9 @@ class ApiTest extends TestCase {
 	/**
 	 * Make sure only ISO 8601 dates are accepted
 	 *
-	 * @dataProvider datesProvider
 	 * @group RoutingWeirdness
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('datesProvider')]
 	public function testPublicLinkExpireDate($date, $valid): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 

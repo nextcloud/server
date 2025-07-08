@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -417,7 +418,6 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetUsers
 	 *
 	 * @param string $searchTerm
 	 * @param bool $shareWithGroupOnly
@@ -430,6 +430,7 @@ class UserPluginTest extends TestCase {
 	 * @param bool|IUser $singleUser
 	 * @param array $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsers')]
 	public function testSearch(
 		$searchTerm,
 		$shareWithGroupOnly,
@@ -534,11 +535,11 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider takeOutCurrentUserProvider
 	 * @param array $users
 	 * @param array $expectedUIDs
 	 * @param $currentUserId
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('takeOutCurrentUserProvider')]
 	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId): void {
 		$this->instantiatePlugin();
 
@@ -716,9 +717,7 @@ class UserPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSearchEnumeration
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnumeration')]
 	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 

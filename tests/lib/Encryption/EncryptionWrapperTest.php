@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,7 +29,7 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
 	private $manager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ArrayCache */
 	private $arrayCache;
 
 	protected function setUp(): void {
@@ -42,9 +43,7 @@ class EncryptionWrapperTest extends TestCase {
 	}
 
 
-	/**
-	 * @dataProvider provideWrapStorage
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]
 	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
 		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()

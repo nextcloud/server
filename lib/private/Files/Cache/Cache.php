@@ -668,8 +668,8 @@ class Cache implements ICache {
 
 			$shardDefinition = $this->connection->getShardDefinition('filecache');
 			if (
-				$shardDefinition &&
-				$shardDefinition->getShardForKey($sourceCache->getNumericStorageId()) !== $shardDefinition->getShardForKey($this->getNumericStorageId())
+				$shardDefinition
+				&& $shardDefinition->getShardForKey($sourceCache->getNumericStorageId()) !== $shardDefinition->getShardForKey($this->getNumericStorageId())
 			) {
 				$this->moveFromStorageSharded($shardDefinition, $sourceCache, $sourceData, $targetPath);
 				return;

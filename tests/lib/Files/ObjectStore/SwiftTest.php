@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\Swift;
+use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\Server;
 
@@ -16,7 +18,7 @@ use OCP\Server;
  */
 class SwiftTest extends ObjectStoreTestCase {
 	/**
-	 * @return \OCP\Files\ObjectStore\IObjectStore
+	 * @return IObjectStore
 	 */
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');

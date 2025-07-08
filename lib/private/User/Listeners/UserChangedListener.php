@@ -28,7 +28,7 @@ class UserChangedListener implements IEventListener {
 		if (!($event instanceof UserChangedEvent)) {
 			return;
 		}
-		
+
 		$user = $event->getUser();
 		$feature = $event->getFeature();
 		$oldValue = $event->getOldValue();

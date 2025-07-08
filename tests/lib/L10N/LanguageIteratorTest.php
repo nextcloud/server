@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -57,9 +58,7 @@ class LanguageIteratorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider languageSettingsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('languageSettingsProvider')]
 	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues): void {
 		$this->config->expects($this->any())
 			->method('getSystemValue')

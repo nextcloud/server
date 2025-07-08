@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -385,11 +386,11 @@ class ScannerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsPartialFile
 	 *
 	 * @param string $path
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsPartialFile')]
 	public function testIsPartialFile($path, $expected): void {
 		$this->assertSame($expected,
 			$this->scanner->isPartialFile($path)

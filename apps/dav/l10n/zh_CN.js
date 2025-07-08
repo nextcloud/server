@@ -250,6 +250,8 @@ OC.L10N.register(
     "Completed on %s" : "已完成 %s",
     "Due on %s by %s" : "到期于 %s，在 %s 之前",
     "Due on %s" : "到期于 %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "欢迎使用 Nextcloud 日历！\n\n这是一个示例事件——探索使用 Nextcloud 日历进行规划的灵活性，进行任何您想要的编辑！\n\n使用 Nextcloud 日历，您可以：\n- 轻松创建、编辑和管理事件。\n- 创建多个日历并与队友、朋友或家人共享。\n- 查看空闲时间并向他人显示您的忙碌时间。\n- 通过 CalDAV 与应用和设备无缝集成。\n- 自定义您的体验：安排重复事件、调整通知和其他设置。",
+    "Example event - open me!" : "示例事件——打开我！",
     "System Address Book" : "系统通讯录",
     "The system address book contains contact information for all users in your instance." : "系统通讯录包含实例中所有用户的联系人信息。",
     "Enable System Address Book" : "启用系统通讯录",

@@ -1156,8 +1156,8 @@ class UserConfig implements IUserConfig {
 			 * we only accept a different type from the one stored in database
 			 * if the one stored in database is not-defined (VALUE_MIXED)
 			 */
-			if ($currType !== ValueType::MIXED &&
-				$currType !== $type) {
+			if ($currType !== ValueType::MIXED
+				&& $currType !== $type) {
 				try {
 					$currTypeDef = $currType->getDefinition();
 					$typeDef = $type->getDefinition();

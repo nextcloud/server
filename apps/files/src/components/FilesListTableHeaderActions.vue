@@ -6,6 +6,7 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
+			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
@@ -123,6 +124,8 @@ export default defineComponent({
 		const fileListWidth = useFileListWidth()
 		const { directory } = useRouteParameters()
 
+		const boundariesElement = document.getElementById('app-content-vue')
+
 		return {
 			directory,
 			fileListWidth,
@@ -130,6 +133,8 @@ export default defineComponent({
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
+
+			boundariesElement,
 		}
 	},
 

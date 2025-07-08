@@ -44,7 +44,7 @@ class CalendarMigratorTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function dataAssets(): array {
+	public static function dataAssets(): array {
 		return array_map(
 			function (string $filename) {
 				/** @var VCalendar $vCalendar */
@@ -89,9 +89,7 @@ class CalendarMigratorTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataAssets
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAssets')]
 	public function testImportExportAsset(string $userId, string $filename, string $initialCalendarUri, VCalendar $importCalendar): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 

@@ -49,7 +49,7 @@ export const executeAction = async (action: FileAction) => {
 	try {
 		// Set the loading marker
 		Vue.set(currentNode, 'status', NodeStatus.LOADING)
-		activeStore.setActiveAction(action)
+		activeStore.activeAction = action
 
 		const success = await action.exec(currentNode, currentView, currentDir)
 
@@ -69,6 +69,6 @@ export const executeAction = async (action: FileAction) => {
 	} finally {
 		// Reset the loading marker
 		Vue.set(currentNode, 'status', undefined)
-		activeStore.clearActiveAction()
+		activeStore.activeAction = undefined
 	}
 }

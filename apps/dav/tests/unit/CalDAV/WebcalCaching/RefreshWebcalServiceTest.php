@@ -34,9 +34,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 	}
 
-	/**
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRun(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri'])
@@ -83,9 +81,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @dataProvider identicalDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('identicalDataProvider')]
 	public function testRunIdentical(string $uid, array $calendarObject, string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri'])
@@ -200,9 +196,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription',])
@@ -246,9 +240,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription'])
