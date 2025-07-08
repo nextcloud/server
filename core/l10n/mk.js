@@ -95,6 +95,7 @@ OC.L10N.register(
     "Create share" : "Ново споделување",
     "Pick start date" : "Избери почетен датум",
     "Pick end date" : "Избери краен датум",
+    "Search everywhere" : "Барај насекаде",
     "Searching …" : "Пребарување ...",
     "Start typing to search" : "Напишете нешто за пребарување",
     "Today" : "Денес",

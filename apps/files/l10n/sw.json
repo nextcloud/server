@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} selected","{count} iliyochaguliwa"],
     "Search globally by filename …" : "Tafuta kimataifa kwa jina la faili",
     "Search here by filename …" : "Tafuta hapa kwa jina la faili",
-    "Filter file names …" : "Chuja majina ya faili...",
     "Search scope options" : "Chaguo za upeo wa utafutaji",
-    "Filter in current view" : "Chuja katika mwonekano wa sasa",
-    "Search from this location" : "Tafuta tangu eneo hili",
     "Search globally" : "Tafuta kimataifa",
     "{usedQuotaByte} used" : "{usedQuotaByte}imetumika",
     "{used} of {quota} used" : "{used} ya {quota}imetumika",
@@ -468,6 +465,7 @@
     "New text file.txt" : "Faili mpya ya maandishi.txt",
     "%1$s (renamed)" : "%1$s (iliyopew jina jipya)",
     "renamed file" : "Faili iliyopewa jina jipya",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Baada ya kuwezesha majina ya windows ya faili yanayooana, faili zilizopo haziwezi kurekebishwa tena lakini zinaweza kubadilishwa kuwa majina mapya halali na mmiliki wao."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Baada ya kuwezesha majina ya windows ya faili yanayooana, faili zilizopo haziwezi kurekebishwa tena lakini zinaweza kubadilishwa kuwa majina mapya halali na mmiliki wao.",
+    "Filter file names …" : "Chuja majina ya faili..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

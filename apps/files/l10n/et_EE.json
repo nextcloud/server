@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} valitud","{count} valitud"],
     "Search globally by filename …" : "Otsi failinime alusel kõikjalt…",
     "Search here by filename …" : "Otsi failinime alusel siit…",
-    "Filter file names …" : "Otsi failinimesid…",
     "Search scope options" : "Otsinguulatuse valikud",
-    "Filter in current view" : "Filtreeri selles vaates",
-    "Search from this location" : "Otsi siit asukohast",
     "Search globally" : "Otsi kõikjalt",
     "{usedQuotaByte} used" : "{usedQuotaByte} kasutusel",
     "{used} of {quota} used" : "{used} / {quota} kasutusel",
@@ -468,6 +465,7 @@
     "New text file.txt" : "Uus tekstifail.txt",
     "%1$s (renamed)" : "%1$s (nimi on muudetud)",
     "renamed file" : "muudetud nimega fail",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Kui võtad kasutusele Windowsiga ühilduvad failinimed, siis olemasolevad mitteühilduvaid faile ei saa enam muuta, aga faili omanik saab failinime muuta ühilduvaks."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Kui võtad kasutusele Windowsiga ühilduvad failinimed, siis olemasolevad mitteühilduvaid faile ei saa enam muuta, aga faili omanik saab failinime muuta ühilduvaks.",
+    "Filter file names …" : "Otsi failinimesid…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

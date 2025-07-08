@@ -123,8 +123,6 @@
     "Column headers with buttons are sortable." : "Заголовки столбцов с кнопками можно сортировать.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "File not found" : "Файл не найден",
-    "Filter file names …" : "Фильтровать имена файлов…",
-    "Filter in current view" : "Фильтр в текущем виде",
     "Search globally" : "Искать глобально",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{used} of {quota} used" : "использовано {used} из {quota}",
@@ -459,6 +457,7 @@
     "New text file.txt" : "Новый текстовый файл.txt",
     "%1$s (renamed)" : "%1$s (переименовано)",
     "renamed file" : "переименованный файл",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "После включения совместимых с Windows названий файлов, существующие файлы нельзя будет изменить, но они могут быть переименованы их владельцем в допустимые новые имена."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "После включения совместимых с Windows названий файлов, существующие файлы нельзя будет изменить, но они могут быть переименованы их владельцем в допустимые новые имена.",
+    "Filter file names …" : "Фильтровать имена файлов…"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

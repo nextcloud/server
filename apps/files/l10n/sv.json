@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} vald","{count} valda"],
     "Search globally by filename …" : "Sök globalt efter filnamn …",
     "Search here by filename …" : "Sök här efter filnamn …",
-    "Filter file names …" : "Filtrera filnamn …",
     "Search scope options" : "Alternativ för sökomfång",
-    "Filter in current view" : "Filtrera i aktuell vy",
-    "Search from this location" : "Sök från den här platsen",
     "Search globally" : "Sök globalt",
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{used} of {quota} used" : "{used} av {quota} använt",
@@ -195,6 +192,7 @@
     "Search for files" : "Sök efter filer",
     "Clipboard is not available" : "Urklipp är inte tillgängligt",
     "WebDAV URL copied to clipboard" : "WebDAV URL kopierad till urklipp",
+    "Default view" : "Standardvy",
     "All files" : "Alla filer",
     "Personal files" : "Personliga filer",
     "Sort favorites first" : "Sortera favoriter först",
@@ -467,6 +465,7 @@
     "New text file.txt" : "Ny textfil.txt",
     "%1$s (renamed)" : "%1$s (omdöpt)",
     "renamed file" : "omdöpt fil",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "När Windows-kompatibla filnamn har aktiverats kan befintliga filer inte längre ändras, men de kan byta namn till giltiga nya namn av sin ägare."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "När Windows-kompatibla filnamn har aktiverats kan befintliga filer inte längre ändras, men de kan byta namn till giltiga nya namn av sin ägare.",
+    "Filter file names …" : "Filtrera filnamn …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

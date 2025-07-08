@@ -111,8 +111,6 @@ OC.L10N.register(
     "Column headers with buttons are sortable." : "Painikkeilla varustetut sarakeotsikot ovat järjestettävissä.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "File not found" : "Tiedostoa ei löytynyt",
-    "Filter file names …" : "Suodata tiedostonimiä…",
-    "Filter in current view" : "Suodata nykyisessä näkymässä",
     "Search globally" : "Hae globaalisti",
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
     "{used} of {quota} used" : "{used}/{quota} käytetty",
@@ -414,6 +412,7 @@ OC.L10N.register(
     "Personal Files" : "Henkilökohtaiset tiedostot",
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
-    "%1$s (renamed)" : "%1$s (nimetty uudelleen)"
+    "%1$s (renamed)" : "%1$s (nimetty uudelleen)",
+    "Filter file names …" : "Suodata tiedostonimiä…"
 },
 "nplurals=2; plural=(n != 1);");

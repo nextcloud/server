@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["已選取 {count} 個"],
     "Search globally by filename …" : "按檔案名稱全域搜尋……",
     "Search here by filename …" : "按檔案名稱搜尋此處……",
-    "Filter file names …" : "過濾檔案名稱……",
     "Search scope options" : "搜尋範圍選項",
-    "Filter in current view" : "目前檢視中的篩選條件",
-    "Search from this location" : "從此位置搜尋",
     "Search globally" : "全域搜尋",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}，共 {quota}",
@@ -195,6 +192,7 @@
     "Search for files" : "搜尋檔案",
     "Clipboard is not available" : "剪貼簿無法使用",
     "WebDAV URL copied to clipboard" : "WebDAV URL 已複製到剪貼簿",
+    "Default view" : "預設檢視",
     "All files" : "所有檔案",
     "Personal files" : "個人檔案",
     "Sort favorites first" : "先排序喜愛",
@@ -467,6 +465,7 @@
     "New text file.txt" : "新文字檔案.txt",
     "%1$s (renamed)" : "%1$s（已重新命名）",
     "renamed file" : "已重新命名檔案",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "啟用與 Windows 相容的檔案名稱後，無法再修改現有檔案，但可以由其擁有者重新命名為有效的新名稱。"
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "啟用與 Windows 相容的檔案名稱後，無法再修改現有檔案，但可以由其擁有者重新命名為有效的新名稱。",
+    "Filter file names …" : "過濾檔案名稱……"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

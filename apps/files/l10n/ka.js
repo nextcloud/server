@@ -87,7 +87,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
     "File not found" : "File not found",
     "_{count} selected_::_{count} selected_" : ["{count} selected","{count} selected"],
-    "Filter in current view" : "Filter in current view",
     "Search globally" : "Search globally",
     "{usedQuotaByte} used" : "{usedQuotaByte} used",
     "{used} of {quota} used" : "{used} of {quota} used",

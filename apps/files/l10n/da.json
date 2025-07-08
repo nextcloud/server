@@ -115,8 +115,6 @@
     "Column headers with buttons are sortable." : "Kolonneoverskrifter med knapper er sorterbare.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "File not found" : "Filen blev ikke fundet",
-    "Filter file names …" : "Filtrer filnavne ...",
-    "Filter in current view" : "Filtrer i den aktuelle visning",
     "Search globally" : "Søg globalt",
     "{usedQuotaByte} used" : "{usedQuotaByte} brugt",
     "{used} of {quota} used" : "{used} af {quota} brugt",
@@ -446,6 +444,7 @@
     "{fileCount} files and {folderCount} folders" : "{fileCount} filer og {folderCount} mapper",
     "Personal Files" : "Personlige filer",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt"
+    "New text file.txt" : "Ny tekstfil.txt",
+    "Filter file names …" : "Filtrer filnavne ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

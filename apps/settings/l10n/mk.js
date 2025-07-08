@@ -275,6 +275,8 @@ OC.L10N.register(
     "Set as profile picture" : "Постави фотографија на профилот",
     "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "Имајте предвид дека може да потрае до 24 часа за да се ажурира аватарот насекаде.",
     "Enter your date of birth" : "Внесете го вашиот датум на раѓање",
+    "You are using {s}{usage}{/s}" : "Користите {s}{usage}{/s}",
+    "You are using {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})" : "Користите {s}{usage}{/s} of {s}{totalSpace}{/s} ({s}{usageRelative}%{/s})",
     "You are a member of the following groups:" : "Член сте на следниве групи",
     "Your full name" : "Вашето целосно име",
     "Email options" : "Е-пошта параметри",
