@@ -1581,9 +1581,6 @@
       <code><![CDATA[new QueryException()]]></code>
       <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <DeprecatedClass>
@@ -3364,18 +3361,12 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[boolean|null]]></code>
-    </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement>
       <code><![CDATA[$this->server]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[\OCP\IServerContainer]]></code>
     </InvalidReturnType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getAppDataDir]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
     <NullArgument>

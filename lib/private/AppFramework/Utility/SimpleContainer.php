@@ -14,6 +14,7 @@ use OCP\IContainer;
 use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -185,8 +186,21 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	public function registerAlias($alias, $target) {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
+	public function registerAlias($alias, $target): void {
+		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
+			return $container->get($target);
+		}, false);
+	}
+
+	protected function registerDeprecatedAlias(string $alias, string $target): void {
+		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias): mixed {
+			try {
+				$logger = $container->get(LoggerInterface::class);
+				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
+			} catch (ContainerExceptionInterface $e) {
+				// Could not get logger. Continue
+			}
+
 			return $container->get($target);
 		}, false);
 	}
