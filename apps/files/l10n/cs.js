@@ -128,10 +128,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["vybráno {count}","vybráno {count}","vybráno {count}","vybráno {count}"],
     "Search globally by filename …" : "Hledat všude podle názvu souboru…",
     "Search here by filename …" : "Hledat zde podle názvu souboru…",
-    "Filter file names …" : "Filtrovat názvy souborů…",
     "Search scope options" : "Předvolby rozsahu prohledávaného",
-    "Filter in current view" : "Filtrovat ve stávajícím pohledu",
-    "Search from this location" : "Hledat z tohoto umístění",
     "Search globally" : "Hledat všude",
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",
     "{used} of {quota} used" : "Využito {used} z {quota} ",
@@ -470,6 +467,7 @@ OC.L10N.register(
     "New text file.txt" : "Nový textový soubor.txt",
     "%1$s (renamed)" : "%1$s (přejmenované)",
     "renamed file" : "přejmenovaný soubor",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Po povolení názvů souborů, kompatibilních s Windows, stávající soubory už nebude možné změnit, ale je možné je přejmenovat na platné nové názvy jejich vlastníkem."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Po povolení názvů souborů, kompatibilních s Windows, stávající soubory už nebude možné změnit, ale je možné je přejmenovat na platné nové názvy jejich vlastníkem.",
+    "Filter file names …" : "Filtrovat názvy souborů…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

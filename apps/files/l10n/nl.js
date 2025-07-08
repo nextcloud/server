@@ -126,8 +126,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "De lijst is niet volledig verwerkt om de prestatie niet te beperken. De bestanden worden verder verwerkt als je door de lijst navigeert.",
     "File not found" : "Bestand niet gevonden",
     "_{count} selected_::_{count} selected_" : ["{count} geselecteerd","{count} geselecteerd"],
-    "Filter file names …" : "Bestandsnamen filteren ...",
-    "Filter in current view" : "Beperk tot huidige weergave",
     "Search globally" : "Zoek door alles",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{used} of {quota} used" : "{used} van {quota} gebruikt",
@@ -459,6 +457,7 @@ OC.L10N.register(
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "%1$s (renamed)" : "%1$s (hernoemd)",
     "renamed file" : "bestand hernoemd",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Na inschakeling van Windows-compatibele bestandsnamen, kunnen bestaande bestanden niet meer worden gewijzigd, maar kunnen ze door de eigenaar worden hernoemd naar geldige nieuwe namen."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Na inschakeling van Windows-compatibele bestandsnamen, kunnen bestaande bestanden niet meer worden gewijzigd, maar kunnen ze door de eigenaar worden hernoemd naar geldige nieuwe namen.",
+    "Filter file names …" : "Bestandsnamen filteren ..."
 },
 "nplurals=2; plural=(n != 1);");

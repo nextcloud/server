@@ -128,10 +128,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["已选择 {count} 个"],
     "Search globally by filename …" : "按文件名全局搜索…",
     "Search here by filename …" : "按文件名搜索此处…",
-    "Filter file names …" : "筛选文件名…",
     "Search scope options" : "搜索范围选项",
-    "Filter in current view" : "在当前视图中筛选",
-    "Search from this location" : "从此位置搜索",
     "Search globally" : "全局搜索",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}（共 {quota}）",
@@ -470,6 +467,7 @@ OC.L10N.register(
     "New text file.txt" : "新建文本文件.txt",
     "%1$s (renamed)" : "%1$s（已重命名）",
     "renamed file" : "已重命名文件",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "启用与 Windows 兼容的文件名后，无法再修改现有文件，但可以由其所有者重命名为有效的新名称。"
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "启用与 Windows 兼容的文件名后，无法再修改现有文件，但可以由其所有者重命名为有效的新名称。",
+    "Filter file names …" : "筛选文件名…"
 },
 "nplurals=1; plural=0;");

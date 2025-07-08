@@ -128,10 +128,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["{count} selected","{count} selected"],
     "Search globally by filename …" : "Search globally by filename …",
     "Search here by filename …" : "Search here by filename …",
-    "Filter file names …" : "Filter file names …",
     "Search scope options" : "Search scope options",
-    "Filter in current view" : "Filter in current view",
-    "Search from this location" : "Search from this location",
     "Search globally" : "Search globally",
     "{usedQuotaByte} used" : "{usedQuotaByte} used",
     "{used} of {quota} used" : "{used} of {quota} used",
@@ -470,6 +467,7 @@ OC.L10N.register(
     "New text file.txt" : "New text file.txt",
     "%1$s (renamed)" : "%1$s (renamed)",
     "renamed file" : "renamed file",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner.",
+    "Filter file names …" : "Filter file names …"
 },
 "nplurals=2; plural=(n != 1);");

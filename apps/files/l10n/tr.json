@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} seçilmiş","{count} seçilmiş"],
     "Search globally by filename …" : "Dosya adına göre genel ara…",
     "Search here by filename …" : "Dosya adına göre burada ara…",
-    "Filter file names …" : "Dosya adlarını süz…",
     "Search scope options" : "Arama kapsamı seçenekleri",
-    "Filter in current view" : "Geçerli görünümde süz",
-    "Search from this location" : "Bu konumdan ara",
     "Search globally" : "Genel arama",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{used} of {quota} used" : "{used} / {quota} kullanılmış",
@@ -467,6 +464,7 @@
     "New text file.txt" : "Yeni metin dosyası.txt",
     "%1$s (renamed)" : "%1$s (yeniden adlandırıldı)",
     "renamed file" : "dosyayı yeniden adlandırdı",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Windows uyumlu dosya adları açıldıktan sonra, var olan dosyalar artık değiştirilemez. Ancak sahipleri tarafından geçerli yeni adlarla yeniden adlandırılabilir."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Windows uyumlu dosya adları açıldıktan sonra, var olan dosyalar artık değiştirilemez. Ancak sahipleri tarafından geçerli yeni adlarla yeniden adlandırılabilir.",
+    "Filter file names …" : "Dosya adlarını süz…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

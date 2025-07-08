@@ -367,6 +367,8 @@ OC.L10N.register(
     "List of unapproved shares." : "Список несхвалених спільних ресурсів.",
     "No pending shares" : "Відсутні запити на доступ",
     "Shares you have received but not approved will show up here" : "Тут показуватимуться спільні ресурси, пропозиції на приєднання до яких ви отримали, але ще не підтвердили.",
+    "Error deleting the share: {errorMessage}" : "Помилка під час вилучення спільного ресурсу: {errorMessage}",
+    "Error deleting the share" : "Помилка під час вилучення спільного ресурсу",
     "Error updating the share: {errorMessage}" : "Помилка під час оновлення спільного ресурсу: {errorMessage}",
     "Error updating the share" : "Помилка оновлення спільного ресурсу",
     "File \"{path}\" has been unshared" : "Файл \"{path} вилучено зі спільного доступу",

@@ -280,6 +280,8 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Šī lapa atsvaidzināsies, kad Nextcloud būs atkal pieejams.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jāsazinās ar sistēmas pārvaldītāju, ja šis ziņojums nepazūd vai parādījās negaidīti",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Tērzēšana, videozvani, ekrāna kopīgošana, tiešsaistes sapulces un tīmekļa apspriedes - pārlūkā un viedierīču lietotnēs.",
+    "You have not added any info yet" : "Vēl nav pievienota nekāda informācija",
+    "{user} has not added any info yet" : "{user} vēl nav pievienojis nekādu informāciju ",
     "Edit Profile" : "Labot profilu",
     "Very weak password" : "Ļoti vāja parole",
     "Weak password" : "Vāja parole",

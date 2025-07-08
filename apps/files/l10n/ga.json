@@ -126,10 +126,7 @@
     "_{count} selected_::_{count} selected_" : ["{count} roghnaithe","{count} roghnaithe","{count} roghnaithe","{count} roghnaithe","{count} roghnaithe"],
     "Search globally by filename …" : "Cuardaigh go domhanda de réir ainm comhaid …",
     "Search here by filename …" : "Cuardaigh anseo de réir ainm comhaid …",
-    "Filter file names …" : "Scag ainmneacha na gcomhad…",
     "Search scope options" : "Roghanna raon feidhme cuardaigh",
-    "Filter in current view" : "Scag san amharc reatha",
-    "Search from this location" : "Cuardaigh ón suíomh seo",
     "Search globally" : "Cuardaigh go domhanda",
     "{usedQuotaByte} used" : "{usedQuotaByte} úsáidte",
     "{used} of {quota} used" : "{used} de {quota} in úsáid",
@@ -468,6 +465,7 @@
     "New text file.txt" : "Comhad téacs nua.txt",
     "%1$s (renamed)" : "%1$s (athainmnithe)",
     "renamed file" : "comhad athainmnithe",
-    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Tar éis na hainmneacha comhad atá comhoiriúnach le Windows a chumasú, ní féidir comhaid atá ann cheana a mhodhnú a thuilleadh ach is féidir lena n-úinéir iad a athainmniú go hainmneacha nua bailí."
+    "After enabling the windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Tar éis na hainmneacha comhad atá comhoiriúnach le Windows a chumasú, ní féidir comhaid atá ann cheana a mhodhnú a thuilleadh ach is féidir lena n-úinéir iad a athainmniú go hainmneacha nua bailí.",
+    "Filter file names …" : "Scag ainmneacha na gcomhad…"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

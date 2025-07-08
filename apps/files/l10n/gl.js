@@ -118,8 +118,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse mentres se despraza pola lista.",
     "File not found" : "Non se atopou o ficheiro",
     "_{count} selected_::_{count} selected_" : ["{count} seleccionado","{count} seleccionados"],
-    "Filter file names …" : "Filtrar os nomes de ficheiro…",
-    "Filter in current view" : "Filtrar na vista actual",
     "Search globally" : "Buscar globalmente",
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{used} of {quota} used" : "Usados {used} de {quota}",
@@ -447,6 +445,7 @@ OC.L10N.register(
     "{fileCount} files and {folderCount} folders" : "{fileCount} ficheiros e {folderCount} cartafoles",
     "Personal Files" : "Ficheiros persoais",
     "Text file" : "Ficheiro de texto",
-    "New text file.txt" : "Novo ficheiro de texto.txt"
+    "New text file.txt" : "Novo ficheiro de texto.txt",
+    "Filter file names …" : "Filtrar os nomes de ficheiro…"
 },
 "nplurals=2; plural=(n != 1);");
