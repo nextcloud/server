@@ -230,6 +230,8 @@
     "Storage connection error. %s" : "Tároló kapcsolódási hiba. %s",
     "Storage is temporarily not available" : "A tároló átmenetileg nem érhető el",
     "Storage connection timeout. %s" : "Időtúllépés a tárolókapcsolatban. %s",
+    "Images" : "Képek",
+    "Question" : "Kérdés",
     "Confirmation" : "Megerősítés",
     "Prompt" : "Prompt",
     "Generates a possible headline for a text." : "Egy lehetséges címsort állít elő egy szöveghez.",

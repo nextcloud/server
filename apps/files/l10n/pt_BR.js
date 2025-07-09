@@ -129,6 +129,7 @@ OC.L10N.register(
     "Search globally by filename …" : "Pesquisar globalmente por nome de arquivo …",
     "Search here by filename …" : "Pesquisar aqui por nome de arquivo …",
     "Search scope options" : "Opções de escopo da pesquisa",
+    "Filter and search from this location" : "Filtrar e pesquisar a partir deste local",
     "Search globally" : "Pesquisar globalmente",
     "{usedQuotaByte} used" : "{usedQuotaByte} usado",
     "{used} of {quota} used" : "{used} de {quota} usados",

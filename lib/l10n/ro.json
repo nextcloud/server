@@ -221,6 +221,8 @@
     "Storage connection error. %s" : "Eroare conexiune cu spațiul de stocare. %s",
     "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
     "Storage connection timeout. %s" : "Timeout la conexiunea cu spațiul de stocare. %s",
+    "Images" : "Imagini",
+    "Question" : "Întrebare",
     "Generates a possible headline for a text." : "Generează un posibil titlu pentru text",
     "Text" : "Text",
     "Summarize" : "Rezumă",

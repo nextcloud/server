@@ -127,6 +127,7 @@
     "Search globally by filename …" : "Sök globalt efter filnamn …",
     "Search here by filename …" : "Sök här efter filnamn …",
     "Search scope options" : "Alternativ för sökomfång",
+    "Filter and search from this location" : "Filtrera och sök från den här platsen",
     "Search globally" : "Sök globalt",
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{used} of {quota} used" : "{used} av {quota} använt",

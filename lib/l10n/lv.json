@@ -131,6 +131,8 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Krātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
+    "Images" : "Attēli",
+    "Send this along with the next interaction." : "Nosūtīt šo kopā ar nākamo mijiedarbību.",
     "Text" : "Teksts",
     "Summary" : "Kopsavilkums",
     "Translate" : "Tulkot",
