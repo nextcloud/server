@@ -1,22 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\App;
 
 use OCP\IL10N;
 
 class DependencyAnalyzer {
-	/** @var array */
-	private $appInfo;
-
-	/**
-	 * @param Platform $platform
-	 * @param \OCP\IL10N $l
-	 */
 	public function __construct(
 		private Platform $platform,
 		private IL10N $l,
@@ -24,11 +20,9 @@ class DependencyAnalyzer {
 	}
 
 	/**
-	 * @param array $app
-	 * @returns array of missing dependencies
+	 * @return array of missing dependencies
 	 */
-	public function analyze(array $app, bool $ignoreMax = false) {
-		$this->appInfo = $app;
+	public function analyze(array $app, bool $ignoreMax = false): array {
 		if (isset($app['dependencies'])) {
 			$dependencies = $app['dependencies'];
 		} else {
@@ -64,12 +58,10 @@ class DependencyAnalyzer {
 	 * Truncates both versions to the lowest common version, e.g.
 	 * 5.1.2.3 and 5.1 will be turned into 5.1 and 5.1,
 	 * 5.2.6.5 and 5.1 will be turned into 5.2 and 5.1
-	 * @param string $first
-	 * @param string $second
 	 * @return string[] first element is the first version, second element is the
 	 *                  second version
 	 */
-	private function normalizeVersions($first, $second) {
+	private function normalizeVersions(string $first, string $second): array {
 		$first = explode('.', $first);
 		$second = explode('.', $second);
 
@@ -84,47 +76,31 @@ class DependencyAnalyzer {
 	/**
 	 * Parameters will be normalized and then passed into version_compare
 	 * in the same order they are specified in the method header
-	 * @param string $first
-	 * @param string $second
-	 * @param string $operator
 	 * @return bool result similar to version_compare
 	 */
-	private function compare($first, $second, $operator) {
-		// we can't normalize versions if one of the given parameters is not a
-		// version string but null. In case one parameter is null normalization
-		// will therefore be skipped
-		if ($first !== null && $second !== null) {
-			[$first, $second] = $this->normalizeVersions($first, $second);
-		}
+	private function compare(string $first, string $second, string $operator): bool {
+		[$first, $second] = $this->normalizeVersions($first, $second);
 
 		return version_compare($first, $second, $operator);
 	}
 
 	/**
 	 * Checks if a version is bigger than another version
-	 * @param string $first
-	 * @param string $second
 	 * @return bool true if the first version is bigger than the second
 	 */
-	private function compareBigger($first, $second) {
+	private function compareBigger(string $first, string $second): bool {
 		return $this->compare($first, $second, '>');
 	}
 
 	/**
 	 * Checks if a version is smaller than another version
-	 * @param string $first
-	 * @param string $second
 	 * @return bool true if the first version is smaller than the second
 	 */
-	private function compareSmaller($first, $second) {
+	private function compareSmaller(string $first, string $second): bool {
 		return $this->compare($first, $second, '<');
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @return array
-	 */
-	private function analyzePhpVersion(array $dependencies) {
+	private function analyzePhpVersion(array $dependencies): array {
 		$missing = [];
 		if (isset($dependencies['php']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['php']['@attributes']['min-version'];
@@ -147,7 +123,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	private function analyzeArchitecture(array $dependencies) {
+	private function analyzeArchitecture(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['architecture'])) {
 			return $missing;
@@ -170,11 +146,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @return array
-	 */
-	private function analyzeDatabases(array $dependencies) {
+	private function analyzeDatabases(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['database'])) {
 			return $missing;
@@ -187,6 +159,9 @@ class DependencyAnalyzer {
 		if (!is_array($supportedDatabases)) {
 			$supportedDatabases = [$supportedDatabases];
 		}
+		if (isset($supportedDatabases['@value'])) {
+			$supportedDatabases = [$supportedDatabases];
+		}
 		$supportedDatabases = array_map(function ($db) {
 			return $this->getValue($db);
 		}, $supportedDatabases);
@@ -197,11 +172,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @return array
-	 */
-	private function analyzeCommands(array $dependencies) {
+	private function analyzeCommands(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['command'])) {
 			return $missing;
@@ -227,11 +198,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @return array
-	 */
-	private function analyzeLibraries(array $dependencies) {
+	private function analyzeLibraries(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['lib'])) {
 			return $missing;
@@ -272,11 +239,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @return array
-	 */
-	private function analyzeOS(array $dependencies) {
+	private function analyzeOS(array $dependencies): array {
 		$missing = [];
 		if (!isset($dependencies['os'])) {
 			return $missing;
@@ -300,12 +263,7 @@ class DependencyAnalyzer {
 		return $missing;
 	}
 
-	/**
-	 * @param array $dependencies
-	 * @param array $appInfo
-	 * @return array
-	 */
-	private function analyzeOC(array $dependencies, array $appInfo, bool $ignoreMax) {
+	private function analyzeOC(array $dependencies, array $appInfo, bool $ignoreMax): array {
 		$missing = [];
 		$minVersion = null;
 		if (isset($dependencies['nextcloud']['@attributes']['min-version'])) {
@@ -321,12 +279,12 @@ class DependencyAnalyzer {
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
-				$missing[] = $this->l->t('Server version %s or higher is required.', [$this->toVisibleVersion($minVersion)]);
+				$missing[] = $this->l->t('Server version %s or higher is required.', [$minVersion]);
 			}
 		}
 		if (!$ignoreMax && !is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = $this->l->t('Server version %s or lower is required.', [$this->toVisibleVersion($maxVersion)]);
+				$missing[] = $this->l->t('Server version %s or lower is required.', [$maxVersion]);
 			}
 		}
 		return $missing;
@@ -347,25 +305,7 @@ class DependencyAnalyzer {
 	}
 
 	/**
-	 * Map the internal version number to the Nextcloud version
-	 *
-	 * @param string $version
-	 * @return string
-	 */
-	protected function toVisibleVersion($version) {
-		switch ($version) {
-			case '9.1':
-				return '10';
-			default:
-				if (str_starts_with($version, '9.1.')) {
-					$version = '10.0.' . substr($version, 4);
-				}
-				return $version;
-		}
-	}
-
-	/**
-	 * @param $element
+	 * @param mixed $element
 	 * @return mixed
 	 */
 	private function getValue($element) {
