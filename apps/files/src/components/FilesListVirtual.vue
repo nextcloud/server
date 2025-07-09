@@ -577,6 +577,7 @@ export default defineComponent({
 			background-color: var(--color-main-background);
 			border-block-end: 1px solid var(--color-border);
 			height: var(--row-height);
+			flex: 0 0 var(--row-height);
 		}
 
 		.files-list__thead,
