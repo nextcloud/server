@@ -411,4 +411,58 @@ describe('Systemtags: Files bulk action', { testIsolation: false }, () => {
 			cy.runOccCommand('config:app:set systemtags restrict_creation_to_admin --value 0')
 		})
 	})
+
+	it('Can search for tags with insensitive case', () => {
+		let tagId: string
+		resetTags()
+
+		cy.runOccCommand('tag:add TESTTAG public --output json').then(({ stdout }) => {
+			const tag = JSON.parse(stdout)
+			tagId = tag.id
+		})
+
+		cy.createRandomUser().then((user1) => {
+			files.forEach((file) => {
+				cy.uploadContent(user1, new Blob([]), 'text/plain', '/' + file)
+			})
+
+			cy.login(user1)
+			cy.visit('/apps/files')
+
+			files.forEach((file) => {
+				getRowForFile(file).should('be.visible')
+			})
+			selectAllFiles()
+
+			triggerTagManagementDialogAction()
+
+			cy.findByRole('textbox', { name: 'Search or create tag' }).should('be.visible')
+			cy.findByRole('textbox', { name: 'Search tag' }).should('not.exist')
+
+			cy.get('[data-cy-systemtags-picker-input]').type('testtag')
+
+			cy.get('[data-cy-systemtags-picker-tag]').should('have.length', 1)
+			cy.get(`[data-cy-systemtags-picker-tag="${tagId}"]`).should('be.visible')
+				.findByRole('checkbox').should('not.be.checked')
+
+			// Assign the tag
+			cy.intercept('PROPFIND', '/remote.php/dav/systemtags/*/files').as('getTagData')
+			cy.intercept('PROPPATCH', '/remote.php/dav/systemtags/*/files').as('assignTagData')
+
+			cy.get(`[data-cy-systemtags-picker-tag="${tagId}"]`).should('be.visible')
+				.findByRole('checkbox').click({ force: true })
+			cy.get('[data-cy-systemtags-picker-button-submit]').click()
+
+			cy.wait('@getTagData')
+			cy.wait('@assignTagData')
+
+			expectInlineTagForFile('file1.txt', ['TESTTAG'])
+			expectInlineTagForFile('file2.txt', ['TESTTAG'])
+			expectInlineTagForFile('file3.txt', ['TESTTAG'])
+			expectInlineTagForFile('file4.txt', ['TESTTAG'])
+			expectInlineTagForFile('file5.txt', ['TESTTAG'])
+
+			cy.get('[data-cy-systemtags-picker]').should('not.exist')
+		})
+	})
 })
