@@ -127,6 +127,7 @@
     "Search globally by filename …" : "按文件名全局搜索…",
     "Search here by filename …" : "按文件名搜索此处…",
     "Search scope options" : "搜索范围选项",
+    "Filter and search from this location" : "从此位置筛选和搜索",
     "Search globally" : "全局搜索",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}（共 {quota}）",

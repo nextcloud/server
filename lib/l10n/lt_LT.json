@@ -178,6 +178,8 @@
     "Storage connection error. %s" : "Saugyklos sujungimo ryšio klaida. %s",
     "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
+    "Images" : "Paveikslai",
+    "Question" : "Klausimas",
     "Text" : "Tekstas",
     "Summary" : "Santrauka",
     "Translate" : "Verskite",

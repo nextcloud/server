@@ -225,6 +225,8 @@
     "Storage connection error. %s" : "Грешка во конекција до складиштето. %s",
     "Storage is temporarily not available" : "Складиштето моментално не е достапно",
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
+    "Images" : "Слики",
+    "Question" : "Прашање",
     "Text" : "Текст",
     "Summary" : "Резиме",
     "Translate" : "Преведи",
