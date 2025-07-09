@@ -129,6 +129,7 @@ OC.L10N.register(
     "Search globally by filename …" : "按檔案名稱全域搜尋……",
     "Search here by filename …" : "按檔案名稱搜尋此處……",
     "Search scope options" : "搜尋範圍選項",
+    "Filter and search from this location" : "從此位置過濾並搜尋",
     "Search globally" : "全域搜尋",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}，共 {quota}",

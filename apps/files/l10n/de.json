@@ -127,6 +127,7 @@
     "Search globally by filename …" : "Global nach Dateinamen suchen …",
     "Search here by filename …" : "Hier nach Dateinamen suchen  …",
     "Search scope options" : "Suchbereichsoptionen",
+    "Filter and search from this location" : "Filtern und von diesem Standort aus suchen",
     "Search globally" : "Global suchen",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{used} of {quota} used" : "{used} von {quota} verwendet",

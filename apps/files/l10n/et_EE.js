@@ -129,6 +129,7 @@ OC.L10N.register(
     "Search globally by filename …" : "Otsi failinime alusel kõikjalt…",
     "Search here by filename …" : "Otsi failinime alusel siit…",
     "Search scope options" : "Otsinguulatuse valikud",
+    "Filter and search from this location" : "Filtreeri ja otsi siit asukohast",
     "Search globally" : "Otsi kõikjalt",
     "{usedQuotaByte} used" : "{usedQuotaByte} kasutusel",
     "{used} of {quota} used" : "{used} / {quota} kasutusel",
