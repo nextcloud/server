@@ -82,17 +82,6 @@ class SystemTagManagerTest extends TestCase {
 					['two', false, false],
 				]
 			],
-			[
-				// duplicate names, different flags
-				[
-					['one', false, false],
-					['one', true, false],
-					['one', false, true],
-					['one', true, true],
-					['two', false, false],
-					['two', false, true],
-				]
-			]
 		];
 	}
 
@@ -163,14 +152,14 @@ class SystemTagManagerTest extends TestCase {
 			[
 				[
 					['one', true, false],
-					['one', false, false],
+					['one_different', false, false],
 					['two', true, false],
 				],
 				null,
 				'on',
 				[
 					['one', true, false],
-					['one', false, false],
+					['one_different', false, false],
 				]
 			],
 			// filter by name pattern and visibility
@@ -179,7 +168,7 @@ class SystemTagManagerTest extends TestCase {
 				[
 					['one', true, false],
 					['two', true, false],
-					['one', false, false],
+					['one_different', false, false],
 				],
 				true,
 				'on',
@@ -244,6 +233,15 @@ class SystemTagManagerTest extends TestCase {
 			$this->assertTrue(false, 'No exception thrown for the first create call');
 		}
 		$this->tagManager->createTag($name, $userVisible, $userAssignable);
+	}
+
+	public function testCreateDuplicateWithDifferentFlags(): void {
+		$this->expectException(TagAlreadyExistsException::class);
+
+		// Create a tag with specific flags
+		$this->tagManager->createTag('duplicate', true, false);
+		// Try to create a tag with the same name but different flags - should fail
+		$this->tagManager->createTag('duplicate', false, true);
 	}
 
 	public function testCreateOverlongName(): void {
@@ -349,30 +347,20 @@ class SystemTagManagerTest extends TestCase {
 
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('updateTagProvider')]
-	public function testUpdateTagDuplicate($tagCreate, $tagUpdated): void {
+	public function testUpdateTagToExistingName(): void {
 		$this->expectException(TagAlreadyExistsException::class);
 
-		$this->tagManager->createTag(
-			$tagCreate[0],
-			$tagCreate[1],
-			$tagCreate[2],
-			$tagCreate[3],
-		);
-		$tag2 = $this->tagManager->createTag(
-			$tagUpdated[0],
-			$tagUpdated[1],
-			$tagUpdated[2],
-			$tagUpdated[3],
-		);
+		// Create two different tags
+		$tag1 = $this->tagManager->createTag('first', true, true);
+		$tag2 = $this->tagManager->createTag('second', false, false);
 
-		// update to match the first tag
+		// Try to update tag2 to have the same name as tag1 - should fail
 		$this->tagManager->updateTag(
 			$tag2->getId(),
-			$tagCreate[0],
-			$tagCreate[1],
-			$tagCreate[2],
-			$tagCreate[3],
+			'first',
+			false,
+			false,
+			null
 		);
 	}
 
