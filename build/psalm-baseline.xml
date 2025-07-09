@@ -1992,8 +1992,6 @@
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
     <TypeDoesNotContainNull>
       <code><![CDATA[$groupid === null]]></code>
