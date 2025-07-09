@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OCP\Notification;
 
-/**
- * @since 30.0.0
- */
+use OCP\AppFramework\Attribute\Catchable;
+
+#[Catchable(since: '30.0.0')]
 class InvalidValueException extends \InvalidArgumentException {
 	/**
 	 * @since 30.0.0
