@@ -15,6 +15,7 @@ use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use OCP\App\IAppManager;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -102,7 +103,7 @@ trait EncryptionTrait {
 		$this->userManager = Server::get(IUserManager::class);
 		$this->setupManager = Server::get(SetupManager::class);
 
-		\OC_App::loadApp('encryption');
+		Server::get(IAppManager::class)->loadApp('encryption');
 
 		$this->encryptionApp = new Application([], $isReady);
 
