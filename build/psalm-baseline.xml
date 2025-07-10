@@ -1462,11 +1462,6 @@
       <code><![CDATA[class-string<IStorage>]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="apps/files_external/lib/Lib/Backend/SMB.php">
-    <DeprecatedClass>
-      <code><![CDATA[new KerberosApacheAuth()]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod>
       <code><![CDATA[put]]></code>
