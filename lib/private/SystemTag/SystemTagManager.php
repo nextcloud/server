@@ -108,7 +108,7 @@ class SystemTagManager implements ISystemTagManager {
 
 		if (!empty($nameSearchPattern)) {
 			$query->andWhere(
-				$query->expr()->like(
+				$query->expr()->iLike(
 					'name',
 					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern) . '%')
 				)
@@ -120,7 +120,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('visibility', 'ASC')
 			->addOrderBy('editable', 'ASC');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
@@ -154,6 +154,14 @@ class SystemTagManager implements ISystemTagManager {
 		$user = $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
 			throw new TagCreationForbiddenException();
+		}
+
+		// Check if tag already exists (case-insensitive)
+		$existingTags = $this->getAllTags(null, $tagName);
+		foreach ($existingTags as $existingTag) {
+			if (mb_strtolower($existingTag->getName()) === mb_strtolower($tagName)) {
+				throw new TagAlreadyExistsException('Tag ' . $tagName . ' already exists');
+			}
 		}
 
 		// Length of name column is 64
@@ -225,6 +233,15 @@ class SystemTagManager implements ISystemTagManager {
 			$beforeUpdate->getETag(),
 			$color
 		);
+
+		// Check if tag already exists (case-insensitive)
+		$existingTags = $this->getAllTags(null, $truncatedNewName);
+		foreach ($existingTags as $existingTag) {
+			if (mb_strtolower($existingTag->getName()) === mb_strtolower($truncatedNewName)
+				&& $existingTag->getId() !== $tagId) {
+				throw new TagAlreadyExistsException('Tag ' . $truncatedNewName . ' already exists');
+			}
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update(self::TAG_TABLE)
