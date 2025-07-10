@@ -343,20 +343,6 @@ class OC_Util {
 			}
 		}
 
-		// Check if there is a writable install folder.
-		if ($config->getValue('appstoreenabled', true)) {
-			$installPath = \OCP\Server::get(\OC\Installer::class)->getInstallPath();
-			if ($installPath === null
-				|| !is_writable($installPath)
-				|| !is_readable($installPath)
-			) {
-				$errors[] = [
-					'error' => $l->t('Cannot write into "apps" directory.'),
-					'hint' => $l->t('This can usually be fixed by giving the web server write access to the apps directory'
-						. ' or disabling the App Store in the config file.')
-				];
-			}
-		}
 		// Create root dir.
 		if ($config->getValue('installed', false)) {
 			if (!is_dir($CONFIG_DATADIRECTORY)) {

@@ -171,10 +171,20 @@ class Installer {
 
 	/**
 	 * Get the path where to install apps
+	 *
+	 * @throws \RuntimeException if an app folder is marked as writable but is missing permissions
 	 */
 	public function getInstallPath(): ?string {
 		foreach (\OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
+				// Check if there is a writable install folder.
+				if (!is_writable($dir['path'])
+					|| !is_readable($dir['path'])
+				) {
+					throw new \RuntimeException(
+						'Cannot write into "apps" directory. This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.'
+					);
+				}
 				return $dir['path'];
 			}
 		}
