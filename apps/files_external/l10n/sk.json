@@ -77,7 +77,7 @@
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP prihlásenie pomocou tajného kľúča",
     "SMB/CIFS" : "SMB/CIFS",
-    "Share" : "Sprístupniť",
+    "Share" : "Zdieľaný priečinok",
     "Show hidden files" : "Zobraziť skryté súbory",
     "Case sensitive file system" : "Súborový systém rozlišujúci veľkosti písmen",
     "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Zakázaním, bude možné používať súborový systém bez ohľadu na veľkosť písmen, ale s tým je spojený  pokles výkonu.",
