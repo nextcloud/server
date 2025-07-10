@@ -43,6 +43,7 @@ class Installer {
 		private ITempManager $tempManager,
 		private LoggerInterface $logger,
 		private IConfig $config,
+		private IAppManager $appManager,
 		private bool $isCLI,
 	) {
 	}
@@ -68,7 +69,7 @@ class Installer {
 		}
 
 		$l = \OCP\Util::getL10N('core');
-		$info = \OCP\Server::get(IAppManager::class)->getAppInfoByPath($basedir . '/appinfo/info.xml', $l->getLanguageCode());
+		$info = $this->appManager->getAppInfoByPath($basedir . '/appinfo/info.xml', $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -120,7 +121,7 @@ class Installer {
 
 		$config = \OCP\Server::get(IConfig::class);
 		//set the installed version
-		$config->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
+		$config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
 		$config->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
@@ -347,7 +348,7 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
+					$currentVersion = $this->appManager->getAppVersion($appId, true);
 					$newVersion = (string)$xml->version;
 					if (version_compare($currentVersion, $newVersion) === 1) {
 						throw new \Exception(
@@ -424,7 +425,7 @@ class Installer {
 
 		foreach ($this->apps as $app) {
 			if ($app['id'] === $appId) {
-				$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
+				$currentVersion = $this->appManager->getAppVersion($appId, true);
 
 				if (!isset($app['releases'][0]['version'])) {
 					return false;
@@ -487,7 +488,7 @@ class Installer {
 	 */
 	public function removeApp(string $appId): bool {
 		if ($this->isDownloaded($appId)) {
-			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
+			if ($this->appManager->isShipped($appId)) {
 				return false;
 			}
 

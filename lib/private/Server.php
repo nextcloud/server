@@ -12,7 +12,6 @@ use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
@@ -1168,17 +1167,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IShareHelper::class, function (ContainerInterface $c) {
 			return new ShareHelper(
 				$c->get(\OCP\Share\IManager::class)
-			);
-		});
-
-		$this->registerService(Installer::class, function (ContainerInterface $c) {
-			return new Installer(
-				$c->get(AppFetcher::class),
-				$c->get(IClientService::class),
-				$c->get(ITempManager::class),
-				$c->get(LoggerInterface::class),
-				$c->get(\OCP\IConfig::class),
-				\OC::$CLI
 			);
 		});
 
