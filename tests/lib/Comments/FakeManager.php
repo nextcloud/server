@@ -38,6 +38,7 @@ class FakeManager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		return [];
 	}
@@ -50,6 +51,7 @@ class FakeManager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		return [];
 	}
