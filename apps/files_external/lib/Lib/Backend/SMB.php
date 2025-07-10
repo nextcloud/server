@@ -8,8 +8,8 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use Icewind\SMB\BasicAuth;
-use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
+use Icewind\SMB\KerberosTicket;
 use Icewind\SMB\Native\NativeServer;
 use Icewind\SMB\Wrapped\Server;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -84,9 +84,10 @@ class SMB extends Backend {
 						throw new \InvalidArgumentException('invalid authentication backend');
 					}
 					$credentialsStore = $auth->getCredentialsStore();
-					$kerbAuth = new KerberosApacheAuth();
+					$kerbAuth = new KerberosAuth();
+					$kerbAuth->setTicket(KerberosTicket::fromEnv());
 					// check if a kerberos ticket is available, else fallback to session credentials
-					if ($kerbAuth->checkTicket()) {
+					if ($kerbAuth->getTicket()?->isValid()) {
 						$smbAuth = $kerbAuth;
 					} else {
 						try {
