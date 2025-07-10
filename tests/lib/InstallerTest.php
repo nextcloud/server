@@ -92,12 +92,7 @@ class InstallerTest extends TestCase {
 		// Read the current version of the app to check for bug #2572
 		Server::get(IAppManager::class)->getAppVersion('testapp', true);
 
-		// Extract app
-		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
-		$tar = new ZIP($pathOfTestApp);
-		$tar->extract(\OC_App::getInstallPath());
-
-		// Install app
+		// Build installer
 		$installer = new Installer(
 			Server::get(AppFetcher::class),
 			Server::get(IClientService::class),
@@ -106,6 +101,13 @@ class InstallerTest extends TestCase {
 			Server::get(IConfig::class),
 			false
 		);
+
+		// Extract app
+		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
+		$tar = new ZIP($pathOfTestApp);
+		$tar->extract($installer->getInstallPath());
+
+		// Install app
 		$this->assertNull(Server::get(IConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
 		$this->assertSame('testapp', $installer->installApp(self::$appid));
 		$this->assertSame('no', Server::get(IConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');

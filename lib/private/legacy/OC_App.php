@@ -238,21 +238,6 @@ class OC_App {
 	}
 
 	/**
-	 * Get the path where to install apps
-	 */
-	public static function getInstallPath(): ?string {
-		foreach (OC::$APPSROOTS as $dir) {
-			if (isset($dir['writable']) && $dir['writable'] === true) {
-				return $dir['path'];
-			}
-		}
-
-		Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
-		return null;
-	}
-
-
-	/**
 	 * Find the apps root for an app id.
 	 *
 	 * If multiple copies are found, the apps root the latest version is returned.

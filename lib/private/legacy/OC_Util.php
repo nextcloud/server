@@ -345,9 +345,10 @@ class OC_Util {
 
 		// Check if there is a writable install folder.
 		if ($config->getValue('appstoreenabled', true)) {
-			if (OC_App::getInstallPath() === null
-				|| !is_writable(OC_App::getInstallPath())
-				|| !is_readable(OC_App::getInstallPath())
+			$installPath = \OCP\Server::get(\OC\Installer::class)->getInstallPath();
+			if ($installPath === null
+				|| !is_writable($installPath)
+				|| !is_readable($installPath)
 			) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory.'),
