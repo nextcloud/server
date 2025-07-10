@@ -10,10 +10,12 @@ namespace OC\App;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OC\DB\MigrationService;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
+use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
@@ -677,8 +679,8 @@ class AppManager implements IAppManager {
 	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
-	public function getAppPath(string $appId): string {
-		$appPath = \OC_App::getAppPath($appId);
+	public function getAppPath(string $appId, bool $ignoreCache = false): string {
+		$appPath = \OC_App::getAppPath($appId, $ignoreCache);
 		if ($appPath === false) {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
 		}
@@ -948,5 +950,76 @@ class AppManager implements IAppManager {
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
 		return preg_replace('/(^[0-9_]|[^a-z0-9_]+|_$)/', '', $app);
+	}
+
+	/**
+	 * Run upgrade tasks for an app after the code has already been updated
+	 *
+	 * @throws AppPathNotFoundException if app folder can't be found
+	 */
+	public function upgradeApp(string $appId): bool {
+		// for apps distributed with core, we refresh app path in case the downloaded version
+		// have been installed in custom apps and not in the default path
+		$appPath = $this->getAppPath($appId, true);
+
+		$this->clearAppsCache();
+		$l = \OC::$server->getL10N('core');
+		$appData = $this->getAppInfo($appId, false, $l->getLanguageCode());
+		if ($appData === null) {
+			throw new AppPathNotFoundException('Could not find ' . $appId);
+		}
+
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
+		\OC_App::checkAppDependencies(
+			$this->config,
+			$l,
+			$appData,
+			$ignoreMax
+		);
+
+		\OC_App::registerAutoloading($appId, $appPath, true);
+		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
+
+		$ms = new MigrationService($appId, \OCP\Server::get(\OC\DB\Connection::class));
+		$ms->migrate();
+
+		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
+		\OC_App::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
+
+		// update appversion in app manager
+		$this->clearAppsCache();
+		$this->getAppVersion($appId, false);
+
+		\OC_App::setupBackgroundJobs($appData['background-jobs']);
+
+		//set remote/public handlers
+		if (array_key_exists('ocsid', $appData)) {
+			$this->config->setAppValue($appId, 'ocsid', $appData['ocsid']);
+		} elseif ($this->config->getAppValue($appId, 'ocsid') !== '') {
+			$this->config->deleteAppValue($appId, 'ocsid');
+		}
+		foreach ($appData['remote'] as $name => $path) {
+			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+		}
+		foreach ($appData['public'] as $name => $path) {
+			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+		}
+
+		\OC_App::setAppTypes($appId);
+
+		$version = $this->getAppVersion($appId);
+		$this->config->setAppValue($appId, 'installed_version', $version);
+
+		// migrate eventual new config keys in the process
+		/** @psalm-suppress InternalMethod */
+		$this->configManager->migrateConfigLexiconKeys($appId);
+
+		$this->dispatcher->dispatchTyped(new AppUpdateEvent($appId));
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_UPDATE, $appId
+		));
+
+		return true;
 	}
 }

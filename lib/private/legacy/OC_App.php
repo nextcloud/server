@@ -9,14 +9,10 @@ declare(strict_types=1);
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\Config\ConfigManager;
-use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
-use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
-use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -639,77 +635,14 @@ class OC_App {
 	/**
 	 * update the database for the app and call the update script
 	 *
-	 * @param string $appId
-	 * @return bool
+	 * @deprecated 32.0.0 Use IAppManager::upgradeApp instead
 	 */
 	public static function updateApp(string $appId): bool {
-		// for apps distributed with core, we refresh app path in case the downloaded version
-		// have been installed in custom apps and not in the default path
-		$appPath = self::getAppPath($appId, true);
-		if ($appPath === false) {
+		try {
+			return Server::get(\OC\App\AppManager::class)->upgradeApp($appId);
+		} catch (\OCP\App\AppPathNotFoundException $e) {
 			return false;
 		}
-
-		if (is_file($appPath . '/appinfo/database.xml')) {
-			Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
-			return false;
-		}
-
-		\OC::$server->getAppManager()->clearAppsCache();
-		$l = \OC::$server->getL10N('core');
-		$appData = Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
-
-		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
-		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
-		\OC_App::checkAppDependencies(
-			\OC::$server->getConfig(),
-			$l,
-			$appData,
-			$ignoreMax
-		);
-
-		self::registerAutoloading($appId, $appPath, true);
-		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
-
-		$ms = new MigrationService($appId, \OC::$server->get(\OC\DB\Connection::class));
-		$ms->migrate();
-
-		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
-		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
-		// update appversion in app manager
-		\OC::$server->getAppManager()->clearAppsCache();
-		\OC::$server->getAppManager()->getAppVersion($appId, false);
-
-		self::setupBackgroundJobs($appData['background-jobs']);
-
-		//set remote/public handlers
-		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid') !== '') {
-			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
-		}
-		foreach ($appData['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
-		}
-		foreach ($appData['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
-		}
-
-		self::setAppTypes($appId);
-
-		$version = Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
-		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
-
-		// migrate eventual new config keys in the process
-		/** @psalm-suppress InternalMethod */
-		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
-
-		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
-		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
-			ManagerEvent::EVENT_APP_UPDATE, $appId
-		));
-
-		return true;
 	}
 
 	/**

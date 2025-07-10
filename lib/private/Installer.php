@@ -600,7 +600,7 @@ class Installer {
 		//run appinfo/install.php
 		self::includeAppScript("$appPath/appinfo/install.php");
 
-		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
+		$info = $appManager->getAppInfo($app);
 		if (is_null($info)) {
 			return false;
 		}
@@ -611,7 +611,7 @@ class Installer {
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
-		$config->setAppValue($app, 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($app));
+		$config->setAppValue($app, 'installed_version', $appManager->getAppVersion($app));
 		if (array_key_exists('ocsid', $info)) {
 			$config->setAppValue($app, 'ocsid', $info['ocsid']);
 		}
