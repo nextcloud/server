@@ -64,10 +64,6 @@ class Installer {
 
 		$basedir = $app['path'] . '/' . $appId;
 
-		if (is_file($basedir . '/appinfo/database.xml')) {
-			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
-		}
-
 		$l = \OCP\Util::getL10N('core');
 		$info = $this->appManager->getAppInfoByPath($basedir . '/appinfo/info.xml', $l->getLanguageCode());
 
