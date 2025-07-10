@@ -107,29 +107,6 @@ interface ICommentsManager {
 	/**
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
-	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
-	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
-	 * @param int $limit optional, number of maximum comments to be returned. if
-	 *                   set to 0, all comments are returned.
-	 * @param bool $includeLastKnown
-	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
-	 * @return list<IComment>
-	 * @since 14.0.0
-	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
-	 */
-	public function getForObjectSince(
-		string $objectType,
-		string $objectId,
-		int $lastKnownCommentId,
-		string $sortDirection = 'asc',
-		int $limit = 30,
-		bool $includeLastKnown = false,
-		string $topmostParentId = '',
-	): array;
-
-	/**
-	 * @param string $objectType the object type, e.g. 'files'
-	 * @param string $objectId the id of the object
 	 * @param string[] $verbs List of verbs to filter by
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
@@ -205,18 +182,6 @@ interface ICommentsManager {
 	 * @param string $objectType
 	 * @param string $objectId
 	 * @param int $lastRead
-	 * @param string $verb
-	 * @return int
-	 * @since 21.0.0
-	 * @deprecated 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
-	 */
-	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
-
-
-	/**
-	 * @param string $objectType
-	 * @param string $objectId
-	 * @param int $lastRead
 	 * @param string[] $verbs
 	 * @return int
 	 * @since 24.0.0
@@ -250,17 +215,6 @@ interface ICommentsManager {
 		string $actorType,
 		array $actors,
 	): array;
-
-	/**
-	 * Get the number of unread comments for all files in a folder
-	 *
-	 * @param int $folderId
-	 * @param IUser $user
-	 * @return array [$fileId => $unreadCount]
-	 * @since 12.0.0
-	 * @deprecated 29.0.0 use getNumberOfUnreadCommentsForObjects instead
-	 */
-	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user);
 
 	/**
 	 * creates a new comment and returns it. At this point of time, it is not
