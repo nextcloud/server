@@ -60,6 +60,7 @@ class Updater extends BasicEmitter {
 		private Checker $checker,
 		private ?LoggerInterface $log,
 		private Installer $installer,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -238,12 +239,10 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
 
-		/** @var AppManager $appManager */
-		$appManager = \OC::$server->getAppManager();
-
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getEnabledApps());
-		$autoDisabledApps = $appManager->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($this->appManager->getEnabledApps());
+		/** @var AppManager $this->appManager */
+		$autoDisabledApps = $this->appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
 		}
@@ -296,7 +295,7 @@ class Updater extends BasicEmitter {
 	 * @throws NeedsUpdateException
 	 */
 	protected function doAppUpgrade(): void {
-		$apps = \OC_App::getEnabledApps();
+		$apps = $this->appManager->getEnabledApps();
 		$priorityTypes = ['authentication', 'extended_authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
 		$stacks = [$pseudoOtherType => []];
@@ -307,7 +306,7 @@ class Updater extends BasicEmitter {
 				if (!isset($stacks[$type])) {
 					$stacks[$type] = [];
 				}
-				if (\OC_App::isType($appId, [$type])) {
+				if ($this->appManager->isType($appId, [$type])) {
 					$stacks[$type][] = $appId;
 					$priorityType = true;
 					break;
@@ -321,15 +320,15 @@ class Updater extends BasicEmitter {
 			$stack = $stacks[$type];
 			foreach ($stack as $appId) {
 				if (\OC_App::shouldUpgrade($appId)) {
-					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, $this->appManager->getAppVersion($appId)]);
 					\OC_App::updateApp($appId);
-					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgrade', [$appId, $this->appManager->getAppVersion($appId)]);
 				}
 				if ($type !== $pseudoOtherType) {
 					// load authentication, filesystem and logging apps after
 					// upgrading them. Other apps my need to rely on modifying
 					// user and/or filesystem aspects.
-					\OC_App::loadApp($appId);
+					$this->appManager->loadApp($appId);
 				}
 			}
 		}
@@ -345,17 +344,16 @@ class Updater extends BasicEmitter {
 	 */
 	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
-		$apps = OC_App::getEnabledApps();
+		$apps = $this->appManager->getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
-			$info = $appManager->getAppInfo($app);
+			$info = $this->appManager->getAppInfo($app);
 			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
-				if ($appManager->isShipped($app)) {
+				if ($this->appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				$appManager->disableApp($app, true);
+				$this->appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
 		}
