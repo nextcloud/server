@@ -7,6 +7,8 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\ExceptionalImplementable;
 use OCP\IUser;
 use OCP\PreConditionNotMetException;
 
@@ -17,6 +19,8 @@ use OCP\PreConditionNotMetException;
  *
  * @since 9.0.0
  */
+#[Consumable('9.0.0')]
+#[ExceptionalImplementable('spreed', \OCA\Talk\Chat\CommentsManager::class)]
 interface ICommentsManager {
 	/**
 	 * @const DELETED_USER type and id for a user that has been deleted

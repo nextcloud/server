@@ -16,7 +16,9 @@ use OCP\IServerContainer;
  * instance.
  *
  * @since 9.0.0
+ * @deprecated 32.0.0 It is no longer supported to store the comments in another location
  */
+#[\Deprecated('It is no longer supported to store the comments in another location', '32.0.0')]
 interface ICommentsManagerFactory {
 	/**
 	 * Constructor for the comments manager factory
