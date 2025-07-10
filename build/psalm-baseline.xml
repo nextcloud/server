@@ -209,7 +209,6 @@
       <code><![CDATA[IAppContainer]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::loadApps(['dav'])]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getURLGenerator]]></code>
@@ -2925,8 +2924,6 @@
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-      <code><![CDATA[\OC_App::loadApp($app)]]></code>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
@@ -4471,14 +4468,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppManager]]></code>
       <code><![CDATA[getRequest]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="ocs/v1.php">
-    <DeprecatedMethod>
-      <code><![CDATA[OC_App::loadApps()]]></code>
-      <code><![CDATA[OC_App::loadApps(['authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['extended_authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['session'])]]></code>
     </DeprecatedMethod>
   </file>
   <file src="public.php">
