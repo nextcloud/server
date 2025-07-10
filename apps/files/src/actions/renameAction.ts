@@ -6,6 +6,9 @@ import { emit } from '@nextcloud/event-bus'
 import { Permission, type Node, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
+import { getPinia } from '../store'
+import { useFilesStore } from '../store/files'
+import { dirname } from 'path'
 
 export const ACTION_DETAILS = 'details'
 
