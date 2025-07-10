@@ -16,6 +16,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -40,6 +41,7 @@ class InstallerTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	private IAppManager&MockObject $appManager;
+	private IFactory&MockObject $l10nFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,6 +52,7 @@ class InstallerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$config = Server::get(IConfig::class);
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
@@ -66,6 +69,7 @@ class InstallerTest extends TestCase {
 			$this->logger,
 			$this->config,
 			$this->appManager,
+			$this->l10nFactory,
 			false
 		);
 	}

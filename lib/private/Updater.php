@@ -248,7 +248,7 @@ class Updater extends BasicEmitter {
 		}
 
 		// install new shipped apps on upgrade
-		$errors = Installer::installShippedApps(true);
+		$errors = $this->installer->installShippedApps(true);
 		foreach ($errors as $appId => $exception) {
 			/** @var \Exception $exception */
 			$this->log->error($exception->getMessage(), [
