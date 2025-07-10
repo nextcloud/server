@@ -41,7 +41,7 @@ interface ICommentsManager {
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function get($id);
+	public function get($id): IComment;
 
 	/**
 	 * Returns the comment specified by the id and all it's child comments
@@ -79,7 +79,7 @@ interface ICommentsManager {
 	 *   ]
 	 * ]
 	 */
-	public function getTree($id, $limit = 0, $offset = 0);
+	public function getTree($id, $limit = 0, $offset = 0): array;
 
 	/**
 	 * returns comments for a specific object (e.g. a file).
@@ -102,7 +102,7 @@ interface ICommentsManager {
 		$limit = 0,
 		$offset = 0,
 		?\DateTime $notOlderThan = null,
-	);
+	): array;
 
 	/**
 	 * @param string $objectType the object type, e.g. 'files'
@@ -162,10 +162,10 @@ interface ICommentsManager {
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 *                                     that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
-	 * @return Int
+	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '');
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int;
 
 	/**
 	 * @param string $objectType the object type, e.g. 'files'
@@ -228,7 +228,7 @@ interface ICommentsManager {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function create($actorType, $actorId, $objectType, $objectId);
+	public function create($actorType, $actorId, $objectType, $objectId): IComment;
 
 	/**
 	 * permanently deletes the comment specified by the ID
@@ -240,7 +240,7 @@ interface ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function delete($id);
+	public function delete($id): bool;
 
 	/**
 	 * Get comment related with user reaction
@@ -303,14 +303,14 @@ interface ICommentsManager {
 	 * Otherwise, an existing comment will be updated.
 	 *
 	 * Throws NotFoundException when a comment that is to be updated does not
-	 * exist anymore at this point of time.
+	 * exist any more at this point of time.
 	 *
 	 * @param IComment $comment
 	 * @return bool
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function save(IComment $comment);
+	public function save(IComment $comment): bool;
 
 	/**
 	 * removes references to specific actor (e.g. on user delete) of a comment.
@@ -324,7 +324,7 @@ interface ICommentsManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function deleteReferencesOfActor($actorType, $actorId);
+	public function deleteReferencesOfActor($actorType, $actorId): bool;
 
 	/**
 	 * deletes all comments made of a specific object (e.g. on file delete)
@@ -334,7 +334,7 @@ interface ICommentsManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function deleteCommentsAtObject($objectType, $objectId);
+	public function deleteCommentsAtObject($objectType, $objectId): bool;
 
 	/**
 	 * sets the read marker for a given file to the specified date for the
@@ -346,7 +346,7 @@ interface ICommentsManager {
 	 * @param \OCP\IUser $user
 	 * @since 9.0.0
 	 */
-	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user);
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user): void;
 
 	/**
 	 * returns the read marker for a given file to the specified date for the
@@ -359,7 +359,7 @@ interface ICommentsManager {
 	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
-	public function getReadMark($objectType, $objectId, \OCP\IUser $user);
+	public function getReadMark($objectType, $objectId, \OCP\IUser $user): ?\DateTime;
 
 	/**
 	 * deletes the read markers for the specified user
@@ -368,7 +368,7 @@ interface ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function deleteReadMarksFromUser(\OCP\IUser $user);
+	public function deleteReadMarksFromUser(\OCP\IUser $user): bool;
 
 	/**
 	 * deletes the read markers on the specified object
@@ -378,16 +378,16 @@ interface ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function deleteReadMarksOnObject($objectType, $objectId);
+	public function deleteReadMarksOnObject($objectType, $objectId): bool;
 
 	/**
-	 * registers an Entity to the manager, so event notifications can be send
+	 * registers an Entity to the manager, so event notifications can be sent
 	 * to consumers of the comments infrastructure
 	 *
 	 * @param \Closure $closure
 	 * @since 11.0.0
 	 */
-	public function registerEventHandler(\Closure $closure);
+	public function registerEventHandler(\Closure $closure): void;
 
 	/**
 	 * registers a method that resolves an ID to a display name for a given type
@@ -397,10 +397,10 @@ interface ICommentsManager {
 	 * @throws \OutOfBoundsException
 	 * @since 11.0.0
 	 *
-	 * Only one resolver shall be registered per type. Otherwise a
-	 * \OutOfBoundsException has to thrown.
+	 * Only one resolver shall be registered per type. Otherwise, a
+	 * \OutOfBoundsException has to be thrown.
 	 */
-	public function registerDisplayNameResolver($type, \Closure $closure);
+	public function registerDisplayNameResolver($type, \Closure $closure): void;
 
 	/**
 	 * resolves a given ID of a given Type to a display name.
@@ -415,7 +415,7 @@ interface ICommentsManager {
 	 * be thrown. It is upon the resolver discretion what to return of the
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
-	public function resolveDisplayName($type, $id);
+	public function resolveDisplayName($type, $id): string;
 
 	/**
 	 * Load the Comments app into the page
