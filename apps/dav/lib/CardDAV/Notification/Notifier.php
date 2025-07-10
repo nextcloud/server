@@ -61,10 +61,11 @@ class Notifier implements INotifier {
 	 * Generates a notification for the system address book being disabled.
 	 */
 	protected function parseSystemAddressBookDisabled(INotification $notification, IL10N $l): INotification {
+		$command = 'occ config:app:set dav system_addressbook_exposed --value="yes"';
 		$notification->setParsedSubject(
 			$l->t('System address book disabled')
 		)->setParsedMessage(
-			$l->t('The system contacts address book has been automatically disabled during upgrade. This means that the address book will no longer be available to users in the contacts app or other clients. The system contacts address book was disabled because the amount of contacts in the address book exceeded the maximum recommended number of contacts. This limit is set to prevent performance issues. You can re-enable the system address book by forcing the "system_addressbook_exposed" parameter to true')
+			$l->t('The system contacts address book has been automatically disabled during upgrade. This means that the address book will no longer be available to users in the contacts app or other clients. The system contacts address book was disabled because the amount of contacts in the address book exceeded the maximum recommended number of contacts. This limit is set to prevent performance issues. You can re-enable the system address book with the following command {command}', ['command' => $command])
 		);
 		return $notification;
 	}
