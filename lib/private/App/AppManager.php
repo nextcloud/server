@@ -18,6 +18,7 @@ use OCP\App\Events\AppEnableEvent;
 use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
+use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
@@ -981,11 +982,16 @@ class AppManager implements IAppManager {
 		\OC_App::registerAutoloading($appId, $appPath, true);
 		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
-		$ms = new MigrationService($appId, \OCP\Server::get(\OC\DB\Connection::class));
+		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
 		$ms->migrate();
 
 		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
-		\OC_App::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
+		$queue = Server::get(IJobList::class);
+		foreach ($appData['repair-steps']['live-migration'] as $step) {
+			$queue->add(\OC\Migration\BackgroundRepair::class, [
+				'app' => $appId,
+				'step' => $step]);
+		}
 
 		// update appversion in app manager
 		$this->clearAppsCache();

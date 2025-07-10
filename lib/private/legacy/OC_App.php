@@ -681,19 +681,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $appId
-	 * @param string[] $steps
-	 */
-	private static function setupLiveMigrations(string $appId, array $steps) {
-		$queue = \OC::$server->getJobList();
-		foreach ($steps as $step) {
-			$queue->add('OC\Migration\BackgroundRepair', [
-				'app' => $appId,
-				'step' => $step]);
-		}
-	}
-
-	/**
 	 * @param \OCP\IConfig $config
 	 * @param \OCP\IL10N $l
 	 * @param array $info
