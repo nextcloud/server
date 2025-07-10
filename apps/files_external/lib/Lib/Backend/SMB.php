@@ -60,10 +60,7 @@ class SMB extends Backend {
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
-	/**
-	 * @return void
-	 */
-	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
 			if (!is_string($storage->getBackendOption('user')) || !is_string($storage->getBackendOption('password'))) {
@@ -93,26 +90,25 @@ class SMB extends Backend {
 					} else {
 						try {
 							$credentials = $credentialsStore->getLoginCredentials();
-							$user = $credentials->getLoginName();
+							$loginName = $credentials->getLoginName();
 							$pass = $credentials->getPassword();
-							preg_match('/(.*)@(.*)/', $user, $matches);
+							preg_match('/(.*)@(.*)/', $loginName, $matches);
 							$realm = $storage->getBackendOption('default_realm');
 							if (empty($realm)) {
 								$realm = 'WORKGROUP';
 							}
 							if (count($matches) === 0) {
-								$username = $user;
+								$username = $loginName;
 								$workgroup = $realm;
 							} else {
-								$username = $matches[1];
-								$workgroup = $matches[2];
+								[, $username, $workgroup] = $matches;
 							}
 							$smbAuth = new BasicAuth(
 								$username,
 								$workgroup,
 								$pass
 							);
-						} catch (\Exception $e) {
+						} catch (\Exception) {
 							throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
 						}
 					}
@@ -126,7 +122,7 @@ class SMB extends Backend {
 		$storage->setBackendOption('auth', $smbAuth);
 	}
 
-	public function checkDependencies() {
+	public function checkDependencies(): array {
 		$system = \OCP\Server::get(SystemBridge::class);
 		if (NativeServer::available($system)) {
 			return [];
