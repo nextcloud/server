@@ -2124,6 +2124,7 @@ return array(
     'OC\\User\\Backend' => $baseDir . '/lib/private/User/Backend.php',
     'OC\\User\\BackgroundJobs\\CleanupDeletedUsers' => $baseDir . '/lib/private/User/BackgroundJobs/CleanupDeletedUsers.php',
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',
+    'OC\\User\\DisabledUserException' => $baseDir . '/lib/private/User/DisabledUserException.php',
     'OC\\User\\DisplayNameCache' => $baseDir . '/lib/private/User/DisplayNameCache.php',
     'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
     'OC\\User\\Listeners\\BeforeUserDeletedListener' => $baseDir . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
