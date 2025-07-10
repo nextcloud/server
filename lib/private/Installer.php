@@ -613,9 +613,6 @@ class Installer {
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
 		$config->setAppValue($app, 'installed_version', $appManager->getAppVersion($app));
-		if (array_key_exists('ocsid', $info)) {
-			$config->setAppValue($app, 'ocsid', $info['ocsid']);
-		}
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {

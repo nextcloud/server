@@ -994,11 +994,6 @@ class AppManager implements IAppManager {
 		\OC_App::setupBackgroundJobs($appData['background-jobs']);
 
 		//set remote/public handlers
-		if (array_key_exists('ocsid', $appData)) {
-			$this->config->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif ($this->config->getAppValue($appId, 'ocsid') !== '') {
-			$this->config->deleteAppValue($appId, 'ocsid');
-		}
 		foreach ($appData['remote'] as $name => $path) {
 			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
