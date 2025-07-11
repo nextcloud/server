@@ -68,6 +68,7 @@ jobs:
           - 'setup_features'
           - 'sharees_features'
           - 'sharing_features'
+          - 'theming_features'
           - 'videoverification_features'
 
         php-versions: ['8.1']

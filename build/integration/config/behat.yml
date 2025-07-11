@@ -245,3 +245,13 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    theming:
+      paths:
+        - "%paths.base%/../theming_features"
+      contexts:
+        - FeatureContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
