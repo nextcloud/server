@@ -141,6 +141,15 @@ interface IManager {
 	public function newQuery(string $principalUri) : ICalendarQuery;
 
 	/**
+	 * Handles a iMip message
+	 *
+	 * @since 32.0.0
+	 *
+	 * @throws \OCP\DB\Exception
+	 */
+	public function handleIMip(string $userId, string $message): bool;
+
+	/**
 	 * Handle a iMip REQUEST message
 	 *
 	 * @since 31.0.0
