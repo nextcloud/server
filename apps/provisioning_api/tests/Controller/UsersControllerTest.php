@@ -621,7 +621,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn(false);
 		$newUser = $this->createMock(IUser::class);
 		$newUser->expects($this->once())
-			->method('setEMailAddress');
+			->method('setSystemEMailAddress');
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
@@ -654,6 +654,51 @@ class UsersControllerTest extends TestCase {
 		$this->assertTrue(key_exists(
 			'id',
 			$this->api->addUser('NewUser', '', '', 'foo@bar')->getData()
+		));
+	}
+
+	public function testAddUserSuccessfulLowercaseEmail(): void {
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->willReturn(false);
+		$newUser = $this->createMock(IUser::class);
+		$newUser->expects($this->once())
+			->method('setSystemEMailAddress')
+			->with('foo@bar.com');
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->willReturn($newUser);
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with('Successful addUser call with userid: NewUser', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('adminUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new GenerateSecurePasswordEvent());
+
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', '', '', 'fOo@BaR.CoM')->getData()
 		));
 	}
 
@@ -1627,7 +1672,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$targetUser
 			->expects($this->once())
-			->method('setEMailAddress')
+			->method('setSystemEMailAddress')
 			->with('demo@nextcloud.com');
 		$targetUser
 			->expects($this->any())
