@@ -8,13 +8,17 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Exception;
 use Generator;
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\CalendarExportOptions;
+use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
@@ -26,8 +30,11 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Node;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
+use Sabre\VObject\UUIDUtil;
+
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled {
@@ -199,6 +206,22 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		}
 	}
 
+	public function createCalendarObject(string $name, string $calendarData): string {
+		return $this->backend->createCalendarObject(
+			$this->calendarInfo['id'],
+			$name,
+			$calendarData
+		);
+	}
+
+	public function updateCalendarObject(string $name, string $calendarData): string {
+		return $this->backend->updateCalendarObject(
+			$this->calendarInfo['id'],
+			$name,
+			$calendarData
+		);
+	}
+
 	/**
 	 * @throws CalendarException
 	 */
@@ -259,6 +282,32 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 
 	public function getInvitationResponseServer(): InvitationResponseServer {
 		return new InvitationResponseServer(false);
+	}
+
+	/**
+	 * Validate a component
+	 *
+	 * @param VCalendar $vObject
+	 * @param bool $repair attempt to repair the component
+	 * @param int $level minimum level of issues to return
+	 * @return list<mixed>
+	 */
+	public function validateComponent(VCalendar $vObject, bool $repair, int $level): array {
+		// validate component(S)
+		$issues = $vObject->validate(Node::PROFILE_CALDAV);
+		// attempt to repair
+		if ($repair && count($issues) > 0) {
+			$issues = $vObject->validate(Node::REPAIR);
+		}
+		// filter out messages based on level
+		$result = [];
+		foreach ($issues as $key => $issue) {
+			if (isset($issue['level']) && $issue['level'] >= $level) {
+				$result[] = $issue['message'];
+			}
+		}
+
+		return $result;
 	}
 
 	/**
